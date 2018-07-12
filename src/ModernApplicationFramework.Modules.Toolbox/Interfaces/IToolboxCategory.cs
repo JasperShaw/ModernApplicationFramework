@@ -1,5 +1,6 @@
 ﻿using System;
 using Caliburn.Micro;
+using ModernApplicationFramework.Modules.Toolbox.Items;
 
 namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
 {
@@ -14,6 +15,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
         bool HasEnabledItems { get; }
 
         bool IsVisible { get; set; }
+
+        ToolboxCategoryDefinition DataSource { get; }
 
         void Refresh(Type targetType, bool forceVisibile = false);
 

@@ -33,11 +33,13 @@
                     </xs:element>
                   </xs:sequence>
                   <xs:attribute name="Id" type="guid" use="required"/>
+                  <xs:attribute name="DefinitionId" type="guid" use="required"/>
                   <xs:attribute name="Name" type="xs:string" use="optional"/>
                 </xs:complexType>
               </xs:element>
             </xs:sequence>
             <xs:attribute name="Id" type="guid" use="required"/>
+            <xs:attribute name="DefinitionId" type="guid" use="required"/>
             <xs:attribute name="Name" type="xs:string" use="optional"/>
           </xs:complexType>
         </xs:element>

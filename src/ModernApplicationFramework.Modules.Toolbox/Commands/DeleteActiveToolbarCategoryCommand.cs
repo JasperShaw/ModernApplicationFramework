@@ -21,15 +21,15 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
 
         protected override bool OnCanExecute(object parameter)
         {
-            return _toolbox.SelectedNode is IToolboxCategory &&
-                   !Equals(_toolbox.SelectedNode, ToolboxCategory.DefaultCategory);
+            return _toolbox.SelectedNode is IToolboxCategory category &&
+                   !Equals(ToolboxCategory.IsDefaultCategory(category));
         }
 
         protected override void OnExecute(object parameter)
         {
             if (!(_toolbox.SelectedNode is IToolboxCategory category))
                 return;
-            if (category == ToolboxCategory.DefaultCategory)
+            if (ToolboxCategory.IsDefaultCategory(category))
                 return;
             _service.RemoveCategory(category);
         }

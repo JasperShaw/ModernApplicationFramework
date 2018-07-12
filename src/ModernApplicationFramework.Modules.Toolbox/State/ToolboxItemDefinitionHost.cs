@@ -10,14 +10,19 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
     [Export(typeof(ToolboxItemDefinitionHost))]
     internal class ToolboxItemDefinitionHost
     {
+        private readonly IEnumerable<ToolboxItemDefinitionBase> _definitions;
+        private readonly IEnumerable<ToolboxCategoryDefinition> _categories;
         private readonly ToolboxItemHost _host;
-        public IEnumerable<ToolboxItemDefinitionBase> Definitions { get; }
+
+        public IReadOnlyCollection<ToolboxItemDefinitionBase> Definitions => _definitions.ToList();
 
         [ImportingConstructor]
-        public ToolboxItemDefinitionHost([ImportMany] IEnumerable<ToolboxItemDefinitionBase> definitions, ToolboxItemHost host)
+        public ToolboxItemDefinitionHost([ImportMany] IEnumerable<ToolboxItemDefinitionBase> definitions,
+            [ImportMany] IEnumerable<ToolboxCategoryDefinition> categories, ToolboxItemHost host)
         {
+            _definitions = definitions;
+            _categories = categories;
             _host = host;
-            Definitions = definitions;
 
             foreach (var definition in Definitions)
             {
@@ -30,11 +35,18 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
 
         }
 
-        public ToolboxItemDefinitionBase GetDefinitionById(Guid id)
+        public ToolboxItemDefinitionBase GetItemDefinitionById(Guid id)
         {
             if (id == Guid.Empty)
                 throw new InvalidOperationException();
-            return Definitions.FirstOrDefault(x => x.Id == id);
+            return _definitions.FirstOrDefault(x => x.Id == id);
+        }
+
+        public ToolboxCategoryDefinition GetCategoryDefinitionById(Guid id)
+        {
+            if (id == Guid.Empty)
+                throw new InvalidOperationException();
+            return _categories.FirstOrDefault(x => x.Id == id);
         }
     }
 }

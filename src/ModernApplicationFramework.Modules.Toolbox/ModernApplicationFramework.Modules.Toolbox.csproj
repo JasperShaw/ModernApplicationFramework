@@ -127,6 +127,7 @@
     <Compile Include="CommandDefinitions\ToolboxNodeDownCommandDefinition.cs" />
     <Compile Include="Commands\ToolboxNodeUpCommand.cs" />
     <Compile Include="CommandDefinitions\ToolboxNodeUpCommandDefinition.cs" />
+    <Compile Include="Items\ToolboxCategoryDefinition.cs" />
     <Compile Include="Items\ToolboxItemData.cs" />
     <Compile Include="Items\ToolboxItemDefinition.cs" />
     <Compile Include="Items\ToolboxItemDefinitionBase.cs" />

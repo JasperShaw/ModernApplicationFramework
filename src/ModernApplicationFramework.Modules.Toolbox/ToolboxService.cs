@@ -53,7 +53,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
         public void AddCategory(IToolboxCategory category, bool suppressRefresh = false)
         {
             var index = _stateProvider.ItemsSource.Count;
-            if (_stateProvider.ItemsSource.LastOrDefault() == ToolboxCategory.DefaultCategory)
+            if (ToolboxCategory.IsDefaultCategory(_stateProvider.ItemsSource.LastOrDefault()))
                 index--;
             InsertCategory(index, category);
         }
@@ -82,7 +82,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
 
         public IToolboxCategory GetCategoryById(Guid guid)
         {
-            return guid == Guid.Empty ? null : _host.AllCategories.FirstOrDefault(x => x.Id.Equals(guid));
+            return guid == Guid.Empty ? null : _stateProvider.ItemsSource.FirstOrDefault(x => x.Id.Equals(guid));
         }
 
         public IToolboxItem GetItemById(Guid guid)

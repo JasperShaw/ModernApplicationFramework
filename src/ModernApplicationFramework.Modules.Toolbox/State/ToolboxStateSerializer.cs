@@ -22,16 +22,18 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
     {
         private readonly IToolboxService _service;
         private readonly IToolboxStateProvider _provider;
+        private readonly ToolboxItemDefinitionHost _definitionHost;
 
         protected override string RootNode => "ToolboxLayoutState";
 
         protected override Stream ValidationScheme => Properties.Resources.ToolboxStateScheme.ToStream();
 
         [ImportingConstructor]
-        public ToolboxStateSerializer(IToolboxService service, IToolboxStateProvider provider)
+        public ToolboxStateSerializer(IToolboxService service, IToolboxStateProvider provider, ToolboxItemDefinitionHost definitionHost)
         {
             _service = service;
             _provider = provider;
+            _definitionHost = definitionHost;
         }
 
         protected override void ClearCurrentLayout()
@@ -40,17 +42,34 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
             _service.StoreAndApplyLayout(new List<IToolboxCategory>());
         }
 
+
+        private T CreateNode<T>(Guid itemId, Guid definitionId) where T : class, IToolboxNode
+        {
+            if (typeof(T) == typeof(IToolboxItem))
+            {
+                var definition = _definitionHost.GetItemDefinitionById(definitionId);
+                return new ToolboxItem(itemId, null, definition) as T;
+            }
+            if (typeof(T) == typeof(IToolboxCategory))
+            {
+                var definition = _definitionHost.GetCategoryDefinitionById(definitionId);
+                return new ToolboxCategory(itemId, definition) as T;
+            }
+            return default;
+        }
+
+
         protected override void Deserialize(ref XmlNode xmlRootNode)
         {
-            var state = DeserializeNode(in xmlRootNode, guid => _service.GetCategoryById(guid),
+            var state = DeserializeNode(in xmlRootNode, CreateNode<IToolboxCategory>,
                 node =>
                 {
                     node.TryGetValueResult<string>("Name", out var name);
-                    return string.IsNullOrEmpty(name) ? null : new ToolboxCategory(Guid.Empty, name, true);
+                    return string.IsNullOrEmpty(name) ? null : new ToolboxCategory(name);
                 },
                 (category, node) =>
                 {
-                    var items = DeserializeNode(in node, guid => _service.GetItemById(guid), itemNode =>
+                    var items = DeserializeNode(in node, CreateNode<IToolboxItem>, itemNode =>
                     {
                         itemNode.TryGetValueResult<string>("Name", out var name);
 
@@ -113,7 +132,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
 
         private static void SerializeCategory(IToolboxCategory category, ref XmlNode parentElement, ref XmlDocument document)
         {
-            var xCategory = CreateElement(ref document, "Category", category);
+            var xCategory = CreateCategoryNode(ref document, category);
 
             foreach (var toolboxItem in category.Items)
             {
@@ -128,9 +147,9 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
                 return;
 
             var doc = document;
-            var xItem = CreateElement(ref document, "Item", item, element =>
+            var xItem = CreateItemNode(ref document, "Item", item, element =>
             {
-                if (!item.IsCustom)
+                if (!item.IsCustom || item.DataSource.Id != Guid.Empty)
                     return;
 
                 foreach (var type in item.DataSource.CompatibleTypes.Memebers)
@@ -181,12 +200,29 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
             return xData;
         }
 
-        private static XmlNode CreateElement(ref XmlDocument document, string name, IToolboxNode node,
+
+
+        private static XmlNode CreateCategoryNode(ref XmlDocument document, IToolboxCategory node)
+        {
+            var element = document.CreateElement("Category");
+            element.SetAttribute("Id", node.Id.ToString("B"));
+            element.SetAttribute("DefinitionId", node.DataSource.Id.ToString("B"));
+            if (node.IsNameModified || node.IsCustom)
+                element.SetAttribute("Name", node.Name);
+
+            return element;
+        }
+
+
+
+
+        private static XmlNode CreateItemNode(ref XmlDocument document, string name, IToolboxItem node,
             Action<XmlNode> fillElementFunc = null)
         {
             var element = document.CreateElement(name);
 
             element.SetAttribute("Id", node.Id.ToString("B"));
+            element.SetAttribute("DefinitionId", node.DataSource.Id.ToString("B"));
 
             if (node.IsNameModified || node.IsCustom)
                 element.SetAttribute("Name", node.Name);
@@ -198,20 +234,21 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
 
 
 
-        private static IEnumerable<T> DeserializeNode<T>(in XmlNode node, Func<Guid, T> findNodeFunc,
+        private static IEnumerable<T> DeserializeNode<T>(in XmlNode node, Func<Guid, Guid, T> findNodeFunc,
     Func<XmlNode, T> guidEmptyFunc = null, Action<T, XmlNode> prefillFunc = null) where T : IToolboxNode
         {
             var list = new List<T>();
 
             foreach (XmlNode xNodeItem in node.ChildNodes)
             {
-                var guid = xNodeItem.GetAttributeValue<Guid>("Id");
+                var iGuid = xNodeItem.GetAttributeValue<Guid>("Id");
+                var dGuid = xNodeItem.GetAttributeValue<Guid>("DefinitionId");
                 xNodeItem.TryGetValueResult<string>("Name", out var name);
 
-                if (guid == Guid.Empty && guidEmptyFunc == null || findNodeFunc == null)
+                if (iGuid == Guid.Empty && guidEmptyFunc == null || findNodeFunc == null)
                     continue;
 
-                var nodeItem = guid == Guid.Empty ? guidEmptyFunc(xNodeItem) : findNodeFunc(guid);
+                var nodeItem = iGuid == Guid.Empty ? guidEmptyFunc(xNodeItem) : findNodeFunc(iGuid, dGuid);
                 if (nodeItem == null)
                     continue;
 

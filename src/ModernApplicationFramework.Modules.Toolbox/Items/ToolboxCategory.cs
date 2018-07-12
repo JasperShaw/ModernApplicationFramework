@@ -5,13 +5,19 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Resources;
 using ModernApplicationFramework.Modules.Toolbox.State;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Modules.Toolbox.Items
 {
     public class ToolboxCategory : ToolboxNode, IToolboxCategory
     {
-        [Export] internal static IToolboxCategory DefaultCategory =
-            new ToolboxCategory(Guids.DefaultCategoryId, ToolboxResources.DefaultCategoryName);
+
+        [Export] internal static ToolboxCategoryDefinition DefaultCategoryDefinition =
+            new ToolboxCategoryDefinition(Guids.DefaultCategoryId, ToolboxResources.DefaultCategoryName);
+
+
+        [Export] private static IToolboxCategory DefaultCategory =
+            new ToolboxCategory(Guids.DefaultCategoryId, DefaultCategoryDefinition);
 
         private IObservableCollection<IToolboxItem> _items;
         private bool _hasItems;
@@ -23,8 +29,10 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
 
         public static bool IsDefaultCategory(IToolboxCategory category)
         {
-            return category.Id.Equals(Guids.DefaultCategoryId);
+            return category.DataSource.Id.Equals(Guids.DefaultCategoryId);
         }
+
+        public ToolboxCategoryDefinition DataSource { get; }
 
         public IObservableCollection<IToolboxItem> Items
         {
@@ -81,23 +89,36 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
             }
         }
 
-        public ToolboxCategory() : this(Guid.Empty, string.Empty, true)
+        public ToolboxCategory() : this(Guid.Empty, new ToolboxCategoryDefinition(Guid.Empty, string.Empty), true)
         {
             IsNewlyCreated = true;
             EnterRenameMode();
             IsVisible = true;
         }
 
-        public ToolboxCategory(string name) : this(Guid.Empty, name, true)
+        public ToolboxCategory(string name) : this(Guid.Empty, new ToolboxCategoryDefinition(Guid.Empty, name), true)
         {
 
         }
 
-        public ToolboxCategory(Guid id, string name, bool isCustom = false) : base(id, name, isCustom)
+        public ToolboxCategory(Guid id, ToolboxCategoryDefinition definition, bool isCustom = false) : base(id, definition.Name, isCustom)
         {
+            Validate.IsNotNull(definition, nameof(definition));
+            DataSource = definition;
+
             Items = new BindableCollection<IToolboxItem>();
             Items.CollectionChanged += Items_CollectionChanged;
+
+            InternalEvaluateVisibility();
         }
+
+        public ToolboxCategory(ToolboxCategoryDefinition definition) : this(Guid.Empty, definition, true)
+        {
+            
+        }
+
+
+
 
         public void Refresh(Type targetType, bool forceVisible = false)
         {
