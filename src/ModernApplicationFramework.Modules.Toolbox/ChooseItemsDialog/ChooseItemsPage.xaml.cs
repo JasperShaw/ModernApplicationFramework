@@ -332,6 +332,12 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
                 listSelectionState.CaretItemDataSource = caretItem;
             return listSelectionState;
         }
+
+        private void ClearButtonClicked(object sender, RoutedEventArgs e)
+        {
+            _data.FilterString = string.Empty;
+            FilterBox.Focus();
+        }
     }
 
     internal class ListSelectionState

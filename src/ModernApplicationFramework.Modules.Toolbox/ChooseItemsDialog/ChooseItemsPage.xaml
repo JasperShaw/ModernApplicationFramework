@@ -162,7 +162,7 @@
                 </GroupBox>
             </StackPanel>
             <StackPanel Grid.Column="1">
-                <dialogButtons:DialogButton Content="Löschen" Margin="10,0,0,10">
+                <dialogButtons:DialogButton Content="Löschen" Margin="10,0,0,10" Click="ClearButtonClicked">
                     <dialogButtons:DialogButton.IsEnabled>
                         <MultiBinding Converter="{StaticResource AllTrueConverter}">
                             <Binding Path="ListPopulationComplete"/>
@@ -170,8 +170,6 @@
                         </MultiBinding>
                     </dialogButtons:DialogButton.IsEnabled>
                 </dialogButtons:DialogButton>
-                <dialogButtons:DialogButton Content="Durchsuchen" Margin="10,0,0,10"
-                                            IsEnabled="{Binding ListPopulationComplete}"/>
             </StackPanel>
         </Grid>
     </Grid>
