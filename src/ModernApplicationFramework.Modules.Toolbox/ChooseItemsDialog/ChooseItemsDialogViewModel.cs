@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading;
@@ -90,20 +89,12 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
                 throw new InvalidOperationException("View is not a window");
             _window = window;
             MakeSureActivePageGetsFocusEvent();
-            window.Closing += Window_Closing;
             window.Closed += Window_Closed;
         }
 
         private void AcceptChangesAndClose()
         {
             ChooseItemsDataSource.ApplyChangesAction(DataSource);
-            TryClose(true);
-        }
-
-        private void DiscardChangesAndClose()
-        {
-            if (!TryCloseAllPages())
-                return;
             TryClose(true);
         }
 
@@ -196,13 +187,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
             _dataSource.ActivePageGuid = _tabItemDataSourceMap[ActiveTab].Guid;
         }
 
-        private bool TryCloseAllPages()
-        {
-            var okToClose = true;
-            //TODO
-            return okToClose;
-        }
-
         private void Window_Closed(object sender, EventArgs e)
         {
             if (DataSource != null)
@@ -212,11 +196,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
             }
 
             DialogInitFinished = null;
-        }
-
-        private void Window_Closing(object sender, CancelEventArgs e)
-        {
-            e.Cancel = !TryCloseAllPages();
         }
 
         private class PageOrderKey : IComparable<PageOrderKey>
