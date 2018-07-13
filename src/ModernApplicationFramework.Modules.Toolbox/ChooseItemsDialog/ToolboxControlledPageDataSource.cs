@@ -122,6 +122,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
                 if (value == _ascendingSort) return;
                 _ascendingSort = value;
                 OnPropertyChanged();
+                SortItems();
             }
         }
 
@@ -300,7 +301,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
             var list = Items.ToList();
             list.Sort(CompareItems);
 
-            var newItemList = new List<ItemDataSource>();
+            var newItemList = new ObservableCollection<ItemDataSource>();
             foreach (var itemDataSource in list)
                 newItemList.Add(itemDataSource);
             Items = newItemList;

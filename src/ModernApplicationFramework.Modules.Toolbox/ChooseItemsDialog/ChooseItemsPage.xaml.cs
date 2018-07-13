@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
@@ -19,6 +20,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
     {
         private long _lastTypeAheadTickCount = int.MaxValue;
         private string _typeAheadString;
+        private GridViewColumn _currentSortColumn;
 
         private readonly ToolboxControlledPageDataSource _data;
         private bool _filterRefreshInProgress;
@@ -256,7 +258,16 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
 
         private void InitializeSortColumnFromDataSource()
         {
-
+            var flag = _data.AscendingSort;
+            var index = _data.SortColumnIndex;
+            var localizedName = _data.ListColumns.ElementAt((int) index).Name;
+            _currentSortColumn = GridView.Columns.First(column =>
+            {
+                if (column.Header != null)
+                    return (string)column.Header == localizedName;
+                return false;
+            });
+            _currentSortColumn.HeaderTemplate = (DataTemplate)Resources["HeaderTemplateArrow" + (flag ? "Up" : "Down")];
         }
 
         private static void OnColumnHeaderDividerDragged(object sender, DragDeltaEventArgs e)
@@ -264,6 +275,74 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
             if (!(((FrameworkElement)e.OriginalSource).TemplatedParent is GridViewColumnHeader parent) || parent.Content != null)
                 return;
             parent.Column.Width = double.NaN;
+        }
+
+        private void ColumnHeaderClicked(object sender, RoutedEventArgs e)
+        {
+            if (!(e.OriginalSource is GridViewColumnHeader source))
+                return;
+
+            var localizedName = (string) source.Content;
+            if (string.IsNullOrEmpty(localizedName))
+                return;
+            var selectionState = GetSelectionState();
+            var columns = _data.ListColumns.ToList();
+            var first = columns.First(c => c.Name == localizedName);
+            var index = columns.IndexOf(first);
+            var flag = true;
+            if (_data.SortColumnIndex == index)
+                flag = _data.AscendingSort == false;
+            else
+                _data.SortColumnIndex = (uint) index;
+            _data.AscendingSort = flag;
+            if (_currentSortColumn != null)
+                _currentSortColumn.HeaderTemplate = null;
+            _currentSortColumn = source.Column;
+            _currentSortColumn.HeaderTemplate = (DataTemplate)Resources["HeaderTemplateArrow" + (flag ? "Up" : "Down")];
+            RestoreSelectionState(selectionState);
+        }
+
+        private void RestoreSelectionState(ListSelectionState state)
+        {
+            ListView.SelectedItems.Clear();
+            ItemDataSource tempItem = null;
+            foreach (ItemDataSource item in ListView.Items)
+            {
+                var index = state.SelectedItemDataSources.IndexOf(item);
+                if (index >= 0)
+                {
+                    state.SelectedItemDataSources.RemoveAt(index);
+                    ListView.SelectedItems.Add(item);
+                }
+
+                if (item == state.CaretItemDataSource)
+                    tempItem = item;
+            }
+
+            _data.CaretItem = tempItem;
+        }
+
+        private ListSelectionState GetSelectionState()
+        {
+            var listSelectionState = new ListSelectionState();
+            foreach (ItemDataSource selectedItem in ListView.SelectedItems)
+                listSelectionState.SelectedItemDataSources.Add(selectedItem);
+            var caretItem = _data.CaretItem;
+            if (caretItem != null)
+                listSelectionState.CaretItemDataSource = caretItem;
+            return listSelectionState;
+        }
+    }
+
+    internal class ListSelectionState
+    {
+        public IList<ItemDataSource> SelectedItemDataSources { get; }
+
+        public ItemDataSource CaretItemDataSource { get; set; }
+
+        public ListSelectionState()
+        {
+            SelectedItemDataSources = new List<ItemDataSource>();
         }
     }
 }

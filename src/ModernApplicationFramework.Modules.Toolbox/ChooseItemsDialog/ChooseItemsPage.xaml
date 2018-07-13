@@ -59,7 +59,8 @@
                          Maximum="{Binding TotalDefititions}"/>
             <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentDefinition}"/>
         </StackPanel>
-        <ListView x:Name="ListView" Grid.Row="0" Margin="0,0,0,5" ItemsSource="{Binding Items}">
+        <ListView x:Name="ListView" Grid.Row="0" Margin="0,0,0,5" ItemsSource="{Binding Items}"
+                  GridViewColumnHeader.Click="ColumnHeaderClicked">
             <ListView.Visibility>
                 <Binding Path="ListPopulationComplete" Converter="{StaticResource BooleanToVisibilityConverter}"/>
             </ListView.Visibility>
