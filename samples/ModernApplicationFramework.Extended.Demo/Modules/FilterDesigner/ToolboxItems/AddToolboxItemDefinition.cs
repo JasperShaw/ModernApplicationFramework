@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Extended.Demo.ImageCatalog;
+using ModernApplicationFramework.Extended.Demo.Modules.CustomToolboxItems;
 using ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.ViewModels;
 using ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.ViewModels.Elements;
 using ModernApplicationFramework.Extended.Interfaces;
@@ -12,7 +13,7 @@ using ModernApplicationFramework.Utilities;
 namespace ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.ToolboxItems
 {
     [Export(typeof(ToolboxItemDefinitionBase))]
-    public class AddToolboxItemDefinition : ToolboxItemDefinitionBase
+    public class AddToolboxItemDefinition : DescriptionToolboxItemDefinition
     {
         public override TypeArray<ILayoutItem> CompatibleTypes =>
             new TypeArray<ILayoutItem>(new[] {typeof(GraphViewModel)}, true);
@@ -24,5 +25,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.Toolbo
         public override string Name => "Add";
 
         public override ImageMoniker ImageMoniker => Monikers.Add;
+
+        public override string Description => "This is a Test message";
     }
 }

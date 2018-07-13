@@ -51,24 +51,4 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
             return string.Compare(first, second, StringComparison.CurrentCulture);
         }
     }
-
-    [Export(typeof(IChooseItemsPageInfo))]
-    internal class NotAllToolboxItemsPageInfo : IChooseItemsPageInfo
-    {
-        public string Name => "Not All Items";
-        public Guid Id => new Guid("{3C4E8AAB-3192-4A3C-A6C2-F4D095813EED}");
-        public int Order => 1;
-        public bool ShowAssembly { get; } = true;
-        public bool ShowVersion { get; } = true;
-
-        public IEnumerable<ColumnInformation> Columns => new List<ColumnInformation>
-        {
-            new ColumnInformation("Name", "Header 1"),
-            new ColumnInformation("Name 2", "Header 2")
-        };
-
-        public Predicate<ToolboxItemDefinitionBase> Selector => definition => false;
-
-        public IItemDataFactory ItemFactory => DefaultItemDataFactory.Default;
-    }
 }

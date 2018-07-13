@@ -45,7 +45,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
 
         public string Namespace { get; }
 
-        public IEnumerable<string> SearchableStrings { get; }
+        public IEnumerable<string> SearchableStrings { get; protected set; }
 
         public ItemDataSource(ToolboxItemDefinitionBase definition)
         {

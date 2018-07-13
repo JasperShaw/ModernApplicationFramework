@@ -111,6 +111,8 @@
     <Compile Include="Modules\Commands\TestWindow.xaml.cs">
       <DependentUpon>TestWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Modules\CustomToolboxItems\DescriptionDataSource.cs" />
+    <Compile Include="Modules\CustomToolboxItems\DescriptionItemDataFactory.cs" />
     <Compile Include="Modules\DefaultWindowLayout\DefaultWindowProfileProvider.cs" />
     <Compile Include="Modules\FilterDesigner\Design\DesignTimeGraphViewModel.cs" />
     <Compile Include="Modules\FilterDesigner\Design\DesignTimeImages.cs" />
@@ -118,6 +120,8 @@
     <Compile Include="Modules\FilterDesigner\ShaderEffects\AddEffect.cs" />
     <Compile Include="Modules\FilterDesigner\ToolboxItems\AddToolboxItemDefinition.cs" />
     <Compile Include="Modules\FilterDesigner\ToolboxItems\Categories.cs" />
+    <Compile Include="Modules\CustomToolboxItems\CustomToolboxPage.cs" />
+    <Compile Include="Modules\CustomToolboxItems\DescriptionToolboxItemDefinition.cs" />
     <Compile Include="Modules\FilterDesigner\ToolboxItems\ImageSourceItemDefinition.cs" />
     <Compile Include="Modules\FilterDesigner\ToolboxItems\Items.cs" />
     <Compile Include="Modules\FilterDesigner\Util\BitmapUtility.cs" />
