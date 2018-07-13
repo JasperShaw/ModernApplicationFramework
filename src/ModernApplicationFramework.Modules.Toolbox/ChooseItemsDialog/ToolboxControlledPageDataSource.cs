@@ -12,26 +12,78 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
 {
     internal class ToolboxControlledPageDataSource : INotifyPropertyChanged
     {
-        private ChooseItemsDataSource _parent;
-        private ItemDataSource _caretItem;
-        private string _filterString = string.Empty;
-        private uint _sortColumnIndex;
         private bool _ascendingSort;
+        private ItemDataSource _caretItem;
+        private string _currentDefinition;
+        private string _filterString = string.Empty;
         private bool _filterUpdateInProgress;
         private IList<ItemDataSource> _items;
-        private bool _listPopulationComplete;
         private bool _listItemsAdded;
-        private string _currentDefinition;
-        private double _totalDefititions;
+        private bool _listPopulationComplete;
         private double _loadedDefinitions;
+        private uint _sortColumnIndex;
+        private double _totalDefititions;
 
-        public string Name { get; }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public bool AscendingSort
+        {
+            get => _ascendingSort;
+            set
+            {
+                if (value == _ascendingSort) return;
+                _ascendingSort = value;
+                OnPropertyChanged();
+                SortItems();
+            }
+        }
+
+        public ItemDataSource CaretItem
+        {
+            get => _caretItem;
+            set
+            {
+                if (Equals(value, _caretItem)) return;
+                _caretItem = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string CurrentDefinition
+        {
+            get => _currentDefinition;
+            set
+            {
+                if (value == _currentDefinition) return;
+                _currentDefinition = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string FilterString
+        {
+            get => _filterString;
+            set
+            {
+                if (value == _filterString) return;
+                _filterString = value;
+                OnPropertyChanged();
+                FilterItems();
+            }
+        }
+
+        public bool FilterUpdateInProgress
+        {
+            get => _filterUpdateInProgress;
+            set
+            {
+                if (value == _filterUpdateInProgress) return;
+                _filterUpdateInProgress = value;
+                OnPropertyChanged();
+            }
+        }
 
         public Guid Guid { get; }
-
-        public int Order { get; }
-
-        public ICollection<ColumnInformation> ListColumns { get; }
 
         public IItemDataFactory ItemFactory { get; }
 
@@ -45,6 +97,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
                 OnPropertyChanged();
             }
         }
+
+        public ICollection<ColumnInformation> ListColumns { get; }
 
         public bool ListItemsAdded
         {
@@ -68,28 +122,22 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
             }
         }
 
-        public bool FilterUpdateInProgress
+        public double LoadedDefinitions
         {
-            get => _filterUpdateInProgress;
+            get => _loadedDefinitions;
             set
             {
-                if (value == _filterUpdateInProgress) return;
-                _filterUpdateInProgress = value;
+                if (value.Equals(_loadedDefinitions)) return;
+                _loadedDefinitions = value;
                 OnPropertyChanged();
             }
         }
 
-        public string FilterString
-        {
-            get => _filterString;
-            set
-            {
-                if (value == _filterString) return;
-                _filterString = value;
-                OnPropertyChanged();
-                FilterItems();
-            }
-        }
+        public string Name { get; }
+
+        public int Order { get; }
+
+        public Predicate<ToolboxItemDefinitionBase> Selector { get; }
 
         public uint SortColumnIndex
         {
@@ -100,40 +148,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
                 _sortColumnIndex = value;
                 OnPropertyChanged();
                 SortItems();
-            }
-        }
-
-        public ItemDataSource CaretItem
-        {
-            get => _caretItem;
-            set
-            {
-                if (Equals(value, _caretItem)) return;
-                _caretItem = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool AscendingSort
-        {
-            get => _ascendingSort;
-            set
-            {
-                if (value == _ascendingSort) return;
-                _ascendingSort = value;
-                OnPropertyChanged();
-                SortItems();
-            }
-        }
-
-        public string CurrentDefinition
-        {
-            get => _currentDefinition;
-            set
-            {
-                if (value == _currentDefinition) return;
-                _currentDefinition = value;
-                OnPropertyChanged();
             }
         }
 
@@ -148,22 +162,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
             }
         }
 
-        public double LoadedDefinitions
+        public ToolboxControlledPageDataSource(ItemDiscoveryService.ItemType itemType)
         {
-            get => _loadedDefinitions;
-            set
-            {
-                if (value.Equals(_loadedDefinitions)) return;
-                _loadedDefinitions = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public Predicate<ToolboxItemDefinitionBase> Selector { get; }
-
-        public ToolboxControlledPageDataSource(ItemDiscoveryService.ItemType itemType, ChooseItemsDataSource parent)
-        {
-            _parent = parent ?? throw new ArgumentNullException(nameof(parent));
             ItemFactory = itemType.ItemFactory;
             Guid = itemType.Guid;
             Name = itemType.Name;
@@ -183,8 +183,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
             Selector = baseDataSource.Selector;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public void InsertSortedAndFiltered(ItemDataSource item)
         {
             FilterItem(item, FilterString);
@@ -196,24 +194,16 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
                 toRemove.PropertyChanged -= ItemPropertyChanged;
                 items.RemoveAt(index);
             }
+
             item.PropertyChanged += ItemPropertyChanged;
             items.Insert(index, item);
         }
 
-        private void ItemPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (!(sender is ItemDataSource item))
-                return;
-            if (e.PropertyName == nameof(ItemDataSource.IsChecked))
-                PropertyChanged?.Invoke(item, e);
 
-        }
-
-        private static void FilterItem(ItemDataSource item, string filter)
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            var flag = string.IsNullOrEmpty(filter) || item.SearchableStrings.Any(s =>
-                           CultureInfo.CurrentUICulture.CompareInfo.IndexOf(s, filter, CompareOptions.IgnoreCase) >= 0);
-            item.IsVisible = flag;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private static int BinarySearch<T>(T itemToMatch, IList<T> collection, Func<T, T, int> comparator,
@@ -253,6 +243,28 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
             return last + 1;
         }
 
+        private static int CompareItems(ItemDataSource first, ItemDataSource second, ColumnInformation column)
+        {
+            var name1 = first.Name;
+            var name2 = second.Name;
+            if (name1 == null && name2 == null)
+                return 0;
+            if (name1 == null)
+                return -1;
+            if (name2 == null)
+                return 1;
+            if (column is ICustomSortColumn customSortColumn)
+                return customSortColumn.Compare(name1, name2);
+            return string.Compare(name1, name2, StringComparison.CurrentCulture);
+        }
+
+        private static void FilterItem(ItemDataSource item, string filter)
+        {
+            var flag = string.IsNullOrEmpty(filter) || item.SearchableStrings.Any(s =>
+                           CultureInfo.CurrentUICulture.CompareInfo.IndexOf(s, filter, CompareOptions.IgnoreCase) >= 0);
+            item.IsVisible = flag;
+        }
+
         private int CompareItems(ItemDataSource first, ItemDataSource second)
         {
             var num1 = SortColumnIndex;
@@ -270,22 +282,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
                 if (num2 != 0)
                     break;
             }
-            return num2 * (flag ? 1 : -1);
-        }
 
-        private static int CompareItems(ItemDataSource first, ItemDataSource second, ColumnInformation column)
-        {
-            var name1 = first.Name;
-            var name2 = second.Name;
-            if (name1 == null && name2 == null)
-                return 0;
-            if (name1 == null)
-                return -1;
-            if (name2 == null)
-                return 1;
-            if (column is ICustomSortColumn customSortColumn)
-                return customSortColumn.Compare(name1, name2);
-            return string.Compare(name1, name2, StringComparison.CurrentCulture);
+            return num2 * (flag ? 1 : -1);
         }
 
         private void FilterItems()
@@ -305,6 +303,14 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
             }
         }
 
+        private void ItemPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (!(sender is ItemDataSource item))
+                return;
+            if (e.PropertyName == nameof(ItemDataSource.IsChecked))
+                PropertyChanged?.Invoke(item, e);
+        }
+
         private void SortItems()
         {
             var num = SortColumnIndex;
@@ -319,13 +325,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
             foreach (var itemDataSource in list)
                 newItemList.Add(itemDataSource);
             Items = newItemList;
-        }
-
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

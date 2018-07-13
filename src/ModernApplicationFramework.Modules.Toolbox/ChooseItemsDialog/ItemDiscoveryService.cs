@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
 using Caliburn.Micro;
 using ModernApplicationFramework.Modules.Toolbox.Items;
 
@@ -27,25 +26,26 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
 
         private void RegisterItemDiscovery(IChooseItemsPageInfo pageInfo)
         {
-            _itemTypes.Add(new ItemType(pageInfo.Id, pageInfo.Name, pageInfo.Order, pageInfo.Columns, pageInfo.Selector, pageInfo.ItemFactory));
+            _itemTypes.Add(new ItemType(pageInfo.Id, pageInfo.Name, pageInfo.Order, pageInfo.Columns, pageInfo.Selector,
+                pageInfo.ItemFactory));
         }
 
 
         internal class ItemType
         {
-            public string Name { get; }
-
             public Guid Guid { get; }
+
+            public IItemDataFactory ItemFactory { get; }
+
+            public IEnumerable<ColumnInformation> ListColumns { get; }
+            public string Name { get; }
 
             public int Order { get; }
 
             public Predicate<ToolboxItemDefinitionBase> Selector { get; }
 
-            public IEnumerable<ColumnInformation> ListColumns { get; }
-
-            public IItemDataFactory ItemFactory { get; }
-
-            public ItemType(Guid guid, string name, int order, IEnumerable<ColumnInformation> listColumns, Predicate<ToolboxItemDefinitionBase> selector, IItemDataFactory factory)
+            public ItemType(Guid guid, string name, int order, IEnumerable<ColumnInformation> listColumns,
+                Predicate<ToolboxItemDefinitionBase> selector, IItemDataFactory factory)
             {
                 Guid = guid;
                 Name = name;

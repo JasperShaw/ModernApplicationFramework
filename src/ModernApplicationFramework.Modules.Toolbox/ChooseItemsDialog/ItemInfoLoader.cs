@@ -10,10 +10,10 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
 {
     internal class ItemInfoLoader
     {
-        private ToolboxControlledPageDataSource _page;
+        private readonly List<ToolboxItemDefinitionBase> _definitions;
         private readonly Status _status;
         private readonly BackgroundWorker _worker = new BackgroundWorker();
-        private readonly List<ToolboxItemDefinitionBase> _definitions;
+        private ToolboxControlledPageDataSource _page;
 
         public ItemInfoLoader(PackageInfoLoader loader, ToolboxControlledPageDataSource page)
         {
@@ -27,23 +27,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
 
         public void Shutdown()
         {
-            _status.Dispose();         
+            _status.Dispose();
             _page = null;
-        }
-
-        private void SetTotalCount()
-        {
-            Execute.OnUIThread(() => { _page.TotalDefititions = _definitions.Count; });
-        }
-
-        private void SetCurrentDefinition(ToolboxItemDefinitionBase definition)
-        {
-            Execute.OnUIThread(() => { _page.CurrentDefinition = definition.Name; });
-        }
-
-        private void SetLoadedDefinitionCount(int count)
-        {
-            Execute.OnUIThread(() => { _page.LoadedDefinitions = count; });
         }
 
         private void LoadToolboxDefinitions(object sender, DoWorkEventArgs e)
@@ -56,6 +41,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
                     _status.IsComplete = true;
                     break;
                 }
+
                 var definition = _definitions[index];
                 SetCurrentDefinition(definition);
                 var item = _page.ItemFactory.Create(definition);
@@ -65,11 +51,26 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
             }
         }
 
+        private void SetCurrentDefinition(ToolboxItemDefinitionBase definition)
+        {
+            Execute.OnUIThread(() => { _page.CurrentDefinition = definition.Name; });
+        }
+
+        private void SetLoadedDefinitionCount(int count)
+        {
+            Execute.OnUIThread(() => { _page.LoadedDefinitions = count; });
+        }
+
+        private void SetTotalCount()
+        {
+            Execute.OnUIThread(() => { _page.TotalDefititions = _definitions.Count; });
+        }
+
         public class Status : IDisposable
         {
-            private ToolboxControlledPageDataSource _page;
-            private PackageInfoLoader _loader;
             private bool _isComplete;
+            private PackageInfoLoader _loader;
+            private ToolboxControlledPageDataSource _page;
 
             public bool IsComplete
             {
@@ -91,12 +92,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
                 UpdateIsComplete();
             }
 
-            private void Page_PropertyChanged(object sender, PropertyChangedEventArgs e)
-            {
-                if (e.PropertyName == nameof(ToolboxControlledPageDataSource.ListItemsAdded))
-                    UpdateIsComplete();
-            }
-
             public void AddItem(ItemDataSource itemData)
             {
                 Execute.OnUIThread(() =>
@@ -106,15 +101,21 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
                 });
             }
 
-            private void UpdateIsComplete()
-            {
-                IsComplete = _page.ListPopulationComplete;
-            }
-
             public void Dispose()
             {
                 _page = null;
                 _loader = null;
+            }
+
+            private void Page_PropertyChanged(object sender, PropertyChangedEventArgs e)
+            {
+                if (e.PropertyName == nameof(ToolboxControlledPageDataSource.ListItemsAdded))
+                    UpdateIsComplete();
+            }
+
+            private void UpdateIsComplete()
+            {
+                IsComplete = _page.ListPopulationComplete;
             }
         }
     }

@@ -2,9 +2,8 @@
 {
     public class ColumnInformation
     {
-        public string Text { get; }
-
         public string Name { get; }
+        public string Text { get; }
 
         public ColumnInformation(string propertyName, string localizedName)
         {

@@ -11,6 +11,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
     {
         private Guid _activePageGuid;
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public Guid ActivePageGuid
         {
             get => _activePageGuid;
@@ -33,16 +35,17 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
             ClientInfoLoader = new PackageInfoLoader(this);
         }
 
-        internal  void AddControlledPages()
+        public void Dispose()
         {
-            if (ItemDiscoveryService.Instance == null)
-                return;
-            foreach (var itemType in ItemDiscoveryService.Instance.ItemTypes)
+            if (ClientInfoLoader != null)
             {
-                var pageDataSource = new ToolboxControlledPageDataSource(itemType, this);
-                pageDataSource.PropertyChanged += PageDataSourceOnPropertyChanged;
-                ControlledPages.Add(pageDataSource);
+                ClientInfoLoader.Dispose();
+                ClientInfoLoader = null;
             }
+
+            foreach (var page in ControlledPages)
+                page.PropertyChanged -= PageDataSourceOnPropertyChanged;
+            ControlledPages.Clear();
         }
 
         internal static void ApplyChangesAction(ChooseItemsDataSource dataSource)
@@ -53,13 +56,20 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
 
         internal static void SyncToToolboxAction(ChooseItemsDataSource dataSource)
         {
-            foreach (var page in dataSource.ControlledPages)
-            {
-                dataSource.ClientInfoLoader.SyncToToolbox(page);
-            }
+            foreach (var page in dataSource.ControlledPages) dataSource.ClientInfoLoader.SyncToToolbox(page);
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        internal void AddControlledPages()
+        {
+            if (ItemDiscoveryService.Instance == null)
+                return;
+            foreach (var itemType in ItemDiscoveryService.Instance.ItemTypes)
+            {
+                var pageDataSource = new ToolboxControlledPageDataSource(itemType);
+                pageDataSource.PropertyChanged += PageDataSourceOnPropertyChanged;
+                ControlledPages.Add(pageDataSource);
+            }
+        }
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -67,30 +77,16 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void Dispose()
-        {
-            if (ClientInfoLoader != null)
-            {
-                ClientInfoLoader.Dispose();
-                ClientInfoLoader = null;
-            }
-            foreach (var page in ControlledPages)
-                page.PropertyChanged -= PageDataSourceOnPropertyChanged;
-            ControlledPages.Clear();
-        }
-
         private void PageDataSourceOnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-
             if (sender is ItemDataSource itemData)
             {
-                if (e.PropertyName == nameof(itemData.IsChecked))
-                {
-                    UpdateSameItemsAcrossPages(itemData);
-                }
+                if (e.PropertyName == nameof(itemData.IsChecked)) UpdateSameItemsAcrossPages(itemData);
             }
             else
-                PropertyChanged?.Invoke(sender, e);          
+            {
+                PropertyChanged?.Invoke(sender, e);
+            }
         }
 
         private void UpdateSameItemsAcrossPages(ItemDataSource itemData)
@@ -98,13 +94,9 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
             var pagesToCheck = ControlledPages.Where(x => x.Guid != ActivePageGuid);
 
             foreach (var page in pagesToCheck)
-            {
-                foreach (var item in page.Items)
-                {
-                    if (item.Equals(itemData))
-                        item.IsChecked = itemData.IsChecked;
-                }
-            }
+            foreach (var item in page.Items)
+                if (item.Equals(itemData))
+                    item.IsChecked = itemData.IsChecked;
         }
     }
 }

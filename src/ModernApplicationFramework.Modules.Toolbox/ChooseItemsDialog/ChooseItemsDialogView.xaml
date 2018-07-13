@@ -1,21 +1,22 @@
 ﻿<mafc:DialogWindow x:Class="ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog.ChooseItemsDialogView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mafc="http://modern.framework.com/controls"
-             xmlns:dialogButtons="clr-namespace:ModernApplicationFramework.Controls.Buttons.DialogButtons;assembly=ModernApplicationFramework"
-             WindowStartupLocation="CenterOwner" Title="Choose Items"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:mafc="http://modern.framework.com/controls"
+                   xmlns:dialogButtons="clr-namespace:ModernApplicationFramework.Controls.Buttons.DialogButtons;assembly=ModernApplicationFramework"
+                   WindowStartupLocation="CenterOwner" Title="Choose Items"
                    Height="488" MinHeight="488" Width="685" MinWidth="685" ShowInTaskbar="False">
     <Grid Margin="10">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-        <TabControl Grid.Row="0" ItemsSource="{Binding TabPages}" SelectedItem="{Binding ActiveTab}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TabControl Grid.Row="0" ItemsSource="{Binding TabPages}" SelectedItem="{Binding ActiveTab}" />
         <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
-            <dialogButtons:DialogButton x:Name="OkButton" IsDefault="True" Content="OK" Margin="0,10,6,0" Command="{Binding OkCommand}"/>
-            <dialogButtons:DialogButton x:Name="CancelButton" IsCancel="True" Content="Cancel" Margin="0,10,6,0"/>
-            <dialogButtons:DialogButton x:Name="ResetButton" Content="Reset" Margin="0,10,0,0" Command="{Binding ResetCommand}"/>
+            <dialogButtons:DialogButton x:Name="OkButton" IsDefault="True" Content="OK" Margin="0,10,6,0"
+                                        Command="{Binding OkCommand}" />
+            <dialogButtons:DialogButton x:Name="CancelButton" IsCancel="True" Content="Cancel" Margin="0,10,6,0" />
+            <dialogButtons:DialogButton x:Name="ResetButton" Content="Reset" Margin="0,10,0,0"
+                                        Command="{Binding ResetCommand}" />
         </StackPanel>
     </Grid>
 </mafc:DialogWindow>
-

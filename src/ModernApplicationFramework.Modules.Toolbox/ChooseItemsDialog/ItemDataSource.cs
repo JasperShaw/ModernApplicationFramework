@@ -14,9 +14,11 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
         private bool _isVisible = true;
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ToolboxItemDefinitionBase Definition { get; }
+        public string AssemblyName { get; }
 
-        public string Name { get; }
+        public string AssemblyVersion { get; }
+
+        public ToolboxItemDefinitionBase Definition { get; }
 
         public bool IsChecked
         {
@@ -40,9 +42,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
             }
         }
 
-        public string AssemblyName { get; }
-
-        public string AssemblyVersion { get; }
+        public string Name { get; }
 
         public string Namespace { get; }
 
@@ -60,18 +60,18 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
             SearchableStrings = new List<string> {Name};
         }
 
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         public bool Equals(ItemDataSource other)
         {
             if (other == null)
                 return false;
             return Name == other.Name && AssemblyName == other.AssemblyName && Namespace == other.Namespace &&
                    AssemblyVersion == other.AssemblyVersion;
+        }
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

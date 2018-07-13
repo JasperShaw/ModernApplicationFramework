@@ -63,6 +63,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChooseItemsDialog\AllToolboxItemsPageInfo.cs" />
     <Compile Include="ChooseItemsDialog\ChooseItemsDataSource.cs" />
     <Compile Include="ChooseItemsDialog\ChooseItemsDialogView.xaml.cs">
       <DependentUpon>ChooseItemsDialogView.xaml</DependentUpon>
@@ -76,10 +77,11 @@
     <Compile Include="ChooseItemsDialog\DefaultItemDataFactory.cs" />
     <Compile Include="ChooseItemsDialog\IChooseItemsPageInfo.cs" />
     <Compile Include="ChooseItemsDialog\ICustomSortColumn.cs" />
-    <Compile Include="ChooseItemsDialog\IItemDataSourceFactory.cs" />
+    <Compile Include="ChooseItemsDialog\IItemDataFactory.cs" />
     <Compile Include="ChooseItemsDialog\ItemDataSource.cs" />
     <Compile Include="ChooseItemsDialog\ItemDiscoveryService.cs" />
     <Compile Include="ChooseItemsDialog\ItemInfoLoader.cs" />
+    <Compile Include="ChooseItemsDialog\ListSelectionState.cs" />
     <Compile Include="ChooseItemsDialog\PackageInfoLoader.cs" />
     <Compile Include="ChooseItemsDialog\ToolboxControlledPageDataSource.cs" />
     <Compile Include="Commands\AddItemCommand.cs" />

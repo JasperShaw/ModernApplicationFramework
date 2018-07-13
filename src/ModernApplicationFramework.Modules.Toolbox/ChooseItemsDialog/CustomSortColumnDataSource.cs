@@ -6,7 +6,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
     {
         private readonly Func<string, string, int> _comparer;
 
-        public CustomSortColumnDataSource(string propertyName, string localizedName, Func<string, string, int> comparer) :
+        public CustomSortColumnDataSource(string propertyName, string localizedName,
+            Func<string, string, int> comparer) :
             base(propertyName, localizedName)
         {
             _comparer = comparer;
