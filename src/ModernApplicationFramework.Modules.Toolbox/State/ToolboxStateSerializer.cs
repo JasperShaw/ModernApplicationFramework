@@ -21,7 +21,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
     internal class ToolboxStateSerializer : LayoutSerializer<IToolboxNode>, IToolboxStateSerializer
     {
         private readonly IToolboxService _service;
-        private readonly IToolboxStateProvider _provider;
+        private readonly IInternalToolboxStateProvider _provider;
         private readonly ToolboxItemDefinitionHost _definitionHost;
 
         protected override string RootNode => "ToolboxLayoutState";
@@ -29,7 +29,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
         protected override Stream ValidationScheme => Properties.Resources.ToolboxStateScheme.ToStream();
 
         [ImportingConstructor]
-        public ToolboxStateSerializer(IToolboxService service, IToolboxStateProvider provider, ToolboxItemDefinitionHost definitionHost)
+        public ToolboxStateSerializer(IToolboxService service, IInternalToolboxStateProvider provider, ToolboxItemDefinitionHost definitionHost)
         {
             _service = service;
             _provider = provider;

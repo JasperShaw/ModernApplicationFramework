@@ -8,8 +8,11 @@ using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 namespace ModernApplicationFramework.Modules.Toolbox.State
 {
     [Export(typeof(IToolboxStateProvider))]
-    internal class ToolboxStateProvider : IToolboxStateProvider
+    [Export(typeof(IInternalToolboxStateProvider))]
+    internal class ToolboxStateProvider : IInternalToolboxStateProvider
     {
+        public IReadOnlyCollection<IToolboxCategory> State => ItemsSource.ToList();
+
         public IObservableCollection<IToolboxCategory> ItemsSource { get; }
 
         [ImportingConstructor]

@@ -10,13 +10,13 @@ namespace ModernApplicationFramework.Modules.Toolbox
     [Export(typeof(IToolboxService))]
     internal class ToolboxService : IToolboxService
     {
-        private readonly IToolboxStateProvider _stateProvider;
+        private readonly IInternalToolboxStateProvider _stateProvider;
         private readonly IToolbox _toolbox;
 
         internal static IToolboxService Instance { get; private set; }
 
         [ImportingConstructor]
-        public ToolboxService(IToolboxStateProvider stateProvider, IToolbox toolbox)
+        public ToolboxService(IInternalToolboxStateProvider stateProvider, IToolbox toolbox)
         {
             _stateProvider = stateProvider;
             _toolbox = toolbox;
@@ -77,7 +77,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
         {
             if (guid == Guid.Empty)
                 throw new InvalidOperationException("Guid cannot be empty");
-            return _stateProvider.ItemsSource.ToList().FirstOrDefault(x => x.Id.Equals(guid));
+            return _stateProvider.State.FirstOrDefault(x => x.Id.Equals(guid));
         }
 
         public IToolboxItem GetItemById(Guid guid)
@@ -85,7 +85,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
             if (guid == Guid.Empty)
                 throw new InvalidOperationException("Guid cannot be empty");
 
-            foreach (var category in _stateProvider.ItemsSource.ToList())
+            foreach (var category in _stateProvider.State)
             {
                 var item = category.Items.FirstOrDefault(x => x.Id == guid);
                 if (item != null)
@@ -99,7 +99,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
             if (definition == null)
                 throw new ArgumentNullException(nameof(definition));
 
-            foreach (var category in _stateProvider.ItemsSource.ToList())
+            foreach (var category in _stateProvider.State)
             {
                 var item = category.Items.FirstOrDefault(x => x.DataSource.Equals(definition));
                 if (item != null)
@@ -110,7 +110,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
 
         public bool ToolboxHasItem(ToolboxItemDefinitionBase definition)
         {
-            foreach (var category in _stateProvider.ItemsSource.ToList())
+            foreach (var category in _stateProvider.State)
             {
                 if (category.Items.FirstOrDefault(x => x.DataSource.Equals(definition)) != null)
                     return true;
@@ -120,7 +120,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
 
         public IReadOnlyCollection<string> GetAllToolboxCategoryNames()
         {
-            return _stateProvider.ItemsSource.ToList().Select(x => x.Name).ToList();
+            return _stateProvider.State.Select(x => x.Name).ToList();
         }
     }
 }

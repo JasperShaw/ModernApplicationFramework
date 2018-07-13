@@ -20,10 +20,10 @@ namespace ModernApplicationFramework.Modules.Toolbox.Tool
 {
     [Export(typeof(IToolbox))]
     [Guid("DD8E4CE1-7431-47C1-9496-B8C91D6E0B55")]
-    public sealed class ToolboxViewModel : Extended.Layout.Tool, IToolbox
+    internal sealed class ToolboxViewModel : Extended.Layout.Tool, IToolbox
     {
         private readonly IDockingHostViewModel _hostViewModel;
-        private readonly IToolboxStateProvider _stateProvider;
+        private readonly IInternalToolboxStateProvider _stateProvider;
 
         private readonly BindableCollection<IToolboxCategory> _categories;
         private IToolboxNode _selectedNode;
@@ -90,7 +90,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Tool
 
 
         [ImportingConstructor]
-        public ToolboxViewModel(IDockingHostViewModel hostViewModel, IToolboxStateProvider stateProvider)
+        public ToolboxViewModel(IDockingHostViewModel hostViewModel, IInternalToolboxStateProvider stateProvider)
         {
             DisplayName = "Toolbox";
             ContextMenuProvider = new ToolboxContextMenuProvider();
