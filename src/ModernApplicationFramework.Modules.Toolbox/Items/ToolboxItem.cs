@@ -41,7 +41,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
         }
 
         public ToolboxItem(ToolboxItemDefinitionBase dataSource)
-            : this(Guid.Empty, null, dataSource, true)
+            : this(Guid.NewGuid(), null, dataSource, true)
         {
         }
 

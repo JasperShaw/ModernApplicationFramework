@@ -248,7 +248,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
                 if (iGuid == Guid.Empty && guidEmptyFunc == null || findNodeFunc == null)
                     continue;
 
-                var nodeItem = iGuid == Guid.Empty ? guidEmptyFunc(xNodeItem) : findNodeFunc(iGuid, dGuid);
+                var nodeItem = dGuid == Guid.Empty ? guidEmptyFunc(xNodeItem) : findNodeFunc(iGuid, dGuid);
                 if (nodeItem == null)
                     continue;
 

@@ -89,14 +89,14 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
             }
         }
 
-        public ToolboxCategory() : this(Guid.Empty, new ToolboxCategoryDefinition(Guid.Empty, string.Empty), true)
+        public ToolboxCategory() : this(Guid.NewGuid(), new ToolboxCategoryDefinition(Guid.Empty, string.Empty), true)
         {
             IsNewlyCreated = true;
             EnterRenameMode();
             IsVisible = true;
         }
 
-        public ToolboxCategory(string name) : this(Guid.Empty, new ToolboxCategoryDefinition(Guid.Empty, name), true)
+        public ToolboxCategory(string name) : this(Guid.NewGuid(), new ToolboxCategoryDefinition(Guid.Empty, name), true)
         {
 
         }
@@ -112,7 +112,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
             InternalEvaluateVisibility();
         }
 
-        public ToolboxCategory(ToolboxCategoryDefinition definition) : this(Guid.Empty, definition, true)
+        public ToolboxCategory(ToolboxCategoryDefinition definition) : this(Guid.NewGuid(), definition, true)
         {
             
         }
