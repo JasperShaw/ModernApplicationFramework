@@ -85,13 +85,8 @@ namespace ModernApplicationFramework.Modules.Toolbox
             if (guid == Guid.Empty)
                 throw new InvalidOperationException("Guid cannot be empty");
 
-            foreach (var category in _stateProvider.State)
-            {
-                var item = category.Items.FirstOrDefault(x => x.Id == guid);
-                if (item != null)
-                    return item;
-            }
-            return null;
+            return _stateProvider.State.Select(category => category.Items.FirstOrDefault(x => x.Id == guid))
+                .FirstOrDefault(item => item != null);
         }
 
         public IEnumerable<IToolboxItem> FindItemsByDefintion(ToolboxItemDefinitionBase definition)
@@ -105,17 +100,17 @@ namespace ModernApplicationFramework.Modules.Toolbox
                 if (item != null)
                     yield return item;
             }
-            yield return null;
         }
 
         public bool ToolboxHasItem(ToolboxItemDefinitionBase definition)
         {
-            foreach (var category in _stateProvider.State)
-            {
-                if (category.Items.FirstOrDefault(x => x.DataSource.Equals(definition)) != null)
-                    return true;
-            }
-            return false;
+            return _stateProvider.State.Any(category =>
+                category.Items.FirstOrDefault(x => x.DataSource.Equals(definition)) != null);
+        }
+
+        public IToolboxCategory GetSelectedCategory()
+        {
+            return _toolbox.SelectedCategory;
         }
 
         public IReadOnlyCollection<string> GetAllToolboxCategoryNames()

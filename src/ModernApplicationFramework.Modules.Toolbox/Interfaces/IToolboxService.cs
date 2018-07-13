@@ -27,5 +27,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
         IEnumerable<IToolboxItem> FindItemsByDefintion(ToolboxItemDefinitionBase definition);
 
         bool ToolboxHasItem(ToolboxItemDefinitionBase definition);
+
+        IToolboxCategory GetSelectedCategory();
     }
 }

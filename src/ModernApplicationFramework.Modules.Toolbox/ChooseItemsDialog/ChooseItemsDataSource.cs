@@ -44,9 +44,10 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
             }
         }
 
-        internal static void ApplyChangesAction()
+        internal static void ApplyChangesAction(ChooseItemsDataSource dataSource)
         {
-
+            foreach (var page in dataSource.ControlledPages)
+                dataSource.ClientInfoLoader.ApplyChanges(page);
         }
 
         internal static void SyncToToolboxAction(ChooseItemsDataSource dataSource)

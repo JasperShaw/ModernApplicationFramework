@@ -10,7 +10,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
 {
     internal class ItemInfoLoader
     {
-        private readonly ToolboxControlledPageDataSource _page;
+        private ToolboxControlledPageDataSource _page;
         private readonly Status _status;
         private readonly BackgroundWorker _worker = new BackgroundWorker();
         private readonly List<ToolboxItemDefinitionBase> _definitions;
@@ -20,11 +20,15 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
             _page = page;
             _status = new Status(page, loader);
             _definitions = IoC.Get<ToolboxItemDefinitionHost>().Definitions.Where(x => _page.Selector(x)).ToList();
-
             SetTotalCount();
-
             _worker.DoWork += LoadToolboxDefinitions;
             _worker.RunWorkerAsync();
+        }
+
+        public void Shutdown()
+        {
+            _status.Dispose();         
+            _page = null;
         }
 
         private void SetTotalCount()
@@ -61,10 +65,10 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
             }
         }
 
-        public class Status
+        public class Status : IDisposable
         {
-            private readonly ToolboxControlledPageDataSource _page;
-            private readonly PackageInfoLoader _loader;
+            private ToolboxControlledPageDataSource _page;
+            private PackageInfoLoader _loader;
             private bool _isComplete;
 
             public bool IsComplete
@@ -83,7 +87,14 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
             {
                 _page = page ?? throw new ArgumentNullException(nameof(page));
                 _loader = loader ?? throw new ArgumentNullException(nameof(loader));
+                page.PropertyChanged += Page_PropertyChanged;
                 UpdateIsComplete();
+            }
+
+            private void Page_PropertyChanged(object sender, PropertyChangedEventArgs e)
+            {
+                if (e.PropertyName == nameof(ToolboxControlledPageDataSource.ListItemsAdded))
+                    UpdateIsComplete();
             }
 
             public void AddItem(ItemDataSource itemData)
@@ -98,6 +109,12 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
             private void UpdateIsComplete()
             {
                 IsComplete = _page.ListPopulationComplete;
+            }
+
+            public void Dispose()
+            {
+                _page = null;
+                _loader = null;
             }
         }
     }

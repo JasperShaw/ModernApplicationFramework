@@ -40,7 +40,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
             {
                 try
                 {
-                    var dataSource = dataObject.GetData(ToolboxItemDataFormats.DataSource) as ToolboxItemDefinition;
+                    var dataSource = dataObject.GetData(ToolboxItemDataFormats.DataSource) as ToolboxItemDefinitionBase;
                     item = new ToolboxItem(dataSource);
                 }
                 catch (ExternalException)

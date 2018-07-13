@@ -4,6 +4,7 @@ using System.Threading;
 using System.Windows;
 using Caliburn.Micro;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
+using ModernApplicationFramework.Modules.Toolbox.Interfaces.Commands;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
@@ -11,20 +12,15 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
     internal class PackageInfoLoader : DisposableObject
     {
         private readonly ChooseItemsDataSource _dataSource;
-        private ToolboxControlledPageDataSource _currentPage;
         private ItemInfoLoader _currentInfoLoader;
         private IToolboxService _service;
 
         private IToolboxService Service => _service ?? (_service = IoC.Get<IToolboxService>());
 
-        public ItemInfoLoader ActivePageInfoLoader => _currentInfoLoader;
-
         public PackageInfoLoader(ChooseItemsDataSource dataSource)
         {
             _dataSource = dataSource ?? throw new ArgumentNullException(nameof(dataSource));
-
             _dataSource.PropertyChanged += OnDataSourcePropertyChanged;
-
             if (GetActivePage() == null)
                 return;
             OnActivePageChanged();
@@ -38,20 +34,10 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
             {
                 if (!(sender is ToolboxControlledPageDataSource dataSource))
                     return;
-                AddInstalledNotRegisteredItemsToList(dataSource);
                 RefreshExistingItemsCheckState(dataSource);
             }
         }
 
-        private void AddInstalledNotRegisteredItemsToList(ToolboxControlledPageDataSource dataSource)
-        {
-            if (!Application.Current.CheckAccess())
-                Execute.OnUIThread(() => AddInstalledNotRegisteredItemsToList(dataSource));
-            else
-            {
-                
-            }
-        }
 
         public ToolboxControlledPageDataSource GetActivePage()
         {
@@ -72,7 +58,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
 
         private void InitializePageContextOnPageChange(ToolboxControlledPageDataSource page)
         {
-            _currentPage = page;
             if (page == null) 
                 return;
             LoadItems(page);
@@ -86,8 +71,12 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
         public void SyncToToolbox(ToolboxControlledPageDataSource page)
         {
             RefreshExistingItemsCheckState(page);
+        }
 
-            //var items = page.Items;
+        protected override void DisposeManagedResources()
+        {
+            base.DisposeManagedResources();
+            _currentInfoLoader?.Shutdown();
         }
 
         private void RefreshExistingItemsCheckState(ToolboxControlledPageDataSource page)
@@ -97,6 +86,33 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
             if (page.ListPopulationComplete)
                 return;
             page.ListPopulationComplete = true;
+        }
+
+        public void ApplyChanges(ToolboxControlledPageDataSource page)
+        {
+            foreach (var item in page.Items)
+            {
+                var isChecked = item.IsChecked;
+                var flag = _service.ToolboxHasItem(item.Definition);
+
+                if (isChecked && !flag)
+                    InstallItem(item);
+                else if (!isChecked & flag)
+                    RemoveItemFromToolbox(item);
+            }
+        }
+
+        private void RemoveItemFromToolbox(ItemDataSource item)
+        {
+            var itemsToRemove = _service.FindItemsByDefintion(item.Definition);
+            foreach (var toolboxItem in itemsToRemove)
+                toolboxItem.Parent?.RemoveItem(toolboxItem);
+        }
+
+        private static void InstallItem(ItemDataSource item)
+        {
+            IoC.Get<IAddItemToSelectedNodeCommand>()
+                .Execute(new DataObject(ToolboxItemDataFormats.DataSource, item.Definition));
         }
     }
 }

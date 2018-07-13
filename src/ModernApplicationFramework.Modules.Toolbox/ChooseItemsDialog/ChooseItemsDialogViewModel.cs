@@ -125,32 +125,15 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
 
         private void AcceptChangesAndClose()
         {
-            var okToClose = true;
-
-            //CallAllControlledPages(host => okToClose = okToClose && host.CanClose());
-            //if (!okToClose)
-            //    return;
-
+            ChooseItemsDataSource.ApplyChangesAction(DataSource);
             TryClose(true);
-        }
-
-        private void CallAllControlledPages()
-        {
-            //foreach (var item in Items)
-            //{
-            //    if (item is IToolboxItemPage page)
-            //        action(page);
-            //}
         }
 
         private void OnReset()
         {
             IoC.Get<IResetToolboxCommand>().Execute(null);
-
-
             SyncAfterReset();
             //TODO: Show Message
-
             _window.FocusButton(ChooseItemsDialogView.ButtonType.Ok);
             _window.EnsureDialogVisible();
         }

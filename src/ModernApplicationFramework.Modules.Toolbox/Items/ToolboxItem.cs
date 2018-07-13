@@ -45,7 +45,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
         {
         }
 
-
         public ToolboxItem(Guid id, IToolboxCategory originalParent, ToolboxItemDefinitionBase dataSource, bool isCustom = false) 
             : base(id, dataSource.Name, isCustom)
         {
