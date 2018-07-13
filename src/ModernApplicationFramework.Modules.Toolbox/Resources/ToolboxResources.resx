@@ -195,4 +195,7 @@
   <data name="Error_Duplicate" xml:space="preserve">
     <value>Tab name '{0}' already exists.</value>
   </data>
+  <data name="ToolboxResetMessage" xml:space="preserve">
+    <value>Toolbox default settings will be restored. All custom Toolbox items will be removed.\r\n\r\nContinue?</value>
+  </data>
 </root>

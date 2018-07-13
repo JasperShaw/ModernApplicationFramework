@@ -156,7 +156,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
         {
             IoC.Get<IResetToolboxCommand>().Execute(null);
             SyncAfterReset();
-            //TODO: Show Message
             _window.FocusButton(ChooseItemsDialogView.ButtonType.Ok);
             _window.EnsureDialogVisible();
         }

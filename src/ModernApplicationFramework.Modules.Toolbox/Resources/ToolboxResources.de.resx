@@ -195,4 +195,7 @@
   <data name="Error_NameEmpty" xml:space="preserve">
     <value>Der Titel darf nicht leer sein.</value>
   </data>
+  <data name="ToolboxResetMessage" xml:space="preserve">
+    <value>Die Toolbox-Standardeinstellungen werden wiederhergestellt. Alle benutzerdefinierten Toolboxelemente werden entfernt.\n\nMöchten Sie fortfahren?</value>
+  </data>
 </root>

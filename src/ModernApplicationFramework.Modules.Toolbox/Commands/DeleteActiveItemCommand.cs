@@ -20,7 +20,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
         {
             if (!(parameter is IToolboxItem item))
                 return;
-            if (RemoveItemDilalog.AskUserForRemove(item) == MessageBoxResult.OK)
+            if (ToolboxUserDialogs.AskUserForRemove(item) == MessageBoxResult.OK)
                 item.Parent?.RemoveItem(item);
         }
     }

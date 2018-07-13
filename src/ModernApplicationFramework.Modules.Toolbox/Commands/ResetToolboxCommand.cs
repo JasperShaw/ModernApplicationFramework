@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using System.Windows;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces.Commands;
@@ -25,7 +26,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
 
         protected override void OnExecute(object parameter)
         {
-            _serializer.ResetFromBackup(_backupProvider.Backup);
+            if (ToolboxUserDialogs.AskUserForReset() == MessageBoxResult.Yes)
+                _serializer.ResetFromBackup(_backupProvider.Backup);
         }
     }
 }

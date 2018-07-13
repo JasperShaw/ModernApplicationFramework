@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog;
+using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Items;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.CustomToolboxItems

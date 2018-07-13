@@ -75,9 +75,9 @@
     <Compile Include="ChooseItemsDialog\ColumnInformation.cs" />
     <Compile Include="ChooseItemsDialog\CustomSortColumnDataSource.cs" />
     <Compile Include="ChooseItemsDialog\DefaultItemDataFactory.cs" />
-    <Compile Include="ChooseItemsDialog\IChooseItemsPageInfo.cs" />
-    <Compile Include="ChooseItemsDialog\ICustomSortColumn.cs" />
-    <Compile Include="ChooseItemsDialog\IItemDataFactory.cs" />
+    <Compile Include="Interfaces\IChooseItemsPageInfo.cs" />
+    <Compile Include="Interfaces\ICustomSortColumn.cs" />
+    <Compile Include="Interfaces\IItemDataFactory.cs" />
     <Compile Include="ChooseItemsDialog\ItemDataSource.cs" />
     <Compile Include="ChooseItemsDialog\ItemDiscoveryService.cs" />
     <Compile Include="ChooseItemsDialog\ItemInfoLoader.cs" />
@@ -96,7 +96,7 @@
     <Compile Include="Commands\DeleteActiveItemCommand.cs" />
     <Compile Include="CommandDefinitions\DeleteActiveItemCommandDefinition.cs" />
     <Compile Include="Commands\DeleteActiveToolbarCategoryCommand.cs" />
-    <Compile Include="Commands\RemoveItemDilalog.cs" />
+    <Compile Include="Commands\ToolboxUserDialogs.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Interfaces\Commands\IAddItemToSelectedNodeCommand.cs" />
     <Compile Include="Interfaces\Commands\IAddCategoryCommand.cs" />

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog;
 using ModernApplicationFramework.Modules.Toolbox.Items;
 
-namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
+namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
 {
     public interface IChooseItemsPageInfo
     {

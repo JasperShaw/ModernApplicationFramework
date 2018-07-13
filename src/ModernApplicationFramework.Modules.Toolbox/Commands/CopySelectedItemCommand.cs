@@ -44,7 +44,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
 
             if ((bool)parameter)
             {
-                var result = RemoveItemDilalog.AskUserForRemove(item);
+                var result = ToolboxUserDialogs.AskUserForRemove(item);
                 if (result == MessageBoxResult.Cancel)
                     return;
                 var category = item.Parent;

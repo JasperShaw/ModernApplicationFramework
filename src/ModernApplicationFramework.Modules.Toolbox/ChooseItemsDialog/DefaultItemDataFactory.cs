@@ -1,4 +1,5 @@
-﻿using ModernApplicationFramework.Modules.Toolbox.Items;
+﻿using ModernApplicationFramework.Modules.Toolbox.Interfaces;
+using ModernApplicationFramework.Modules.Toolbox.Items;
 
 namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
 {
