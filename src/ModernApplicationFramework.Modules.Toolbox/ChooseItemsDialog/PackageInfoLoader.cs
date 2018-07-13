@@ -61,7 +61,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
 
         public bool IsItemOnToolbox(ItemDataSource item)
         {
-            return Service.FindItemsByDefintion(item.Definition).Any();
+            return Service.ToolboxHasItem(item.Definition) ;
         }
 
         private void OnActivePageChanged()

@@ -12,27 +12,15 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
     {
         private readonly IEnumerable<ToolboxItemDefinitionBase> _definitions;
         private readonly IEnumerable<ToolboxCategoryDefinition> _categories;
-        private readonly ToolboxItemHost _host;
 
         public IReadOnlyCollection<ToolboxItemDefinitionBase> Definitions => _definitions.ToList();
 
         [ImportingConstructor]
         public ToolboxItemDefinitionHost([ImportMany] IEnumerable<ToolboxItemDefinitionBase> definitions,
-            [ImportMany] IEnumerable<ToolboxCategoryDefinition> categories, ToolboxItemHost host)
+            [ImportMany] IEnumerable<ToolboxCategoryDefinition> categories)
         {
             _definitions = definitions;
             _categories = categories;
-            _host = host;
-
-            foreach (var definition in Definitions)
-            {
-                definition.EnabledChanged += DefinitionOnEnabledChanged;
-            }
-        }
-
-        private void DefinitionOnEnabledChanged(object sender, EventArgs e)
-        {
-
         }
 
         public ToolboxItemDefinitionBase GetItemDefinitionById(Guid id)

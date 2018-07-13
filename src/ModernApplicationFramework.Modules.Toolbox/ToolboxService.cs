@@ -4,27 +4,22 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Items;
-using ModernApplicationFramework.Modules.Toolbox.State;
 
 namespace ModernApplicationFramework.Modules.Toolbox
 {
     [Export(typeof(IToolboxService))]
     internal class ToolboxService : IToolboxService
     {
-        private readonly ToolboxItemHost _host;
         private readonly IToolboxStateProvider _stateProvider;
         private readonly IToolbox _toolbox;
-        private readonly ToolboxItemDefinitionHost _definitionHost;
 
         internal static IToolboxService Instance { get; private set; }
 
         [ImportingConstructor]
-        public ToolboxService(ToolboxItemHost host, IToolboxStateProvider stateProvider, IToolbox toolbox, ToolboxItemDefinitionHost definitionHost)
+        public ToolboxService(IToolboxStateProvider stateProvider, IToolbox toolbox)
         {
-            _host = host;
             _stateProvider = stateProvider;
             _toolbox = toolbox;
-            _definitionHost = definitionHost;
             Instance = this;
         }
 
@@ -61,7 +56,6 @@ namespace ModernApplicationFramework.Modules.Toolbox
         public void InsertCategory(int index, IToolboxCategory category, bool supressRefresh = false)
         {
             _stateProvider.ItemsSource.Insert(index, category);
-            _host.RegisterNode(category);
             if (!supressRefresh)
                 _toolbox.RefreshView();
         }
@@ -75,29 +69,58 @@ namespace ModernApplicationFramework.Modules.Toolbox
                 foreach (var item in category.Items.ToList())
                     category.RemoveItem(item);
             }
-            _host.DeleteNode(category);
             if (!supressRefresh)
                 _toolbox.RefreshView();
         }
 
         public IToolboxCategory GetCategoryById(Guid guid)
         {
-            return guid == Guid.Empty ? null : _stateProvider.ItemsSource.FirstOrDefault(x => x.Id.Equals(guid));
+            if (guid == Guid.Empty)
+                throw new InvalidOperationException("Guid cannot be empty");
+            return _stateProvider.ItemsSource.ToList().FirstOrDefault(x => x.Id.Equals(guid));
         }
 
         public IToolboxItem GetItemById(Guid guid)
         {
-            return guid == Guid.Empty ? null : _host.AllItems.FirstOrDefault(x => x.Id.Equals(guid));
+            if (guid == Guid.Empty)
+                throw new InvalidOperationException("Guid cannot be empty");
+
+            foreach (var category in _stateProvider.ItemsSource.ToList())
+            {
+                var item = category.Items.FirstOrDefault(x => x.Id == guid);
+                if (item != null)
+                    return item;
+            }
+            return null;
         }
 
         public IEnumerable<IToolboxItem> FindItemsByDefintion(ToolboxItemDefinitionBase definition)
         {
-            return _host.AllItems.Where(x => x.DataSource.Id == definition.Id);
+            if (definition == null)
+                throw new ArgumentNullException(nameof(definition));
+
+            foreach (var category in _stateProvider.ItemsSource.ToList())
+            {
+                var item = category.Items.FirstOrDefault(x => x.DataSource.Equals(definition));
+                if (item != null)
+                    yield return item;
+            }
+            yield return null;
+        }
+
+        public bool ToolboxHasItem(ToolboxItemDefinitionBase definition)
+        {
+            foreach (var category in _stateProvider.ItemsSource.ToList())
+            {
+                if (category.Items.FirstOrDefault(x => x.DataSource.Equals(definition)) != null)
+                    return true;
+            }
+            return false;
         }
 
         public IReadOnlyCollection<string> GetAllToolboxCategoryNames()
         {
-            return _host.AllCategories.Select(x => x.Name).ToList();
+            return _stateProvider.ItemsSource.ToList().Select(x => x.Name).ToList();
         }
     }
 }

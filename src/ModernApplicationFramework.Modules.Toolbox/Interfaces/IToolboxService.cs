@@ -25,5 +25,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
         IToolboxItem GetItemById(Guid guid);
 
         IEnumerable<IToolboxItem> FindItemsByDefintion(ToolboxItemDefinitionBase definition);
+
+        bool ToolboxHasItem(ToolboxItemDefinitionBase definition);
     }
 }

@@ -138,7 +138,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
             if (!Items.Contains(item))
                 return false;
             Items.Remove(item);
-            IoC.Get<ToolboxItemHost>().DeleteNode(item);
             return true;
         }
 
@@ -166,7 +165,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
                 foreach (IToolboxItem item in e.NewItems)
                 {
                     item.Parent = this;
-                    IoC.Get<ToolboxItemHost>().RegisterNode(item);
                     var flag2 = item.EvaluateEnabled(_currentType);
                     item.IsEnabled = flag2;
                     item.IsVisible = _showAllStatus || flag2;

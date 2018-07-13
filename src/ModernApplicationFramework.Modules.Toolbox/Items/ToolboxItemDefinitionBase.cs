@@ -6,7 +6,7 @@ using ModernApplicationFramework.Utilities;
 namespace ModernApplicationFramework.Modules.Toolbox.Items
 {
     [Serializable]
-    public abstract class ToolboxItemDefinitionBase
+    public abstract class ToolboxItemDefinitionBase : IEquatable<ToolboxItemDefinitionBase>
     {
         private bool _enabled;
         public event EventHandler EnabledChanged;
@@ -38,6 +38,17 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
         protected virtual void OnEnabledChanged()
         {
             EnabledChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public bool Equals(ToolboxItemDefinitionBase other)
+        {
+            if (other == null)
+                return false;
+            if (!Id.Equals(other.Id))
+                return false;
+            if (Id != Guid.Empty)
+                return true;
+            return Name.Equals(other.Name, StringComparison.CurrentCulture);
         }
     }
 }
