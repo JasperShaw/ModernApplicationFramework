@@ -3,7 +3,8 @@
                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                    xmlns:mafc="http://modern.framework.com/controls"
                    xmlns:dialogButtons="clr-namespace:ModernApplicationFramework.Controls.Buttons.DialogButtons;assembly=ModernApplicationFramework"
-                   WindowStartupLocation="CenterOwner" Title="Choose Items"
+                   xmlns:resources="clr-namespace:ModernApplicationFramework.Modules.Toolbox.Resources"
+                   WindowStartupLocation="CenterOwner" Title="{x:Static resources:ChooseItemsDialogResources.ChooseItemsDialogTitle}"
                    Height="488" MinHeight="488" Width="685" MinWidth="685" ShowInTaskbar="False">
     <Grid Margin="10">
         <Grid.RowDefinitions>
@@ -12,10 +13,10 @@
         </Grid.RowDefinitions>
         <TabControl Grid.Row="0" ItemsSource="{Binding TabPages}" SelectedItem="{Binding ActiveTab}" />
         <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
-            <dialogButtons:DialogButton x:Name="OkButton" IsDefault="True" Content="OK" Margin="0,10,6,0"
+            <dialogButtons:DialogButton x:Name="OkButton" IsDefault="True" Content="{x:Static resources:ChooseItemsDialogResources.ChooseItemsDialogOk}" Margin="0,10,6,0"
                                         Command="{Binding OkCommand}" />
-            <dialogButtons:DialogButton x:Name="CancelButton" IsCancel="True" Content="Cancel" Margin="0,10,6,0" />
-            <dialogButtons:DialogButton x:Name="ResetButton" Content="Reset" Margin="0,10,0,0"
+            <dialogButtons:DialogButton x:Name="CancelButton" IsCancel="True" Content="{x:Static resources:ChooseItemsDialogResources.ChooseItemsDialogCancel}" Margin="0,10,6,0" />
+            <dialogButtons:DialogButton x:Name="ResetButton" Content="{x:Static resources:ChooseItemsDialogResources.ChooseItemsDialogReset}" Margin="0,10,0,0"
                                         Command="{Binding ResetCommand}" />
         </StackPanel>
     </Grid>

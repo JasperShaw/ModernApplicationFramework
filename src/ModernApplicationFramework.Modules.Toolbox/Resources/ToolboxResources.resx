@@ -198,4 +198,10 @@
   <data name="ToolboxResetMessage" xml:space="preserve">
     <value>Toolbox default settings will be restored. All custom Toolbox items will be removed.\r\n\r\nContinue?</value>
   </data>
+  <data name="AddItemCommand_Name" xml:space="preserve">
+    <value>Add/Remove Toolbox Items</value>
+  </data>
+  <data name="AddItemCommand_Text" xml:space="preserve">
+    <value>Choose &amp;Items...</value>
+  </data>
 </root>

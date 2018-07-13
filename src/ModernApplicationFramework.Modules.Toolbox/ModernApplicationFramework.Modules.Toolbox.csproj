@@ -133,6 +133,11 @@
     <Compile Include="Items\ToolboxItemData.cs" />
     <Compile Include="Items\ToolboxItemDefinition.cs" />
     <Compile Include="Items\ToolboxItemDefinitionBase.cs" />
+    <Compile Include="Resources\ChooseItemsDialogResources.Designer.cs">
+      <DependentUpon>ChooseItemsDialogResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="State\ToolboxItemDefinitionHost.cs" />
     <Compile Include="Utilities\ToolboxCategoryExtension.cs" />
     <Compile Include="Resources\ToolboxResources.Designer.cs">
@@ -192,6 +197,12 @@
       <DependentUpon>ToolboxView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Tool\ToolboxViewModel.cs" />
+    <EmbeddedResource Include="Resources\ChooseItemsDialogResources.de.resx" />
+    <EmbeddedResource Include="Resources\ChooseItemsDialogResources.en.resx" />
+    <EmbeddedResource Include="Resources\ChooseItemsDialogResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ChooseItemsDialogResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\ToolboxResources.de.resx" />
     <EmbeddedResource Include="Resources\ToolboxResources.en.resx" />
     <EmbeddedResource Include="Resources\ToolboxResources.resx">

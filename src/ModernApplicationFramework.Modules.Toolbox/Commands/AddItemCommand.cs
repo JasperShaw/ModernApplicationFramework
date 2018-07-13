@@ -4,9 +4,9 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Threading;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Services;
-using ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog;
 using ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog.Internal;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces.Commands;
+using ModernApplicationFramework.Modules.Toolbox.Resources;
 
 namespace ModernApplicationFramework.Modules.Toolbox.Commands
 {
@@ -29,7 +29,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
         private static ChooseItemsDataSource GetDataSource()
         {
             var factory = IoC.Get<IWaitDialogFactory>();
-            using (factory?.StartWaitDialog("Loading", null, TimeSpan.FromSeconds(0.0)))
+            using (factory?.StartWaitDialog(ChooseItemsDialogResources.ChooseItemsPage_LoadingItems, null, TimeSpan.FromSeconds(0.0)))
                 return new ChooseItemsDataSource();
         }
     }

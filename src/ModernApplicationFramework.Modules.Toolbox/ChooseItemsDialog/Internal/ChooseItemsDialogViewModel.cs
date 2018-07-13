@@ -12,6 +12,7 @@ using ModernApplicationFramework.Basics.Threading;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces.Commands;
+using ModernApplicationFramework.Modules.Toolbox.Resources;
 using Action = System.Action;
 
 namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog.Internal
@@ -141,7 +142,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog.Internal
         {
             var f = IoC.Get<IWaitDialogFactory>();
             f.CreateInstance(out var window);
-            window.StartWaitDialog(null, "Wait", null, null, 0, false, true);
+            window.StartWaitDialog(null, ChooseItemsDialogResources.ApplyingChangesString, null, null, 2, false, true);
             try
             {
                 AcceptChangesAndClose();

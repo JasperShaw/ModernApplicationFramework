@@ -117,91 +117,52 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ToolboxCommandName" xml:space="preserve">
-    <value>Toolbox</value>
+  <data name="ApplyingChangesString" xml:space="preserve">
+    <value>Änderungen werden übernommen</value>
   </data>
-  <data name="AddCategoryCommand_Name" xml:space="preserve">
-    <value>Toolbox Add Tab</value>
+  <data name="ChooseItemsPage_LoadingItems" xml:space="preserve">
+    <value>Elemente werden geladen...</value>
   </data>
-  <data name="AddCategoryCommand_Text" xml:space="preserve">
-    <value>&amp;Add Tab</value>
+  <data name="ChooseItemsPageDelete" xml:space="preserve">
+    <value>_Löschen</value>
   </data>
-  <data name="DeleteCategoryCommand_Name" xml:space="preserve">
-    <value>Toolbox Delete Tab</value>
+  <data name="AllToolboxItemsPageInfo_ColumnAssembly" xml:space="preserve">
+    <value>Assemblyname</value>
   </data>
-  <data name="DeleteCategoryCommand_Text" xml:space="preserve">
-    <value>$Delete Tab</value>
+  <data name="AllToolboxItemsPageInfo_ColumnName" xml:space="preserve">
+    <value>Name</value>
   </data>
-  <data name="RenameCategoryCommand_Name" xml:space="preserve">
-    <value>Toolbox Rename Tab</value>
+  <data name="AllToolboxItemsPageInfo_ColumnNamespace" xml:space="preserve">
+    <value>Namespace</value>
   </data>
-  <data name="RenameCategoryCommand_Text" xml:space="preserve">
-    <value>&amp;Rename Tab</value>
+  <data name="AllToolboxItemsPageInfo_ColumnVersion" xml:space="preserve">
+    <value>Version</value>
   </data>
-  <data name="RenameItemCommand_Name" xml:space="preserve">
-    <value>Toolbox Rename Item</value>
+  <data name="AllToolboxItemsPageInfo_Name" xml:space="preserve">
+    <value>Alle Toolboxelemente</value>
   </data>
-  <data name="RenameItemCommand_Text" xml:space="preserve">
-    <value>&amp;Rename Item</value>
+  <data name="ChooseItemsDialogCancel" xml:space="preserve">
+    <value>Abbrechen</value>
   </data>
-  <data name="ResetToolboxCommand_Name" xml:space="preserve">
-    <value>Reset Toolbox</value>
+  <data name="ChooseItemsDialogOk" xml:space="preserve">
+    <value>OK</value>
   </data>
-  <data name="ResetToolboxCommand_Text" xml:space="preserve">
-    <value>R&amp;eset Toolbox</value>
+  <data name="ChooseItemsDialogReset" xml:space="preserve">
+    <value>_Zurücksetzen</value>
   </data>
-  <data name="SortItemsAlphabeticallyCommand_Name" xml:space="preserve">
-    <value>Toolbox Sort Items</value>
+  <data name="ChooseItemsDialogTitle" xml:space="preserve">
+    <value>Toolboxelemente </value>
   </data>
-  <data name="SortItemsAlphabeticallyCommand_Text" xml:space="preserve">
-    <value>S&amp;ort Items Alphabetically</value>
+  <data name="ChooseItemsPage_LabelAssembly" xml:space="preserve">
+    <value>Assembly:</value>
   </data>
-  <data name="ShowAllNodesCommand_Name" xml:space="preserve">
-    <value>Toolbox Show All</value>
+  <data name="ChooseItemsPage_LabelFilter" xml:space="preserve">
+    <value>_Filter</value>
   </data>
-  <data name="ShowAllNodesCommand_Text" xml:space="preserve">
-    <value>&amp;Show All</value>
+  <data name="ChooseItemsPage_LabelNone" xml:space="preserve">
+    <value>(keine)</value>
   </data>
-  <data name="ToolboxNodeUpCommand_Name" xml:space="preserve">
-    <value>Toolbox Move Tab Up</value>
-  </data>
-  <data name="ToolboxNodeUpCommand_Text" xml:space="preserve">
-    <value>Move &amp;Up</value>
-  </data>
-  <data name="ToolboxNodeDownCommand_Name" xml:space="preserve">
-    <value>Toolbox Move Tab Down</value>
-  </data>
-  <data name="ToolboxNodeDownCommand_Text" xml:space="preserve">
-    <value>Move Do&amp;wn</value>
-  </data>
-  <data name="ToolboxEmptyMessage" xml:space="preserve">
-    <value>There are no usable controls in this group. Drag an item onto this text to add it to the toolbox.</value>
-  </data>
-  <data name="ToolboxSearchWatermark" xml:space="preserve">
-    <value>Search Toolbox</value>
-  </data>
-  <data name="ToolboxSearchNoResults" xml:space="preserve">
-    <value>No results found.</value>
-  </data>
-  <data name="ToolboxItemDeleteMessage" xml:space="preserve">
-    <value>'{0}' will be removed from the Toolbox.</value>
-  </data>
-  <data name="DefaultCategoryName" xml:space="preserve">
-    <value>General</value>
-  </data>
-  <data name="Error_NameEmpty" xml:space="preserve">
-    <value>Caption cannot be empty.</value>
-  </data>
-  <data name="Error_Duplicate" xml:space="preserve">
-    <value>Tab name '{0}' already exists.</value>
-  </data>
-  <data name="ToolboxResetMessage" xml:space="preserve">
-    <value>Toolbox default settings will be restored. All custom Toolbox items will be removed.\r\n\r\nContinue?</value>
-  </data>
-  <data name="AddItemCommand_Text" xml:space="preserve">
-    <value>Choose &amp;Items...</value>
-  </data>
-  <data name="AddItemCommand_Name" xml:space="preserve">
-    <value>Add/Remove Toolbox Items</value>
+  <data name="ChooseItemsPage_LabelVersion" xml:space="preserve">
+    <value>Version:</value>
   </data>
 </root>

@@ -79,6 +79,24 @@ namespace ModernApplicationFramework.Modules.Toolbox.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add/Remove Toolbox Items.
+        /// </summary>
+        public static string AddItemCommand_Name {
+            get {
+                return ResourceManager.GetString("AddItemCommand_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose &amp;Items....
+        /// </summary>
+        public static string AddItemCommand_Text {
+            get {
+                return ResourceManager.GetString("AddItemCommand_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to General.
         /// </summary>
         public static string DefaultCategoryName {
