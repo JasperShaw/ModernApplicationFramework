@@ -14,11 +14,11 @@ using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces.Commands;
 using Action = System.Action;
 
-namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
+namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog.Internal
 {
     [Export(typeof(ChooseItemsDialogViewModel))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class ChooseItemsDialogViewModel : Screen
+    internal class ChooseItemsDialogViewModel : Screen
     {
         private readonly Dictionary<TabItem, ToolboxControlledPageDataSource> _tabItemDataSourceMap =
             new Dictionary<TabItem, ToolboxControlledPageDataSource>();

@@ -9,7 +9,7 @@ using ModernApplicationFramework.Extended.Annotations;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Items;
 
-namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
+namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog.Internal
 {
     internal class ToolboxControlledPageDataSource : INotifyPropertyChanged
     {

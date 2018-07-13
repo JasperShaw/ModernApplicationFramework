@@ -1,4 +1,4 @@
-﻿namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
+﻿namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog.Internal
 {
     public partial class ChooseItemsDialogView
     {

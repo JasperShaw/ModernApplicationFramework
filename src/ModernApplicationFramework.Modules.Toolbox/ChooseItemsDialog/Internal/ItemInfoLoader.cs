@@ -6,7 +6,7 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Modules.Toolbox.Items;
 using ModernApplicationFramework.Modules.Toolbox.State;
 
-namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
+namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog.Internal
 {
     internal class ItemInfoLoader
     {

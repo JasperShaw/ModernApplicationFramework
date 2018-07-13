@@ -5,7 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using ModernApplicationFramework.Extended.Annotations;
 
-namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
+namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog.Internal
 {
     internal class ChooseItemsDataSource : INotifyPropertyChanged, IDisposable
     {

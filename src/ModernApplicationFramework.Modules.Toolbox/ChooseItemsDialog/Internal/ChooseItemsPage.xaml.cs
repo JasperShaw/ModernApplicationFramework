@@ -14,7 +14,7 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Modules.Toolbox.NativeMethods;
 using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
+namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog.Internal
 {
     internal partial class ChooseItemsPage
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
+namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog.Internal
 {
     internal class ListSelectionState
     {

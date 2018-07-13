@@ -63,13 +63,13 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChooseItemsDialog\AllToolboxItemsPageInfo.cs" />
-    <Compile Include="ChooseItemsDialog\ChooseItemsDataSource.cs" />
-    <Compile Include="ChooseItemsDialog\ChooseItemsDialogView.xaml.cs">
+    <Compile Include="ChooseItemsDialog\Internal\AllToolboxItemsPageInfo.cs" />
+    <Compile Include="ChooseItemsDialog\Internal\ChooseItemsDataSource.cs" />
+    <Compile Include="ChooseItemsDialog\Internal\ChooseItemsDialogView.xaml.cs">
       <DependentUpon>ChooseItemsDialogView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ChooseItemsDialog\ChooseItemsDialogViewModel.cs" />
-    <Compile Include="ChooseItemsDialog\ChooseItemsPage.xaml.cs">
+    <Compile Include="ChooseItemsDialog\Internal\ChooseItemsDialogViewModel.cs" />
+    <Compile Include="ChooseItemsDialog\Internal\ChooseItemsPage.xaml.cs">
       <DependentUpon>ChooseItemsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ChooseItemsDialog\ColumnInformation.cs" />
@@ -79,11 +79,11 @@
     <Compile Include="Interfaces\ICustomSortColumn.cs" />
     <Compile Include="Interfaces\IItemDataFactory.cs" />
     <Compile Include="ChooseItemsDialog\ItemDataSource.cs" />
-    <Compile Include="ChooseItemsDialog\ItemDiscoveryService.cs" />
-    <Compile Include="ChooseItemsDialog\ItemInfoLoader.cs" />
-    <Compile Include="ChooseItemsDialog\ListSelectionState.cs" />
-    <Compile Include="ChooseItemsDialog\PackageInfoLoader.cs" />
-    <Compile Include="ChooseItemsDialog\ToolboxControlledPageDataSource.cs" />
+    <Compile Include="ChooseItemsDialog\Internal\ItemDiscoveryService.cs" />
+    <Compile Include="ChooseItemsDialog\Internal\ItemInfoLoader.cs" />
+    <Compile Include="ChooseItemsDialog\Internal\ListSelectionState.cs" />
+    <Compile Include="ChooseItemsDialog\Internal\PackageInfoLoader.cs" />
+    <Compile Include="ChooseItemsDialog\Internal\ToolboxControlledPageDataSource.cs" />
     <Compile Include="Commands\AddItemCommand.cs" />
     <Compile Include="CommandDefinitions\AddItemCommandDefinition.cs" />
     <Compile Include="Converters\AllTrueConverter.cs" />
@@ -250,11 +250,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="ChooseItemsDialog\ChooseItemsDialogView.xaml">
+    <Page Include="ChooseItemsDialog\Internal\ChooseItemsDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ChooseItemsDialog\ChooseItemsPage.xaml">
+    <Page Include="ChooseItemsDialog\Internal\ChooseItemsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -4,7 +4,7 @@ using System.ComponentModel.Composition;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Items;
 
-namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
+namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog.Internal
 {
     [Export(typeof(IChooseItemsPageInfo))]
     internal class AllToolboxItemsPageInfo : IChooseItemsPageInfo
