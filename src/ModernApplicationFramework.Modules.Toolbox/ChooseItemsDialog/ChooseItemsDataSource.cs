@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using ModernApplicationFramework.Extended.Annotations;
 
@@ -59,7 +60,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        //public event EventHandler<ToolboxControlledPageDataSource> PagePropertyChanged; 
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -81,12 +81,30 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
 
         private void PageDataSourceOnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            PropertyChanged?.Invoke(sender, e);
+
+            if (sender is ItemDataSource itemData)
+            {
+                if (e.PropertyName == nameof(itemData.IsChecked))
+                {
+                    UpdateSameItemsAcrossPages(itemData);
+                }
+            }
+            else
+                PropertyChanged?.Invoke(sender, e);          
         }
 
-        //protected virtual void OnPagePropertyChanged(ToolboxControlledPageDataSource e)
-        //{
-        //    PagePropertyChanged?.Invoke(this, e);
-        //}
+        private void UpdateSameItemsAcrossPages(ItemDataSource itemData)
+        {
+            var pagesToCheck = ControlledPages.Where(x => x.Guid != ActivePageGuid);
+
+            foreach (var page in pagesToCheck)
+            {
+                foreach (var item in page.Items)
+                {
+                    if (item.Equals(itemData))
+                        item.IsChecked = itemData.IsChecked;
+                }
+            }
+        }
     }
 }

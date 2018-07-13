@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -7,7 +8,7 @@ using ModernApplicationFramework.Modules.Toolbox.Items;
 
 namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
 {
-    public class ItemDataSource : INotifyPropertyChanged
+    public class ItemDataSource : INotifyPropertyChanged, IEquatable<ItemDataSource>
     {
         private bool _isChecked;
         private bool _isVisible = true;
@@ -63,6 +64,14 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public bool Equals(ItemDataSource other)
+        {
+            if (other == null)
+                return false;
+            return Name == other.Name && AssemblyName == other.AssemblyName && Namespace == other.Namespace &&
+                   AssemblyVersion == other.AssemblyVersion;
         }
     }
 }

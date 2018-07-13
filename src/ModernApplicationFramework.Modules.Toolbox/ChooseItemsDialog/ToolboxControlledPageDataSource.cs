@@ -191,8 +191,22 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
             var items = Items;
             var index = BinarySearch(item, items, CompareItems, out var matched);
             if (matched)
+            {
+                var toRemove = items.ElementAt(index);
+                toRemove.PropertyChanged -= ItemPropertyChanged;
                 items.RemoveAt(index);
+            }
+            item.PropertyChanged += ItemPropertyChanged;
             items.Insert(index, item);
+        }
+
+        private void ItemPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (!(sender is ItemDataSource item))
+                return;
+            if (e.PropertyName == nameof(ItemDataSource.IsChecked))
+                PropertyChanged?.Invoke(item, e);
+
         }
 
         private static void FilterItem(ItemDataSource item, string filter)
