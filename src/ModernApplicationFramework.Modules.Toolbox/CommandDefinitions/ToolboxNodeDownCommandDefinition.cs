@@ -12,8 +12,7 @@ using ModernApplicationFramework.Modules.Toolbox.Resources;
 namespace ModernApplicationFramework.Modules.Toolbox.CommandDefinitions
 {
     [Export(typeof(CommandDefinitionBase))]
-    [Export(typeof(ToolboxNodeDownCommandDefinition))]
-    public class ToolboxNodeDownCommandDefinition : CommandDefinition<IToolboxNodeDownCommand>
+    internal class ToolboxNodeDownCommandDefinition : CommandDefinition<IToolboxNodeDownCommand>
     {
         public override string NameUnlocalized => ToolboxResources.ResourceManager.GetString(nameof(ToolboxResources.ToolboxNodeDownCommand_Name),
             CultureInfo.InvariantCulture);

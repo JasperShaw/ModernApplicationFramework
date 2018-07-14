@@ -5,7 +5,7 @@ using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 namespace ModernApplicationFramework.Modules.Toolbox.State
 {
     [Export(typeof(IToolboxStateBackupProvider))]
-    public class ToolboxStateBackupProvider : LayoutBackupProvider, IToolboxStateBackupProvider
+    internal class ToolboxStateBackupProvider : LayoutBackupProvider, IToolboxStateBackupProvider
     {
 
     }

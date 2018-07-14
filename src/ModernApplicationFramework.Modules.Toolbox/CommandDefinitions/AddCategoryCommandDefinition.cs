@@ -12,8 +12,7 @@ using ModernApplicationFramework.Modules.Toolbox.Resources;
 namespace ModernApplicationFramework.Modules.Toolbox.CommandDefinitions
 {
     [Export(typeof(CommandDefinitionBase))]
-    [Export(typeof(AddCategoryCommandDefinition))]
-    public class AddCategoryCommandDefinition : CommandDefinition<IAddCategoryCommand>
+    internal class AddCategoryCommandDefinition : CommandDefinition<IAddCategoryCommand>
     {
         public override string Name => ToolboxResources.AddCategoryCommand_Name;
 

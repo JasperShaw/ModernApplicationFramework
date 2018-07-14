@@ -14,7 +14,7 @@ using ModernApplicationFramework.Modules.Toolbox.Resources;
 namespace ModernApplicationFramework.Modules.Toolbox.CommandDefinitions
 {
     [Export(typeof(CommandDefinitionBase))]
-    public class OpenToolboxCommandDefinition : CommandDefinition<IOpenToolboxCommand>
+    internal class OpenToolboxCommandDefinition : CommandDefinition<IOpenToolboxCommand>
     {
         public override string NameUnlocalized => "Toolbox";
         public override string Text => ToolboxResources.ToolboxCommandName;

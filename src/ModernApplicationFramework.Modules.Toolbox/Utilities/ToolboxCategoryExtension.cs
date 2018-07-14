@@ -3,7 +3,7 @@ using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 
 namespace ModernApplicationFramework.Modules.Toolbox.Utilities
 {
-    public static class ToolboxCategoryExtension
+    internal static class ToolboxCategoryExtension
     {
         internal static uint SetItemsVisibleWhere(this IToolboxCategory category, Func<IToolboxItem, bool> func)
         {

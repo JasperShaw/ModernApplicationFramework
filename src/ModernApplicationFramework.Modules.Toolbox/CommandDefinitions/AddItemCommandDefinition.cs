@@ -12,7 +12,7 @@ using ModernApplicationFramework.Modules.Toolbox.Resources;
 namespace ModernApplicationFramework.Modules.Toolbox.CommandDefinitions
 {
     [Export(typeof(CommandDefinitionBase))]
-    public class AddItemCommandDefinition : CommandDefinition<IAddItemCommand>
+    internal class AddItemCommandDefinition : CommandDefinition<IAddItemCommand>
     {
         public override string Name => ToolboxResources.AddItemCommand_Name;
 

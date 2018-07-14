@@ -12,8 +12,7 @@ using ModernApplicationFramework.Modules.Toolbox.Resources;
 namespace ModernApplicationFramework.Modules.Toolbox.CommandDefinitions
 {
     [Export(typeof(CommandDefinitionBase))]
-    [Export(typeof(SortItemsAlphabeticallyCommandDefinition))]
-    public class SortItemsAlphabeticallyCommandDefinition : CommandDefinition<ISortItemsAlphabeticallyCommand>
+    internal class SortItemsAlphabeticallyCommandDefinition : CommandDefinition<ISortItemsAlphabeticallyCommand>
     {
         public override string NameUnlocalized => ToolboxResources.ResourceManager.GetString(nameof(ToolboxResources.SortItemsAlphabeticallyCommand_Name),
             CultureInfo.InvariantCulture);

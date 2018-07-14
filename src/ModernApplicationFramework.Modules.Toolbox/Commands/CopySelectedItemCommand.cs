@@ -10,7 +10,7 @@ using ModernApplicationFramework.Modules.Toolbox.Items;
 namespace ModernApplicationFramework.Modules.Toolbox.Commands
 {
     [Export(typeof(ICopySelectedItemCommand))]
-    public class CopySelectedItemCommand : CommandDefinitionCommand, ICopySelectedItemCommand
+    internal class CopySelectedItemCommand : CommandDefinitionCommand, ICopySelectedItemCommand
     {
         private readonly IToolbox _toolbox;
 

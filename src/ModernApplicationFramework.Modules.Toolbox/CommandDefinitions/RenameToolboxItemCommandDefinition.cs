@@ -12,8 +12,7 @@ using ModernApplicationFramework.Modules.Toolbox.Resources;
 namespace ModernApplicationFramework.Modules.Toolbox.CommandDefinitions
 {
     [Export(typeof(CommandDefinitionBase))]
-    [Export(typeof(RenameToolboxItemCommandDefinition))]
-    public class RenameToolboxItemCommandDefinition : CommandDefinition<IRenameToolboxItemCommand>
+    internal class RenameToolboxItemCommandDefinition : CommandDefinition<IRenameToolboxItemCommand>
     {
         public override string NameUnlocalized => ToolboxResources.ResourceManager.GetString(nameof(ToolboxResources.RenameItemCommand_Name),
             CultureInfo.InvariantCulture);

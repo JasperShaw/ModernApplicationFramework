@@ -12,8 +12,7 @@ using ModernApplicationFramework.Modules.Toolbox.Resources;
 namespace ModernApplicationFramework.Modules.Toolbox.CommandDefinitions
 {
     [Export(typeof(CommandDefinitionBase))]
-    [Export(typeof(DeleteActiveToolbarCategoryCommandDefinition))]
-    public class DeleteActiveToolbarCategoryCommandDefinition : CommandDefinition<IDeleteActiveToolbarCategoryCommand>
+    internal class DeleteActiveToolbarCategoryCommandDefinition : CommandDefinition<IDeleteActiveToolbarCategoryCommand>
     {
         public override string NameUnlocalized => ToolboxResources.ResourceManager.GetString(nameof(ToolboxResources.DeleteCategoryCommand_Name),
             CultureInfo.InvariantCulture);

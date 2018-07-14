@@ -12,8 +12,7 @@ using ModernApplicationFramework.Modules.Toolbox.Resources;
 namespace ModernApplicationFramework.Modules.Toolbox.CommandDefinitions
 {
     [Export(typeof(CommandDefinitionBase))]
-    [Export(typeof(ToggleShowAllItemsCommandDefinition))]
-    public class ToggleShowAllItemsCommandDefinition : CommandDefinition<IToggleShowAllItemsCommand>
+    internal class ToggleShowAllItemsCommandDefinition : CommandDefinition<IToggleShowAllItemsCommand>
     {
         public override string NameUnlocalized => ToolboxResources.ResourceManager.GetString(nameof(ToolboxResources.SortItemsAlphabeticallyCommand_Name),
             CultureInfo.InvariantCulture);

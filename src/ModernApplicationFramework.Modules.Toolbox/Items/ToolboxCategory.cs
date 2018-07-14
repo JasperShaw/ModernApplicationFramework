@@ -4,7 +4,6 @@ using System.Linq;
 using Caliburn.Micro;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Resources;
-using ModernApplicationFramework.Modules.Toolbox.State;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Modules.Toolbox.Items

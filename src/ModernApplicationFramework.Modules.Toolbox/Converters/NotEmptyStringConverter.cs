@@ -4,7 +4,7 @@ using System.Windows.Data;
 
 namespace ModernApplicationFramework.Modules.Toolbox.Converters
 {
-    public class NotEmptyStringConverter : IValueConverter
+    internal class NotEmptyStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

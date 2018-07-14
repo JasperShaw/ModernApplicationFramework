@@ -4,7 +4,7 @@ using ModernApplicationFramework.Utilities.Converters;
 
 namespace ModernApplicationFramework.Modules.Toolbox.Converters
 {
-    public class EmptyMessageVisibilityConverter : MultiValueConverter<bool, bool, bool, Visibility>
+    internal class EmptyMessageVisibilityConverter : MultiValueConverter<bool, bool, bool, Visibility>
     {
         protected override Visibility Convert(bool hasItems, bool hasVisibleItems, bool isExpanded, object parameter, CultureInfo culture)
         {

@@ -1,8 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using System.Windows;
-using Caliburn.Micro;
 using ModernApplicationFramework.Input.Command;
-using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces.Commands;
 
