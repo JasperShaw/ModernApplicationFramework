@@ -75,6 +75,10 @@
     <Compile Include="ChooseItemsDialog\ColumnInformation.cs" />
     <Compile Include="ChooseItemsDialog\CustomSortColumnDataSource.cs" />
     <Compile Include="ChooseItemsDialog\DefaultItemDataFactory.cs" />
+    <Compile Include="ChooseItemsDialog\Internal\InvisibleItemsDialogView.xaml.cs">
+      <DependentUpon>InvisibleItemsDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ChooseItemsDialog\Internal\InvisibleItemsDialogViewModel.cs" />
     <Compile Include="Interfaces\IChooseItemsPageInfo.cs" />
     <Compile Include="Interfaces\ICustomSortColumn.cs" />
     <Compile Include="Interfaces\IItemDataFactory.cs" />
@@ -266,6 +270,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ChooseItemsDialog\Internal\ChooseItemsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ChooseItemsDialog\Internal\InvisibleItemsDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

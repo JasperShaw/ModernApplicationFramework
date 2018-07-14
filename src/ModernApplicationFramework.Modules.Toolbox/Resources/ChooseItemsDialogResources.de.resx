@@ -165,4 +165,16 @@
   <data name="ChooseItemsPage_LabelVersion" xml:space="preserve">
     <value>Version:</value>
   </data>
+  <data name="InvisibleItemsDialog_Title" xml:space="preserve">
+    <value>Toolbox</value>
+  </data>
+  <data name="InvisibleItemsDialog_TextUpper" xml:space="preserve">
+    <value>Die folgenden Steuerelemente wurden erfolgreich zur Toolbox hinzugefügt, sind jedoch im aktiven Fenster nicht aktiv:</value>
+  </data>
+  <data name="InvisibleItemsDialog_TextLower" xml:space="preserve">
+    <value>Stellen Sie sicher, dass die Steuerelemente, die hinzugefügt werden sollen, mit dem aktuellen Fenster kompatibel sind.</value>
+  </data>
+  <data name="InvisibleItemsDialog_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
 </root>

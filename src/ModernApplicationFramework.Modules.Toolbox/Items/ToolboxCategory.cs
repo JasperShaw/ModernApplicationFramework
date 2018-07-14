@@ -179,7 +179,10 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
             HasVisibleItems = false;
             HasEnabledItems = false;
             if (!HasItems)
+            {
+                InternalEvaluateVisibility();
                 return;
+            }
             if (Items.Any(x => x.IsVisible))
                 HasVisibleItems = true;
             if (Items.Any(x => x.IsEnabled))

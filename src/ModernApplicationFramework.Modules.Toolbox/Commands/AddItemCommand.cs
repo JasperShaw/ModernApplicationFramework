@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Threading;
 using ModernApplicationFramework.Input.Command;
@@ -24,6 +26,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
             var dataSource = GetDataSource();
             window.DataSource = dataSource;
             IoC.Get<IWindowManager>().ShowDialog(window);
+
+            NotifiyInvisibleItems(window.AddedInvisibleItems);
         }
 
         private static ChooseItemsDataSource GetDataSource()
@@ -31,6 +35,15 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
             var factory = IoC.Get<IWaitDialogFactory>();
             using (factory?.StartWaitDialog(ChooseItemsDialogResources.ChooseItemsPage_LoadingItems, null, TimeSpan.FromSeconds(0.0)))
                 return new ChooseItemsDataSource();
+        }
+
+        private static void NotifiyInvisibleItems(IEnumerable<string> items)
+        {
+            if (items == null || !items.Any())
+                return;
+            var window = IoC.Get<InvisibleItemsDialogViewModel>();
+            window.ItemsSource = items;
+            IoC.Get<IWindowManager>().ShowDialog(window);
         }
     }
 }

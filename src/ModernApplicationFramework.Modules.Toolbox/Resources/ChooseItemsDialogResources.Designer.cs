@@ -203,5 +203,41 @@ namespace ModernApplicationFramework.Modules.Toolbox.Resources {
                 return ResourceManager.GetString("ChooseItemsPageDelete", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OK.
+        /// </summary>
+        public static string InvisibleItemsDialog_OK {
+            get {
+                return ResourceManager.GetString("InvisibleItemsDialog_OK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Make sure the controls to add are compatible with the current window content..
+        /// </summary>
+        public static string InvisibleItemsDialog_TextLower {
+            get {
+                return ResourceManager.GetString("InvisibleItemsDialog_TextLower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The following controls were successfully added to the toolbox but are not enabled in the active window content:.
+        /// </summary>
+        public static string InvisibleItemsDialog_TextUpper {
+            get {
+                return ResourceManager.GetString("InvisibleItemsDialog_TextUpper", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Toolbox.
+        /// </summary>
+        public static string InvisibleItemsDialog_Title {
+            get {
+                return ResourceManager.GetString("InvisibleItemsDialog_Title", resourceCulture);
+            }
+        }
     }
 }

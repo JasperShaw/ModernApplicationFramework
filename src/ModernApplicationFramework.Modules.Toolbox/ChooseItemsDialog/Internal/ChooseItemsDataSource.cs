@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Caliburn.Micro;
 using ModernApplicationFramework.Extended.Annotations;
+using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 
 namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog.Internal
 {
@@ -48,11 +50,21 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog.Internal
             ControlledPages.Clear();
         }
 
-        internal static void ApplyChangesAction(ChooseItemsDataSource dataSource)
+        internal static IEnumerable<string> ApplyChangesAction(ChooseItemsDataSource dataSource)
         {
+            var addedItems = new List<ItemDataSource>();
             foreach (var page in dataSource.ControlledPages)
-                dataSource.ClientInfoLoader.ApplyChanges(page);
+                addedItems.AddRange(dataSource.ClientInfoLoader.ApplyChanges(page));
+
+            var service = IoC.Get<IToolboxService>();
+
+            return (from item in addedItems
+                select item.Definition
+                into defintion
+                where !service.FindItemsByDefintion(defintion).Any(x => x.IsVisible)
+                select defintion.Name).ToList();
         }
+
 
         internal static void SyncToToolboxAction(ChooseItemsDataSource dataSource)
         {

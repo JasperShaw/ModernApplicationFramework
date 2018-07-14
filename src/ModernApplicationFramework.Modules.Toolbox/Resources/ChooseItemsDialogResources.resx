@@ -166,4 +166,16 @@
   <data name="ApplyingChangesString" xml:space="preserve">
     <value>Applying Changes</value>
   </data>
+  <data name="InvisibleItemsDialog_Title" xml:space="preserve">
+    <value>Toolbox</value>
+  </data>
+  <data name="InvisibleItemsDialog_TextUpper" xml:space="preserve">
+    <value>The following controls were successfully added to the toolbox but are not enabled in the active window content:</value>
+  </data>
+  <data name="InvisibleItemsDialog_TextLower" xml:space="preserve">
+    <value>Make sure the controls to add are compatible with the current window content.</value>
+  </data>
+  <data name="InvisibleItemsDialog_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
 </root>

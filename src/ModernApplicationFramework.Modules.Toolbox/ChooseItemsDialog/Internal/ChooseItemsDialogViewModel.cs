@@ -31,6 +31,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog.Internal
         private ChooseItemsDialogView _window;
         public static event Action<ChooseItemsDialogViewModel> DialogInitFinished;
 
+        public IEnumerable<string> AddedInvisibleItems { get; private set; }
+
         public TabItem ActiveTab
         {
             get => _activeTab;
@@ -95,7 +97,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog.Internal
 
         private void AcceptChangesAndClose()
         {
-            ChooseItemsDataSource.ApplyChangesAction(DataSource);
+            AddedInvisibleItems = ChooseItemsDataSource.ApplyChangesAction(DataSource);
             TryClose(true);
         }
 

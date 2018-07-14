@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
@@ -27,7 +28,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog.Internal
             OnActivePageChanged();
         }
 
-        public void ApplyChanges(ToolboxControlledPageDataSource page)
+        public IEnumerable<ItemDataSource> ApplyChanges(ToolboxControlledPageDataSource page)
         {
             foreach (var item in page.Items)
             {
@@ -35,7 +36,10 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog.Internal
                 var flag = _service.ToolboxHasItem(item.Definition);
 
                 if (isChecked && !flag)
+                {
                     InstallItem(item);
+                    yield return item;
+                }
                 else if (!isChecked & flag)
                     RemoveItemFromToolbox(item);
             }
