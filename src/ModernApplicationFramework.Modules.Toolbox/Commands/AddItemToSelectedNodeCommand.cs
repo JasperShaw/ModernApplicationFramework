@@ -22,6 +22,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
 
         protected override bool OnCanExecute(object parameter)
         {
+            if (!(parameter is IDataObject))
+                return false;
             return true;
         }
 
