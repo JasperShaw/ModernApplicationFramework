@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
-using Caliburn.Micro;
 
 namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
 {
+    /// <summary>
+    /// Toolbox state provider
+    /// </summary>
     public interface IToolboxStateProvider
     {
+        /// <summary>
+        /// A copy of the toolbox layout state.
+        /// </summary>
         IReadOnlyCollection<IToolboxCategory> State { get; }
     }
-
-    internal interface IInternalToolboxStateProvider : IToolboxStateProvider
-    {
-        IObservableCollection<IToolboxCategory> ItemsSource { get; }
-    }
-
 }

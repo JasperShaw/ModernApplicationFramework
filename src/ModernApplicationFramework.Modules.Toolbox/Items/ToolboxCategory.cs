@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
@@ -10,36 +11,31 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
 {
     public class ToolboxCategory : ToolboxNode, IToolboxCategory
     {
-
         [Export] internal static ToolboxCategoryDefinition DefaultCategoryDefinition =
             new ToolboxCategoryDefinition(Guids.DefaultCategoryId, ToolboxResources.DefaultCategoryName);
 
 
-        [Export] private static IToolboxCategory DefaultCategory =
+        [Export] private static IToolboxCategory _defaultCategory =
             new ToolboxCategory(Guids.DefaultCategoryId, DefaultCategoryDefinition);
 
-        private IObservableCollection<IToolboxItem> _items;
+        private Type _currentType;
+        private bool _hasEnabledItems;
         private bool _hasItems;
         private bool _hasVisibleItems;
-        private Type _currentType;
-        private bool _showAllStatus;
-        private bool _hasEnabledItems;
         private bool _isVisible;
 
-        public static bool IsDefaultCategory(IToolboxCategory category)
-        {
-            return category.DataSource.Id.Equals(Guids.DefaultCategoryId);
-        }
+        private IObservableCollection<IToolboxItem> _items;
+        private bool _showAllStatus;
 
         public ToolboxCategoryDefinition DataSource { get; }
 
-        public IObservableCollection<IToolboxItem> Items
+        public bool HasEnabledItems
         {
-            get => _items;
-            set
+            get => _hasEnabledItems;
+            protected set
             {
-                if (Equals(value, _items)) return;
-                _items = value;
+                if (value == _hasEnabledItems) return;
+                _hasEnabledItems = value;
                 OnPropertyChanged();
             }
         }
@@ -55,17 +51,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
             }
         }
 
-        public bool IsVisible
-        {
-            get => _isVisible;
-            set
-            {
-                if (value == _isVisible) return;
-                _isVisible = value;
-                OnPropertyChanged();
-            }
-        }
-
         public bool HasVisibleItems
         {
             get => _hasVisibleItems;
@@ -77,13 +62,24 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
             }
         }
 
-        public bool HasEnabledItems
+        public bool IsVisible
         {
-            get => _hasEnabledItems;
-            protected set
+            get => _isVisible;
+            set
             {
-                if (value == _hasEnabledItems) return;
-                _hasEnabledItems = value;
+                if (value == _isVisible) return;
+                _isVisible = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public IObservableCollection<IToolboxItem> Items
+        {
+            get => _items;
+            set
+            {
+                if (Equals(value, _items)) return;
+                _items = value;
                 OnPropertyChanged();
             }
         }
@@ -95,12 +91,13 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
             IsVisible = true;
         }
 
-        public ToolboxCategory(string name) : this(Guid.NewGuid(), new ToolboxCategoryDefinition(Guid.Empty, name), true)
+        public ToolboxCategory(string name) : this(Guid.NewGuid(), new ToolboxCategoryDefinition(Guid.Empty, name),
+            true)
         {
-
         }
 
-        public ToolboxCategory(Guid id, ToolboxCategoryDefinition definition, bool isCustom = false) : base(id, definition.Name, isCustom)
+        public ToolboxCategory(Guid id, ToolboxCategoryDefinition definition, bool isCustom = false) : base(id,
+            definition.Name, isCustom)
         {
             Validate.IsNotNull(definition, nameof(definition));
             DataSource = definition;
@@ -113,31 +110,28 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
 
         public ToolboxCategory(ToolboxCategoryDefinition definition) : this(Guid.NewGuid(), definition, true)
         {
-            
         }
 
-
-
-
-        public void Refresh(Type targetType, bool forceVisible = false)
+        public static bool IsDefaultCategory(IToolboxCategory category)
         {
-            _currentType = targetType;
-            _showAllStatus = forceVisible;
-            foreach (var item in Items)
+            return category.DataSource.Id.Equals(Guids.DefaultCategoryId);
+        }
+
+        public void InvalidateState()
+        {
+            HasVisibleItems = false;
+            HasEnabledItems = false;
+            if (!HasItems)
             {
-                var flag = item.EvaluateEnabled(targetType);
-                item.IsEnabled = flag;
-                item.IsVisible = forceVisible || flag;
+                InternalEvaluateVisibility();
+                return;
             }
-            InvalidateState();
-        }
 
-        public bool RemoveItem(IToolboxItem item)
-        {
-            if (!Items.Contains(item))
-                return false;
-            Items.Remove(item);
-            return true;
+            if (Items.Any(x => x.IsVisible))
+                HasVisibleItems = true;
+            if (Items.Any(x => x.IsEnabled))
+                HasEnabledItems = true;
+            InternalEvaluateVisibility();
         }
 
         public override bool IsRenameValid(out string errorMessage)
@@ -152,41 +146,27 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
             return false;
         }
 
-        private void Items_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+
+        public void Refresh(Type targetType, bool forceVisible = false)
         {
-            if (e.OldItems != null)
+            _currentType = targetType;
+            _showAllStatus = forceVisible;
+            foreach (var item in Items)
             {
-                foreach (IToolboxItem item in e.OldItems)
-                    item.Parent = null;
+                var flag = item.EvaluateEnabled(targetType);
+                item.IsEnabled = flag;
+                item.IsVisible = forceVisible || flag;
             }
-            if (e.NewItems != null)
-            {
-                foreach (IToolboxItem item in e.NewItems)
-                {
-                    item.Parent = this;
-                    var flag2 = item.EvaluateEnabled(_currentType);
-                    item.IsEnabled = flag2;
-                    item.IsVisible = _showAllStatus || flag2;
-                }
-            }
-            HasItems = Items.Any();
+
             InvalidateState();
         }
 
-        public void InvalidateState()
+        public bool RemoveItem(IToolboxItem item)
         {
-            HasVisibleItems = false;
-            HasEnabledItems = false;
-            if (!HasItems)
-            {
-                InternalEvaluateVisibility();
-                return;
-            }
-            if (Items.Any(x => x.IsVisible))
-                HasVisibleItems = true;
-            if (Items.Any(x => x.IsEnabled))
-                HasEnabledItems = true;
-            InternalEvaluateVisibility();
+            if (!Items.Contains(item))
+                return false;
+            Items.Remove(item);
+            return true;
         }
 
         private void InternalEvaluateVisibility()
@@ -195,6 +175,24 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
                 IsVisible = true;
             else
                 IsVisible = false;
+        }
+
+        private void Items_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.OldItems != null)
+                foreach (IToolboxItem item in e.OldItems)
+                    item.Parent = null;
+            if (e.NewItems != null)
+                foreach (IToolboxItem item in e.NewItems)
+                {
+                    item.Parent = this;
+                    var flag2 = item.EvaluateEnabled(_currentType);
+                    item.IsEnabled = flag2;
+                    item.IsVisible = _showAllStatus || flag2;
+                }
+
+            HasItems = Items.Any();
+            InvalidateState();
         }
     }
 }

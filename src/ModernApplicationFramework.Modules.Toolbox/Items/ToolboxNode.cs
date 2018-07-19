@@ -57,9 +57,9 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
             }
         }
 
-        public bool IsNewlyCreated { get; protected set; }
-
         public virtual bool IsNameModified { get; protected set; }
+
+        public bool IsNewlyCreated { get; protected set; }
 
         public string Name
         {

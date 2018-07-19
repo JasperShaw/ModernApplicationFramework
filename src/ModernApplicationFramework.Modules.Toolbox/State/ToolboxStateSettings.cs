@@ -10,6 +10,10 @@ using ModernApplicationFramework.Utilities.Interfaces.Settings;
 
 namespace ModernApplicationFramework.Modules.Toolbox.State
 {
+    /// <summary>
+    /// Settings for the toolbox module
+    /// </summary>
+    /// <seealso cref="ModernApplicationFramework.Settings.SettingDataModel.SettingsDataModel" />
     [Export(typeof(ISettingsDataModel))]
     [Export(typeof(ToolboxStateSettings))]
     public sealed class ToolboxStateSettings : SettingsDataModel

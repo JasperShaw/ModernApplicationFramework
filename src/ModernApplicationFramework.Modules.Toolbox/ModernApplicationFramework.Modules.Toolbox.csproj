@@ -81,6 +81,7 @@
     <Compile Include="ChooseItemsDialog\Internal\InvisibleItemsDialogViewModel.cs" />
     <Compile Include="Interfaces\IChooseItemsPageInfo.cs" />
     <Compile Include="Interfaces\ICustomSortColumn.cs" />
+    <Compile Include="Interfaces\IInternalToolboxStateProvider.cs" />
     <Compile Include="Interfaces\IItemDataFactory.cs" />
     <Compile Include="ChooseItemsDialog\ItemDataSource.cs" />
     <Compile Include="ChooseItemsDialog\Internal\ItemDiscoveryService.cs" />
