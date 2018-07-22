@@ -1,41 +1,25 @@
-﻿using System;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.IO;
-using System.Text;
-using System.Windows.Input;
-using System.Windows.Media;
-using Caliburn.Micro;
+using System.Windows;
+using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Extended.Utilities.PaneUtilities;
-using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.Modules.Output
 {
     [Export(typeof(IOutput))]
-    public sealed class OutputViewModel : Tool, IOutput
+    public sealed class OutputViewModel : Tool, IOutput, IOutputWindowDataSource
     {
-        private readonly StringBuilder _stringBuilder;
         private readonly OutputWriter _writer;
-        private IOutputView _view;
-
-        public IOutputView View
-        {
-            get => _view;
-            set
-            {
-                if (Equals(value, _view)) return;
-                _view = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
-        public ICommand ClearCommand => new Command(Clear);
+        private FrameworkElement _activePane;
 
         public OutputViewModel()
         {
             DisplayName = "Output";
-            _stringBuilder = new StringBuilder();
             _writer = new OutputWriter(this);
+
+
+            ActivePane = new TextViewHost(new TextView(), true);
         }
 
         public override PaneLocation PreferredLocation => PaneLocation.Bottom;
@@ -44,35 +28,25 @@ namespace ModernApplicationFramework.Modules.Output
 
         public void Clear()
         {
-            if (_view != null)
-                Execute.OnUIThread(() => _view.Clear());
-            _stringBuilder.Clear();
         }
 
         public void AppendLine(string text)
         {
-            Append(text + Environment.NewLine);
         }
 
         public void Append(string text)
         {
-            _stringBuilder.Append(text);
-            OnTextChanged();
         }
 
-        protected override void OnViewLoaded(object view)
+        public FrameworkElement ActivePane
         {
-            _view = (IOutputView) view;
-            _view.SetText(_stringBuilder.ToString());
-            _view.ScrollToEnd();
+            get => _activePane;
+            set
+            {
+                if (Equals(value, _activePane)) return;
+                _activePane = value;
+                NotifyOfPropertyChange();
+            }
         }
-
-        private void OnTextChanged()
-        {
-            if (_view != null)
-                Execute.OnUIThread(() => _view.SetText(_stringBuilder.ToString()));
-        }
-
-        public override ImageSource IconSource => null;
     }
 }

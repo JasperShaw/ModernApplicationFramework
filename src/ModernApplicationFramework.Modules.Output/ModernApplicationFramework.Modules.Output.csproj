@@ -52,8 +52,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContextMenuDefinition.cs" />
+    <Compile Include="Controls\OutputWindow.xaml.cs">
+      <DependentUpon>OutputWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="IOutput.cs" />
     <Compile Include="IOutputView.cs" />
+    <Compile Include="IOutputWindowDataSource.cs" />
     <Compile Include="MenuDefinitions.cs" />
     <Compile Include="OpenOutputToolCommandDefinition.cs" />
     <Compile Include="OutputView.xaml.cs">
@@ -85,6 +89,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\OutputWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="OutputView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
