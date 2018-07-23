@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Threading;
-using System.Threading.Tasks;
 using Caliburn.Micro;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Controls;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Utilities;
-using Action = System.Action;
 
 namespace ModernApplicationFramework.Basics.Threading
 {
@@ -31,16 +29,6 @@ namespace ModernApplicationFramework.Basics.Threading
         {
             var instance = _instance;
             canceled = instance != null && instance.IsCancelled;
-        }
-
-        public void SetAction(Action action)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetFunction(Func<Task> func)
-        {
-            throw new NotImplementedException();
         }
 
         public void StartWaitDialog(string caption, string waitMessage, string progressText, string statusBarText,

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace ModernApplicationFramework.Interfaces.Controls
+﻿namespace ModernApplicationFramework.Interfaces.Controls
 {
     public interface IWaitDialog
     {
@@ -16,18 +13,6 @@ namespace ModernApplicationFramework.Interfaces.Controls
         /// </summary>
         /// <param name="canceled">if set to <see langword="true"/> the task was canceled by the user.</param>
         void HasCanceled(out bool canceled);
-
-        /// <summary>
-        /// Sets a action.
-        /// </summary>
-        /// <param name="action">The action.</param>
-        void SetAction(Action action);
-
-        /// <summary>
-        /// Sets a function.
-        /// </summary>
-        /// <param name="func">The function.</param>
-        void SetFunction(Func<Task> func);
 
         /// <summary>
         /// Starts the wait dialog and executes the Action/Function.

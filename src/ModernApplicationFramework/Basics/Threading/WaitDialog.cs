@@ -23,7 +23,6 @@ namespace ModernApplicationFramework.Basics.Threading
         private CancellationTokenSource _queueCancellationTokenSource;
         private DialogInitializationArguments _initializationArguments;
 
-        private AsyncQueue<Func<Task>> _operationQueue;
         private readonly WaitDialogService _service;
 
         public bool IsCancelled { get; private set; }
@@ -56,23 +55,19 @@ namespace ModernApplicationFramework.Basics.Threading
             return _sharedInstance;
         }
 
-        public void UpdateDialog(DialogUpdateArguments dialogUpdateArguments)
+        public async void UpdateDialog(DialogUpdateArguments dialogUpdateArguments)
         {
             if (!_isDialogActive)
                 _dialogArguments?.Merge(dialogUpdateArguments);
             else
-                _operationQueue.TryEnqueue(async () =>
-                    await ThreadHelper.Generic.InvokeAsync(() => _service.UpdateDialog(dialogUpdateArguments)));
+                await ThreadHelper.Generic.InvokeAsync(() => _service.UpdateDialog(dialogUpdateArguments));
         }
 
 
-        public void CloseDialog()
+        public async void CloseDialog()
         {
             if (_isDialogActive)
-            {
-                _operationQueue.TryEnqueue(async () =>
-                    await ThreadHelper.Generic.InvokeAsync(() => _service.CloseDialog()));
-            }
+                await ThreadHelper.Generic.InvokeAsync(() => _service.CloseDialog());
         }
 
         public void Show(TimeSpan delayToShowDialog, DialogShowArguments args, IWaitDialogCallback callback)
@@ -85,7 +80,6 @@ namespace ModernApplicationFramework.Basics.Threading
             args.SetActiveWindowArgs(text, activeWindow);
             IsCancelled = false;
             _cancellationCallback = callback;
-
             MafTaskHelper.RunAsync(ShowDialogInternalAsync(delayToShowDialog, args));
         }
 
@@ -97,8 +91,7 @@ namespace ModernApplicationFramework.Basics.Threading
             if (instanceId != _currentInstanceId || !_isInstanceAcquired)
                 return;
             _isDialogActive = true;
-            _operationQueue.TryEnqueue(async () =>
-                await ThreadHelper.Generic.InvokeAsync(() => _service.ShowDialog(showArguments)));
+            await ThreadHelper.Generic.InvokeAsync(() => _service.ShowDialog(showArguments));
         }
 
         protected override void DisposeNativeResources()
@@ -121,37 +114,10 @@ namespace ModernApplicationFramework.Basics.Threading
                 shell.GetAppName(out var appName);
                 _initializationArguments.AppName = appName;
             }
-            if (_operationQueue != null)
-                return;
-            _operationQueue = new AsyncQueue<Func<Task>>();
             _queueCancellationTokenSource = new CancellationTokenSource();
-
             _service.Initialize(_initializationArguments);
-
-            StartProcessMessageQueue();
         }
 
-
-        private void StartProcessMessageQueue()
-        {
-            var queue = _operationQueue;
-            var token = _queueCancellationTokenSource.Token;
-            Task.Run(async () =>
-            {
-                while (!IsDisposed && !token.IsCancellationRequested)
-                {
-                    var operation = await queue.DequeueAsync(token);
-                    try
-                    {
-                        token.ThrowIfCancellationRequested();
-                        await operation();
-                    }
-                    catch
-                    {
-                    }
-                }
-            });
-        }
 
         private void OnDialogCancellation()
         {

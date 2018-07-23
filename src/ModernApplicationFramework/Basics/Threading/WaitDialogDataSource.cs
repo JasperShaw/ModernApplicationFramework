@@ -1,5 +1,4 @@
-﻿using System.Windows.Media;
-using ModernApplicationFramework.Utilities;
+﻿using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Basics.Threading
 {
@@ -13,41 +12,6 @@ namespace ModernApplicationFramework.Basics.Threading
         private bool _isCancellable;
         private int _currentStep;
         private int _totalSteps;
-        private Brush _foregroundColorBrush;
-        private Brush _backgroundColorBrush;
-        private Brush _borderColorBrush;
-        private Brush _captionForegroundColorBrush;
-        private Brush _captionBackgroundColorBrush;
-
-        public Brush ForegroundColorBrush
-        {
-            get => _foregroundColorBrush;
-            set => SetProperty(ref _foregroundColorBrush, value, nameof(ForegroundColorBrush));
-        }
-
-        public Brush BackgroundColorBrush
-        {
-            get => _backgroundColorBrush;
-            set => SetProperty(ref _backgroundColorBrush, value, nameof(BackgroundColorBrush));
-        }
-
-        public Brush BorderColorBrush
-        {
-            get => _borderColorBrush;
-            set => SetProperty(ref _borderColorBrush, value, nameof(BorderColorBrush));
-        }
-
-        public Brush CaptionForegroundColorBrush
-        {
-            get => _captionForegroundColorBrush;
-            set => SetProperty(ref _captionForegroundColorBrush, value, nameof(CaptionForegroundColorBrush));
-        }
-
-        public Brush CaptionBackgroundColorBrush
-        {
-            get => _captionBackgroundColorBrush;
-            set => SetProperty(ref _captionBackgroundColorBrush, value, nameof(CaptionBackgroundColorBrush));
-        }
 
         public string Caption
         {

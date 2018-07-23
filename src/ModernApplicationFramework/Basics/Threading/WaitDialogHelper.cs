@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using System.Threading.Tasks;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Controls;
 using ModernApplicationFramework.Interfaces.Services;
@@ -32,61 +31,6 @@ namespace ModernApplicationFramework.Basics.Threading
             Validate.IsNotNull(dialog, nameof(dialog));
             dialog.EndWaitDialog(out var canceled);
             return canceled;
-        }
-
-        /// <summary>
-        /// Starts the wait dialog and executes the task.
-        /// </summary>
-        /// <param name="factory">The factory.</param>
-        /// <param name="asyncFunc">The asynchronous function.</param>
-        /// <param name="waitCaption">The caption of the dialog.</param>
-        /// <param name="initialProgress">The initial progress.</param>
-        /// <param name="delayToShowDialog">The delay to show the dialog.</param>
-        public static void StartWaitDialog(this IWaitDialogFactory factory,
-            Func<IProgress<WaitDialogProgressData>, CancellationToken, Task> asyncFunc, string waitCaption,
-            WaitDialogProgressData initialProgress = null, TimeSpan delayToShowDialog = default)
-        {
-            var instance = factory.CreateInstance();
-            var session = CreateSession(instance);
-            instance.SetFunction(() => asyncFunc(session.Progress, session.UserCancellationToken));
-            instance.StartWaitDialogWithCallback(
-                waitCaption,
-                initialProgress?.WaitMessage,
-                initialProgress?.ProgressText,
-                initialProgress?.StatusBarText,
-                initialProgress != null && initialProgress.IsCancelable,
-                (int) delayToShowDialog.TotalSeconds,
-                true, initialProgress?.TotalSteps ?? 0,
-                initialProgress?.CurrentStep ?? 0,
-                session.Callback);
-        }
-
-
-        /// <summary>
-        /// Starts the wait dialog and executes the task.
-        /// </summary>
-        /// <param name="factory">The factory.</param>
-        /// <param name="asyncFunc">The asynchronous function.</param>
-        /// <param name="waitCaption">The caption of the dialog.</param>
-        /// <param name="initialProgress">The initial progress.</param>
-        /// <param name="delayToShowDialog">The delay to show the dialog.</param>
-        public static void StartWaitDialog(this IWaitDialogFactory factory,
-            Func<IProgress<WaitDialogProgressData>, Task> asyncFunc, string waitCaption,
-            WaitDialogProgressData initialProgress = null, TimeSpan delayToShowDialog = default(TimeSpan))
-        {
-            var instance = factory.CreateInstance();
-            var session = CreateSession(instance);
-            instance.SetFunction(() => asyncFunc(session.Progress));
-            instance.StartWaitDialogWithCallback(
-                waitCaption,
-                initialProgress?.WaitMessage,
-                initialProgress?.ProgressText,
-                initialProgress?.StatusBarText,
-                initialProgress != null && initialProgress.IsCancelable,
-                (int) delayToShowDialog.TotalSeconds,
-                true, initialProgress?.TotalSteps ?? 0,
-                initialProgress?.CurrentStep ?? 0,
-                session.Callback);
         }
 
         public static Session StartWaitDialog(this IWaitDialogFactory factory, string waitCatption,

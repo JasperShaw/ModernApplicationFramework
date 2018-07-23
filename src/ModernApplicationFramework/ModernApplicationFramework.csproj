@@ -245,11 +245,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Basics\Threading\AsyncQueue.cs" />
-    <Compile Include="Basics\Threading\LightUps.cs" />
-    <Compile Include="Basics\Threading\TaskCompletionSourceWithoutInlining.cs" />
+    <Compile Include="Basics\Threading\DialogInitializationArguments.cs" />
+    <Compile Include="Basics\Threading\DialogShowArguments.cs" />
+    <Compile Include="Basics\Threading\DialogUpdateArguments.cs" />
+    <Compile Include="Basics\Threading\GenericThreadHelper.cs" />
     <Compile Include="Basics\Threading\ThreadHelper.cs" />
-    <Compile Include="Basics\Threading\ThreadingTools.cs" />
     <Compile Include="Basics\Threading\WaitDialog.cs" />
     <Compile Include="Basics\Threading\WaitDialogDataSource.cs" />
     <Compile Include="Basics\Threading\WaitDialogService.cs" />
@@ -540,7 +540,6 @@
       <DependentUpon>TextInputDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Dialogs\TextInputViewModel.cs" />
-    <Compile Include="Controls\Dialogs\WaitDialog.cs" />
     <Compile Include="Controls\Utilities\HelperMethods.cs" />
     <Compile Include="Interfaces\Services\ILanguageManager.cs" />
     <Compile Include="Core\Utilities\RegistryTools.cs" />
@@ -1163,10 +1162,6 @@
     <Page Include="Themes\Generic\ToolbarHostControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Generic\Dialogs\WaitDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
