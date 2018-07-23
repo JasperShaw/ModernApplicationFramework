@@ -59,6 +59,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.Extended.Demo.ImageCatalog", "samples\ModernApplicationFramework.Extended.Demo.ImageCatalog\ModernApplicationFramework.Extended.Demo.ImageCatalog.csproj", "{0C253408-42AE-4698-83BC-48347F8E5357}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.TextEditor", "ModernApplicationFramework.TextEditor\ModernApplicationFramework.TextEditor.csproj", "{02E01928-3C7B-4428-9F68-7DB8B932C24E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -165,6 +167,10 @@ Global
 		{0C253408-42AE-4698-83BC-48347F8E5357}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C253408-42AE-4698-83BC-48347F8E5357}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C253408-42AE-4698-83BC-48347F8E5357}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02E01928-3C7B-4428-9F68-7DB8B932C24E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02E01928-3C7B-4428-9F68-7DB8B932C24E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02E01928-3C7B-4428-9F68-7DB8B932C24E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02E01928-3C7B-4428-9F68-7DB8B932C24E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -195,6 +201,7 @@ Global
 		{A011F6F0-84AD-41EE-A920-A599B695855F} = {4D1C8100-FF4F-4F76-B4F3-AA904214A46E}
 		{D8B696A7-BA7D-4762-8C34-13B7F212074F} = {4D1C8100-FF4F-4F76-B4F3-AA904214A46E}
 		{0C253408-42AE-4698-83BC-48347F8E5357} = {6930D16E-6FB9-4292-B9D4-55E4E9C458B9}
+		{02E01928-3C7B-4428-9F68-7DB8B932C24E} = {4D1C8100-FF4F-4F76-B4F3-AA904214A46E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3A9B2099-61B4-452F-BF63-91B31A07DD83}
