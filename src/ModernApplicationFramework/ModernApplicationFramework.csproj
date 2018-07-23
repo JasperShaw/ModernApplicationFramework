@@ -88,6 +88,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\Windows\WaitDialogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\BlueTheme.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -241,8 +245,20 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Basics\Threading\AsyncQueue.cs" />
+    <Compile Include="Basics\Threading\LightUps.cs" />
+    <Compile Include="Basics\Threading\TaskCompletionSourceWithoutInlining.cs" />
+    <Compile Include="Basics\Threading\ThreadHelper.cs" />
+    <Compile Include="Basics\Threading\ThreadingTools.cs" />
+    <Compile Include="Basics\Threading\WaitDialog.cs" />
+    <Compile Include="Basics\Threading\WaitDialogDataSource.cs" />
+    <Compile Include="Basics\Threading\WaitDialogService.cs" />
+    <Compile Include="Basics\Threading\WaitDialogServiceWrapper.cs" />
     <Compile Include="Controls\TextView.cs" />
     <Compile Include="Controls\TextViewHost.cs" />
+    <Compile Include="Controls\Windows\WaitDialogWindow.xaml.cs">
+      <DependentUpon>WaitDialogWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Core\Converters\General\BooleanToHiddenVisibilityConverter.cs" />
     <Compile Include="Docking\Commands\AutoHideAllWindowsCommand.cs" />
     <Compile Include="Docking\Commands\AutoHideWindowCommand.cs" />
@@ -750,6 +766,7 @@
     <Compile Include="Native\Platform\Enums\WindowStyles.cs" />
     <Compile Include="Native\Platform\Structs\BrowseInfo.cs" />
     <Compile Include="Native\Platform\Structs\ComdlgFilterspec.cs" />
+    <Compile Include="Native\Platform\Structs\GuiThreadInfo.cs" />
     <Compile Include="Native\Platform\Structs\LargeInteger.cs" />
     <Compile Include="Native\Platform\Structs\Propertykey.cs" />
     <Compile Include="Native\Platform\Structs\ShFileInfo.cs" />
@@ -775,6 +792,7 @@
     <Compile Include="Native\Shell\Win32Resources.cs" />
     <Compile Include="Native\Standard\ErrorCodes.cs" />
     <Compile Include="Core\Themes\ThemeManager.cs" />
+    <Compile Include="Native\Standard\PrivateErrorHelpers.cs" />
     <Compile Include="Native\TrinetCoreNtfs\AlternateDataStreamInfo.cs" />
     <Compile Include="Native\TrinetCoreNtfs\FileStreamAttributes.cs" />
     <Compile Include="Native\TrinetCoreNtfs\FileStreamType.cs" />

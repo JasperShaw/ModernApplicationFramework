@@ -39,7 +39,7 @@ namespace ModernApplicationFramework.Basics.Threading
 
         public WaitDialogProgressData(string waitMessage, string progressText = null, string statusBarText = null,
             bool isCancelable = false)
-            : this(waitMessage, progressText, statusBarText, isCancelable, 0, 0)
+            : this(waitMessage, progressText, statusBarText, isCancelable, 0, -1)
         {
         }
 

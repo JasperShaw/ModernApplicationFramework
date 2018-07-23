@@ -22,7 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -32,7 +32,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <ItemGroup>
@@ -132,6 +132,7 @@
     <Compile Include="TreeViewItemExtensions.cs" />
     <Compile Include="TypeArray.cs" />
     <Compile Include="TypeUtilities.cs" />
+    <Compile Include="UnsafeHelpers.cs" />
     <Compile Include="Validate.cs" />
     <Compile Include="ValueExtension.cs" />
     <Compile Include="WeakCollectionT.cs" />

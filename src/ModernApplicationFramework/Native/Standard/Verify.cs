@@ -339,5 +339,11 @@ namespace ModernApplicationFramework.Native.Standard
                         interfaceType.ToString()), parameterName);
             }
         }
+
+        [DebuggerStepThrough]
+        public static Exception FailOperation(string message, params object[] args)
+        {
+            throw new InvalidOperationException(PrivateErrorHelpers.Format(message, args));
+        }
     }
 }

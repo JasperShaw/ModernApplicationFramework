@@ -285,5 +285,33 @@ namespace ModernApplicationFramework.Native.NativeMethods
 
         [DllImport("user32.dll")]
         public static extern IntPtr GetCapture();
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetProp(IntPtr hwnd, string propName, IntPtr value);
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetForegroundWindow();
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        public static extern int GetClassName(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
+
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        public static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        public static extern int GetWindowTextLength(IntPtr hWnd);
+
+        public static string GetWindowText(IntPtr hwnd)
+        {
+            var lpString = new StringBuilder(GetWindowTextLength(hwnd) + 1);
+            GetWindowText(hwnd, lpString, lpString.Capacity);
+            return lpString.ToString();
+        }
+
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetGUIThreadInfo(uint idThread, out GuiThreadInfo lpgui);
     }
 }

@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using ModernApplicationFramework.Interfaces.Services;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Basics.Threading
 {
@@ -41,21 +43,21 @@ namespace ModernApplicationFramework.Basics.Threading
             TimeSpan? delayToShowDialog = null)
         {
             var data = new WaitDialogProgressData(message);
-            return await Run(title, data, (progress, cancellation) => task(progress), false, delayToShowDialog ?? TimeSpan.FromSeconds(2));
+            return await Run(title, data, (progress, cancellation) => task(progress), data.IsCancelable, delayToShowDialog ?? TimeSpan.FromSeconds(2));
         }
 
         public static async Task<TaskResult> Run(string title, string message, Func<CancellationToken, Task> task,
             TimeSpan? delayToShowDialog = null)
         {
             var data = new WaitDialogProgressData(message);
-            return await Run(title, data, (progress, cancellation) => task(cancellation), true, delayToShowDialog ?? TimeSpan.FromSeconds(2));
+            return await Run(title, data, (progress, cancellation) => task(cancellation), data.IsCancelable, delayToShowDialog ?? TimeSpan.FromSeconds(2));
         }
 
         public static async Task<TaskResult> Run(string title, string message, Func<Task> task,
             TimeSpan? delayToShowDialog = null)
         {
             var data = new WaitDialogProgressData(message);
-            return await Run(title, data, (progress, cancellation) => task(), false, delayToShowDialog ?? TimeSpan.FromSeconds(2));
+            return await Run(title, data, (progress, cancellation) => task(), data.IsCancelable, delayToShowDialog ?? TimeSpan.FromSeconds(2));
         }
 
 
@@ -69,7 +71,7 @@ namespace ModernApplicationFramework.Basics.Threading
 
             var session = WaitDialogHelper.CreateSession(window);
             window.StartWaitDialogWithCallback(title, progressData.WaitMessage, progressData.ProgressText,
-                progressData.StatusBarText, cancelable, waitSeconds, true, 0, 0,
+                progressData.StatusBarText, cancelable, waitSeconds, true, progressData.TotalSteps, progressData.CurrentStep,
                 session.Callback);
 
             await Task.Run(async () => await task(session.Progress, session.UserCancellationToken));
@@ -88,14 +90,14 @@ namespace ModernApplicationFramework.Basics.Threading
         public static async Task<TaskResult> Run<T>(string title, string message, Func<T, Task> task, T param, TimeSpan? delayToShowDialog = null)
         {
             var data = new WaitDialogProgressData(message);
-            return await Run(title, data, (p1, progress, cancellation) => task(p1), param, false, delayToShowDialog ?? TimeSpan.FromSeconds(2));
+            return await Run(title, data, (p1, progress, cancellation) => task(p1), param, data.IsCancelable, delayToShowDialog ?? TimeSpan.FromSeconds(2));
         }
 
         public static async Task<TaskResult> Run<T>(string title, string message, Func<T, IProgress<WaitDialogProgressData>, Task> task, T param,
             TimeSpan? delayToShowDialog = null)
         {
             var data = new WaitDialogProgressData(message);
-            return await Run(title, data, (p1, progress, cancellation) => task(p1, progress), param, false, delayToShowDialog ?? TimeSpan.FromSeconds(2));
+            return await Run(title, data, (p1, progress, cancellation) => task(p1, progress), param, data.IsCancelable, delayToShowDialog ?? TimeSpan.FromSeconds(2));
         }
 
         public static async Task<TaskResult> Run<T>(string title, string message, Func<T, CancellationToken, Task> task, T param,
@@ -104,5 +106,48 @@ namespace ModernApplicationFramework.Basics.Threading
             var data = new WaitDialogProgressData(message);
             return await Run(title, data, (p1, progress, cancellation) => task(p1, cancellation), param, true, delayToShowDialog ?? TimeSpan.FromSeconds(2));
         }
+
+        public static void RunAsync(Task task)
+        {
+            Validate.IsNotNull(task, nameof(task));
+            RunAsync(async () =>
+            {
+                try
+                {
+                    await task.ConfigureAwait(false);
+                }
+                catch
+                {
+                    // Ignored
+                }
+            });
+        }
+
+        public static async void RunAsync(Func<Task> task)
+        {
+            Validate.IsNotNull(task, nameof(task));
+
+            Task wrappedTask;
+            try
+            {
+                wrappedTask = task();
+            }
+            catch (Exception ex)
+            {
+                TaskCompletionSource<EmptyStruct> completionSource = new TaskCompletionSource<EmptyStruct>();
+                completionSource.SetException(ex);
+                wrappedTask = completionSource.Task;
+            }
+
+            var none = CancellationToken.None;
+
+            await Task.Run(() => wrappedTask, none);
+        }
+    }
+
+    [StructLayout(LayoutKind.Sequential, Size = 1)]
+    internal struct EmptyStruct
+    {
+        internal static EmptyStruct Instance => new EmptyStruct();
     }
 }

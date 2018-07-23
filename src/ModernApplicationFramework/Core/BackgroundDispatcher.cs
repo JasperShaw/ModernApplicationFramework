@@ -23,7 +23,7 @@ namespace ModernApplicationFramework.Core
 
         public static Dispatcher GetBackgroundDispatcher(string dispatcherName, int stackSize = 0)
         {
-            Validate.IsNotNullAndNotEmpty(dispatcherName, "dispatcherName");
+            Validate.IsNotNullAndNotEmpty(dispatcherName, nameof(dispatcherName));
             lock (SDispatchers)
             {
                 foreach (var dispatcher in SDispatchers)
@@ -37,18 +37,16 @@ namespace ModernApplicationFramework.Core
 
         private void CreateDispatcher(int stackSize)
         {
-            var thread1 = new Thread(ThreadProc, stackSize)
+            Thread thread = new Thread(ThreadProc, stackSize)
             {
                 IsBackground = true,
                 CurrentCulture = CultureInfo.CurrentCulture,
-                CurrentUICulture = CultureInfo.CurrentUICulture
+                CurrentUICulture = CultureInfo.CurrentUICulture,
+                Name = _name
             };
-            var name = _name;
-            thread1.Name = name;
-            var thread2 = thread1;
-            thread2.SetApartmentState(ApartmentState.STA);
+            thread.SetApartmentState(ApartmentState.STA);
             var manualResetEvent = new ManualResetEvent(false);
-            thread2.Start(manualResetEvent);
+            thread.Start(manualResetEvent);
             manualResetEvent.WaitOne();
             HookEvents();
         }

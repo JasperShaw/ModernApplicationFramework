@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.Composition;
-using ModernApplicationFramework.Controls.Dialogs;
+using ModernApplicationFramework.Basics.Threading;
 using ModernApplicationFramework.Interfaces.Controls;
 using ModernApplicationFramework.Interfaces.Services;
 
@@ -14,7 +14,7 @@ namespace ModernApplicationFramework.Basics.Services
         /// <param name="waitDialog">The wait dialog.</param>
         public void CreateInstance(out IWaitDialog waitDialog)
         {
-            waitDialog = new WaitDialog();
+            waitDialog = new WaitDialogServiceWrapper();
         }
     }
 }
