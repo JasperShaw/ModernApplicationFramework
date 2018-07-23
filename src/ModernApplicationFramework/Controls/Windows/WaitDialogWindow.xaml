@@ -13,7 +13,7 @@
     <FrameworkElement.Resources>
         <BooleanToVisibilityConverter x:Key="VisibilityConverter"/>
     </FrameworkElement.Resources>
-    <Border BorderThickness="1" BorderBrush="Red">
+    <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static themes:EnvironmentColors.WaitDialogActiveShadowAndBorder}}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>

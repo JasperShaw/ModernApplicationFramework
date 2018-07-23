@@ -406,8 +406,7 @@ namespace ModernApplicationFramework.Core.Themes
         private static ComponentResourceKey _documentPaneControlButtonBorderDown;
 
         //WaitDialog
-        private static ComponentResourceKey _waitDialogActiveShadowAndBorderColor;
-        private static ComponentResourceKey _waitDialogInactiveShadowAndBorderColor;
+        private static ComponentResourceKey _waitDialogActiveShadowAndBorder;
         private static ComponentResourceKey _waitDialogTitleBarBackground;
         private static ComponentResourceKey _waitDialogTitleBarForeground;
         private static ComponentResourceKey _waitDialogMessageForeground;
@@ -974,11 +973,8 @@ namespace ModernApplicationFramework.Core.Themes
 
         #region WaitDialog
 
-        public static ComponentResourceKey WaitDialogActiveShadowAndBorderColor => _waitDialogActiveShadowAndBorderColor ??
-                                                            (_waitDialogActiveShadowAndBorderColor = new ComponentResourceKey(typeof(EnvironmentColors), "WaitDialogActiveShadowAndBorderColor"));
-
-        public static ComponentResourceKey WaitDialogInactiveShadowAndBorderColor => _waitDialogInactiveShadowAndBorderColor ??
-                                                            (_waitDialogInactiveShadowAndBorderColor = new ComponentResourceKey(typeof(EnvironmentColors), "WaitDialogInactiveShadowAndBorderColor"));
+        public static ComponentResourceKey WaitDialogActiveShadowAndBorder => _waitDialogActiveShadowAndBorder ??
+                                                            (_waitDialogActiveShadowAndBorder = new ComponentResourceKey(typeof(EnvironmentColors), "WaitDialogActiveShadowAndBorder"));
 
         public static ComponentResourceKey WaitDialogTitleBarBackground => _waitDialogTitleBarBackground ??
                                                             (_waitDialogTitleBarBackground = new ComponentResourceKey(typeof(EnvironmentColors), "WaitDialogTitleBarBackground"));

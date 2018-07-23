@@ -993,12 +993,9 @@
     
     <!--WaitDialog-->
     
-    <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
-                     ResourceId=WaitDialogActiveShadowAndBorderColor}" A="255" R="155" G="159" B="185"/>
-    
-    <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
-                     ResourceId=WaitDialogInactiveShadowAndBorderColor}" A="255" R="204" G="206" B="219"/>
-    
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=WaitDialogActiveShadowAndBorder}" Color="#FF9B9FB9"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
                      ResourceId=WaitDialogTitleBarBackground}" Color="#FFEEEEF2"/>
     
