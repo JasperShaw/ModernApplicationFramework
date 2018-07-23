@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 
-namespace ModernApplicationFramework.Controls
+namespace ModernApplicationFramework.TextEditor
 {
     public class TextViewHost : ContentControl, ITextViewHost
     {
@@ -116,19 +116,5 @@ namespace ModernApplicationFramework.Controls
             return (T) Application.LoadComponent(new Uri(
                 "/" + Assembly.GetExecutingAssembly().GetName().Name + ";component/" + xamlName, UriKind.Relative));
         }
-    }
-
-    public interface ITextViewHost
-    {
-        event EventHandler Closed;
-
-        bool IsClosed { get; }
-
-        Control HostControl { get; }
-
-        ITextView TextView { get; }
-
-        void Close();
-
     }
 }

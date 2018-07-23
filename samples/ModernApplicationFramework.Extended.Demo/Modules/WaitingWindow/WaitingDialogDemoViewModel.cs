@@ -72,7 +72,6 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.WaitingWindow
         {
             var f = IoC.Get<IWaitDialogFactory>(); ;
             f.CreateInstance(out var window);
-            window.SetAction(NormalMethod);
             window.StartWaitDialog("Wait", "Wait", "Wait", string.Empty, 2, false, true);
         }
 

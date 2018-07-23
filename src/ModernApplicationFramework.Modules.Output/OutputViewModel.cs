@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.Composition;
 using System.IO;
 using System.Windows;
-using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Extended.Utilities.PaneUtilities;
+using ModernApplicationFramework.TextEditor;
 
 namespace ModernApplicationFramework.Modules.Output
 {

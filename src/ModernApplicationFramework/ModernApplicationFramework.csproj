@@ -100,10 +100,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\Generic\EditorResources.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Themes\Generic\SearchControlColors.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -254,8 +250,6 @@
     <Compile Include="Basics\Threading\WaitDialogDataSource.cs" />
     <Compile Include="Basics\Threading\WaitDialogService.cs" />
     <Compile Include="Basics\Threading\WaitDialogServiceWrapper.cs" />
-    <Compile Include="Controls\TextView.cs" />
-    <Compile Include="Controls\TextViewHost.cs" />
     <Compile Include="Controls\Windows\WaitDialogWindow.xaml.cs">
       <DependentUpon>WaitDialogWindow.xaml</DependentUpon>
     </Compile>

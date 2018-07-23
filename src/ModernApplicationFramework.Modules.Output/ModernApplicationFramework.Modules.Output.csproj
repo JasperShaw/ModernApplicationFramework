@@ -99,6 +99,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ModernApplicationFramework.TextEditor\ModernApplicationFramework.TextEditor.csproj">
+      <Project>{02E01928-3C7B-4428-9F68-7DB8B932C24E}</Project>
+      <Name>ModernApplicationFramework.TextEditor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework.Extended.CommandBar\ModernApplicationFramework.Extended.CommandBar.csproj">
       <Project>{e3f05145-f9a9-42a4-b67d-ade61980b20a}</Project>
       <Name>ModernApplicationFramework.Extended.CommandBar</Name>
