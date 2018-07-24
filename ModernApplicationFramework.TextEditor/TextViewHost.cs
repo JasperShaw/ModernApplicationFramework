@@ -7,10 +7,11 @@ using System.Windows.Threading;
 
 namespace ModernApplicationFramework.TextEditor
 {
-    public class TextViewHost : ContentControl, ITextViewHost
+    internal class TextViewHost : ContentControl, ITextViewHost
     {
         private bool _isClosed;
         private readonly bool _setFocus;
+        private readonly TextEditorFactoryService _factory;
         private bool _readOnly;
         private bool _hasInitializeBeenCalled;
         private Grid _outerGrid;
@@ -33,12 +34,13 @@ namespace ModernApplicationFramework.TextEditor
 
         internal bool IsTextViewHostInitialized => _hasInitializeBeenCalled;
 
-        public TextViewHost(ITextView textView,bool setFocus, bool initialize = true)
+        public TextViewHost(ITextView textView, bool setFocus, TextEditorFactoryService factory, bool initialize = true)
         {
             InputMethod.SetIsInputMethodSuspended(this, true);
             Name = nameof(TextViewHost);
             _textView = textView;
             _setFocus = setFocus;
+            _factory = factory;
             if (!initialize)
                 return;
             Initialize();

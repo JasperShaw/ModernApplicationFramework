@@ -32,6 +32,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.0.34.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.Immutable.1.0.34\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,9 +51,43 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdornmentLayerDefinition.cs" />
     <Compile Include="BackgroundBrushChangedEventArgs.cs" />
+    <Compile Include="ExtensionErrorHandler.cs" />
+    <Compile Include="IContentTypeMetadata.cs" />
+    <Compile Include="IGuardedOperations.cs" />
+    <Compile Include="INameAndReplacesMetadata.cs" />
+    <Compile Include="INamedContentTypeMetadata.cs" />
+    <Compile Include="Text\BaseSnapshot.cs" />
+    <Compile Include="Text\BinaryStringRebuilder.cs" />
+    <Compile Include="Text\BufferFactoryService.cs" />
+    <Compile Include="ContentType.cs" />
+    <Compile Include="ContentTypeDefinition.cs" />
+    <Compile Include="ContentTypeRegistry.cs" />
+    <Compile Include="IAdornmentLayersMetadata.cs" />
+    <Compile Include="IContentType.cs" />
+    <Compile Include="IContentTypeDefinitionMetadata.cs" />
+    <Compile Include="IContentTypeRegistryService.cs" />
+    <Compile Include="IFormattedLine.cs" />
+    <Compile Include="ILineBreaks.cs" />
+    <Compile Include="ILineBreaksEditor.cs" />
+    <Compile Include="ITextBuffer.cs" />
+    <Compile Include="ITextBufferFactoryService.cs" />
+    <Compile Include="ITextChange.cs" />
+    <Compile Include="ITextChange2.cs" />
+    <Compile Include="ITextChange3.cs" />
+    <Compile Include="ITextDataModel.cs" />
+    <Compile Include="ITextEditorFactoryService.cs" />
+    <Compile Include="ITextSnapshot.cs" />
+    <Compile Include="ITextVersion.cs" />
     <Compile Include="ITextView.cs" />
     <Compile Include="ITextViewHost.cs" />
+    <Compile Include="ITextViewLine.cs" />
+    <Compile Include="ITextViewLineCollection.cs" />
+    <Compile Include="ITextViewModel.cs" />
+    <Compile Include="LineBreakManager.cs" />
+    <Compile Include="Markers.cs" />
+    <Compile Include="PointTrackingMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -63,14 +101,76 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="SnapshotPoint.cs" />
+    <Compile Include="SnapshotSpan.cs" />
+    <Compile Include="Span.cs" />
+    <Compile Include="SpanTrackingMode.cs" />
+    <Compile Include="Text\Differencing\CharacterDecompositionList.cs" />
+    <Compile Include="Text\Differencing\DefaultTextDifferencingService.cs" />
+    <Compile Include="Text\Differencing\DiffChange.cs" />
+    <Compile Include="Text\Differencing\DiffChangeCollectionHelper.cs" />
+    <Compile Include="Text\Differencing\DiffChangeHelper.cs" />
+    <Compile Include="Text\Differencing\DiffChangeType.cs" />
+    <Compile Include="Text\Differencing\Difference.cs" />
+    <Compile Include="Text\Differencing\ContinueProcessingPredicate.cs" />
+    <Compile Include="Text\Differencing\DetermineLocalityCallback.cs" />
+    <Compile Include="Text\Differencing\DifferenceCollection.cs" />
+    <Compile Include="Text\Differencing\DifferenceType.cs" />
+    <Compile Include="Text\Differencing\DiffFinder.cs" />
+    <Compile Include="Text\Differencing\HierarchicalDifferenceCollection.cs" />
+    <Compile Include="Text\Differencing\IDiffChange.cs" />
+    <Compile Include="Text\Differencing\IDifferenceService.cs" />
+    <Compile Include="Text\Differencing\ITokenizedStringListInternal.cs" />
+    <Compile Include="Text\Differencing\LcsDiff.cs" />
+    <Compile Include="Text\Differencing\LineDecompositionList.cs" />
+    <Compile Include="Text\Differencing\Match.cs" />
+    <Compile Include="Text\Differencing\MaximalSubsequenceAlgorithm.cs" />
+    <Compile Include="Text\Differencing\SnapshotLineList.cs" />
+    <Compile Include="Text\Differencing\StringDifferenceOptions.cs" />
+    <Compile Include="Text\Differencing\StringDifferenceTypes.cs" />
+    <Compile Include="Text\Differencing\TextDifferencingSelectorService.cs" />
+    <Compile Include="Text\Differencing\TokenizedStringList.cs" />
+    <Compile Include="Text\Differencing\WordDecompositionList.cs" />
+    <Compile Include="Text\Differencing\WordSplitBehavior.cs" />
+    <Compile Include="Text\Differencing\ITextDifferencingSelectorService.cs" />
+    <Compile Include="Text\Differencing\WrappedLineDifferenceCollection.cs" />
+    <Compile Include="Text\IDifferenceCollection.cs" />
+    <Compile Include="Text\IHierarchicalDifferenceCollection.cs" />
+    <Compile Include="Text\ITextDifferencingService.cs" />
+    <Compile Include="Text\ITextSnapshotLine.cs" />
+    <Compile Include="Text\ITokenizedStringList.cs" />
+    <Compile Include="Text\StringRebuilder.cs" />
+    <Compile Include="TextBounds.cs" />
+    <Compile Include="TextBuffer.cs" />
+    <Compile Include="TextBufferCreatedEventArgs.cs" />
     <Compile Include="TextContentLayer.cs" />
+    <Compile Include="TextDataModel.cs" />
+    <Compile Include="TextModelOptions.cs" />
+    <Compile Include="TextUtilities.cs" />
     <Compile Include="TextView.cs" />
+    <Compile Include="TextViewCreatedEventArgs.cs" />
     <Compile Include="TextViewHost.cs" />
+    <Compile Include="TextViewLineCollection.cs" />
+    <Compile Include="Text\StringRebuilderForChars.cs" />
+    <Compile Include="Text\StringRebuilderForString.cs" />
+    <Compile Include="Text\TextSnapshotLine.cs" />
+    <Compile Include="Tracking.cs" />
+    <Compile Include="Text\UnaryStringRebuilder.cs" />
+    <Compile Include="Utilities\ExtensionSelector.cs" />
+    <Compile Include="Utilities\FrugalList.cs" />
+    <Compile Include="Utilities\GuardedOperations.cs" />
+    <Compile Include="Utilities\IExtensionErrorHandler.cs" />
+    <Compile Include="VacuousTextDataModel.cs" />
+    <Compile Include="VacuousTextViewModel.cs" />
+    <Compile Include="ViewRelativePosition.cs" />
     <Compile Include="ViewStack.cs" />
+    <Compile Include="TextEditorFactoryService.cs" />
+    <Compile Include="VisibilityState.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -81,6 +181,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\src\ModernApplicationFramework.Utilities\ModernApplicationFramework.Utilities.csproj">
+      <Project>{2B388979-5B07-4F0A-A302-0C575AAA21C0}</Project>
+      <Name>ModernApplicationFramework.Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

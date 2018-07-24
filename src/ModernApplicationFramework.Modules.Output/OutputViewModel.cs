@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using System.IO;
 using System.Windows;
+using Caliburn.Micro;
 using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Extended.Utilities.PaneUtilities;
 using ModernApplicationFramework.TextEditor;
@@ -18,8 +19,12 @@ namespace ModernApplicationFramework.Modules.Output
             DisplayName = "Output";
             _writer = new OutputWriter(this);
 
+            var factory = IoC.Get<ITextEditorFactoryService>();
 
-            ActivePane = new TextViewHost(new TextView(), true);
+            var view = factory.CreateTextView();
+            var host = factory.CreateTextViewHost(view, true);
+
+            ActivePane = host.HostControl;
         }
 
         public override PaneLocation PreferredLocation => PaneLocation.Bottom;
