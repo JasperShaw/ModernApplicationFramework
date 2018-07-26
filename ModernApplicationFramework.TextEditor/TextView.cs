@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Threading;
 using ModernApplicationFramework.Utilities.Attributes;
 
 namespace ModernApplicationFramework.TextEditor
@@ -34,6 +35,10 @@ namespace ModernApplicationFramework.TextEditor
         private TextViewLineCollection _textViewLinesCollection;
         private double _viewportLeft;
         private double _viewportTop;
+        private bool _layoutNeeded;
+        private ITextViewRoleSet _roles;
+
+        internal List<Span> _invalidatedSpans = new List<Span>();
 
         private ITextBuffer _textBuffer;
         private ITextBuffer _visualBuffer;
@@ -48,6 +53,15 @@ namespace ModernApplicationFramework.TextEditor
 
         [ThreadStatic]
         private static TextView ViewWithAggregateFocus;
+
+        private ITextSnapshot _textSnapshot;
+        private ITextSnapshot _visualSnapshot;
+        private bool _queuedLayout;
+        private bool _inOuterLayout;
+        private IFormattedLineSource _formattedLineSource;
+        private IBufferGraph _bufferGraph;
+        private bool _inInnerLayout;
+        private IEditorOptions _editorOptions;
 
         public event EventHandler<BackgroundBrushChangedEventArgs> BackgroundBrushChanged;
         public event EventHandler ViewportLeftChanged;
@@ -105,6 +119,8 @@ namespace ModernApplicationFramework.TextEditor
         public FrameworkElement ManipulationLayer => _manipulationLayer;
 
         public ITextDataModel TextDataModel { get; }
+        public IBufferGraph BufferGraph => _bufferGraph;
+        public IEditorOptions Options => _editorOptions;
 
         public ITextViewModel TextViewModel { get; }
 
@@ -138,15 +154,24 @@ namespace ModernApplicationFramework.TextEditor
             }
         }
 
+        public bool InLayout => _inInnerLayout;
+
+        public ITextViewRoleSet Roles => _roles;
+
         internal bool IsTextViewInitialized => _hasInitializeBeenCalled;
 
-        public TextView(ITextViewModel textViewModel, TextEditorFactoryService factoryService, bool initialize = true)
+        public TextView(ITextViewModel textViewModel, ITextViewRoleSet roles, IEditorOptions parentOptions,  TextEditorFactoryService factoryService, bool initialize = true)
         {
+            _roles = roles;
             _factoryService = factoryService;
             TextDataModel = textViewModel.DataModel;
             TextViewModel = textViewModel;
             _textBuffer = textViewModel.EditBuffer;
             _visualBuffer = textViewModel.VisualBuffer;
+            _textSnapshot = _textBuffer.CurrentSnapshot;
+            _visualSnapshot = _visualBuffer.CurrentSnapshot;
+            _editorOptions = _factoryService.EditorOptionsFactoryService.GetOptions(this);
+            _editorOptions.Parent = parentOptions;
             if (!initialize)
                 return;
             Initialize();
@@ -161,6 +186,7 @@ namespace ModernApplicationFramework.TextEditor
 
             InputMethod.SetIsInputMethodSuspended(this, true);
             AllowDrop = true;
+            _bufferGraph = _factoryService.BufferGraphFactoryService.CreateBufferGraph(TextViewModel.VisualBuffer);
 
             _immHook = WndProc;
 
@@ -171,13 +197,34 @@ namespace ModernApplicationFramework.TextEditor
             InitializeLayers();
             Loaded += OnLoaded;
 
-            SubscribeToEvents();
+            SetClearTypeHint();
 
+            SubscribeToEvents();
+            BindContentTypeSpecificAssets(null, TextViewModel.DataModel.ContentType);
+            _visualBuffer.ChangedLowPriority += OnVisualBufferChanged;
+            _visualBuffer.ContentTypeChanged += OnVisualBufferContentTypeChanged;
             PerformLayout(_textBuffer.CurrentSnapshot, _visualBuffer.CurrentSnapshot);
+            lock (_invalidatedSpans)
+                _invalidatedSpans.Add(new Span(0, _visualSnapshot.Length));
 
             _inConstructor = false;
-
+            QueueLayout();
             _hasInitializeBeenCalled = true;
+        }
+
+        internal void QueueLayout()
+        {
+            _layoutNeeded = true;
+            if (_queuedLayout || !IsVisible)
+                return;
+            _queuedLayout = true;
+            Dispatcher.BeginInvoke((Action) (() =>
+            {
+                _queuedLayout = false;
+                if (_isClosed || !_layoutNeeded || (!IsVisible || _textSnapshot != _textBuffer.CurrentSnapshot) || _visualSnapshot != _visualBuffer.CurrentSnapshot)
+                    return;
+                PerformLayout(_textSnapshot, _visualSnapshot);
+            }), DispatcherPriority.DataBind, Array.Empty<object>());
         }
 
         private void PerformLayout(ITextSnapshot newSnapshot, ITextSnapshot newVisualSnapshot)
@@ -200,7 +247,30 @@ namespace ModernApplicationFramework.TextEditor
 
         private void PerformLayout(ITextSnapshot newSnapshot, ITextSnapshot newVisualSnapshot, SnapshotPoint anchorPosition, double verticalDistance, ViewRelativePosition relativeTo, double viewportWidth, double viewportHeight, bool v1, CancellationToken? v2)
         {
+            if (_isClosed)
+                return;
+            if (_inOuterLayout)
+                throw new InvalidOperationException();
 
+            _inOuterLayout = true;
+            try
+            {
+                var useDisplayMode = ShouldUseDisplayMode();
+            }
+            finally
+            {
+                _inOuterLayout = false;
+            }
+        }
+
+        private bool ShouldUseDisplayMode()
+        {
+            if (PresentationSource.FromVisual(this) != null || ReadLocalValue(TextOptions.TextFormattingModeProperty) !=
+                DependencyProperty.UnsetValue)
+                return TextOptions.GetTextFormattingMode(this) == TextFormattingMode.Display;
+            if (_formattedLineSource == null)
+                return true;
+            return _formattedLineSource.UseDisplayMode;
         }
 
         private void SubscribeToEvents()
@@ -257,7 +327,6 @@ namespace ModernApplicationFramework.TextEditor
         {
         }
 
-
         private IntPtr MouseScrollHook(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam, ref bool handled)
         {
             return IntPtr.Zero;
@@ -278,6 +347,23 @@ namespace ModernApplicationFramework.TextEditor
 
         private void OnMouseMove(object sender, MouseEventArgs e)
         {
+        }
+
+        private void OnVisualBufferContentTypeChanged(object sender, ContentTypeChangedEventArgs e)
+        {
+        }
+
+        private void OnVisualBufferChanged(object sender, TextContentChangedEventArgs e)
+        {
+        }
+
+        private void BindContentTypeSpecificAssets(IContentType beforeContentType, IContentType afterContentType)
+        {
+        }
+
+        private void SetClearTypeHint()
+        {
+
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
@@ -349,5 +435,7 @@ namespace ModernApplicationFramework.TextEditor
         {
             return Brushes.White;
         }
+
+        public PropertyCollection Properties { get; } = new PropertyCollection();
     }
 }

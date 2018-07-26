@@ -1,17 +1,64 @@
 ﻿using System.Collections.ObjectModel;
-using System.Windows;
 
 namespace ModernApplicationFramework.TextEditor
 {
     public interface ITextViewLine
     {
+        SnapshotPoint? GetBufferPositionFromXCoordinate(double xCoordinate, bool textOnly);
+
+        SnapshotPoint? GetBufferPositionFromXCoordinate(double xCoordinate);
+
+        VirtualSnapshotPoint GetVirtualBufferPositionFromXCoordinate(double xCoordinate);
+
+        VirtualSnapshotPoint GetInsertionBufferPositionFromXCoordinate(double xCoordinate);
+
+        bool ContainsBufferPosition(SnapshotPoint bufferPosition);
+
+        SnapshotSpan GetTextElementSpan(SnapshotPoint bufferPosition);
+
+        TextBounds GetCharacterBounds(SnapshotPoint bufferPosition);
+
+        TextBounds GetCharacterBounds(VirtualSnapshotPoint bufferPosition);
+
+        TextBounds GetExtendedCharacterBounds(SnapshotPoint bufferPosition);
+
+        TextBounds GetExtendedCharacterBounds(VirtualSnapshotPoint bufferPosition);
+
+        TextBounds? GetAdornmentBounds(object identityTag);
+
+        Collection<TextBounds> GetNormalizedTextBounds(SnapshotSpan bufferSpan);
+
+        object IdentityTag { get; }
+
+        bool IntersectsBufferSpan(SnapshotSpan bufferSpan);
+
+        ReadOnlyCollection<object> GetAdornmentTags(object providerTag);
+
+        ITextSnapshot Snapshot { get; }
+
+        bool IsFirstTextViewLineForSnapshotLine { get; }
+
+        bool IsLastTextViewLineForSnapshotLine { get; }
+
+        double Baseline { get; }
+
+        SnapshotSpan Extent { get; }
+
+        IMappingSpan ExtentAsMappingSpan { get; }
+
+        SnapshotSpan ExtentIncludingLineBreak { get; }
+
+        IMappingSpan ExtentIncludingLineBreakAsMappingSpan { get; }
+
         SnapshotPoint Start { get; }
+
+        int Length { get; }
+
+        int LengthIncludingLineBreak { get; }
 
         SnapshotPoint End { get; }
 
         SnapshotPoint EndIncludingLineBreak { get; }
-
-        Rect VisibleArea { get; }
 
         int LineBreakLength { get; }
 
@@ -45,16 +92,14 @@ namespace ModernApplicationFramework.TextEditor
 
         bool IsValid { get; }
 
+        LineTransform LineTransform { get; }
+
+        LineTransform DefaultLineTransform { get; }
+
         VisibilityState VisibilityState { get; }
 
         double DeltaY { get; }
 
-        bool ContainsBufferPosition(SnapshotPoint bufferPosition);
-
-        SnapshotSpan GetTextElementSpan(SnapshotPoint bufferPosition);
-
-        Collection<TextBounds> GetNormalizedTextBounds(SnapshotSpan bufferSpan);
-
-        TextBounds GetCharacterBounds(SnapshotPoint bufferPosition);
+        TextViewLineChange Change { get; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using ModernApplicationFramework.TextEditor.Text;
 
 namespace ModernApplicationFramework.TextEditor
@@ -28,17 +29,17 @@ namespace ModernApplicationFramework.TextEditor
 
         char this[int position] { get; }
 
-        //ITrackingPoint CreateTrackingPoint(int position, PointTrackingMode trackingMode);
+        ITrackingPoint CreateTrackingPoint(int position, PointTrackingMode trackingMode);
 
-        //ITrackingPoint CreateTrackingPoint(int position, PointTrackingMode trackingMode, TrackingFidelityMode trackingFidelity);
+        ITrackingPoint CreateTrackingPoint(int position, PointTrackingMode trackingMode, TrackingFidelityMode trackingFidelity);
 
-        //ITrackingSpan CreateTrackingSpan(Span span, SpanTrackingMode trackingMode);
+        ITrackingSpan CreateTrackingSpan(Span span, SpanTrackingMode trackingMode);
 
-        //ITrackingSpan CreateTrackingSpan(Span span, SpanTrackingMode trackingMode, TrackingFidelityMode trackingFidelity);
+        ITrackingSpan CreateTrackingSpan(Span span, SpanTrackingMode trackingMode, TrackingFidelityMode trackingFidelity);
 
-        //ITrackingSpan CreateTrackingSpan(int start, int length, SpanTrackingMode trackingMode);
+        ITrackingSpan CreateTrackingSpan(int start, int length, SpanTrackingMode trackingMode);
 
-        //ITrackingSpan CreateTrackingSpan(int start, int length, SpanTrackingMode trackingMode, TrackingFidelityMode trackingFidelity);
+        ITrackingSpan CreateTrackingSpan(int start, int length, SpanTrackingMode trackingMode, TrackingFidelityMode trackingFidelity);
 
         ITextSnapshotLine GetLineFromLineNumber(int lineNumber);
 
@@ -51,5 +52,9 @@ namespace ModernApplicationFramework.TextEditor
         void Write(TextWriter writer, Span span);
 
         void Write(TextWriter writer);
+
+        ITextImage TextImage { get; }
+
+        void SaveToFile(string filePath, bool replaceFile, Encoding encoding);
     }
 }

@@ -19,6 +19,12 @@ namespace ModernApplicationFramework.Modules.Output
             DisplayName = "Output";
             _writer = new OutputWriter(this);
 
+
+
+            //TODO: Look at VS: OutputWindowTagger.cs and OutputWindowTaggerProvider.cs
+
+
+
             var factory = IoC.Get<ITextEditorFactoryService>();
 
             var view = factory.CreateTextView();

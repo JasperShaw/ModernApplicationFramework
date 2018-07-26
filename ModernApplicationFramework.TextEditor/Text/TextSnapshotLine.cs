@@ -39,6 +39,11 @@ namespace ModernApplicationFramework.TextEditor.Text
         {
         }
 
+        public TextSnapshotLine(ITextSnapshot snapshot, TextImageLine lineSpan)
+            : this(snapshot, lineSpan.LineNumber, lineSpan.Extent, lineSpan.LineBreakLength)
+        {
+        }
+
 
         public string GetText()
         {

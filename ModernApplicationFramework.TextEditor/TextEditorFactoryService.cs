@@ -11,11 +11,20 @@ namespace ModernApplicationFramework.TextEditor
         internal Dictionary<string, int> OrderedViewLayerDefinitions = new Dictionary<string, int>();
         internal Dictionary<string, int> OrderedOverlayLayerDefinitions = new Dictionary<string, int>();
 
+        public ITextViewRoleSet DefaultRoles => CreateTextViewRoleSet("ANALYZABLE", "DOCUMENT", "EDITABLE",
+            "INTERACTIVE", "STRUCTURED", "ZOOMABLE");
+
+        [Import]
+        internal IEditorOptionsFactoryService EditorOptionsFactoryService { get; set; }
+
         [ImportMany]
         private List<Lazy<AdornmentLayerDefinition, IAdornmentLayersMetadata>> _viewLayerDefinitions;
 
         [Import]
         internal ITextBufferFactoryService TextBufferFactoryService { get; set; }
+
+        [Import]
+        internal IBufferGraphFactoryService BufferGraphFactoryService { get; set; }
 
         public event EventHandler<TextViewCreatedEventArgs> TextViewCreated;
 
@@ -26,7 +35,7 @@ namespace ModernApplicationFramework.TextEditor
             var dataModel = new VacuousTextDataModel(buffer);
             ITextViewModel viewModel = new VacuousTextViewModel(dataModel);
 
-            var textView = new TextView(viewModel, this, false);
+            var textView = new TextView(viewModel, DefaultRoles, EditorOptionsFactoryService.GlobalOptions, this, false);
             if (initialize)
                 InitializeTextView(textView);
             return textView;
@@ -74,6 +83,11 @@ namespace ModernApplicationFramework.TextEditor
                 else
                     OrderedViewLayerDefinitions.Add(lazyList[index].Metadata.Name, index);
             }
+        }
+
+        public ITextViewRoleSet CreateTextViewRoleSet(params string[] roles)
+        {
+            return new TextViewRoleSet(roles);
         }
     }
 }

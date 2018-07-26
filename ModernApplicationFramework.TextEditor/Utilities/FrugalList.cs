@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace ModernApplicationFramework.TextEditor.Utilities
 {
@@ -48,9 +49,30 @@ namespace ModernApplicationFramework.TextEditor.Utilities
             }
         }
 
+        public int RemoveAll(Predicate<T> match)
+        {
+            if (match == null)
+                throw new ArgumentNullException(nameof(match));
+            var num = 0;
+            for (var index = Count - 1; index >= 0; --index)
+            {
+                if (match(this[index]))
+                {
+                    ++num;
+                    RemoveAt(index);
+                }
+            }
+            return num;
+        }
+
         public IEnumerator<T> GetEnumerator()
         {
             return new FrugalEnumerator(this);
+        }
+
+        public ReadOnlyCollection<T> AsReadOnly()
+        {
+            return new ReadOnlyCollection<T>(this);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -73,6 +95,14 @@ namespace ModernApplicationFramework.TextEditor.Utilities
             }
         }
 
+        public void AddRange(IList<T> list)
+        {
+            if (list == null)
+                throw new ArgumentNullException(nameof(list));
+            foreach (var t in list)
+                Add(t);
+        }
+
         public void Clear()
         {
             _head = default(T);
@@ -81,7 +111,7 @@ namespace ModernApplicationFramework.TextEditor.Utilities
 
         public bool Contains(T item)
         {
-            int count = Count;
+            var count = Count;
             if (count > 0)
             {
                 if (EqualityComparer<T>.Default.Equals(_head, item))
@@ -96,7 +126,7 @@ namespace ModernApplicationFramework.TextEditor.Utilities
         {
             if (array == null)
                 throw new ArgumentNullException(nameof(array));
-            int count = Count;
+            var count = Count;
             if (count <= 0)
                 return;
             array[arrayIndex++] = _head;
@@ -121,7 +151,7 @@ namespace ModernApplicationFramework.TextEditor.Utilities
                 return -1;
             if (EqualityComparer<T>.Default.Equals(_head, item))
                 return 0;
-            int num = _tail.IndexOf(item);
+            var num = _tail.IndexOf(item);
             if (num < 0)
                 return -1;
             return num + 1;
@@ -160,7 +190,7 @@ namespace ModernApplicationFramework.TextEditor.Utilities
         {
             if (index < 0 || index >= Count)
                 throw new ArgumentOutOfRangeException(nameof(index));
-            int count = Count;
+            var count = Count;
             if (index == 0)
             {
                 if (count == 1)

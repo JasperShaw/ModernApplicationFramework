@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.TextEditor.Text.Differencing;
 using ModernApplicationFramework.TextEditor.Utilities;
@@ -8,7 +8,7 @@ using ModernApplicationFramework.Utilities.Attributes;
 namespace ModernApplicationFramework.TextEditor.Text
 {
     [Export(typeof(ITextBufferFactoryService))]
-    internal class BufferFactoryService : ITextBufferFactoryService
+    internal class BufferFactoryService : ITextBufferFactoryService, IInternalTextBufferFactory
     {
         [Export]
         [Name("any")]
@@ -36,9 +36,11 @@ namespace ModernApplicationFramework.TextEditor.Text
         internal ITextDifferencingSelectorService _textDifferencingSelectorService { get; set; }
 
 
+
         private IContentType _textContentType;
         private IContentType _plaintextContentType;
         private IContentType _inertContentType;
+        private IContentType _projectionContentType;
 
         public IContentType TextContentType => _textContentType ?? (_textContentType = ContentTypeRegistryService.GetContentType("text"));
 
@@ -46,6 +48,8 @@ namespace ModernApplicationFramework.TextEditor.Text
                                                     (_plaintextContentType = ContentTypeRegistryService.GetContentType("plaintext"));
 
         public IContentType InertContentType => _inertContentType ?? (_inertContentType = ContentTypeRegistryService.GetContentType("inert"));
+        public IContentType ProjectionContentType => _projectionContentType ??
+                                                     (_projectionContentType = ContentTypeRegistryService.GetContentType("projection"));
 
         public ITextBuffer CreateTextBuffer()
         {
@@ -97,6 +101,17 @@ namespace ModernApplicationFramework.TextEditor.Text
             content = !(snapshot is BaseSnapshot baseSnapshot)
                 ? content.Append(snapshot.GetText(span))
                 : content.Append(baseSnapshot.Content.GetSubText(span));
+            return content;
+        }
+
+        internal static StringRebuilder StringRebuilderFromSnapshotSpans(IList<SnapshotSpan> sourceSpans, Span selectedSourceSpans)
+        {
+            var content = StringRebuilder.Empty;
+            for (var index = 0; index < selectedSourceSpans.Length; ++index)
+            {
+                var sourceSpan = sourceSpans[selectedSourceSpans.Start + index];
+                content = AppendStringRebuildersFromSnapshotAndSpan(content, sourceSpan.Snapshot, sourceSpan.Span);
+            }
             return content;
         }
 

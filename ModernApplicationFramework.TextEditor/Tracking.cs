@@ -28,6 +28,60 @@ namespace ModernApplicationFramework.TextEditor
             }
         }
 
+        public static Span TrackSpanBackwardInTime(SpanTrackingMode trackingMode, Span span, ITextImageVersion currentVersion, ITextImageVersion targetVersion)
+        {
+            switch (trackingMode)
+            {
+                case SpanTrackingMode.EdgeExclusive:
+                case SpanTrackingMode.EdgeInclusive:
+                case SpanTrackingMode.EdgePositive:
+                case SpanTrackingMode.EdgeNegative:
+                case SpanTrackingMode.Custom:
+                    if (currentVersion == null)
+                        throw new ArgumentNullException(nameof(currentVersion));
+                    if (targetVersion == null)
+                        throw new ArgumentNullException(nameof(targetVersion));
+                    if (targetVersion.Identifier != currentVersion.Identifier)
+                        throw new ArgumentException("currentVersion and targetVersion must be from the same ITextImage");
+                    if (span.End > currentVersion.Length)
+                        throw new ArgumentOutOfRangeException(nameof(span));
+                    if (targetVersion.VersionNumber > currentVersion.VersionNumber)
+                        throw new ArgumentOutOfRangeException(nameof(targetVersion));
+                    int num = TrackPositionBackwardInTime(trackingMode == SpanTrackingMode.EdgeExclusive || trackingMode == SpanTrackingMode.EdgePositive ? PointTrackingMode.Positive : PointTrackingMode.Negative, span.Start, currentVersion, targetVersion);
+                    return Span.FromBounds(num, Math.Max(num, TrackPositionBackwardInTime(trackingMode == SpanTrackingMode.EdgeExclusive || trackingMode == SpanTrackingMode.EdgeNegative ? PointTrackingMode.Negative : PointTrackingMode.Positive, span.End, currentVersion, targetVersion)));
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(trackingMode));
+            }
+        }
+
+        public static int TrackPositionBackwardInTime(PointTrackingMode trackingMode, int currentPosition, ITextImageVersion currentVersion, ITextImageVersion targetVersion)
+        {
+            switch (trackingMode)
+            {
+                case PointTrackingMode.Positive:
+                case PointTrackingMode.Negative:
+                    if (currentVersion == null)
+                        throw new ArgumentNullException(nameof(currentVersion));
+                    if (targetVersion == null)
+                        throw new ArgumentNullException(nameof(targetVersion));
+                    if (targetVersion.Identifier != currentVersion.Identifier)
+                        throw new ArgumentException("currentVersion and targetVersion must be from the same ITextImage");
+                    if (targetVersion.VersionNumber > currentVersion.VersionNumber)
+                        throw new ArgumentOutOfRangeException(nameof(targetVersion));
+                    if (currentPosition < 0 || currentPosition > currentVersion.Length)
+                        throw new ArgumentOutOfRangeException(nameof(currentPosition));
+                    INormalizedTextChangeCollection[] changeCollectionArray = new INormalizedTextChangeCollection[currentVersion.VersionNumber - targetVersion.VersionNumber];
+                    int num = 0;
+                    for (ITextImageVersion textImageVersion = targetVersion; textImageVersion != currentVersion; textImageVersion = textImageVersion.Next)
+                        changeCollectionArray[num++] = textImageVersion.Changes;
+                    while (num > 0)
+                        currentPosition = TrackPositionBackwardInTime(trackingMode, currentPosition, changeCollectionArray[--num]);
+                    return currentPosition;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(trackingMode));
+            }
+        }
+
         public static Span TrackSpanBackwardInTime(SpanTrackingMode trackingMode, Span span, ITextVersion currentVersion, ITextVersion targetVersion)
         {
             switch (trackingMode)
@@ -219,6 +273,56 @@ namespace ModernApplicationFramework.TextEditor
                         throw new ArgumentOutOfRangeException(nameof(targetVersion));
                     int num = TrackPositionForwardInTime(trackingMode == SpanTrackingMode.EdgeExclusive || trackingMode == SpanTrackingMode.EdgePositive ? PointTrackingMode.Positive : PointTrackingMode.Negative, span.Start, currentVersion, targetVersion);
                     return Span.FromBounds(num, Math.Max(num, TrackPositionForwardInTime(trackingMode == SpanTrackingMode.EdgeExclusive || trackingMode == SpanTrackingMode.EdgeNegative ? PointTrackingMode.Negative : PointTrackingMode.Positive, span.End, currentVersion, targetVersion)));
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(trackingMode));
+            }
+        }
+
+        public static Span TrackSpanForwardInTime(SpanTrackingMode trackingMode, Span span, ITextImageVersion currentVersion, ITextImageVersion targetVersion)
+        {
+            switch (trackingMode)
+            {
+                case SpanTrackingMode.EdgeExclusive:
+                case SpanTrackingMode.EdgeInclusive:
+                case SpanTrackingMode.EdgePositive:
+                case SpanTrackingMode.EdgeNegative:
+                case SpanTrackingMode.Custom:
+                    if (currentVersion == null)
+                        throw new ArgumentNullException(nameof(currentVersion));
+                    if (targetVersion == null)
+                        throw new ArgumentNullException(nameof(targetVersion));
+                    if (targetVersion.Identifier != currentVersion.Identifier)
+                        throw new ArgumentException("currentVersion and targetVersion must be from the same ITextImage");
+                    if (span.End > currentVersion.Length)
+                        throw new ArgumentOutOfRangeException(nameof(span));
+                    if (targetVersion.VersionNumber < currentVersion.VersionNumber)
+                        throw new ArgumentOutOfRangeException(nameof(targetVersion));
+                    int num = TrackPositionForwardInTime(trackingMode == SpanTrackingMode.EdgeExclusive || trackingMode == SpanTrackingMode.EdgePositive ? PointTrackingMode.Positive : PointTrackingMode.Negative, span.Start, currentVersion, targetVersion);
+                    return Span.FromBounds(num, Math.Max(num, TrackPositionForwardInTime(trackingMode == SpanTrackingMode.EdgeExclusive || trackingMode == SpanTrackingMode.EdgeNegative ? PointTrackingMode.Negative : PointTrackingMode.Positive, span.End, currentVersion, targetVersion)));
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(trackingMode));
+            }
+        }
+
+        public static int TrackPositionForwardInTime(PointTrackingMode trackingMode, int currentPosition, ITextImageVersion currentVersion, ITextImageVersion targetVersion)
+        {
+            switch (trackingMode)
+            {
+                case PointTrackingMode.Positive:
+                case PointTrackingMode.Negative:
+                    if (currentVersion == null)
+                        throw new ArgumentNullException(nameof(currentVersion));
+                    if (targetVersion == null)
+                        throw new ArgumentNullException(nameof(targetVersion));
+                    if (targetVersion.Identifier != currentVersion.Identifier)
+                        throw new ArgumentException("currentVersion and targetVersion must be from the same ITextImage");
+                    if (targetVersion.VersionNumber < currentVersion.VersionNumber)
+                        throw new ArgumentOutOfRangeException(nameof(targetVersion));
+                    if (currentPosition < 0 || currentPosition > currentVersion.Length)
+                        throw new ArgumentOutOfRangeException(nameof(currentPosition));
+                    for (; currentVersion != targetVersion; currentVersion = currentVersion.Next)
+                        currentPosition = TrackPositionForwardInTime(trackingMode, currentPosition, currentVersion.Changes);
+                    return currentPosition;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(trackingMode));
             }

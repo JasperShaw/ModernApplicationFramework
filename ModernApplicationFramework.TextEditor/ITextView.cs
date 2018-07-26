@@ -4,7 +4,7 @@ using System.Windows.Media;
 
 namespace ModernApplicationFramework.TextEditor
 {
-    public interface ITextView
+    public interface ITextView : IPropertyOwner
     {
         event EventHandler<BackgroundBrushChangedEventArgs> BackgroundBrushChanged;
 
@@ -34,6 +34,10 @@ namespace ModernApplicationFramework.TextEditor
 
         double ViewportHeight { get; }
 
+        bool InLayout { get; }
+
+        ITextViewRoleSet Roles { get; }
+
         void Close();
 
         ITextSnapshot TextSnapshot { get; }
@@ -41,5 +45,9 @@ namespace ModernApplicationFramework.TextEditor
         ITextViewModel TextViewModel { get; }
 
         ITextDataModel TextDataModel { get; }
+
+        IBufferGraph BufferGraph { get; }
+
+        IEditorOptions Options { get; }
     }
 }

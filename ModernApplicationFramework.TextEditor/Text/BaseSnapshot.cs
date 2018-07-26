@@ -1,68 +1,138 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace ModernApplicationFramework.TextEditor.Text
 {
     internal abstract class BaseSnapshot : ITextSnapshot
     {
         internal readonly StringRebuilder Content;
+        internal readonly ITextImage CachingContent;
 
-        public ITextBuffer TextBuffer { get; }
+        public ITextBuffer TextBuffer => TextBufferHelper;
         public IContentType ContentType { get; }
         public ITextVersion Version { get; }
-        public int Length { get; }
-        public int LineCount { get; }
+
+        public int Length => CachingContent.Length;
+
+        public int LineCount => CachingContent.LineCount;
+
+        public ITextImage TextImage => CachingContent;
+
+        protected abstract ITextBuffer TextBufferHelper { get; }
+
+        protected BaseSnapshot(ITextVersion version, StringRebuilder content)
+        {
+            Version = version;
+            Content = content;
+            CachingContent = CachingTextImage.Create(Content, version.ImageVersion);
+            ContentType = version.TextBuffer.ContentType;
+        }
+
         public string GetText(Span span)
         {
-            throw new System.NotImplementedException();
+            return CachingContent.GetText(span);
         }
 
         public string GetText(int startIndex, int length)
         {
-            throw new System.NotImplementedException();
+            return GetText(new Span(startIndex, length));
         }
 
         public string GetText()
         {
-            throw new System.NotImplementedException();
+            return GetText(new Span(0, Length));
         }
 
         public char[] ToCharArray(int startIndex, int length)
         {
-            throw new System.NotImplementedException();
+            return CachingContent.ToCharArray(startIndex, length);
         }
 
         public void CopyTo(int sourceIndex, char[] destination, int destinationIndex, int count)
         {
-            throw new System.NotImplementedException();
+            CachingContent.CopyTo(sourceIndex, destination, destinationIndex, count);
         }
 
-        public char this[int position] => throw new System.NotImplementedException();
+        public char this[int position] => CachingContent[position];
 
         public ITextSnapshotLine GetLineFromLineNumber(int lineNumber)
         {
-            throw new System.NotImplementedException();
+            return new TextSnapshotLine(this, CachingContent.GetLineFromLineNumber(lineNumber));
+        }
+
+        public ITrackingPoint CreateTrackingPoint(int position, PointTrackingMode trackingMode)
+        {
+            return Version.CreateTrackingPoint(position, trackingMode);
+        }
+
+        public ITrackingPoint CreateTrackingPoint(int position, PointTrackingMode trackingMode, TrackingFidelityMode trackingFidelity)
+        {
+            return Version.CreateTrackingPoint(position, trackingMode, trackingFidelity);
+        }
+
+        public ITrackingSpan CreateTrackingSpan(int start, int length, SpanTrackingMode trackingMode)
+        {
+            return Version.CreateTrackingSpan(start, length, trackingMode);
+        }
+
+        public ITrackingSpan CreateTrackingSpan(int start, int length, SpanTrackingMode trackingMode, TrackingFidelityMode trackingFidelity)
+        {
+            return Version.CreateTrackingSpan(start, length, trackingMode, trackingFidelity);
+        }
+
+        public ITrackingSpan CreateTrackingSpan(Span span, SpanTrackingMode trackingMode)
+        {
+            return Version.CreateTrackingSpan(span, trackingMode, TrackingFidelityMode.Forward);
+        }
+
+        public ITrackingSpan CreateTrackingSpan(Span span, SpanTrackingMode trackingMode, TrackingFidelityMode trackingFidelity)
+        {
+            return Version.CreateTrackingSpan(span, trackingMode, trackingFidelity);
+        }
+
+        public void SaveToFile(string filePath, bool replaceFile, Encoding encoding)
+        {
+            FileUtilities.SaveSnapshot(this, replaceFile ? FileMode.Create : FileMode.CreateNew, encoding, filePath);
         }
 
         public ITextSnapshotLine GetLineFromPosition(int position)
         {
-            throw new System.NotImplementedException();
+            return GetLineFromLineNumber(CachingContent.GetLineNumberFromPosition(position));
         }
 
         public int GetLineNumberFromPosition(int position)
         {
-            throw new System.NotImplementedException();
+            return CachingContent.GetLineNumberFromPosition(position);
         }
 
-        public IEnumerable<ITextSnapshotLine> Lines { get; }
+        public IEnumerable<ITextSnapshotLine> Lines
+        {
+            get
+            {
+                var lineCount = CachingContent.LineCount;
+                for (var line = 0; line < lineCount; ++line)
+                {
+                    yield return GetLineFromLineNumber(line);
+                }
+            }
+        }
+
         public void Write(TextWriter writer, Span span)
         {
-            throw new System.NotImplementedException();
+            CachingContent.Write(writer, span);
         }
 
         public void Write(TextWriter writer)
         {
-            throw new System.NotImplementedException();
+            CachingContent.Write(writer, new Span(0, CachingContent.Length));
+        }
+
+        public override string ToString()
+        {
+            return
+                $"version: {Version.VersionNumber} lines: {LineCount} length: {Length} \r\n content: {TextUtilities.Escape(GetText(0, Math.Min(40, Length)))}";
         }
     }
 }

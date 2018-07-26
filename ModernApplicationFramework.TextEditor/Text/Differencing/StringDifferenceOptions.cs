@@ -7,7 +7,7 @@ namespace ModernApplicationFramework.TextEditor.Text.Differencing
     {
         public StringDifferenceTypes DifferenceType { get; set; }
 
-        public bool IgnoreTrimWhiteSpace { get;  }
+        public bool IgnoreTrimWhiteSpace { get; set; }
 
         public WordSplitBehavior WordSplitBehavior { get; }
 

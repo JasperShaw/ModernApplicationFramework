@@ -31,12 +31,24 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Caliburn.Micro, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.Core.3.2.0\lib\net45\Caliburn.Micro.dll</HintPath>
+    </Reference>
+    <Reference Include="Caliburn.Micro.Platform, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.3.2.0\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Caliburn.Micro.Platform.Core, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.3.2.0\lib\net45\Caliburn.Micro.Platform.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Collections.Immutable, Version=1.0.34.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bcl.Immutable.1.0.34\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+    <Reference Include="System.Collections.Immutable, Version=1.2.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.5.0\lib\netstandard2.0\System.Collections.Immutable.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.3.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -51,13 +63,175 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdornmentElement.cs" />
     <Compile Include="AdornmentLayerDefinition.cs" />
     <Compile Include="BackgroundBrushChangedEventArgs.cs" />
+    <Compile Include="BaseBuffer.cs" />
+    <Compile Include="BaseProjectionBuffer.cs" />
+    <Compile Include="BaseProjectionSnapshot.cs" />
+    <Compile Include="BatchedTagsChangedEventArgs.cs" />
+    <Compile Include="BufferGraph.cs" />
+    <Compile Include="BufferGraphFactoryService.cs" />
+    <Compile Include="BufferGroup.cs" />
+    <Compile Include="BufferPositionToTokenIndexMap.cs" />
+    <Compile Include="ClassificationChangedEventArgs.cs" />
+    <Compile Include="ClassificationFormatDefinition.cs" />
+    <Compile Include="ClassificationFormatMap.cs" />
+    <Compile Include="ClassificationFormatMapService.cs" />
+    <Compile Include="ClassificationSpan.cs" />
+    <Compile Include="ClassificationTag.cs" />
+    <Compile Include="ClassificationTypeAttribute.cs" />
+    <Compile Include="ClassificationTypeDefinition.cs" />
+    <Compile Include="ClassificationTypeImpl.cs" />
+    <Compile Include="ClassificationTypeRegistryService.cs" />
+    <Compile Include="ClassifiedRun.cs" />
+    <Compile Include="ClassifierTagger.cs" />
+    <Compile Include="ContentTypeChangedEventArgs.cs" />
+    <Compile Include="CustomTrackToVersion.cs" />
+    <Compile Include="DataStorage.cs" />
+    <Compile Include="DataStorageService.cs" />
+    <Compile Include="DefaultTextViewHostOptions.cs" />
+    <Compile Include="DefaultWpfViewOptions.cs" />
+    <Compile Include="DynamicReadOnlyRegionQuery.cs" />
+    <Compile Include="EdgeInsertionMode.cs" />
+    <Compile Include="EditOptions.cs" />
+    <Compile Include="EditorFormatDefinition.cs" />
+    <Compile Include="EditorFormatMap.cs" />
+    <Compile Include="EditorFormatMapService.cs" />
+    <Compile Include="EditorOptionChangedEventArgs.cs" />
+    <Compile Include="EditorOptionDefinition.cs" />
+    <Compile Include="EditorOptionKey.cs" />
+    <Compile Include="EditorOptions.cs" />
+    <Compile Include="EditorOptionsFactoryService.cs" />
+    <Compile Include="EmptyClassifier.cs" />
     <Compile Include="ExtensionErrorHandler.cs" />
+    <Compile Include="FormatItemsEventArgs.cs" />
+    <Compile Include="FormattedLineSource.cs" />
+    <Compile Include="ForwardFidelityCustomTrackingSpan.cs" />
+    <Compile Include="ForwardFidelityTrackingPoint.cs" />
+    <Compile Include="ForwardFidelityTrackingSpan.cs" />
+    <Compile Include="GraphBufferContentTypeChangedEventArgs.cs" />
+    <Compile Include="GraphBuffersChangedEventArgs.cs" />
+    <Compile Include="HighFidelityTrackingPoint.cs" />
+    <Compile Include="HighFidelityTrackingSpan.cs" />
+    <Compile Include="IAccurateClassifier.cs" />
+    <Compile Include="IAccurateTagAggregator.cs" />
+    <Compile Include="IAccurateTagger.cs" />
+    <Compile Include="IAdornmentElement.cs" />
+    <Compile Include="IBufferGraph.cs" />
+    <Compile Include="IBufferGraphFactoryService.cs" />
+    <Compile Include="IBufferTagAggregatorFactoryService.cs" />
+    <Compile Include="IClassificationFormatMap.cs" />
+    <Compile Include="IClassificationFormatMapService.cs" />
+    <Compile Include="IClassificationFormatMetadata.cs" />
+    <Compile Include="IClassificationTag.cs" />
+    <Compile Include="IClassificationType.cs" />
+    <Compile Include="IClassificationTypeDefinitionMetadata.cs" />
+    <Compile Include="IClassificationTypeRegistryService.cs" />
+    <Compile Include="IClassifier.cs" />
     <Compile Include="IContentTypeMetadata.cs" />
+    <Compile Include="IDataStorage.cs" />
+    <Compile Include="IDataStorageService.cs" />
+    <Compile Include="IEditorFormatMap.cs" />
+    <Compile Include="IEditorFormatMapService.cs" />
+    <Compile Include="IEditorFormatMetadata.cs" />
+    <Compile Include="IEditorOptions.cs" />
+    <Compile Include="IEditorOptionsFactoryService.cs" />
+    <Compile Include="IFormattedLineSource.cs" />
     <Compile Include="IGuardedOperations.cs" />
+    <Compile Include="IInternalTextBufferFactory.cs" />
+    <Compile Include="IMappingPoint.cs" />
+    <Compile Include="IMappingSpan.cs" />
+    <Compile Include="IMappingTagSpan.cs" />
     <Compile Include="INameAndReplacesMetadata.cs" />
     <Compile Include="INamedContentTypeMetadata.cs" />
+    <Compile Include="INamedTaggerMetadata.cs" />
+    <Compile Include="INameMetadata.cs" />
+    <Compile Include="INormalizedTextChangeCollection.cs" />
+    <Compile Include="IProjectionBuffer.cs" />
+    <Compile Include="IProjectionBufferBase.cs" />
+    <Compile Include="IProjectionEditResolver.cs" />
+    <Compile Include="IProjectionSnapshot.cs" />
+    <Compile Include="IPropertyOwner.cs" />
+    <Compile Include="IReadOnlyRegion.cs" />
+    <Compile Include="IReadOnlyRegionEdit.cs" />
+    <Compile Include="ISequenceElement.cs" />
+    <Compile Include="ISubordinateTextEdit.cs" />
+    <Compile Include="ITag.cs" />
+    <Compile Include="ITagAggregator.cs" />
+    <Compile Include="ITagger.cs" />
+    <Compile Include="ITaggerMetadata.cs" />
+    <Compile Include="ITaggerProvider.cs" />
+    <Compile Include="ITagSpan.cs" />
+    <Compile Include="ITextAndAdornmentCollection.cs" />
+    <Compile Include="ITextAndAdornmentSequencer.cs" />
+    <Compile Include="ITextBufferEdit.cs" />
+    <Compile Include="ITextEdit.cs" />
+    <Compile Include="ITextImageVersion.cs" />
+    <Compile Include="ITextParagraphPropertiesFactoryService.cs" />
+    <Compile Include="ITextViewRoleSet.cs" />
+    <Compile Include="ITrackingPoint.cs" />
+    <Compile Include="ITrackingSpan.cs" />
+    <Compile Include="IViewTagAggregatorFactoryService.cs" />
+    <Compile Include="IViewTaggerMetadata.cs" />
+    <Compile Include="IViewTaggerProvider.cs" />
+    <Compile Include="LineBreakBoundaryConditions.cs" />
+    <Compile Include="LineTransform.cs" />
+    <Compile Include="MappingHelper.cs" />
+    <Compile Include="MappingPoint.cs" />
+    <Compile Include="MappingPointSnapshot.cs" />
+    <Compile Include="MappingSpan.cs" />
+    <Compile Include="MappingSpanSnapshot.cs" />
+    <Compile Include="MappingTagSpan.cs" />
+    <Compile Include="NativeMethods\Kernel32.cs" />
+    <Compile Include="NativeMethods\NativeMethods.cs" />
+    <Compile Include="NormalizedSnapshotSpanCollection.cs" />
+    <Compile Include="NormalizedSpan.cs" />
+    <Compile Include="NormalizedSpanCollection.cs" />
+    <Compile Include="NormalizedSpanGenerator.cs" />
+    <Compile Include="NormalizedSpanManager.cs" />
+    <Compile Include="NormalizedSpanTextSource.cs" />
+    <Compile Include="NormalizedTextChangeCollection.cs" />
+    <Compile Include="PositionAffinity.cs" />
+    <Compile Include="ProjectionBuffer.cs" />
+    <Compile Include="ProjectionBufferOptions.cs" />
+    <Compile Include="ProjectionSnapshot.cs" />
+    <Compile Include="ProjectionSourceBuffersChangedEventArgs.cs" />
+    <Compile Include="ProjectionSourceSpansChangedEventArgs.cs" />
+    <Compile Include="ProjectionSpanDiffer.cs" />
+    <Compile Include="ProjectionSpanDifference.cs" />
+    <Compile Include="ProjectionSpanToNormalizedChangeConverter.cs" />
+    <Compile Include="PropertyCollection.cs" />
+    <Compile Include="ReadOnlyRegion.cs" />
+    <Compile Include="ReadOnlySpan.cs" />
+    <Compile Include="ReadOnlySpanCollection.cs" />
+    <Compile Include="SimpleTextAndAdornmentSequencer.cs" />
+    <Compile Include="SnapshotSpanEventArgs.cs" />
+    <Compile Include="SpaceNegotiatingAdornmentTag.cs" />
+    <Compile Include="TagAggregator.cs" />
+    <Compile Include="TagAggregatorFactoryService.cs" />
+    <Compile Include="TagAggregatorOptions.cs" />
+    <Compile Include="TagsChangedEventArgs.cs" />
+    <Compile Include="TagSpan.cs" />
+    <Compile Include="TextAndAdornmentCollection.cs" />
+    <Compile Include="TextAndAdornmentSequenceChangedEventArgs.cs" />
+    <Compile Include="TextAndAdornmentSequencer.cs" />
+    <Compile Include="TextChange.cs" />
+    <Compile Include="TextContentChangedEventArgs.cs" />
+    <Compile Include="TextContentChangingEventArgs.cs" />
+    <Compile Include="TextDataModelContentTypeChangedEventArgs.cs" />
+    <Compile Include="TextFormattingParagraphProperties.cs" />
+    <Compile Include="TextFormattingRunProperties.cs" />
+    <Compile Include="TextImageVersion.cs" />
+    <Compile Include="TextInfoCache.cs" />
+    <Compile Include="TextLineData.cs" />
+    <Compile Include="TextModelUtilities.cs" />
+    <Compile Include="TextSnapshotChangedEventArgs.cs" />
+    <Compile Include="TextSpanElement.cs" />
+    <Compile Include="TextVersion.cs" />
+    <Compile Include="TextViewHostOptionExtensions.cs" />
+    <Compile Include="TextViewLineChange.cs" />
+    <Compile Include="TextViewRoleSet.cs" />
     <Compile Include="Text\BaseSnapshot.cs" />
     <Compile Include="Text\BinaryStringRebuilder.cs" />
     <Compile Include="Text\BufferFactoryService.cs" />
@@ -105,6 +279,7 @@
     <Compile Include="SnapshotSpan.cs" />
     <Compile Include="Span.cs" />
     <Compile Include="SpanTrackingMode.cs" />
+    <Compile Include="Text\CachingTextImage.cs" />
     <Compile Include="Text\Differencing\CharacterDecompositionList.cs" />
     <Compile Include="Text\Differencing\DefaultTextDifferencingService.cs" />
     <Compile Include="Text\Differencing\DiffChange.cs" />
@@ -134,9 +309,12 @@
     <Compile Include="Text\Differencing\WordSplitBehavior.cs" />
     <Compile Include="Text\Differencing\ITextDifferencingSelectorService.cs" />
     <Compile Include="Text\Differencing\WrappedLineDifferenceCollection.cs" />
+    <Compile Include="Text\FileUtilities.cs" />
+    <Compile Include="Text\Formatting\FormattedLine.cs" />
     <Compile Include="Text\IDifferenceCollection.cs" />
     <Compile Include="Text\IHierarchicalDifferenceCollection.cs" />
     <Compile Include="Text\ITextDifferencingService.cs" />
+    <Compile Include="Text\ITextImage.cs" />
     <Compile Include="Text\ITextSnapshotLine.cs" />
     <Compile Include="Text\ITokenizedStringList.cs" />
     <Compile Include="Text\StringRebuilder.cs" />
@@ -153,19 +331,36 @@
     <Compile Include="TextViewLineCollection.cs" />
     <Compile Include="Text\StringRebuilderForChars.cs" />
     <Compile Include="Text\StringRebuilderForString.cs" />
+    <Compile Include="Text\TextImageLine.cs" />
+    <Compile Include="Text\TextSnapshot.cs" />
     <Compile Include="Text\TextSnapshotLine.cs" />
     <Compile Include="Tracking.cs" />
     <Compile Include="Text\UnaryStringRebuilder.cs" />
+    <Compile Include="TrackingFidelityMode.cs" />
+    <Compile Include="TrackingPoint.cs" />
+    <Compile Include="TrackingSpan.cs" />
+    <Compile Include="TrivialNormalizedTextChangeCollection.cs" />
+    <Compile Include="UserVisibleAttribute.cs" />
     <Compile Include="Utilities\ExtensionSelector.cs" />
     <Compile Include="Utilities\FrugalList.cs" />
     <Compile Include="Utilities\GuardedOperations.cs" />
     <Compile Include="Utilities\IExtensionErrorHandler.cs" />
     <Compile Include="VacuousTextDataModel.cs" />
     <Compile Include="VacuousTextViewModel.cs" />
+    <Compile Include="VersionedPosition.cs" />
+    <Compile Include="VersionedSpan.cs" />
+    <Compile Include="VersionNumberPosition.cs" />
+    <Compile Include="VersionNumberPositionComparer.cs" />
+    <Compile Include="ViewOptionExtensions.cs" />
     <Compile Include="ViewRelativePosition.cs" />
+    <Compile Include="ViewSpecificFormatMap.cs" />
     <Compile Include="ViewStack.cs" />
     <Compile Include="TextEditorFactoryService.cs" />
+    <Compile Include="ViewWrapProperties.cs" />
+    <Compile Include="VirtualSnapshotPoint.cs" />
     <Compile Include="VisibilityState.cs" />
+    <Compile Include="WeakEventHook.cs" />
+    <Compile Include="WpfHelper.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
