@@ -20,9 +20,9 @@ namespace ModernApplicationFramework.TextEditor
                 return null;
             return textView.Properties.GetOrCreateSingletonProperty(() =>
             {
-                ITagAggregator<IOutliningRegionTag> tagAggregator = TagAggregatorFactory.CreateTagAggregator<IOutliningRegionTag>(textView.TextBuffer);
-                OutliningManager manager = new OutliningManager(textView.TextBuffer, tagAggregator, EditorOptionsFactoryService.GlobalOptions);
-                textView.Closed += ((_param1, _param2) => manager.Dispose());
+                var tagAggregator = TagAggregatorFactory.CreateTagAggregator<IOutliningRegionTag>(textView.TextBuffer);
+                var manager = new OutliningManager(textView.TextBuffer, tagAggregator, EditorOptionsFactoryService.GlobalOptions);
+                textView.Closed += (_param1, _param2) => manager.Dispose();
                 return manager;
             });
         }

@@ -51,7 +51,8 @@ namespace ModernApplicationFramework.TextEditor
             if (textView == null)
                 throw new ArgumentNullException(nameof(textView));
             if (textView.Properties.TryGetProperty(typeof(EditorOperationsFactoryService),
-                out IEditorOperations property)) return property;
+                out IEditorOperations property))
+                return property;
             property = new EditorOperations(textView, this);
             textView.Properties.AddProperty(typeof(EditorOperationsFactoryService), property);
             return property;

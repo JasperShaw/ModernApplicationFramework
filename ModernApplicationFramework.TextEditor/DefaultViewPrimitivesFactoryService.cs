@@ -15,7 +15,7 @@ namespace ModernApplicationFramework.TextEditor
         {
             if (!textView.Properties.TryGetProperty("Editor.View", out PrimitiveTextView property))
             {
-                property = (PrimitiveTextView)new DefaultTextViewPrimitive(textView, this, BufferPrimitivesFactoryService);
+                property = new DefaultTextViewPrimitive(textView, this, BufferPrimitivesFactoryService);
                 textView.Properties.AddProperty("Editor.View", property);
             }
             return property;
