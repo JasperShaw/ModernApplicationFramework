@@ -1,7 +1,9 @@
 ﻿namespace ModernApplicationFramework.TextEditor
 {
-    internal sealed class WaitContext : IWaitContext
-    {
+    //TODO: Implement
 
-    }
+    //internal sealed class WaitContext : IWaitContext
+    //{
+
+    //}
 }

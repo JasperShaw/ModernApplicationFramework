@@ -24,6 +24,8 @@ namespace ModernApplicationFramework.TextEditor
 
         FrameworkElement ManipulationLayer { get; }
 
+        SnapshotSpan GetTextElementSpan(SnapshotPoint point);
+
         FrameworkElement VisualElement { get; }
 
         ITextSelection Selection { get; }

@@ -3,14 +3,16 @@ using System.ComponentModel.Composition;
 
 namespace ModernApplicationFramework.TextEditor
 {
+    //TODO: Reactivate Stuff
+
     [Export(typeof(IEditorOperationsFactoryService))]
     internal sealed class EditorOperationsFactoryService : IEditorOperationsFactoryService
     {
         //[Import]
         //internal ITextStructureNavigatorSelectorService TextStructureNavigatorFactory { get; set; }
 
-        [Import(AllowDefault = true)]
-        internal IWaitIndicator WaitIndicator { get; set; }
+        //[Import(AllowDefault = true)]
+        //internal IWaitIndicator WaitIndicator { get; set; }
 
         //[Import]
         //internal ITextSearchService TextSearchService { get; set; }
@@ -23,8 +25,8 @@ namespace ModernApplicationFramework.TextEditor
         //[Import]
         //internal ITextBufferUndoManagerProvider TextBufferUndoManagerProvider { get; set; }
 
-        //[Import]
-        //internal IEditorPrimitivesFactoryService EditorPrimitivesProvider { get; set; }
+        [Import]
+        internal IEditorPrimitivesFactoryService EditorPrimitivesProvider { get; set; }
 
         [Import]
         internal IEditorOptionsFactoryService EditorOptionsProvider { get; set; }
@@ -50,7 +52,7 @@ namespace ModernApplicationFramework.TextEditor
                 throw new ArgumentNullException(nameof(textView));
             if (textView.Properties.TryGetProperty(typeof(EditorOperationsFactoryService),
                 out IEditorOperations property)) return property;
-            property = (IEditorOperations)new EditorOperations(textView, this);
+            property = new EditorOperations(textView, this);
             textView.Properties.AddProperty(typeof(EditorOperationsFactoryService), property);
             return property;
         }

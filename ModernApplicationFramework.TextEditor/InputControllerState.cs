@@ -27,7 +27,6 @@ namespace ModernApplicationFramework.TextEditor
         {
             OrderedMouseProcessorProviders = Orderer.Order(MouseProcessorProviders);
             OrderedKeyProcessorProviders = Orderer.Order(KeyProcessorProviders);
-        
-
+        }
     }
 }

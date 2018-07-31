@@ -4,7 +4,7 @@ namespace ModernApplicationFramework.TextEditor
 {
     public abstract class KeyProcessor
     {
-        public virtual bool IsInterestedInHandledEvents => false
+        public virtual bool IsInterestedInHandledEvents => false;
 
         public virtual void PreviewKeyDown(KeyEventArgs args)
         {
