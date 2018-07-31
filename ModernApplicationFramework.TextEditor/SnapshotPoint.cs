@@ -79,7 +79,7 @@ namespace ModernApplicationFramework.TextEditor
 
         public SnapshotPoint Subtract(int offset)
         {
-            return this.Add(-offset);
+            return Add(-offset);
         }
 
         public int Difference(SnapshotPoint other)

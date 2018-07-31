@@ -37,6 +37,13 @@ namespace ModernApplicationFramework.TextEditor
             return true;
         }
 
+        public void SetSnapshotAndUpdate(ITextSnapshot snapshot, double deltaX, double deltaY, IList<ITextViewLine> newOrReformattedLines, IList<ITextViewLine> translatedLines)
+        {
+            foreach (var element in _elements)
+                (element.Element as AdornmentLayer)?.SetSnapshotAndUpdate(snapshot, deltaX, deltaY,
+                    newOrReformattedLines, translatedLines);
+        }
+
         public UIElement GetElement(string name)
         {
             return (from element in _elements where element.Name == name select element.Element).FirstOrDefault();

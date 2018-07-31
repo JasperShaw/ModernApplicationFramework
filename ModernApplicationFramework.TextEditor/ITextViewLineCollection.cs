@@ -1,11 +1,11 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Media;
-using System.Windows.Media.TextFormatting;
 
 namespace ModernApplicationFramework.TextEditor
 {
-    public interface ITextViewLineCollection
+    public interface ITextViewLineCollection : IList<ITextViewLine>
     {
         ReadOnlyCollection<ITextViewLine> TextViewLines { get; }
 

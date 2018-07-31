@@ -7,10 +7,10 @@ using System.Windows.Media;
 
 namespace ModernApplicationFramework.TextEditor
 {
-    public sealed class TextViewLineCollection : ITextViewLineCollection, IList<ITextViewLine>
+    public sealed class TextViewLineCollection : ITextViewLineCollection
     {
         private readonly SnapshotSpan _formattedSpan;
-        private readonly ITextView _textView;
+        private ITextView _textView;
         private readonly ReadOnlyCollection<ITextViewLine> _textLines;
 
         public int Count => _textLines.Count;
@@ -392,6 +392,11 @@ namespace ModernApplicationFramework.TextEditor
             else if (y > num3 && index1 < _textLines.Count - 1 && _textLines[index1 + 1].TextTop - y < y - num3)
                 ++index1;
             return index1;
+        }
+
+        public void Invalidate()
+        {
+            _textView = null;
         }
     }
 }

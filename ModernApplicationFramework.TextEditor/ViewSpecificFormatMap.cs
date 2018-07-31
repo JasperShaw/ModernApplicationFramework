@@ -35,7 +35,7 @@ namespace ModernApplicationFramework.TextEditor
 
         private void TextViewOptionsChanged(object sender, EditorOptionChangedEventArgs e)
         {
-            if (e.OptionId != DefaultWpfViewOptions.AppearanceCategory.Name)
+            if (e.OptionId != DefaultViewOptions.AppearanceCategory.Name)
                 return;
             AttachToFormatMaps();
         }

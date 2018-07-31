@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace ModernApplicationFramework.TextEditor
@@ -12,11 +14,11 @@ namespace ModernApplicationFramework.TextEditor
         private bool _isClosed;
         private readonly bool _setFocus;
         private readonly TextEditorFactoryService _factory;
-        private bool _readOnly;
         private bool _hasInitializeBeenCalled;
         private Grid _outerGrid;
         private readonly ITextView _textView;
         private static ResourceDictionary _editorResources;
+        private readonly IList<ITextViewMargin> _edges = new List<ITextViewMargin>(5);
 
         public event EventHandler Closed;
 
@@ -26,11 +28,7 @@ namespace ModernApplicationFramework.TextEditor
 
         public ITextView TextView => _textView;
 
-        public bool IsReadOnly
-        {
-            get => _readOnly;
-            set => _readOnly = value;
-        }
+        public bool IsReadOnly { get; set; }
 
         internal bool IsTextViewHostInitialized => _hasInitializeBeenCalled;
 
@@ -53,10 +51,11 @@ namespace ModernApplicationFramework.TextEditor
             Resources.MergedDictionaries.Clear();
             MouseWheel -= OnMouseWheel;
             _textView.BackgroundBrushChanged -= OnBackgroundBrushChanged;
-
+            foreach (var edge in _edges)
+                edge.Dispose();
             _textView.Close();
             _isClosed = true;
-            Closed?.Invoke(this, EventArgs.Empty);
+            _factory.GuardedOperations.RaiseEvent(this, Closed);
         }
 
         public void OnMouseWheel(object sender, MouseWheelEventArgs e)
@@ -87,6 +86,11 @@ namespace ModernApplicationFramework.TextEditor
             _outerGrid.ShowGridLines = false;
             _textView.BackgroundBrushChanged += OnBackgroundBrushChanged;
             Content = _outerGrid;
+            PlaceEdge(0, 1, 1, LeftMargin.Create(this, _factory.GuardedOperations, _factory.MarginState));
+            PlaceEdge(2, 1, 1, ContainerMargin.Create("Right", Orientation.Vertical, this, _factory.GuardedOperations, _factory.MarginState));
+            PlaceEdge(0, 0, 3, ContainerMargin.Create("Top", Orientation.Horizontal, this, _factory.GuardedOperations, _factory.MarginState));
+            PlaceEdge(0, 2, 2, ContainerMargin.Create("Bottom", Orientation.Horizontal, this, _factory.GuardedOperations, _factory.MarginState));
+            PlaceEdge(2, 2, 1, ContainerMargin.Create("BottomRightCorner", Orientation.Horizontal, this, _factory.GuardedOperations, _factory.MarginState));
             Grid.SetRow(_textView.VisualElement, 1);
             Grid.SetColumn(_textView.VisualElement, 1);
             _outerGrid.Children.Add(_textView.VisualElement);
@@ -101,6 +105,33 @@ namespace ModernApplicationFramework.TextEditor
         private void OnBackgroundBrushChanged(object sender, BackgroundBrushChangedEventArgs e)
         {
             _outerGrid.Background = e.NewBackgroundBrush;
+        }
+
+        private void PlaceEdge(int column, int row, int colSpan, ITextViewMargin margin)
+        {
+            Grid.SetColumnSpan(margin.VisualElement, colSpan);
+            Grid.SetColumn(margin.VisualElement, column);
+            Grid.SetRow(margin.VisualElement, row);
+            _outerGrid.Children.Add(margin.VisualElement);
+            _edges.Add(margin);
+            margin.VisualElement.PreviewMouseDown += OnMarginPreviewMouseDown;
+        }
+
+        private void OnMarginPreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (_textView.IsClosed || IsFocusedElementBetween(sender, e.OriginalSource as DependencyObject))
+                return;
+            SetFocusToViewLater();
+        }
+
+        private static bool IsFocusedElementBetween(object parent, DependencyObject descendant)
+        {
+            for (; parent != descendant && descendant != null; descendant = LogicalTreeHelper.GetParent(descendant) ?? VisualTreeHelper.GetParent(descendant))
+            {
+                if (descendant is UIElement uiElement && uiElement.Focusable)
+                    return true;
+            }
+            return false;
         }
 
         private void SetFocusToViewLater()

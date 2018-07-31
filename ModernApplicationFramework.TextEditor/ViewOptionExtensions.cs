@@ -8,35 +8,35 @@ namespace ModernApplicationFramework.TextEditor
         {
             if (options == null)
                 throw new ArgumentNullException(nameof(options));
-            return options.GetOptionValue(DefaultWpfViewOptions.EnableHighlightCurrentLineId);
+            return options.GetOptionValue(DefaultViewOptions.EnableHighlightCurrentLineId);
         }
 
         public static bool IsSimpleGraphicsEnabled(this IEditorOptions options)
         {
             if (options == null)
                 throw new ArgumentNullException(nameof(options));
-            return options.GetOptionValue(DefaultWpfViewOptions.EnableSimpleGraphicsId);
+            return options.GetOptionValue(DefaultViewOptions.EnableSimpleGraphicsId);
         }
 
         public static bool IsMouseWheelZoomEnabled(this IEditorOptions options)
         {
             if (options == null)
                 throw new ArgumentNullException(nameof(options));
-            return options.GetOptionValue(DefaultWpfViewOptions.EnableMouseWheelZoomId);
+            return options.GetOptionValue(DefaultViewOptions.EnableMouseWheelZoomId);
         }
 
         public static string AppearanceCategory(this IEditorOptions options)
         {
             if (options == null)
                 throw new ArgumentNullException(nameof(options));
-            return options.GetOptionValue(DefaultWpfViewOptions.AppearanceCategory);
+            return options.GetOptionValue(DefaultViewOptions.AppearanceCategory);
         }
 
         public static double ZoomLevel(this IEditorOptions options)
         {
             if (options == null)
                 throw new ArgumentNullException(nameof(options));
-            return options.GetOptionValue(DefaultWpfViewOptions.ZoomLevelId);
+            return options.GetOptionValue(DefaultViewOptions.ZoomLevelId);
         }
     }
 }

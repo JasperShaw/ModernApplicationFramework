@@ -46,7 +46,7 @@ namespace ModernApplicationFramework.TextEditor
 
         private void Initialize()
         {
-            foreach (Lazy<EditorOptionDefinition, INameMetadata> optionImport in OptionImports)
+            foreach (var optionImport in OptionImports)
             {
                 if (optionImport.Metadata.Name != null)
                 {
@@ -54,7 +54,7 @@ namespace ModernApplicationFramework.TextEditor
                 }
                 else
                 {
-                    EditorOptionDefinition optionDefinition = GuardedOperations.InstantiateExtension(optionImport, optionImport);
+                    var optionDefinition = GuardedOperations.InstantiateExtension(optionImport, optionImport);
                     SafeAdd(_instantiatedOptionDefinitions, optionDefinition.Name, optionDefinition);
                 }
             }
@@ -88,7 +88,7 @@ namespace ModernApplicationFramework.TextEditor
 
         internal EditorOptionDefinition GetOptionDefinitionOrThrow(string optionId)
         {
-            EditorOptionDefinition optionDefinition = GetOptionDefinition(optionId);
+            var optionDefinition = GetOptionDefinition(optionId);
             if (optionDefinition != null)
                 return optionDefinition;
             throw new ArgumentException($"No EditorOptionDefinition export found for the given option name: {optionId}", nameof(optionId));
@@ -98,14 +98,14 @@ namespace ModernApplicationFramework.TextEditor
         {
             lock (_instantiatedOptionDefinitions)
             {
-                foreach (KeyValuePair<string, Lazy<EditorOptionDefinition, INameMetadata>> namedOptionImport in _namedOptionImports)
+                foreach (var namedOptionImport in _namedOptionImports)
                 {
-                    EditorOptionDefinition optionDefinition = GuardedOperations.InstantiateExtension(namedOptionImport.Value, namedOptionImport.Value);
+                    var optionDefinition = GuardedOperations.InstantiateExtension(namedOptionImport.Value, namedOptionImport.Value);
                     SafeAdd(_instantiatedOptionDefinitions, namedOptionImport.Key, optionDefinition);
                 }
                 _namedOptionImports.Clear();
             }
-            foreach (EditorOptionDefinition optionDefinition in _instantiatedOptionDefinitions.Values)
+            foreach (var optionDefinition in _instantiatedOptionDefinitions.Values)
             {
                 if (scope == null || optionDefinition.IsApplicableToScope(scope))
                     yield return optionDefinition;
@@ -117,7 +117,7 @@ namespace ModernApplicationFramework.TextEditor
             List<EditorOptionDefinition> list;
             lock (_instantiatedOptionDefinitions)
                 list = _instantiatedOptionDefinitions.Values.ToList();
-            foreach (EditorOptionDefinition optionDefinition in list)
+            foreach (var optionDefinition in list)
             {
                 if (scope == null || optionDefinition.IsApplicableToScope(scope))
                     yield return optionDefinition;

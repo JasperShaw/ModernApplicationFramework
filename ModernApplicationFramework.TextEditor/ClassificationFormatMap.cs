@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
+using ModernApplicationFramework.TextEditor.Utilities;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.TextEditor

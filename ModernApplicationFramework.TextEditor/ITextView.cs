@@ -16,7 +16,27 @@ namespace ModernApplicationFramework.TextEditor
 
         event EventHandler Closed;
 
+        event EventHandler LostAggregateFocus;
+
+        event EventHandler GotAggregateFocus;
+
+        event EventHandler<MouseHoverEventArgs> MouseHover;
+
+        FrameworkElement ManipulationLayer { get; }
+
         FrameworkElement VisualElement { get; }
+
+        ITextSelection Selection { get; }
+
+        IFormattedLineSource FormattedLineSource { get; }
+
+        ITextViewLineCollection TextViewLines { get; }
+
+        ITextSnapshot VisualSnapshot { get; }
+
+        double LineHeight { get; }
+
+        bool InOuterLayout { get; }
 
         Brush Background { get; set; }
 
@@ -38,6 +58,14 @@ namespace ModernApplicationFramework.TextEditor
 
         ITextViewRoleSet Roles { get; }
 
+        ITextBuffer TextBuffer { get; }
+
+        double ZoomLevel { get; set; }
+
+        event EventHandler<ZoomLevelChangedEventArgs> ZoomLevelChanged;
+
+        event EventHandler<TextViewLayoutChangedEventArgs> LayoutChanged;
+
         void Close();
 
         ITextSnapshot TextSnapshot { get; }
@@ -49,5 +77,19 @@ namespace ModernApplicationFramework.TextEditor
         IBufferGraph BufferGraph { get; }
 
         IEditorOptions Options { get; }
+
+        IViewScroller ViewScroller { get; }
+
+        ITextViewLine GetTextViewLineContainingBufferPosition(SnapshotPoint bufferPosition);
+
+        IAdornmentLayer GetAdornmentLayer(string name);
+
+        void DisplayTextLineContainingBufferPosition(SnapshotPoint bufferPosition, double verticalDistance, ViewRelativePosition relativeTo);
+
+        void DisplayTextLineContainingBufferPosition(SnapshotPoint bufferPosition, double verticalDistance, ViewRelativePosition relativeTo, double? viewportWidthOverride, double? viewportHeightOverride);
+
+        bool HasAggregateFocus { get; }
+
+        ITextCaret Caret { get; }
     }
 }

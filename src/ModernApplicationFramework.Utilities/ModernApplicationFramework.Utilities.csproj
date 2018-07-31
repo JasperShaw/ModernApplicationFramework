@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="Accelerator.cs" />
     <Compile Include="Attributes\BaseDefinitionAttribute.cs" />
+    <Compile Include="Attributes\ContentTypeAttribute.cs" />
     <Compile Include="Attributes\MultipleBaseMetadataAttribute.cs" />
     <Compile Include="Attributes\NameAttribute.cs" />
     <Compile Include="Attributes\OrderAttribute.cs" />
