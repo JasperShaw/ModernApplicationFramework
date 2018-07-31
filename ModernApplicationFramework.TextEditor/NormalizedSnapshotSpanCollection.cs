@@ -587,7 +587,7 @@ namespace ModernApplicationFramework.TextEditor
 
         public static bool operator ==(NormalizedSnapshotSpanCollection left, NormalizedSnapshotSpanCollection right)
         {
-            if (left == right)
+            if ((object) left == right)
                 return true;
             if ((object)left == null || (object)right == null || left.Count != right.Count)
                 return false;
