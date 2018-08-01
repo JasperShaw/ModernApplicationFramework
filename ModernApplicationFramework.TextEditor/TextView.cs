@@ -45,7 +45,7 @@ namespace ModernApplicationFramework.TextEditor
         private List<FormattedLineGroup> _unattachedLineCache = new List<FormattedLineGroup>(8);
         private ViewStack _baseLayer;
         private Canvas _controlHostLayer;
-        private readonly double _currentZoomLevel = 100.0;
+        private double _currentZoomLevel = 100.0;
         private TextSelection _selection;
         private CaretElement _caretElement;
 
@@ -487,6 +487,27 @@ namespace ModernApplicationFramework.TextEditor
 
         private void ApplyZoom(double zoomLevel)
         {
+            if (double.IsNaN(zoomLevel))
+                return;
+            if (Math.Abs(zoomLevel - 100.0) < 0.5)
+                zoomLevel = 100.0;
+            else
+            {
+                zoomLevel = Math.Max(20.0, zoomLevel);
+                zoomLevel = Math.Min(400.0, zoomLevel);
+            }
+            if (Math.Abs(_currentZoomLevel - zoomLevel) < 1E-05)
+                return;
+            _currentZoomLevel = zoomLevel;
+            if (_currentZoomLevel == 100.0)
+                ClearValue(TextOptions.TextFormattingModeProperty);
+            else
+                TextOptions.SetTextFormattingMode(this, TextFormattingMode.Ideal);
+            var num = _currentZoomLevel / 100.0;
+            var scaleTransform = new ScaleTransform(num, num);
+            scaleTransform.Freeze();
+            LayoutTransform = scaleTransform;
+            ZoomLevelChanged?.Invoke(this, new ZoomLevelChangedEventArgs(_currentZoomLevel, scaleTransform));
         }
 
         private void BindContentTypeSpecificAssets(IContentType beforeContentType, IContentType afterContentType)

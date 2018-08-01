@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using ModernApplicationFramework.TextEditor.Implementation;
 
 namespace ModernApplicationFramework.TextEditor
 {
@@ -10,19 +11,18 @@ namespace ModernApplicationFramework.TextEditor
     {
         private readonly ITextView _textView;
         private readonly IViewPrimitives _viewPrimitives;
+ 
+        private SimpleTextViewWindow _simpleTextViewWindow;
 
-        //TODO: Add SimpleTextViewWindow stuff
-        //private SimpleTextViewWindow _simpleTextViewWindow;
-
-        //private SimpleTextViewWindow SimpleTextViewWindow
-        //{
-        //    get
-        //    {
-        //        if (_simpleTextViewWindow == null && _textView != null)
-        //            _simpleTextViewWindow = VsEditorAdaptersFactoryService.GetSimpleTextViewWindowFromTextView(_textView);
-        //        return _simpleTextViewWindow;
-        //    }
-        //}
+        private SimpleTextViewWindow SimpleTextViewWindow
+        {
+            get
+            {
+                if (_simpleTextViewWindow == null && _textView != null)
+                    _simpleTextViewWindow = EditorAdaptersFactoryService.GetSimpleTextViewWindowFromTextView(_textView);
+                return _simpleTextViewWindow;
+            }
+        }
 
         public MouseProcessor(ITextView textView, IEditorPrimitivesFactoryService editorPrimitivesFactoryService)
         {
@@ -80,32 +80,33 @@ namespace ModernApplicationFramework.TextEditor
         {
         }
 
+        //TODO: remove comments
+
         public override void PostprocessMouseLeftButtonUp(MouseButtonEventArgs e)
         {
             //HandleClick(e);
-            //if (SimpleTextViewWindow == null)
-            //    return;
+            if (SimpleTextViewWindow == null)
+                return;
             //SimpleTextViewWindow.ClearCommandContext();
         }
 
         public override void PreprocessMouseLeftButtonDown(MouseButtonEventArgs e)
         {
-            return;
-            //if (SimpleTextViewWindow == null)
-            //    return;
-            //if (e.ClickCount == 1 && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
-            //{
-            //    SimpleTextViewWindow.ClearCommandContext();
-            //    SimpleTextViewWindow.SetCommandContext(VSConstants.VSStd2KCmdID.SELECTCURRENTWORD);
-            //}
-            //else if (e.ClickCount == 2)
-            //{
-            //    SimpleTextViewWindow.ClearCommandContext();
-            //    SimpleTextViewWindow.SetCommandContext(VSConstants.VSStd2KCmdID.SELECTCURRENTWORD);
-            //}
+            if (SimpleTextViewWindow == null)
+                return;
+            if (e.ClickCount == 1 && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                //SimpleTextViewWindow.ClearCommandContext();
+                //SimpleTextViewWindow.SetCommandContext(VSConstants.VSStd2KCmdID.SELECTCURRENTWORD);
+            }
+            else if (e.ClickCount == 2)
+            {
+                //SimpleTextViewWindow.ClearCommandContext();
+                //SimpleTextViewWindow.SetCommandContext(VSConstants.VSStd2KCmdID.SELECTCURRENTWORD);
+            }
             //if (e.ClickCount != 2 || !ErrorHandler.Succeeded(this.HandleClick(e)))
             //    return;
-            //e.Handled = true;
+            e.Handled = true;
         }
 
         public override void PreprocessMouseRightButtonDown(MouseButtonEventArgs e)
@@ -198,6 +199,5 @@ namespace ModernApplicationFramework.TextEditor
             }
             return false;
         }
-
     }
 }

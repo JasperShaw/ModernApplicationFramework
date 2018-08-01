@@ -8,8 +8,8 @@ namespace ModernApplicationFramework.TextEditor
     [Export(typeof(IEditorOperationsFactoryService))]
     internal sealed class EditorOperationsFactoryService : IEditorOperationsFactoryService
     {
-        //[Import]
-        //internal ITextStructureNavigatorSelectorService TextStructureNavigatorFactory { get; set; }
+        [Import]
+        internal ITextStructureNavigatorSelectorService TextStructureNavigatorFactory { get; set; }
 
         //[Import(AllowDefault = true)]
         //internal IWaitIndicator WaitIndicator { get; set; }
@@ -37,8 +37,8 @@ namespace ModernApplicationFramework.TextEditor
         [Import]
         internal ISmartIndentationService SmartIndentationService { get; set; }
 
-        //[Import]
-        //internal ITextDocumentFactoryService TextDocumentFactoryService { get; set; }
+        [Import]
+        internal ITextDocumentFactoryService TextDocumentFactoryService { get; set; }
 
         [Import]
         internal IContentTypeRegistryService ContentTypeRegistryService { get; set; }

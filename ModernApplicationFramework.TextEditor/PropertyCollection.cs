@@ -85,7 +85,7 @@ namespace ModernApplicationFramework.TextEditor
                     {
                         if (!_properties.Contains(key))
                         {
-                            property = default(TProperty);
+                            property = default;
                             return false;
                         }
                     }
@@ -93,7 +93,7 @@ namespace ModernApplicationFramework.TextEditor
                     return true;
                 }
             }
-            property = default(TProperty);
+            property = default;
             return false;
         }
 

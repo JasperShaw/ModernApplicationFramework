@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.IO;
 using ModernApplicationFramework.TextEditor.Text.Differencing;
 using ModernApplicationFramework.TextEditor.Utilities;
 using ModernApplicationFramework.Utilities.Attributes;
@@ -30,10 +31,10 @@ namespace ModernApplicationFramework.TextEditor.Text
         internal IContentTypeRegistryService ContentTypeRegistryService { get; set; }
 
         [Import]
-        internal GuardedOperations _guardedOperations { get; set; }
+        internal GuardedOperations GuardedOperations { get; set; }
 
         [Import]
-        internal ITextDifferencingSelectorService _textDifferencingSelectorService { get; set; }
+        internal ITextDifferencingSelectorService TextDifferencingSelectorService { get; set; }
 
 
 
@@ -76,7 +77,22 @@ namespace ModernApplicationFramework.TextEditor.Text
             return Make(contentType, content, false);
         }
 
-       
+        public ITextBuffer CreateTextBuffer(TextReader reader, IContentType contentType, long length, string traceId)
+        {
+            if (reader == null)
+                throw new ArgumentNullException(nameof(reader));
+            if (contentType == null)
+                throw new ArgumentNullException(nameof(contentType));
+            if (length > int.MaxValue)
+                throw new InvalidOperationException();
+            var content = TextImageLoader.Load(reader, length, traceId, out var hasConsistentLineEndings, out _);
+            var buffer = Make(contentType, content, false);
+            if (!hasConsistentLineEndings)
+                buffer.Properties.AddProperty("InconsistentLineEndings", true);
+            return buffer;
+        }
+
+
         public ITextBuffer CreateTextBuffer(string text, IContentType contentType, bool spurnGroup)
         {
             if (text == null)
@@ -117,7 +133,7 @@ namespace ModernApplicationFramework.TextEditor.Text
 
         private TextBuffer Make(IContentType contentType, StringRebuilder content, bool spurnGroup)
         {
-            var textBuffer = new TextBuffer(contentType, content, _textDifferencingSelectorService.DefaultTextDifferencingService, _guardedOperations, spurnGroup);
+            var textBuffer = new TextBuffer(contentType, content, TextDifferencingSelectorService.DefaultTextDifferencingService, GuardedOperations, spurnGroup);
             RaiseTextBufferCreatedEvent(textBuffer);
             return textBuffer;
         }
