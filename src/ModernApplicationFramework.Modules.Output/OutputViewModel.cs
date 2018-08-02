@@ -5,6 +5,7 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Extended.Utilities.PaneUtilities;
 using ModernApplicationFramework.TextEditor;
+using ModernApplicationFramework.TextEditor.Implementation;
 
 namespace ModernApplicationFramework.Modules.Output
 {
@@ -25,10 +26,21 @@ namespace ModernApplicationFramework.Modules.Output
 
 
 
-            var factory = IoC.Get<ITextEditorFactoryService>();
+            //var factory = IoC.Get<ITextEditorFactoryService>();
+            //var view = factory.CreateTextView();
+            //var host = factory.CreateTextViewHost(view, true);
 
-            var view = factory.CreateTextView();
-            var host = factory.CreateTextViewHost(view, true);
+            var factory = IoC.Get<IEditorAdaptersFactoryService>();
+            var bufferModel = factory.CreateTextBufferAdapter();
+
+            var data = "Hallo Welt";
+            bufferModel.InitializeContent(data, data.Length);
+
+            var tva = factory.CreateTextViewAdapter();
+            tva.SetBuffer(bufferModel as IMafTextLines);
+
+
+            var host = factory.GetTextViewHost(tva);
 
             ActivePane = host.HostControl;
         }

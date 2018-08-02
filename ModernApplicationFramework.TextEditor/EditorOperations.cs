@@ -473,12 +473,42 @@ namespace ModernApplicationFramework.TextEditor
         public void SelectAndMoveCaret(VirtualSnapshotPoint anchorPoint, VirtualSnapshotPoint activePoint,
             TextSelectionMode selectionMode, EnsureSpanVisibleOptions? scrollOptions)
         {
-            throw new NotImplementedException();
+            if (anchorPoint == activePoint)
+            {
+                TextView.Selection.Clear();
+                TextView.Selection.Mode = selectionMode;
+                TextView.Caret.MoveTo(activePoint.TranslateTo(TextView.TextSnapshot));
+            }
+            else
+            {
+                TextView.Selection.Select(anchorPoint, activePoint);
+                TextView.Selection.Mode = selectionMode;
+                TextView.Caret.MoveTo(TextView.Selection.IsEmpty ? activePoint.TranslateTo(TextView.TextSnapshot) : TextView.Selection.ActivePoint);
+            }
+            if (!scrollOptions.HasValue)
+                return;
+            scrollOptions = !TextView.Selection.IsReversed ? scrollOptions.Value & ~EnsureSpanVisibleOptions.ShowStart : scrollOptions.Value | EnsureSpanVisibleOptions.ShowStart;
+            TextView.ViewScroller.EnsureSpanVisible(TextView.Selection.StreamSelectionSpan, scrollOptions.Value);
         }
 
         public void SelectCurrentWord()
         {
-            throw new NotImplementedException();
+            var textRange1 = _editorPrimitives.Caret.GetCurrentWord();
+            var previousWord1 = _editorPrimitives.Caret.GetPreviousWord();
+            var textRange2 = _editorPrimitives.Selection.Clone();
+
+            if (!_editorPrimitives.Selection.IsEmpty && (textRange2.GetStartPoint().CurrentPosition == textRange1.GetStartPoint().CurrentPosition && textRange2.GetEndPoint().CurrentPosition == textRange1.GetEndPoint().CurrentPosition || textRange2.GetStartPoint().CurrentPosition == previousWord1.GetStartPoint().CurrentPosition && textRange2.GetEndPoint().CurrentPosition == previousWord1.GetEndPoint().CurrentPosition))
+                TextView.ViewScroller.EnsureSpanVisible(TextView.Selection.StreamSelectionSpan.SnapshotSpan, EnsureSpanVisibleOptions.MinimumScroll);
+            else
+            {
+                if (textRange1.IsEmpty)
+                {
+                    var previousWord2 = textRange1.GetStartPoint().GetPreviousWord();
+                    if (previousWord2.GetStartPoint().LineNumber == textRange1.GetStartPoint().LineNumber)
+                        textRange1 = previousWord2;
+                }
+                _editorPrimitives.Selection.SelectRange(textRange1);
+            }
         }
 
         public void SelectEnclosing()
@@ -493,7 +523,33 @@ namespace ModernApplicationFramework.TextEditor
 
         public void SelectLine(ITextViewLine viewLine, bool extendSelection)
         {
-            throw new NotImplementedException();
+            if (viewLine == null)
+                throw new ArgumentNullException(nameof(viewLine));
+            SnapshotPoint position1;
+            SnapshotPoint position2;
+            if (!extendSelection || TextView.Selection.IsEmpty)
+            {
+                position1 = viewLine.Start;
+                position2 = viewLine.EndIncludingLineBreak;
+            }
+            else
+            {
+                ITextViewLine containingBufferPosition = TextView.GetTextViewLineContainingBufferPosition(TextView.Selection.AnchorPoint.Position);
+                if (TextView.Selection.IsReversed && !TextView.Selection.AnchorPoint.IsInVirtualSpace && (TextView.Selection.AnchorPoint.Position == containingBufferPosition.Start && containingBufferPosition.Start.Position > 0))
+                    containingBufferPosition = TextView.GetTextViewLineContainingBufferPosition(containingBufferPosition.Start - 1);
+                if (viewLine.Start < containingBufferPosition.Start)
+                {
+                    position1 = containingBufferPosition.EndIncludingLineBreak;
+                    position2 = viewLine.Start;
+                }
+                else
+                {
+                    position1 = containingBufferPosition.Start;
+                    position2 = viewLine.EndIncludingLineBreak;
+                }
+            }
+            SelectAndMoveCaret(new VirtualSnapshotPoint(position1), new VirtualSnapshotPoint(position2), TextSelectionMode.Stream, new EnsureSpanVisibleOptions?());
+            TextView.Caret.EnsureVisible();
         }
 
         public void SelectNextSibling(bool extendSelection)

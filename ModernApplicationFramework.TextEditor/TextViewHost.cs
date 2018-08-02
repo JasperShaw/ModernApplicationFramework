@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using ModernApplicationFramework.TextEditor.Utilities;
 
 namespace ModernApplicationFramework.TextEditor
 {
@@ -19,6 +20,7 @@ namespace ModernApplicationFramework.TextEditor
         private readonly ITextView _textView;
         private static ResourceDictionary _editorResources;
         private readonly IList<ITextViewMargin> _edges = new List<ITextViewMargin>(5);
+        private readonly MouseWheelHelper _wheelHelper = new MouseWheelHelper();
 
         public event EventHandler Closed;
 
@@ -58,9 +60,17 @@ namespace ModernApplicationFramework.TextEditor
             _factory.GuardedOperations.RaiseEvent(this, Closed);
         }
 
+        public ITextViewMargin GetTextViewMargin(string marginName)
+        {
+            return null;
+        }
+
         public void OnMouseWheel(object sender, MouseWheelEventArgs e)
         {
-
+            if (_textView.InLayout)
+                return;
+            using (_factory.PerformanceBlockMarker.CreateBlock("TextEditor.Scroll.MouseWheel"))
+                _wheelHelper.HandleMouseWheelEvent(_textView, sender, e);
         }
 
         internal void Initialize()

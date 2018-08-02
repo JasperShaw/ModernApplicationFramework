@@ -1,4 +1,7 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Runtime.InteropServices;
+using System.Windows;
+using System.Windows.Input;
 using ModernApplicationFramework.TextEditor.Implementation;
 
 namespace ModernApplicationFramework.TextEditor
@@ -7,6 +10,7 @@ namespace ModernApplicationFramework.TextEditor
     {
         private readonly ITextView _textView;
         private readonly IEditorOperations _editorOperations;
+        private Guid _editorCommandGroup = MafConstants.EditorCommandGroup;
 
         private ICommandTarget _commandTarget;
 
@@ -32,7 +36,18 @@ namespace ModernApplicationFramework.TextEditor
         {
             if (!IsValid || args.Key != Key.System || (ModifierKeys.Shift != Keyboard.Modifiers || args.SystemKey != Key.F10))
                 return;
+            ShowContextMenu();
             args.Handled = true;
+        }
+
+        private void ShowContextMenu()
+        {
+            var screen = _textView.VisualElement.PointToScreen(SimpleTextViewWindow.CalculateContextMenuPosition(_textView));
+            var num = Marshal.AllocCoTaskMem(32);
+            Marshal.GetNativeVariantForObject((object)(short)screen.X, num);
+            Marshal.GetNativeVariantForObject((object)(short)screen.Y, new IntPtr(num.ToInt32() + 16));
+            CommandTarget.Exec(ref _editorCommandGroup, (uint) MafConstants.EditorCommands.ShowContextMenu, 0U, num, IntPtr.Zero);
+            Marshal.FreeCoTaskMem(num);
         }
     }
 }

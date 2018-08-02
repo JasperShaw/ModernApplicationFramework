@@ -22,6 +22,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <LangVersion>7.3</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,6 +33,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <LangVersion>7.3</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Caliburn.Micro, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
@@ -48,6 +52,7 @@
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.3.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -63,6 +68,7 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccessibleCaret.cs" />
@@ -79,6 +85,7 @@
     <Compile Include="BaseProjectionSnapshot.cs" />
     <Compile Include="BatchedTagsChangedEventArgs.cs" />
     <Compile Include="BrushSelectionPainter.cs" />
+    <Compile Include="BufferFactoryService.cs" />
     <Compile Include="BufferGraph.cs" />
     <Compile Include="BufferGraphFactoryService.cs" />
     <Compile Include="BufferGroup.cs" />
@@ -134,6 +141,7 @@
     <Compile Include="DirectionalSelectionEnabled.cs" />
     <Compile Include="DisplayTextPoint.cs" />
     <Compile Include="DisplayTextRange.cs" />
+    <Compile Include="DisplayUrlsAsHyperlinks.cs" />
     <Compile Include="DragDropHelper.cs" />
     <Compile Include="DragDropInfo.cs" />
     <Compile Include="DragDropMouseProcessor.cs" />
@@ -148,10 +156,23 @@
     <Compile Include="EditorAdaptersFactoryService.cs" />
     <Compile Include="EditorOperations.cs" />
     <Compile Include="EditorOperationsFactoryService.cs" />
+    <Compile Include="EditorParts.cs" />
     <Compile Include="EditorPrimitivesFactoryService.cs" />
+    <Compile Include="ElisionBuffer.cs" />
+    <Compile Include="ElisionBufferOptions.cs" />
+    <Compile Include="ElisionMap.cs" />
+    <Compile Include="ElisionMapNode.cs" />
+    <Compile Include="ElisionSnapshot.cs" />
+    <Compile Include="ElisionSourceSpansChangedEventArgs.cs" />
+    <Compile Include="ElisionViewModel.cs" />
+    <Compile Include="ElisionViewModelProvider.cs" />
     <Compile Include="EncodedStreamReader.cs" />
     <Compile Include="EncodingChangedEventArgs.cs" />
     <Compile Include="EnsureSpanVisibleOptions.cs" />
+    <Compile Include="Eoltype.cs" />
+    <Compile Include="Eoltype2.cs" />
+    <Compile Include="ErrorTag.cs" />
+    <Compile Include="ExpansionMarkerClient.cs" />
     <Compile Include="ExtendedCharacterDetectionDecoder.cs" />
     <Compile Include="ExtendedCharacterDetector.cs" />
     <Compile Include="FallbackDetector.cs" />
@@ -169,8 +190,13 @@
     <Compile Include="IEditorOperations.cs" />
     <Compile Include="IEditorOperationsFactoryService.cs" />
     <Compile Include="IEditorPrimitivesFactoryService.cs" />
+    <Compile Include="IElisionBuffer.cs" />
+    <Compile Include="IElisionSnapshot.cs" />
     <Compile Include="IEncodingDetector.cs" />
     <Compile Include="IEncodingDetectorMetadata.cs" />
+    <Compile Include="IErrorTag.cs" />
+    <Compile Include="IGetManagedObject.cs" />
+    <Compile Include="IGlyphTag.cs" />
     <Compile Include="IKeyProcessorProvider.cs" />
     <Compile Include="ImeCompositionWindowBottomOffset.cs" />
     <Compile Include="ImeCompositionWindowFont.cs" />
@@ -179,34 +205,93 @@
     <Compile Include="ImeTextComposition.cs" />
     <Compile Include="IMouseProcessor.cs" />
     <Compile Include="IMouseProcessorProvider.cs" />
+    <Compile Include="Implementation\AbstractUIThreadOperationContext.cs" />
+    <Compile Include="Implementation\CommandChainNode.cs" />
+    <Compile Include="Implementation\CommandHandlerServiceAdapter.cs" />
+    <Compile Include="Implementation\CommandHandlerServiceFilter.cs" />
+    <Compile Include="Implementation\CommandRouting.cs" />
+    <Compile Include="Implementation\Common.cs" />
+    <Compile Include="Implementation\ConnectionPoint.cs" />
+    <Compile Include="Implementation\ConnectionPointContainer.cs" />
+    <Compile Include="Implementation\CtrlKeyStateTracker.cs" />
+    <Compile Include="Implementation\DefaultBufferResolver.cs" />
+    <Compile Include="Implementation\DefaultBufferResolverProvider.cs" />
+    <Compile Include="Implementation\DefaultScrollMap.cs" />
+    <Compile Include="Implementation\DefaultUiThreadOperationContext.cs" />
+    <Compile Include="Implementation\DefaultUiThreadOperationExecutor.cs" />
+    <Compile Include="Implementation\EditorAndMenuFocusTracker.cs" />
+    <Compile Include="Implementation\EmbeddedObjectHelper.cs" />
+    <Compile Include="Implementation\EnumConnectionPoints.cs" />
+    <Compile Include="Implementation\EnumConnections.cs" />
+    <Compile Include="Implementation\ICommandingTextBufferResolver.cs" />
+    <Compile Include="Implementation\ICommandingTextBufferResolverProvider.cs" />
     <Compile Include="Implementation\ICommandTarget.cs" />
     <Compile Include="Implementation\ICommandTargetInner.cs" />
+    <Compile Include="Implementation\IConnectionAdviseHelper.cs" />
+    <Compile Include="Implementation\IScrollMap.cs" />
+    <Compile Include="Implementation\ITextViewFilter.cs" />
     <Compile Include="Implementation\ITypedTextTarget.cs" />
+    <Compile Include="Implementation\IUiThreadOperationContext.cs" />
+    <Compile Include="Implementation\IUIThreadOperationExecutor.cs" />
+    <Compile Include="Implementation\IUiThreadOperationScope.cs" />
+    <Compile Include="Implementation\IUrlTag.cs" />
+    <Compile Include="Implementation\IVerticalFractionMap.cs" />
+    <Compile Include="Implementation\IVsCommandHandlerServiceAdapter.cs" />
+    <Compile Include="Implementation\Olecmd.cs" />
+    <Compile Include="Implementation\ProgressInfo.cs" />
     <Compile Include="Implementation\SimpleTextViewWindow.cs" />
+    <Compile Include="Implementation\SingleBufferResolver.cs" />
+    <Compile Include="Implementation\UiThreadOperationContext.cs" />
+    <Compile Include="Implementation\UIThreadOperationExecutor.cs" />
+    <Compile Include="Implementation\UiThreadOperationStatus.cs" />
+    <Compile Include="Utilities\StableContentTypeComparer.cs" />
+    <Compile Include="Implementation\TextViewAdapter.cs" />
+    <Compile Include="Implementation\UrlClickMouseHandler.cs" />
+    <Compile Include="Implementation\UrlClickMouseProcessorProvider.cs" />
+    <Compile Include="Implementation\UrlTag.cs" />
+    <Compile Include="Utilities\Olecmdtext.cs" />
+    <Compile Include="Utilities\Utilities.cs" />
+    <Compile Include="INormalizeNewLines.cs" />
     <Compile Include="InputController.cs" />
     <Compile Include="InputControllerState.cs" />
     <Compile Include="InputControllerViewCreationListener.cs" />
+    <Compile Include="IOverviewMarkTag.cs" />
+    <Compile Include="IProjectionBufferFactoryService.cs" />
     <Compile Include="IRtfBuilderService.cs" />
     <Compile Include="IRtfBuilderService2.cs" />
     <Compile Include="ITextDocument.cs" />
     <Compile Include="ITextDocumentFactoryService.cs" />
+    <Compile Include="ITextImageFactoryService.cs" />
     <Compile Include="ITextSearchService.cs" />
     <Compile Include="ITextSearchService2.cs" />
     <Compile Include="ITextStructureNavigator.cs" />
     <Compile Include="ITextStructureNavigatorProvider.cs" />
     <Compile Include="ITextStructureNavigatorSelectorService.cs" />
+    <Compile Include="ITextViewModelProvider.cs" />
     <Compile Include="IViewPrimitives.cs" />
     <Compile Include="IViewPrimitivesFactoryService.cs" />
     <Compile Include="IViewScroller.cs" />
+    <Compile Include="IMafTextManager.cs" />
+    <Compile Include="IVsTextMarker.cs" />
+    <Compile Include="IVsTextMarkerClient.cs" />
+    <Compile Include="IVsTextMarkerClientEx.cs" />
     <Compile Include="IWaitContext.cs" />
     <Compile Include="IWaitIndicator.cs" />
     <Compile Include="KeyboardFilter.cs" />
     <Compile Include="KeyProcessorDispatcher.cs" />
     <Compile Include="LineBuffer.cs" />
+    <Compile Include="MafConstants.cs" />
+    <Compile Include="MarkerManager.cs" />
+    <Compile Include="MarkerType.cs" />
     <Compile Include="MouseProcessor.cs" />
     <Compile Include="MouseProcessorBase.cs" />
     <Compile Include="MouseProcessorProvider.cs" />
+    <Compile Include="ProjectionLineCalculationState.cs" />
+    <Compile Include="ProjectionLineInfo.cs" />
+    <Compile Include="Text\TextImageExtensions.cs" />
+    <Compile Include="Utilities\MouseWheelHelper.cs" />
     <Compile Include="NaturalLanguageNavigatorProvider.cs" />
+    <Compile Include="OverviewMarkTag.cs" />
     <Compile Include="Page.cs" />
     <Compile Include="PageManager.cs" />
     <Compile Include="PrimitivesUtilities.cs" />
@@ -214,21 +299,34 @@
     <Compile Include="PrimitiveTextView.cs" />
     <Compile Include="ReloadResult.cs" />
     <Compile Include="RtfBuilderService.cs" />
+    <Compile Include="SecondaryTextBufferAdapter.cs" />
     <Compile Include="Selection.cs" />
     <Compile Include="SelectionMouseProcessor.cs" />
     <Compile Include="SelectionMouseProcessorProvider.cs" />
     <Compile Include="StringRebuilderForCompressedChars.cs" />
+    <Compile Include="SurfaceTextMarkerViewTagger.cs" />
+    <Compile Include="TagTypeAttribute.cs" />
+    <Compile Include="TextBufferAdapter.cs" />
+    <Compile Include="TextConvert.cs" />
+    <Compile Include="TextDocData.cs" />
     <Compile Include="TextDocument.cs" />
     <Compile Include="TextDocumentEventArgs.cs" />
     <Compile Include="TextDocumentFactoryService.cs" />
     <Compile Include="TextDocumentFileActionEventArgs.cs" />
     <Compile Include="TextExtent.cs" />
     <Compile Include="TextImageLoader.cs" />
+    <Compile Include="TextLineChange.cs" />
+    <Compile Include="TextMarkerGlyphTag.cs" />
+    <Compile Include="TextMarkerViewTagger.cs" />
+    <Compile Include="TextMarkerViewTaggerProvider.cs" />
     <Compile Include="TextPoint.cs" />
     <Compile Include="TextRange.cs" />
     <Compile Include="TextSearchService.cs" />
+    <Compile Include="TextSpan.cs" />
     <Compile Include="TextStructureNavigatorSelectorService.cs" />
     <Compile Include="UnicodeWordExtent.cs" />
+    <Compile Include="UrlClassifier.cs" />
+    <Compile Include="UrlClassifierProvider.cs" />
     <Compile Include="Utilities\IOrderableContentTypeAndTextViewRoleMetadata.cs" />
     <Compile Include="ITextViewConnectionListener.cs" />
     <Compile Include="ITextViewMargin.cs" />
@@ -474,7 +572,6 @@
     <Compile Include="TextViewRoleSet.cs" />
     <Compile Include="Text\BaseSnapshot.cs" />
     <Compile Include="Text\BinaryStringRebuilder.cs" />
-    <Compile Include="Text\BufferFactoryService.cs" />
     <Compile Include="ContentType.cs" />
     <Compile Include="ContentTypeDefinition.cs" />
     <Compile Include="ContentTypeRegistry.cs" />
@@ -596,6 +693,7 @@
     <Compile Include="VersionedSpan.cs" />
     <Compile Include="VersionNumberPosition.cs" />
     <Compile Include="VersionNumberPositionComparer.cs" />
+    <Compile Include="ViewMarkerTypeManager.cs" />
     <Compile Include="ViewOptionDefinition.cs" />
     <Compile Include="ViewOptionExtensions.cs" />
     <Compile Include="ViewPrimitives.cs" />
@@ -613,6 +711,9 @@
     <Compile Include="VisibleWhitespaceFactory.cs" />
     <Compile Include="VisibleWhitespaceVisualProvider.cs" />
     <Compile Include="VisualStudioWaitIndicator.cs" />
+    <Compile Include="VsTextMarkerAdapter.cs" />
+    <Compile Include="VsTextMarkerGlyphTag.cs" />
+    <Compile Include="VsTextMarkerTag.cs" />
     <Compile Include="WaitContext.cs" />
     <Compile Include="WaitHelper.cs" />
     <Compile Include="WaitIndicatorResult.cs" />

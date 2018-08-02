@@ -30,6 +30,15 @@ namespace ModernApplicationFramework.TextEditor.Text
             return Empty;
         }
 
+        public static StringRebuilder Create(ITextImage image)
+        {
+            if (image == null)
+                throw new ArgumentNullException(nameof(image));
+            if (image is CachingTextImage cachingTextImage)
+                return cachingTextImage.Builder;
+            return Create(image.GetText(0, image.Length));
+        }
+
         public static StringRebuilder Consolidate(StringRebuilder left, StringRebuilder right)
         {
             var length = left.Length + right.Length;

@@ -5,7 +5,7 @@ using System.ComponentModel.Composition;
 namespace ModernApplicationFramework.TextEditor.Text.Differencing
 {
     [Export(typeof(IDifferenceService))]
-    internal sealed class MaximalSubsequenceAlgorithm
+    internal sealed class MaximalSubsequenceAlgorithm : IDifferenceService
     {
         private static readonly IDiffChange[] Empty = new IDiffChange[0];
 

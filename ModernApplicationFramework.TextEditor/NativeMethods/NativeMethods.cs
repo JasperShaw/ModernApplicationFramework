@@ -5,7 +5,7 @@ using System.Security;
 
 namespace ModernApplicationFramework.TextEditor.NativeMethods
 {
-    internal static class NativeMethods
+    public static class NativeMethods
     {
         public struct RECT
         {

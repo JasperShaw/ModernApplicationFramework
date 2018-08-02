@@ -13,7 +13,7 @@
         //public static readonly EditorOptionKey<bool> ShowBlockStructureId = new EditorOptionKey<bool>(ShowBlockStructureName);
         //public static readonly EditorOptionKey<bool> ProduceScreenReaderFriendlyTextId = new EditorOptionKey<bool>(ProduceScreenReaderFriendlyTextName);
         //public static readonly EditorOptionKey<bool> OutliningUndoOptionId = new EditorOptionKey<bool>(OutliningUndoOptionName);
-        //public static readonly EditorOptionKey<bool> DisplayUrlsAsHyperlinksId = new EditorOptionKey<bool>(DisplayUrlsAsHyperlinksName);
+        public static readonly EditorOptionKey<bool> DisplayUrlsAsHyperlinksId = new EditorOptionKey<bool>(DisplayUrlsAsHyperlinksName);
         public static readonly EditorOptionKey<bool> DragDropEditingId = new EditorOptionKey<bool>(DragDropEditingName);
        //public static readonly EditorOptionKey<bool> BraceCompletionEnabledOptionId = new EditorOptionKey<bool>(BraceCompletionEnabledOptionName);
 
@@ -28,7 +28,7 @@
         //public const string ShowBlockStructureName = "TextView/ShowBlockStructure";
         //public const string ProduceScreenReaderFriendlyTextName = "TextView/ProduceScreenReaderFriendlyText";
         //public const string OutliningUndoOptionName = "TextView/OutliningUndo";
-        //public const string DisplayUrlsAsHyperlinksName = "TextView/DisplayUrlsAsHyperlinks";
+        public const string DisplayUrlsAsHyperlinksName = "TextView/DisplayUrlsAsHyperlinks";
         public const string DragDropEditingName = "TextView/DragDrop";
         //public const string BraceCompletionEnabledOptionName = "BraceCompletion/Enabled";
     }

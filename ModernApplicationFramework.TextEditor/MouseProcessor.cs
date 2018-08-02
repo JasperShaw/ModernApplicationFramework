@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -80,14 +81,10 @@ namespace ModernApplicationFramework.TextEditor
         {
         }
 
-        //TODO: remove comments
-
         public override void PostprocessMouseLeftButtonUp(MouseButtonEventArgs e)
         {
-            //HandleClick(e);
-            if (SimpleTextViewWindow == null)
-                return;
-            //SimpleTextViewWindow.ClearCommandContext();
+            HandleClick(e);
+            SimpleTextViewWindow?.ClearCommandContext();
         }
 
         public override void PreprocessMouseLeftButtonDown(MouseButtonEventArgs e)
@@ -96,16 +93,16 @@ namespace ModernApplicationFramework.TextEditor
                 return;
             if (e.ClickCount == 1 && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
             {
-                //SimpleTextViewWindow.ClearCommandContext();
-                //SimpleTextViewWindow.SetCommandContext(VSConstants.VSStd2KCmdID.SELECTCURRENTWORD);
+                SimpleTextViewWindow.ClearCommandContext();
+                SimpleTextViewWindow.SetCommandContext(MafConstants.EditorCommands.SelectCurrentWord);
             }
             else if (e.ClickCount == 2)
             {
-                //SimpleTextViewWindow.ClearCommandContext();
-                //SimpleTextViewWindow.SetCommandContext(VSConstants.VSStd2KCmdID.SELECTCURRENTWORD);
+                SimpleTextViewWindow.ClearCommandContext();
+                SimpleTextViewWindow.SetCommandContext(MafConstants.EditorCommands.SelectCurrentWord);
             }
-            //if (e.ClickCount != 2 || !ErrorHandler.Succeeded(this.HandleClick(e)))
-            //    return;
+            if (e.ClickCount != 2 || HandleClick(e) != 0)
+                return;
             e.Handled = true;
         }
 
@@ -185,6 +182,48 @@ namespace ModernApplicationFramework.TextEditor
                 return;
             DisplayContextMenu(GetPosition(e, _textView.VisualElement));
             e.Handled = true;
+        }
+
+        private int HandleClick(MouseButtonEventArgs e)
+        {
+            var num = int.MinValue;
+            if (SimpleTextViewWindow == null ||
+                PresentationSource.FromDependencyObject(_textView.VisualElement) == null)
+                return num;
+            var position = GetPosition(e, _textView.VisualElement);
+
+            position.X += _textView.ViewportLeft;
+            position.Y += _textView.ViewportTop;
+            var textViewLine = _textView.TextViewLines.GetTextViewLineContainingYCoordinate(position.Y) ??
+                               (position.Y < _textView.TextViewLines[0].Top
+                                   ? _textView.TextViewLines[0]
+                                   : _textView.TextViewLines[_textView.TextViewLines.Count - 1]);
+            var nullable1 = textViewLine.GetBufferPositionFromXCoordinate(position.X) ?? (position.X < textViewLine.TextLeft
+                                ? textViewLine.Start
+                                : textViewLine.End);
+            var nullable2 = SimpleTextViewWindow.DataPointFromViewPoint(nullable1);
+            if (!nullable2.HasValue)
+                return num;
+            var containingLine = nullable2.Value.GetContainingLine();
+            var lineNumber = containingLine.LineNumber;
+            var num2 = nullable2.Value - containingLine.Start;
+            var guid = MafConstants.EditorCommandGroup;
+            var id = e.ClickCount == 1 ? (uint) MafConstants.EditorCommands.LeftClick : (uint) MafConstants.EditorCommands.DoubleClick;
+
+            var prgCmds = new[]
+            {
+                new Olecmd{cmdID = id}
+            };
+
+            if (SimpleTextViewWindow.QueryStatus(ref guid, 1, prgCmds, IntPtr.Zero) >= 0 && ((int) prgCmds[0].cmdf & 2) != 0)
+            {
+                var num3 = Marshal.AllocCoTaskMem(32);
+                Marshal.GetNativeVariantForObject(lineNumber, num3);
+                Marshal.GetNativeVariantForObject(num2, new IntPtr(num3.ToInt32() + 16));
+                num = SimpleTextViewWindow.Exec(ref guid, id, 0, num3, IntPtr.Zero);
+                Marshal.FreeCoTaskMem(num3);
+            }
+            return num;
         }
 
         private static bool IsComingFromFindAdornment(RoutedEventArgs e, ITextView textView)

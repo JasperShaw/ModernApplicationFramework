@@ -203,10 +203,10 @@ namespace ModernApplicationFramework.TextEditor.Utilities
             IList<Lazy<TExtensionFactory, TMetadataView>> providerHandles, IContentType dataContentType, Func<TExtensionFactory, TExtensionInstance> getter,
             IContentTypeRegistryService contentTypeRegistryService, object errorSource) where TExtensionFactory : class where TMetadataView : IContentTypeMetadata
         {
-            TExtensionFactory factory = InvokeBestMatchingFactory(providerHandles, dataContentType, contentTypeRegistryService, errorSource);
+            var factory = InvokeBestMatchingFactory(providerHandles, dataContentType, contentTypeRegistryService, errorSource);
             if (factory == null)
-                return default(TExtensionInstance);
-            TExtensionInstance extensionInstance = default(TExtensionInstance);
+                return default;
+            TExtensionInstance extensionInstance = default;
             CallExtensionPoint(errorSource, () => extensionInstance = getter(factory));
             return extensionInstance;
         }
@@ -220,20 +220,20 @@ namespace ModernApplicationFramework.TextEditor.Utilities
             catch (Exception ex)
             {
                 HandleException(errorSource, ex);
-                return default(TExtension);
+                return default;
             }
         }
 
         public TExtension InvokeBestMatchingFactory<TExtension, TMetadataView>(IList<Lazy<TExtension, TMetadataView>> providerHandles, IContentType dataContentType, IContentTypeRegistryService contentTypeRegistryService, object errorSource) where TMetadataView : IContentTypeMetadata
         {
-            List<Lazy<TExtension, TMetadataView>> candidates = new List<Lazy<TExtension, TMetadataView>>();
-            foreach (Lazy<TExtension, TMetadataView> providerHandle in providerHandles)
+            var candidates = new List<Lazy<TExtension, TMetadataView>>();
+            foreach (var providerHandle in providerHandles)
             {
-                foreach (string contentType in providerHandle.Metadata.ContentTypes)
+                foreach (var contentType in providerHandle.Metadata.ContentTypes)
                 {
                     if (string.Compare(dataContentType.TypeName, contentType, StringComparison.OrdinalIgnoreCase) == 0)
                     {
-                        TExtension extension = InstantiateExtension(errorSource, providerHandle);
+                        var extension = InstantiateExtension(errorSource, providerHandle);
                         if (extension != null)
                             return extension;
                     }
@@ -251,7 +251,7 @@ namespace ModernApplicationFramework.TextEditor.Utilities
                 if (extension != null)
                     return extension;
             }
-            return default(TExtension);
+            return default;
         }
 
         public TExtensionInstance InstantiateExtension<TExtension, TMetadata, TExtensionInstance>(object errorSource, Lazy<TExtension, TMetadata> provider, Func<TExtension, TExtensionInstance> getter)
@@ -263,7 +263,7 @@ namespace ModernApplicationFramework.TextEditor.Utilities
             catch (Exception ex)
             {
                 HandleException(errorSource, ex);
-                return default(TExtensionInstance);
+                return default;
             }
         }
 
@@ -338,7 +338,7 @@ namespace ModernApplicationFramework.TextEditor.Utilities
             catch (Exception ex)
             {
                 HandleException(errorSource, ex);
-                return default(TExtension);
+                return default;
             }
         }
 

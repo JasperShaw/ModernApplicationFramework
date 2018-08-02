@@ -14,6 +14,9 @@ namespace ModernApplicationFramework.TextEditor
         internal Dictionary<string, int> OrderedOverlayLayerDefinitions = new Dictionary<string, int>();
         internal Dictionary<string, int> OrderedSpaceReservationManagerDefinitions = new Dictionary<string, int>();
 
+        public ITextViewRoleSet NoRoles => new TextViewRoleSet(new string[0]);
+        public ITextViewRoleSet AllPredefinedRoles => CreateTextViewRoleSet("ANALYZABLE", "DEBUGGABLE", "DOCUMENT", "EDITABLE", "INTERACTIVE", "STRUCTURED", "ZOOMABLE", "PRIMARYDOCUMENT");
+
         public ITextViewRoleSet DefaultRoles => CreateTextViewRoleSet("ANALYZABLE", "DOCUMENT", "EDITABLE",
             "INTERACTIVE", "STRUCTURED", "ZOOMABLE");
 
@@ -71,6 +74,19 @@ namespace ModernApplicationFramework.TextEditor
         [Import]
         internal IEditorFormatMapService EditorFormatMapService { get; set; }
 
+        [Import]
+        internal IContentTypeRegistryService ContentTypeRegistryService { get; set; }
+
+        [ImportMany]
+        internal List<Lazy<ITextViewModelProvider, IContentTypeAndTextViewRoleMetadata>> TextViewModelProviders { get; set; }
+
+
+        public void InitializeTextViewHost(ITextViewHost host)
+        {
+            if (!(host is TextViewHost textViewHost) || textViewHost.IsTextViewHostInitialized)
+                throw new ArgumentException();
+            textViewHost.Initialize();
+        }
 
         public event EventHandler<TextViewCreatedEventArgs> TextViewCreated;
 
@@ -87,6 +103,43 @@ namespace ModernApplicationFramework.TextEditor
             if (initialize)
                 InitializeTextView(textView);
             return textView;
+        }
+
+        public ITextView CreateTextViewWithoutInitialization(ITextDataModel dataModel, ITextViewRoleSet roles,
+            IEditorOptions parentOptions)
+        {
+            if (dataModel == null)
+                throw new ArgumentNullException(nameof(dataModel));
+            if (roles == null)
+                throw new ArgumentNullException(nameof(roles));
+            if (parentOptions == null)
+                throw new ArgumentNullException(nameof(parentOptions));
+            return CreateAndTrackTextView(dataModel, roles, parentOptions, false);
+        }
+
+        private TextView CreateAndTrackTextView(ITextDataModel dataModel, ITextViewRoleSet roles, IEditorOptions parentOptions, bool initialize = true)
+        {
+            return CreateAndTrackTextView(
+                UiExtensionSelector
+                    .InvokeBestMatchingFactory(
+                        TextViewModelProviders, dataModel.ContentType, roles,
+                        provider => provider.CreateTextViewModel(dataModel, roles), ContentTypeRegistryService,
+                        GuardedOperations, this) ?? new VacuousTextViewModel(dataModel),
+                roles, parentOptions, initialize);
+        }
+
+        private TextView CreateAndTrackTextView(ITextViewModel viewModel, ITextViewRoleSet roles,
+            IEditorOptions parentOptions, bool initialize = true)
+        {
+            var wpfTextView = new TextView(viewModel, roles, parentOptions, this, false);
+            if (initialize)
+                InitializeTextView(wpfTextView);
+            return wpfTextView;
+        }
+
+        void ITextEditorFactoryService.InitializeTextView(ITextView view)
+        {
+            InitializeTextView(view);
         }
 
         private void InitializeTextView(ITextView view)

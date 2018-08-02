@@ -38,6 +38,31 @@ namespace ModernApplicationFramework.TextEditor
             }
         }
 
+        public static int ScanForLineCount(string text)
+        {
+            if (text == null)
+                throw new ArgumentNullException(nameof(text));
+            var num1 = 0;
+            var start = 0;
+            while (start < text.Length)
+            {
+                var num2 = LengthOfLineBreak(text, start, text.Length);
+                if (num2 > 0)
+                {
+                    ++num1;
+                    start += num2;
+                }
+                else
+                    ++start;
+            }
+            return num1;
+        }
+
+        public static Span? Overlap(this Span span, Span? otherSpan)
+        {
+            return !otherSpan.HasValue ? new Span?() : span.Overlap(otherSpan.Value);
+        }
+
         public static string GetTagOrContentType(ITextBuffer buffer)
         {
             return GetTag(buffer) ?? buffer.ContentType.TypeName;
@@ -47,20 +72,20 @@ namespace ModernApplicationFramework.TextEditor
         {
             if (buffer == null)
                 throw new ArgumentNullException(nameof(buffer));
-            string property = "";
+            var property = "";
             buffer.Properties.TryGetProperty("tag", out property);
             return property;
         }
 
         public static T[] StableSort<T>(IReadOnlyList<T> elements, Comparison<T> comparer)
         {
-            int count = elements.Count;
-            T[] target = new T[count];
-            bool flag = true;
+            var count = elements.Count;
+            var target = new T[count];
+            var flag = true;
             if (count > 0)
             {
                 target[0] = elements[0];
-                for (int index = 1; index < count; ++index)
+                for (var index = 1; index < count; ++index)
                 {
                     target[index] = elements[index];
                     if (comparer(target[index - 1], target[index]) > 0)
@@ -69,11 +94,11 @@ namespace ModernApplicationFramework.TextEditor
             }
             if (flag)
                 return target;
-            T[] source = new T[count];
-            int subcount = 1;
+            var source = new T[count];
+            var subcount = 1;
             while (subcount < count)
             {
-                T[] objArray = source;
+                var objArray = source;
                 source = target;
                 target = objArray;
                 MergePass(source, target, subcount, comparer);
@@ -84,7 +109,7 @@ namespace ModernApplicationFramework.TextEditor
 
         private static void MergePass<T>(T[] source, T[] target, int subcount, Comparison<T> comparer)
         {
-            int left = 0;
+            var left = 0;
             while (left <= source.Length - 2 * subcount)
             {
                 Merge(source, target, left, left + subcount, left + 2 * subcount, comparer);
@@ -96,26 +121,26 @@ namespace ModernApplicationFramework.TextEditor
             }
             else
             {
-                for (int index = left; index < source.Length; ++index)
+                for (var index = left; index < source.Length; ++index)
                     target[index] = source[index];
             }
         }
 
         private static void Merge<T>(T[] source, T[] target, int left, int right, int end, Comparison<T> comparer)
         {
-            int index1 = left;
-            int index2 = right;
-            int num = left;
+            var index1 = left;
+            var index2 = right;
+            var num = left;
             while (index1 < right && index2 < end)
                 target[num++] = comparer(source[index1], source[index2]) <= 0 ? source[index1++] : source[index2++];
             if (index1 == right)
             {
-                for (int index3 = num; index3 < end; ++index3)
+                for (var index3 = num; index3 < end; ++index3)
                     target[index3] = source[index2++];
             }
             else
             {
-                for (int index3 = num; index3 < end; ++index3)
+                for (var index3 = num; index3 < end; ++index3)
                     target[index3] = source[index1++];
             }
         }

@@ -15,5 +15,7 @@ namespace ModernApplicationFramework.TextEditor
 
         void Close();
 
+        ITextViewMargin GetTextViewMargin(string marginName);
+
     }
 }

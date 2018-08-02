@@ -11,20 +11,20 @@ namespace ModernApplicationFramework.TextEditor.Text.Differencing
         private static readonly DefaultTextDifferencingService _defaultTextDifferencingService = new DefaultTextDifferencingService();
 
         [ImportMany(typeof(ITextDifferencingService))]
-        internal List<Lazy<ITextDifferencingService, IContentTypeMetadata>> _textDifferencingServices { get; set; }
+        internal List<Lazy<ITextDifferencingService, IContentTypeMetadata>> TextDifferencingServices { get; set; }
 
         [Import]
-        internal IContentTypeRegistryService _contentTypeRegistryService { get; set; }
+        internal IContentTypeRegistryService ContentTypeRegistryService { get; set; }
 
         [Import]
-        internal GuardedOperations _guardedOperations { get; set; }
+        internal GuardedOperations GuardedOperations { get; set; }
 
         public ITextDifferencingService GetTextDifferencingService(IContentType contentType)
         {
-            var guardedOperations = _guardedOperations;
-            var differencingServices = _textDifferencingServices;
+            var guardedOperations = GuardedOperations;
+            var differencingServices = TextDifferencingServices;
             var dataContentType = contentType;
-            var typeRegistryService = _contentTypeRegistryService;
+            var typeRegistryService = ContentTypeRegistryService;
             return guardedOperations
                        .InvokeBestMatchingFactory(differencingServices, dataContentType, differencingService =>
                                differencingService, typeRegistryService, this) ??  DefaultTextDifferencingService;
