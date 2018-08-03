@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
-using System.ComponentModel.Composition.Primitives;
 using System.Linq;
 using System.Reflection;
 using Caliburn.Micro;
@@ -36,8 +35,6 @@ namespace ModernApplicationFramework.TextEditor.Implementation
         private void InitializeCommandBindings()
         {
             var list = IoC.GetAll<Lazy<CommandBindingDefinition, ICommandBindingMetadata>>();
-
-
 
             if (_commandBindings != null)
                 return;
@@ -1305,6 +1302,11 @@ namespace ModernApplicationFramework.TextEditor.Implementation
 
     internal class EditorCommandHandlerService : IEditorCommandHandlerService
     {
+        public EditorCommandHandlerService(ITextView textView, IEnumerable<Lazy<ICommandHandler, ICommandHandlerMetadata>> commandHandlers, IUiThreadOperationExecutor uiThreadOperationExecutor, StableContentTypeComparer contentTypeComparer, ICommandingTextBufferResolver bufferResolver, IGuardedOperations guardedOperations)
+        {
+
+        }
+
         public CommandState GetCommandState<T>(Func<ITextView, ITextBuffer, T> argsFactory, Func<CommandState> nextCommandHandler) where T : EditorCommandArgs
         {
             throw new NotImplementedException();
@@ -1312,7 +1314,6 @@ namespace ModernApplicationFramework.TextEditor.Implementation
 
         public void Execute<T>(Func<ITextView, ITextBuffer, T> argsFactory, Action nextCommandHandler) where T : EditorCommandArgs
         {
-            throw new NotImplementedException();
         }
     }
 
@@ -1344,7 +1345,14 @@ namespace ModernApplicationFramework.TextEditor.Implementation
             IContentTypeRegistryService contentTypeRegistryService, 
             IGuardedOperations guardedOperations)
         {
+            _uiThreadOperationExecutor = uiThreadOperationExecutor;
+            _contentTypeRegistryService = contentTypeRegistryService;
+            _guardedOperations = guardedOperations;
             _commandHandlers = OrderCommandHandlers(commandHandlers);
+            _contentTypeComparer = new StableContentTypeComparer(_contentTypeRegistryService);
+            if (!bufferResolvers.Any())
+                throw new ImportCardinalityMismatchException();
+            _bufferResolverProviders = bufferResolvers.ToList();
         }
 
         public IEditorCommandHandlerService GetService(ITextView textView)
@@ -1358,10 +1366,8 @@ namespace ModernApplicationFramework.TextEditor.Implementation
 
             bufferResolver = bufferResolver ?? new DefaultBufferResolver(textView);
 
-            return null;
-
-            //return new EditorCommandHandlerService(textView, _commandHandlers, _uiThreadOperationExecutor,
-            //    /*this._joinableTaskContext,*/ _contentTypeComparer, bufferResolver, _guardedOperations);
+            return new EditorCommandHandlerService(textView, _commandHandlers, _uiThreadOperationExecutor,
+                /*this._joinableTaskContext,*/ _contentTypeComparer, bufferResolver, _guardedOperations);
         }
 
         public IEditorCommandHandlerService GetService(ITextView textView, ITextBuffer subjectBuffer)

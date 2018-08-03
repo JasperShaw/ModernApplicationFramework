@@ -94,6 +94,11 @@ namespace ModernApplicationFramework.TextEditor
             return 0;
         }
 
+        internal static bool IsCommandSupported(ref Guid commandGroup, uint commandId)
+        {
+            return false;
+        }
+
         protected internal virtual void SetSite()
         {
             _documentTextBuffer =

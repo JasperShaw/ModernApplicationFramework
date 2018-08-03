@@ -206,6 +206,7 @@
     <Compile Include="IMouseProcessor.cs" />
     <Compile Include="IMouseProcessorProvider.cs" />
     <Compile Include="Implementation\AbstractUIThreadOperationContext.cs" />
+    <Compile Include="Implementation\AutoScrollEnabled.cs" />
     <Compile Include="Implementation\CommandChainNode.cs" />
     <Compile Include="Implementation\CommandHandlerServiceAdapter.cs" />
     <Compile Include="Implementation\CommandHandlerServiceFilter.cs" />
@@ -228,6 +229,7 @@
     <Compile Include="Implementation\ICommandTarget.cs" />
     <Compile Include="Implementation\ICommandTargetInner.cs" />
     <Compile Include="Implementation\IConnectionAdviseHelper.cs" />
+    <Compile Include="Implementation\IObscuringTip.cs" />
     <Compile Include="Implementation\IScrollMap.cs" />
     <Compile Include="Implementation\ITextViewFilter.cs" />
     <Compile Include="Implementation\ITypedTextTarget.cs" />
@@ -244,6 +246,9 @@
     <Compile Include="Implementation\UiThreadOperationContext.cs" />
     <Compile Include="Implementation\UIThreadOperationExecutor.cs" />
     <Compile Include="Implementation\UiThreadOperationStatus.cs" />
+    <Compile Include="Implementation\ViewLoadedHandler.cs" />
+    <Compile Include="PrimitiveKeyboardFilter.cs" />
+    <Compile Include="PrimitiveKeyProcessorFactory.cs" />
     <Compile Include="Utilities\StableContentTypeComparer.cs" />
     <Compile Include="Implementation\TextViewAdapter.cs" />
     <Compile Include="Implementation\UrlClickMouseHandler.cs" />

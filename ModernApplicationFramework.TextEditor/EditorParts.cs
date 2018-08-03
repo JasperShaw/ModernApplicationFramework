@@ -20,6 +20,13 @@ namespace ModernApplicationFramework.TextEditor
             internal set => EditorPartsRepository.TextDocumentFactoryService = value;
         }
 
+        public static IEditorOperationsFactoryService EditorOperationsFactoryService
+        {
+            get => EditorPartsRepository.EditorOperationsFactoryService ?? (EditorPartsRepository.EditorOperationsFactoryService =
+                       IoC.Get<IEditorOperationsFactoryService>());
+            internal set => EditorPartsRepository.EditorOperationsFactoryService = value;
+        }
+
         public static ITextEditorFactoryService TextEditorFactoryService
         {
             get => EditorPartsRepository.TextEditorFactoryService ?? (EditorPartsRepository.TextEditorFactoryService =

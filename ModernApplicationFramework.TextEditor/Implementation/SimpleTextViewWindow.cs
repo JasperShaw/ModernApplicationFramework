@@ -1,7 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
+using Caliburn.Micro;
 
 namespace ModernApplicationFramework.TextEditor.Implementation
 {
@@ -9,14 +15,26 @@ namespace ModernApplicationFramework.TextEditor.Implementation
     internal abstract class SimpleTextViewWindow : ICommandTarget, ITypedTextTarget,
         ICommandTargetInner, /*IBackForwardNavigation*/ IMafTextView, IMafUserData, IConnectionAdviseHelper
     {
+        public EventHandler TextViewHostUpdated;
+        public event EventHandler Initialized;
+
         private static Exception LastCreatedButNotInitializedException = null;
         private static string LastCreatedButNotInitializedExceptionStackTrace = null;
 
         private static Exception LastInitializingException;
         private static string LastInitializingExceptionStackTrace;
 
+        private static int _execCount = 0;
+        private static int _innerExecCount = 0;
+        private static int _insertCharCount = 0;
+        internal static bool _disableSettingImeCompositionWindowOptions = false;
+        private CancellationTokenSource _codingConventionsCTS = new CancellationTokenSource();
+
         internal IEditorOptions _editorOptions;
         internal ITextViewHost _textViewHostPrivate;
+
+        private List<IObscuringTip> _openedTips = new List<IObscuringTip>();
+        private DispatcherTimer _tipDimmingTimer;
 
         internal ITagAggregator<IUrlTag> _urlTagAggregator;
 
@@ -38,6 +56,10 @@ namespace ModernApplicationFramework.TextEditor.Implementation
         private FrameworkElement _zoomControl;
 
         internal bool _canCaretAndSelectionMapToDataBuffer = true;
+
+        internal IEditorOperations _editorOperations;
+        private IViewPrimitives _textViewPrimitivesPrivate;
+        private bool _sentTextViewCreatedNotifications;
 
         //internal TextViewShimHost ShimHost { get; set; }
 
@@ -129,7 +151,83 @@ namespace ModernApplicationFramework.TextEditor.Implementation
             {
                 new Olecmd {cmdf = 0, cmdID = commandId}
             });
-            return 0;
+            if (hr1 < 0)
+                return hr1;
+            var hr2 = 0;
+            bool userEngaged = false;
+            bool complexEdit = false;
+            bool oldIntellisenseActive = false;
+            bool newIntellisenseActive = false;
+
+            try
+            {
+                var num = commandId;
+                var category = string.Format(CultureInfo.InvariantCulture, "TextViewAdapter:Exec {0} {1} {2}", commandId.ToString(), commandGroup.ToString(), (++_execCount).ToString());
+
+                var currentSnapshot1 = TextView.TextBuffer.CurrentSnapshot;
+                if (Fire_KeyPressEvent(true, commandGroup, commandId, input))
+                {
+                    hr2 = _commandChain.InnerExec(ref commandGroup, commandId, nCmdexecopt, input, output);
+                    Fire_KeyPressEvent(false, commandGroup, commandId, input);
+                }
+
+                if (CurrentInitializationState == InitializationState.TextViewAvailable)
+                {
+                    var currentSnapshot2 = TextView.TextBuffer.CurrentSnapshot;
+                    complexEdit = currentSnapshot1.Version.VersionNumber + 1 != currentSnapshot2.Version.VersionNumber
+                                  || currentSnapshot1.Length + 1 != currentSnapshot2.Length;
+                    //Stuff
+                }
+
+            }
+            catch (Exception e)
+            {
+            }
+            return hr2;
+        }
+
+        private bool Fire_KeyPressEvent(bool isPreEvent, Guid commandGroup, uint commandId, IntPtr înput)
+        {
+            if (commandGroup == MafConstants.EditorCommandGroup)
+            {
+                switch (commandId)
+                {
+                    case (uint) MafConstants.EditorCommands.TypeChar:
+                        return Fire_KeyPressEvent(isPreEvent, GetTypeCharFromKeyPressEventArg(înput));
+                    case (uint)MafConstants.EditorCommands.Backspace:
+                        return Fire_KeyPressEvent(isPreEvent, '\b');
+
+                }
+            }
+            return true;
+        }
+
+        private bool Fire_KeyPressEvent(bool isPreEvent, char key)
+        {
+            //TODO: Text Manager stuff
+            return true;
+        }
+
+        internal static unsafe char GetTypeCharFromKeyPressEventArg(IntPtr pvaIn)
+        {
+            KeyPressEventArg* keyPressEventArgPtr = (KeyPressEventArg*)(void*)pvaIn;
+            switch (keyPressEventArgPtr->vt)
+            {
+                case 2:
+                case 18:
+                    return keyPressEventArgPtr->ch;
+                default:
+                    return (char)(ushort)Marshal.GetObjectForNativeVariant(pvaIn);
+            }
+        }
+
+        [StructLayout(LayoutKind.Explicit, Size = 16)]
+        private struct KeyPressEventArg
+        {
+            [FieldOffset(0)]
+            public readonly int vt;
+            [FieldOffset(8)]
+            public readonly char ch;
         }
 
         private int PreOuterQueryStatus(ref Guid commandGroup, uint cCmds, Olecmd[] prgCmds)
@@ -142,7 +240,18 @@ namespace ModernApplicationFramework.TextEditor.Implementation
                 if (Keyboard.FocusedElement is DependencyObject focusedElement &&
                     CommandRouting.GetInterceptsCommandRouting(focusedElement))
                 {
+                    var flag = false;
+                    for (var index = 0; index < cCmds; ++index)
+                    {
+                        if (TextDocData.IsCommandSupported(ref commandGroup, prgCmds[index].cmdID))
+                        {
+                            flag = true;
+                            prgCmds[index].cmdf = 1;
+                        }
+                    }
 
+                    if (!flag)
+                        return int.MinValue;
                 }
             }
             return 0;
@@ -343,9 +452,9 @@ namespace ModernApplicationFramework.TextEditor.Implementation
                 CurrentInitializationState = InitializationState.TextViewCreatedButNotInitialized;
                 EditorParts.TextEditorFactoryService.InitializeTextView(textView);
                 EditorParts.TextEditorFactoryService.InitializeTextViewHost(textViewHost);
-                var serviceFilter = new CommandHandlerServiceFilter(this);
-                Marshal.ThrowExceptionForHR(AddCommandFilter(serviceFilter, out var target));
-                serviceFilter.Initialize(target);
+                var handlerServiceFilter = new CommandHandlerServiceFilter(this);
+                Marshal.ThrowExceptionForHR(AddCommandFilter(handlerServiceFilter, out var ppNextCmdTarg));
+                handlerServiceFilter.Initialize(ppNextCmdTarg);
                 CurrentInitializationState = InitializationState.TextViewAvailable;
             }
             catch (Exception ex)
@@ -354,6 +463,80 @@ namespace ModernApplicationFramework.TextEditor.Implementation
                 LastCreatedButNotInitializedExceptionStackTrace = ex.StackTrace;
                 throw;
             }
+            ViewLoadedHandler.OnViewCreated(_textViewHostPrivate);
+            //TODO: Theme scrollbars
+            CommandRouting.SetInterceptsCommandRouting(textView.VisualElement, false);
+
+            //TODO: Add stuff
+            _editorOperations = EditorParts.EditorOperationsFactoryService.GetEditorOperations(textView);
+            //Undo
+            _textViewPrimitivesPrivate = IoC.Get<IEditorPrimitivesFactoryService>().GetViewPrimitives(textView);
+            _classificationFormatMap = EditorParts.ClassificationFormatMapService.GetClassificationFormatMap(textView);
+            _urlTagAggregator = EditorParts.ViewTagAggregatorFactoryService.CreateTagAggregator<IUrlTag>(textView);
+            CleanUpEvents();
+            InitializeEvents();
+            var textViewHostUpdated = TextViewHostUpdated;
+            textViewHostUpdated?.Invoke(this, EventArgs.Empty);
+            //Lang stuff
+            if (textView.Options.IsAutoScrollEnabled())
+            {
+                var currentSnapshot = textView.TextBuffer.CurrentSnapshot;
+                if (currentSnapshot.Length > 0)
+                {
+                    var virtualSnapshotPoint = new VirtualSnapshotPoint(currentSnapshot, currentSnapshot.Length);
+                    _editorOperations.SelectAndMoveCaret(virtualSnapshotPoint, virtualSnapshotPoint, TextSelectionMode.Stream);
+                }      
+            }
+            //TODO: TextManager stuff
+            //if (!_isViewRegistered && )
+            if (!_sentTextViewCreatedNotifications)
+            {
+                _sentTextViewCreatedNotifications = true;
+                SendTextViewCreated();
+                if (_textViewHostPrivate.TextView.Properties.TryGetProperty<object>("OverviewMarginContextMenu", out var property))
+                {
+                    //TODO: Create class OverviewMarginProvider and all implementation around it...
+                }
+            }
+
+            //StatusBar Stuff
+            Initialized?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void SendTextViewCreated()
+        {
+            var list = IoC.GetAll<Lazy<IMafTextViewCreationListener, IContentTypeAndTextViewRoleMetadata>>();
+            foreach (var matchingExtension in SelectMatchingExtensions(list, TextView.TextViewModel.DataModel.ContentType, TextView.Roles))
+            {
+                var instantiatedExtension = EditorParts.GuardedOperations.InstantiateExtension(matchingExtension, matchingExtension);
+                if (instantiatedExtension != null)
+                    EditorParts.GuardedOperations.CallExtensionPoint(instantiatedExtension, () => instantiatedExtension.MafTextViewCreated(this));
+            }
+        }
+
+        private static List<Lazy<TProvider, TMetadataView>> SelectMatchingExtensions<TProvider, TMetadataView>(IEnumerable<Lazy<TProvider, TMetadataView>> providerHandles, IContentType documentContentType, ITextViewRoleSet viewRoles) where TMetadataView : IContentTypeAndTextViewRoleMetadata
+        {
+            var lazyList = new List<Lazy<TProvider, TMetadataView>>();
+            foreach (var providerHandle in providerHandles)
+            {
+                var documentContentType1 = documentContentType;
+                var metadata = providerHandle.Metadata;
+                var contentTypes = metadata.ContentTypes;
+                if (ContentTypeMatch(documentContentType1, contentTypes))
+                {
+                    var textViewRoleSet = viewRoles;
+                    metadata = providerHandle.Metadata;
+                    var textViewRoles = metadata.TextViewRoles;
+                    if (textViewRoleSet.ContainsAny(textViewRoles))
+                        lazyList.Add(providerHandle);
+                }
+            }
+            return lazyList;
+        }
+
+        private static bool ContentTypeMatch(IContentType documentContentType, IEnumerable<string> extensionContentTypes)
+        {
+            return documentContentType != null && extensionContentTypes.Any(documentContentType.IsOfType);
         }
 
         public int AddCommandFilter(ICommandTarget pNewCmdTarg, out ICommandTarget ppNextCmdTarg)
@@ -499,11 +682,54 @@ namespace ModernApplicationFramework.TextEditor.Implementation
                 var host = _textViewHostPrivate;
                 var textView = host.TextView;
                 //var textViewMargin1 = host.GetTextViewMargin("VerticalScrollBar") as IVerticalScrollBar;
+                Keyboard.AddKeyDownHandler(textView.VisualElement, OnTextView_KeyDown);
+                Keyboard.AddKeyUpHandler(textView.VisualElement, OnTextView_KeyUp);
+
+                _editorAndMenuFocusTracker = new EditorAndMenuFocusTracker(textView);
+                //_editorAndMenuFocusTracker.GotFocus += this.OnEditorOrMenuGotFocus;
+                //_editorAndMenuFocusTracker.LostFocus += this.OnEditorOrMenuLostFocus;
             }
             finally
             {
                 _eventsInitialized = true;
             }
+        }
+
+        private void OnTextView_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (_openedTips.Count <= 0 || !IsDimmingKey(e))
+                return;
+            if (_tipDimmingTimer == null)
+            {
+                _tipDimmingTimer = new DispatcherTimer {Interval = new TimeSpan(0, 0, 0, 0, 250)};
+                _tipDimmingTimer.Tick += ((tickSender, tickArgs) => SetTipOpacity(0.3));
+            }
+            _tipDimmingTimer.Start();
+        }
+
+        private void OnTextView_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (!IsDimmingKey(e))
+                return;
+            SetTipOpacity(1.0);
+        }
+
+        private void SetTipOpacity(double opacity)
+        {
+            _tipDimmingTimer?.Stop();
+            for (var index = _openedTips.Count - 1; index >= 0; --index)
+                _openedTips[index].SetOpacity(opacity);
+        }
+
+        private static bool IsDimmingKey(KeyEventArgs e)
+        {
+            if (e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl)
+                return true;
+            if (e.Key != Key.System)
+                return false;
+            if (e.SystemKey != Key.LeftCtrl)
+                return e.SystemKey == Key.RightCtrl;
+            return true;
         }
 
         private void SetViewOptions()
@@ -547,5 +773,10 @@ namespace ModernApplicationFramework.TextEditor.Implementation
 
     public interface IMafTextLines : IMafTextBuffer
     {
+    }
+
+    public interface IMafTextViewCreationListener
+    {
+        void MafTextViewCreated(IMafTextView textViewAdapter);
     }
 }

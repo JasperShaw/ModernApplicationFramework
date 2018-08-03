@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using System.Windows;
 using System.Windows.Input;
 using ModernApplicationFramework.TextEditor.Implementation;
 
@@ -34,10 +33,98 @@ namespace ModernApplicationFramework.TextEditor
 
         public override void KeyDown(KeyEventArgs args)
         {
-            if (!IsValid || args.Key != Key.System || (ModifierKeys.Shift != Keyboard.Modifiers || args.SystemKey != Key.F10))
+            if (!IsValid || args.Key != Key.System || ModifierKeys.Shift != Keyboard.Modifiers || args.SystemKey != Key.F10)
                 return;
             ShowContextMenu();
             args.Handled = true;
+        }
+
+        public override void KeyUp(KeyEventArgs args)
+        {
+            if (!IsValid || args.Key != Key.Apps)
+                return;
+            ShowContextMenu();
+            args.Handled = true;
+        }
+
+        public override void TextInput(TextCompositionEventArgs args)
+        {
+            if (!IsValid)
+                return;
+            if (args.Text.Length > 0)
+            {
+                foreach (var num in args.Text)
+                {
+                    if (num > 31)
+                        SendCommand(MafConstants.EditorCommands.TypeChar, num);
+                }
+            }
+            else
+            {
+                if (_editorOperations.ProvisionalCompositionSpan == null)
+                    return;
+                SendCommand(MafConstants.EditorCommands.Backspace, null);
+                args.Handled = true;
+            }
+        }
+
+        public override void TextInputStart(TextCompositionEventArgs args)
+        {
+            if (!(args.TextComposition is ImeTextComposition))
+                return;
+            HandleProvisionalImeInput(args);
+        }
+
+        public override void TextInputUpdate(TextCompositionEventArgs args)
+        {
+            if (args.TextComposition is ImeTextComposition)
+                HandleProvisionalImeInput(args);
+            else
+                args.Handled = false;
+        }
+
+        private void HandleProvisionalImeInput(TextCompositionEventArgs args)
+        {
+            if (!IsValid || args.Text.Length <= 0)
+                return;
+            var commandTarget = CommandTarget as ITypedTextTarget;
+            try
+            {
+                if (commandTarget != null)
+                    commandTarget.InProvisionalInput = true;
+                foreach (var c in args.Text)
+                    SendCommand(MafConstants.EditorCommands.TypeChar, c);
+            }
+            finally
+            {
+                if (commandTarget != null)
+                    commandTarget.InProvisionalInput = false;
+            }
+            args.Handled = true;
+        }
+
+        private void SendCommand(MafConstants.EditorCommands commandId, object inParam)
+        {
+            SendCommand(_editorCommandGroup, (uint) commandId, inParam);
+        }
+
+        private object SendCommand(Guid cmdGroup, uint cmdID, object inParam)
+        {
+            object obj = null;
+            var num = IntPtr.Zero;
+            if (inParam != null)
+            {
+                num = Marshal.AllocHGlobal(256);
+                Marshal.GetNativeVariantForObject(inParam, num);
+            }
+
+            var zero = IntPtr.Zero;
+            CommandTarget.Exec(ref cmdGroup, cmdID, 0, num, zero);
+            if (zero != IntPtr.Zero)
+                obj = Marshal.GetObjectForNativeVariant(zero);
+            if (inParam != null)
+                Marshal.FreeHGlobal(num);
+            return obj;
         }
 
         private void ShowContextMenu()

@@ -8,6 +8,8 @@ namespace ModernApplicationFramework.TextEditor
 
         public enum EditorCommands : uint
         {
+            TypeChar = 1,
+            Backspace = 2,
             Left = 7,
             SelectCurrentWord = 90,
             ShowContextMenu = 102,
