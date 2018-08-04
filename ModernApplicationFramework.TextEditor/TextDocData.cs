@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Windows.Threading;
 using ModernApplicationFramework.TextEditor.Implementation;
@@ -12,6 +13,13 @@ namespace ModernApplicationFramework.TextEditor
         internal event EventHandler TextBufferInitialized;
         public event LoadCompletedEventHandler OnLoadCompleted;
         public event FileChangedEventHandler OnFileChanged;
+
+        public event ReplaceEventHandler OnReplace;
+        public event ChangeStreamTextEventHandler OnChangeStreamText;
+
+        public delegate void ChangeStreamTextEventHandler(int iPos, int iOldLen, int iNewLen, int fLast);
+        public delegate void ChangeLineTextEventHandler(TextLineChange[] pTextLineChange, int fLast);
+
 
         private IContentType _initialContentType;
         protected MarkerManager MarkerManagerProtected;
@@ -35,6 +43,14 @@ namespace ModernApplicationFramework.TextEditor
         private uint? _rdtCookie;
         private readonly object _textBufferStateSyncLock = new object();
         private ITextSnapshot _currentSnapshot;
+
+        internal bool LoadingFile;
+        internal bool _needToCheckScci;
+        private Action _preReloadAction;
+
+        internal byte[] _cachedMD5Hash;
+        internal byte[] _cachedSHA1Hash;
+        internal byte[] _cachedSHA256Hash;
 
         public MarkerManager MarkerManager => MarkerManagerProtected;
 
@@ -186,19 +202,122 @@ namespace ModernApplicationFramework.TextEditor
             _eventsInitialized = true;
         }
 
+
+        public ITextBuffer DataTextBuffer
+        {
+            get
+            {
+                if (InitializedDocumentTextBuffer)
+                    return _dataTextBuffer;
+                return null;
+            }
+            set
+            {
+                if (!InitializedDocumentTextBuffer)
+                    throw new InvalidOperationException("Can't set data buffer before setting document buffer");
+                if (value == _documentTextBuffer)
+                    return;
+                _dataTextBuffer = value;
+                var optionsFactoryService = EditorParts.EditorOptionsFactoryService;
+                _editorOptions = optionsFactoryService.CreateOptions();
+                FixOptionsParent(optionsFactoryService.GetOptions(_dataTextBuffer), _editorOptions);
+                _dataTextBuffer.Properties.AddProperty(typeof(IMafTextBuffer), this);
+                _dataTextBuffer.Properties.AddProperty("IdentityMapping", _documentTextBuffer);
+                //TODO: _dataTextBuffer.Properties[typeof(ITextBufferUndoManager)] = EditorParts.TextBufferUndoManagerProvider.GetTextBufferUndoManager(_documentTextBuffer);
+            }
+        }
+
+        public ITextBuffer DocumentTextBuffer
+        {
+            get
+            {
+                if (InitializedDocumentTextBuffer)
+                    return _documentTextBuffer;
+                return null;
+            }
+        }
+
+        private bool _inEvent;
+
         private void OnTextBufferChanged(object sender, TextContentChangedEventArgs e)
         {
+            if (e.Changes.Count == 0)
+                return;
+            var length1 = DataTextBuffer.CurrentSnapshot.Length;
+            var length2 = DocumentTextBuffer.CurrentSnapshot.Length;
+            if (length1 != length2)
+            {
 
+            }
+            _cachedMD5Hash = _cachedSHA1Hash = _cachedSHA256Hash = null;
+            //TODO:
+            //if (!this._enableUndoOnClosedFile && this._bufferIsDiskFile && (!string.IsNullOrEmpty(this._bufferMoniker) && this.GlobalUndoCoordinator.InsideOrExecutingGlobalClosedFileTransaction() == 0))
+            //    this._enableUndoOnClosedFile = true;
+            //Common.Verify(((IVsGlobalUndoCapableUndoManager)this._undoManager).OnTextBufferChanged(this._bufferIsDiskFile ? 1 : 0));
+            if (LoadingFile)
+                return;
+            var fLast = 1;
+            var beforeSpan = new SnapshotSpan(e.Before, Span.FromBounds(e.Changes[0].OldPosition, e.Changes[e.Changes.Count - 1].OldEnd));
+            var snapshotSpan = new SnapshotSpan(e.After, Span.FromBounds(e.Changes[0].NewPosition, e.Changes[e.Changes.Count - 1].NewEnd));
+            _currentSnapshot = e.After;
+            _inEvent = true;
+            ExtensibilityFireLineCommitEvent(0U, snapshotSpan);
+            var changeStreamText = OnChangeStreamText;
+            changeStreamText?.Invoke(beforeSpan.Start, beforeSpan.Length, snapshotSpan.Length, fLast);
+            _inEvent = false;
+            _currentSnapshot = null;
+        }
+
+        private void ExtensibilityFireLineCommitEvent(uint dwGestureFlags, SnapshotSpan textSpan)
+        {
+            //TODO: Text Manager stuff
         }
 
         private void OnTextBufferChanging(object sender, TextContentChangingEventArgs args)
         {
-
+            if (args == null || args.Canceled || _textDocument == null || _textDocument.IsReloading)
+                return;
+            _preReloadAction = args.Cancel;
+            var hr = TryCheckOut();
+            _preReloadAction = null;
+            if (!(hr < 0) || hr != -2147217399 && hr != -2147217403 && (hr != -2147217407 && hr != -2147217406))
+                return;
+            args.Cancel();
         }
 
         private void OnTextBufferChangedHighPriority(object sender, TextContentChangedEventArgs e)
         {
+            if (LoadingFile || _textDocument != null && _textDocument.IsReloading || e.Changes.Count <= 0)
+                return;
+            if (OnReplace == null)
+                return;
+            _currentSnapshot = e.Before;
+            var span = new SnapshotSpan(e.Before, Span.FromBounds(e.Changes[0].OldPosition, e.Changes[e.Changes.Count - 1].OldEnd));
+            var snapshotSpan = new SnapshotSpan(e.After, Span.FromBounds(e.Changes[0].NewPosition, e.Changes[e.Changes.Count - 1].NewEnd));
+            var pci = new ChangeInput[1];
+            pci[0].MDelSpan = TextConvert.ToVsTextSpan(span);
+            pci[0].MDwFlags = 0;
+            pci[0].MPszNewText = Marshal.StringToCoTaskMemUni(snapshotSpan.GetText());
+            pci[0].MiOldLen = span.Length;
+            pci[0].MiNewLen = snapshotSpan.Length;
+            try
+            {
+                OnReplace.Invoke(pci);
+            }
+            finally
+            {
+                Marshal.FreeCoTaskMem(pci[0].MPszNewText);
+                _currentSnapshot = null;
+            }
+        }
 
+        internal int TryCheckOut()
+        {
+            //TODO : TextManager stuff
+            if (!_needToCheckScci && (TextBufferState & 2U) <= 0U || _textDocument.IsDirty || true)
+                return 0;
+
+            return 0;
         }
 
         private static void FixOptionsParent(IEditorOptions optionsToFix, IEditorOptions optionsToSet)
@@ -374,5 +493,16 @@ namespace ModernApplicationFramework.TextEditor
                 return _dataTextBuffer.CurrentSnapshot;
             return _currentSnapshot;
         }
+
+        public delegate int ReplaceEventHandler(ChangeInput[] pCI);
+    }
+
+    public struct ChangeInput
+    {
+        public TextSpan MDelSpan;
+        public int MiOldLen;
+        public int MiNewLen;
+        public IntPtr MPszNewText;
+        public uint MDwFlags;
     }
 }

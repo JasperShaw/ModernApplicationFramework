@@ -17,7 +17,8 @@ namespace ModernApplicationFramework.TextEditor
         {
             SourceBuffer = sourceBuffer;
             _sourceSnapshot = sourceBuffer.CurrentSnapshot;
-            var sourceBuffer1 = (BaseBuffer)sourceBuffer;
+            var sourceBuffer1 = (BaseBuffer) sourceBuffer;
+            new WeakEventHook(this, sourceBuffer1);
             Group = sourceBuffer1.Group;
             Group.AddMember(this);
             _content = new ElisionMap(_sourceSnapshot, exposedSpans);

@@ -192,6 +192,7 @@
     <Compile Include="IEditorPrimitivesFactoryService.cs" />
     <Compile Include="IElisionBuffer.cs" />
     <Compile Include="IElisionSnapshot.cs" />
+    <Compile Include="IElisionTag.cs" />
     <Compile Include="IEncodingDetector.cs" />
     <Compile Include="IEncodingDetectorMetadata.cs" />
     <Compile Include="IErrorTag.cs" />
@@ -236,6 +237,10 @@
     <Compile Include="Implementation\StableOrderer.cs" />
     <Compile Include="Implementation\StableTopologicalSort.cs" />
     <Compile Include="Implementation\VSUIThreadOperationExecutor.cs" />
+    <Compile Include="IntraTextAdornmentElisionTaggerProvider.cs" />
+    <Compile Include="IntraTextAdornmentManager.cs" />
+    <Compile Include="IntraTextAdornmentSpaceNegotiatingTaggerProvider.cs" />
+    <Compile Include="TextTransactionMergeDirections.cs" />
     <Compile Include="Utilities\INamed.cs" />
     <Compile Include="Implementation\IObscuringTip.cs" />
     <Compile Include="Implementation\IScrollMap.cs" />

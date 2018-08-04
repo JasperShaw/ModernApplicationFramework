@@ -36,6 +36,8 @@ namespace ModernApplicationFramework.TextEditor
 
         ITextSnapshot VisualSnapshot { get; }
 
+        ITrackingSpan ProvisionalTextHighlight { get; set; }
+
         double LineHeight { get; }
 
         bool InOuterLayout { get; }

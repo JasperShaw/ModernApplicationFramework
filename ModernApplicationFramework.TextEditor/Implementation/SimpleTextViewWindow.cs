@@ -294,6 +294,7 @@ namespace ModernApplicationFramework.TextEditor.Implementation
                 {
                     switch ((MafConstants.EditorCommands) commandId)
                     {
+                        // Some other Commands
                         case MafConstants.EditorCommands.MoveSelLinesDown:
                             return _editorOperations.MoveSelectedLinesDown() ? 0 : -2147467259;
                         case MafConstants.EditorCommands.MoveSelLinesUp:
@@ -303,6 +304,10 @@ namespace ModernApplicationFramework.TextEditor.Implementation
                             break;
                         case MafConstants.EditorCommands.ZoomOut:
                             _editorOperations.ZoomOut();
+                            break;
+                        // 2k Commands
+                        case MafConstants.EditorCommands.TypeChar:
+                            InsertChar(input, InProvisionalInput);
                             break;
                         case MafConstants.EditorCommands.Left:
                             _editorOperations.MoveToPreviousCharacter(false);
@@ -328,6 +333,38 @@ namespace ModernApplicationFramework.TextEditor.Implementation
             {
             }
             return -2147221248;
+        }
+
+        private void InsertChar(IntPtr pvaIn, bool provisionalText)
+        {
+            var chr = GetTypeCharFromKeyPressEventArg(pvaIn);
+            var text = chr.ToString();
+
+            if (chr == '\t' && _editorOptions.GetOptionValue(DefaultOptions.ConvertTabsToSpacesOptionId))
+            {
+                var value = _editorOptions.GetOptionValue(DefaultOptions.TabSizeOptionId);
+                text = new string(' ', value - TextViewPrimitives.Caret.Column % value);
+            }
+
+            if (provisionalText)
+                _editorOperations.InsertProvisionalText(text);
+            else
+                _editorOperations.InsertText(text);
+        }
+
+        internal IViewPrimitives TextViewPrimitives
+        {
+            get
+            {
+                if (_textViewPrimitivesPrivate == null)
+                {
+                    Init_OnActivation();
+                    if (_textViewPrimitivesPrivate == null)
+                        throw new InvalidOperationException("VsSimpleTextViewWindow initialization hasn't initialized text view primitives!");
+                }
+                return _textViewPrimitivesPrivate;
+            }
+            set => _textViewPrimitivesPrivate = value;
         }
 
         private static int DefaultErrorHandler(int report, ref Guid pguidCmdGroup)
@@ -794,9 +831,12 @@ namespace ModernApplicationFramework.TextEditor.Implementation
             {
                 var host = _textViewHostPrivate;
                 var textView = host.TextView;
+                textView.LayoutChanged += View_LayoutChanged;
                 //var textViewMargin1 = host.GetTextViewMargin("VerticalScrollBar") as IVerticalScrollBar;
                 Keyboard.AddKeyDownHandler(textView.VisualElement, OnTextView_KeyDown);
                 Keyboard.AddKeyUpHandler(textView.VisualElement, OnTextView_KeyUp);
+
+                textView.TextBuffer.Changed += DocData_OnChangeLineText;
 
                 _editorAndMenuFocusTracker = new EditorAndMenuFocusTracker(textView);
                 //_editorAndMenuFocusTracker.GotFocus += this.OnEditorOrMenuGotFocus;
@@ -806,6 +846,16 @@ namespace ModernApplicationFramework.TextEditor.Implementation
             {
                 _eventsInitialized = true;
             }
+        }
+
+        private void View_LayoutChanged(object sender, TextViewLayoutChangedEventArgs e)
+        {
+
+        }
+
+        private void DocData_OnChangeLineText(object sender, TextContentChangedEventArgs e)
+        {
+            //ClearBraceHighlighing();
         }
 
         private void OnTextView_KeyDown(object sender, KeyEventArgs e)

@@ -187,6 +187,12 @@ namespace ModernApplicationFramework.TextEditor
         public ITextViewModel TextViewModel { get; private set; }
         public double ViewportBottom => ViewportTop + ViewportHeight;
 
+        public ITrackingSpan ProvisionalTextHighlight
+        {
+            get => _provisionalTextHighlight.ProvisionalSpan;
+            set => _provisionalTextHighlight.ProvisionalSpan = value;
+        }
+
         public ITextSelection Selection => _selection;
 
         public double ViewportHeight
