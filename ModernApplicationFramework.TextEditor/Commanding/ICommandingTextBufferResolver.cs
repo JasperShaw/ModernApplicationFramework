@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ModernApplicationFramework.TextEditor.Implementation
+namespace ModernApplicationFramework.TextEditor.Commanding
 {
     public interface ICommandingTextBufferResolver
     {

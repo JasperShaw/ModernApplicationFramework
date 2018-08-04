@@ -1,6 +1,7 @@
 ﻿using System;
+using ModernApplicationFramework.TextEditor.Utilities;
 
-namespace ModernApplicationFramework.TextEditor.Implementation
+namespace ModernApplicationFramework.TextEditor.Commanding
 {
     public sealed class CommandExecutionContext
     {

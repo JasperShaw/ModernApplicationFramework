@@ -1,7 +1,9 @@
 ﻿using System;
+using ModernApplicationFramework.TextEditor.Implementation;
+using ModernApplicationFramework.TextEditor.Utilities;
 using ModernApplicationFramework.Utilities.Attributes;
 
-namespace ModernApplicationFramework.TextEditor.Implementation
+namespace ModernApplicationFramework.TextEditor.Commanding.Implementation
 {
     [ExportImplementation(typeof(IUiThreadOperationExecutor))]
     [Name("default")]

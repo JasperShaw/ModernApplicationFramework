@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ModernApplicationFramework.TextEditor.Implementation
+namespace ModernApplicationFramework.TextEditor.Commanding.Implementation
 {
     internal class DefaultBufferResolver : ICommandingTextBufferResolver
     {

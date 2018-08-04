@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using ModernApplicationFramework.TextEditor.Implementation;
 
-namespace ModernApplicationFramework.TextEditor.Implementation
+namespace ModernApplicationFramework.TextEditor.Commanding.Implementation
 {
     internal class CommandHandlerBucket
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-namespace ModernApplicationFramework.TextEditor.Implementation
+namespace ModernApplicationFramework.TextEditor.Utilities
 {
     public abstract class AbstractUiThreadOperationContext : IUiThreadOperationContext
     {

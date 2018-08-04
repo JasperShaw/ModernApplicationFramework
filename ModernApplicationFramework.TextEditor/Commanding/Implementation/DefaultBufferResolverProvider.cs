@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using ModernApplicationFramework.Utilities.Attributes;
 
-namespace ModernApplicationFramework.TextEditor.Implementation
+namespace ModernApplicationFramework.TextEditor.Commanding.Implementation
 {
     [Export(typeof(ICommandingTextBufferResolverProvider))]
     [ContentType("any")]

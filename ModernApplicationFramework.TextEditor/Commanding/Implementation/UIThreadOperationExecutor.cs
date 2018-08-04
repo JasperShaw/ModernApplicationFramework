@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using ModernApplicationFramework.TextEditor.Implementation;
+using ModernApplicationFramework.TextEditor.Utilities;
 using ModernApplicationFramework.Utilities;
 using ModernApplicationFramework.Utilities.Attributes;
 using ModernApplicationFramework.Utilities.Interfaces;
 
-namespace ModernApplicationFramework.TextEditor.Implementation
+namespace ModernApplicationFramework.TextEditor.Commanding.Implementation
 {
     [Export(typeof(IUiThreadOperationExecutor))]
     internal class UiThreadOperationExecutor : IUiThreadOperationExecutor

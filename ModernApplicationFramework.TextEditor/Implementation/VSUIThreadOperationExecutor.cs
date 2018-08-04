@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Linq;
+using ModernApplicationFramework.TextEditor.Utilities;
 using ModernApplicationFramework.Utilities.Attributes;
 
 namespace ModernApplicationFramework.TextEditor.Implementation
@@ -21,14 +22,14 @@ namespace ModernApplicationFramework.TextEditor.Implementation
 
         public UiThreadOperationStatus Execute(string title, string defaultDescription, bool allowCancellation, bool showProgress, Action<IUiThreadOperationContext> action)
         {
-            using (IUiThreadOperationContext operationContext = BeginExecute(title, defaultDescription, allowCancellation, showProgress))
+            using (var operationContext = BeginExecute(title, defaultDescription, allowCancellation, showProgress))
             {
                 try
                 {
                     action(operationContext);
                     return UiThreadOperationStatus.Completed;
                 }
-                catch (OperationCanceledException ex)
+                catch (OperationCanceledException)
                 {
                     return UiThreadOperationStatus.Canceled;
                 }

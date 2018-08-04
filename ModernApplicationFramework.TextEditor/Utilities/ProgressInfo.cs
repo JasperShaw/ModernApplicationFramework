@@ -1,4 +1,4 @@
-﻿namespace ModernApplicationFramework.TextEditor.Implementation
+﻿namespace ModernApplicationFramework.TextEditor.Utilities
 {
     public struct ProgressInfo
     {

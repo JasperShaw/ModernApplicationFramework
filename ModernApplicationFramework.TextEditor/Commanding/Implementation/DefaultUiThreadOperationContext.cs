@@ -1,4 +1,6 @@
-﻿namespace ModernApplicationFramework.TextEditor.Implementation
+﻿using ModernApplicationFramework.TextEditor.Utilities;
+
+namespace ModernApplicationFramework.TextEditor.Commanding.Implementation
 {
     internal class DefaultUiThreadOperationContext : AbstractUiThreadOperationContext
     {
