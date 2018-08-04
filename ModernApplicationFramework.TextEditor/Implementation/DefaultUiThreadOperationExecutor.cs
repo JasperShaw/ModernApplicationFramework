@@ -1,10 +1,9 @@
 ﻿using System;
-using System.ComponentModel.Composition;
 using ModernApplicationFramework.Utilities.Attributes;
 
 namespace ModernApplicationFramework.TextEditor.Implementation
 {
-    [Export(typeof(IUiThreadOperationExecutor))]
+    [ExportImplementation(typeof(IUiThreadOperationExecutor))]
     [Name("default")]
     internal class DefaultUiThreadOperationExecutor : IUiThreadOperationExecutor
     {

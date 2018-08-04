@@ -195,5 +195,9 @@
         ITrackingSpan ProvisionalCompositionSpan { get; }
 
         string SelectedText { get; }
+
+        bool MoveSelectedLinesUp();
+
+        bool MoveSelectedLinesDown();
     }
 }

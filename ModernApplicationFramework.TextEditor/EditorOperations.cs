@@ -74,6 +74,16 @@ namespace ModernApplicationFramework.TextEditor
             }
         }
 
+        public bool MoveSelectedLinesUp()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool MoveSelectedLinesDown()
+        {
+            throw new NotImplementedException();
+        }
+
         public ITextView TextView { get; }
 
         //TODO: Add Undo Stuff
@@ -320,7 +330,9 @@ namespace ModernApplicationFramework.TextEditor
 
         public void MoveToPreviousCharacter(bool extendSelection)
         {
-            throw new NotImplementedException();
+            if ((TextView.Caret.InVirtualSpace ? 0 : (TextView.Caret.Position.BufferPosition == TextView.Caret.ContainingTextViewLine.Start ? 1 : 0)) != 0 && (Options.IsVirtualSpaceEnabled() || extendSelection && TextView.Selection.Mode == TextSelectionMode.Box))
+                return;
+            _editorPrimitives.Caret.MoveToPreviousCharacter(extendSelection);
         }
 
         public void MoveToPreviousWord(bool extendSelection)

@@ -13,7 +13,7 @@ namespace ModernApplicationFramework.TextEditor.Implementation
 {
     // TODO: Add forward backward stuff
     internal abstract class SimpleTextViewWindow : ICommandTarget, ITypedTextTarget,
-        ICommandTargetInner, /*IBackForwardNavigation*/ IMafTextView, IMafUserData, IConnectionAdviseHelper
+        ICommandTargetInner, /*IBackForwardNavigation*/ IMafTextView, IMafUserData, IConnectionAdviseHelper, IReadOnlyViewNotification
     {
         public EventHandler TextViewHostUpdated;
         public event EventHandler Initialized;
@@ -32,6 +32,8 @@ namespace ModernApplicationFramework.TextEditor.Implementation
 
         internal IEditorOptions _editorOptions;
         internal ITextViewHost _textViewHostPrivate;
+
+        private List<IReadOnlyViewNotification> _readOnlyNotifications = new List<IReadOnlyViewNotification>();
 
         private List<IObscuringTip> _openedTips = new List<IObscuringTip>();
         private DispatcherTimer _tipDimmingTimer;
@@ -60,6 +62,7 @@ namespace ModernApplicationFramework.TextEditor.Implementation
         internal IEditorOperations _editorOperations;
         private IViewPrimitives _textViewPrimitivesPrivate;
         private bool _sentTextViewCreatedNotifications;
+        private bool _startNewClipboardCycle = true;
 
         //internal TextViewShimHost ShimHost { get; set; }
 
@@ -95,16 +98,10 @@ namespace ModernApplicationFramework.TextEditor.Implementation
                 if (value == _canCaretAndSelectionMapToDataBuffer)
                     return;
                 _canCaretAndSelectionMapToDataBuffer = value;
-                InvalidateShellQueryStatusCache();
             }
         }
 
         internal bool RaiseGoBackEvents { get; set; }
-
-        private void InvalidateShellQueryStatusCache()
-        {
-            throw new NotImplementedException();
-        }
 
         public ITextView TextView => TextViewHost.TextView;
 
@@ -278,7 +275,125 @@ namespace ModernApplicationFramework.TextEditor.Implementation
 
         public int InnerExec(ref Guid commandGroup, uint commandId, uint nCmdexecopt, IntPtr input, IntPtr output)
         {
-            return 0;
+            try
+            {
+                if (IsCommandExecutionProhibited())
+                    return -2147221248;
+
+                var result = 0;
+
+                if (IsViewOrBufferReadOnly() && IsEditingCommand(commandGroup, commandId) &&
+                    !IsSearchingCommand(commandGroup, commandId))
+                    OnDisabledEditingCommand(ref commandGroup, commandId);
+
+                bool newClipboardCycle = _startNewClipboardCycle;
+                //Should always be true: if (commandGroup != VSConstants.GUID_VSStandardCommandSet97 || commandId != 655U)
+                _startNewClipboardCycle = true;
+
+                if (commandGroup == MafConstants.EditorCommandGroup)
+                {
+                    switch ((MafConstants.EditorCommands) commandId)
+                    {
+                        case MafConstants.EditorCommands.MoveSelLinesDown:
+                            return _editorOperations.MoveSelectedLinesDown() ? 0 : -2147467259;
+                        case MafConstants.EditorCommands.MoveSelLinesUp:
+                            return _editorOperations.MoveSelectedLinesUp() ? 0 : -2147467259;
+                        case MafConstants.EditorCommands.ZoomIn:
+                            _editorOperations.ZoomIn();
+                            break;
+                        case MafConstants.EditorCommands.ZoomOut:
+                            _editorOperations.ZoomOut();
+                            break;
+                        case MafConstants.EditorCommands.Left:
+                            _editorOperations.MoveToPreviousCharacter(false);
+                            break;
+                        default:
+                            result = -2147221248;
+                            break;
+                    }
+                }
+                else
+                    result = -2147221244;
+
+                if (result == -2147221248 || result == -2147221244)
+                {
+                    _startNewClipboardCycle = newClipboardCycle;
+                    return result;
+                }
+                return DefaultErrorHandler(result, ref commandGroup);
+
+
+            }
+            catch
+            {
+            }
+            return -2147221248;
+        }
+
+        private static int DefaultErrorHandler(int report, ref Guid pguidCmdGroup)
+        {
+            if (report >= 0 || !(pguidCmdGroup == MafConstants.EditorCommandGroup))
+                return report;
+            report = 0;
+            return report;
+        }
+
+        public int OnDisabledEditingCommand(ref Guid pguidCmdGuid, uint dwCmdId)
+        {
+            var num1 = 0;
+            foreach (var onlyNotification in _readOnlyNotifications)
+            {
+                var num2 = onlyNotification.OnDisabledEditingCommand(ref pguidCmdGuid, dwCmdId);
+                if (num2 < 0)
+                    num1 = num2;
+            }
+            return num1;
+        }
+
+        public bool IsIncrementalSearchInProgress { get; set; }
+
+        public bool IsSearchingCommand(Guid cmdGroup, uint cmdId)
+        {
+            if (!IsIncrementalSearchInProgress)
+                return false;
+            if (cmdGroup == MafConstants.EditorCommandGroup)
+            {
+                switch ((MafConstants.EditorCommands) cmdId)
+                {
+                    case MafConstants.EditorCommands.TypeChar:
+                    case MafConstants.EditorCommands.Backspace:
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool IsEditingCommand(Guid commandGroup, uint commandId)
+        {
+            if (commandGroup == MafConstants.EditorCommandGroup)
+            {
+                switch ((MafConstants.EditorCommands) commandId)
+                {
+                    case MafConstants.EditorCommands.TypeChar:
+                    case MafConstants.EditorCommands.Backspace:
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+
+            return false;
+        }
+
+        private bool IsViewOrBufferReadOnly()
+        {
+            return IsReadOnly() == 0 || (TextDocData.TextBufferState & 1) != 0;
+        }
+
+        public int IsReadOnly()
+        {
+            return _editorOptions.GetOptionValue(DefaultTextViewOptions.ViewProhibitUserInputId) ? 0 : 1;
         }
 
         public int InnerQueryStatus(ref Guid commandGroup, uint cCmds, Olecmd[] prgCmds, IntPtr pCmdText)
@@ -576,10 +691,8 @@ namespace ModernApplicationFramework.TextEditor.Implementation
             };
             _commandChain.Next = node;
             ppNextCmdTarg = node;
-            
-
-            //TODO: Notifications stuff
-
+            if (pNewCmdTarg is IReadOnlyViewNotification viewNotification)
+                _readOnlyNotifications.Add(viewNotification);
             return 0;
         }
 

@@ -208,6 +208,9 @@
     <Compile Include="Implementation\AbstractUIThreadOperationContext.cs" />
     <Compile Include="Implementation\AutoScrollEnabled.cs" />
     <Compile Include="Implementation\CommandChainNode.cs" />
+    <Compile Include="Implementation\CommandExecutionContext.cs" />
+    <Compile Include="Implementation\CommandHandlerBucket.cs" />
+    <Compile Include="Implementation\CommandHandlerExtensions.cs" />
     <Compile Include="Implementation\CommandHandlerServiceAdapter.cs" />
     <Compile Include="Implementation\CommandHandlerServiceFilter.cs" />
     <Compile Include="Implementation\CommandRouting.cs" />
@@ -229,6 +232,11 @@
     <Compile Include="Implementation\ICommandTarget.cs" />
     <Compile Include="Implementation\ICommandTargetInner.cs" />
     <Compile Include="Implementation\IConnectionAdviseHelper.cs" />
+    <Compile Include="Implementation\IReadOnlyViewNotification.cs" />
+    <Compile Include="Implementation\StableOrderer.cs" />
+    <Compile Include="Implementation\StableTopologicalSort.cs" />
+    <Compile Include="Implementation\VSUIThreadOperationExecutor.cs" />
+    <Compile Include="Utilities\INamed.cs" />
     <Compile Include="Implementation\IObscuringTip.cs" />
     <Compile Include="Implementation\IScrollMap.cs" />
     <Compile Include="Implementation\ITextViewFilter.cs" />

@@ -23,7 +23,8 @@ namespace ModernApplicationFramework.TextEditor.Implementation
         {
         }
 
-        public CommandHandlerServiceAdapter(ITextView textView, ITextBuffer subjectBuffer, ICommandTarget nextCommandTarget)
+        public CommandHandlerServiceAdapter(ITextView textView, ITextBuffer subjectBuffer,
+            ICommandTarget nextCommandTarget)
         {
             var textView1 = textView;
             TextView = textView1 ?? throw new ArgumentNullException(nameof(textView));
@@ -42,12 +43,15 @@ namespace ModernApplicationFramework.TextEditor.Implementation
             foreach (var export in list)
             {
                 var metadata = export.Metadata;
-                if (metadata.CommandSet != null && metadata.CommandArgsType != null && (metadata.CommandId != null && metadata.CommandId.Length == metadata.CommandSet.Length) && metadata.CommandSet.Length == metadata.CommandArgsType.Length)
+                if (metadata.CommandSet != null && metadata.CommandArgsType != null &&
+                    (metadata.CommandId != null && metadata.CommandId.Length == metadata.CommandSet.Length) &&
+                    metadata.CommandSet.Length == metadata.CommandArgsType.Length)
                 {
                     for (var index = 0; index < export.Metadata.CommandSet.Length; ++index)
                     {
                         if (Guid.TryParse(metadata.CommandSet[index], out var result))
-                            _commandBindings[new ValueTuple<Guid, uint>(result, metadata.CommandId[index])] = metadata.CommandArgsType[index];
+                            _commandBindings[new ValueTuple<Guid, uint>(result, metadata.CommandId[index])] =
+                                metadata.CommandArgsType[index];
                     }
                 }
             }
@@ -78,7 +82,7 @@ namespace ModernApplicationFramework.TextEditor.Implementation
                     return -2147467259;
                 return nextCommandTarget.Exec(ref pguidCmdGroup, nCmdId, nCmdexecopt, pvaIn, pvaOut);
             }
-            var num1 = -2147221244;
+
             var nextTargetResult = new int?();
             var guidCmdGroup = pguidCmdGroup;
             var num2 = !(guidCmdGroup == MafConstants.EditorCommandGroup)
@@ -100,24 +104,24 @@ namespace ModernApplicationFramework.TextEditor.Implementation
                 var nextCommandTarget = NextCommandTarget;
                 return nextCommandTarget?.Exec(ref guidCmdGroup, nCmdId, nCmdexecopt, pvaIn, pvaOut) ?? -2147467259;
             }
+
             if (nextTargetResult.HasValue)
             {
                 var nullable1 = nextTargetResult;
-                var num3 = 1;
-                if ((nullable1.GetValueOrDefault() == num3 ? (nullable1.HasValue ? 1 : 0) : 0) == 0)
+                if ((nullable1.GetValueOrDefault() == 1 ? (nullable1.HasValue ? 1 : 0) : 0) == 0)
                 {
                     var nullable2 = nextTargetResult;
-                    var num4 = -2147467259;
-                    if ((nullable2.GetValueOrDefault() == num4 ? (nullable2.HasValue ? 1 : 0) : 0) == 0)
-                        goto label_10;
+                    if ((nullable2.GetValueOrDefault() == -2147467259 ? (nullable2.HasValue ? 1 : 0) : 0) == 0)
+                        return num2;
                 }
+
                 return nextTargetResult.Value;
             }
-            label_10:
             return num2;
         }
 
-        private int ExecuteVisualStudio2000(ref Guid pguidCmdGroup, uint commandId, IntPtr pvaIn, IntPtr pvaOut, Action next)
+        private int ExecuteVisualStudio2000(ref Guid pguidCmdGroup, uint commandId, IntPtr pvaIn, IntPtr pvaOut,
+            Action next)
         {
             switch (commandId)
             {
@@ -288,7 +292,8 @@ namespace ModernApplicationFramework.TextEditor.Implementation
             }
         }
 
-        private int ExecuteCustomCommand(ref Guid pguidCmdGroup, uint commandId, IntPtr pvaIn, IntPtr pvaOut, Action next)
+        private int ExecuteCustomCommand(ref Guid pguidCmdGroup, uint commandId, IntPtr pvaIn, IntPtr pvaOut,
+            Action next)
         {
             var key = new ValueTuple<Guid, uint>(pguidCmdGroup, commandId);
             if (_commandBindings.TryGetValue(key, out var typeName))
@@ -296,14 +301,17 @@ namespace ModernApplicationFramework.TextEditor.Implementation
                 var type = Type.GetType(typeName, false);
                 if (type != null)
                 {
-                    GetType().GetMethod(nameof(ExecuteCustomCommandHelper), BindingFlags.Instance | BindingFlags.NonPublic).MakeGenericMethod(type).Invoke(this, new object[2]
-                    {
-                        type,
-                        next
-                    });
+                    GetType().GetMethod(nameof(ExecuteCustomCommandHelper),
+                        BindingFlags.Instance | BindingFlags.NonPublic).MakeGenericMethod(type).Invoke(this,
+                        new object[2]
+                        {
+                            type,
+                            next
+                        });
                     return 0;
                 }
             }
+
             return -2147221244;
         }
 
@@ -313,12 +321,15 @@ namespace ModernApplicationFramework.TextEditor.Implementation
                 () => (T) Activator.CreateInstance(commandArgsType, textView, buffer), default);
         }
 
-        private void ExecuteCustomCommandHelper<T>(Type commandArgsType, Action nextCommandHandler) where T : EditorCommandArgs
+        private void ExecuteCustomCommandHelper<T>(Type commandArgsType, Action nextCommandHandler)
+            where T : EditorCommandArgs
         {
-            _commandHandlerService.Execute((view, buffer) => TryCreateCustomCommandArgs<T>(commandArgsType, view, buffer), nextCommandHandler);
+            _commandHandlerService.Execute(
+                (view, buffer) => TryCreateCustomCommandArgs<T>(commandArgsType, view, buffer), nextCommandHandler);
         }
 
-        private int QueryEditorCommandGroup(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
+        private int QueryEditorCommandGroup(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds,
+            IntPtr commandText)
         {
             switch (prgCmds[0].cmdID)
             {
@@ -437,28 +448,34 @@ namespace ModernApplicationFramework.TextEditor.Implementation
             }
         }
 
-        private int QueryCustomCommandStatus(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
+        private int QueryCustomCommandStatus(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds,
+            IntPtr commandText)
         {
             var key = new ValueTuple<Guid, uint>(pguidCmdGroup, prgCmds[0].cmdID);
             if (_commandBindings.TryGetValue(key, out var typeName))
             {
                 var type = Type.GetType(typeName, false);
                 if (type != null)
-                    return (int)GetType().GetMethod(nameof(GetCommandStateHelper), BindingFlags.Instance | BindingFlags.NonPublic).MakeGenericMethod(type).Invoke(this, new object[5]
-                    {
-                        type,
-                        pguidCmdGroup,
-                        commandCount,
-                        prgCmds,
-                        commandText
-                    });
+                    return (int) GetType()
+                        .GetMethod(nameof(GetCommandStateHelper), BindingFlags.Instance | BindingFlags.NonPublic)
+                        .MakeGenericMethod(type).Invoke(this, new object[5]
+                        {
+                            type,
+                            pguidCmdGroup,
+                            commandCount,
+                            prgCmds,
+                            commandText
+                        });
             }
+
             return 1;
         }
 
-        private int GetCommandStateHelper<T>(Type commandArgsType, ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText) where T : EditorCommandArgs
+        private int GetCommandStateHelper<T>(Type commandArgsType, ref Guid pguidCmdGroup, uint commandCount,
+            Olecmd[] prgCmds, IntPtr commandText) where T : EditorCommandArgs
         {
-            return GetCommandState((view, buffer) => TryCreateCustomCommandArgs<T>(commandArgsType, view, buffer), ref pguidCmdGroup, commandCount, prgCmds, commandText);
+            return GetCommandState((view, buffer) => TryCreateCustomCommandArgs<T>(commandArgsType, view, buffer),
+                ref pguidCmdGroup, commandCount, prgCmds, commandText);
         }
 
         //private void ExecuteAutomaticLineEnderCommand(Action next)
@@ -1201,7 +1218,8 @@ namespace ModernApplicationFramework.TextEditor.Implementation
 
         private int QueryLeftKeyStatus(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
         {
-            return GetCommandState((view, buffer) => new LeftKeyCommandArgs(view, buffer), ref pguidCmdGroup, commandCount, prgCmds, commandText);
+            return GetCommandState((view, buffer) => new LeftKeyCommandArgs(view, buffer), ref pguidCmdGroup,
+                commandCount, prgCmds, commandText);
         }
 
         //private int QueryRightKeyStatus(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
@@ -1209,20 +1227,23 @@ namespace ModernApplicationFramework.TextEditor.Implementation
         //    return GetCommandState<RightKeyCommandArgs>((Func<ITextView, ITextBuffer, RightKeyCommandArgs>)((view, buffer) => new RightKeyCommandArgs(view, buffer)), ref pguidCmdGroup, commandCount, prgCmds, commandText);
         //}
 
-        private int GetCommandState<T>(Func<ITextView, ITextBuffer, T> argsFactory, ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText) where T : EditorCommandArgs
+        private int GetCommandState<T>(Func<ITextView, ITextBuffer, T> argsFactory, ref Guid pguidCmdGroup,
+            uint commandCount, Olecmd[] prgCmds, IntPtr commandText) where T : EditorCommandArgs
         {
             var guidCmdGroup = pguidCmdGroup;
             var commandState = _commandHandlerService.GetCommandState(argsFactory, () =>
             {
                 NextCommandTarget.QueryStatus(ref guidCmdGroup, commandCount, prgCmds, commandText);
-                return new CommandState(((int)prgCmds[0].cmdf & 2) == 2, ((int)prgCmds[0].cmdf & 4) == 4, Utilities.Utilities.GetCmdText(commandText));
+                return new CommandState(((int) prgCmds[0].cmdf & 2) == 2, ((int) prgCmds[0].cmdf & 4) == 4,
+                    Utilities.Utilities.GetCmdText(commandText));
             });
             if (!commandState.IsAvailable)
                 return 1;
             var olecmdf1 = commandState.IsAvailable ? Olecmdf.OlecmdfEnabled : Olecmdf.OlecmdfInvisible;
             var olecmdf2 = commandState.IsChecked ? Olecmdf.OlecmdfLatched : Olecmdf.OlecmdfNinched;
-            prgCmds[0].cmdf = (uint)(olecmdf1 | olecmdf2 | Olecmdf.OlecmdfSupported);
-            if (!string.IsNullOrEmpty(commandState.DisplayText) && Utilities.Utilities.GetCmdText(commandText) != commandState.DisplayText)
+            prgCmds[0].cmdf = (uint) (olecmdf1 | olecmdf2 | Olecmdf.OlecmdfSupported);
+            if (!string.IsNullOrEmpty(commandState.DisplayText) &&
+                Utilities.Utilities.GetCmdText(commandText) != commandState.DisplayText)
                 Utilities.Utilities.SetCmdText(commandText, commandState.DisplayText);
             return 0;
         }
@@ -1240,9 +1261,11 @@ namespace ModernApplicationFramework.TextEditor.Implementation
 
     public interface IEditorCommandHandlerService
     {
-        CommandState GetCommandState<T>(Func<ITextView, ITextBuffer, T> argsFactory, Func<CommandState> nextCommandHandler) where T : EditorCommandArgs;
+        CommandState GetCommandState<T>(Func<ITextView, ITextBuffer, T> argsFactory,
+            Func<CommandState> nextCommandHandler) where T : EditorCommandArgs;
 
-        void Execute<T>(Func<ITextView, ITextBuffer, T> argsFactory, Action nextCommandHandler) where T : EditorCommandArgs;
+        void Execute<T>(Func<ITextView, ITextBuffer, T> argsFactory, Action nextCommandHandler)
+            where T : EditorCommandArgs;
     }
 
     public abstract class EditorCommandArgs : CommandArgs
@@ -1282,10 +1305,12 @@ namespace ModernApplicationFramework.TextEditor.Implementation
 
         public string DisplayText { get; }
 
-        public CommandState(bool isAvailable = false, bool isChecked = false, string displayText = null, bool isUnspecified = false)
+        public CommandState(bool isAvailable = false, bool isChecked = false, string displayText = null,
+            bool isUnspecified = false)
         {
             if (isUnspecified && (isAvailable | isChecked || displayText != null))
-                throw new ArgumentException("Unspecified command state cannot be combined with other states or command text.");
+                throw new ArgumentException(
+                    "Unspecified command state cannot be combined with other states or command text.");
             IsAvailable = isAvailable;
             IsChecked = isChecked;
             IsUnspecified = isUnspecified;
@@ -1302,18 +1327,230 @@ namespace ModernApplicationFramework.TextEditor.Implementation
 
     internal class EditorCommandHandlerService : IEditorCommandHandlerService
     {
-        public EditorCommandHandlerService(ITextView textView, IEnumerable<Lazy<ICommandHandler, ICommandHandlerMetadata>> commandHandlers, IUiThreadOperationExecutor uiThreadOperationExecutor, StableContentTypeComparer contentTypeComparer, ICommandingTextBufferResolver bufferResolver, IGuardedOperations guardedOperations)
-        {
+        private static readonly Action EmptyAction = (() => { });
 
+        private static readonly IReadOnlyList<Lazy<ICommandHandler, ICommandHandlerMetadata>> EmptyHandlerList =
+            new List<Lazy<ICommandHandler, ICommandHandlerMetadata>>(0);
+
+        private readonly IEnumerable<Lazy<ICommandHandler, ICommandHandlerMetadata>> _commandHandlers;
+        private readonly ITextView _textView;
+        private readonly IUiThreadOperationExecutor _uiThreadOperationExecutor;
+        private readonly StableContentTypeComparer _contentTypesComparer;
+        private readonly IGuardedOperations _guardedOperations;
+        private readonly ICommandingTextBufferResolver _bufferResolver;
+
+        private readonly Dictionary<(Type, IContentType), IReadOnlyList<Lazy<ICommandHandler, ICommandHandlerMetadata>>>
+            _commandHandlersByTypeAndContentType;
+
+        public EditorCommandHandlerService(ITextView textView,
+            IEnumerable<Lazy<ICommandHandler, ICommandHandlerMetadata>> commandHandlers,
+            IUiThreadOperationExecutor operationExecutor, StableContentTypeComparer contentTypesComparer,
+            ICommandingTextBufferResolver bufferResolver, IGuardedOperations guardedOperations)
+        {
+            var lazies = commandHandlers;
+            _commandHandlers = lazies ?? throw new ArgumentNullException(nameof(lazies));
+            _textView = textView ?? throw new ArgumentNullException(nameof(textView));
+            _uiThreadOperationExecutor =
+                operationExecutor ?? throw new ArgumentNullException(nameof(operationExecutor));
+            _contentTypesComparer =
+                contentTypesComparer ?? throw new ArgumentNullException(nameof(contentTypesComparer));
+            _commandHandlersByTypeAndContentType =
+                new Dictionary<ValueTuple<Type, IContentType>,
+                    IReadOnlyList<Lazy<ICommandHandler, ICommandHandlerMetadata>>>();
+            _bufferResolver = bufferResolver ?? throw new ArgumentNullException(nameof(bufferResolver));
+            _guardedOperations = guardedOperations ?? throw new ArgumentNullException(nameof(guardedOperations));
         }
 
-        public CommandState GetCommandState<T>(Func<ITextView, ITextBuffer, T> argsFactory, Func<CommandState> nextCommandHandler) where T : EditorCommandArgs
+        public CommandState GetCommandState<T>(Func<ITextView, ITextBuffer, T> argsFactory,
+            Func<CommandState> nextCommandHandler) where T : EditorCommandArgs
         {
             throw new NotImplementedException();
         }
 
-        public void Execute<T>(Func<ITextView, ITextBuffer, T> argsFactory, Action nextCommandHandler) where T : EditorCommandArgs
+        public void Execute<T>(Func<ITextView, ITextBuffer, T> argsFactory, Action nextCommandHandler)
+            where T : EditorCommandArgs
         {
+            if (IsReentrantCall())
+                nextCommandHandler?.Invoke();
+            else
+            {
+                using (new ReentrancyGuard(_textView))
+                {
+                    CommandExecutionContext commandExecutionContext = null;
+                    var handlerChain = nextCommandHandler ?? EmptyAction;
+                    foreach (var valueTuple in GetOrderedBuffersAndCommandHandlers<T>().Reverse())
+                    {
+                        T args = default;
+                        var nextHandler = handlerChain;
+                        var handler = valueTuple.Item2;
+                        var obj = args;
+                        obj = argsFactory(_textView, valueTuple.Item1);
+                        args = obj;
+                        if (args == null)
+                            handlerChain();
+                        if (commandExecutionContext == null)
+                            commandExecutionContext = CreateCommandExecutionContext();
+                        handlerChain = () => _guardedOperations.CallExtensionPoint(handler, () => handler.ExecuteCommand<T>(args, nextHandler, commandExecutionContext));
+                    }
+
+                    ExecuteCommandHandlerChain(commandExecutionContext, handlerChain, nextCommandHandler);
+                }
+            }
+        }
+
+        private CommandExecutionContext CreateCommandExecutionContext()
+        {
+            return new CommandExecutionContext(_uiThreadOperationExecutor.BeginExecute(null, "Wait for Command Execution", true, true));
+        }
+
+        private static void ExecuteCommandHandlerChain(CommandExecutionContext commandExecutionContext, Action handlerChain, Action nextCommandHandler)
+        {
+            try
+            {
+                handlerChain();
+            }
+            catch (OperationCanceledException)
+            {
+                if (nextCommandHandler == null)
+                    return;
+                nextCommandHandler();
+            }
+            catch (AggregateException ex) when (ex.InnerExceptions.All(e => e is OperationCanceledException))
+            {
+                if (nextCommandHandler == null)
+                    return;
+                nextCommandHandler();
+            }
+            finally
+            {
+                commandExecutionContext?.OperationContext?.Dispose();
+            }
+        }
+
+        internal IEnumerable<ValueTuple<ITextBuffer, ICommandHandler>> GetOrderedBuffersAndCommandHandlers<T>()
+            where T : EditorCommandArgs
+        {
+            var buffers = (IReadOnlyList<ITextBuffer>) _bufferResolver.ResolveBuffersForCommand<T>().ToArray();
+            if (buffers.Count != 0)
+            {
+                var handlerBuckets = new CommandHandlerBucket[buffers.Count];
+                for (var index = 0; index < buffers.Count; ++index)
+                    handlerBuckets[index] =
+                        new CommandHandlerBucket(GetOrCreateOrderedHandlers<T>(buffers[index].ContentType,
+                            _textView.Roles));
+                while (true)
+                {
+                    var currentHandler = (Lazy<ICommandHandler, ICommandHandlerMetadata>) null;
+                    var currentHandlerBufferIndex = 0;
+
+                    for (var index = 0; index < handlerBuckets.Length; ++index)
+                    {
+                        if (!handlerBuckets[index].IsEmpty)
+                        {
+                            currentHandler = handlerBuckets[index].Peek();
+                            currentHandlerBufferIndex = index;
+                            break;
+                        }
+                    }
+
+                    if (currentHandler != null)
+                    {
+                        var foundBetterHandler = false;
+                        for (var i = 0; i < buffers.Count; ++i)
+                        {
+                            if (i != currentHandlerBufferIndex && !handlerBuckets[i].IsEmpty)
+                            {
+                                var lazy = handlerBuckets[i].Peek();
+                                if (_contentTypesComparer.Compare(lazy.Metadata.ContentTypes, currentHandler.Metadata.ContentTypes) < 0)
+                                {
+                                    foundBetterHandler = true;
+                                    handlerBuckets[i].Pop();
+                                    yield return new ValueTuple<ITextBuffer, ICommandHandler>(buffers[i], lazy.Value);
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (foundBetterHandler)
+                            continue;
+                        yield return new ValueTuple<ITextBuffer, ICommandHandler>(buffers[currentHandlerBufferIndex], currentHandler.Value);
+                        handlerBuckets[currentHandlerBufferIndex].Pop();
+                    }
+                    else
+                        break;
+                }
+            }
+        }
+
+        private IReadOnlyList<Lazy<ICommandHandler, ICommandHandlerMetadata>> GetOrCreateOrderedHandlers<T>(
+            IContentType contentType, ITextViewRoleSet textViewRoles) where T : EditorCommandArgs
+        {
+            var key = new ValueTuple<Type, IContentType>(typeof(T), contentType);
+            if (!_commandHandlersByTypeAndContentType.TryGetValue(key, out var lazyList))
+            {
+                var source = (IList<Lazy<ICommandHandler, ICommandHandlerMetadata>>) null;
+                foreach (var matchingCommandHandler in SelectMatchingCommandHandlers(_commandHandlers, contentType,
+                    textViewRoles))
+                {
+                    var commandHandler = _guardedOperations.InstantiateExtension(this, matchingCommandHandler);
+                    if (commandHandler is ICommandHandler<T> || commandHandler is IChainedCommandHandler<T>)
+                    {
+                        if (source == null)
+                            source = new FrugalList<Lazy<ICommandHandler, ICommandHandlerMetadata>>();
+                        source.Add(matchingCommandHandler);
+                    }
+                }
+
+                if (source != null && source.Count > 1)
+                    source = StableOrderer.Order(source).ToArray();
+                lazyList = source?.ToArray() ?? EmptyHandlerList;
+                _commandHandlersByTypeAndContentType[key] = lazyList;
+            }
+
+            return lazyList;
+        }
+
+        private static IEnumerable<Lazy<ICommandHandler, ICommandHandlerMetadata>> SelectMatchingCommandHandlers(
+            IEnumerable<Lazy<ICommandHandler, ICommandHandlerMetadata>> commandHandlers, IContentType contentType,
+            ITextViewRoleSet textViewRoles)
+        {
+            return commandHandlers.Where(commandHandler =>
+                MatchesContentType(commandHandler.Metadata, contentType) &&
+                MatchesTextViewRoles(commandHandler.Metadata, textViewRoles));
+        }
+
+        private static bool MatchesContentType(IContentTypeMetadata handlerMetadata, IContentType contentType)
+        {
+            return handlerMetadata.ContentTypes.Any(contentType.IsOfType);
+        }
+
+        private static bool MatchesTextViewRoles(ICommandHandlerMetadata handlerMetadata, ITextViewRoleSet roles)
+        {
+            if (handlerMetadata.TextViewRoles == null)
+                return true;
+            return handlerMetadata.TextViewRoles.Any(roles.Contains);
+        }
+
+        private bool IsReentrantCall()
+        {
+            return _textView.Properties.ContainsProperty(typeof(ReentrancyGuard));
+        }
+
+        private class ReentrancyGuard : IDisposable
+        {
+            private readonly IPropertyOwner _owner;
+
+            public ReentrancyGuard(IPropertyOwner owner)
+            {
+                var propertyOwner = owner;
+                _owner = propertyOwner ?? throw new ArgumentNullException(nameof(owner));
+                _owner.Properties[typeof(ReentrancyGuard)] = this;
+            }
+
+            public void Dispose()
+            {
+                _owner.Properties.RemoveProperty(typeof(ReentrancyGuard));
+            }
         }
     }
 
@@ -1330,7 +1567,10 @@ namespace ModernApplicationFramework.TextEditor.Implementation
     internal class EditorCommandHandlerServiceFactory : IEditorCommandHandlerServiceFactory
     {
         private readonly IEnumerable<Lazy<ICommandHandler, ICommandHandlerMetadata>> _commandHandlers;
-        private readonly IList<Lazy<ICommandingTextBufferResolverProvider, IContentTypeMetadata>> _bufferResolverProviders;
+
+        private readonly IList<Lazy<ICommandingTextBufferResolverProvider, IContentTypeMetadata>>
+            _bufferResolverProviders;
+
         private readonly IUiThreadOperationExecutor _uiThreadOperationExecutor;
         private readonly IContentTypeRegistryService _contentTypeRegistryService;
         private readonly IGuardedOperations _guardedOperations;
@@ -1339,10 +1579,10 @@ namespace ModernApplicationFramework.TextEditor.Implementation
         [ImportingConstructor]
         public EditorCommandHandlerServiceFactory(
             [ImportMany] IEnumerable<Lazy<ICommandHandler, ICommandHandlerMetadata>> commandHandlers,
-            [ImportMany] IEnumerable<Lazy<ICommandingTextBufferResolverProvider, IContentTypeMetadata>> bufferResolvers, 
-            IUiThreadOperationExecutor uiThreadOperationExecutor, 
+            [ImportMany] IEnumerable<Lazy<ICommandingTextBufferResolverProvider, IContentTypeMetadata>> bufferResolvers,
+            IUiThreadOperationExecutor uiThreadOperationExecutor,
             //JoinableTaskContext joinableTaskContext, 
-            IContentTypeRegistryService contentTypeRegistryService, 
+            IContentTypeRegistryService contentTypeRegistryService,
             IGuardedOperations guardedOperations)
         {
             _uiThreadOperationExecutor = uiThreadOperationExecutor;
@@ -1362,7 +1602,8 @@ namespace ModernApplicationFramework.TextEditor.Implementation
 
             var bufferResolver = (ICommandingTextBufferResolver) null;
 
-            _guardedOperations.CallExtensionPoint(() => bufferResolver = bufferResolverProvider.CreateResolver(textView));
+            _guardedOperations.CallExtensionPoint(
+                () => bufferResolver = bufferResolverProvider.CreateResolver(textView));
 
             bufferResolver = bufferResolver ?? new DefaultBufferResolver(textView);
 
@@ -1377,7 +1618,8 @@ namespace ModernApplicationFramework.TextEditor.Implementation
             throw new NotImplementedException("Maybe this will not be implemented at all");
         }
 
-        private IEnumerable<Lazy<ICommandHandler, ICommandHandlerMetadata>> OrderCommandHandlers(IEnumerable<Lazy<ICommandHandler, ICommandHandlerMetadata>> commandHandlers)
+        private IEnumerable<Lazy<ICommandHandler, ICommandHandlerMetadata>> OrderCommandHandlers(
+            IEnumerable<Lazy<ICommandHandler, ICommandHandlerMetadata>> commandHandlers)
         {
             var source = commandHandlers;
             var contentTypeComparer = _contentTypeComparer;
@@ -1389,10 +1631,23 @@ namespace ModernApplicationFramework.TextEditor.Implementation
     {
     }
 
+    public interface ICommandHandler<in T> : ICommandHandler, INamed where T : CommandArgs
+    {
+        CommandState GetCommandState(T args);
+
+        bool ExecuteCommand(T args, CommandExecutionContext executionContext);
+    }
+
+    public interface IChainedCommandHandler<in T> : ICommandHandler, INamed where T : CommandArgs
+    {
+        CommandState GetCommandState(T args, Func<CommandState> nextCommandHandler);
+
+        void ExecuteCommand(T args, Action nextCommandHandler, CommandExecutionContext executionContext);
+    }
+
     public interface ICommandHandlerMetadata : IOrderable, IContentTypeMetadata
     {
-        [DefaultValue(null)]
-        IEnumerable<string> TextViewRoles { get; }
+        [DefaultValue(null)] IEnumerable<string> TextViewRoles { get; }
     }
 
     public sealed class CommandBindingDefinition

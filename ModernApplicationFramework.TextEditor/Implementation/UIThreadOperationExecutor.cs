@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Utilities;
+using ModernApplicationFramework.Utilities.Attributes;
 using ModernApplicationFramework.Utilities.Interfaces;
 
 namespace ModernApplicationFramework.TextEditor.Implementation
@@ -9,7 +10,7 @@ namespace ModernApplicationFramework.TextEditor.Implementation
     [Export(typeof(IUiThreadOperationExecutor))]
     internal class UiThreadOperationExecutor : IUiThreadOperationExecutor
     {
-        [Import]
+        [ImportImplementations(typeof(IUiThreadOperationExecutor))]
         private IEnumerable<Lazy<IUiThreadOperationExecutor, IOrderable>> _unorderedImplementations;
         private IUiThreadOperationExecutor _bestImpl;
 
@@ -19,7 +20,7 @@ namespace ModernApplicationFramework.TextEditor.Implementation
             {
                 if (_bestImpl == null)
                 {
-                    IList<Lazy<IUiThreadOperationExecutor, IOrderable>> lazyList = Orderer.Order(_unorderedImplementations);
+                    var lazyList = Orderer.Order(_unorderedImplementations);
                     if (lazyList.Count == 0)
                         throw new ImportCardinalityMismatchException(
                             $"Expected to import at least one export of {typeof(IUiThreadOperationExecutor).FullName}, but got none.");

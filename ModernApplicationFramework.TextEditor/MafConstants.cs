@@ -8,6 +8,7 @@ namespace ModernApplicationFramework.TextEditor
 
         public enum EditorCommands : uint
         {
+            //Update SimpleTextViewWindow. IsEditingCommand IsSearchingCommand as required
             TypeChar = 1,
             Backspace = 2,
             Left = 7,
@@ -16,6 +17,15 @@ namespace ModernApplicationFramework.TextEditor
             OpenUrl = 113,
             DoubleClick = 134,
             LeftClick = 150,
+
+            // #12557 is the last used "original 2k command id"
+            // Anything above this number is a merge of the newer additions 
+
+            // Intentional small gap
+            MoveSelLinesUp = 12600,
+            MoveSelLinesDown = 12601,
+            ZoomIn = 12602,
+            ZoomOut = 12603
         }
     }
 }
