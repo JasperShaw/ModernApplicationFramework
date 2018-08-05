@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Windows;
 using Caliburn.Micro;
 using ModernApplicationFramework.Extended.Layout;
@@ -10,6 +11,7 @@ using ModernApplicationFramework.TextEditor.Implementation;
 namespace ModernApplicationFramework.Modules.Output
 {
     [Export(typeof(IOutput))]
+    [Guid("BF574EA3-975C-4C7B-8099-BCF027FE3632")]
     public sealed class OutputViewModel : Tool, IOutput, IOutputWindowDataSource
     {
         private readonly OutputWriter _writer;

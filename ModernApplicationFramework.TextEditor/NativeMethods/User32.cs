@@ -8,6 +8,13 @@ namespace ModernApplicationFramework.TextEditor.NativeMethods
         [DllImport("user32.dll")]
         internal static extern int GetCaretBlinkTime();
 
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern IntPtr LoadImage(IntPtr hinst, string lpszName, NativeMethods.ImageType uType, int cxDesired, int cyDesired, NativeMethods.ImageFormatRequest fuLoad);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool DestroyCursor(IntPtr hCursor);
+
         [DllImport("Gdi32.dll")]
         public static extern int GetDeviceCaps(IntPtr hdc, int index);
 

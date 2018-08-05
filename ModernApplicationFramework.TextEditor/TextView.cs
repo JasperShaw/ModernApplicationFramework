@@ -1029,7 +1029,7 @@ namespace ModernApplicationFramework.TextEditor
                 return;
             if (InOuterLayout)
                 throw new InvalidOperationException();
-            using (ComponentContext.PerformanceBlockMarker.CreateBlock("VsTextEditor.PerformLayout"))
+            using (ComponentContext.PerformanceBlockMarker.CreateBlock("TextEditor.PerformLayout"))
             {
                 InOuterLayout = true;
                 try

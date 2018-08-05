@@ -2,7 +2,7 @@
 using System.Windows.Media;
 using ModernApplicationFramework.TextEditor.Utilities;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.TextEditor.Implementation
 {
     internal class LeftMargin : ContainerMargin
     {
@@ -22,7 +22,7 @@ namespace ModernApplicationFramework.TextEditor
 
         public static ITextViewMargin Create(ITextViewHost textViewHost, GuardedOperations guardedOperations, TextViewMarginState marginState)
         {
-            LeftMargin leftMargin = new LeftMargin(textViewHost, guardedOperations, marginState);
+            var leftMargin = new LeftMargin(textViewHost, guardedOperations, marginState);
             leftMargin.Initialize();
             return leftMargin;
         }

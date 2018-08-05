@@ -22,7 +22,11 @@ namespace ModernApplicationFramework.TextEditor
 
         event EventHandler<MouseHoverEventArgs> MouseHover;
 
+        event EventHandler MaxTextRightCoordinateChanged;
+
         FrameworkElement ManipulationLayer { get; }
+
+        double MaxTextRightCoordinate { get; }
 
         SnapshotSpan GetTextElementSpan(SnapshotPoint point);
 

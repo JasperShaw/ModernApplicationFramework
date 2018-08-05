@@ -15,6 +15,29 @@ namespace ModernApplicationFramework.TextEditor.NativeMethods
             public int bottom;
         }
 
+        public enum ImageType
+        {
+            ImageBitmap,
+            ImageIcon,
+            ImageCursor,
+            ImageEnhmetafile,
+        }
+
+        [Flags]
+        public enum ImageFormatRequest
+        {
+            LrDefaultcolor = 0,
+            LrMonochrome = 1,
+            LrCopyreturnorg = 4,
+            LrCopydeleteorg = 8,
+            LrLoadfromfile = 16,
+            LrDefaultsize = 64,
+            LrLoadmap3Dcolors = 4096,
+            LrCreatedibsection = 8192,
+            LrCopyfromresource = 16384,
+            LrShared = 32768
+        }
+
         public struct COMPOSITIONFORM
         {
             public int dwStyle;

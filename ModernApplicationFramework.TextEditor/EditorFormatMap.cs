@@ -68,7 +68,7 @@ namespace ModernApplicationFramework.TextEditor
         {
             if (IsInBatchUpdate || _changedItems.Count <= 0)
                 return;
-            EventHandler<FormatItemsEventArgs> formatMappingChanged = FormatMappingChanged;
+            var formatMappingChanged = FormatMappingChanged;
             formatMappingChanged?.Invoke(this, new FormatItemsEventArgs(_changedItems.AsReadOnly()));
             _changedItems.Clear();
         }
@@ -78,9 +78,9 @@ namespace ModernApplicationFramework.TextEditor
             if (_provisionNameMap == null)
             {
                 _provisionNameMap = new Dictionary<string, Lazy<EditorFormatDefinition, IEditorFormatMetadata>>(Formats.Count, StringComparer.InvariantCultureIgnoreCase);
-                foreach (Lazy<EditorFormatDefinition, IEditorFormatMetadata> format in Formats)
+                foreach (var format in Formats)
                 {
-                    string name = format.Metadata.Name;
+                    var name = format.Metadata.Name;
                     if (_provisionNameMap.TryGetValue(name, out var lazy))
                     {
                         if (lazy.Metadata.Priority < format.Metadata.Priority)
@@ -102,8 +102,8 @@ namespace ModernApplicationFramework.TextEditor
         {
             if (_storedResourceDictionaries.TryGetValue(key, out var resourceDictionary1))
                 return resourceDictionary1;
-            EditorFormatDefinition provision = FindProvision(key);
-            ResourceDictionary resourceDictionary2 = provision == null ? new ResourceDictionary() : provision.CreateResourceDictionary();
+            var provision = FindProvision(key);
+            var resourceDictionary2 = provision == null ? new ResourceDictionary() : provision.CreateResourceDictionary();
             if (_dataStorage != null && _dataStorage.TryGetItemValue(key, out var itemValue))
             {
                 if (!itemValue.Contains("ForegroundColor"))
@@ -116,7 +116,7 @@ namespace ModernApplicationFramework.TextEditor
                     resourceDictionary2.Remove("BackgroundColor");
                     resourceDictionary2.Remove("Background");
                 }
-                foreach (object key1 in itemValue.Keys)
+                foreach (var key1 in itemValue.Keys)
                     resourceDictionary2[key1] = itemValue[key1];
             }
             _storedResourceDictionaries[key] = resourceDictionary2;

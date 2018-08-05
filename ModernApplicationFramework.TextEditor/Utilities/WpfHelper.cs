@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
@@ -37,14 +38,68 @@ namespace ModernApplicationFramework.TextEditor.Utilities
             }
         }
 
+        public static Cursor LoadCursorDpiAware(Stream cursorStream)
+        {
+            var filePath = string.Empty;
+            try
+            {
+                using (new BinaryReader(cursorStream))
+                {
+                    using (var randomFileNameStream = GetRandomFileNameStream(Path.GetTempPath(), out filePath))
+                        cursorStream.CopyTo(randomFileNameStream);
+                }
+
+                var safeCursor = new SafeCursor(User32.LoadImage(IntPtr.Zero, filePath,
+                    NativeMethods.NativeMethods.ImageType.ImageCursor, 0, 0,
+                    NativeMethods.NativeMethods.ImageFormatRequest.LrLoadfromfile |
+                    NativeMethods.NativeMethods.ImageFormatRequest.LrDefaultsize));
+                if (safeCursor.IsInvalid)
+                    return null;
+                return CursorInteropHelper.Create(safeCursor);
+            }
+            catch
+            {
+                // ignored
+            }
+            finally
+            {
+                if (File.Exists(filePath))
+                    File.Delete(filePath);
+            }
+            return null;
+        }
+
+        private static FileStream GetRandomFileNameStream(string fileDirectory, out string filePath)
+        {
+            var num = 0;
+            filePath = string.Empty;
+            while (num++ < 2)
+            {
+                var randomFileName = Path.GetRandomFileName();
+                filePath = Path.Combine(fileDirectory, randomFileName + "~");
+                if (!File.Exists(filePath))
+                {
+                    try
+                    {
+                        return new FileStream(filePath, FileMode.CreateNew, FileAccess.Write, FileShare.None);
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                }
+            }
+            throw new IOException(filePath + " exists");
+        }
+
         public static bool HanjaConversion(IntPtr context, IntPtr keyboardLayout, char selection)
         {
             if (context != IntPtr.Zero)
             {
-                IntPtr hglobalUni = Marshal.StringToHGlobalUni(new string(selection, 1));
-                IntPtr num = Imm32.ImmEscapeW(keyboardLayout, context, 4104, hglobalUni);
+                var hglobalUni = Marshal.StringToHGlobalUni(new string(selection, 1));
+                var num = Imm32.ImmEscapeW(keyboardLayout, context, 4104, hglobalUni);
                 Marshal.FreeHGlobal(hglobalUni);
-                IntPtr zero = IntPtr.Zero;
+                var zero = IntPtr.Zero;
                 if (num != zero)
                     return true;
             }
@@ -411,20 +466,20 @@ namespace ModernApplicationFramework.TextEditor.Utilities
 
             private class LanguageFontMapping
             {
-                public readonly string OldFallbackFont;
-                public readonly string NewFallbackFont;
+                private readonly string _oldFallbackFont;
+                private readonly string _newFallbackFont;
 
                 public LanguageFontMapping(string oldFallbackFont, string newFallbackFont)
                 {
-                    OldFallbackFont = oldFallbackFont;
-                    NewFallbackFont = newFallbackFont;
+                    _oldFallbackFont = oldFallbackFont;
+                    _newFallbackFont = newFallbackFont;
                 }
 
                 public string GetCompositionFont(int majorVersion)
                 {
                     if (majorVersion < 6)
-                        return OldFallbackFont;
-                    return NewFallbackFont;
+                        return _oldFallbackFont;
+                    return _newFallbackFont;
                 }
             }
         }
