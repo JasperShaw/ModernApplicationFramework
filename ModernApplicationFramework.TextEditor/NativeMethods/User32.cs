@@ -31,5 +31,11 @@ namespace ModernApplicationFramework.TextEditor.NativeMethods
 
         [DllImport("user32.dll")]
         public static extern IntPtr GetKeyboardLayout(int dwThread);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern int SystemParametersInfo(int nAction, int nParam, ref int value, int ignore);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern int GetSystemMetrics(int nIndex);
     }
 }

@@ -33,8 +33,7 @@ namespace ModernApplicationFramework.TextEditor.Implementation
             pdwCookie = 0;
             if (sink == null)
                 throw new ArgumentNullException(nameof(sink));
-            TEventType eventType = sink as TEventType;
-            if (eventType == null)
+            if (!(sink is TEventType eventType))
                 throw new ArgumentException("sink not castable to event type.");
             _eventSource.Advise(EventInterface, eventType);
             _eventSinks.Add(eventType);

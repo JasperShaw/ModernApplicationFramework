@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,6 +11,7 @@ using System.Windows.Interop;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Threading;
+using ModernApplicationFramework.TextEditor.NativeMethods;
 using ModernApplicationFramework.TextEditor.Text;
 using ModernApplicationFramework.TextEditor.Text.Formatting;
 using ModernApplicationFramework.TextEditor.Utilities;
@@ -79,7 +81,6 @@ namespace ModernApplicationFramework.TextEditor
         private double _viewportLeft;
         private readonly ITextBuffer _visualBuffer;
         internal LineRightCache _lineRightCache;
-        private ITextSnapshot _visualSnapshot;
         private IInputElement _focusedElement;
 
         private IntPtr _imeDefaultWnd = IntPtr.Zero;
@@ -171,7 +172,7 @@ namespace ModernApplicationFramework.TextEditor
         public FrameworkElement ManipulationLayer => _manipulationLayer;
         public IEditorOptions Options { get; }
 
-        public IViewScroller ViewScroller => _viewScroller ?? (_viewScroller = new DefaultViewScroller(this));
+        public IViewScroller ViewScroller => _viewScroller ?? (_viewScroller = new DefaultViewScroller(this, ComponentContext));
 
         public PropertyCollection Properties { get; } = new PropertyCollection();
 
@@ -317,7 +318,7 @@ namespace ModernApplicationFramework.TextEditor
             }
         }
 
-        public ITextSnapshot VisualSnapshot { get; }
+        public ITextSnapshot VisualSnapshot { get; private set; }
 
         public double ZoomLevel
         {
@@ -371,7 +372,7 @@ namespace ModernApplicationFramework.TextEditor
             foreach (var formattedLineGroup in _attachedLineCache)
                 formattedLineGroup.Dispose();
             _attachedLineCache.Clear();
-            foreach(var formmatedLineGroup in _unattachedLineCache)
+            foreach (var formmatedLineGroup in _unattachedLineCache)
                 formmatedLineGroup.Dispose();
             _unattachedLineCache.Clear();
             _connectionManager.Close();
@@ -380,21 +381,21 @@ namespace ModernApplicationFramework.TextEditor
             (_classifier as IDisposable)?.Dispose();
             DisableIme();
             TextViewModel.Dispose();
-            TextViewModel = null;        
+            TextViewModel = null;
             IsClosed = true;
             Closed?.Invoke(this, EventArgs.Empty);
         }
 
         public void QueueSpaceReservationStackRefresh()
         {
-            if (Interlocked.CompareExchange(ref _queuedSpaceReservationStackRefresh, 1,0) != 0)
+            if (Interlocked.CompareExchange(ref _queuedSpaceReservationStackRefresh, 1, 0) != 0)
                 return;
-            Dispatcher.BeginInvoke((Action) (() =>
-            {
-                if (IsClosed)
-                    return;
-                _spaceReservationStack.Refresh();
-            }), DispatcherPriority.Background, Array.Empty<object>());
+            Dispatcher.BeginInvoke((Action)(() =>
+           {
+               if (IsClosed)
+                   return;
+               _spaceReservationStack.Refresh();
+           }), DispatcherPriority.Background, Array.Empty<object>());
         }
 
         internal void Initialize()
@@ -464,7 +465,7 @@ namespace ModernApplicationFramework.TextEditor
                 if (_attachedLineCache.Count <= 0 && _unattachedLineCache.Count <= 0)
                     return;
                 _invalidatedSpans.Clear();
-                _invalidatedSpans.Add(new Span(0, _visualSnapshot.Length));
+                _invalidatedSpans.Add(new Span(0, VisualSnapshot.Length));
                 QueueLayout();
             }
         }
@@ -519,14 +520,14 @@ namespace ModernApplicationFramework.TextEditor
         private void BindContentTypeSpecificAssets(IContentType beforeContentType, IContentType afterContentType)
         {
             _lineTransformSources.Clear();
-            foreach (var matchingExtension in 
+            foreach (var matchingExtension in
                 UiExtensionSelector.SelectMatchingExtensions(ComponentContext.LineTransformSourceProviders, afterContentType, null, Roles))
             {
                 var lineTransformSource = ComponentContext.GuardedOperations.InstantiateExtension(matchingExtension, matchingExtension, p => p.Create(this));
                 if (lineTransformSource != null)
                     _lineTransformSources.Add(lineTransformSource);
             }
-            foreach (var matchingExtension in 
+            foreach (var matchingExtension in
                 UiExtensionSelector.SelectMatchingExtensions(ComponentContext.TextViewCreationListeners, afterContentType, beforeContentType, Roles))
             {
                 var optionName = matchingExtension.Metadata.OptionName;
@@ -601,10 +602,65 @@ namespace ModernApplicationFramework.TextEditor
             };
         }
 
+        private int _accumulatedMouseHWheel;
+
         private IntPtr MouseScrollHook(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam, ref bool handled)
         {
+            if (IsClosed || !HasAggregateFocus)
+                return IntPtr.Zero;
+            switch (msg)
+            {
+                case 276:
+                case 277:
+                    break;
+                case 526:
+                    _accumulatedMouseHWheel += HiWord(wparam);
+                    var num2 = _accumulatedMouseHWheel / 120;
+                    if (num2 != 0)
+                    {
+                        using (ComponentContext.PerformanceBlockMarker.CreateBlock("TextEditor.Scroll.MouseWheel"))
+                        {
+                            _accumulatedMouseHWheel -= num2 * 120;
+                            ViewScroller.ScrollViewportHorizontallyByPixels(FormattedLineSource.ColumnWidth * GetWheelScrollChars() * num2);
+                        }
+                    }
+                    handled = true;
+                    break;
+            }
             return IntPtr.Zero;
         }
+
+        internal static int GetWheelScrollChars()
+        {
+            if (NativeMouseWheelSupport)
+            {
+                var num = 0;
+                if (User32.SystemParametersInfo(108, 0, ref num, 0) == 0)
+                    return num;
+            }
+            return 1;
+        }
+
+        private static bool _nativeMouseWheelSupport = true;
+        private static bool _checkedNativeMouseWheelSupport;
+        private static bool NativeMouseWheelSupport
+        {
+            get
+            {
+                if (!_checkedNativeMouseWheelSupport)
+                {
+                    _nativeMouseWheelSupport = (uint)User32.GetSystemMetrics(75) > 0U;
+                    _checkedNativeMouseWheelSupport = true;
+                }
+                return _nativeMouseWheelSupport;
+            }
+        }
+
+        private static int HiWord(IntPtr wParam)
+        {
+            return (short)((long)wParam >> 16 & ushort.MaxValue);
+        }
+
 
         private void OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
@@ -790,7 +846,45 @@ namespace ModernApplicationFramework.TextEditor
 
         private void HandleMouseMove(Point pt)
         {
-            
+            if (_mouseHoverEvents.Count <= 0)
+                return;
+            var nullable1 = new int?();
+            if (pt.X >= 0.0 && pt.X < ViewportWidth && (pt.Y >= 0.0 && pt.Y < ViewportHeight))
+            {
+                var y = pt.Y + ViewportTop;
+                var containingYcoordinate = _textViewLinesCollection.GetTextViewLineContainingYCoordinate(y);
+                if (containingYcoordinate != null && y >= containingYcoordinate.TextTop && y <= containingYcoordinate.TextBottom)
+                {
+                    var xCoordinate = pt.X + ViewportLeft;
+                    var positionFromXcoordinate = containingYcoordinate.GetBufferPositionFromXCoordinate(xCoordinate, true);
+                    nullable1 = positionFromXcoordinate;
+                    if (!nullable1.HasValue && containingYcoordinate.LineBreakLength == 0 && (containingYcoordinate.IsLastTextViewLineForSnapshotLine && containingYcoordinate.TextRight <= xCoordinate) && xCoordinate < containingYcoordinate.TextRight + containingYcoordinate.EndOfLineWidth)
+                        nullable1 = containingYcoordinate.End;
+                }
+            }
+            var nullable2 = nullable1;
+            var lastHoverPosition = _lastHoverPosition;
+            if ((nullable2.GetValueOrDefault() == lastHoverPosition.GetValueOrDefault() ? (nullable2.HasValue != lastHoverPosition.HasValue ? 1 : 0) : 1) == 0)
+                return;
+            _lastHoverPosition = nullable1;
+            _mouseHoverTimer.Stop();
+            if (!nullable1.HasValue)
+                return;
+            var val2 = int.MaxValue;
+            lock (_mouseHoverEvents)
+            {
+                foreach (var mouseHoverEvent in _mouseHoverEvents)
+                {
+                    mouseHoverEvent.Fired = false;
+                    if (mouseHoverEvent.Attribute.Delay < val2)
+                        val2 = mouseHoverEvent.Attribute.Delay;
+                }
+            }
+            if (val2 == int.MaxValue)
+                return;
+            _millisecondsSinceMouseMove = 0;
+            _mouseHoverTimer.Interval = new TimeSpan(Math.Max(50, val2) * 10000L);
+            _mouseHoverTimer.Start();
         }
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
@@ -874,7 +968,7 @@ namespace ModernApplicationFramework.TextEditor
                 if (change.NewLength > 0 && span.Start > 0 && (e.After[change.NewPosition] == '\n' && e.Before[span.Start - 1] == '\r'))
                     span = Span.FromBounds(span.Start - 1, span.End);
                 var trackingSpan = e.Before.CreateTrackingSpan(span, SpanTrackingMode.EdgeExclusive);
-                spanList.Add(trackingSpan.GetSpan(_visualSnapshot));
+                spanList.Add(trackingSpan.GetSpan(VisualSnapshot));
             }
             lock (_invalidatedSpans)
                 _invalidatedSpans.AddRange(spanList);
@@ -935,139 +1029,131 @@ namespace ModernApplicationFramework.TextEditor
                 return;
             if (InOuterLayout)
                 throw new InvalidOperationException();
-
-            InOuterLayout = true;
-            try
+            using (ComponentContext.PerformanceBlockMarker.CreateBlock("VsTextEditor.PerformLayout"))
             {
-                var useDisplayMode = ShouldUseDisplayMode();
-                NormalizedSpanCollection invalidSpans1;
-                NormalizedSpanCollection invalidSpans2;
-                lock (_invalidatedSpans)
-                {
-                    _layoutNeeded = false;
-                    var flag = (WordWrapStyle & WordWrapStyles.WordWrap) == WordWrapStyles.WordWrap &&
-                               _oldState.ViewportWidth != effectiveViewportWidth;
-                    invalidSpans1 =
-                        (FormattedLineSource == null
-                            ? 1
-                            : (useDisplayMode != FormattedLineSource.UseDisplayMode ? 1 : 0)) != 0 || flag
-                            ? new NormalizedSpanCollection(new Span(0, VisualSnapshot.Length))
-                            : new NormalizedSpanCollection(_invalidatedSpans);
-                    _invalidatedSpans.Clear();
-                    invalidSpans2 = new NormalizedSpanCollection(_reclassifiedSpans);
-                    _reclassifiedSpans.Clear();
-                }
-
-                var formattedLineGroupList1 = new List<FormattedLineGroup>(_attachedLineCache.Count);
-                var formattedLineGroupList2 = new List<FormattedLineGroup>(_attachedLineCache.Count);
-                foreach (var lineGroup in _attachedLineCache)
-                {
-                    if (IsLineInvalid(lineGroup.Line, invalidSpans1))
-                        formattedLineGroupList1.Add(lineGroup);
-                    else
-                    {
-                        lineGroup.InUse = false;
-                        formattedLineGroupList2.Add(lineGroup);
-                        lineGroup.Reclassified = IsLineInvalid(lineGroup.Line, invalidSpans2);
-                    }
-                }
-
-                _attachedLineCache = formattedLineGroupList2;
-                var formattedLineGroupList3 = new List<FormattedLineGroup>(8);
-                foreach (var formattedLineGroup in _unattachedLineCache)
-                {
-                    if (formattedLineGroup.InUse && !IsLineInvalid(formattedLineGroup.Line, invalidSpans1) &&
-                        !IsLineInvalid(formattedLineGroup.Line, invalidSpans2))
-                    {
-                        formattedLineGroup.InUse = false;
-                        formattedLineGroupList3.Add(formattedLineGroup);
-                    }
-                    else
-                        formattedLineGroup.Dispose();
-                }
-
-                _unattachedLineCache = formattedLineGroupList3;
-                _lineRightCache.InvalidateSpans(invalidSpans1);
+                InOuterLayout = true;
                 try
                 {
-                    if (TextSnapshot != newSnapshot || _visualSnapshot != newVisualSnapshot)
+                    var useDisplayMode = ShouldUseDisplayMode();
+                    NormalizedSpanCollection invalidSpans1;
+                    NormalizedSpanCollection invalidSpans2;
+                    lock (_invalidatedSpans)
                     {
-                        TextSnapshot = newSnapshot;
-                        _visualSnapshot = newVisualSnapshot;
-                        foreach (var formattedLineGroup in _attachedLineCache)
-                            formattedLineGroup.SetSnapshotAndChange(_visualSnapshot, TextSnapshot);
-                        foreach (var formattedLineGroup in _unattachedLineCache)
-                            formattedLineGroup.SetSnapshotAndChange(_visualSnapshot, TextSnapshot);
-                        _lineRightCache.SetSnapshot(_visualSnapshot);
+                        _layoutNeeded = false;
+                        var flag = (WordWrapStyle & WordWrapStyles.WordWrap) == WordWrapStyles.WordWrap && _oldState.ViewportWidth != effectiveViewportWidth;
+                        if ((FormattedLineSource == null
+                                ? 1
+                                : (useDisplayMode != FormattedLineSource.UseDisplayMode ? 1 : 0)) != 0 || flag)
+                            invalidSpans1 = new NormalizedSpanCollection(new Span(0, VisualSnapshot.Length));
+                        else
+                            invalidSpans1 = new NormalizedSpanCollection(_invalidatedSpans);
+                        _invalidatedSpans.Clear();
+                        invalidSpans2 = new NormalizedSpanCollection(_reclassifiedSpans);
+                        _reclassifiedSpans.Clear();
                     }
-                    else
+                    var formattedLineGroupList1 = new List<FormattedLineGroup>(_attachedLineCache.Count);
+                    var formattedLineGroupList2 = new List<FormattedLineGroup>(_attachedLineCache.Count);
+                    foreach (var formattedLineGroup in _attachedLineCache)
                     {
-                        foreach (var formattedLineGroup in _attachedLineCache)
-                            formattedLineGroup.ResetChange();
+                        if (IsLineInvalid(formattedLineGroup.Line, invalidSpans1))
+                        {
+                            formattedLineGroupList1.Add(formattedLineGroup);
+                        }
+                        else
+                        {
+                            formattedLineGroup.InUse = false;
+                            formattedLineGroupList2.Add(formattedLineGroup);
+                            formattedLineGroup.Reclassified = IsLineInvalid(formattedLineGroup.Line, invalidSpans2);
+                        }
                     }
-                    foreach (var linesInTextViewLine in _formattedLinesInTextViewLines)
-                        linesInTextViewLine.SetChange(TextViewLineChange.None);
-                    FormattedLineSource = ComponentContext.FormattedTextSourceFactoryService.Create(
-                            TextSnapshot, _visualSnapshot, Options.GetTabSize(), 2.0,
-                            (WordWrapStyle & WordWrapStyles.WordWrap) != WordWrapStyles.None
-                                ? effectiveViewportWidth
-                                : 0.0,
-                            (WordWrapStyle & WordWrapStyles.AutoIndent) != WordWrapStyles.None
-                                ? effectiveViewportWidth * 0.25
-                                : 0.0, useDisplayMode, _classifier, _sequencer, ClassificationFormatMap, IsViewWrapEnabled);
-                    InLayout = true;
+                    _attachedLineCache = formattedLineGroupList2;
+                    var formattedLineGroupList3 = new List<FormattedLineGroup>(8);
+                    foreach (var formattedLineGroup in _unattachedLineCache)
+                    {
+                        if (formattedLineGroup.InUse && !IsLineInvalid(formattedLineGroup.Line, invalidSpans1) && !IsLineInvalid(formattedLineGroup.Line, invalidSpans2))
+                        {
+                            formattedLineGroup.InUse = false;
+                            formattedLineGroupList3.Add(formattedLineGroup);
+                        }
+                        else
+                            formattedLineGroup.Dispose();
+                    }
+                    _unattachedLineCache = formattedLineGroupList3;
+                    _lineRightCache.InvalidateSpans(invalidSpans1);
                     try
                     {
-                        InnerPerformLayout(anchorPosition, verticalDistance, relativeTo, effectiveViewportWidth,
-                            effectiveViewportHeight, preserveViewportTop, cancel);
-                        foreach (var formattedLindGroup in formattedLineGroupList1)
-                            formattedLindGroup.Dispose();
+                        if (TextSnapshot != newSnapshot || VisualSnapshot != newVisualSnapshot)
+                        {
+                            TextSnapshot = newSnapshot;
+                            VisualSnapshot = newVisualSnapshot;
+                            foreach (var formattedLineGroup in _attachedLineCache)
+                                formattedLineGroup.SetSnapshotAndChange(VisualSnapshot, TextSnapshot);
+                            foreach (var formattedLineGroup in _unattachedLineCache)
+                                formattedLineGroup.SetSnapshotAndChange(VisualSnapshot, TextSnapshot);
+                            _lineRightCache.SetSnapshot(VisualSnapshot);
+                        }
+                        else
+                        {
+                            foreach (var formattedLineGroup in _attachedLineCache)
+                                formattedLineGroup.ResetChange();
+                        }
+                        foreach (var linesInTextViewLine in _formattedLinesInTextViewLines)
+                            linesInTextViewLine.SetChange(TextViewLineChange.None);
+                        FormattedLineSource =
+                            ComponentContext.FormattedTextSourceFactoryService.Create(
+                                TextSnapshot, VisualSnapshot, Options.GetTabSize(), 2.0,
+                                (WordWrapStyle & WordWrapStyles.WordWrap) != WordWrapStyles.None
+                                    ? effectiveViewportWidth
+                                    : 0.0,
+                                (WordWrapStyle & WordWrapStyles.AutoIndent) != WordWrapStyles.None
+                                    ? effectiveViewportWidth * 0.25
+                                    : 0.0, useDisplayMode, _classifier, _sequencer,
+                                ClassificationFormatMap, IsViewWrapEnabled);
+                        InLayout = true;
+                        try
+                        {
+                            InnerPerformLayout(anchorPosition, verticalDistance, relativeTo, effectiveViewportWidth, effectiveViewportHeight, preserveViewportTop, cancel);
+                            foreach (var formattedLineGroup in formattedLineGroupList1)
+                                formattedLineGroup.Dispose();
+                        }
+                        finally
+                        {
+                            InLayout = false;
+                        }
+                        RawMaxTextRightCoordinate = _lineRightCache.MaxRight;
                     }
-                    finally
+                    catch (Exception ex)
                     {
-                        InLayout = false;
+                        _lastPerformLayoutException = ex;
+                        _lastPerformLayoutExceptionStackTrace= ex.StackTrace;
+                        throw;
                     }
-
-                    RawMaxTextRightCoordinate = _lineRightCache.MaxRight;
-                }
-                catch (Exception e)
-                {
-                    _lastPerformLayoutException = e;
-                    _lastPerformLayoutExceptionStackTrace = e.StackTrace;
-                    throw;
-                }
-                var textViewLineList1 = new List<ITextViewLine>();
-                var textViewLineList2 = new List<ITextViewLine>();
-                foreach (var textViewLines in _textViewLinesCollection)
-                {
-                    switch (textViewLines.Change)
+                    var textViewLineList1 = new List<ITextViewLine>();
+                    var textViewLineList2 = new List<ITextViewLine>();
+                    foreach (var textViewLines in _textViewLinesCollection)
                     {
-                        case TextViewLineChange.NewOrReformatted:
+                        if (textViewLines.Change == TextViewLineChange.NewOrReformatted)
                             textViewLineList1.Add(textViewLines);
-                            break;
-                        case TextViewLineChange.Translated:
+                        else if (textViewLines.Change == TextViewLineChange.Translated)
                             textViewLineList2.Add(textViewLines);
-                            break;
                     }
+                    _baseLayer.SetSnapshotAndUpdate(TextSnapshot, 0.0, ViewportTop - _oldState.ViewportTop, textViewLineList1, textViewLineList2);
+                    _overlayLayer.SetSnapshotAndUpdate(TextSnapshot, 0.0, 0.0, textViewLineList1, _emptyLines);
+                    RaiseLayoutChangeEvent(effectiveViewportWidth, effectiveViewportHeight, textViewLineList1, textViewLineList2);
+                    if (_lastHoverPosition.HasValue)
+                    {
+                        _mouseHoverTimer.Stop();
+                        _lastHoverPosition = new int?();
+                    }
+                    QueueSpaceReservationStackRefresh();
+                    if (!_imeActive)
+                        return;
+                    PositionImmCompositionWindow();
                 }
-
-                _baseLayer.SetSnapshotAndUpdate(TextSnapshot, 0.0, ViewportTop - _oldState.ViewportTop,
-                    textViewLineList1, textViewLineList2);
-                _overlayLayer.SetSnapshotAndUpdate(TextSnapshot, 0.0, 0.0, textViewLineList1, _emptyLines);
-                RaiseLayoutChangeEvent(effectiveViewportWidth, effectiveViewportHeight, textViewLineList1, textViewLineList2);
-                if (_lastHoverPosition.HasValue)
+                finally
                 {
-                    _mouseHoverTimer.Stop();
-                    _lastHoverPosition = new int?();
+                    InOuterLayout = false;
                 }
-                QueueSpaceReservationStackRefresh();
-                if (!_imeActive)
-                    return;
-                PositionImmCompositionWindow();
-            }
-            finally
-            {
-                InOuterLayout = false;
             }
         }
 
@@ -1091,7 +1177,6 @@ namespace ModernApplicationFramework.TextEditor
                         formattedLineGroupList = DoCompleteLayout(formattedLine.Start, num - formattedLine.Height, ViewRelativePosition.Top, effectiveViewportHeight, out referenceLine, out distanceAboveReferenceLine, out distanceBelowReferenceLine, cancel);
                 }
             }
-
             _attachedLineCache = formattedLineGroupList;
             _formattedLinesInTextViewLines.Clear();
             IFormattedLine formattedLine1 = null;
@@ -1100,22 +1185,20 @@ namespace ModernApplicationFramework.TextEditor
             {
                 formattedLineGroup.InUse = true;
                 var formattedLines = formattedLineGroup.FormattedLines;
-                foreach (var formattedline3 in formattedLines)
+                foreach (var formattedLine3 in formattedLines)
                 {
-                    _formattedLinesInTextViewLines.Add(formattedline3);
-                    if (formattedline3.Change != TextViewLineChange.NewOrReformatted && formattedLine1 == null)
+                    _formattedLinesInTextViewLines.Add(formattedLine3);
+                    if (formattedLine3.Change != TextViewLineChange.NewOrReformatted && formattedLine1 == null)
                     {
-                        if (formattedline3.ExtentIncludingLineBreak.Contains(anchorPosition))
-                            formattedLine1 = formattedline3;
+                        if (formattedLine3.ExtentIncludingLineBreak.Contains(anchorPosition))
+                            formattedLine1 = formattedLine3;
                         else if (formattedLine2 == null)
-                            formattedLine2 = formattedline3;
+                            formattedLine2 = formattedLine3;
                     }
                 }
             }
-
             if (formattedLine1 == null)
                 formattedLine1 = formattedLine2;
-
             double num1;
             double num2;
             if (formattedLine1 != null)
@@ -1132,7 +1215,6 @@ namespace ModernApplicationFramework.TextEditor
                 num2 = preserveViewportTop ? ViewportTop : 0.0;
                 num1 = num2 + referenceLine - distanceAboveReferenceLine;
             }
-
             var top = num1;
             foreach (var linesInTextViewLine in _formattedLinesInTextViewLines)
             {
@@ -1145,27 +1227,25 @@ namespace ModernApplicationFramework.TextEditor
                     }
                     linesInTextViewLine.SetTop(top);
                 }
-
                 top += linesInTextViewLine.Height;
-                if (ViewportTop != num2)
-                {
-                    ViewportTop = num2;
-                    Canvas.SetTop(_baseLayer, -ViewportTop);
-                }
-                UpdateVisibleArea(effectiveViewportWidth, effectiveViewportHeight);
-                TrimHiddenLines();
-                _textViewLinesCollection?.Invalidate();
-                _textViewLinesCollection = new TextViewLineCollection(this, _formattedLinesInTextViewLines);
-                _contentLayer.SetTextViewLines(_formattedLinesInTextViewLines);
-                foreach (var formattedLineGroup in attachedLineCache)
-                {
-                    if (!formattedLineGroup.InUse)
-                        formattedLineGroup.Dispose();
-                    else
-                        formattedLineGroup.Reclassified = false;
-                }
             }
-
+            if (ViewportTop != num2)
+            {
+                ViewportTop = num2;
+                Canvas.SetTop(_baseLayer, -ViewportTop);
+            }
+            UpdateVisibleArea(effectiveViewportWidth, effectiveViewportHeight);
+            TrimHiddenLines();
+            _textViewLinesCollection?.Invalidate();
+            _textViewLinesCollection = new TextViewLineCollection(this, _formattedLinesInTextViewLines);
+            _contentLayer.SetTextViewLines(_formattedLinesInTextViewLines);
+            foreach (var formattedLineGroup in attachedLineCache)
+            {
+                if (!formattedLineGroup.InUse)
+                    formattedLineGroup.Dispose();
+                else
+                    formattedLineGroup.Reclassified = false;
+            }
         }
 
         private void TrimHiddenLines()
@@ -1199,7 +1279,7 @@ namespace ModernApplicationFramework.TextEditor
             out double referenceLine, out double distanceAboveReferenceLine, out double distanceBelowReferenceLine,
             CancellationToken? cancel)
         {
-            var containingLine = TextViewModel.GetNearestPointInVisualSnapshot(anchorPosition, _visualSnapshot, PointTrackingMode.Positive).GetContainingLine();
+            var containingLine = TextViewModel.GetNearestPointInVisualSnapshot(anchorPosition, VisualSnapshot, PointTrackingMode.Positive).GetContainingLine();
             referenceLine = relativeTo == ViewRelativePosition.Top || relativeTo == (ViewRelativePosition)2 ? verticalDistance : effectiveViewportHeight - verticalDistance;
             var formattedLineGroup = DoAnchorLayout(containingLine, anchorPosition, referenceLine, relativeTo, out distanceAboveReferenceLine, out distanceBelowReferenceLine, cancel);
             var formattedLineGroupList1 = DoLayoutUp(containingLine, referenceLine, ref distanceAboveReferenceLine, cancel);
@@ -1399,7 +1479,7 @@ namespace ModernApplicationFramework.TextEditor
             using (ComponentContext.PerformanceBlockMarker.CreateBlock("VsTextEditor.LayoutChangedEvent"))
             {
                 _caretElement.LayoutChanged(_oldState.EditSnapshot, TextSnapshot);
-                _selection.LayoutChanged(_oldState.VisualSnapshot != _visualSnapshot, TextSnapshot);
+                _selection.LayoutChanged(_oldState.VisualSnapshot != VisualSnapshot, TextSnapshot);
                 if (!_inConstructor)
                 {
                     var layoutChanged = LayoutChanged;
@@ -1486,7 +1566,7 @@ namespace ModernApplicationFramework.TextEditor
 
         private void OnSelectionChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void OnClassificationFormatMapChange(object sender, EventArgs e)
@@ -1502,7 +1582,7 @@ namespace ModernApplicationFramework.TextEditor
                     }
                 }
                 _reclassifiedSpans.Clear();
-                _reclassifiedSpans.Add(new Span(0, _visualSnapshot.Length));
+                _reclassifiedSpans.Add(new Span(0, VisualSnapshot.Length));
                 QueueLayout();
             }
             SetClearTypeHint();
@@ -1524,7 +1604,7 @@ namespace ModernApplicationFramework.TextEditor
         {
             if (IsClosed)
                 return;
-            var span = Span.FromBounds(TextViewModel.GetNearestPointInVisualSnapshot(e.ChangeSpan.Start, _visualSnapshot, PointTrackingMode.Negative), TextViewModel.GetNearestPointInVisualSnapshot(e.ChangeSpan.End, _visualSnapshot, PointTrackingMode.Positive));
+            var span = Span.FromBounds(TextViewModel.GetNearestPointInVisualSnapshot(e.ChangeSpan.Start, VisualSnapshot, PointTrackingMode.Negative), TextViewModel.GetNearestPointInVisualSnapshot(e.ChangeSpan.End, VisualSnapshot, PointTrackingMode.Positive));
             if (span.Length <= 0)
                 return;
             span = new Span(span.Start, span.Length - 1);
@@ -1543,8 +1623,8 @@ namespace ModernApplicationFramework.TextEditor
             var spanList = new List<Span>(spans.Count);
             foreach (var snapshotSpan in spans)
             {
-                var inVisualSnapshot1 = TextViewModel.GetNearestPointInVisualSnapshot(snapshotSpan.Start, _visualSnapshot, PointTrackingMode.Negative);
-                var inVisualSnapshot2 = TextViewModel.GetNearestPointInVisualSnapshot(snapshotSpan.End, _visualSnapshot, PointTrackingMode.Positive);
+                var inVisualSnapshot1 = TextViewModel.GetNearestPointInVisualSnapshot(snapshotSpan.Start, VisualSnapshot, PointTrackingMode.Negative);
+                var inVisualSnapshot2 = TextViewModel.GetNearestPointInVisualSnapshot(snapshotSpan.End, VisualSnapshot, PointTrackingMode.Positive);
                 spanList.Add(Span.FromBounds(inVisualSnapshot1, inVisualSnapshot2));
             }
             if (spanList.Count <= 0)
@@ -1604,9 +1684,9 @@ namespace ModernApplicationFramework.TextEditor
 
         private void OnHoverTimer(object sender, EventArgs e)
         {
-            if(IsClosed)
+            if (IsClosed)
                 return;
-            _millisecondsSinceMouseMove += (int) (_mouseHoverTimer.Interval.Ticks / 10000L);
+            _millisecondsSinceMouseMove += (int)(_mouseHoverTimer.Interval.Ticks / 10000L);
             if (!IsVisible || !_lastHoverPosition.HasValue)
                 return;
             RaiseHoverEvents();
@@ -1656,10 +1736,10 @@ namespace ModernApplicationFramework.TextEditor
                 case 61:
                     break;
                 case 256:
-                    if ((int) wparam == 25 && IsKorean() && !_selection.IsEmpty)
+                    if ((int)wparam == 25 && IsKorean() && !_selection.IsEmpty)
                     {
-                        SnapshotPoint position = _selection.Start.Position;
-                        char ch = TextSnapshot[position];
+                        var position = _selection.Start.Position;
+                        var ch = TextSnapshot[position];
                         if (IsHangul(ch) && WpfHelper.HanjaConversion(_imeContext, WpfHelper.GetKeyboardLayout(), ch))
                         {
                             _selection.Select(new SnapshotSpan(position, 1), false);
@@ -1917,7 +1997,7 @@ namespace ModernApplicationFramework.TextEditor
                     if (viewportHeightOverride.HasValue && double.IsNaN(viewportHeightOverride.Value))
                         throw new ArgumentOutOfRangeException(nameof(viewportHeightOverride));
                     var textSnapshot = TextSnapshot;
-                    var visualSnapshot = _visualSnapshot;
+                    var visualSnapshot = VisualSnapshot;
                     var anchorPosition = bufferPosition;
                     var verticalDistance1 = verticalDistance;
                     var num1 = (int)relativeTo;
@@ -1996,10 +2076,10 @@ namespace ModernApplicationFramework.TextEditor
                     }
                 }
             }
-            var containingLine = TextViewModel.GetNearestPointInVisualSnapshot(bufferPosition, _visualSnapshot, PointTrackingMode.Positive).GetContainingLine();
+            var containingLine = TextViewModel.GetNearestPointInVisualSnapshot(bufferPosition, VisualSnapshot, PointTrackingMode.Positive).GetContainingLine();
             IList<IFormattedLine> formattedLines = FormattedLineSource.FormatLineInVisualBuffer(containingLine, new CancellationToken?());
             var formattedLineGroup1 =
-                new FormattedLineGroup(containingLine, formattedLines) {InUse = true};
+                new FormattedLineGroup(containingLine, formattedLines) { InUse = true };
             if (_unattachedLineCache.Count >= 8)
             {
                 _unattachedLineCache[0].Dispose();

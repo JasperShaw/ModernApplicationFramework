@@ -17,6 +17,9 @@ namespace ModernApplicationFramework.TextEditor.Implementation
     {
         public EventHandler TextViewHostUpdated;
         public event EventHandler Initialized;
+        public event ChangeScrollInfoEventHandler OnChangeScrollInfo;
+
+        public delegate void ChangeScrollInfoEventHandler(IMafTextView pView, int iBar, int iMinUnit, int iMaxUnits, int iVisibleUnits, int iFirstVisibleUnit);
 
         private static Exception LastCreatedButNotInitializedException = null;
         private static string LastCreatedButNotInitializedExceptionStackTrace = null;
@@ -59,10 +62,22 @@ namespace ModernApplicationFramework.TextEditor.Implementation
 
         internal bool _canCaretAndSelectionMapToDataBuffer = true;
 
+        private IEditorFormatMap EditorFormatMap { get; set; }
+
+
         internal IEditorOperations _editorOperations;
         private IViewPrimitives _textViewPrimitivesPrivate;
         private bool _sentTextViewCreatedNotifications;
         private bool _startNewClipboardCycle = true;
+
+        internal int _oldVerticalMaxUnits = -1;
+        internal int _oldVerticalVisibleUnits = -1;
+        internal int _oldVerticalFirstVisibleUnit = -1;
+        internal int _oldHorzMaxUnits = -1;
+        internal int _oldHorzVisibleUnits = -1;
+        internal int _oldHorzFirstVisibleUnit = -1;
+
+        internal ViewMarkerTypeManager ViewMarkerTypeManager;
 
         //internal TextViewShimHost ShimHost { get; set; }
 
@@ -309,6 +324,12 @@ namespace ModernApplicationFramework.TextEditor.Implementation
                         case MafConstants.EditorCommands.TypeChar:
                             InsertChar(input, InProvisionalInput);
                             break;
+                        case MafConstants.EditorCommands.Backspace:
+                            Backsapce();
+                            break;
+                        case MafConstants.EditorCommands.Return:
+                            InsertNewLine();
+                            break;
                         case MafConstants.EditorCommands.Left:
                             _editorOperations.MoveToPreviousCharacter(false);
                             break;
@@ -333,6 +354,19 @@ namespace ModernApplicationFramework.TextEditor.Implementation
             {
             }
             return -2147221248;
+        }
+
+        private void InsertNewLine()
+        {
+            _editorOperations.InsertNewLine();
+        }
+
+        private void Backsapce()
+        {
+            if (_editorOperations.ProvisionalCompositionSpan != null)
+                _editorOperations.InsertText("");
+            else
+                _editorOperations.Backspace();
         }
 
         private void InsertChar(IntPtr pvaIn, bool provisionalText)
@@ -399,6 +433,7 @@ namespace ModernApplicationFramework.TextEditor.Implementation
                 {
                     case MafConstants.EditorCommands.TypeChar:
                     case MafConstants.EditorCommands.Backspace:
+                    case MafConstants.EditorCommands.Return:
                         return true;
                 }
             }
@@ -414,6 +449,7 @@ namespace ModernApplicationFramework.TextEditor.Implementation
                 {
                     case MafConstants.EditorCommands.TypeChar:
                     case MafConstants.EditorCommands.Backspace:
+                    case MafConstants.EditorCommands.Return:
                         return true;
                     default:
                         return false;
@@ -563,6 +599,7 @@ namespace ModernApplicationFramework.TextEditor.Implementation
             };
             RaiseGoBackEvents = true;
             //TODO: Marker stuff
+            ViewMarkerTypeManager = new ViewMarkerTypeManager();
             CurrentInitializationState = InitializationState.Constructed;
         }
 
@@ -622,6 +659,7 @@ namespace ModernApplicationFramework.TextEditor.Implementation
             //TODO: Add stuff
             _editorOperations = EditorParts.EditorOperationsFactoryService.GetEditorOperations(textView);
             //Undo
+            ViewMarkerTypeManager.AttachToView(textView);
             _textViewPrimitivesPrivate = IoC.Get<IEditorPrimitivesFactoryService>().GetViewPrimitives(textView);
             _classificationFormatMap = EditorParts.ClassificationFormatMapService.GetClassificationFormatMap(textView);
             _urlTagAggregator = EditorParts.ViewTagAggregatorFactoryService.CreateTagAggregator<IUrlTag>(textView);
@@ -831,8 +869,11 @@ namespace ModernApplicationFramework.TextEditor.Implementation
             {
                 var host = _textViewHostPrivate;
                 var textView = host.TextView;
+                if (host.GetTextViewMargin("VerticalScrollBar") is IVerticalScrollBar scrollBar)
+                    _scrollMap = scrollBar.Map;
                 textView.LayoutChanged += View_LayoutChanged;
-                //var textViewMargin1 = host.GetTextViewMargin("VerticalScrollBar") as IVerticalScrollBar;
+
+
                 Keyboard.AddKeyDownHandler(textView.VisualElement, OnTextView_KeyDown);
                 Keyboard.AddKeyUpHandler(textView.VisualElement, OnTextView_KeyUp);
 
@@ -841,6 +882,16 @@ namespace ModernApplicationFramework.TextEditor.Implementation
                 _editorAndMenuFocusTracker = new EditorAndMenuFocusTracker(textView);
                 //_editorAndMenuFocusTracker.GotFocus += this.OnEditorOrMenuGotFocus;
                 //_editorAndMenuFocusTracker.LostFocus += this.OnEditorOrMenuLostFocus;
+
+                var zoomControl = TextViewHost.GetTextViewMargin("ZoomControl");
+                if (zoomControl != null)
+                {
+                    _zoomControl = zoomControl.VisualElement;
+                    if (_zoomControl != null)
+                        _zoomControl.IsKeyboardFocusWithinChanged += OnZoomIsKeyboardFocusWithinChanged;
+                }
+                _classificationFormatMap.ClassificationFormatMappingChanged += ClassificationFormatMap_ClassificationFormatMappingChanged;
+                SetPlainTextFont();
             }
             finally
             {
@@ -848,9 +899,76 @@ namespace ModernApplicationFramework.TextEditor.Implementation
             }
         }
 
+        internal void ClassificationFormatMap_ClassificationFormatMappingChanged(object sender, EventArgs e)
+        {
+            SetPlainTextFont();
+        }
+
+        private string _plainTextFont;
+
+        internal void SetPlainTextFont()
+        {
+            if (_disableSettingImeCompositionWindowOptions)
+                return;
+            var source = _classificationFormatMap.DefaultTextProperties.Typeface.FontFamily.Source;
+            if (_plainTextFont == source)
+                return;
+            _plainTextFont = source;
+            string str1 = "CompositionFonts\\" + _plainTextFont;
+            //TODO:
+            //using (ServiceProvider serviceProvider = new ServiceProvider(Common.GlobalServiceProvider))
+            //{
+            //    SettingsStore onlySettingsStore = new ShellSettingsManager((IServiceProvider)serviceProvider).GetReadOnlySettingsStore(SettingsScope.UserSettings);
+            //    string str2 = onlySettingsStore.GetString(str1, "CompositionFont", "");
+            //    double doubleFromStore1 = GetDoubleFromStore(onlySettingsStore, str1, "TopOffset");
+            //    double doubleFromStore2 = GetDoubleFromStore(onlySettingsStore, str1, "BottomOffset");
+            //    double doubleFromStore3 = GetDoubleFromStore(onlySettingsStore, str1, "HeightOffset");
+            //    _editorOptions.SetOptionValue("ImeCompositionWindowFont", str2);
+            //    _editorOptions.SetOptionValue("ImeCompositionWindowTopOffset", doubleFromStore1);
+            //    _editorOptions.SetOptionValue("ImeCompositionWindowBottomOffset", doubleFromStore2);
+            //    _editorOptions.SetOptionValue("ImeCompositionWindowHeightOffset", doubleFromStore3);
+            //}
+        }
+
+        private void OnZoomIsKeyboardFocusWithinChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (_zoomControl.IsKeyboardFocusWithin)
+                return;
+            //TODO:
+        }
+
         private void View_LayoutChanged(object sender, TextViewLayoutChangedEventArgs e)
         {
+            if (CurrentInitializationState < InitializationState.TextViewAvailable)
+                return;
+            HandleVerticalScroll();
+        }
 
+        private void HandleVerticalScroll()
+        {
+            int iMinUnit = 0;
+            int iMaxUnits;
+            int iVisibleUnits;
+            int iFirstVisibleUnit;
+            if (_scrollMap == null)
+            {
+                iMaxUnits = TextView.TextSnapshot.LineCount;
+                iVisibleUnits = (int) (TextView.ViewportHeight / 14.0);
+                iFirstVisibleUnit = TextView.TextViewLines.FirstVisibleLine.Start.GetContainingLine().LineNumber;
+            }
+            else
+            {
+                iMaxUnits = (int) (_scrollMap.End - _scrollMap.Start);
+                iVisibleUnits = (int) _scrollMap.ThumbSize;
+                iFirstVisibleUnit =
+                    (int) _scrollMap.GetCoordinateAtBufferPosition(TextView.TextViewLines.FirstVisibleLine.Start);
+            }
+            if (_oldVerticalMaxUnits == iMaxUnits && _oldVerticalVisibleUnits == iVisibleUnits && _oldVerticalFirstVisibleUnit == iFirstVisibleUnit)
+                return;
+            _oldVerticalMaxUnits = iMaxUnits;
+            _oldVerticalVisibleUnits = iVisibleUnits;
+            _oldVerticalFirstVisibleUnit = iFirstVisibleUnit;
+            OnChangeScrollInfo?.Invoke(this, 1, iMinUnit, iMaxUnits, iVisibleUnits, iFirstVisibleUnit);
         }
 
         private void DocData_OnChangeLineText(object sender, TextContentChangedEventArgs e)

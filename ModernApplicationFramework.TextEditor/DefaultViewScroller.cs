@@ -4,11 +4,13 @@ namespace ModernApplicationFramework.TextEditor
 {
     internal sealed class DefaultViewScroller : IViewScroller
     {
-        private readonly TextView _textView;
+        private TextView _textView;
+        private TextEditorFactoryService _factoryService;
 
-        public DefaultViewScroller(TextView textView)
+        public DefaultViewScroller(TextView textView, TextEditorFactoryService factoryService)
         {
             _textView = textView ?? throw new ArgumentNullException(nameof(textView));
+            _factoryService = factoryService ?? throw new ArgumentNullException(nameof(factoryService));
         }
 
         public void ScrollViewportVerticallyByPixels(double pixelsToScroll)

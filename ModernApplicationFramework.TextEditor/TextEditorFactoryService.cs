@@ -80,6 +80,9 @@ namespace ModernApplicationFramework.TextEditor
         [ImportMany]
         internal List<Lazy<ITextViewModelProvider, IContentTypeAndTextViewRoleMetadata>> TextViewModelProviders { get; set; }
 
+        [ImportMany]
+        internal List<Lazy<IObjectTracker>> ObjectTrackers { get; set; }
+
 
         public void InitializeTextViewHost(ITextViewHost host)
         {
@@ -89,21 +92,6 @@ namespace ModernApplicationFramework.TextEditor
         }
 
         public event EventHandler<TextViewCreatedEventArgs> TextViewCreated;
-
-        private TextView CreateAndTrackTextView(/*ITextViewModel viewModel, */bool initialize = true)
-        {
-
-            var buffer = TextBufferFactoryService.CreateTextBuffer();
-            var dataModel = new VacuousTextDataModel(buffer);
-            ITextViewModel viewModel = new VacuousTextViewModel(dataModel);
-
-            viewModel.DataBuffer.Insert(0, "Hallo Welt\r\nTest");
-
-            var textView = new TextView(viewModel, DefaultRoles, EditorOptionsFactoryService.GlobalOptions, this, false);
-            if (initialize)
-                InitializeTextView(textView);
-            return textView;
-        }
 
         public ITextView CreateTextViewWithoutInitialization(ITextDataModel dataModel, ITextViewRoleSet roles,
             IEditorOptions parentOptions)
@@ -148,7 +136,8 @@ namespace ModernApplicationFramework.TextEditor
                 throw new ArgumentException();
             textView.Initialize();
 
-            //TODO: Guarded operations
+            foreach (Lazy<IObjectTracker> objectTracker in ObjectTrackers)
+                GuardedOperations.InstantiateExtension(objectTracker, objectTracker)?.TrackObject(view, "Text Views");
 
             var textViewCreated = TextViewCreated;
             textViewCreated?.Invoke(this, new TextViewCreatedEventArgs(textView));
@@ -156,7 +145,38 @@ namespace ModernApplicationFramework.TextEditor
 
         public ITextView CreateTextView()
         {
-            return CreateAndTrackTextView();
+            return CreateTextView(TextBufferFactoryService.CreateTextBuffer(), DefaultRoles);
+        }
+
+        public ITextView CreateTextView(ITextBuffer textBuffer, ITextViewRoleSet roles)
+        {
+            if (textBuffer == null)
+                throw new ArgumentNullException(nameof(textBuffer));
+            if (roles == null)
+                throw new ArgumentNullException(nameof(roles));
+            return CreateTextView(new VacuousTextDataModel(textBuffer), roles, EditorOptionsFactoryService.GlobalOptions);
+        }
+
+        public ITextView CreateTextView(ITextDataModel dataModel, ITextViewRoleSet roles, IEditorOptions parentOptions)
+        {
+            if (dataModel == null)
+                throw new ArgumentNullException(nameof(dataModel));
+            if (roles == null)
+                throw new ArgumentNullException(nameof(roles));
+            if (parentOptions == null)
+                throw new ArgumentNullException(nameof(parentOptions));
+            return CreateAndTrackTextView(dataModel, roles, parentOptions);
+        }
+
+        public ITextView CreateTextView(ITextViewModel viewModel, ITextViewRoleSet roles, IEditorOptions parentOptions)
+        {
+            if (viewModel == null)
+                throw new ArgumentNullException(nameof(viewModel));
+            if (roles == null)
+                throw new ArgumentNullException(nameof(roles));
+            if (parentOptions == null)
+                throw new ArgumentNullException(nameof(parentOptions));
+            return CreateAndTrackTextView(viewModel, roles, parentOptions);
         }
 
         public ITextViewHost CreateTextViewHost(ITextView textView, bool setFocus)
@@ -188,6 +208,11 @@ namespace ModernApplicationFramework.TextEditor
             var lazyList2 = Orderer.Order(_spaceReservationManagerDefinitions);
             for (var index = 0; index < lazyList2.Count; ++index)
                 OrderedSpaceReservationManagerDefinitions.Add(lazyList2[index].Metadata.Name, index);
+        }
+
+        public ITextViewRoleSet CreateTextViewRoleSet(IEnumerable<string> roles)
+        {
+            return new TextViewRoleSet(roles);
         }
 
         public ITextViewRoleSet CreateTextViewRoleSet(params string[] roles)

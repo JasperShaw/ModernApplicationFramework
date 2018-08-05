@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
@@ -62,7 +63,11 @@ namespace ModernApplicationFramework.TextEditor
 
         public ITextViewMargin GetTextViewMargin(string marginName)
         {
-            return null;
+            if (marginName == null)
+                throw new ArgumentNullException(nameof(marginName));
+            if (!_hasInitializeBeenCalled)
+                throw new InvalidOperationException("The margnins of the text view host have bot been initialized yet.");
+            return _edges.Select(edge => edge.GetTextViewMargin(marginName)).FirstOrDefault(textViewMargin => textViewMargin != null);
         }
 
         public void OnMouseWheel(object sender, MouseWheelEventArgs e)

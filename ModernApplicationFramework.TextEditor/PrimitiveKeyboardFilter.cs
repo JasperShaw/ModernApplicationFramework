@@ -37,8 +37,14 @@ namespace ModernApplicationFramework.TextEditor
                 return;
             switch (args.Key)
             {
+                case Key.Back:
+                    SendCommand(MafConstants.EditorCommands.Backspace);
+                    break;
                 case Key.Left:
                     SendCommand(MafConstants.EditorCommands.Left);
+                    break;
+                case Key.Return:
+                    SendCommand(MafConstants.EditorCommands.Return);
                     break;
             }
             base.KeyDown(args);

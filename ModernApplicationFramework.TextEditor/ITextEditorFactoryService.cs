@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ModernApplicationFramework.TextEditor
 {
@@ -10,7 +11,13 @@ namespace ModernApplicationFramework.TextEditor
 
         ITextViewRoleSet DefaultRoles { get; }
 
+        ITextViewRoleSet CreateTextViewRoleSet(IEnumerable<string> roles);
+
+        ITextViewRoleSet CreateTextViewRoleSet(params string[] roles);
+
         ITextView CreateTextView();
+
+        ITextView CreateTextView(ITextViewModel viewModel, ITextViewRoleSet roles, IEditorOptions parentOptions);
 
         ITextViewHost CreateTextViewHost(ITextView textView, bool setFocus);
 

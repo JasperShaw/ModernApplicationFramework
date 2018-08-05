@@ -122,16 +122,16 @@ namespace ModernApplicationFramework.TextEditor.Implementation
         {
             switch (commandId)
             {
-                case (uint)MafConstants.EditorCommands.TypeChar:
+                case (uint) MafConstants.EditorCommands.TypeChar:
                     var forNativeVariant = (char)(ushort)Marshal.GetObjectForNativeVariant(pvaIn);
                     ExecuteTypeCharCommand(next, forNativeVariant);
                     return 0;
-                case (uint)MafConstants.EditorCommands.Backspace:
+                case (uint) MafConstants.EditorCommands.Backspace:
                     ExecuteBackspaceKeyCommand(next);
                     return 0;
-                //case VSConstants.VSStd2KCmdID.RETURN:
-                //    ExecuteReturnKeyCommand(next);
-                //    return 0;
+                case (uint )MafConstants.EditorCommands.Return:
+                    ExecuteReturnKeyCommand(next);
+                    return 0;
                 //case VSConstants.VSStd2KCmdID.TAB:
                 //    ExecuteTabKeyCommand(next);
                 //    return 0;
@@ -289,11 +289,6 @@ namespace ModernApplicationFramework.TextEditor.Implementation
             }
         }
 
-        private void ExecuteTypeCharCommand(Action next, char typedChar)
-        {
-            _commandHandlerService.Execute((textView, subjectBuffer) => new TypeCharCommandArgs(TextView, subjectBuffer, typedChar), next);
-        }
-
         private int ExecuteCustomCommand(ref Guid pguidCmdGroup, uint commandId, IntPtr pvaIn, IntPtr pvaOut,
             Action next)
         {
@@ -305,7 +300,7 @@ namespace ModernApplicationFramework.TextEditor.Implementation
                 {
                     GetType().GetMethod(nameof(ExecuteCustomCommandHelper),
                         BindingFlags.Instance | BindingFlags.NonPublic).MakeGenericMethod(type).Invoke(this,
-                        new object[2]
+                        new object[]
                         {
                             type,
                             next
@@ -480,26 +475,6 @@ namespace ModernApplicationFramework.TextEditor.Implementation
                 ref pguidCmdGroup, commandCount, prgCmds, commandText);
         }
 
-        private void ExecuteLeftKeyCommand(Action next)
-        {
-            var commandHandlerService = _commandHandlerService;
-            var nextCommandHandler = next;
-            commandHandlerService.Execute((view, buffer) => new LeftKeyCommandArgs(view, buffer), nextCommandHandler);
-        }
-
-        private int QueryLeftKeyStatus(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
-        {
-            return GetCommandState((view, buffer) => new LeftKeyCommandArgs(view, buffer), ref pguidCmdGroup,
-                commandCount, prgCmds, commandText);
-        }
-
-        private void ExecuteBackspaceKeyCommand(Action next)
-        {
-            IEditorCommandHandlerService commandHandlerService = this._commandHandlerService;
-            Action nextCommandHandler = next;
-            commandHandlerService.Execute<BackspaceKeyCommandArgs>((Func<ITextView, ITextBuffer, BackspaceKeyCommandArgs>)((view, buffer) => new BackspaceKeyCommandArgs(view, buffer)), nextCommandHandler);
-        }
-
         private int GetCommandState<T>(Func<ITextView, ITextBuffer, T> argsFactory, ref Guid pguidCmdGroup,
             uint commandCount, Olecmd[] prgCmds, IntPtr commandText) where T : EditorCommandArgs
         {
@@ -519,6 +494,52 @@ namespace ModernApplicationFramework.TextEditor.Implementation
                 Utilities.Utilities.GetCmdText(commandText) != commandState.DisplayText)
                 Utilities.Utilities.SetCmdText(commandText, commandState.DisplayText);
             return 0;
+        }
+
+
+        private int QueryLeftKeyStatus(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
+        {
+            return GetCommandState((view, buffer) => new LeftKeyCommandArgs(view, buffer), ref pguidCmdGroup,
+                commandCount, prgCmds, commandText);
+        }
+
+
+        private void ExecuteTypeCharCommand(Action next, char typedChar)
+        {
+            _commandHandlerService.Execute((textView, subjectBuffer) => new TypeCharCommandArgs(TextView, subjectBuffer, typedChar), next);
+        }
+
+        private void ExecuteBackspaceKeyCommand(Action next)
+        {
+            var commandHandlerService = _commandHandlerService;
+            var nextCommandHandler = next;
+            commandHandlerService.Execute((view, buffer) => new BackspaceKeyCommandArgs(view, buffer), nextCommandHandler);
+        }
+
+        private void ExecuteReturnKeyCommand(Action next)
+        {
+            IEditorCommandHandlerService commandHandlerService = _commandHandlerService;
+            Action nextCommandHandler = next;
+            commandHandlerService.Execute((view, buffer) => new ReturnKeyCommandArgs(view, buffer), nextCommandHandler);
+        }
+
+        private void ExecuteLeftKeyCommand(Action next)
+        {
+            var commandHandlerService = _commandHandlerService;
+            var nextCommandHandler = next;
+            commandHandlerService.Execute((view, buffer) => new LeftKeyCommandArgs(view, buffer), nextCommandHandler);
+        }
+
+    }
+}
+
+namespace ModernApplicationFramework.TextEditor.Commanding.Commands
+{
+    public sealed class ReturnKeyCommandArgs : EditorCommandArgs
+    {
+        public ReturnKeyCommandArgs(ITextView textView, ITextBuffer subjectBuffer)
+            : base(textView, subjectBuffer)
+        {
         }
     }
 }

@@ -11,6 +11,7 @@ namespace ModernApplicationFramework.TextEditor
             //Update SimpleTextViewWindow. IsEditingCommand IsSearchingCommand as required
             TypeChar = 1,
             Backspace = 2,
+            Return = 3,
             Left = 7,
             SelectCurrentWord = 90,
             ShowContextMenu = 102,
