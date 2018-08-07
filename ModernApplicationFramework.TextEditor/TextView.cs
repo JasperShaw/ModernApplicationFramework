@@ -34,6 +34,11 @@ namespace ModernApplicationFramework.TextEditor
         [Order(After = "Text")]
         private static readonly AdornmentLayerDefinition CaretAdornmentLayer = new AdornmentLayerDefinition();
 
+        [Export]
+        [Name("word wrap glyph")]
+        [BaseDefinition("text")]
+        public ClassificationTypeDefinition WordWrapGlyphClassificationTypeDefinition;
+
         [ThreadStatic] private static TextView ViewWithAggregateFocus;
 
         //private CaretElement _caretElement;

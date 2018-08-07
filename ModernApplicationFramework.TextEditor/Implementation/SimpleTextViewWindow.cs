@@ -14,7 +14,7 @@ namespace ModernApplicationFramework.TextEditor.Implementation
 {
     // TODO: Add forward backward stuff
     internal abstract class SimpleTextViewWindow : ICommandTarget, ITypedTextTarget,
-        ICommandTargetInner, /*IBackForwardNavigation*/ IMafTextView, IMafUserData, IConnectionAdviseHelper, IReadOnlyViewNotification
+        ICommandTargetInner, /*IBackForwardNavigation*/ IMafTextView, IMafUserData, IConnectionAdviseHelper, IReadOnlyViewNotification, ITextEditorPropertyCategoryContainer
     {
         public EventHandler TextViewHostUpdated;
         public event EventHandler Initialized;
@@ -102,7 +102,7 @@ namespace ModernApplicationFramework.TextEditor.Implementation
             {
                 _fontsAndColorsCategory = value;
                 if (CurrentInitializationState >= InitializationState.TextViewAvailable && _editorOptions.GetOptionValue(DefaultViewOptions.AppearanceCategory) != value.AppearanceCategory)
-                    _editorOptions.SetOptionValue<string>(DefaultViewOptions.AppearanceCategory, value.AppearanceCategory);
+                    _editorOptions.SetOptionValue(DefaultViewOptions.AppearanceCategory, value.AppearanceCategory);
                 if (CurrentInitializationState < InitializationState.TextBufferAvailable ||TextView == null)
                     return;
                 EditorFormatMap = IoC.Get<IEditorFormatMapService>().GetEditorFormatMap(TextView);
@@ -184,10 +184,10 @@ namespace ModernApplicationFramework.TextEditor.Implementation
             if (hr1 < 0)
                 return hr1;
             var hr2 = 0;
-            bool userEngaged = false;
-            bool complexEdit = false;
-            bool oldIntellisenseActive = false;
-            bool newIntellisenseActive = false;
+            var userEngaged = false;
+            var complexEdit = false;
+            var oldIntellisenseActive = false;
+            var newIntellisenseActive = false;
 
             try
             {
@@ -251,16 +251,16 @@ namespace ModernApplicationFramework.TextEditor.Implementation
         {
             if (CurrentInitializationState < InitializationState.TextViewAvailable)
                 return;
-            int? backgroundColorIndex = BackgroundColorIndex;
+            var backgroundColorIndex = BackgroundColorIndex;
             if (!backgroundColorIndex.HasValue || _textDocData == null || _textDocData.MarkerManager == null)
                 return;
-            Color? nullable = new Color?();
-            IEditorFormatMap editorFormatMap = EditorFormatMap;
-            MarkerManager markerManager = _textDocData.MarkerManager;
+            var nullable = new Color?();
+            var editorFormatMap = EditorFormatMap;
+            var markerManager = _textDocData.MarkerManager;
             backgroundColorIndex = BackgroundColorIndex;
-            int type = backgroundColorIndex.Value;
-            string mergeName = markerManager.GetMarkerType(type).MergeName;
-            ResourceDictionary properties = editorFormatMap.GetProperties(mergeName);
+            var type = backgroundColorIndex.Value;
+            var mergeName = markerManager.GetMarkerType(type).MergeName;
+            var properties = editorFormatMap.GetProperties(mergeName);
             if (properties.Contains("BackgroundColor"))
                 nullable = properties["BackgroundColor"] as Color?;
             if (!nullable.HasValue && properties.Contains("Background"))
@@ -270,7 +270,7 @@ namespace ModernApplicationFramework.TextEditor.Implementation
             }
             if (!nullable.HasValue)
                 return;
-            SolidColorBrush solidColorBrush1 = new SolidColorBrush(nullable.Value);
+            var solidColorBrush1 = new SolidColorBrush(nullable.Value);
             solidColorBrush1.Freeze();
             TextView.Background = solidColorBrush1;
         }
@@ -289,7 +289,7 @@ namespace ModernApplicationFramework.TextEditor.Implementation
 
         internal static unsafe char GetTypeCharFromKeyPressEventArg(IntPtr pvaIn)
         {
-            KeyPressEventArg* keyPressEventArgPtr = (KeyPressEventArg*)(void*)pvaIn;
+            var keyPressEventArgPtr = (KeyPressEventArg*)(void*)pvaIn;
             switch (keyPressEventArgPtr->vt)
             {
                 case 2:
@@ -368,7 +368,7 @@ namespace ModernApplicationFramework.TextEditor.Implementation
                     !IsSearchingCommand(commandGroup, commandId))
                     OnDisabledEditingCommand(ref commandGroup, commandId);
 
-                bool newClipboardCycle = _startNewClipboardCycle;
+                var newClipboardCycle = _startNewClipboardCycle;
                 //Should always be true: if (commandGroup != VSConstants.GUID_VSStandardCommandSet97 || commandId != 655U)
                 _startNewClipboardCycle = true;
 
@@ -972,6 +972,11 @@ namespace ModernApplicationFramework.TextEditor.Implementation
         }
 
         private string _plainTextFont;
+        private bool _canChangeWordWrap;
+        private bool _canChangeUseVirtualSpace;
+        private bool _canChangeSelectionMarginEnabled;
+        private bool _canChangeOvertypeMode;
+        private bool _canChangeVisibleWhitespace;
 
         internal void SetPlainTextFont()
         {
@@ -981,7 +986,7 @@ namespace ModernApplicationFramework.TextEditor.Implementation
             if (_plainTextFont == source)
                 return;
             _plainTextFont = source;
-            string str1 = "CompositionFonts\\" + _plainTextFont;
+            var str1 = "CompositionFonts\\" + _plainTextFont;
             //TODO:
             //using (ServiceProvider serviceProvider = new ServiceProvider(Common.GlobalServiceProvider))
             //{
@@ -1013,7 +1018,7 @@ namespace ModernApplicationFramework.TextEditor.Implementation
 
         private void HandleVerticalScroll()
         {
-            int iMinUnit = 0;
+            var iMinUnit = 0;
             int iMaxUnits;
             int iVisibleUnits;
             int iFirstVisibleUnit;
@@ -1094,6 +1099,96 @@ namespace ModernApplicationFramework.TextEditor.Implementation
                 return new Point(textView.Caret.Right - textView.ViewportLeft, textView.Caret.Bottom - textView.ViewportTop);
             return new Point(0.0, 0.0);
         }
+
+        public int GetPropertyCategory(ref Guid rguidCategory, out ITextEditorPropertyContainer ppProp)
+        {
+            if (rguidCategory == DefGuidList.GuidEditPropCategoryViewMasterSettings)
+            {
+                ppProp = new VsTextEditorPropertyContainerAdapter(this);
+                return 0;
+            }
+            ppProp = null;
+            return -2147024809;
+        }
+
+        internal int GetPropertyFromPropertyContainer(VsEditPropId idProp, out object pvar)
+        {
+            pvar = null;
+            switch (idProp)
+            {
+                case VsEditPropId.ViewGeneralColorCategory:
+                    pvar = FontsAndColorsCategory.ColorCategory;
+                    return 0;
+                case VsEditPropId.ViewGeneralFontCategory:
+                    pvar = FontsAndColorsCategory.FontCategory;
+                    return 0;
+                default:
+                    return -2147024809;
+            }
+        }
+
+        internal int SetPropertyInPropertyContainer(VsEditPropId idProp, object pvar)
+        {
+            switch (idProp)
+            {
+                case VsEditPropId.ViewGeneralFontCategory:
+                    FontsAndColorsCategory = FontsAndColorsCategory.SetFontCategory(new Guid(pvar.ToString()));
+                    return 0;
+                case VsEditPropId.ViewGeneralColorCategory:
+                    FontsAndColorsCategory = FontsAndColorsCategory.SetColorCategory(new Guid(pvar.ToString()));
+                    return 0;
+                default:
+                    return -2147024809;
+            }
+        }
+
+        public int RemovePropertyFromPropertyContainer(VsEditPropId idProp)
+        {
+            if (idProp <= VsEditPropId.ViewLangOptWordWrap)
+            {
+                if (idProp == VsEditPropId.ViewLangOptRawTextDisplay)
+                    return -2147467259;
+                if (idProp != VsEditPropId.ViewLangOptVirtualSpace)
+                {
+                    if (idProp != VsEditPropId.ViewLangOptWordWrap)
+                        return -2147024809;
+                    _canChangeWordWrap = true;
+                    return 0;
+                }
+                _canChangeUseVirtualSpace = true;
+                return 0;
+            }
+            if (idProp == VsEditPropId.ViewGlobalOptAutoScrollCaretOnTextEntry)
+                return -2147467259;
+            switch (idProp - -131075)
+            {
+                case ~VsEditPropId.Last:
+                    _canChangeSelectionMarginEnabled = true;
+                    return 0;
+                case (VsEditPropId)1:
+                    _canChangeOvertypeMode = true;
+                    return 0;
+                case (VsEditPropId)2:
+                    _canChangeVisibleWhitespace = true;
+                    return 0;
+                default:
+                    return -2147024809;
+            }
+        }
+    }
+
+    public interface ITextEditorPropertyCategoryContainer
+    {
+        int GetPropertyCategory(ref Guid rguidCategory, out ITextEditorPropertyContainer ppProp);
+    }
+
+    public interface ITextEditorPropertyContainer
+    {
+        int GetProperty(VsEditPropId idProp,  out object pvar);
+
+        int SetProperty(VsEditPropId idProp, object var);
+
+        int RemoveProperty(VsEditPropId idProp);
     }
 
     public interface IMafTextViewEvents

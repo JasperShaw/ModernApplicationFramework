@@ -114,6 +114,7 @@
     <Compile Include="Modules\CustomToolboxItems\DescriptionDataSource.cs" />
     <Compile Include="Modules\CustomToolboxItems\DescriptionItemDataFactory.cs" />
     <Compile Include="Modules\DefaultWindowLayout\DefaultWindowProfileProvider.cs" />
+    <Compile Include="Modules\EditorTheme\ThemeWatcher.cs" />
     <Compile Include="Modules\FilterDesigner\Design\DesignTimeGraphViewModel.cs" />
     <Compile Include="Modules\FilterDesigner\Design\DesignTimeImages.cs" />
     <Compile Include="Modules\FilterDesigner\Sample.cs" />
@@ -303,6 +304,10 @@
     <None Include="Modules\App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ModernApplicationFramework.TextEditor\ModernApplicationFramework.TextEditor.csproj">
+      <Project>{02e01928-3c7b-4428-9f68-7db8b932c24e}</Project>
+      <Name>ModernApplicationFramework.TextEditor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\ModernApplicationFramework.DragDrop\ModernApplicationFramework.DragDrop.csproj">
       <Project>{72168066-609b-43e3-b474-54d1adb4af5b}</Project>
       <Name>ModernApplicationFramework.DragDrop</Name>

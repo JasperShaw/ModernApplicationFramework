@@ -371,7 +371,7 @@ namespace ModernApplicationFramework.TextEditor
 
         public TextFormattingRunProperties SetForeground(Color foreground)
         {
-            return SetForegroundBrush((Brush)new SolidColorBrush(foreground));
+            return SetForegroundBrush(new SolidColorBrush(foreground));
         }
 
         public TextFormattingRunProperties SetTextDecorations(TextDecorationCollection textDecorations)

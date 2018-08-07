@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Windows.Threading;
 using ModernApplicationFramework.TextEditor.Implementation;
@@ -14,11 +13,14 @@ namespace ModernApplicationFramework.TextEditor
         public event LoadCompletedEventHandler OnLoadCompleted;
         public event FileChangedEventHandler OnFileChanged;
 
+        public event NewLanguageServiceEventHandler OnNewLanguageService;
+
         public event ReplaceEventHandler OnReplace;
         public event ChangeStreamTextEventHandler OnChangeStreamText;
 
         public delegate void ChangeStreamTextEventHandler(int iPos, int iOldLen, int iNewLen, int fLast);
         public delegate void ChangeLineTextEventHandler(TextLineChange[] pTextLineChange, int fLast);
+        public delegate void NewLanguageServiceEventHandler(ref Guid sidLangServiceID);
 
 
         private IContentType _initialContentType;
@@ -53,6 +55,8 @@ namespace ModernApplicationFramework.TextEditor
         internal byte[] _cachedSHA256Hash;
 
         public MarkerManager MarkerManager => MarkerManagerProtected;
+
+        internal Guid ActualLanguageServiceID { get; } = ImplGuidList.GuidDefaultFileType;
 
         public int NumberOfViewsWithPrimaryDocumentRole { get; private set; }
 

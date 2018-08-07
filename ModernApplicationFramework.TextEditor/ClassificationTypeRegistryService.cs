@@ -35,8 +35,8 @@ namespace ModernApplicationFramework.TextEditor
                 throw new ArgumentNullException(nameof(baseTypes));
             if (ClassificationTypes.ContainsKey(type))
                 throw new InvalidOperationException();
-            ClassificationTypeImpl classificationTypeImpl = new ClassificationTypeImpl(type);
-            foreach (IClassificationType baseType in baseTypes)
+            var classificationTypeImpl = new ClassificationTypeImpl(type);
+            foreach (var baseType in baseTypes)
                 classificationTypeImpl.AddBaseType(baseType);
             ClassificationTypes.Add(type, classificationTypeImpl);
             return classificationTypeImpl;
@@ -77,18 +77,18 @@ namespace ModernApplicationFramework.TextEditor
 
         private void BuildClassificationTypes(Dictionary<string, ClassificationTypeImpl> classificationTypes)
         {
-            foreach (Lazy<ClassificationTypeDefinition, IClassificationTypeDefinitionMetadata> classificationTypeDefinition in ClassificationTypeDefinitions)
+            foreach (var classificationTypeDefinition in ClassificationTypeDefinitions)
             {
-                string name = classificationTypeDefinition.Metadata.Name;
+                var name = classificationTypeDefinition.Metadata.Name;
                 if (!classificationTypes.TryGetValue(name, out var classificationTypeImpl1))
                 {
                     classificationTypeImpl1 = new ClassificationTypeImpl(name);
                     classificationTypes.Add(name, classificationTypeImpl1);
                 }
-                IEnumerable<string> baseDefinition = classificationTypeDefinition.Metadata.BaseDefinition;
+                var baseDefinition = classificationTypeDefinition.Metadata.BaseDefinition;
                 if (baseDefinition != null)
                 {
-                    foreach (string str in baseDefinition)
+                    foreach (var str in baseDefinition)
                     {
                         if (!classificationTypes.TryGetValue(str, out var classificationTypeImpl2))
                         {
@@ -105,10 +105,10 @@ namespace ModernApplicationFramework.TextEditor
         {
             if (_transientClassificationTypes == null)
                 _transientClassificationTypes = new Dictionary<string, ClassificationTypeImpl>(StringComparer.InvariantCultureIgnoreCase);
-            List<IClassificationType> classificationTypeList = new List<IClassificationType>(baseTypes);
+            var classificationTypeList = new List<IClassificationType>(baseTypes);
             classificationTypeList.Sort((a, b) => string.CompareOrdinal(a.Classification, b.Classification));
-            StringBuilder stringBuilder = new StringBuilder();
-            foreach (IClassificationType classificationType in classificationTypeList)
+            var stringBuilder = new StringBuilder();
+            foreach (var classificationType in classificationTypeList)
             {
                 stringBuilder.Append(classificationType.Classification);
                 stringBuilder.Append(" - ");
@@ -117,7 +117,7 @@ namespace ModernApplicationFramework.TextEditor
             if (!_transientClassificationTypes.TryGetValue(stringBuilder.ToString(), out var classificationTypeImpl))
             {
                 classificationTypeImpl = new ClassificationTypeImpl(stringBuilder.ToString());
-                foreach (IClassificationType baseType in classificationTypeList)
+                foreach (var baseType in classificationTypeList)
                     classificationTypeImpl.AddBaseType(baseType);
                 classificationTypeImpl.AddBaseType(TransientClassificationType);
                 _transientClassificationTypes[classificationTypeImpl.Classification] = classificationTypeImpl;

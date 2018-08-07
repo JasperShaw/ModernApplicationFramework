@@ -258,15 +258,14 @@ namespace ModernApplicationFramework.TextEditor
 
         private static void GetMarkerName(IPackageDefinedTextMarkerType marker, ref string displayName, ref string canonicalName)
         {
-            var vsMergeableUiItem = marker as IMergeableUiItem;
-            if (vsMergeableUiItem == null)
+            if (!(marker is IMergeableUiItem mergeableUiItem))
                 throw new InvalidOperationException("IVsPackageDefinedTextMarkerType must implement IVsMergeableUIItem");
-            //vsMergeableUiItem.GetDisplayName(out displayName);
-            //if (vsMergeableUiItem.GetCanonicalName(out canonicalName) < 0)
+            mergeableUiItem.GetDisplayName(out displayName);
+            if (mergeableUiItem.GetCanonicalName(out canonicalName) < 0)
                 canonicalName = null;
             if (displayName == null && canonicalName == null)
             {
-                displayName = "Error: " + vsMergeableUiItem.GetType().FullName;
+                displayName = "Error: " + mergeableUiItem.GetType().FullName;
                 canonicalName = displayName;
             }
             if (canonicalName == null)
@@ -291,7 +290,7 @@ namespace ModernApplicationFramework.TextEditor
             else
             {
                 pbstrNonLocalizeName = null;
-                //(marker.Instance as IMergeableUiItem).GetCanonicalName(out pbstrNonLocalizeName);
+                (marker.Instance as IMergeableUiItem).GetCanonicalName(out pbstrNonLocalizeName);
                 //COLORINDEX[] piLineColor = new COLORINDEX[1];
                 //marker.Instance.GetDefaultLineStyle(piLineColor, piLineIndex);
             }
@@ -347,6 +346,17 @@ namespace ModernApplicationFramework.TextEditor
     }
 
     public interface IMergeableUiItem
+    {
+        int GetCanonicalName(out string pbstrNonLocalizeName);
+
+        int GetDisplayName(out string pbstrDisplayName);
+
+        int GetMergingPriority(out int piMergingPriority);
+
+        int GetDescription(out string pbstrDesc);
+    }
+
+    public interface IColorableItem : IMergeableUiItem
     {
 
     }
