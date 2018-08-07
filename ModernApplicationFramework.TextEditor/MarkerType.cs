@@ -1,4 +1,5 @@
 ﻿using System;
+using ModernApplicationFramework.TextEditor.Implementation;
 
 namespace ModernApplicationFramework.TextEditor
 {
@@ -83,7 +84,7 @@ namespace ModernApplicationFramework.TextEditor
             if (MarkerTypeID <= 0)
                 return;
             string mergeName = MergeName;
-            if (LineStyle == Linestyle.LiSquiggly)
+            if (LineStyle == Linestyle.Squiggly)
             {
                 _squiggleName = mergeName;
             }

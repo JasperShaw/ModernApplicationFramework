@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Runtime.InteropServices;
+using ModernApplicationFramework.TextEditor.Implementation;
 
 namespace ModernApplicationFramework.TextEditor
 {
@@ -214,7 +215,7 @@ namespace ModernApplicationFramework.TextEditor
             if (((int)visualStyle & 4) != 0 || ((int)visualStyle & 2) != 0)
                 return true;
             if (((int)visualStyle & 256) != 0)
-                return lineStyle != Linestyle.LiSquiggly;
+                return lineStyle != Linestyle.Squiggly;
             return false;
         }
 
@@ -932,15 +933,6 @@ namespace ModernApplicationFramework.TextEditor
         RtfSyntacticReformat = 8,
         RtfClientSuppressFormatting = 16, // 0x00000010
         RtfInterimText = 32, // 0x00000020
-    }
-
-    public enum Linestyle
-    {
-        LiNone,
-        LiSolid,
-        LiSquiggly,
-        LiHatch,
-        LiDotted,
     }
 
     [Flags]

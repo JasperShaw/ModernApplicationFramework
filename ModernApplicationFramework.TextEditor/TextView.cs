@@ -156,6 +156,8 @@ namespace ModernApplicationFramework.TextEditor
             get => _controlHostLayer.Background;
             set
             {
+                if (WpfHelper.BrushesEqual(_controlHostLayer.Background, value))
+                    return;
                 _controlHostLayer.Background = value;
                 BackgroundBrushChanged?.Invoke(this, new BackgroundBrushChangedEventArgs(value));
             }
@@ -563,7 +565,30 @@ namespace ModernApplicationFramework.TextEditor
 
         private Brush GetBackgroundColorFromFormatMap()
         {
-            return SystemColors.WindowBrush;
+            Brush brush = null;
+            if (ViewBackgroundId == "Peek Background")
+            {
+                brush = Brushes.Transparent;
+            }
+            else
+            {
+                var properties = _editorFormatMap.GetProperties(ViewBackgroundId);
+                if (properties.Contains("Background"))
+                    brush = properties["Background"] as Brush;
+                else if (properties.Contains("BackgroundColor"))
+                {
+                    if (properties["BackgroundColor"] is Color nullable)
+                    {
+                        brush = new SolidColorBrush(nullable);
+                        brush.Freeze();
+                    }
+                }
+                if (brush == null)
+                    brush = SystemColors.WindowBrush;
+            }
+            if (brush.CanFreeze)
+                brush.Freeze();
+            return brush;
         }
 
 
@@ -2113,6 +2138,17 @@ namespace ModernApplicationFramework.TextEditor
                         return mouseHoverAttribute;
                 }
                 return new MouseHoverAttribute(150);
+            }
+        }
+
+        [Export(typeof(EditorFormatDefinition))]
+        [Name("TextView Background")]
+        [UserVisible(false)]
+        internal sealed class TextViewBackgroundProperties : EditorFormatDefinition
+        {
+            public TextViewBackgroundProperties()
+            {
+                BackgroundBrush = SystemColors.WindowBrush;
             }
         }
     }

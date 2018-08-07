@@ -27,6 +27,13 @@ namespace ModernApplicationFramework.TextEditor
             internal set => EditorPartsRepository.EditorOperationsFactoryService = value;
         }
 
+        public static IClassificationTypeRegistryService ClassificationTypeRegistryService
+        {
+            get => EditorPartsRepository.ClassificationTypeRegistryService ?? (EditorPartsRepository.ClassificationTypeRegistryService =
+                       IoC.Get<IClassificationTypeRegistryService>());
+            internal set => EditorPartsRepository.ClassificationTypeRegistryService = value;
+        }
+
         public static ITextEditorFactoryService TextEditorFactoryService
         {
             get => EditorPartsRepository.TextEditorFactoryService ?? (EditorPartsRepository.TextEditorFactoryService =

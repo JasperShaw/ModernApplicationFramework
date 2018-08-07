@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using ModernApplicationFramework.TextEditor.Implementation;
 
 namespace ModernApplicationFramework.TextEditor
 {
@@ -157,10 +158,10 @@ namespace ModernApplicationFramework.TextEditor
             Geometry geometry = null;
             var nullable = new Color?();
             var lineStyle = marker.LineStyle;
-            if (lineStyle >= (Linestyle.LiSolid | Linestyle.LiDotted))
+            if (lineStyle >= (Linestyle.Solid | Linestyle.Dotted))
             {
                 SnapshotPoint bufferPosition;
-                if (lineStyle == (Linestyle.LiSolid | Linestyle.LiDotted))
+                if (lineStyle == (Linestyle.Solid | Linestyle.Dotted))
                 {
                     bufferPosition = markerSpan.Start;
                     nullable = Colors.Blue;
@@ -173,7 +174,7 @@ namespace ModernApplicationFramework.TextEditor
                 var characterBounds = View.TextViewLines.GetCharacterBounds(bufferPosition);
                 geometry = new RectangleGeometry(new Rect(characterBounds.Left, characterBounds.TextBottom - 2.0, characterBounds.Width, 2.0));
             }
-            else if (((int)marker.VisualStyle & 256) != 0 && lineStyle != Linestyle.LiSquiggly)
+            else if (((int)marker.VisualStyle & 256) != 0 && lineStyle != Linestyle.Squiggly)
             {
                 if (((int)marker.VisualStyle & 4194304) != 0)
                 {
@@ -192,7 +193,7 @@ namespace ModernApplicationFramework.TextEditor
             var solidColorBrush = new SolidColorBrush(nullable.Value);
             solidColorBrush.Freeze();
             var pen = new Pen(solidColorBrush, 1.0);
-            if (lineStyle == Linestyle.LiDotted)
+            if (lineStyle == Linestyle.Dotted)
             {
                 pen.DashCap = PenLineCap.Round;
                 pen.DashStyle = new DashStyle(new List<double>(2)

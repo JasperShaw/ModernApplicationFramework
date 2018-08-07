@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Threading;
 using Caliburn.Micro;
 
@@ -32,6 +33,8 @@ namespace ModernApplicationFramework.TextEditor.Implementation
         private static int _insertCharCount = 0;
         internal static bool _disableSettingImeCompositionWindowOptions = false;
         private CancellationTokenSource _codingConventionsCTS = new CancellationTokenSource();
+
+        private FontsAndColorsCategory _fontsAndColorsCategory = new FontsAndColorsCategory(ImplGuidList.GuidDefaultFileType, CategoryGuids.GuidTextEditorGroup, CategoryGuids.GuidTextEditorGroup);
 
         internal IEditorOptions _editorOptions;
         internal ITextViewHost _textViewHostPrivate;
@@ -90,6 +93,21 @@ namespace ModernApplicationFramework.TextEditor.Implementation
         {
             get => _textDocData;
             set => _textDocData = value;
+        }
+
+        internal FontsAndColorsCategory FontsAndColorsCategory
+        {
+            get => _fontsAndColorsCategory;
+            set
+            {
+                _fontsAndColorsCategory = value;
+                if (CurrentInitializationState >= InitializationState.TextViewAvailable && _editorOptions.GetOptionValue(DefaultViewOptions.AppearanceCategory) != value.AppearanceCategory)
+                    _editorOptions.SetOptionValue<string>(DefaultViewOptions.AppearanceCategory, value.AppearanceCategory);
+                if (CurrentInitializationState < InitializationState.TextBufferAvailable ||TextView == null)
+                    return;
+                EditorFormatMap = IoC.Get<IEditorFormatMapService>().GetEditorFormatMap(TextView);
+                ApplyBackgroundColor();
+            }
         }
 
 
@@ -212,6 +230,55 @@ namespace ModernApplicationFramework.TextEditor.Implementation
                 }
             }
             return true;
+        }
+
+
+        private int? _backgroundColorIndex;
+
+        private int? BackgroundColorIndex
+        {
+            get => _backgroundColorIndex;
+            set
+            {
+                if (!value.HasValue)
+                    return;
+                _backgroundColorIndex = value;
+                ApplyBackgroundColor();
+            }
+        }
+
+        private void ApplyBackgroundColor()
+        {
+            if (CurrentInitializationState < InitializationState.TextViewAvailable)
+                return;
+            int? backgroundColorIndex = BackgroundColorIndex;
+            if (!backgroundColorIndex.HasValue || _textDocData == null || _textDocData.MarkerManager == null)
+                return;
+            Color? nullable = new Color?();
+            IEditorFormatMap editorFormatMap = EditorFormatMap;
+            MarkerManager markerManager = _textDocData.MarkerManager;
+            backgroundColorIndex = BackgroundColorIndex;
+            int type = backgroundColorIndex.Value;
+            string mergeName = markerManager.GetMarkerType(type).MergeName;
+            ResourceDictionary properties = editorFormatMap.GetProperties(mergeName);
+            if (properties.Contains("BackgroundColor"))
+                nullable = properties["BackgroundColor"] as Color?;
+            if (!nullable.HasValue && properties.Contains("Background"))
+            {
+                if (properties["Background"] is SolidColorBrush solidColorBrush)
+                    nullable = solidColorBrush.Color;
+            }
+            if (!nullable.HasValue)
+                return;
+            SolidColorBrush solidColorBrush1 = new SolidColorBrush(nullable.Value);
+            solidColorBrush1.Freeze();
+            TextView.Background = solidColorBrush1;
+        }
+
+        public int SetBackgroundColorIndex(int iBackgroundIndex)
+        {
+            BackgroundColorIndex = iBackgroundIndex;
+            return 0;
         }
 
         private bool Fire_KeyPressEvent(bool isPreEvent, char key)
@@ -530,7 +597,7 @@ namespace ModernApplicationFramework.TextEditor.Implementation
             //    textView.ViewportLeftChanged -= View_ViewportLeftChanged;
             //    textView.ViewportWidthChanged -= View_ViewportWidthChanged;
             //    _editorOptions.OptionChanged -= EditorOptions_OptionChanged;
-            //    _classificationFormatMap.ClassificationFormatMappingChanged -= ClassificationFormatMap_ClassificationFormatMappingChanged;
+                _classificationFormatMap.ClassificationFormatMappingChanged -= ClassificationFormatMap_ClassificationFormatMappingChanged;
             //    textView.TextBuffer.Changed -= DocData_OnChangeLineText;
             //    //TODO: Add textDocData stuff
             //    _editorAndMenuFocusTracker.GotFocus -= OnEditorOrMenuGotFocus;

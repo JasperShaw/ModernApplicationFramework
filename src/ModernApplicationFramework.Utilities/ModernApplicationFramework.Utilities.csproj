@@ -138,6 +138,7 @@
     <Compile Include="ReusableResourceStore.cs" />
     <Compile Include="ReusableResourceStoreBase.cs" />
     <Compile Include="ReusableStringBuilder.cs" />
+    <Compile Include="SerializationExtensions.cs" />
     <Compile Include="Settings\SettingsValueSerializer.cs" />
     <Compile Include="Splice.cs" />
     <Compile Include="Threading\AsyncEventHandler.cs" />

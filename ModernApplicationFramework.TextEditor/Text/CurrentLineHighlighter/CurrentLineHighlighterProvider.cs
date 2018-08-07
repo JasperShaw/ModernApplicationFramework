@@ -37,6 +37,7 @@ namespace ModernApplicationFramework.TextEditor.Text.CurrentLineHighlighter
         {
             public CurrentLineActiveFormat()
             {
+                //TODO: Text
                 DisplayName = "HighlightCurrentLine";
                 //DisplayName = CurrentLineHighlighterStrings.HiglightCurrentLineActive;
                 ForegroundColor = Color.FromRgb(234, 234, 242);

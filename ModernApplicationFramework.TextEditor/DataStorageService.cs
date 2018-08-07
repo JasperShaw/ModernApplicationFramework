@@ -17,8 +17,7 @@ namespace ModernApplicationFramework.TextEditor
                 _dataStorageCache = new Dictionary<string, IDataStorage>();
             if (!_dataStorageCache.ContainsKey(storageKey))
             {
-                //var dataStorage = new DataStorage(storageKey);
-                IDataStorage dataStorage = null;
+                var dataStorage = new DataStorage(storageKey);
                 _dataStorageCache.Add(storageKey, dataStorage);
             }
             return _dataStorageCache[storageKey];
