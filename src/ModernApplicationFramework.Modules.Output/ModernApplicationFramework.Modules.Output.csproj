@@ -55,11 +55,9 @@
     <Compile Include="Controls\OutputWindow.xaml.cs">
       <DependentUpon>OutputWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="IConsoleDispatcher.cs" />
     <Compile Include="IOutputPane.cs" />
     <Compile Include="IOutputPrivate.cs" />
     <Compile Include="IOutputWindowDataSource.cs" />
-    <Compile Include="KeyInfo.cs" />
     <Compile Include="MenuDefinitions.cs" />
     <Compile Include="OpenOutputToolCommandDefinition.cs" />
     <Compile Include="Output.cs" />

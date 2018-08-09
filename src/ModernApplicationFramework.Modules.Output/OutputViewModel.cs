@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Extended.Utilities.PaneUtilities;
@@ -13,33 +14,7 @@ namespace ModernApplicationFramework.Modules.Output
     internal sealed class OutputViewModel : Tool, IOutputPane, IOutputWindowDataSource
     {
         private FrameworkElement _activePane;
-
-        public OutputViewModel()
-        {
-            DisplayName = "Output";
-
-            //var factory = IoC.Get<ITextEditorFactoryService>();
-            //var view = factory.CreateTextView();
-            //var host = factory.CreateTextViewHost(view, true);
-
-            //var factory = IoC.Get<IEditorAdaptersFactoryService>();
-            //var bufferModel = factory.CreateTextBufferAdapter();
-
-            //var data = "Hallo Welt";
-            //bufferModel.InitializeContent(data, data.Length);
-
-            //var tva = factory.CreateTextViewAdapter();
-            //tva.SetBuffer(bufferModel as IMafTextLines);
-
-
-            //var host = factory.GetTextViewHost(tva);
-
-            //ActivePane = host.HostControl;
-
-            var output = IoC.Get<IOutput>();
-            if (output is IOutputPrivate privateOutput)
-                ActivePane = privateOutput.Content as FrameworkElement;
-        }
+        private FrameworkElement _pendingFocusPane;
 
         public override PaneLocation PreferredLocation => PaneLocation.Bottom;
 
@@ -52,6 +27,53 @@ namespace ModernApplicationFramework.Modules.Output
                 _activePane = value;
                 NotifyOfPropertyChange();
             }
+        }
+
+        private FrameworkElement PendingFocusPane
+        {
+            get => _pendingFocusPane;
+            set
+            {
+                if (_pendingFocusPane != null)
+                    _pendingFocusPane.Loaded -= PendingFocusPane_Loaded;
+                _pendingFocusPane = value;
+                if (_pendingFocusPane == null)
+                    return;
+                _pendingFocusPane.Loaded += PendingFocusPane_Loaded;
+            }
+        }
+
+        public OutputViewModel()
+        {
+            DisplayName = "Output";
+
+            var output = IoC.Get<IOutput>();
+            if (output is IOutputPrivate privateOutput)
+                ActivePane = privateOutput.Content as FrameworkElement;
+            if (ActivePane != null)
+                PendingMoveFocus(ActivePane);
+        }
+
+        private void PendingMoveFocus(FrameworkElement consolePane)
+        {
+            if (consolePane.IsLoaded && PresentationSource.FromDependencyObject(consolePane) != null)
+            {
+                PendingFocusPane = null;
+                MoveFocus(consolePane);
+            }
+            else
+                PendingFocusPane = consolePane;
+        }
+
+        private void PendingFocusPane_Loaded(object sender, RoutedEventArgs e)
+        {
+            MoveFocus(PendingFocusPane);
+            PendingFocusPane = null;
+        }
+
+        private void MoveFocus(FrameworkElement consolePane)
+        {
+            consolePane.MoveFocus(new TraversalRequest(FocusNavigationDirection.First));
         }
     }
 }
