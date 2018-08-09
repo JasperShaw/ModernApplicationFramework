@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -21,7 +22,7 @@ namespace ModernApplicationFramework.TextEditor.Implementation
 {
     // TODO: Add forward backward stuff
     internal abstract class SimpleTextViewWindow : ICommandTarget, ITypedTextTarget,
-        ICommandTargetInner, /*IBackForwardNavigation*/ IMafTextView, IMafUserData, IConnectionAdviseHelper, IReadOnlyViewNotification, ITextEditorPropertyCategoryContainer
+        ICommandTargetInner, /*IBackForwardNavigation*/ IMafTextView, IConnectionAdviseHelper, IReadOnlyViewNotification, ITextEditorPropertyCategoryContainer
     {
         public EventHandler TextViewHostUpdated;
         public event EventHandler Initialized;
@@ -409,6 +410,9 @@ namespace ModernApplicationFramework.TextEditor.Implementation
                         case MafConstants.EditorCommands.Left:
                             _editorOperations.MoveToPreviousCharacter(false);
                             break;
+                        case MafConstants.EditorCommands.ShowContextMenu:
+                            ShowContextMenu(input, ref result);
+                            break;
                         default:
                             result = -2147221248;
                             break;
@@ -430,6 +434,54 @@ namespace ModernApplicationFramework.TextEditor.Implementation
             {
             }
             return -2147221248;
+        }
+
+        private void ShowContextMenu(IntPtr location, ref int result)
+        {
+            NativeMethods.NativeMethods.POINT[] pos = null;
+            if (location != IntPtr.Zero)
+            {
+                var forNativeVariant1 = Marshal.GetObjectForNativeVariant(location);
+                var forNativeVariant2 = Marshal.GetObjectForNativeVariant(new IntPtr(location.ToInt32() + 16));
+
+                var nullable1 = forNativeVariant1 as short?;
+                var nullable2 = forNativeVariant2 as short?;
+                if (nullable1.HasValue && nullable2.HasValue)
+                {
+                    pos = new NativeMethods.NativeMethods.POINT[1];
+                    pos[0].x = nullable1.Value;
+                    pos[0].y = nullable2.Value;
+                }
+            }
+
+            if (pos == null)
+            {
+                var wpfTextView = TextView;
+                if (PresentationSource.FromDependencyObject(wpfTextView.VisualElement) != null)
+                {
+                    var contextMenuPosition = CalculateContextMenuPosition(wpfTextView);
+                    var screen = wpfTextView.VisualElement.PointToScreen(contextMenuPosition);
+                    pos = new NativeMethods.NativeMethods.POINT[1];
+                    pos[0].x = (short)screen.X;
+                    pos[0].y = (short)screen.Y;
+                }
+            }
+
+            if (pos != null)
+            {
+                //TODO:
+
+
+                var cm = new ContextMenu();
+
+                cm.Placement = PlacementMode.Absolute;
+                cm.HorizontalOffset = pos[0].x;
+                cm.VerticalOffset = pos[0].y;
+                cm.IsOpen = true;
+
+            }
+            else
+                result = -2147221248;
         }
 
         private void InsertNewLine()
@@ -761,8 +813,8 @@ namespace ModernApplicationFramework.TextEditor.Implementation
             _outliningManager = EditorParts.OutliningManagerService.GetOutliningManager(textView) as IAccurateOutliningManager;
             if (_outliningManager != null)
                 new HiddenTextSessionCoordinator(this, textView, _outliningManager, _editorOptions, _textDocData);
-
-            //TODO: Add stuff
+            FontsAndColorsCategory = andColorsCategory;
+            ShimHost.TextViewHost = _textViewHostPrivate;
             _editorOperations = EditorParts.EditorOperationsFactoryService.GetEditorOperations(textView);
             //Undo
             ViewMarkerTypeManager.AttachToView(textView);
@@ -791,7 +843,20 @@ namespace ModernApplicationFramework.TextEditor.Implementation
                 SendTextViewCreated();
                 if (_textViewHostPrivate.TextView.Properties.TryGetProperty<object>("OverviewMarginContextMenu", out var property))
                 {
-                    //TODO: Create class OverviewMarginProvider and all implementation around it...
+                    if (property is ContextMenu contextMenu)
+                    {
+                        contextMenu.Items.Add(new Separator());
+                        var menuItem = new MenuItem
+                        {
+                            Header = "Options",
+                            IsCheckable = false,
+                            IsChecked = false
+                        };
+                        //TODO: Localize
+                        var optionsMenuCommand = new ScrollBarsToolsOptionsMenuCommand();
+                        menuItem.Command = optionsMenuCommand;
+                        contextMenu.Items.Add(menuItem);
+                    }
                 }
             }
 
@@ -1488,6 +1553,22 @@ namespace ModernApplicationFramework.TextEditor.Implementation
                 return;
             var textSnapshot = TextView.TextSnapshot;
             //TODO: outlinerForView.RemoveRegions(this._undoManager.TextBufferUndoHistory, new SnapshotSpan(textSnapshot, 0, textSnapshot.Length));
+        }
+
+        private class ScrollBarsToolsOptionsMenuCommand : ICommand
+        {
+
+            public bool CanExecute(object parameter)
+            {
+                return true;
+            }
+
+            public event EventHandler CanExecuteChanged;
+
+            public void Execute(object parameter)
+            {
+                //TODO: Open settings for scroll bar
+            }
         }
     }
 

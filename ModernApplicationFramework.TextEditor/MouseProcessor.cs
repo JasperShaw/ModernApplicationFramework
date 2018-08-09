@@ -106,6 +106,11 @@ namespace ModernApplicationFramework.TextEditor
             e.Handled = true;
         }
 
+        public override void PreprocessMouseRightButtonUp(MouseButtonEventArgs e)
+        {
+            HandlePreprocessRightButtonUp(e);
+        }
+
         public override void PreprocessMouseRightButtonDown(MouseButtonEventArgs e)
         {
             HandlePreprocessRightButtonDown(e);
@@ -155,7 +160,20 @@ namespace ModernApplicationFramework.TextEditor
 
         internal void DisplayContextMenu(Point mousePosition)
         {
-            //TODO: Add context menu display
+            if (SimpleTextViewWindow == null)
+                return;
+            Point screen = _textView.VisualElement.PointToScreen(mousePosition);
+            var num = Marshal.AllocCoTaskMem(32);
+            Marshal.GetNativeVariantForObject((short)screen.X, num);
+            Marshal.GetNativeVariantForObject((short)screen.Y, new IntPtr(num.ToInt32() + 16));
+
+            var guid = MafConstants.EditorCommandGroup;
+
+            if (SimpleTextViewWindow.Exec(ref guid, (uint) MafConstants.EditorCommands.ShowContextMenu, 0, num, IntPtr.Zero) != 0)
+            {
+                //TODO
+            }
+            Marshal.FreeCoTaskMem(num);
         }
 
         private void HandlePreprocessRightButtonDown(InputEventArgs e)
@@ -164,7 +182,7 @@ namespace ModernApplicationFramework.TextEditor
             e.Handled = true;
         }
 
-        private Point GetPosition(InputEventArgs e, FrameworkElement element)
+        private Point GetPosition(InputEventArgs e, IInputElement element)
         {
             var point = new Point(0.0, 0.0);
             if (e is MouseButtonEventArgs args)
