@@ -5,10 +5,16 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Caliburn.Micro;
+using ModernApplicationFramework.TextEditor.NativeMethods;
+using ModernApplicationFramework.Utilities;
+using IWin32Window = System.Windows.Interop.IWin32Window;
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 
 namespace ModernApplicationFramework.TextEditor.Implementation
 {
@@ -54,7 +60,7 @@ namespace ModernApplicationFramework.TextEditor.Implementation
         private EditorAndMenuFocusTracker _editorAndMenuFocusTracker;
         private bool _eventsInitialized;
 
-        private uint _initFlags;
+        private TextViewInitFlags _initFlags;
         private ITextViewRoleSet _initialRoles;
         private IScrollMap _scrollMap;
 
@@ -82,7 +88,7 @@ namespace ModernApplicationFramework.TextEditor.Implementation
 
         internal ViewMarkerTypeManager ViewMarkerTypeManager;
 
-        //internal TextViewShimHost ShimHost { get; set; }
+        internal TextViewShimHost ShimHost { get; set; }
 
 
         public InitializationState CurrentInitializationState { get; internal set; }
@@ -109,6 +115,8 @@ namespace ModernApplicationFramework.TextEditor.Implementation
                 ApplyBackgroundColor();
             }
         }
+
+        public IndentStyle IndentStyle { get; internal set; }
 
 
         public bool InProvisionalInput { get; set; }
@@ -366,7 +374,7 @@ namespace ModernApplicationFramework.TextEditor.Implementation
 
                 if (IsViewOrBufferReadOnly() && IsEditingCommand(commandGroup, commandId) &&
                     !IsSearchingCommand(commandGroup, commandId))
-                    OnDisabledEditingCommand(ref commandGroup, commandId);
+                    return OnDisabledEditingCommand(ref commandGroup, commandId);
 
                 var newClipboardCycle = _startNewClipboardCycle;
                 //Should always be true: if (commandGroup != VSConstants.GUID_VSStandardCommandSet97 || commandId != 655U)
@@ -551,6 +559,31 @@ namespace ModernApplicationFramework.TextEditor.Implementation
             return Init_SetBuffer(pBuffer);
         }
 
+        public void Initialize(IMafTextLines buffer, IntPtr hwndParent, TextViewInitFlags flags)
+        {
+            Init_Initialize(buffer, hwndParent, flags);
+        }
+
+        private void Init_Initialize(IMafTextLines buffer, IntPtr hwndParent, TextViewInitFlags flags)
+        {
+            if (CurrentInitializationState != InitializationState.Sited)
+                FailInitializationAndThrow("Initialize is being called before the adapter has been sited.");
+            _initFlags = flags;
+
+            var t = ((int) flags & 32768) != 0;
+
+            ShimHost.Initialize(((int) flags & 32768) == 0, hwndParent);
+            ShimHost.NowVisible += ShimHostNowVisible;
+            Init_SetBuffer(buffer);
+        }
+
+        private void ShimHostNowVisible(object sender, EventArgs e)
+        {
+            if (CurrentInitializationState < InitializationState.TextBufferAvailable)
+                return;
+            Init_OnActivation();
+        }
+
         public int SetData(MafUserDataFormat format, object vtData)
         {
             throw new NotImplementedException();
@@ -658,7 +691,7 @@ namespace ModernApplicationFramework.TextEditor.Implementation
 
         private void Init_Construct()
         {
-            //TODO: Shim stuff
+            ShimHost = new TextViewShimHost(this);
             InitializeConnectionPoints();
             _commandChain = new CommandChainNode
             {
@@ -977,6 +1010,12 @@ namespace ModernApplicationFramework.TextEditor.Implementation
         private bool _canChangeSelectionMarginEnabled;
         private bool _canChangeOvertypeMode;
         private bool _canChangeVisibleWhitespace;
+        private bool _canChangeShowVerticalScrollBar;
+        private bool _canChangeShowHorizontalScrollBar;
+        private bool _canChangeIndentStyle;
+        private bool _canChangeGlyphMarginEnabled;
+        private bool _canChangeTrackChanges;
+        private bool _canChangeHotURLs;
 
         internal void SetPlainTextFont()
         {
@@ -1089,9 +1128,64 @@ namespace ModernApplicationFramework.TextEditor.Implementation
         {
             if (_initFlags == 0)
                 return;
+            if ((_initFlags & TextViewInitFlags.Vscroll) != 0)
+            {
+                _editorOptions.SetOptionValue(DefaultTextViewHostOptions.VerticalScrollBarId, true);
+                _canChangeShowVerticalScrollBar = false;
+            }
 
-            //TODO: look at this and implement
+            if ((_initFlags & TextViewInitFlags.Hscroll) != 0)
+            {
+                _editorOptions.SetOptionValue(DefaultTextViewHostOptions.HorizontalScrollBarId, true);
+                _canChangeShowHorizontalScrollBar = false;
+            }
+            if ((_initFlags & TextViewInitFlags.IndentMode) != 0)
+            {
+                IndentStyle = IndentStyle.None;
+                _canChangeIndentStyle = false;
+            }
+
+            if ((_initFlags & TextViewInitFlags.ProhibitUserInput) != 0)
+                _editorOptions.SetOptionValue(DefaultTextViewOptions.ViewProhibitUserInputId, true);
+            if ((_initFlags & TextViewInitFlags.DisableGoBack) != 0)
+                RaiseGoBackEvents = false;
+            if ((_initFlags & TextViewInitFlags.UpdateStatusBar) != 0)
+                SupressUpdateStatusBarEvents = false;
+            if ((_initFlags & TextViewInitFlags.WidgetMargin) != 0)
+            {
+                _editorOptions.SetOptionValue(DefaultTextViewHostOptions.GlyphMarginId, false);
+                _canChangeGlyphMarginEnabled = false;
+            }
+            if ((_initFlags & TextViewInitFlags.SelectionMargin) != 0)
+            {
+                _editorOptions.SetOptionValue(DefaultTextViewHostOptions.SelectionMarginId, false);
+                _canChangeSelectionMarginEnabled = false;
+            }
+            if ((_initFlags & TextViewInitFlags.VirtualSpace) != 0)
+            {
+                _editorOptions.SetOptionValue(DefaultTextViewOptions.UseVirtualSpaceId, false);
+                _canChangeUseVirtualSpace = false;
+            }
+            if ((_initFlags & TextViewInitFlags.Overtype) != 0)
+            {
+                _editorOptions.SetOptionValue(DefaultTextViewOptions.OverwriteModeId, false);
+                _canChangeOvertypeMode = false;
+            }
+            if ((_initFlags & TextViewInitFlags.ChangeTracking) != 0)
+            {
+                _editorOptions.SetOptionValue(DefaultTextViewHostOptions.ChangeTrackingId, false);
+                _canChangeTrackChanges = false;
+            }
+            if ((_initFlags & TextViewInitFlags.Hoturls) != 0)
+            {
+                _editorOptions.SetOptionValue(DefaultTextViewOptions.DisplayUrlsAsHyperlinksId, false);
+                _canChangeHotURLs = false;
+            }
+            if ((_initFlags & TextViewInitFlags.Find) != 0)
+                _editorOptions.SetOptionValue(EnableFindOptionDefinition.KeyId, true);
         }
+
+        internal bool SupressUpdateStatusBarEvents { get; set; }
 
         internal static Point CalculateContextMenuPosition(ITextView textView)
         {
@@ -1175,6 +1269,191 @@ namespace ModernApplicationFramework.TextEditor.Implementation
                     return -2147024809;
             }
         }
+
+        internal class TextViewShimHost : IDisposable
+        {
+            private ContentPresenter _contentPresenter;
+            private ForwardFocusPanel _forwardFocusPanel;
+            private ITextViewHost _textViewHost;
+
+
+            internal event EventHandler<EventArgs> NowVisible;
+
+            internal bool CreateHwnd { get; private set; }
+
+            internal bool HasBeenShown { get; private set; }
+
+            internal bool Initialized { get; private set; }
+
+            private SimpleTextViewWindow TextView { get; }
+
+            internal HwndSource HwndSource { get; set; }
+
+            internal Win32Window Win32Window { get; private set; }
+
+            internal ITextViewHost TextViewHost
+            {
+                get => _textViewHost;
+                set
+                {
+                    _textViewHost = value ?? throw new ArgumentNullException(nameof(value));
+                    if (CreateHwnd)
+                        TextOptions.SetTextFormattingMode(_textViewHost.HostControl, TextFormattingMode.Display);
+                    if (CreateHwnd && HwndSource != null)
+                    {
+                        HwndSource.RootVisual = _textViewHost.HostControl;
+                    }
+                    else
+                    {
+                        if (CreateHwnd)
+                            return;
+                        _forwardFocusPanel.ViewHost = _textViewHost;
+                        _contentPresenter.Content = _textViewHost.HostControl;
+                    }
+                }
+            }
+
+            internal TextViewShimHost(SimpleTextViewWindow textView)
+            {
+                Initialized = false;
+                CreateHwnd = false;
+                TextView = textView;
+            }
+
+            public void Dispose()
+            {
+                if (_contentPresenter != null)
+                    PresentationSource.RemoveSourceChangedHandler(_contentPresenter, OnSourceChanged);
+                if (CreateHwnd && HwndSource != null)
+                    HwndSource.Dispose();
+                else if (_forwardFocusPanel != null)
+                    _forwardFocusPanel.Dispose();
+                GC.SuppressFinalize(this);
+            }
+
+            internal void Initialize(bool createHwnd, IntPtr hwndParent)
+            {
+                CreateHwnd = createHwnd;
+                if (createHwnd)
+                    HasBeenShown = true;
+                if (createHwnd && hwndParent != IntPtr.Zero)
+                    CreateHwndSource(hwndParent);
+                else if (!createHwnd)
+                {
+                    _contentPresenter = new ContentPresenter();
+                    InputMethod.SetIsInputMethodSuspended(_contentPresenter, true);
+                    _forwardFocusPanel = new ForwardFocusPanel();
+                    Win32Window = new Win32Window(_forwardFocusPanel.Handle);
+                    PresentationSource.AddSourceChangedHandler(_contentPresenter, OnSourceChanged);
+                }
+
+                Initialized = true;
+            }
+
+            private void CreateHwndSource(IntPtr hwndParent)
+            {
+                var parameters = new HwndSourceParameters
+                {
+                    Width = 0,
+                    Height = 0,
+                    WindowStyle = 335544320
+                };
+                if (hwndParent != IntPtr.Zero)
+                    parameters.WindowStyle |= 1073741824;
+                parameters.ParentWindow = hwndParent;
+                HwndSource = new HwndSource(parameters);
+                HwndSource.AddHook(HwndSourceWndProc);
+                if (TextViewHost != null)
+                    HwndSource.RootVisual = _textViewHost.HostControl;
+                MouseCursorResponsiveNativeWindow.OverrideWmSetCursor(HwndSource.Handle);
+                Win32Window = new Win32Window(HwndSource.Handle);
+            }
+
+            private IntPtr HwndSourceWndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+            {
+                if (msg == 7)
+                {
+                    try
+                    {
+                        if (wParam != HwndSource.Handle)
+                        {
+                            if (TextView?.TextViewHost != null)
+                                Keyboard.Focus(TextView.TextViewHost.TextView.VisualElement);
+                        }
+                    }
+                    catch (InvalidOperationException)
+                    {
+                    }
+                }
+                return IntPtr.Zero;
+            }
+
+            private void OnSourceChanged(object sender, SourceChangedEventArgs e)
+            {
+                PresentationSource.RemoveSourceChangedHandler(_contentPresenter, OnSourceChanged);
+                _contentPresenter.LayoutUpdated += OnLayoutUpdated;
+            }
+
+            private void OnLayoutUpdated(object sender, EventArgs e)
+            {
+                _contentPresenter.LayoutUpdated -= OnLayoutUpdated;
+                HasBeenShown = true;
+                var nowVisible = NowVisible;
+                nowVisible?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        internal sealed class Win32Window : IWin32Window
+        {
+            public Win32Window(IntPtr handle)
+            {
+                Handle = handle;
+            }
+
+            public IntPtr Handle { get; }
+        }
+
+        internal class ForwardFocusPanel : HwndWrapper
+        {
+            internal ITextViewHost ViewHost { get; set; }
+
+            protected override ushort CreateWindowClassCore()
+            {
+                return RegisterClass("HwndlessEditorFakeHwndWrapper" + Guid.NewGuid());
+            }
+
+            protected override IntPtr CreateWindowCore()
+            {
+                var minValue = int.MinValue;
+                var moduleHandle = Kernel32.GetModuleHandle(null);
+                return User32.CreateWindowEx(0, new IntPtr(WindowClassAtom), null, minValue, 0, 0, 0, 0, IntPtr.Zero, IntPtr.Zero, moduleHandle, IntPtr.Zero);
+            }
+
+            internal void UpdatePosition()
+            {
+                if (ViewHost == null)
+                    return;
+                var hostControl = ViewHost.HostControl;
+                if (PresentationSource.FromDependencyObject(hostControl) == null)
+                    return;
+                var screen = hostControl.PointToScreen(new Point(0.0, 0.0));
+                var deviceUnits = DpiHelper.Default.LogicalToDeviceUnits(new Size(hostControl.ActualWidth, hostControl.ActualHeight));
+                User32.SetWindowPos(Handle, IntPtr.Zero, (int)screen.X, (int)screen.Y, (int)deviceUnits.Width, (int)deviceUnits.Height, 20);
+            }
+
+            protected override IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam)
+            {
+                if (msg != 7 || ViewHost == null || ViewHost.TextView == null)
+                    return base.WndProc(hwnd, msg, wParam, lParam);
+                if (Keyboard.FocusedElement == ViewHost.TextView.VisualElement)
+                {
+                    if (PresentationSource.FromVisual(ViewHost.TextView.VisualElement) is HwndSource hwndSource)
+                        User32.SetFocus(hwndSource.Handle);
+                }
+                Keyboard.Focus(ViewHost.TextView.VisualElement);
+                return IntPtr.Zero;
+            }
+        }
     }
 
     public interface ITextEditorPropertyCategoryContainer
@@ -1204,9 +1483,11 @@ namespace ModernApplicationFramework.TextEditor.Implementation
         void OnChangeCaretLine(IMafTextView view, int iNewLine, int iOldLine);
     }
 
-    public interface IMafTextView
+    public interface IMafTextView : IMafUserData
     {
         int SetBuffer(IMafTextLines pBuffer);
+
+        void Initialize(IMafTextLines buffer, IntPtr hwndParent, TextViewInitFlags flags);
     }
 
     public interface IMafTextBuffer
@@ -1221,5 +1502,12 @@ namespace ModernApplicationFramework.TextEditor.Implementation
     public interface IMafTextViewCreationListener
     {
         void MafTextViewCreated(IMafTextView textViewAdapter);
+    }
+
+    public enum IndentStyle
+    {
+        None,
+        Default,
+        Smart
     }
 }

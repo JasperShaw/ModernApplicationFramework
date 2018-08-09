@@ -4,25 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="clr-namespace:ModernApplicationFramework.Modules.Output.Controls"
-             mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
-    <!--<UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary
-                    Source="pack://application:,,,/ModernApplicationFramework;component/Themes/Generic/ScrollViewer.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </UserControl.Resources>
-
-    <mafc:ScrollViewer x:Name="ScrollViewer" VerticalScrollBarVisibility="Visible">
-
-        <TextBox x:Name="OutputText" IsReadOnly="True" VerticalAlignment="Stretch"
-                 HorizontalAlignment="Stretch" AcceptsReturn="True" FontFamily="Consolas"
-                 Foreground="{DynamicResource {x:Static core:EnvironmentColors.GlobalForeground}}"
-                 Cursor="{x:Static Cursors.Arrow}" BorderThickness="0"
-                 Background="{DynamicResource {x:Static core:EnvironmentColors.TextBoxBackground}}">
-        </TextBox>
-    </mafc:ScrollViewer>-->
+             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
     <controls:OutputWindow/>
 </UserControl>

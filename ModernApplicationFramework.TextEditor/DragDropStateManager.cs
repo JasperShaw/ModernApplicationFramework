@@ -139,7 +139,7 @@ namespace ModernApplicationFramework.TextEditor
                 {
                     try
                     {
-                        dataObject.SetData(DataFormats.Rtf, (object)_rtfBuilderService.GenerateRtf(selectedSpans, cancellationTokenSource.Token));
+                        dataObject.SetData(DataFormats.Rtf, _rtfBuilderService.GenerateRtf(selectedSpans, cancellationTokenSource.Token));
                     }
                     catch (OperationCanceledException)
                     {
@@ -147,7 +147,7 @@ namespace ModernApplicationFramework.TextEditor
                 }
             }
             if (flag)
-                dataObject.SetData("MSDEVColumnSelect", new object());
+                dataObject.SetData("ColumnSelect", new object());
             return dataObject;
         }
 
@@ -183,7 +183,7 @@ namespace ModernApplicationFramework.TextEditor
             if (CurrentDropHandler != null)
             {
                 _visualManager.EnableDragDropVisuals();
-                dropHandlerRequest = _guardedOperations.CallExtensionPoint((Func<DragDropPointerEffects>)(() => CurrentDropHandler.HandleDragStarted(dragDropInfo)), DragDropPointerEffects.None);
+                dropHandlerRequest = _guardedOperations.CallExtensionPoint(() => CurrentDropHandler.HandleDragStarted(dragDropInfo), DragDropPointerEffects.None);
                 DisplayTracker(dragDropInfo, dropHandlerRequest);
             }
             return dropHandlerRequest;

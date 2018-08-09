@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using ModernApplicationFramework.Native.NativeMethods;
-using ModernApplicationFramework.Native.Platform.Structs;
-using ModernApplicationFramework.Utilities;
+using ModernApplicationFramework.Utilities.NativeMethods;
 
-namespace ModernApplicationFramework.Native.Platform
+namespace ModernApplicationFramework.Utilities
 {
     public abstract class HwndWrapper : DisposableObject
     {
@@ -15,11 +13,14 @@ namespace ModernApplicationFramework.Native.Platform
         private static long _failedDestroyWindows;
         private static int _lastDestroyWindowError;
 
-        protected ushort GetWindowClassAtom()
+        protected ushort WindowClassAtom
         {
-            if (_wndClassAtom == 0)
-                _wndClassAtom = CreateWindowClassCore();
-            return _wndClassAtom;
+            get
+            {
+                if (_wndClassAtom == 0)
+                    _wndClassAtom = CreateWindowClassCore();
+                return _wndClassAtom;
+            }
         }
 
         public IntPtr Handle
@@ -57,7 +58,7 @@ namespace ModernApplicationFramework.Native.Platform
                 hbrBackground = IntPtr.Zero,
                 hCursor = IntPtr.Zero,
                 hIcon = IntPtr.Zero,
-                lpfnWndProc = _wndProc = new NativeMethods.NativeMethods.WndProc(WndProc),
+                lpfnWndProc = _wndProc = new WndProc(WndProc),
                 lpszClassName = className,
                 lpszMenuName = null,
                 style = 0U
@@ -67,7 +68,7 @@ namespace ModernApplicationFramework.Native.Platform
 
         private void SubclassWndProc()
         {
-            _wndProc = new NativeMethods.NativeMethods.WndProc(WndProc);
+            _wndProc = new WndProc(WndProc);
             NativeMethods.NativeMethods.SetWindowLong(_handle, -4, Marshal.GetFunctionPointerForDelegate(_wndProc));
         }
 
@@ -112,4 +113,6 @@ namespace ModernApplicationFramework.Native.Platform
             DestroyWindowClassCore();
         }
     }
+
+    public delegate IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
 }

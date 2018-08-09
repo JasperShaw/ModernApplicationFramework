@@ -53,6 +53,7 @@
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.3.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -73,6 +74,7 @@
   <ItemGroup>
     <Compile Include="AccessibleCaret.cs" />
     <Compile Include="AllOtherWindowFontAndColorCategory.cs" />
+    <Compile Include="ChangeInput.cs" />
     <Compile Include="ColorableItemInfo.cs" />
     <Compile Include="CommandWindowFontAndColorCategory.cs" />
     <Compile Include="EditorTextMarkerFontAndColorCategory.cs" />
@@ -203,6 +205,7 @@
     <Compile Include="DefGuidList.cs" />
     <Compile Include="Implementation\EditorFormat.cs" />
     <Compile Include="Implementation\ElisionColorDefinition.cs" />
+    <Compile Include="Implementation\EnableFindOptionDefinition.cs" />
     <Compile Include="Implementation\FcItemflags.cs" />
     <Compile Include="Implementation\FontAndColorCategoryBase.cs" />
     <Compile Include="FontFlags.cs" />
@@ -228,15 +231,18 @@
     <Compile Include="Implementation\LanguageServiceClassificationTagger.cs" />
     <Compile Include="Implementation\LanguageServiceClassificationTaggerProvider.cs" />
     <Compile Include="Implementation\Linestyle.cs" />
+    <Compile Include="Implementation\MouseCursorResponsiveNativeWindow.cs" />
     <Compile Include="Implementation\OffscreenColorDefinition.cs" />
     <Compile Include="Implementation\OutputClassifier\IOutputWindow.cs" />
-    <Compile Include="Implementation\OutputClassifier\IOutputWindowPane.cs" />
+    <Compile Include="Implementation\OutputClassifier\IOutput.cs" />
     <Compile Include="Implementation\OutputClassifier\OutputClassificationTypes.cs" />
     <Compile Include="Implementation\OutputClassifier\OutputWindowStyleManager.cs" />
     <Compile Include="Implementation\OutputClassifier\OutputWindowTagger.cs" />
     <Compile Include="Implementation\OutputClassifier\OutputWindowTaggerProvider.cs" />
     <Compile Include="Implementation\OutputClassifier\PendingOutput.cs" />
     <Compile Include="Implementation\PrinterTextManagerFontAndColorCategory.cs" />
+    <Compile Include="Implementation\TextViewInitFlags.cs" />
+    <Compile Include="Implementation\ToolWindowContentTypes.cs" />
     <Compile Include="Implementation\UrlClassificationTypeExports.cs" />
     <Compile Include="Implementation\VisibleColorDefinition.cs" />
     <Compile Include="Implementation\VsEditPropId.cs" />

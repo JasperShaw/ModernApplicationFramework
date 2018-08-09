@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows.Threading;
 using ModernApplicationFramework.TextEditor.Implementation;
 
@@ -7,7 +8,7 @@ namespace ModernApplicationFramework.TextEditor
 {
     //TODO: Implement as required
     //TODO: Add undo stuff
-    internal abstract class TextDocData : INormalizeNewLines, ICommandTarget, IGetManagedObject, IMafUserData, IMafTextLines
+    internal abstract class TextDocData : INormalizeNewLines, ICommandTarget, IGetManagedObject, IMafUserData, IMafTextLines, IPersistDocData
     {
         internal event EventHandler TextBufferInitialized;
         public event LoadCompletedEventHandler OnLoadCompleted;
@@ -53,6 +54,12 @@ namespace ModernApplicationFramework.TextEditor
         internal byte[] _cachedMD5Hash;
         internal byte[] _cachedSHA1Hash;
         internal byte[] _cachedSHA256Hash;
+        private bool _hasEverChanged;
+
+        private BackupBroker _backupBroker = new BackupBroker();
+
+
+        private IntPtr _textReadBuffer = IntPtr.Zero;
 
         public MarkerManager MarkerManager => MarkerManagerProtected;
 
@@ -162,11 +169,11 @@ namespace ModernApplicationFramework.TextEditor
                 return;
             if (_documentTextBuffer.ContentType == EditorParts.TextBufferFactoryService.InertContentType)
                 _documentTextBuffer.ChangeContentType(_initialContentType ?? EditorParts.TextBufferFactoryService.TextContentType, null);
-            //_documentTextBuffer.Changed += MarkDocumentBufferChanged;
-            //_documentTextBuffer.ContentTypeChanged += _backupBroker.OnContentTypeChanged;
+            _documentTextBuffer.Changed += MarkDocumentBufferChanged;
+            _documentTextBuffer.ContentTypeChanged += _backupBroker.OnContentTypeChanged;
             _documentTextBuffer.TakeThreadOwnership();
             _dispatcher = Dispatcher.CurrentDispatcher;
-            //_documentTextBuffer.Properties.AddProperty(typeof(IVsPersistDocData), this);
+            _documentTextBuffer.Properties.AddProperty(typeof(IPersistDocData), this);
             InitializedDocumentTextBuffer = true;
             TextBufferInitialized?.Invoke(this, null);
         }
@@ -473,7 +480,7 @@ namespace ModernApplicationFramework.TextEditor
         internal int EndTemplateEditing()
         {
             var num = 0;
-
+            //TODO:
 
 
             return num;
@@ -499,14 +506,106 @@ namespace ModernApplicationFramework.TextEditor
         }
 
         public delegate int ReplaceEventHandler(ChangeInput[] pCI);
+
+        public bool IsDocDataDirty()
+        {
+            return IsDirty();
+        }
+
+        private bool IsDirty()
+        {
+            return _textDocument.IsDirty;
+        }
+
+        public void Close()
+        {
+            //Finish
+            IsClosed = true;
+
+            EndTemplateEditing();
+
+            ReleaseFullTextScanResources();
+            CleanUpEvents();
+
+            _dataTextBuffer.Properties.RemoveProperty(typeof(IMafTextBuffer));
+
+            GetCurrentSnapshot();
+            if (_documentTextBuffer != null)
+            {
+                _documentTextBuffer.Changed -= MarkDocumentBufferChanged;
+                _documentTextBuffer.ContentTypeChanged -= _backupBroker.OnContentTypeChanged;
+            }
+
+            if (_textDocument != null)
+            {
+                _textDocument.Dispose();
+
+                _textDocument = null;
+            }
+        }
+
+        private void MarkDocumentBufferChanged(object sender, TextContentChangedEventArgs e)
+        {
+            _hasEverChanged = true;
+            _documentTextBuffer.Changed -=MarkDocumentBufferChanged;
+        }
+
+        private void ReleaseFullTextScanResources()
+        {
+            if (!(_textReadBuffer != IntPtr.Zero))
+                return;
+            Marshal.FreeCoTaskMem(_textReadBuffer);
+            _textReadBuffer = IntPtr.Zero;
+        }
+
+        private class BackupBroker
+        {
+            private volatile int _lastBackedUpVersionNumber;
+            private int _backupInProgress;
+
+            public bool StartBackup()
+            {
+                return Interlocked.CompareExchange(ref _backupInProgress, 1, 0) == 0;
+            }
+
+            public void FinishBackup()
+            {
+                Interlocked.Exchange(ref _backupInProgress, 0);
+            }
+
+            public void SetBackupCurrent(ITextSnapshot persistedSnapshot)
+            {
+                lock (this)
+                {
+                    if (persistedSnapshot.Version.VersionNumber <= _lastBackedUpVersionNumber)
+                        return;
+                    _lastBackedUpVersionNumber = persistedSnapshot.Version.VersionNumber;
+                }
+            }
+
+           public bool IsBackupCurrent(ITextSnapshot currentSnapshot)
+            {
+                return _lastBackedUpVersionNumber >= currentSnapshot.Version.VersionNumber;
+            }
+
+            public void OnContentTypeChanged(object sender, ContentTypeChangedEventArgs e)
+            {
+                lock (this)
+                {
+                    if (_lastBackedUpVersionNumber != e.BeforeVersion.VersionNumber)
+                        return;
+                    _lastBackedUpVersionNumber = e.AfterVersion.VersionNumber;
+                }
+            }
+        }
     }
 
-    public struct ChangeInput
+    public interface IPersistDocData
     {
-        public TextSpan MDelSpan;
-        public int MiOldLen;
-        public int MiNewLen;
-        public IntPtr MPszNewText;
-        public uint MDwFlags;
+        //TODO: Finish interface
+
+        bool IsDocDataDirty();
+
+        void Close();
     }
 }

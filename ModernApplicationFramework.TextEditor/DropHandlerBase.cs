@@ -26,22 +26,22 @@ namespace ModernApplicationFramework.TextEditor
         {
             if (dragDropInfo == null)
                 throw new ArgumentNullException(nameof(dragDropInfo));
-            ITextSelection selection = TextView.Selection;
-            DragDropPointerEffects dropPointerEffects = DragDropPointerEffects.None;
-            VirtualSnapshotPoint virtualBufferPosition = dragDropInfo.VirtualBufferPosition;
-            string text = ExtractText(dragDropInfo);
-            bool isReversed = selection.IsReversed;
-            bool flag1 = (dragDropInfo.KeyStates & DragDropKeyStates.ControlKey) == DragDropKeyStates.ControlKey;
-            bool flag2 = (dragDropInfo.AllowedEffects & DragDropEffects.Copy) == DragDropEffects.Copy;
-            ITextSnapshot textSnapshot = TextView.TextSnapshot;
-            ITrackingPoint trackingPoint = textSnapshot.CreateTrackingPoint(virtualBufferPosition.Position, PointTrackingMode.Negative);
-            List<ITrackingSpan> trackingSpanList = new List<ITrackingSpan>();
-            foreach (SnapshotSpan selectedSpan in selection.SelectedSpans)
+            var selection = TextView.Selection;
+            var dropPointerEffects = DragDropPointerEffects.None;
+            var virtualBufferPosition = dragDropInfo.VirtualBufferPosition;
+            var text = ExtractText(dragDropInfo);
+            var isReversed = selection.IsReversed;
+            var flag1 = (dragDropInfo.KeyStates & DragDropKeyStates.ControlKey) == DragDropKeyStates.ControlKey;
+            var flag2 = (dragDropInfo.AllowedEffects & DragDropEffects.Copy) == DragDropEffects.Copy;
+            var textSnapshot = TextView.TextSnapshot;
+            var trackingPoint = textSnapshot.CreateTrackingPoint(virtualBufferPosition.Position, PointTrackingMode.Negative);
+            var trackingSpanList = new List<ITrackingSpan>();
+            foreach (var selectedSpan in selection.SelectedSpans)
                 trackingSpanList.Add(textSnapshot.CreateTrackingSpan(selectedSpan, SpanTrackingMode.EdgeExclusive));
             PerformPreEditActions(dragDropInfo);
             if (!selection.IsEmpty)
                 selection.Clear();
-            int offset = 0;
+            var offset = 0;
             if (dragDropInfo.VirtualBufferPosition.IsInVirtualSpace)
                 offset = EditorOperations.GetWhitespaceForVirtualSpace(dragDropInfo.VirtualBufferPosition).Length;
             bool successfulEdit;
@@ -59,7 +59,7 @@ namespace ModernApplicationFramework.TextEditor
             }
             if (dropPointerEffects != DragDropPointerEffects.None)
             {
-                SnapshotPoint insertionPoint = trackingPoint.GetPoint(TextView.TextSnapshot);
+                var insertionPoint = trackingPoint.GetPoint(TextView.TextSnapshot);
                 if (offset != 0)
                     insertionPoint = insertionPoint.Add(offset);
                 SelectText(insertionPoint, text.Length, dragDropInfo, isReversed);
@@ -95,8 +95,8 @@ namespace ModernApplicationFramework.TextEditor
         {
             if (dragDropInfo == null)
                 throw new ArgumentNullException(nameof(dragDropInfo));
-            VirtualSnapshotPoint virtualSnapshotPoint1 = new VirtualSnapshotPoint(insertionPoint);
-            VirtualSnapshotPoint virtualSnapshotPoint2 = new VirtualSnapshotPoint(insertionPoint.Add(dataLength));
+            var virtualSnapshotPoint1 = new VirtualSnapshotPoint(insertionPoint);
+            var virtualSnapshotPoint2 = new VirtualSnapshotPoint(insertionPoint.Add(dataLength));
             if (dragDropInfo.IsInternal & reverse)
                 EditorOperations.SelectAndMoveCaret(virtualSnapshotPoint2, virtualSnapshotPoint1, TextSelectionMode.Stream);
             else
@@ -124,9 +124,9 @@ namespace ModernApplicationFramework.TextEditor
 
         protected virtual bool MoveText(VirtualSnapshotPoint position, IList<ITrackingSpan> selectionSpans, string data)
         {
-            ITextSnapshot textSnapshot = TextView.TextSnapshot;
+            var textSnapshot = TextView.TextSnapshot;
             position = position.TranslateTo(textSnapshot);
-            ITrackingPoint trackingPoint = textSnapshot.CreateTrackingPoint(position.Position, PointTrackingMode.Negative);
+            var trackingPoint = textSnapshot.CreateTrackingPoint(position.Position, PointTrackingMode.Negative);
             if (!DeleteSpans(selectionSpans))
                 return false;
             TextView.Caret.MoveTo(new VirtualSnapshotPoint(trackingPoint.GetPoint(TextView.TextSnapshot), position.VirtualSpaces));
@@ -137,10 +137,10 @@ namespace ModernApplicationFramework.TextEditor
         {
             if (spans == null)
                 throw new ArgumentNullException(nameof(spans));
-            ITextSnapshot textSnapshot = TextView.TextSnapshot;
-            using (ITextEdit edit = TextView.TextBuffer.CreateEdit())
+            var textSnapshot = TextView.TextSnapshot;
+            using (var edit = TextView.TextBuffer.CreateEdit())
             {
-                foreach (ITrackingSpan span in spans)
+                foreach (var span in spans)
                 {
                     if (!edit.Delete(span.GetSpan(textSnapshot)))
                         return false;

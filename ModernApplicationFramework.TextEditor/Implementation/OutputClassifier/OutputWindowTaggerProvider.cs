@@ -4,10 +4,7 @@ using ModernApplicationFramework.Utilities.Attributes;
 
 namespace ModernApplicationFramework.TextEditor.Implementation.OutputClassifier
 {
-
-    //TODO: Are these content types valid?
-    [ContentType("BuildOutput")]
-    [ContentType("DebugOutput")]
+    [ContentType("Output")]
     [Export(typeof(ITaggerProvider))]
     [TagType(typeof(IClassificationTag))]
     public class OutputWindowTaggerProvider : ITaggerProvider

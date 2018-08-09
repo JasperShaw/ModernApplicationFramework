@@ -52,7 +52,7 @@ namespace ModernApplicationFramework.TextEditor.Implementation
                         str = !(FontCategory == CategoryGuids.GuidStatementCompletion)
                             ? (!(FontCategory == CategoryGuids.GuidImmediateWindow)
                                 ? (!(FontCategory == CategoryGuids.GuidCommandWindow)
-                                    ? (!(FontCategory == CategoryGuids.GuidCommandWindow)
+                                    ? (!(FontCategory == CategoryGuids.GuidOutputWindow)
                                         ? (!(FontCategory == CategoryGuids.GuidFindResultsWindow)
                                             ? FontCategory + ":" + ColorCategory
                                             : "find results")

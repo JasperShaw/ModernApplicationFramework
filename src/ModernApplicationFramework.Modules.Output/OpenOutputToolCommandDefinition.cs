@@ -54,7 +54,7 @@ namespace ModernApplicationFramework.Modules.Output
 
         protected override void OnExecute(object parameter)
         {
-            _shell.DockingHost.ShowTool<IOutput>();
+            _shell.DockingHost.ShowTool<IOutputPane>();
         }
     }
 }

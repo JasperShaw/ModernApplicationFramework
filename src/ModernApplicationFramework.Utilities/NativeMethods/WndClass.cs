@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace ModernApplicationFramework.Native.Platform.Structs
+namespace ModernApplicationFramework.Utilities.NativeMethods
 {
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-    internal struct WndClass
+    public struct WndClass
     {
         public uint style;
         public Delegate lpfnWndProc;

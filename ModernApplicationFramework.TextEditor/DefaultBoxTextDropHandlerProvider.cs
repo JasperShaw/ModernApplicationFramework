@@ -5,7 +5,7 @@ using ModernApplicationFramework.Utilities.Attributes;
 namespace ModernApplicationFramework.TextEditor
 {
     [Export(typeof(IDropHandlerProvider))]
-    [DropFormat("MSDEVColumnSelect")]
+    [DropFormat("ColumnSelect")]
     [Name("DefaultBoxTextDropHandler")]
     [Order(Before = "DefaultTextDropHandler")]
     internal class DefaultBoxTextDropHandlerProvider : IDropHandlerProvider

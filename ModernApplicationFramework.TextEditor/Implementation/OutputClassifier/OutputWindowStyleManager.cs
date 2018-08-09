@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using Caliburn.Micro;
 
 namespace ModernApplicationFramework.TextEditor.Implementation.OutputClassifier
 {
-    [Export(typeof(OutputWindowStyleManager))]
     public class OutputWindowStyleManager : IDisposable
     {
-        [Import]
         internal IClassificationTypeRegistryService ClassificationRegistry;
         private readonly ITextBuffer _textBuffer;
         private readonly LinkedList<PendingOutput> _pendingOutputs;
@@ -22,13 +19,9 @@ namespace ModernApplicationFramework.TextEditor.Implementation.OutputClassifier
 
         public IClassificationType OutputVerboseClassificationType { get; }
 
-        public OutputWindowStyleManager()
-            : this(GetOutputWindowPane())
+        public OutputWindowStyleManager(IOutput pane)
         {
-        }
-
-        public OutputWindowStyleManager(IOutputWindowPane pane)
-        {
+            ClassificationRegistry = IoC.Get<IClassificationTypeRegistryService>();
             _pendingOutputs = new LinkedList<PendingOutput>();
             _lineClassifications = new Dictionary<int, IClassificationType>();
             _textBuffer = GetTextBuffer(pane);
@@ -37,6 +30,7 @@ namespace ModernApplicationFramework.TextEditor.Implementation.OutputClassifier
             OutputHeadingClassificationType = GetClassificationType("OutputHeading");
             OutputErrorClassificationType = GetClassificationType("OutputError");
             OutputVerboseClassificationType = GetClassificationType("OutputVerbose");
+            
         }
 
         public void Dispose()
@@ -58,16 +52,10 @@ namespace ModernApplicationFramework.TextEditor.Implementation.OutputClassifier
 
         public IClassificationType GetClassificationType(string classificationTypeName)
         {
-            IClassificationType classificationType = ClassificationRegistry.GetClassificationType(classificationTypeName);
+            var classificationType = ClassificationRegistry.GetClassificationType(classificationTypeName);
             if (classificationType != null)
                 return classificationType;
             throw new InvalidOperationException("Unknown classification type name: " + classificationTypeName);
-        }
-
-        private static IOutputWindowPane GetOutputWindowPane()
-        {
-            IoC.Get<IOutputWindow>().GetPane(out var ppPane);
-            return ppPane;
         }
 
         private IEnumerable<ITagSpan<IClassificationTag>> CalculateOverlappedSpans(SnapshotSpan span)
@@ -94,12 +82,12 @@ namespace ModernApplicationFramework.TextEditor.Implementation.OutputClassifier
         }
 
 
-        private ITextBuffer GetTextBuffer(IOutputWindowPane pane)
+        private ITextBuffer GetTextBuffer(IOutput pane)
         {
-            if (!(pane is IMafUserData vsUserData))
-                throw new InvalidOperationException("The shims should allow us to cast to IVsUserData");
-            vsUserData.GetData(MafUserDataFormat.TextViewHost, out var pvtData);
-            var textBuffer = (pvtData as ITextViewHost)?.TextView?.TextBuffer;
+            if (!(pane is IMafUserData userData))
+                throw new InvalidCastException();
+            userData.GetData(MafUserDataFormat.TextViewHost, out var host);
+            var textBuffer = ((ITextViewHost) host)?.TextView?.TextBuffer;
             if (textBuffer != null)
                 return textBuffer;
             throw new InvalidOperationException("user data doesn't implement the interface");

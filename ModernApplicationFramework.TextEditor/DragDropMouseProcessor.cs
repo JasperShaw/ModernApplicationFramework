@@ -254,13 +254,12 @@ namespace ModernApplicationFramework.TextEditor
                 {
                     point = _mouseDownAnchorPoint.Value;
                     if (Math.Abs(point.Y - viewRelativeMousePosition.Y) < SystemParameters.MinimumVerticalDragDistance)
-                        goto label_10;
+                        return true; ;
                 }
                 StateManager.StartAndFinishDragDrop();
             }
             else
                 StateManager.StartAndFinishDragDrop();
-            label_10:
             return true;
         }
 

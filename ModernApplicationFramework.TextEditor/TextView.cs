@@ -869,7 +869,7 @@ namespace ModernApplicationFramework.TextEditor
 
         private void OnMouseMove(object sender, MouseEventArgs e)
         {
-            if (IsClosed || e.LeftButton != MouseButtonState.Released || (e.MiddleButton != MouseButtonState.Released || e.RightButton != MouseButtonState.Released))
+            if (IsClosed || e.LeftButton != MouseButtonState.Released || e.MiddleButton != MouseButtonState.Released || e.RightButton != MouseButtonState.Released)
                 return;
             HandleMouseMove(e.GetPosition(this));
         }

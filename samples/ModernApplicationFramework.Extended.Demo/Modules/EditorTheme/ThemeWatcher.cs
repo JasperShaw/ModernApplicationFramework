@@ -27,7 +27,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.EditorTheme
         private void OnThemeChanged(object sender, Core.Events.ThemeChangedEventArgs e)
         {
             var service = IoC.Get<IEditorFormatMapService>();
-            var map = service.GetEditorFormatMap("text");
+            var map = service.GetEditorFormatMap("output");
 
 
             var p = map.GetProperties("TextView Background");
@@ -40,7 +40,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.EditorTheme
 
 
             var cfms = IoC.Get<IClassificationFormatMapService>();
-            var cfm = cfms.GetClassificationFormatMap("text");
+            var cfm = cfms.GetClassificationFormatMap("output");
             var tp = cfm.DefaultTextProperties.SetForeground(Colors.Red);
             tp = tp.SetBackground(Colors.Blue);
             cfm.DefaultTextProperties = tp;

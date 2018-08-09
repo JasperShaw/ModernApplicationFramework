@@ -97,13 +97,6 @@ namespace ModernApplicationFramework.Native.NativeMethods
             User32.SetWindowPos(hwnd, IntPtr.Zero, 0, 0, 0, 0, SwpNomove | SwpNosize | SwpNozorder | SwpFramechanged);
         }
 
-        internal static IntPtr SetWindowLong(IntPtr hWnd, int nIndex, IntPtr dwNewLong)
-        {
-            return IntPtr.Size == 4
-                ? User32.SetWindowLongPtr32(hWnd, nIndex, dwNewLong)
-                : User32.SetWindowLongPtr64(hWnd, nIndex, dwNewLong);
-        }
-
         internal static int SetWindowLong(IntPtr hWnd, Gwl nIndex, int dwNewLong)
         {
             return User32.SetWindowLong(hWnd, (int) nIndex, dwNewLong);
@@ -579,8 +572,6 @@ namespace ModernApplicationFramework.Native.NativeMethods
             IntPtr hMonitor, IntPtr hdcMonitor, ref RECT lprcMonitor, IntPtr dwData);
 
         internal delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
-
-        internal delegate IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
 
         public delegate int HookProc(int code, IntPtr wParam, IntPtr lParam);
 

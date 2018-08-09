@@ -1002,7 +1002,7 @@ namespace ModernApplicationFramework.Controls.Windows
     internal sealed class GlowWindow : HwndWrapper
     {
         private static ushort _sharedWindowClassAtom;
-        private static NativeMethods.WndProc _sharedWndProc;
+        private static WndProc _sharedWndProc;
         private static long _createdGlowWindows;
         private static long _disposedGlowWindows;
         private readonly GlowBitmap[] _activeGlowBitmaps = new GlowBitmap[16];
@@ -1037,7 +1037,7 @@ namespace ModernApplicationFramework.Controls.Windows
             {
                 if (_sharedWindowClassAtom != 0)
                     return _sharedWindowClassAtom;
-                var lpWndClass = new WndClass
+                var lpWndClass = new ModernApplicationFramework.Utilities.NativeMethods.WndClass
                 {
                     cbClsExtra = 0,
                     cbWndExtra = 0,
@@ -1132,7 +1132,7 @@ namespace ModernApplicationFramework.Controls.Windows
 
         protected override IntPtr CreateWindowCore()
         {
-            return User32.CreateWindowEx(524416, new IntPtr(GetWindowClassAtom()), string.Empty, -2046820352, 0,
+            return User32.CreateWindowEx(524416, new IntPtr(WindowClassAtom), string.Empty, -2046820352, 0,
                 0, 0, 0, new WindowInteropHelper(_targetWindow).Owner, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
         }
 

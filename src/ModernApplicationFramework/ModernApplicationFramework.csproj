@@ -775,10 +775,8 @@
     <Compile Include="Native\Platform\Structs\BitmapInfo.cs" />
     <Compile Include="Native\Platform\Structs\BitmapInfoHeader.cs" />
     <Compile Include="Native\Platform\Structs\BlendFunction.cs" />
-    <Compile Include="Native\Platform\HwndWrapper.cs" />
     <Compile Include="Native\Platform\Enums\TextChangedType.cs" />
     <Compile Include="Native\Platform\Structs\Win32Size.cs" />
-    <Compile Include="Native\Platform\Structs\WndClass.cs" />
     <Compile Include="Native\Shell\SafeModuleHandle.cs" />
     <Compile Include="Native\Shell\ShellComInterfaces.cs" />
     <Compile Include="Native\Shell\ShellWrapperDefinitions.cs" />

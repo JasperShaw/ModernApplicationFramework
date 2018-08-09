@@ -4,7 +4,7 @@ using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Input.Command;
-using ModernApplicationFramework.Modules.Output;
+using ModernApplicationFramework.TextEditor.Implementation.OutputClassifier;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.UndoRedoTest
 {
@@ -58,7 +58,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.UndoRedoTest
         private void SetValue()
         {
             Text += "5";
-            IoC.Get<IOutput>().AppendLine("Test");
+            IoC.Get<IOutput>().OutputString("Test");
         }
 
         public override GestureScope GestureScope => UndoRedoScope;

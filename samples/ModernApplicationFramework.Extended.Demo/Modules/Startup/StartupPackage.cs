@@ -10,6 +10,7 @@ using ModernApplicationFramework.Modules.Output;
 using ModernApplicationFramework.Modules.Toolbox;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Items;
+using ModernApplicationFramework.TextEditor.Implementation.OutputClassifier;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.Startup
 {
@@ -17,7 +18,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.Startup
     [PackageAutoLoad(UiContextGuids.ShellInitializedContextGuid)]
     public class StartupPackage : Package.Package
     {
-        private readonly IOutput _output;
+        private readonly IOutput _outputPane;
         private readonly IInspectorTool _inspectorTool;
         private readonly IStatusBarDataModelService _statusBarService;
         private readonly IToolboxService _toolboxService;
@@ -32,9 +33,9 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.Startup
         }
 
         [ImportingConstructor]
-        public StartupPackage(IOutput output, IInspectorTool inspectorTool, IStatusBarDataModelService statusBarService, IToolboxService toolboxService)
+        public StartupPackage(IOutput outputPane, IInspectorTool inspectorTool, IStatusBarDataModelService statusBarService, IToolboxService toolboxService)
         {
-            _output = output;
+            _outputPane = outputPane;
             _inspectorTool = inspectorTool;
             _statusBarService = statusBarService;
             _toolboxService = toolboxService;
@@ -44,7 +45,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.Startup
         {
             DockingHostViewModel.ShowFloatingWindowsInTaskbar = true;
 
-            _output.AppendLine("Started up");
+            _outputPane.OutputString("Started up");
             _statusBarService.SetBackgroundColor(AbstractStatusBarService.DefaultColors.Blue);
             _statusBarService.SetText(1, "Test");
 

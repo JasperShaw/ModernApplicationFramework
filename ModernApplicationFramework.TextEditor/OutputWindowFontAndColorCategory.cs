@@ -5,8 +5,8 @@ using ModernApplicationFramework.TextEditor.Implementation;
 
 namespace ModernApplicationFramework.TextEditor
 {
-    [Guid("9973EFDF-317D-431C-8BC1-5E88CBFD4F7F")]
-    internal class OutputWindowFontAndColorCategory : ToolWindowFontAndColorCategoryBase
+    [Guid(CategoryGuids.OutputWindow)]
+    internal sealed class OutputWindowFontAndColorCategory : ToolWindowFontAndColorCategoryBase
     {
         private List<AllColorableItemInfo> _items;
 

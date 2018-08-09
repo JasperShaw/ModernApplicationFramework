@@ -8,6 +8,12 @@ namespace ModernApplicationFramework.TextEditor.NativeMethods
         [DllImport("user32.dll")]
         internal static extern int GetCaretBlinkTime();
 
+        [DllImport("user32.dll")]
+        public static extern IntPtr SetFocus(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetWindow(IntPtr hwnd, int nCmd);
+
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern IntPtr LoadImage(IntPtr hinst, string lpszName, NativeMethods.ImageType uType, int cxDesired, int cyDesired, NativeMethods.ImageFormatRequest fuLoad);
 
@@ -44,5 +50,8 @@ namespace ModernApplicationFramework.TextEditor.NativeMethods
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern int GetSystemMetrics(int nIndex);
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        public static extern IntPtr CreateWindowEx(int dwExStyle, IntPtr classAtom, string lpWindowName, int dwStyle, int x, int y, int nWidth, int nHeight, IntPtr hWndParent, IntPtr hMenu, IntPtr hInstance, IntPtr lpParam);
     }
 }
