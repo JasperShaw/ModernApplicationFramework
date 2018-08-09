@@ -34,6 +34,13 @@ namespace ModernApplicationFramework.TextEditor
             internal set => EditorPartsRepository.ClassificationTypeRegistryService = value;
         }
 
+        public static IOutliningManagerService OutliningManagerService
+        {
+            get => EditorPartsRepository.OutliningManagerService ?? (EditorPartsRepository.OutliningManagerService =
+                       IoC.Get<IOutliningManagerService>());
+            internal set => EditorPartsRepository.OutliningManagerService = value;
+        }
+
         public static ITextEditorFactoryService TextEditorFactoryService
         {
             get => EditorPartsRepository.TextEditorFactoryService ?? (EditorPartsRepository.TextEditorFactoryService =

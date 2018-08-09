@@ -11,6 +11,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Caliburn.Micro;
+using ModernApplicationFramework.TextEditor.Implementation.Outlining;
 using ModernApplicationFramework.TextEditor.NativeMethods;
 using ModernApplicationFramework.Utilities;
 using IWin32Window = System.Windows.Interop.IWin32Window;
@@ -705,6 +706,7 @@ namespace ModernApplicationFramework.TextEditor.Implementation
 
         private void Init_InitializeWpfTextView()
         {
+            FontsAndColorsCategory andColorsCategory;
             ITextView textView;
             ITextViewHost textViewHost;
             try
@@ -713,8 +715,9 @@ namespace ModernApplicationFramework.TextEditor.Implementation
                 if (_initialRoles == null)
                     _initialRoles = EditorParts.TextEditorFactoryService.DefaultRoles;
                 SetViewOptions();
+                andColorsCategory = FontsAndColorsCategory.SetLanguageService(TextDocData.ActualLanguageServiceID);
+                _editorOptions.SetOptionValue(DefaultViewOptions.AppearanceCategory, andColorsCategory.AppearanceCategory);
 
-                //TODO: Add FontsAndColorsCategory stuff
                 if (_textViewHostPrivate != null)
                     return;
 
@@ -755,6 +758,9 @@ namespace ModernApplicationFramework.TextEditor.Implementation
             ViewLoadedHandler.OnViewCreated(_textViewHostPrivate);
             //TODO: Theme scrollbars
             CommandRouting.SetInterceptsCommandRouting(textView.VisualElement, false);
+            _outliningManager = EditorParts.OutliningManagerService.GetOutliningManager(textView) as IAccurateOutliningManager;
+            if (_outliningManager != null)
+                new HiddenTextSessionCoordinator(this, textView, _outliningManager, _editorOptions, _textDocData);
 
             //TODO: Add stuff
             _editorOperations = EditorParts.EditorOperationsFactoryService.GetEditorOperations(textView);
@@ -1016,6 +1022,7 @@ namespace ModernApplicationFramework.TextEditor.Implementation
         private bool _canChangeGlyphMarginEnabled;
         private bool _canChangeTrackChanges;
         private bool _canChangeHotURLs;
+        private IAccurateOutliningManager _outliningManager;
 
         internal void SetPlainTextFont()
         {
@@ -1453,6 +1460,34 @@ namespace ModernApplicationFramework.TextEditor.Implementation
                 Keyboard.Focus(ViewHost.TextView.VisualElement);
                 return IntPtr.Zero;
             }
+        }
+
+        internal void StartOutlining(bool removeAdhoc)
+        {
+            if (_outliningManager == null)
+                return;
+            if (removeAdhoc)
+            {
+                var outlinerForView = AdhocOutliner.GetOutlinerForView(TextView, _outliningManager);
+                if (outlinerForView != null)
+                {
+                    var textSnapshot = TextView.TextSnapshot;
+                    //TODO: outlinerForView.RemoveRegions(this._undoManager.TextBufferUndoHistory, new SnapshotSpan(textSnapshot, 0, textSnapshot.Length));
+                }
+            }
+            _outliningManager.Enabled = true;
+        }
+
+        internal void StopOutlining()
+        {
+            if (_outliningManager == null)
+                return;
+            _outliningManager.Enabled = false;
+            var outlinerForView = AdhocOutliner.GetOutlinerForView(TextView, _outliningManager);
+            if (outlinerForView == null)
+                return;
+            var textSnapshot = TextView.TextSnapshot;
+            //TODO: outlinerForView.RemoveRegions(this._undoManager.TextBufferUndoHistory, new SnapshotSpan(textSnapshot, 0, textSnapshot.Length));
         }
     }
 

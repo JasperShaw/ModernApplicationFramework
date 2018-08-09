@@ -38,7 +38,7 @@ namespace ModernApplicationFramework.TextEditor
         {
             if (!_isEnabled)
                 return;
-            UpdateAfterChange(new NormalizedSnapshotSpanCollection(e.Spans.SelectMany(s => (IEnumerable<SnapshotSpan>)s.GetSpans(_editBuffer))));
+            UpdateAfterChange(new NormalizedSnapshotSpanCollection(e.Spans.SelectMany(s => s.GetSpans(_editBuffer) as IEnumerable<SnapshotSpan>)));
         }
 
         private void SourceTextChanged(object sender, TextContentChangedEventArgs e)
