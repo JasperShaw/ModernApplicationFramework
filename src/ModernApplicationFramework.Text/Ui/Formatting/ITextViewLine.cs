@@ -6,43 +6,21 @@ namespace ModernApplicationFramework.Text.Ui.Formatting
 {
     public interface ITextViewLine
     {
-        SnapshotPoint? GetBufferPositionFromXCoordinate(double xCoordinate, bool textOnly);
-
-        SnapshotPoint? GetBufferPositionFromXCoordinate(double xCoordinate);
-
-        VirtualSnapshotPoint GetVirtualBufferPositionFromXCoordinate(double xCoordinate);
-
-        VirtualSnapshotPoint GetInsertionBufferPositionFromXCoordinate(double xCoordinate);
-
-        bool ContainsBufferPosition(SnapshotPoint bufferPosition);
-
-        SnapshotSpan GetTextElementSpan(SnapshotPoint bufferPosition);
-
-        TextBounds GetCharacterBounds(SnapshotPoint bufferPosition);
-
-        TextBounds GetCharacterBounds(VirtualSnapshotPoint bufferPosition);
-
-        TextBounds GetExtendedCharacterBounds(SnapshotPoint bufferPosition);
-
-        TextBounds GetExtendedCharacterBounds(VirtualSnapshotPoint bufferPosition);
-
-        TextBounds? GetAdornmentBounds(object identityTag);
-
-        Collection<TextBounds> GetNormalizedTextBounds(SnapshotSpan bufferSpan);
-
-        object IdentityTag { get; }
-
-        bool IntersectsBufferSpan(SnapshotSpan bufferSpan);
-
-        ReadOnlyCollection<object> GetAdornmentTags(object providerTag);
-
-        ITextSnapshot Snapshot { get; }
-
-        bool IsFirstTextViewLineForSnapshotLine { get; }
-
-        bool IsLastTextViewLineForSnapshotLine { get; }
-
         double Baseline { get; }
+
+        double Bottom { get; }
+
+        TextViewLineChange Change { get; }
+
+        LineTransform DefaultLineTransform { get; }
+
+        double DeltaY { get; }
+
+        SnapshotPoint End { get; }
+
+        SnapshotPoint EndIncludingLineBreak { get; }
+
+        double EndOfLineWidth { get; }
 
         SnapshotSpan Extent { get; }
 
@@ -52,25 +30,31 @@ namespace ModernApplicationFramework.Text.Ui.Formatting
 
         IMappingSpan ExtentIncludingLineBreakAsMappingSpan { get; }
 
-        SnapshotPoint Start { get; }
+        double Height { get; }
+
+        object IdentityTag { get; }
+
+        bool IsFirstTextViewLineForSnapshotLine { get; }
+
+        bool IsLastTextViewLineForSnapshotLine { get; }
+
+        bool IsValid { get; }
+
+        double Left { get; }
 
         int Length { get; }
 
         int LengthIncludingLineBreak { get; }
 
-        SnapshotPoint End { get; }
-
-        SnapshotPoint EndIncludingLineBreak { get; }
-
         int LineBreakLength { get; }
 
-        double Left { get; }
+        LineTransform LineTransform { get; }
 
-        double Top { get; }
+        double Right { get; }
 
-        double Height { get; }
+        ITextSnapshot Snapshot { get; }
 
-        double TextTop { get; }
+        SnapshotPoint Start { get; }
 
         double TextBottom { get; }
 
@@ -80,28 +64,43 @@ namespace ModernApplicationFramework.Text.Ui.Formatting
 
         double TextRight { get; }
 
+        double TextTop { get; }
+
         double TextWidth { get; }
 
-        double Width { get; }
-
-        double Bottom { get; }
-
-        double Right { get; }
-
-        double EndOfLineWidth { get; }
+        double Top { get; }
 
         double VirtualSpaceWidth { get; }
 
-        bool IsValid { get; }
-
-        LineTransform LineTransform { get; }
-
-        LineTransform DefaultLineTransform { get; }
-
         VisibilityState VisibilityState { get; }
 
-        double DeltaY { get; }
+        double Width { get; }
 
-        TextViewLineChange Change { get; }
+        bool ContainsBufferPosition(SnapshotPoint bufferPosition);
+
+        TextBounds? GetAdornmentBounds(object identityTag);
+
+        ReadOnlyCollection<object> GetAdornmentTags(object providerTag);
+        SnapshotPoint? GetBufferPositionFromXCoordinate(double xCoordinate, bool textOnly);
+
+        SnapshotPoint? GetBufferPositionFromXCoordinate(double xCoordinate);
+
+        TextBounds GetCharacterBounds(SnapshotPoint bufferPosition);
+
+        TextBounds GetCharacterBounds(VirtualSnapshotPoint bufferPosition);
+
+        TextBounds GetExtendedCharacterBounds(SnapshotPoint bufferPosition);
+
+        TextBounds GetExtendedCharacterBounds(VirtualSnapshotPoint bufferPosition);
+
+        VirtualSnapshotPoint GetInsertionBufferPositionFromXCoordinate(double xCoordinate);
+
+        Collection<TextBounds> GetNormalizedTextBounds(SnapshotSpan bufferSpan);
+
+        SnapshotSpan GetTextElementSpan(SnapshotPoint bufferPosition);
+
+        VirtualSnapshotPoint GetVirtualBufferPositionFromXCoordinate(double xCoordinate);
+
+        bool IntersectsBufferSpan(SnapshotSpan bufferSpan);
     }
 }

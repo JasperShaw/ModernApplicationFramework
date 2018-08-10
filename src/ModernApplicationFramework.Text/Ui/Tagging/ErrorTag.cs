@@ -4,6 +4,10 @@ namespace ModernApplicationFramework.Text.Ui.Tagging
 {
     public class ErrorTag : IErrorTag
     {
+        public string ErrorType { get; }
+
+        public object ToolTipContent { get; }
+
         public ErrorTag(string errorType, object toolTipContent)
         {
             ErrorType = errorType ?? throw new ArgumentNullException(nameof(errorType));
@@ -19,9 +23,5 @@ namespace ModernApplicationFramework.Text.Ui.Tagging
             : this("syntax error", null)
         {
         }
-
-        public string ErrorType { get; }
-
-        public object ToolTipContent { get; }
     }
 }

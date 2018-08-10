@@ -7,32 +7,32 @@ namespace ModernApplicationFramework.Text.Ui.Classification
 {
     public interface IClassificationFormatMap
     {
-        TextFormattingRunProperties GetTextProperties(IClassificationType classificationType);
-
-        TextFormattingRunProperties GetExplicitTextProperties(IClassificationType classificationType);
-
-        string GetEditorFormatMapKey(IClassificationType classificationType);
-
-        void AddExplicitTextProperties(IClassificationType classificationType, TextFormattingRunProperties properties);
-
-        void AddExplicitTextProperties(IClassificationType classificationType, TextFormattingRunProperties properties, IClassificationType priority);
-
-        void SetTextProperties(IClassificationType classificationType, TextFormattingRunProperties properties);
-
-        void SetExplicitTextProperties(IClassificationType classificationType, TextFormattingRunProperties properties);
+        event EventHandler<EventArgs> ClassificationFormatMappingChanged;
 
         ReadOnlyCollection<IClassificationType> CurrentPriorityOrder { get; }
 
         TextFormattingRunProperties DefaultTextProperties { get; set; }
 
-        void SwapPriorities(IClassificationType firstType, IClassificationType secondType);
+        bool IsInBatchUpdate { get; }
+
+        void AddExplicitTextProperties(IClassificationType classificationType, TextFormattingRunProperties properties);
+
+        void AddExplicitTextProperties(IClassificationType classificationType, TextFormattingRunProperties properties,
+            IClassificationType priority);
 
         void BeginBatchUpdate();
 
         void EndBatchUpdate();
 
-        bool IsInBatchUpdate { get; }
+        string GetEditorFormatMapKey(IClassificationType classificationType);
 
-        event EventHandler<EventArgs> ClassificationFormatMappingChanged;
+        TextFormattingRunProperties GetExplicitTextProperties(IClassificationType classificationType);
+        TextFormattingRunProperties GetTextProperties(IClassificationType classificationType);
+
+        void SetExplicitTextProperties(IClassificationType classificationType, TextFormattingRunProperties properties);
+
+        void SetTextProperties(IClassificationType classificationType, TextFormattingRunProperties properties);
+
+        void SwapPriorities(IClassificationType firstType, IClassificationType secondType);
     }
 }

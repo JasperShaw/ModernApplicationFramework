@@ -6,8 +6,7 @@ namespace ModernApplicationFramework.Text.Logic.Classification
 {
     public interface IClassifier
     {
-        IList<ClassificationSpan> GetClassificationSpans(SnapshotSpan span);
-
         event EventHandler<ClassificationChangedEventArgs> ClassificationChanged;
+        IList<ClassificationSpan> GetClassificationSpans(SnapshotSpan span);
     }
 }

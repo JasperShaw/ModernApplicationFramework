@@ -6,16 +6,17 @@ namespace ModernApplicationFramework.Text.Ui.Formatting
 {
     public interface ITextAndAdornmentSequencer
     {
+        event EventHandler<TextAndAdornmentSequenceChangedEventArgs> SequenceChanged;
         IBufferGraph BufferGraph { get; }
-
-        ITextBuffer TopBuffer { get; }
 
         ITextBuffer SourceBuffer { get; }
 
-        ITextAndAdornmentCollection CreateTextAndAdornmentCollection(ITextSnapshotLine topLine, ITextSnapshot sourceTextSnapshot);
+        ITextBuffer TopBuffer { get; }
 
-        ITextAndAdornmentCollection CreateTextAndAdornmentCollection(SnapshotSpan topSpan, ITextSnapshot sourceTextSnapshot);
+        ITextAndAdornmentCollection CreateTextAndAdornmentCollection(ITextSnapshotLine topLine,
+            ITextSnapshot sourceTextSnapshot);
 
-        event EventHandler<TextAndAdornmentSequenceChangedEventArgs> SequenceChanged;
+        ITextAndAdornmentCollection CreateTextAndAdornmentCollection(SnapshotSpan topSpan,
+            ITextSnapshot sourceTextSnapshot);
     }
 }

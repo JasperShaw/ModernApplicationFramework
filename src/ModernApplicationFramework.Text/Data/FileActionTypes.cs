@@ -7,6 +7,6 @@ namespace ModernApplicationFramework.Text.Data
     {
         ContentSavedToDisk = 1,
         ContentLoadedFromDisk = 2,
-        DocumentRenamed = 4,
+        DocumentRenamed = 4
     }
 }

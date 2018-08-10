@@ -5,21 +5,20 @@ namespace ModernApplicationFramework.Text.Ui.Editor
 {
     public class ViewState
     {
+        public ITextSnapshot EditSnapshot { get; }
+
+        public double ViewportBottom => ViewportTop + ViewportHeight;
+
+        public double ViewportHeight { get; }
         public double ViewportLeft { get; }
+
+        public double ViewportRight => ViewportLeft + ViewportWidth;
 
         public double ViewportTop { get; }
 
         public double ViewportWidth { get; }
 
-        public double ViewportHeight { get; }
-
-        public double ViewportRight => ViewportLeft + ViewportWidth;
-
-        public double ViewportBottom => ViewportTop + ViewportHeight;
-
         public ITextSnapshot VisualSnapshot { get; }
-
-        public ITextSnapshot EditSnapshot { get; }
 
         public ViewState(ITextView view, double effectiveViewportWidth, double effectiveViewportHeight)
         {

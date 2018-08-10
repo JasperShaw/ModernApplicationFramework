@@ -14,96 +14,98 @@ namespace ModernApplicationFramework.Text.Ui.Editor
     {
         event EventHandler<BackgroundBrushChangedEventArgs> BackgroundBrushChanged;
 
-        event EventHandler ViewportLeftChanged;
-
-        event EventHandler ViewportHeightChanged;
-
-        event EventHandler ViewportWidthChanged;
-
         event EventHandler Closed;
-
-        event EventHandler LostAggregateFocus;
 
         event EventHandler GotAggregateFocus;
 
-        event EventHandler<MouseHoverEventArgs> MouseHover;
+        event EventHandler<TextViewLayoutChangedEventArgs> LayoutChanged;
+
+        event EventHandler LostAggregateFocus;
 
         event EventHandler MaxTextRightCoordinateChanged;
+
+        event EventHandler<MouseHoverEventArgs> MouseHover;
+
+        event EventHandler ViewportHeightChanged;
+
+        event EventHandler ViewportLeftChanged;
+
+        event EventHandler ViewportWidthChanged;
+
+        event EventHandler<ZoomLevelChangedEventArgs> ZoomLevelChanged;
+
+        Brush Background { get; set; }
+
+        IBufferGraph BufferGraph { get; }
+
+        ITextCaret Caret { get; }
+
+        IFormattedLineSource FormattedLineSource { get; }
+
+        bool HasAggregateFocus { get; }
+
+        bool InLayout { get; }
+
+        bool InOuterLayout { get; }
+
+        bool IsClosed { get; }
+
+        double LineHeight { get; }
 
         FrameworkElement ManipulationLayer { get; }
 
         double MaxTextRightCoordinate { get; }
 
-        SnapshotSpan GetTextElementSpan(SnapshotPoint point);
-
-        FrameworkElement VisualElement { get; }
-
-        ITextSelection Selection { get; }
-
-        IFormattedLineSource FormattedLineSource { get; }
-
-        ITextViewLineCollection TextViewLines { get; }
-
-        ITextSnapshot VisualSnapshot { get; }
+        IEditorOptions Options { get; }
 
         ITrackingSpan ProvisionalTextHighlight { get; set; }
 
-        double LineHeight { get; }
-
-        bool InOuterLayout { get; }
-
-        Brush Background { get; set; }
-
-        bool IsClosed { get; }
-
-        double ViewportLeft { get; set; }
-
-        double ViewportTop { get; }
-
-        double ViewportRight { get; }
-
-        double ViewportBottom { get; }
-
-        double ViewportWidth { get; }
-
-        double ViewportHeight { get; }
-
-        bool InLayout { get; }
-
         ITextViewRoleSet Roles { get; }
+
+        ITextSelection Selection { get; }
 
         ITextBuffer TextBuffer { get; }
 
-        double ZoomLevel { get; set; }
-
-        event EventHandler<ZoomLevelChangedEventArgs> ZoomLevelChanged;
-
-        event EventHandler<TextViewLayoutChangedEventArgs> LayoutChanged;
-
-        void Close();
+        ITextDataModel TextDataModel { get; }
 
         ITextSnapshot TextSnapshot { get; }
 
+        ITextViewLineCollection TextViewLines { get; }
+
         ITextViewModel TextViewModel { get; }
 
-        ITextDataModel TextDataModel { get; }
+        double ViewportBottom { get; }
 
-        IBufferGraph BufferGraph { get; }
+        double ViewportHeight { get; }
 
-        IEditorOptions Options { get; }
+        double ViewportLeft { get; set; }
+
+        double ViewportRight { get; }
+
+        double ViewportTop { get; }
+
+        double ViewportWidth { get; }
 
         IViewScroller ViewScroller { get; }
 
-        ITextViewLine GetTextViewLineContainingBufferPosition(SnapshotPoint bufferPosition);
+        FrameworkElement VisualElement { get; }
+
+        ITextSnapshot VisualSnapshot { get; }
+
+        double ZoomLevel { get; set; }
+
+        void Close();
+
+        void DisplayTextLineContainingBufferPosition(SnapshotPoint bufferPosition, double verticalDistance,
+            ViewRelativePosition relativeTo);
+
+        void DisplayTextLineContainingBufferPosition(SnapshotPoint bufferPosition, double verticalDistance,
+            ViewRelativePosition relativeTo, double? viewportWidthOverride, double? viewportHeightOverride);
 
         IAdornmentLayer GetAdornmentLayer(string name);
 
-        void DisplayTextLineContainingBufferPosition(SnapshotPoint bufferPosition, double verticalDistance, ViewRelativePosition relativeTo);
+        SnapshotSpan GetTextElementSpan(SnapshotPoint point);
 
-        void DisplayTextLineContainingBufferPosition(SnapshotPoint bufferPosition, double verticalDistance, ViewRelativePosition relativeTo, double? viewportWidthOverride, double? viewportHeightOverride);
-
-        bool HasAggregateFocus { get; }
-
-        ITextCaret Caret { get; }
+        ITextViewLine GetTextViewLineContainingBufferPosition(SnapshotPoint bufferPosition);
     }
 }

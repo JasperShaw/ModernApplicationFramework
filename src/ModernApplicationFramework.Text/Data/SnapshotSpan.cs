@@ -4,6 +4,18 @@ namespace ModernApplicationFramework.Text.Data
 {
     public struct SnapshotSpan
     {
+        public SnapshotPoint End => Start + Length;
+
+        public bool IsEmpty => Length == 0;
+
+        public int Length { get; }
+
+        public ITextSnapshot Snapshot => Start.Snapshot;
+
+        public Span Span => new Span(Start, Length);
+
+        public SnapshotPoint Start { get; }
+
         public SnapshotSpan(ITextSnapshot snapshot, Span span)
         {
             if (snapshot == null)
@@ -39,41 +51,22 @@ namespace ModernApplicationFramework.Text.Data
             Length = length;
         }
 
+        public static bool operator ==(SnapshotSpan left, SnapshotSpan right)
+        {
+            if (left.Snapshot == right.Snapshot)
+                return left.Span == right.Span;
+            return false;
+        }
+
         public static implicit operator Span(SnapshotSpan snapshotSpan)
         {
             return snapshotSpan.Span;
         }
 
-        public ITextSnapshot Snapshot => Start.Snapshot;
-
-        public string GetText()
+        public static bool operator !=(SnapshotSpan left, SnapshotSpan right)
         {
-            return Snapshot.GetText(Span);
+            return !(left == right);
         }
-
-        public SnapshotSpan TranslateTo(ITextSnapshot targetSnapshot, SpanTrackingMode spanTrackingMode)
-        {
-            if (targetSnapshot == Snapshot)
-                return this;
-            if (targetSnapshot == null)
-                throw new ArgumentNullException(nameof(targetSnapshot));
-            if (targetSnapshot.TextBuffer != Start.Snapshot.TextBuffer)
-                throw new ArgumentException();
-            var span = targetSnapshot.Version.VersionNumber > Snapshot.Version.VersionNumber
-                ? Tracking.TrackSpanForwardInTime(spanTrackingMode, Span, Snapshot.Version, targetSnapshot.Version)
-                : Tracking.TrackSpanBackwardInTime(spanTrackingMode, Span, Snapshot.Version, targetSnapshot.Version);
-            return new SnapshotSpan(targetSnapshot, span);
-        }
-
-        public Span Span => new Span(Start, Length);
-
-        public SnapshotPoint Start { get; }
-
-        public SnapshotPoint End => Start + Length;
-
-        public int Length { get; }
-
-        public bool IsEmpty => Length == 0;
 
         public bool Contains(int position)
         {
@@ -97,29 +90,37 @@ namespace ModernApplicationFramework.Text.Data
             return Span.Contains(snapshotSpan.Span);
         }
 
-        public bool OverlapsWith(Span simpleSpan)
+        public override bool Equals(object obj)
         {
-            return Span.OverlapsWith(simpleSpan);
+            if (obj is SnapshotSpan span)
+                return span == this;
+            return false;
         }
 
-        public bool OverlapsWith(SnapshotSpan snapshotSpan)
+        public override int GetHashCode()
         {
-            EnsureSnapshot(snapshotSpan.Snapshot);
-            return Span.OverlapsWith(snapshotSpan.Span);
+            if (Snapshot == null)
+                return 0;
+            return Span.GetHashCode() ^ Snapshot.GetHashCode();
         }
 
-        public SnapshotSpan? Overlap(Span simpleSpan)
+        public string GetText()
         {
-            Span? nullable = Span.Overlap(simpleSpan);
+            return Snapshot.GetText(Span);
+        }
+
+        public SnapshotSpan? Intersection(Span simpleSpan)
+        {
+            var nullable = Span.Intersection(simpleSpan);
             if (nullable.HasValue)
                 return new SnapshotSpan(Snapshot, nullable.Value);
             return new SnapshotSpan?();
         }
 
-        public SnapshotSpan? Overlap(SnapshotSpan snapshotSpan)
+        public SnapshotSpan? Intersection(SnapshotSpan snapshotSpan)
         {
             EnsureSnapshot(snapshotSpan.Snapshot);
-            return Overlap(snapshotSpan.Span);
+            return Intersection(snapshotSpan.Span);
         }
 
         public bool IntersectsWith(Span simpleSpan)
@@ -133,44 +134,43 @@ namespace ModernApplicationFramework.Text.Data
             return Span.IntersectsWith(snapshotSpan.Span);
         }
 
-        public SnapshotSpan? Intersection(Span simpleSpan)
+        public SnapshotSpan? Overlap(Span simpleSpan)
         {
-            Span? nullable = Span.Intersection(simpleSpan);
+            var nullable = Span.Overlap(simpleSpan);
             if (nullable.HasValue)
                 return new SnapshotSpan(Snapshot, nullable.Value);
             return new SnapshotSpan?();
         }
 
-        public SnapshotSpan? Intersection(SnapshotSpan snapshotSpan)
+        public SnapshotSpan? Overlap(SnapshotSpan snapshotSpan)
         {
             EnsureSnapshot(snapshotSpan.Snapshot);
-            return Intersection(snapshotSpan.Span);
+            return Overlap(snapshotSpan.Span);
         }
 
-        public override int GetHashCode()
+        public bool OverlapsWith(Span simpleSpan)
         {
-            if (Snapshot == null)
-                return 0;
-            return Span.GetHashCode() ^ Snapshot.GetHashCode();
+            return Span.OverlapsWith(simpleSpan);
         }
 
-        public override bool Equals(object obj)
+        public bool OverlapsWith(SnapshotSpan snapshotSpan)
         {
-            if (obj is SnapshotSpan span)
-                return span == this;
-            return false;
+            EnsureSnapshot(snapshotSpan.Snapshot);
+            return Span.OverlapsWith(snapshotSpan.Span);
         }
 
-        public static bool operator ==(SnapshotSpan left, SnapshotSpan right)
+        public SnapshotSpan TranslateTo(ITextSnapshot targetSnapshot, SpanTrackingMode spanTrackingMode)
         {
-            if (left.Snapshot == right.Snapshot)
-                return left.Span == right.Span;
-            return false;
-        }
-
-        public static bool operator !=(SnapshotSpan left, SnapshotSpan right)
-        {
-            return !(left == right);
+            if (targetSnapshot == Snapshot)
+                return this;
+            if (targetSnapshot == null)
+                throw new ArgumentNullException(nameof(targetSnapshot));
+            if (targetSnapshot.TextBuffer != Start.Snapshot.TextBuffer)
+                throw new ArgumentException();
+            var span = targetSnapshot.Version.VersionNumber > Snapshot.Version.VersionNumber
+                ? Tracking.TrackSpanForwardInTime(spanTrackingMode, Span, Snapshot.Version, targetSnapshot.Version)
+                : Tracking.TrackSpanBackwardInTime(spanTrackingMode, Span, Snapshot.Version, targetSnapshot.Version);
+            return new SnapshotSpan(targetSnapshot, span);
         }
 
         private void EnsureSnapshot(ITextSnapshot requestedSnapshot)

@@ -9,30 +9,21 @@ namespace ModernApplicationFramework.Text.Ui.Editor
 {
     public abstract class TextRange : IEnumerable<TextPoint>
     {
-        public abstract TextPoint GetStartPoint();
-
-        public abstract TextPoint GetEndPoint();
-
-        public abstract PrimitiveTextBuffer TextBuffer { get; }
-
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public abstract SnapshotSpan AdvancedTextRange { get; }
 
-        public abstract bool MakeUppercase();
+        public abstract bool IsEmpty { get; }
 
-        public abstract bool MakeLowercase();
+        public abstract PrimitiveTextBuffer TextBuffer { get; }
 
         public abstract bool Capitalize();
 
-        public abstract bool ToggleCase();
+        public TextRange Clone()
+        {
+            return CloneInternal();
+        }
 
         public abstract bool Delete();
-
-        public abstract bool Indent();
-
-        public abstract bool Unindent();
-
-        public abstract bool IsEmpty { get; }
 
         public abstract TextRange Find(string pattern);
 
@@ -42,33 +33,42 @@ namespace ModernApplicationFramework.Text.Ui.Editor
 
         public abstract Collection<TextRange> FindAll(string pattern, FindOptions findOptions);
 
-        public abstract bool ReplaceText(string newText);
-
-        public abstract string GetText();
-
-        public TextRange Clone()
-        {
-            return CloneInternal();
-        }
-
-        protected abstract TextRange CloneInternal();
-
-        public abstract void SetStart(TextPoint startPoint);
-
-        public abstract void SetEnd(TextPoint endPoint);
-
-        public abstract void MoveTo(TextRange newRange);
-
-        protected abstract IEnumerator<TextPoint> GetEnumeratorInternal();
+        public abstract TextPoint GetEndPoint();
 
         public IEnumerator<TextPoint> GetEnumerator()
         {
             return GetEnumeratorInternal();
         }
 
+        public abstract TextPoint GetStartPoint();
+
+        public abstract string GetText();
+
+        public abstract bool Indent();
+
+        public abstract bool MakeLowercase();
+
+        public abstract bool MakeUppercase();
+
+        public abstract void MoveTo(TextRange newRange);
+
+        public abstract bool ReplaceText(string newText);
+
+        public abstract void SetEnd(TextPoint endPoint);
+
+        public abstract void SetStart(TextPoint startPoint);
+
+        public abstract bool ToggleCase();
+
+        public abstract bool Unindent();
+
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
         }
+
+        protected abstract TextRange CloneInternal();
+
+        protected abstract IEnumerator<TextPoint> GetEnumeratorInternal();
     }
 }

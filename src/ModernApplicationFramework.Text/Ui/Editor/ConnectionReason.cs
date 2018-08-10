@@ -4,6 +4,6 @@
     {
         TextViewLifetime,
         ContentTypeChange,
-        BufferGraphChange,
+        BufferGraphChange
     }
 }

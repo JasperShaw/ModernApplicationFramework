@@ -6,6 +6,12 @@ namespace ModernApplicationFramework.Text.Data.Differencing
 {
     public class Match : IEnumerable<Tuple<int, int>>
     {
+        public Span Left { get; }
+
+        public int Length => Left.Length;
+
+        public Span Right { get; }
+
         public Match(Span left, Span right)
         {
             if (left.Length != right.Length)
@@ -14,12 +20,6 @@ namespace ModernApplicationFramework.Text.Data.Differencing
             Right = right;
         }
 
-        public Span Left { get; }
-
-        public Span Right { get; }
-
-        public int Length => Left.Length;
-
         public override bool Equals(object obj)
         {
             if (obj is Match match && Left.Equals(match.Left))
@@ -27,15 +27,15 @@ namespace ModernApplicationFramework.Text.Data.Differencing
             return false;
         }
 
-        public override int GetHashCode()
-        {
-            return Left.GetHashCode() << 16 ^ Right.GetHashCode();
-        }
-
         public IEnumerator<Tuple<int, int>> GetEnumerator()
         {
-            for (int i = 0; i < Length; ++i)
+            for (var i = 0; i < Length; ++i)
                 yield return new Tuple<int, int>(Left.Start + i, Right.Start + i);
+        }
+
+        public override int GetHashCode()
+        {
+            return (Left.GetHashCode() << 16) ^ Right.GetHashCode();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

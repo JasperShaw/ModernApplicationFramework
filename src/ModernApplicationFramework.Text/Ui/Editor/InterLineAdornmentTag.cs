@@ -6,13 +6,46 @@ namespace ModernApplicationFramework.Text.Ui.Editor
 {
     public class InterLineAdornmentTag : DependencyObject, ITag
     {
-        public static readonly DependencyProperty HeightProperty = DependencyProperty.Register(nameof(Height), typeof(double), typeof(InterLineAdornmentTag), new PropertyMetadata(0.0, HeightChangedCallback));
-        public static readonly DependencyProperty HorizontalOffsetProperty = DependencyProperty.Register(nameof(HorizontalOffset), typeof(double), typeof(InterLineAdornmentTag), new PropertyMetadata(0.0, HorizontalOffsetChangedCallback));
+        public static readonly DependencyProperty HeightProperty = DependencyProperty.Register(nameof(Height),
+            typeof(double), typeof(InterLineAdornmentTag), new PropertyMetadata(0.0, HeightChangedCallback));
 
-        public InterLineAdornmentTag(InterLineAdornmentFactory adornmentFactory, bool isAboveLine, double initialHeight, HorizontalPositioningMode horizontalPositioningMode, double horizontalOffset, AdornmentRemovedCallback removalCallback = null)
+        public static readonly DependencyProperty HorizontalOffsetProperty =
+            DependencyProperty.Register(nameof(HorizontalOffset), typeof(double), typeof(InterLineAdornmentTag),
+                new PropertyMetadata(0.0, HorizontalOffsetChangedCallback));
+
+        public event EventHandler<DependencyPropertyChangedEventArgs> HeightChanged;
+
+        public event EventHandler<DependencyPropertyChangedEventArgs> HorizontalOffsetChanged;
+
+        public InterLineAdornmentFactory AdornmentFactory { get; }
+
+        public double Height
+        {
+            get => (double) GetValue(HeightProperty);
+            set => SetValue(HeightProperty, value);
+        }
+
+        public double HorizontalOffset
+        {
+            get => (double) GetValue(HorizontalOffsetProperty);
+            set => SetValue(HorizontalOffsetProperty, value);
+        }
+
+        public HorizontalPositioningMode HorizontalPositioningMode { get; }
+
+        public bool IsAboveLine { get; }
+
+        public bool IsAnimating { get; set; } = true;
+
+        public AdornmentRemovedCallback RemovalCallback { get; }
+
+        public InterLineAdornmentTag(InterLineAdornmentFactory adornmentFactory, bool isAboveLine, double initialHeight,
+            HorizontalPositioningMode horizontalPositioningMode, double horizontalOffset,
+            AdornmentRemovedCallback removalCallback = null)
         {
             if (adornmentFactory == null && removalCallback != null)
-                throw new ArgumentException("Either adornmentFactory must be non-null or removalCallback must be null.");
+                throw new ArgumentException(
+                    "Either adornmentFactory must be non-null or removalCallback must be null.");
             if (initialHeight < 0.0)
                 throw new ArgumentException("initialHeight must be >= 0.");
             AdornmentFactory = adornmentFactory;
@@ -22,32 +55,6 @@ namespace ModernApplicationFramework.Text.Ui.Editor
             HorizontalOffset = horizontalOffset;
             RemovalCallback = removalCallback;
         }
-
-        public InterLineAdornmentFactory AdornmentFactory { get; }
-
-        public bool IsAboveLine { get; }
-
-        public double Height
-        {
-            get => (double)GetValue(HeightProperty);
-            set => SetValue(HeightProperty, value);
-        }
-
-        public event EventHandler<DependencyPropertyChangedEventArgs> HeightChanged;
-
-        public bool IsAnimating { get; set; } = true;
-
-        public HorizontalPositioningMode HorizontalPositioningMode { get; }
-
-        public double HorizontalOffset
-        {
-            get => (double)GetValue(HorizontalOffsetProperty);
-            set => SetValue(HorizontalOffsetProperty, value);
-        }
-
-        public event EventHandler<DependencyPropertyChangedEventArgs> HorizontalOffsetChanged;
-
-        public AdornmentRemovedCallback RemovalCallback { get; }
 
         private static void HeightChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

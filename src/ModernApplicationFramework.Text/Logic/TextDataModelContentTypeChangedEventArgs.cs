@@ -5,9 +5,8 @@ namespace ModernApplicationFramework.Text.Logic
 {
     public class TextDataModelContentTypeChangedEventArgs : EventArgs
     {
-        public IContentType BeforeContentType { get; }
-
         public IContentType AfterContentType { get; }
+        public IContentType BeforeContentType { get; }
 
         public TextDataModelContentTypeChangedEventArgs(IContentType beforeContentType, IContentType afterContentType)
         {

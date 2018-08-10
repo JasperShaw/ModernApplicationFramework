@@ -2,17 +2,16 @@
 {
     public interface ITextImageVersion
     {
-        ITextImageVersion Next { get; }
-
-        int Length { get; }
-
         INormalizedTextChangeCollection Changes { get; }
 
-        int VersionNumber { get; }
+        object Identifier { get; }
+
+        int Length { get; }
+        ITextImageVersion Next { get; }
 
         int ReiteratedVersionNumber { get; }
 
-        object Identifier { get; }
+        int VersionNumber { get; }
 
         int TrackTo(VersionedPosition other, PointTrackingMode mode);
 

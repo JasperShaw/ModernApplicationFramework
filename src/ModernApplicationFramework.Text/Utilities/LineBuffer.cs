@@ -19,7 +19,9 @@ namespace ModernApplicationFramework.Text.Utilities
                 _extent = new Span(0, line.LengthIncludingLineBreak);
             }
             else
+            {
                 _extent = new Span(0, 0);
+            }
         }
 
         public char this[int index]

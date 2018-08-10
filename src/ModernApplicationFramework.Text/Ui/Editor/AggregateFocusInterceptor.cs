@@ -9,14 +9,14 @@ namespace ModernApplicationFramework.Text.Ui.Editor
             new FrameworkPropertyMetadata(false,
                 FrameworkPropertyMetadataOptions.Inherits));
 
+        public static bool GetInterceptsAggregateFocus(DependencyObject element)
+        {
+            return (bool) element.GetValue(InterceptsAggregateFocus);
+        }
+
         public static void SetInterceptsAggregateFocus(DependencyObject element, bool value)
         {
             element.SetValue(InterceptsAggregateFocus, value);
-        }
-
-        public static bool GetInterceptsAggregateFocus(DependencyObject element)
-        {
-            return (bool)element.GetValue(InterceptsAggregateFocus);
         }
     }
 }

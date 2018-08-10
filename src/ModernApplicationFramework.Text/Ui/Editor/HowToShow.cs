@@ -4,6 +4,6 @@
     {
         AsIs,
         Centered,
-        OnFirstLineOfView,
+        OnFirstLineOfView
     }
 }

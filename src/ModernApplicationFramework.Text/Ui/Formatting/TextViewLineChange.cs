@@ -4,6 +4,6 @@
     {
         None,
         NewOrReformatted,
-        Translated,
+        Translated
     }
 }

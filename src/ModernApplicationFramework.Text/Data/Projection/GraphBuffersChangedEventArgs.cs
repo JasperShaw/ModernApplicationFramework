@@ -6,6 +6,10 @@ namespace ModernApplicationFramework.Text.Data.Projection
 {
     public class GraphBuffersChangedEventArgs : EventArgs
     {
+        public ReadOnlyCollection<ITextBuffer> AddedBuffers { get; }
+
+        public ReadOnlyCollection<ITextBuffer> RemovedBuffers { get; }
+
         public GraphBuffersChangedEventArgs(IList<ITextBuffer> addedBuffers, IList<ITextBuffer> removedBuffers)
         {
             if (addedBuffers == null)
@@ -15,9 +19,5 @@ namespace ModernApplicationFramework.Text.Data.Projection
             AddedBuffers = new ReadOnlyCollection<ITextBuffer>(addedBuffers);
             RemovedBuffers = new ReadOnlyCollection<ITextBuffer>(removedBuffers);
         }
-
-        public ReadOnlyCollection<ITextBuffer> AddedBuffers { get; }
-
-        public ReadOnlyCollection<ITextBuffer> RemovedBuffers { get; }
     }
 }

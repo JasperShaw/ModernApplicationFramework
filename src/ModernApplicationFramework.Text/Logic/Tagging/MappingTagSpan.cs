@@ -5,9 +5,8 @@ namespace ModernApplicationFramework.Text.Logic.Tagging
 {
     public class MappingTagSpan<T> : IMappingTagSpan<T> where T : ITag
     {
-        public T Tag { get; }
-
         public IMappingSpan Span { get; }
+        public T Tag { get; }
 
         public MappingTagSpan(IMappingSpan span, T tag)
         {

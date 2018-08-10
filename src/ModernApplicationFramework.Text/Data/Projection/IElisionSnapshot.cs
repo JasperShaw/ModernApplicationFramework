@@ -2,9 +2,8 @@
 {
     public interface IElisionSnapshot : IProjectionSnapshot
     {
-        new IElisionBuffer TextBuffer { get; }
-
         ITextSnapshot SourceSnapshot { get; }
+        new IElisionBuffer TextBuffer { get; }
 
         SnapshotPoint MapFromSourceSnapshotToNearest(SnapshotPoint point);
     }

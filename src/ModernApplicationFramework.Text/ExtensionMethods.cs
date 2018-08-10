@@ -12,10 +12,8 @@ namespace ModernApplicationFramework.Text
             var snapshot = line.Snapshot;
             var position = line.Start.Position;
             for (var index = startIndex; index < line.Length; ++index)
-            {
                 if (!char.IsWhiteSpace(snapshot[position + index]))
                     return index;
-            }
             return -1;
         }
 
@@ -26,10 +24,8 @@ namespace ModernApplicationFramework.Text
             var snapshot = line.Snapshot;
             var position = line.Start.Position;
             for (var index = startIndex - 1; index >= 0; --index)
-            {
                 if (!char.IsWhiteSpace(snapshot[position + index]))
                     return index;
-            }
             return -1;
         }
     }

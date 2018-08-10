@@ -5,11 +5,11 @@ namespace ModernApplicationFramework.Text.Logic.Tagging
 {
     public class ClassificationTag : IClassificationTag
     {
+        public IClassificationType ClassificationType { get; }
+
         public ClassificationTag(IClassificationType type)
         {
             ClassificationType = type ?? throw new ArgumentNullException(nameof(type));
         }
-
-        public IClassificationType ClassificationType { get; }
     }
 }

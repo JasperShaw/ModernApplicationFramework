@@ -5,6 +5,7 @@ namespace ModernApplicationFramework.Text.Logic.Operations
 {
     public interface ITextStructureNavigator
     {
+        IContentType ContentType { get; }
         TextExtent GetExtentOfWord(SnapshotPoint currentPosition);
 
         SnapshotSpan GetSpanOfEnclosing(SnapshotSpan activeSpan);
@@ -14,7 +15,5 @@ namespace ModernApplicationFramework.Text.Logic.Operations
         SnapshotSpan GetSpanOfNextSibling(SnapshotSpan activeSpan);
 
         SnapshotSpan GetSpanOfPreviousSibling(SnapshotSpan activeSpan);
-
-        IContentType ContentType { get; }
     }
 }

@@ -3,6 +3,6 @@
     public enum PositionAffinity
     {
         Predecessor,
-        Successor,
+        Successor
     }
 }

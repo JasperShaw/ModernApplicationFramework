@@ -4,27 +4,26 @@ namespace ModernApplicationFramework.Text.Data
 {
     public interface ITextImage
     {
-        ITextImageVersion Version { get; }
-
-        ITextImage GetSubText(Span span);
-
         int Length { get; }
 
         int LineCount { get; }
-
-        string GetText(Span span);
-
-        char[] ToCharArray(int startIndex, int length);
-
-        void CopyTo(int sourceIndex, char[] destination, int destinationIndex, int count);
+        ITextImageVersion Version { get; }
 
         char this[int position] { get; }
+
+        void CopyTo(int sourceIndex, char[] destination, int destinationIndex, int count);
 
         TextImageLine GetLineFromLineNumber(int lineNumber);
 
         TextImageLine GetLineFromPosition(int position);
 
         int GetLineNumberFromPosition(int position);
+
+        ITextImage GetSubText(Span span);
+
+        string GetText(Span span);
+
+        char[] ToCharArray(int startIndex, int length);
 
         void Write(TextWriter writer, Span span);
     }

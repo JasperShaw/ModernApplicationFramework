@@ -10,12 +10,10 @@ namespace ModernApplicationFramework.Text.Utilities
     {
         private readonly string _defaultDescription;
         private bool _allowCancellation;
-        private IList<IUiThreadOperationScope> _scopes;
         private int _completedItems;
-        private int _totalItems;
         private PropertyCollection _properties;
-
-        public virtual CancellationToken UserCancellationToken => CancellationToken.None;
+        private IList<IUiThreadOperationScope> _scopes;
+        private int _totalItems;
 
         public virtual bool AllowCancellation
         {
@@ -41,15 +39,17 @@ namespace ModernApplicationFramework.Text.Utilities
             }
         }
 
+        public virtual PropertyCollection Properties => _properties ?? (_properties = new PropertyCollection());
+
+        public virtual IEnumerable<IUiThreadOperationScope> Scopes => LazyScopes;
+
+        public virtual CancellationToken UserCancellationToken => CancellationToken.None;
+
         protected int CompletedItems => _completedItems;
 
         protected int TotalItems => _totalItems;
 
         private IList<IUiThreadOperationScope> LazyScopes => _scopes ?? (_scopes = new List<IUiThreadOperationScope>());
-
-        public virtual IEnumerable<IUiThreadOperationScope> Scopes => LazyScopes;
-
-        public virtual PropertyCollection Properties => _properties ?? (_properties = new PropertyCollection());
 
         protected AbstractUiThreadOperationContext(bool allowCancellation, string defaultDescription)
         {
@@ -60,17 +60,36 @@ namespace ModernApplicationFramework.Text.Utilities
 
         public virtual IUiThreadOperationScope AddScope(bool allowCancellation, string description)
         {
-            UiThreadOperationScope threadOperationScope =
+            var threadOperationScope =
                 new UiThreadOperationScope(allowCancellation, description, this);
             LazyScopes.Add(threadOperationScope);
             OnScopesChanged();
             return threadOperationScope;
         }
 
+        public virtual void Dispose()
+        {
+        }
+
+        public virtual void TakeOwnership()
+        {
+        }
+
+        protected virtual void OnScopeChanged(IUiThreadOperationScope uiThreadOperationScope)
+        {
+        }
+
+        protected virtual void OnScopeDisposed(IUiThreadOperationScope scope)
+        {
+            _allowCancellation &= scope.AllowCancellation;
+            _scopes.Remove(scope);
+            OnScopesChanged();
+        }
+
         protected virtual void OnScopeProgressChanged(IUiThreadOperationScope changedScope)
         {
-            int num1 = 0;
-            int num2 = 0;
+            var num1 = 0;
+            var num2 = 0;
             foreach (UiThreadOperationScope lazyScope in
                 LazyScopes)
             {
@@ -86,42 +105,14 @@ namespace ModernApplicationFramework.Text.Utilities
         {
         }
 
-        protected virtual void OnScopeChanged(IUiThreadOperationScope uiThreadOperationScope)
-        {
-        }
-
-        public virtual void Dispose()
-        {
-        }
-
-        public virtual void TakeOwnership()
-        {
-        }
-
-        protected virtual void OnScopeDisposed(IUiThreadOperationScope scope)
-        {
-            _allowCancellation &= scope.AllowCancellation;
-            _scopes.Remove(scope);
-            OnScopesChanged();
-        }
-
         private class UiThreadOperationScope : IUiThreadOperationScope
         {
+            private readonly AbstractUiThreadOperationContext _context;
             private bool _allowCancellation;
+            private int _completedItems;
             private string _description;
             private IProgress<ProgressInfo> _progress;
-            private readonly AbstractUiThreadOperationContext _context;
-            private int _completedItems;
             private int _totalItems;
-
-            public UiThreadOperationScope(bool allowCancellation, string description,
-                AbstractUiThreadOperationContext context)
-            {
-                AbstractUiThreadOperationContext operationContext = context;
-                _context = operationContext ?? throw new ArgumentNullException(nameof(context));
-                AllowCancellation = allowCancellation;
-                Description = description ?? "";
-            }
 
             public bool AllowCancellation
             {
@@ -135,6 +126,10 @@ namespace ModernApplicationFramework.Text.Utilities
                 }
             }
 
+            public int CompletedItems => _completedItems;
+
+            public IUiThreadOperationContext Context => _context;
+
             public string Description
             {
                 get => _description;
@@ -147,26 +142,31 @@ namespace ModernApplicationFramework.Text.Utilities
                 }
             }
 
-            public IUiThreadOperationContext Context => _context;
-
             public IProgress<ProgressInfo> Progress => _progress ?? (_progress =
                                                            new Progress<ProgressInfo>(
                                                                OnProgressChanged));
 
-            public int CompletedItems => _completedItems;
-
             public int TotalItems => _totalItems;
+
+            public UiThreadOperationScope(bool allowCancellation, string description,
+                AbstractUiThreadOperationContext context)
+            {
+                var operationContext = context;
+                _context = operationContext ?? throw new ArgumentNullException(nameof(context));
+                AllowCancellation = allowCancellation;
+                Description = description ?? "";
+            }
+
+            public void Dispose()
+            {
+                _context.OnScopeDisposed(this);
+            }
 
             private void OnProgressChanged(ProgressInfo progressInfo)
             {
                 Interlocked.Exchange(ref _completedItems, progressInfo.CompletedItems);
                 Interlocked.Exchange(ref _totalItems, progressInfo.TotalItems);
                 _context.OnScopeProgressChanged(this);
-            }
-
-            public void Dispose()
-            {
-                _context.OnScopeDisposed(this);
             }
         }
     }

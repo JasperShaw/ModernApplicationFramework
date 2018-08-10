@@ -5,9 +5,9 @@ namespace ModernApplicationFramework.Text.Data
 {
     public struct VersionedSpan : IEquatable<VersionedSpan>
     {
-        public readonly ITextImageVersion Version;
-        public readonly Span Span;
         public static readonly VersionedSpan Invalid;
+        public readonly Span Span;
+        public readonly ITextImageVersion Version;
 
         public VersionedSpan(ITextImageVersion version, Span span)
         {
@@ -19,29 +19,25 @@ namespace ModernApplicationFramework.Text.Data
             Span = span;
         }
 
+        public static bool operator ==(VersionedSpan left, VersionedSpan right)
+        {
+            return left.Equals(right);
+        }
+
         public static implicit operator Span(VersionedSpan span)
         {
             return span.Span;
         }
 
-        public VersionedSpan TranslateTo(ITextImageVersion other, SpanTrackingMode mode)
+        public static bool operator !=(VersionedSpan left, VersionedSpan right)
         {
-            if (other == null)
-                throw new ArgumentNullException(nameof(other));
-            return new VersionedSpan(other, other.TrackTo(this, mode));
-        }
-
-        public override int GetHashCode()
-        {
-            if (Version == null)
-                return 0;
-            return Span.GetHashCode() ^ Version.GetHashCode();
+            return !left.Equals(right);
         }
 
         public override bool Equals(object obj)
         {
             if (obj is VersionedSpan)
-                return Equals((VersionedSpan)obj);
+                return Equals((VersionedSpan) obj);
             return false;
         }
 
@@ -52,19 +48,25 @@ namespace ModernApplicationFramework.Text.Data
             return false;
         }
 
-        public static bool operator ==(VersionedSpan left, VersionedSpan right)
+        public override int GetHashCode()
         {
-            return left.Equals(right);
-        }
-
-        public static bool operator !=(VersionedSpan left, VersionedSpan right)
-        {
-            return !left.Equals(right);
+            if (Version == null)
+                return 0;
+            return Span.GetHashCode() ^ Version.GetHashCode();
         }
 
         public override string ToString()
         {
-            return Version != null ? string.Format(CultureInfo.CurrentCulture, "v{0}_{1}", Version.VersionNumber, Span) : "Invalid";
+            return Version != null
+                ? string.Format(CultureInfo.CurrentCulture, "v{0}_{1}", Version.VersionNumber, Span)
+                : "Invalid";
+        }
+
+        public VersionedSpan TranslateTo(ITextImageVersion other, SpanTrackingMode mode)
+        {
+            if (other == null)
+                throw new ArgumentNullException(nameof(other));
+            return new VersionedSpan(other, other.TrackTo(this, mode));
         }
     }
 }

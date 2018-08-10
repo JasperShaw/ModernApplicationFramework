@@ -8,34 +8,35 @@ namespace ModernApplicationFramework.Text.Ui.Formatting
 {
     public interface IFormattedLineSource
     {
-        ITextSnapshot TopTextSnapshot { get; }
-
-        ITextSnapshot SourceTextSnapshot { get; }
-
-        ITextAndAdornmentSequencer TextAndAdornmentSequencer { get; }
-
-        int TabSize { get; }
+        double BaseIndentation { get; }
 
         double ColumnWidth { get; }
 
+        TextRunProperties DefaultTextProperties { get; }
+
         double LineHeight { get; }
+
+        double MaxAutoIndent { get; }
+
+        ITextSnapshot SourceTextSnapshot { get; }
+
+        int TabSize { get; }
+
+        ITextAndAdornmentSequencer TextAndAdornmentSequencer { get; }
 
         double TextHeightAboveBaseline { get; }
 
         double TextHeightBelowBaseline { get; }
-
-        double BaseIndentation { get; }
-
-        double WordWrapWidth { get; }
-
-        double MaxAutoIndent { get; }
+        ITextSnapshot TopTextSnapshot { get; }
 
         bool UseDisplayMode { get; }
 
-        TextRunProperties DefaultTextProperties { get; }
+        double WordWrapWidth { get; }
 
-        Collection<IFormattedLine> FormatLineInVisualBuffer(ITextSnapshotLine visualLine, CancellationToken? cancellationToken = null);
+        Collection<IFormattedLine> FormatLineInVisualBuffer(ITextSnapshotLine visualLine,
+            CancellationToken? cancellationToken = null);
 
-        Collection<IFormattedLine> FormatLineInVisualBufferIfChanged(ITextSnapshotLine visualLine, IList<IFormattedLine> oldLines, CancellationToken? cancellationToken = null);
+        Collection<IFormattedLine> FormatLineInVisualBufferIfChanged(ITextSnapshotLine visualLine,
+            IList<IFormattedLine> oldLines, CancellationToken? cancellationToken = null);
     }
 }

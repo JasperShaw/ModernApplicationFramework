@@ -13,6 +13,6 @@ namespace ModernApplicationFramework.Text.Logic.Operations
         Wrap = 16, // 0x00000010
         Multiline = 32, // 0x00000020
         OrdinalComparison = 64, // 0x00000040
-        SingleLine = 128, // 0x00000080
+        SingleLine = 128 // 0x00000080
     }
 }

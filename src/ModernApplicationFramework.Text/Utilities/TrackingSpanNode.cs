@@ -5,6 +5,12 @@ namespace ModernApplicationFramework.Text.Utilities
 {
     public sealed class TrackingSpanNode<T>
     {
+        public List<TrackingSpanNode<T>> Children { get; }
+
+        public T Item { get; }
+
+        public ITrackingSpan TrackingSpan { get; }
+
         public TrackingSpanNode(T item, ITrackingSpan trackingSpan)
             : this(item, trackingSpan, new List<TrackingSpanNode<T>>())
         {
@@ -17,16 +23,10 @@ namespace ModernApplicationFramework.Text.Utilities
             Children = children;
         }
 
-        public T Item { get; }
-
-        public ITrackingSpan TrackingSpan { get; }
-
-        public List<TrackingSpanNode<T>> Children { get; }
-
         internal void Advance(ITextVersion toVersion)
         {
             TrackingSpan?.GetSpan(toVersion);
-            foreach (TrackingSpanNode<T> child in Children)
+            foreach (var child in Children)
                 child.Advance(toVersion);
         }
     }

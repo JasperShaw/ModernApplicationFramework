@@ -5,11 +5,10 @@ namespace ModernApplicationFramework.Text.Ui.Editor
 {
     public interface ITextViewMargin : IDisposable
     {
-        FrameworkElement VisualElement { get; }
+        bool Enabled { get; }
 
         double MarginSize { get; }
-
-        bool Enabled { get; }
+        FrameworkElement VisualElement { get; }
 
         ITextViewMargin GetTextViewMargin(string marginName);
     }

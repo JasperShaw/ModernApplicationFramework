@@ -4,6 +4,6 @@
     {
         TextRelative,
         ViewRelative,
-        Absolute,
+        Absolute
     }
 }

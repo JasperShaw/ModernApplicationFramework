@@ -5,9 +5,8 @@ namespace ModernApplicationFramework.Text.Logic.Tagging
 {
     public class TrackingTagSpan<T> where T : ITag
     {
-        public T Tag { get; }
-
         public ITrackingSpan Span { get; }
+        public T Tag { get; }
 
         public TrackingTagSpan(ITrackingSpan span, T tag)
         {

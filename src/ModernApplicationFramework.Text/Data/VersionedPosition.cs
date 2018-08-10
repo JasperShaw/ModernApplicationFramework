@@ -5,9 +5,9 @@ namespace ModernApplicationFramework.Text.Data
 {
     public struct VersionedPosition : IEquatable<VersionedPosition>
     {
-        public readonly ITextImageVersion Version;
-        public readonly int Position;
         public static readonly VersionedPosition Invalid;
+        public readonly int Position;
+        public readonly ITextImageVersion Version;
 
         public VersionedPosition(ITextImageVersion version, int position)
         {
@@ -19,23 +19,19 @@ namespace ModernApplicationFramework.Text.Data
             Position = position;
         }
 
+        public static bool operator ==(VersionedPosition left, VersionedPosition right)
+        {
+            return left.Equals(right);
+        }
+
         public static implicit operator int(VersionedPosition position)
         {
             return position.Position;
         }
 
-        public VersionedPosition TranslateTo(ITextImageVersion other, PointTrackingMode mode)
+        public static bool operator !=(VersionedPosition left, VersionedPosition right)
         {
-            if (other == null)
-                throw new ArgumentNullException(nameof(other));
-            return new VersionedPosition(other, other.TrackTo(this, mode));
-        }
-
-        public override int GetHashCode()
-        {
-            if (Version == null)
-                return 0;
-            return Position ^ Version.GetHashCode();
+            return !left.Equals(right);
         }
 
         public override bool Equals(object obj)
@@ -52,14 +48,11 @@ namespace ModernApplicationFramework.Text.Data
             return false;
         }
 
-        public static bool operator ==(VersionedPosition left, VersionedPosition right)
+        public override int GetHashCode()
         {
-            return left.Equals(right);
-        }
-
-        public static bool operator !=(VersionedPosition left, VersionedPosition right)
-        {
-            return !left.Equals(right);
+            if (Version == null)
+                return 0;
+            return Position ^ Version.GetHashCode();
         }
 
         public override string ToString()
@@ -67,6 +60,13 @@ namespace ModernApplicationFramework.Text.Data
             if (Version != null)
                 return string.Format(CultureInfo.CurrentCulture, "v{0}_{1}", Version.VersionNumber, Position);
             return "Invalid";
+        }
+
+        public VersionedPosition TranslateTo(ITextImageVersion other, PointTrackingMode mode)
+        {
+            if (other == null)
+                throw new ArgumentNullException(nameof(other));
+            return new VersionedPosition(other, other.TrackTo(this, mode));
         }
     }
 }

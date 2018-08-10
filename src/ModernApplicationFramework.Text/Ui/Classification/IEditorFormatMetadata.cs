@@ -6,10 +6,8 @@ namespace ModernApplicationFramework.Text.Ui.Classification
     {
         string Name { get; }
 
-        [DefaultValue(false)]
-        bool UserVisible { get; }
+        [DefaultValue(0)] int Priority { get; }
 
-        [DefaultValue(0)]
-        int Priority { get; }
+        [DefaultValue(false)] bool UserVisible { get; }
     }
 }

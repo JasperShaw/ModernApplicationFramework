@@ -6,12 +6,11 @@ namespace ModernApplicationFramework.Text.Logic
 {
     public interface ITextDataModel
     {
+        event EventHandler<TextDataModelContentTypeChangedEventArgs> ContentTypeChanged;
         IContentType ContentType { get; }
 
-        event EventHandler<TextDataModelContentTypeChangedEventArgs> ContentTypeChanged;
+        ITextBuffer DataBuffer { get; }
 
         ITextBuffer DocumentBuffer { get; }
-
-        ITextBuffer DataBuffer { get; }
     }
 }

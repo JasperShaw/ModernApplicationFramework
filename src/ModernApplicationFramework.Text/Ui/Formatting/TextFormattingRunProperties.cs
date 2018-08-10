@@ -15,37 +15,121 @@ namespace ModernApplicationFramework.Text.Ui.Formatting
     public sealed class TextFormattingRunProperties : TextRunProperties, ISerializable, IObjectReference
     {
         [NonSerialized]
-        private static readonly List<TextFormattingRunProperties> ExistingProperties = new List<TextFormattingRunProperties>();
-        [NonSerialized]
         private static readonly TextFormattingRunProperties EmptyProperties = new TextFormattingRunProperties();
-        [NonSerialized]
-        private static readonly TextEffectCollection EmptyTextEffectCollection = new TextEffectCollection();
+
         [NonSerialized]
         private static readonly TextDecorationCollection EmptyTextDecorationCollection = new TextDecorationCollection();
+
         [NonSerialized]
-        private Typeface _typeface;
+        private static readonly TextEffectCollection EmptyTextEffectCollection = new TextEffectCollection();
+
         [NonSerialized]
-        private double? _size;
-        [NonSerialized]
-        private double? _hintingSize;
-        [NonSerialized]
-        private double? _foregroundOpacity;
-        [NonSerialized]
-        private double? _backgroundOpacity;
-        [NonSerialized]
-        private Brush _foregroundBrush;
-        [NonSerialized]
-        private Brush _backgroundBrush;
-        [NonSerialized]
-        private TextDecorationCollection _textDecorations;
-        [NonSerialized]
-        private TextEffectCollection _textEffects;
-        [NonSerialized]
-        private CultureInfo _cultureInfo;
-        [NonSerialized]
-        private bool? _bold;
-        [NonSerialized]
-        private bool? _italic;
+        private static readonly List<TextFormattingRunProperties> ExistingProperties =
+            new List<TextFormattingRunProperties>();
+
+        [NonSerialized] private Brush _backgroundBrush;
+
+        [NonSerialized] private double? _backgroundOpacity;
+
+        [NonSerialized] private bool? _bold;
+
+        [NonSerialized] private CultureInfo _cultureInfo;
+
+        [NonSerialized] private Brush _foregroundBrush;
+
+        [NonSerialized] private double? _foregroundOpacity;
+
+        [NonSerialized] private double? _hintingSize;
+
+        [NonSerialized] private bool? _italic;
+
+        [NonSerialized] private double? _size;
+
+        [NonSerialized] private TextDecorationCollection _textDecorations;
+
+        [NonSerialized] private TextEffectCollection _textEffects;
+
+        [NonSerialized] private Typeface _typeface;
+
+        public override Brush BackgroundBrush => _backgroundBrush ?? Brushes.Transparent;
+
+        public bool BackgroundBrushEmpty => _backgroundBrush == null;
+
+        public double BackgroundOpacity
+        {
+            get
+            {
+                if (!_backgroundOpacity.HasValue)
+                    return 1.0;
+                return _backgroundOpacity.Value;
+            }
+        }
+
+        public bool BackgroundOpacityEmpty => !_backgroundOpacity.HasValue;
+
+        public bool Bold
+        {
+            get
+            {
+                if (!_bold.HasValue)
+                    return false;
+                return _bold.Value;
+            }
+        }
+
+        public bool BoldEmpty => !_bold.HasValue;
+
+        public override CultureInfo CultureInfo => _cultureInfo ?? CultureInfo.CurrentCulture;
+
+        public bool CultureInfoEmpty => _cultureInfo == null;
+
+        public override double FontHintingEmSize => _hintingSize ?? 16.0;
+
+        public bool FontHintingEmSizeEmpty => !_hintingSize.HasValue;
+
+        public override double FontRenderingEmSize => _size ?? 16.0;
+
+        public bool FontRenderingEmSizeEmpty => !_size.HasValue;
+
+        public override Brush ForegroundBrush => _foregroundBrush ?? Brushes.Transparent;
+
+        public bool ForegroundBrushEmpty => _foregroundBrush == null;
+
+        public double ForegroundOpacity
+        {
+            get
+            {
+                if (!_foregroundOpacity.HasValue)
+                    return 1.0;
+                return _foregroundOpacity.Value;
+            }
+        }
+
+        public bool ForegroundOpacityEmpty => !_foregroundOpacity.HasValue;
+
+        public bool Italic
+        {
+            get
+            {
+                if (!_italic.HasValue)
+                    return false;
+                return _italic.Value;
+            }
+        }
+
+        public bool ItalicEmpty => !_italic.HasValue;
+
+        public override TextDecorationCollection TextDecorations => _textDecorations ?? EmptyTextDecorationCollection;
+
+        public bool TextDecorationsEmpty => _textDecorations == null;
+
+        public override TextEffectCollection TextEffects => _textEffects ?? EmptyTextEffectCollection;
+
+        public bool TextEffectsEmpty => _textEffects == null;
+
+        public override Typeface Typeface => _typeface;
+
+        public bool TypefaceEmpty => _typeface == null;
 
         static TextFormattingRunProperties()
         {
@@ -59,25 +143,27 @@ namespace ModernApplicationFramework.Text.Ui.Formatting
 
         internal TextFormattingRunProperties(SerializationInfo info, StreamingContext context)
         {
-            _foregroundBrush = (Brush)GetObjectFromSerializationInfo(nameof(ForegroundBrush), info);
-            _backgroundBrush = (Brush)GetObjectFromSerializationInfo(nameof(BackgroundBrush), info);
-            _size = (double?)GetObjectFromSerializationInfo("FontRenderingSize", info);
-            _hintingSize = (double?)GetObjectFromSerializationInfo("FontHintingSize", info);
-            _foregroundOpacity = (double?)GetObjectFromSerializationInfo(nameof(ForegroundOpacity), info);
-            _backgroundOpacity = (double?)GetObjectFromSerializationInfo(nameof(BackgroundOpacity), info);
-            _italic = (bool?)GetObjectFromSerializationInfo(nameof(Italic), info);
-            _bold = (bool?)GetObjectFromSerializationInfo(nameof(Bold), info);
-            _textDecorations = (TextDecorationCollection)GetObjectFromSerializationInfo(nameof(TextDecorations), info);
-            _textEffects = (TextEffectCollection)GetObjectFromSerializationInfo(nameof(TextEffects), info);
-            var serializationInfo1 = (string)GetObjectFromSerializationInfo("CultureInfoName", info);
+            _foregroundBrush = (Brush) GetObjectFromSerializationInfo(nameof(ForegroundBrush), info);
+            _backgroundBrush = (Brush) GetObjectFromSerializationInfo(nameof(BackgroundBrush), info);
+            _size = (double?) GetObjectFromSerializationInfo("FontRenderingSize", info);
+            _hintingSize = (double?) GetObjectFromSerializationInfo("FontHintingSize", info);
+            _foregroundOpacity = (double?) GetObjectFromSerializationInfo(nameof(ForegroundOpacity), info);
+            _backgroundOpacity = (double?) GetObjectFromSerializationInfo(nameof(BackgroundOpacity), info);
+            _italic = (bool?) GetObjectFromSerializationInfo(nameof(Italic), info);
+            _bold = (bool?) GetObjectFromSerializationInfo(nameof(Bold), info);
+            _textDecorations = (TextDecorationCollection) GetObjectFromSerializationInfo(nameof(TextDecorations), info);
+            _textEffects = (TextEffectCollection) GetObjectFromSerializationInfo(nameof(TextEffects), info);
+            var serializationInfo1 = (string) GetObjectFromSerializationInfo("CultureInfoName", info);
             _cultureInfo = serializationInfo1 == null ? null : new CultureInfo(serializationInfo1);
             if (GetObjectFromSerializationInfo("FontFamily", info) is FontFamily serializationInfo2)
             {
-                var serializationInfo3 = (FontStyle)GetObjectFromSerializationInfo("Typeface.Style", info);
-                var serializationInfo4 = (FontWeight)GetObjectFromSerializationInfo("Typeface.Weight", info);
-                var serializationInfo5 = (FontStretch)GetObjectFromSerializationInfo("Typeface.Stretch", info);
-                _typeface = new Typeface(serializationInfo2, serializationInfo3, serializationInfo4, serializationInfo5);
+                var serializationInfo3 = (FontStyle) GetObjectFromSerializationInfo("Typeface.Style", info);
+                var serializationInfo4 = (FontWeight) GetObjectFromSerializationInfo("Typeface.Weight", info);
+                var serializationInfo5 = (FontStretch) GetObjectFromSerializationInfo("Typeface.Stretch", info);
+                _typeface = new Typeface(serializationInfo2, serializationInfo3, serializationInfo4,
+                    serializationInfo5);
             }
+
             if (_size.HasValue && _size.Value <= 0.0)
                 _size = 16.0;
             if (!_hintingSize.HasValue || _hintingSize.Value > 0.0)
@@ -85,7 +171,9 @@ namespace ModernApplicationFramework.Text.Ui.Formatting
             _hintingSize = 16.0;
         }
 
-        internal TextFormattingRunProperties(Brush foreground, Brush background, Typeface typeface, double? size, double? hintingSize, TextDecorationCollection textDecorations, TextEffectCollection textEffects, CultureInfo cultureInfo)
+        internal TextFormattingRunProperties(Brush foreground, Brush background, Typeface typeface, double? size,
+            double? hintingSize, TextDecorationCollection textDecorations, TextEffectCollection textEffects,
+            CultureInfo cultureInfo)
         {
             if (size.HasValue && size.Value <= 0.0)
                 throw new ArgumentOutOfRangeException(nameof(size), "size should be positive or null");
@@ -129,118 +217,32 @@ namespace ModernApplicationFramework.Text.Ui.Formatting
         }
 
         [EditorBrowsable(EditorBrowsableState.Always)]
-        public static TextFormattingRunProperties CreateTextFormattingRunProperties(Typeface typeface, double size, Color foreground)
+        public static TextFormattingRunProperties CreateTextFormattingRunProperties(Typeface typeface, double size,
+            Color foreground)
         {
-            return FindOrCreateProperties(new TextFormattingRunProperties(new SolidColorBrush(foreground), null, typeface, size, new double?(), null, null, null));
+            return FindOrCreateProperties(new TextFormattingRunProperties(new SolidColorBrush(foreground), null,
+                typeface, size, new double?(), null, null, null));
         }
 
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public static TextFormattingRunProperties CreateTextFormattingRunProperties(Brush foreground, Brush background, Typeface typeface, double? size, double? hintingSize, TextDecorationCollection textDecorations, TextEffectCollection textEffects, CultureInfo cultureInfo)
+        public static TextFormattingRunProperties CreateTextFormattingRunProperties(Brush foreground, Brush background,
+            Typeface typeface, double? size, double? hintingSize, TextDecorationCollection textDecorations,
+            TextEffectCollection textEffects, CultureInfo cultureInfo)
         {
-            return FindOrCreateProperties(new TextFormattingRunProperties(foreground, background, typeface, size, hintingSize, textDecorations, textEffects, cultureInfo));
+            return FindOrCreateProperties(new TextFormattingRunProperties(foreground, background, typeface, size,
+                hintingSize, textDecorations, textEffects, cultureInfo));
         }
 
-        public override Brush BackgroundBrush => _backgroundBrush ?? Brushes.Transparent;
-
-        public override CultureInfo CultureInfo => _cultureInfo ?? CultureInfo.CurrentCulture;
-
-        public override double FontHintingEmSize => _hintingSize ?? 16.0;
-
-        public override double FontRenderingEmSize => _size ?? 16.0;
-
-        public override Brush ForegroundBrush => _foregroundBrush ?? Brushes.Transparent;
-
-        public bool Italic
+        public bool BackgroundBrushSame(Brush brush)
         {
-            get
-            {
-                if (!_italic.HasValue)
-                    return false;
-                return _italic.Value;
-            }
+            return BrushesEqual(_backgroundBrush, brush);
         }
 
-        public bool Bold
-        {
-            get
-            {
-                if (!_bold.HasValue)
-                    return false;
-                return _bold.Value;
-            }
-        }
-
-        public double ForegroundOpacity
-        {
-            get
-            {
-                if (!_foregroundOpacity.HasValue)
-                    return 1.0;
-                return _foregroundOpacity.Value;
-            }
-        }
-
-        public double BackgroundOpacity
-        {
-            get
-            {
-                if (!_backgroundOpacity.HasValue)
-                    return 1.0;
-                return _backgroundOpacity.Value;
-            }
-        }
-
-        public override TextDecorationCollection TextDecorations => _textDecorations ?? EmptyTextDecorationCollection;
-
-        public override TextEffectCollection TextEffects => _textEffects ?? EmptyTextEffectCollection;
-
-        public override Typeface Typeface => _typeface;
-
-        public bool BackgroundBrushEmpty => _backgroundBrush == null;
-
-        public bool BackgroundOpacityEmpty => !_backgroundOpacity.HasValue;
-
-        public bool ForegroundOpacityEmpty => !_foregroundOpacity.HasValue;
-
-        public bool BoldEmpty => !_bold.HasValue;
-
-        public bool ItalicEmpty => !_italic.HasValue;
-
-        public bool CultureInfoEmpty => _cultureInfo == null;
-
-        public bool FontHintingEmSizeEmpty => !_hintingSize.HasValue;
-
-        public bool FontRenderingEmSizeEmpty => !_size.HasValue;
-
-        public bool ForegroundBrushEmpty => _foregroundBrush == null;
-
-        public bool TextDecorationsEmpty => _textDecorations == null;
-
-        public bool TextEffectsEmpty => _textEffects == null;
-
-        public bool TypefaceEmpty => _typeface == null;
-
-        public TextFormattingRunProperties ClearBold()
+        public TextFormattingRunProperties ClearBackgroundBrush()
         {
             return FindOrCreateProperties(new TextFormattingRunProperties(this)
             {
-                _bold = new bool?()
-            });
-        }
-
-        public TextFormattingRunProperties ClearItalic()
-        {
-            return FindOrCreateProperties(new TextFormattingRunProperties(this)
-            {
-                _italic = new bool?()
-            });
-        }
-
-        public TextFormattingRunProperties ClearForegroundOpacity()
-        {
-            return FindOrCreateProperties(new TextFormattingRunProperties(this)
-            {
-                _foregroundOpacity = new double?()
+                _backgroundBrush = null
             });
         }
 
@@ -252,11 +254,11 @@ namespace ModernApplicationFramework.Text.Ui.Formatting
             });
         }
 
-        public TextFormattingRunProperties ClearBackgroundBrush()
+        public TextFormattingRunProperties ClearBold()
         {
             return FindOrCreateProperties(new TextFormattingRunProperties(this)
             {
-                _backgroundBrush = null
+                _bold = new bool?()
             });
         }
 
@@ -292,6 +294,22 @@ namespace ModernApplicationFramework.Text.Ui.Formatting
             });
         }
 
+        public TextFormattingRunProperties ClearForegroundOpacity()
+        {
+            return FindOrCreateProperties(new TextFormattingRunProperties(this)
+            {
+                _foregroundOpacity = new double?()
+            });
+        }
+
+        public TextFormattingRunProperties ClearItalic()
+        {
+            return FindOrCreateProperties(new TextFormattingRunProperties(this)
+            {
+                _italic = new bool?()
+            });
+        }
+
         public TextFormattingRunProperties ClearTextDecorations()
         {
             return FindOrCreateProperties(new TextFormattingRunProperties(this)
@@ -316,6 +334,57 @@ namespace ModernApplicationFramework.Text.Ui.Formatting
             });
         }
 
+        public bool ForegroundBrushSame(Brush brush)
+        {
+            return BrushesEqual(_foregroundBrush, brush);
+        }
+
+        [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            if (info == null)
+                throw new ArgumentNullException(nameof(info));
+            info.AddValue("BackgroundBrush", BackgroundBrushEmpty ? "null" : XamlWriter.Save(BackgroundBrush));
+            info.AddValue("ForegroundBrush", ForegroundBrushEmpty ? "null" : XamlWriter.Save(ForegroundBrush));
+            info.AddValue("FontHintingSize", FontHintingEmSizeEmpty ? "null" : XamlWriter.Save(FontHintingEmSize));
+            info.AddValue("FontRenderingSize",
+                FontRenderingEmSizeEmpty ? "null" : XamlWriter.Save(FontRenderingEmSize));
+            info.AddValue("TextDecorations", TextDecorationsEmpty ? "null" : XamlWriter.Save(TextDecorations));
+            info.AddValue("TextEffects", TextEffectsEmpty ? "null" : XamlWriter.Save(TextEffects));
+            info.AddValue("CultureInfoName", CultureInfoEmpty ? "null" : XamlWriter.Save(CultureInfo.Name));
+            info.AddValue("FontFamily", TypefaceEmpty ? "null" : XamlWriter.Save(Typeface.FontFamily));
+            info.AddValue("Italic", ItalicEmpty ? "null" : XamlWriter.Save(Italic));
+            info.AddValue("Bold", BoldEmpty ? "null" : XamlWriter.Save(Bold));
+            info.AddValue("ForegroundOpacity", ForegroundOpacityEmpty ? "null" : XamlWriter.Save(ForegroundOpacity));
+            info.AddValue("BackgroundOpacity", BackgroundOpacityEmpty ? "null" : XamlWriter.Save(BackgroundOpacity));
+            if (TypefaceEmpty)
+                return;
+            info.AddValue("Typeface.Style", XamlWriter.Save(Typeface.Style));
+            info.AddValue("Typeface.Weight", XamlWriter.Save(Typeface.Weight));
+            info.AddValue("Typeface.Stretch", XamlWriter.Save(Typeface.Stretch));
+        }
+
+        public object GetRealObject(StreamingContext context)
+        {
+            return FindOrCreateProperties(this);
+        }
+
+        public bool SameSize(TextFormattingRunProperties other)
+        {
+            if (other == null)
+                return false;
+            var size1 = _size;
+            var size2 = other._size;
+            if (size1.GetValueOrDefault() != size2.GetValueOrDefault())
+                return false;
+            return size1.HasValue == size2.HasValue;
+        }
+
+        public TextFormattingRunProperties SetBackground(Color background)
+        {
+            return SetBackgroundBrush(new SolidColorBrush(background));
+        }
+
         public TextFormattingRunProperties SetBackgroundBrush(Brush brush)
         {
             if (brush == null)
@@ -325,9 +394,22 @@ namespace ModernApplicationFramework.Text.Ui.Formatting
             return FindOrCreateProperties(properties);
         }
 
-        public TextFormattingRunProperties SetBackground(Color background)
+        public TextFormattingRunProperties SetBackgroundOpacity(double opacity)
         {
-            return SetBackgroundBrush(new SolidColorBrush(background));
+            if (opacity < 0.0 || opacity > 1.0)
+                throw new ArgumentOutOfRangeException(nameof(opacity));
+            return FindOrCreateProperties(new TextFormattingRunProperties(this)
+            {
+                _backgroundOpacity = opacity
+            });
+        }
+
+        public TextFormattingRunProperties SetBold(bool isBold)
+        {
+            return FindOrCreateProperties(new TextFormattingRunProperties(this)
+            {
+                _bold = isBold
+            });
         }
 
         public TextFormattingRunProperties SetCultureInfo(CultureInfo cultureInfo)
@@ -360,6 +442,11 @@ namespace ModernApplicationFramework.Text.Ui.Formatting
             });
         }
 
+        public TextFormattingRunProperties SetForeground(Color foreground)
+        {
+            return SetForegroundBrush(new SolidColorBrush(foreground));
+        }
+
         public TextFormattingRunProperties SetForegroundBrush(Brush brush)
         {
             if (brush == null)
@@ -369,9 +456,22 @@ namespace ModernApplicationFramework.Text.Ui.Formatting
             return FindOrCreateProperties(properties);
         }
 
-        public TextFormattingRunProperties SetForeground(Color foreground)
+        public TextFormattingRunProperties SetForegroundOpacity(double opacity)
         {
-            return SetForegroundBrush(new SolidColorBrush(foreground));
+            if (opacity < 0.0 || opacity > 1.0)
+                throw new ArgumentOutOfRangeException(nameof(opacity));
+            return FindOrCreateProperties(new TextFormattingRunProperties(this)
+            {
+                _foregroundOpacity = opacity
+            });
+        }
+
+        public TextFormattingRunProperties SetItalic(bool isItalic)
+        {
+            return FindOrCreateProperties(new TextFormattingRunProperties(this)
+            {
+                _italic = isItalic
+            });
         }
 
         public TextFormattingRunProperties SetTextDecorations(TextDecorationCollection textDecorations)
@@ -402,63 +502,6 @@ namespace ModernApplicationFramework.Text.Ui.Formatting
             });
         }
 
-        public TextFormattingRunProperties SetForegroundOpacity(double opacity)
-        {
-            if (opacity < 0.0 || opacity > 1.0)
-                throw new ArgumentOutOfRangeException(nameof(opacity));
-            return FindOrCreateProperties(new TextFormattingRunProperties(this)
-            {
-                _foregroundOpacity = opacity
-            });
-        }
-
-        public TextFormattingRunProperties SetBackgroundOpacity(double opacity)
-        {
-            if (opacity < 0.0 || opacity > 1.0)
-                throw new ArgumentOutOfRangeException(nameof(opacity));
-            return FindOrCreateProperties(new TextFormattingRunProperties(this)
-            {
-                _backgroundOpacity = opacity
-            });
-        }
-
-        public TextFormattingRunProperties SetBold(bool isBold)
-        {
-            return FindOrCreateProperties(new TextFormattingRunProperties(this)
-            {
-                _bold = isBold
-            });
-        }
-
-        public TextFormattingRunProperties SetItalic(bool isItalic)
-        {
-            return FindOrCreateProperties(new TextFormattingRunProperties(this)
-            {
-                _italic = isItalic
-            });
-        }
-
-        public bool ForegroundBrushSame(Brush brush)
-        {
-            return BrushesEqual(_foregroundBrush, brush);
-        }
-
-        public bool BackgroundBrushSame(Brush brush)
-        {
-            return BrushesEqual(_backgroundBrush, brush);
-        }
-
-        public bool SameSize(TextFormattingRunProperties other)
-        {
-            if (other == null)
-                return false;
-            var size1 = _size;
-            var size2 = other._size;
-            if (size1.GetValueOrDefault() != size2.GetValueOrDefault())
-                return false;
-            return size1.HasValue == size2.HasValue;
-        }
-
         internal static bool BrushesEqual(Brush brush, Brush other)
         {
             if (brush == other)
@@ -478,13 +521,6 @@ namespace ModernApplicationFramework.Text.Ui.Formatting
             return false;
         }
 
-        private static bool TypefacesEqual(Typeface typeface, Typeface other)
-        {
-            if (typeface == null)
-                return other == null;
-            return typeface.Equals(other);
-        }
-
         internal static TextFormattingRunProperties FindOrCreateProperties(TextFormattingRunProperties properties)
         {
             var formattingRunProperties = ExistingProperties.Find(properties.IsEqual);
@@ -495,38 +531,11 @@ namespace ModernApplicationFramework.Text.Ui.Formatting
             return properties;
         }
 
-        private bool IsEqual(TextFormattingRunProperties other)
+        private static bool TypefacesEqual(Typeface typeface, Typeface other)
         {
-            var size = _size;
-            var nullable1 = other._size;
-            if ((size.GetValueOrDefault() == nullable1.GetValueOrDefault() ? (size.HasValue == nullable1.HasValue ? 1 : 0) : 0) != 0)
-            {
-                nullable1 = _hintingSize;
-                var nullable2 = other._hintingSize;
-                if ((nullable1.GetValueOrDefault() == nullable2.GetValueOrDefault() ? (nullable1.HasValue == nullable2.HasValue ? 1 : 0) : 0) != 0 && TypefacesEqual(_typeface, other._typeface) && (_cultureInfo == other._cultureInfo && _textDecorations == other._textDecorations) && _textEffects == other._textEffects)
-                {
-                    var italic = _italic;
-                    var nullable3 = other._italic;
-                    if ((italic.GetValueOrDefault() == nullable3.GetValueOrDefault() ? (italic.HasValue == nullable3.HasValue ? 1 : 0) : 0) != 0)
-                    {
-                        nullable3 = _bold;
-                        var bold = other._bold;
-                        if ((nullable3.GetValueOrDefault() == bold.GetValueOrDefault() ? (nullable3.HasValue == bold.HasValue ? 1 : 0) : 0) != 0)
-                        {
-                            nullable2 = _foregroundOpacity;
-                            nullable1 = other._foregroundOpacity;
-                            if ((nullable2.GetValueOrDefault() == nullable1.GetValueOrDefault() ? (nullable2.HasValue == nullable1.HasValue ? 1 : 0) : 0) != 0)
-                            {
-                                nullable1 = _backgroundOpacity;
-                                nullable2 = other._backgroundOpacity;
-                                if ((nullable1.GetValueOrDefault() == nullable2.GetValueOrDefault() ? (nullable1.HasValue == nullable2.HasValue ? 1 : 0) : 0) != 0 && BrushesEqual(_foregroundBrush, other._foregroundBrush))
-                                    return BrushesEqual(_backgroundBrush, other._backgroundBrush);
-                            }
-                        }
-                    }
-                }
-            }
-            return false;
+            if (typeface == null)
+                return other == null;
+            return typeface.Equals(other);
         }
 
         private void FreezeBackgroundBrush()
@@ -565,30 +574,6 @@ namespace ModernApplicationFramework.Text.Ui.Formatting
             _textEffects.Freeze();
         }
 
-        [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            if (info == null)
-                throw new ArgumentNullException(nameof(info));
-            info.AddValue("BackgroundBrush", BackgroundBrushEmpty ? "null" : XamlWriter.Save(BackgroundBrush));
-            info.AddValue("ForegroundBrush", ForegroundBrushEmpty ? "null" : XamlWriter.Save(ForegroundBrush));
-            info.AddValue("FontHintingSize", FontHintingEmSizeEmpty ? "null" : XamlWriter.Save(FontHintingEmSize));
-            info.AddValue("FontRenderingSize", FontRenderingEmSizeEmpty ? "null" : XamlWriter.Save(FontRenderingEmSize));
-            info.AddValue("TextDecorations", TextDecorationsEmpty ? "null" : XamlWriter.Save(TextDecorations));
-            info.AddValue("TextEffects", TextEffectsEmpty ? "null" : XamlWriter.Save(TextEffects));
-            info.AddValue("CultureInfoName", CultureInfoEmpty ? "null" : XamlWriter.Save(CultureInfo.Name));
-            info.AddValue("FontFamily", TypefaceEmpty ? "null" : XamlWriter.Save(Typeface.FontFamily));
-            info.AddValue("Italic", ItalicEmpty ? "null" : XamlWriter.Save(Italic));
-            info.AddValue("Bold", BoldEmpty ? "null" : XamlWriter.Save(Bold));
-            info.AddValue("ForegroundOpacity", ForegroundOpacityEmpty ? "null" : XamlWriter.Save(ForegroundOpacity));
-            info.AddValue("BackgroundOpacity", BackgroundOpacityEmpty ? "null" : XamlWriter.Save(BackgroundOpacity));
-            if (TypefaceEmpty)
-                return;
-            info.AddValue("Typeface.Style", XamlWriter.Save(Typeface.Style));
-            info.AddValue("Typeface.Weight", XamlWriter.Save(Typeface.Weight));
-            info.AddValue("Typeface.Stretch", XamlWriter.Save(Typeface.Stretch));
-        }
-
         private object GetObjectFromSerializationInfo(string name, SerializationInfo info)
         {
             var xamlText = info.GetString(name);
@@ -597,9 +582,52 @@ namespace ModernApplicationFramework.Text.Ui.Formatting
             return XamlReader.Parse(xamlText);
         }
 
-        public object GetRealObject(StreamingContext context)
+        private bool IsEqual(TextFormattingRunProperties other)
         {
-            return FindOrCreateProperties(this);
+            var size = _size;
+            var nullable1 = other._size;
+            if ((size.GetValueOrDefault() == nullable1.GetValueOrDefault()
+                    ? (size.HasValue == nullable1.HasValue ? 1 : 0)
+                    : 0) != 0)
+            {
+                nullable1 = _hintingSize;
+                var nullable2 = other._hintingSize;
+                if ((nullable1.GetValueOrDefault() == nullable2.GetValueOrDefault()
+                        ? (nullable1.HasValue == nullable2.HasValue ? 1 : 0)
+                        : 0) != 0 && TypefacesEqual(_typeface, other._typeface) && _cultureInfo == other._cultureInfo &&
+                    _textDecorations == other._textDecorations && _textEffects == other._textEffects)
+                {
+                    var italic = _italic;
+                    var nullable3 = other._italic;
+                    if ((italic.GetValueOrDefault() == nullable3.GetValueOrDefault()
+                            ? (italic.HasValue == nullable3.HasValue ? 1 : 0)
+                            : 0) != 0)
+                    {
+                        nullable3 = _bold;
+                        var bold = other._bold;
+                        if ((nullable3.GetValueOrDefault() == bold.GetValueOrDefault()
+                                ? (nullable3.HasValue == bold.HasValue ? 1 : 0)
+                                : 0) != 0)
+                        {
+                            nullable2 = _foregroundOpacity;
+                            nullable1 = other._foregroundOpacity;
+                            if ((nullable2.GetValueOrDefault() == nullable1.GetValueOrDefault()
+                                    ? (nullable2.HasValue == nullable1.HasValue ? 1 : 0)
+                                    : 0) != 0)
+                            {
+                                nullable1 = _backgroundOpacity;
+                                nullable2 = other._backgroundOpacity;
+                                if ((nullable1.GetValueOrDefault() == nullable2.GetValueOrDefault()
+                                        ? (nullable1.HasValue == nullable2.HasValue ? 1 : 0)
+                                        : 0) != 0 && BrushesEqual(_foregroundBrush, other._foregroundBrush))
+                                    return BrushesEqual(_backgroundBrush, other._backgroundBrush);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }

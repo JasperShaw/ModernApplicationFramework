@@ -9,11 +9,22 @@ namespace ModernApplicationFramework.Text.Ui.Editor
 {
     public interface ITextViewLineCollection : IList<ITextViewLine>
     {
+        ITextViewLine FirstVisibleLine { get; }
+
+        SnapshotSpan FormattedSpan { get; }
+
+        bool IsValid { get; }
+
+        ITextViewLine LastVisibleLine { get; }
         ReadOnlyCollection<ITextViewLine> TextViewLines { get; }
 
-        Geometry GetTextMarkerGeometry(SnapshotSpan bufferSpan);
+        new ITextViewLine this[int index] { get; }
 
-        Geometry GetTextMarkerGeometry(SnapshotSpan bufferSpan, bool clipToViewport, Thickness padding);
+        bool ContainsBufferPosition(SnapshotPoint bufferPosition);
+
+        TextBounds GetCharacterBounds(SnapshotPoint bufferPosition);
+
+        int GetIndexOfTextLine(ITextViewLine textLine);
 
         Geometry GetLineMarkerGeometry(SnapshotSpan bufferSpan);
 
@@ -23,32 +34,20 @@ namespace ModernApplicationFramework.Text.Ui.Editor
 
         Geometry GetMarkerGeometry(SnapshotSpan bufferSpan);
 
+        Collection<TextBounds> GetNormalizedTextBounds(SnapshotSpan bufferSpan);
+
+        SnapshotSpan GetTextElementSpan(SnapshotPoint bufferPosition);
+
+        Geometry GetTextMarkerGeometry(SnapshotSpan bufferSpan);
+
+        Geometry GetTextMarkerGeometry(SnapshotSpan bufferSpan, bool clipToViewport, Thickness padding);
+
         ITextViewLine GetTextViewLineContainingBufferPosition(SnapshotPoint bufferPosition);
-
-        new ITextViewLine this[int index] { get; }
-
-        ITextViewLine FirstVisibleLine { get; }
-
-        ITextViewLine LastVisibleLine { get; }
-
-        bool ContainsBufferPosition(SnapshotPoint bufferPosition);
-
-        bool IntersectsBufferSpan(SnapshotSpan bufferSpan);
 
         ITextViewLine GetTextViewLineContainingYCoordinate(double y);
 
         Collection<ITextViewLine> GetTextViewLinesIntersectingSpan(SnapshotSpan bufferSpan);
 
-        SnapshotSpan GetTextElementSpan(SnapshotPoint bufferPosition);
-
-        TextBounds GetCharacterBounds(SnapshotPoint bufferPosition);
-
-        Collection<TextBounds> GetNormalizedTextBounds(SnapshotSpan bufferSpan);
-
-        int GetIndexOfTextLine(ITextViewLine textLine);
-
-        SnapshotSpan FormattedSpan { get; }
-
-        bool IsValid { get; }
+        bool IntersectsBufferSpan(SnapshotSpan bufferSpan);
     }
 }

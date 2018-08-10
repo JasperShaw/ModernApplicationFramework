@@ -4,6 +4,14 @@ namespace ModernApplicationFramework.Text.Ui.Formatting
 {
     public struct LineTransform
     {
+        public double BottomSpace { get; }
+
+        public double Right { get; }
+
+        public double TopSpace { get; }
+
+        public double VerticalScale { get; }
+
         public LineTransform(double verticalScale)
         {
             this = new LineTransform(0.0, 0.0, verticalScale, 0.0);
@@ -30,32 +38,24 @@ namespace ModernApplicationFramework.Text.Ui.Formatting
             Right = right;
         }
 
-        public double TopSpace { get; }
-
-        public double BottomSpace { get; }
-
-        public double VerticalScale { get; }
-
-        public double Right { get; }
-
         public static LineTransform Combine(LineTransform transform1, LineTransform transform2)
         {
-            return new LineTransform(Math.Max(transform1.TopSpace, transform2.TopSpace), Math.Max(transform1.BottomSpace, transform2.BottomSpace), transform1.VerticalScale * transform2.VerticalScale, Math.Max(transform1.Right, transform2.Right));
+            return new LineTransform(Math.Max(transform1.TopSpace, transform2.TopSpace),
+                Math.Max(transform1.BottomSpace, transform2.BottomSpace),
+                transform1.VerticalScale * transform2.VerticalScale, Math.Max(transform1.Right, transform2.Right));
         }
 
-        public override int GetHashCode()
+        public static bool operator ==(LineTransform transform1, LineTransform transform2)
         {
-            double num1 = TopSpace;
-            int hashCode1 = num1.GetHashCode();
-            num1 = BottomSpace;
-            int hashCode2 = num1.GetHashCode();
-            int num2 = hashCode1 ^ hashCode2;
-            num1 = VerticalScale;
-            int hashCode3 = num1.GetHashCode();
-            int num3 = num2 ^ hashCode3;
-            num1 = Right;
-            int hashCode4 = num1.GetHashCode();
-            return num3 ^ hashCode4;
+            if (transform1.TopSpace == transform2.TopSpace && transform1.BottomSpace == transform2.BottomSpace &&
+                transform1.VerticalScale == transform2.VerticalScale)
+                return transform1.Right == transform2.Right;
+            return false;
+        }
+
+        public static bool operator !=(LineTransform transform1, LineTransform transform2)
+        {
+            return !(transform1 == transform2);
         }
 
         public override bool Equals(object obj)
@@ -65,16 +65,19 @@ namespace ModernApplicationFramework.Text.Ui.Formatting
             return false;
         }
 
-        public static bool operator ==(LineTransform transform1, LineTransform transform2)
+        public override int GetHashCode()
         {
-            if (transform1.TopSpace == transform2.TopSpace && transform1.BottomSpace == transform2.BottomSpace && transform1.VerticalScale == transform2.VerticalScale)
-                return transform1.Right == transform2.Right;
-            return false;
-        }
-
-        public static bool operator !=(LineTransform transform1, LineTransform transform2)
-        {
-            return !(transform1 == transform2);
+            var num1 = TopSpace;
+            var hashCode1 = num1.GetHashCode();
+            num1 = BottomSpace;
+            var hashCode2 = num1.GetHashCode();
+            var num2 = hashCode1 ^ hashCode2;
+            num1 = VerticalScale;
+            var hashCode3 = num1.GetHashCode();
+            var num3 = num2 ^ hashCode3;
+            num1 = Right;
+            var hashCode4 = num1.GetHashCode();
+            return num3 ^ hashCode4;
         }
     }
 }

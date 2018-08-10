@@ -9,20 +9,14 @@ namespace ModernApplicationFramework.Text.Ui.Editor.DragDrop
 {
     public abstract class DropHandlerBase : IDropHandler
     {
+        protected IEditorOperations EditorOperations { get; }
+
+        protected ITextView TextView { get; }
+
         protected DropHandlerBase(ITextView wpfTextView, IEditorOperations editorOperations)
         {
             TextView = wpfTextView ?? throw new ArgumentNullException(nameof(wpfTextView));
             EditorOperations = editorOperations ?? throw new ArgumentNullException(nameof(editorOperations));
-        }
-
-        public virtual DragDropPointerEffects HandleDragStarted(DragDropInfo dragDropInfo)
-        {
-            return GetDragDropEffect(dragDropInfo);
-        }
-
-        public virtual DragDropPointerEffects HandleDraggingOver(DragDropInfo dragDropInfo)
-        {
-            return GetDragDropEffect(dragDropInfo);
         }
 
         public virtual DragDropPointerEffects HandleDataDropped(DragDropInfo dragDropInfo)
@@ -37,7 +31,8 @@ namespace ModernApplicationFramework.Text.Ui.Editor.DragDrop
             var flag1 = (dragDropInfo.KeyStates & DragDropKeyStates.ControlKey) == DragDropKeyStates.ControlKey;
             var flag2 = (dragDropInfo.AllowedEffects & DragDropEffects.Copy) == DragDropEffects.Copy;
             var textSnapshot = TextView.TextSnapshot;
-            var trackingPoint = textSnapshot.CreateTrackingPoint(virtualBufferPosition.Position, PointTrackingMode.Negative);
+            var trackingPoint =
+                textSnapshot.CreateTrackingPoint(virtualBufferPosition.Position, PointTrackingMode.Negative);
             var trackingSpanList = new List<ITrackingSpan>();
             foreach (var selectedSpan in selection.SelectedSpans)
                 trackingSpanList.Add(textSnapshot.CreateTrackingSpan(selectedSpan, SpanTrackingMode.EdgeExclusive));
@@ -56,10 +51,13 @@ namespace ModernApplicationFramework.Text.Ui.Editor.DragDrop
             }
             else
             {
-                successfulEdit = !dragDropInfo.IsInternal ? InsertText(virtualBufferPosition, text) : MoveText(virtualBufferPosition, trackingSpanList, text);
+                successfulEdit = !dragDropInfo.IsInternal
+                    ? InsertText(virtualBufferPosition, text)
+                    : MoveText(virtualBufferPosition, trackingSpanList, text);
                 if (successfulEdit)
                     dropPointerEffects = DragDropPointerEffects.Move;
             }
+
             if (dropPointerEffects != DragDropPointerEffects.None)
             {
                 var insertionPoint = trackingPoint.GetPoint(TextView.TextSnapshot);
@@ -67,6 +65,7 @@ namespace ModernApplicationFramework.Text.Ui.Editor.DragDrop
                     insertionPoint = insertionPoint.Add(offset);
                 SelectText(insertionPoint, text.Length, dragDropInfo, isReversed);
             }
+
             PerformPostEditActions(dragDropInfo, successfulEdit);
             return dropPointerEffects;
         }
@@ -75,48 +74,63 @@ namespace ModernApplicationFramework.Text.Ui.Editor.DragDrop
         {
         }
 
+        public virtual DragDropPointerEffects HandleDraggingOver(DragDropInfo dragDropInfo)
+        {
+            return GetDragDropEffect(dragDropInfo);
+        }
+
+        public virtual DragDropPointerEffects HandleDragStarted(DragDropInfo dragDropInfo)
+        {
+            return GetDragDropEffect(dragDropInfo);
+        }
+
         public virtual bool IsDropEnabled(DragDropInfo dragDropInfo)
         {
             if (dragDropInfo == null)
                 throw new ArgumentNullException(nameof(dragDropInfo));
-            if ((dragDropInfo.AllowedEffects & DragDropEffects.Copy) != DragDropEffects.Copy && (dragDropInfo.AllowedEffects & DragDropEffects.Move) != DragDropEffects.Move)
+            if ((dragDropInfo.AllowedEffects & DragDropEffects.Copy) != DragDropEffects.Copy &&
+                (dragDropInfo.AllowedEffects & DragDropEffects.Move) != DragDropEffects.Move)
                 return false;
             return !TextView.Options.GetOptionValue(DefaultTextViewOptions.ViewProhibitUserInputId);
         }
 
-        protected ITextView TextView { get; }
+        protected bool DeleteSpans(IList<ITrackingSpan> spans)
+        {
+            if (spans == null)
+                throw new ArgumentNullException(nameof(spans));
+            var textSnapshot = TextView.TextSnapshot;
+            using (var edit = TextView.TextBuffer.CreateEdit())
+            {
+                foreach (var span in spans)
+                    if (!edit.Delete(span.GetSpan(textSnapshot)))
+                        return false;
+                edit.Apply();
+                if (edit.Canceled)
+                    return false;
+            }
 
-        protected IEditorOperations EditorOperations { get; }
+            return true;
+        }
 
         protected abstract string ExtractText(DragDropInfo dragDropInfo);
-
-        protected abstract void PerformPreEditActions(DragDropInfo dragDropInfo);
-
-        protected abstract void PerformPostEditActions(DragDropInfo dragDropInfo, bool successfulEdit);
-
-        protected virtual void SelectText(SnapshotPoint insertionPoint, int dataLength, DragDropInfo dragDropInfo, bool reverse)
-        {
-            if (dragDropInfo == null)
-                throw new ArgumentNullException(nameof(dragDropInfo));
-            var virtualSnapshotPoint1 = new VirtualSnapshotPoint(insertionPoint);
-            var virtualSnapshotPoint2 = new VirtualSnapshotPoint(insertionPoint.Add(dataLength));
-            if (dragDropInfo.IsInternal & reverse)
-                EditorOperations.SelectAndMoveCaret(virtualSnapshotPoint2, virtualSnapshotPoint1, TextSelectionMode.Stream);
-            else
-                EditorOperations.SelectAndMoveCaret(virtualSnapshotPoint1, virtualSnapshotPoint2, TextSelectionMode.Stream);
-        }
 
         protected virtual DragDropPointerEffects GetDragDropEffect(DragDropInfo dragDropInfo)
         {
             if (dragDropInfo == null)
                 throw new ArgumentNullException(nameof(dragDropInfo));
-            if (TextView.TextBuffer.IsReadOnly(dragDropInfo.VirtualBufferPosition.TranslateTo(TextView.TextSnapshot).Position))
+            if (TextView.TextBuffer.IsReadOnly(dragDropInfo.VirtualBufferPosition.TranslateTo(TextView.TextSnapshot)
+                .Position))
                 return DragDropPointerEffects.None;
-            if ((dragDropInfo.AllowedEffects & DragDropEffects.Copy) == DragDropEffects.Copy && (dragDropInfo.KeyStates & DragDropKeyStates.ControlKey) == DragDropKeyStates.ControlKey)
+            if ((dragDropInfo.AllowedEffects & DragDropEffects.Copy) == DragDropEffects.Copy &&
+                (dragDropInfo.KeyStates & DragDropKeyStates.ControlKey) == DragDropKeyStates.ControlKey)
                 return DragDropPointerEffects.Copy | DragDropPointerEffects.Track;
-            if ((dragDropInfo.AllowedEffects & DragDropEffects.Move) == DragDropEffects.Move && (dragDropInfo.KeyStates & DragDropKeyStates.ShiftKey) == DragDropKeyStates.ShiftKey || (dragDropInfo.AllowedEffects & DragDropEffects.Move) == DragDropEffects.Move)
+            if ((dragDropInfo.AllowedEffects & DragDropEffects.Move) == DragDropEffects.Move &&
+                (dragDropInfo.KeyStates & DragDropKeyStates.ShiftKey) == DragDropKeyStates.ShiftKey ||
+                (dragDropInfo.AllowedEffects & DragDropEffects.Move) == DragDropEffects.Move)
                 return DragDropPointerEffects.Move | DragDropPointerEffects.Track;
-            return (dragDropInfo.AllowedEffects & DragDropEffects.Copy) == DragDropEffects.Copy ? DragDropPointerEffects.Copy | DragDropPointerEffects.Track : DragDropPointerEffects.None;
+            return (dragDropInfo.AllowedEffects & DragDropEffects.Copy) == DragDropEffects.Copy
+                ? DragDropPointerEffects.Copy | DragDropPointerEffects.Track
+                : DragDropPointerEffects.None;
         }
 
         protected virtual bool InsertText(VirtualSnapshotPoint position, string data)
@@ -132,27 +146,28 @@ namespace ModernApplicationFramework.Text.Ui.Editor.DragDrop
             var trackingPoint = textSnapshot.CreateTrackingPoint(position.Position, PointTrackingMode.Negative);
             if (!DeleteSpans(selectionSpans))
                 return false;
-            TextView.Caret.MoveTo(new VirtualSnapshotPoint(trackingPoint.GetPoint(TextView.TextSnapshot), position.VirtualSpaces));
+            TextView.Caret.MoveTo(new VirtualSnapshotPoint(trackingPoint.GetPoint(TextView.TextSnapshot),
+                position.VirtualSpaces));
             return EditorOperations.InsertText(data);
         }
 
-        protected bool DeleteSpans(IList<ITrackingSpan> spans)
+        protected abstract void PerformPostEditActions(DragDropInfo dragDropInfo, bool successfulEdit);
+
+        protected abstract void PerformPreEditActions(DragDropInfo dragDropInfo);
+
+        protected virtual void SelectText(SnapshotPoint insertionPoint, int dataLength, DragDropInfo dragDropInfo,
+            bool reverse)
         {
-            if (spans == null)
-                throw new ArgumentNullException(nameof(spans));
-            var textSnapshot = TextView.TextSnapshot;
-            using (var edit = TextView.TextBuffer.CreateEdit())
-            {
-                foreach (var span in spans)
-                {
-                    if (!edit.Delete(span.GetSpan(textSnapshot)))
-                        return false;
-                }
-                edit.Apply();
-                if (edit.Canceled)
-                    return false;
-            }
-            return true;
+            if (dragDropInfo == null)
+                throw new ArgumentNullException(nameof(dragDropInfo));
+            var virtualSnapshotPoint1 = new VirtualSnapshotPoint(insertionPoint);
+            var virtualSnapshotPoint2 = new VirtualSnapshotPoint(insertionPoint.Add(dataLength));
+            if (dragDropInfo.IsInternal & reverse)
+                EditorOperations.SelectAndMoveCaret(virtualSnapshotPoint2, virtualSnapshotPoint1,
+                    TextSelectionMode.Stream);
+            else
+                EditorOperations.SelectAndMoveCaret(virtualSnapshotPoint1, virtualSnapshotPoint2,
+                    TextSelectionMode.Stream);
         }
     }
 }

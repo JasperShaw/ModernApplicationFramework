@@ -4,13 +4,18 @@ namespace ModernApplicationFramework.Text.Ui.Commanding
 {
     public struct CommandState
     {
-        public bool IsUnspecified { get; }
+        public static CommandState Available { get; } = new CommandState(true);
+
+        public static CommandState Unavailable { get; } = new CommandState(false);
+
+        public static CommandState Unspecified { get; } = new CommandState(false, false, null, true);
+
+        public string DisplayText { get; }
 
         public bool IsAvailable { get; }
 
         public bool IsChecked { get; }
-
-        public string DisplayText { get; }
+        public bool IsUnspecified { get; }
 
         public CommandState(bool isAvailable = false, bool isChecked = false, string displayText = null,
             bool isUnspecified = false)
@@ -23,11 +28,5 @@ namespace ModernApplicationFramework.Text.Ui.Commanding
             IsUnspecified = isUnspecified;
             DisplayText = displayText;
         }
-
-        public static CommandState Available { get; } = new CommandState(true);
-
-        public static CommandState Unavailable { get; } = new CommandState(false);
-
-        public static CommandState Unspecified { get; } = new CommandState(false, false, null, true);
     }
 }

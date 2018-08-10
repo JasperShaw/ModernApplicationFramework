@@ -8,6 +8,6 @@ namespace ModernApplicationFramework.Text.Ui.Editor
         None = 0,
         WordWrap = 1,
         VisibleGlyphs = 2,
-        AutoIndent = 4,
+        AutoIndent = 4
     }
 }

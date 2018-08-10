@@ -5,42 +5,54 @@ namespace ModernApplicationFramework.Text.Data.Projection
 {
     public interface IBufferGraph
     {
-        ITextBuffer TopBuffer { get; }
+        event EventHandler<GraphBufferContentTypeChangedEventArgs> GraphBufferContentTypeChanged;
 
-        Collection<ITextBuffer> GetTextBuffers(Predicate<ITextBuffer> match);
+        event EventHandler<GraphBuffersChangedEventArgs> GraphBuffersChanged;
+        ITextBuffer TopBuffer { get; }
 
         IMappingPoint CreateMappingPoint(SnapshotPoint point, PointTrackingMode trackingMode);
 
         IMappingSpan CreateMappingSpan(SnapshotSpan span, SpanTrackingMode trackingMode);
 
-        SnapshotPoint? MapDownToBuffer(SnapshotPoint position, PointTrackingMode trackingMode, ITextBuffer targetBuffer, PositionAffinity affinity);
+        Collection<ITextBuffer> GetTextBuffers(Predicate<ITextBuffer> match);
 
-        SnapshotPoint? MapDownToSnapshot(SnapshotPoint position, PointTrackingMode trackingMode, ITextSnapshot targetSnapshot, PositionAffinity affinity);
+        SnapshotPoint? MapDownToBuffer(SnapshotPoint position, PointTrackingMode trackingMode, ITextBuffer targetBuffer,
+            PositionAffinity affinity);
 
-        SnapshotPoint? MapDownToFirstMatch(SnapshotPoint position, PointTrackingMode trackingMode, Predicate<ITextSnapshot> match, PositionAffinity affinity);
+        NormalizedSnapshotSpanCollection MapDownToBuffer(SnapshotSpan span, SpanTrackingMode trackingMode,
+            ITextBuffer targetBuffer);
 
-        SnapshotPoint? MapDownToInsertionPoint(SnapshotPoint position, PointTrackingMode trackingMode, Predicate<ITextSnapshot> match);
+        SnapshotPoint? MapDownToFirstMatch(SnapshotPoint position, PointTrackingMode trackingMode,
+            Predicate<ITextSnapshot> match, PositionAffinity affinity);
 
-        NormalizedSnapshotSpanCollection MapDownToBuffer(SnapshotSpan span, SpanTrackingMode trackingMode, ITextBuffer targetBuffer);
+        NormalizedSnapshotSpanCollection MapDownToFirstMatch(SnapshotSpan span, SpanTrackingMode trackingMode,
+            Predicate<ITextSnapshot> match);
 
-        NormalizedSnapshotSpanCollection MapDownToSnapshot(SnapshotSpan span, SpanTrackingMode trackingMode, ITextSnapshot targetSnapshot);
+        SnapshotPoint? MapDownToInsertionPoint(SnapshotPoint position, PointTrackingMode trackingMode,
+            Predicate<ITextSnapshot> match);
 
-        NormalizedSnapshotSpanCollection MapDownToFirstMatch(SnapshotSpan span, SpanTrackingMode trackingMode, Predicate<ITextSnapshot> match);
+        SnapshotPoint? MapDownToSnapshot(SnapshotPoint position, PointTrackingMode trackingMode,
+            ITextSnapshot targetSnapshot, PositionAffinity affinity);
 
-        SnapshotPoint? MapUpToBuffer(SnapshotPoint point, PointTrackingMode trackingMode, PositionAffinity affinity, ITextBuffer targetBuffer);
+        NormalizedSnapshotSpanCollection MapDownToSnapshot(SnapshotSpan span, SpanTrackingMode trackingMode,
+            ITextSnapshot targetSnapshot);
 
-        SnapshotPoint? MapUpToSnapshot(SnapshotPoint point, PointTrackingMode trackingMode, PositionAffinity affinity, ITextSnapshot targetSnapshot);
+        SnapshotPoint? MapUpToBuffer(SnapshotPoint point, PointTrackingMode trackingMode, PositionAffinity affinity,
+            ITextBuffer targetBuffer);
 
-        SnapshotPoint? MapUpToFirstMatch(SnapshotPoint point, PointTrackingMode trackingMode, Predicate<ITextSnapshot> match, PositionAffinity affinity);
+        NormalizedSnapshotSpanCollection MapUpToBuffer(SnapshotSpan span, SpanTrackingMode trackingMode,
+            ITextBuffer targetBuffer);
 
-        NormalizedSnapshotSpanCollection MapUpToBuffer(SnapshotSpan span, SpanTrackingMode trackingMode, ITextBuffer targetBuffer);
+        SnapshotPoint? MapUpToFirstMatch(SnapshotPoint point, PointTrackingMode trackingMode,
+            Predicate<ITextSnapshot> match, PositionAffinity affinity);
 
-        NormalizedSnapshotSpanCollection MapUpToSnapshot(SnapshotSpan span, SpanTrackingMode trackingMode, ITextSnapshot targetSnapshot);
+        NormalizedSnapshotSpanCollection MapUpToFirstMatch(SnapshotSpan span, SpanTrackingMode trackingMode,
+            Predicate<ITextSnapshot> match);
 
-        NormalizedSnapshotSpanCollection MapUpToFirstMatch(SnapshotSpan span, SpanTrackingMode trackingMode, Predicate<ITextSnapshot> match);
+        SnapshotPoint? MapUpToSnapshot(SnapshotPoint point, PointTrackingMode trackingMode, PositionAffinity affinity,
+            ITextSnapshot targetSnapshot);
 
-        event EventHandler<GraphBuffersChangedEventArgs> GraphBuffersChanged;
-
-        event EventHandler<GraphBufferContentTypeChangedEventArgs> GraphBufferContentTypeChanged;
+        NormalizedSnapshotSpanCollection MapUpToSnapshot(SnapshotSpan span, SpanTrackingMode trackingMode,
+            ITextSnapshot targetSnapshot);
     }
 }

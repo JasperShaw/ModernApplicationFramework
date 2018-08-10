@@ -7,40 +7,22 @@ namespace ModernApplicationFramework.Text.Ui.Editor
 {
     public struct CaretPosition
     {
-        public CaretPosition(VirtualSnapshotPoint bufferPosition, IMappingPoint mappingPoint, PositionAffinity caretAffinity)
-        {
-            VirtualBufferPosition = bufferPosition;
-            Point = mappingPoint ?? throw new ArgumentNullException(nameof(mappingPoint));
-            Affinity = caretAffinity;
-        }
+        public PositionAffinity Affinity { get; }
 
         public SnapshotPoint BufferPosition => VirtualBufferPosition.Position;
 
         public IMappingPoint Point { get; }
 
-        public PositionAffinity Affinity { get; }
-
         public VirtualSnapshotPoint VirtualBufferPosition { get; }
 
         public int VirtualSpaces => VirtualBufferPosition.VirtualSpaces;
 
-        public override string ToString()
+        public CaretPosition(VirtualSnapshotPoint bufferPosition, IMappingPoint mappingPoint,
+            PositionAffinity caretAffinity)
         {
-            if (Affinity == PositionAffinity.Predecessor)
-                return string.Format(CultureInfo.InvariantCulture, "|{0}", VirtualBufferPosition);
-            return string.Format(CultureInfo.InvariantCulture, "{0}|", VirtualBufferPosition);
-        }
-
-        public override int GetHashCode()
-        {
-            return VirtualBufferPosition.GetHashCode() ^ Affinity.GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj is CaretPosition position)
-                return position == this;
-            return false;
+            VirtualBufferPosition = bufferPosition;
+            Point = mappingPoint ?? throw new ArgumentNullException(nameof(mappingPoint));
+            Affinity = caretAffinity;
         }
 
         public static bool operator ==(CaretPosition caretPosition1, CaretPosition caretPosition2)
@@ -53,6 +35,25 @@ namespace ModernApplicationFramework.Text.Ui.Editor
         public static bool operator !=(CaretPosition caretPosition1, CaretPosition caretPosition2)
         {
             return !(caretPosition1 == caretPosition2);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is CaretPosition position)
+                return position == this;
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return VirtualBufferPosition.GetHashCode() ^ Affinity.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            if (Affinity == PositionAffinity.Predecessor)
+                return string.Format(CultureInfo.InvariantCulture, "|{0}", VirtualBufferPosition);
+            return string.Format(CultureInfo.InvariantCulture, "{0}|", VirtualBufferPosition);
         }
     }
 }

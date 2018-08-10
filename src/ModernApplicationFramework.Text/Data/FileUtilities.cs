@@ -18,12 +18,15 @@ namespace ModernApplicationFramework.Text.Data
                     try
                     {
                         using (var streamWriter = new StreamWriter(fileStream1, encoding))
+                        {
                             snapshot.Write(streamWriter);
+                        }
                     }
                     finally
                     {
                         fileStream1.Dispose();
                     }
+
                     if (temporaryPath == null)
                         return;
                     var num = 3;
@@ -45,12 +48,15 @@ namespace ModernApplicationFramework.Text.Data
                         {
                             Thread.Sleep(5);
                         }
-                    }
-                    while (--num > 0);
-                    using (var fileStream3 = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.Read))
+                    } while (--num > 0);
+
+                    using (var fileStream3 =
+                        new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.Read))
                     {
                         using (var streamWriter = new StreamWriter(fileStream3, encoding))
+                        {
                             snapshot.Write(streamWriter);
+                        }
                     }
                 }
                 else
@@ -63,7 +69,9 @@ namespace ModernApplicationFramework.Text.Data
                             originalFileStream.Seek(0L, SeekOrigin.Begin);
                             originalFileStream.SetLength(0L);
                             using (var streamWriter = new StreamWriter(originalFileStream, encoding, 1024, true))
+                            {
                                 snapshot.Write(streamWriter);
+                            }
                         }
                         catch
                         {
@@ -84,7 +92,6 @@ namespace ModernApplicationFramework.Text.Data
             finally
             {
                 if (temporaryPath != null)
-                {
                     try
                     {
                         if (File.Exists(temporaryPath))
@@ -93,11 +100,11 @@ namespace ModernApplicationFramework.Text.Data
                     catch
                     {
                     }
-                }
             }
         }
 
-        private static FileStream CreateFileStream(string filePath, FileMode fileMode, out string temporaryPath, out FileStream originalFileStream)
+        private static FileStream CreateFileStream(string filePath, FileMode fileMode, out string temporaryPath,
+            out FileStream originalFileStream)
         {
             originalFileStream = null;
             if (File.Exists(filePath))
@@ -109,19 +116,13 @@ namespace ModernApplicationFramework.Text.Data
                     originalFileStream = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
                     var safeFileHandle = originalFileStream.SafeFileHandle;
                     if (!safeFileHandle.IsClosed)
-                    {
                         if (!safeFileHandle.IsInvalid)
-                        {
                             if (Kernel32.GetFileInformationByHandle(safeFileHandle, out var lpFileInformation))
-                            {
                                 if (lpFileInformation.NumberOfLinks <= 1U)
                                 {
                                     originalFileStream.Dispose();
                                     originalFileStream = null;
                                 }
-                            }
-                        }
-                    }
                 }
                 catch
                 {
@@ -131,22 +132,23 @@ namespace ModernApplicationFramework.Text.Data
                     originalFileStream = null;
                     throw;
                 }
+
                 var directoryName = Path.GetDirectoryName(filePath);
                 var num = 0;
                 while (++num < 20)
-                {
                     try
                     {
                         temporaryPath = Path.Combine(directoryName, Path.GetRandomFileName() + "~");
-                        return new FileStream(temporaryPath, FileMode.CreateNew, originalFileStream != null ? FileAccess.ReadWrite : FileAccess.Write, FileShare.None);
+                        return new FileStream(temporaryPath, FileMode.CreateNew,
+                            originalFileStream != null ? FileAccess.ReadWrite : FileAccess.Write, FileShare.None);
                     }
                     catch (IOException)
                     {
                     }
-                }
             }
+
             temporaryPath = null;
             return new FileStream(filePath, fileMode, FileAccess.Write, FileShare.Read);
-        }       
+        }
     }
 }

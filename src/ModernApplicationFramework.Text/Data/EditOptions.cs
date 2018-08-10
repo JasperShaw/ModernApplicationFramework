@@ -4,11 +4,16 @@ namespace ModernApplicationFramework.Text.Data
 {
     public struct EditOptions
     {
-        public static readonly EditOptions None = new EditOptions();
-        public static readonly EditOptions DefaultMinimalChange = new EditOptions(new StringDifferenceOptions()
+        public static readonly EditOptions DefaultMinimalChange = new EditOptions(new StringDifferenceOptions
         {
             DifferenceType = StringDifferenceTypes.Line | StringDifferenceTypes.Word
         });
+
+        public static readonly EditOptions None = new EditOptions();
+
+        public bool ComputeMinimalChange { get; }
+
+        public StringDifferenceOptions DifferenceOptions { get; }
 
         public EditOptions(StringDifferenceOptions differenceOptions)
         {
@@ -22,15 +27,26 @@ namespace ModernApplicationFramework.Text.Data
             DifferenceOptions = differenceOptions;
         }
 
-        public bool ComputeMinimalChange { get; }
-
-        public StringDifferenceOptions DifferenceOptions { get; }
-
-        public override string ToString()
+        public static bool operator ==(EditOptions left, EditOptions right)
         {
-            if (this == None || !ComputeMinimalChange)
-                return "{none}";
-            return DifferenceOptions.ToString();
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(EditOptions left, EditOptions right)
+        {
+            return !(left == right);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is EditOptions))
+                return false;
+            var editOptions = (EditOptions) obj;
+            if (editOptions.ComputeMinimalChange != ComputeMinimalChange)
+                return false;
+            if (!ComputeMinimalChange)
+                return true;
+            return editOptions.DifferenceOptions == DifferenceOptions;
         }
 
         public override int GetHashCode()
@@ -40,26 +56,11 @@ namespace ModernApplicationFramework.Text.Data
             return DifferenceOptions.GetHashCode();
         }
 
-        public override bool Equals(object obj)
+        public override string ToString()
         {
-            if (!(obj is EditOptions))
-                return false;
-            EditOptions editOptions = (EditOptions)obj;
-            if (editOptions.ComputeMinimalChange != ComputeMinimalChange)
-                return false;
-            if (!ComputeMinimalChange)
-                return true;
-            return editOptions.DifferenceOptions == DifferenceOptions;
-        }
-
-        public static bool operator ==(EditOptions left, EditOptions right)
-        {
-            return left.Equals(right);
-        }
-
-        public static bool operator !=(EditOptions left, EditOptions right)
-        {
-            return !(left == right);
+            if (this == None || !ComputeMinimalChange)
+                return "{none}";
+            return DifferenceOptions.ToString();
         }
     }
 }

@@ -5,30 +5,29 @@ namespace ModernApplicationFramework.Text.Data.Projection
 {
     public interface IProjectionSnapshot : ITextSnapshot
     {
+        ReadOnlyCollection<ITextSnapshot> SourceSnapshots { get; }
         int SpanCount { get; }
 
-        ReadOnlyCollection<ITextSnapshot> SourceSnapshots { get; }
-
         ITextSnapshot GetMatchingSnapshot(ITextBuffer textBuffer);
+
+        ITextSnapshot GetMatchingSnapshotInClosure(ITextBuffer targetBuffer);
+
+        ITextSnapshot GetMatchingSnapshotInClosure(Predicate<ITextBuffer> match);
 
         ReadOnlyCollection<SnapshotSpan> GetSourceSpans(int startSpanIndex, int count);
 
         ReadOnlyCollection<SnapshotSpan> GetSourceSpans();
 
-        SnapshotPoint MapToSourceSnapshot(int position, PositionAffinity affinity);
-
-        ReadOnlyCollection<SnapshotPoint> MapToSourceSnapshots(int position);
-
-        SnapshotPoint MapToSourceSnapshot(int position);
-
         SnapshotPoint? MapFromSourceSnapshot(SnapshotPoint point, PositionAffinity affinity);
-
-        ReadOnlyCollection<SnapshotSpan> MapToSourceSnapshots(Span span);
 
         ReadOnlyCollection<Span> MapFromSourceSnapshot(SnapshotSpan span);
 
-        ITextSnapshot GetMatchingSnapshotInClosure(ITextBuffer targetBuffer);
+        SnapshotPoint MapToSourceSnapshot(int position, PositionAffinity affinity);
 
-        ITextSnapshot GetMatchingSnapshotInClosure(Predicate<ITextBuffer> match);
+        SnapshotPoint MapToSourceSnapshot(int position);
+
+        ReadOnlyCollection<SnapshotPoint> MapToSourceSnapshots(int position);
+
+        ReadOnlyCollection<SnapshotSpan> MapToSourceSnapshots(Span span);
     }
 }

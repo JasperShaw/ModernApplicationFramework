@@ -8,25 +8,16 @@ namespace ModernApplicationFramework.Text.Ui.Editor
     {
         public abstract PrimitiveTextView TextView { get; }
 
+        public abstract VisibilityState Visibility { get; }
+
         public new DisplayTextRange Clone()
         {
             return CloneDisplayTextRangeInternal();
         }
 
-        public abstract DisplayTextPoint GetDisplayStartPoint();
-
         public abstract DisplayTextPoint GetDisplayEndPoint();
 
-        public abstract VisibilityState Visibility { get; }
-
-        protected override TextRange CloneInternal()
-        {
-            return CloneDisplayTextRangeInternal();
-        }
-
-        protected abstract DisplayTextRange CloneDisplayTextRangeInternal();
-
-        protected abstract IEnumerator<DisplayTextPoint> GetDisplayPointEnumeratorInternal();
+        public abstract DisplayTextPoint GetDisplayStartPoint();
 
         public new IEnumerator<DisplayTextPoint> GetEnumerator()
         {
@@ -37,5 +28,14 @@ namespace ModernApplicationFramework.Text.Ui.Editor
         {
             return GetEnumerator();
         }
+
+        protected abstract DisplayTextRange CloneDisplayTextRangeInternal();
+
+        protected override TextRange CloneInternal()
+        {
+            return CloneDisplayTextRangeInternal();
+        }
+
+        protected abstract IEnumerator<DisplayTextPoint> GetDisplayPointEnumeratorInternal();
     }
 }

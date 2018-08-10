@@ -4,8 +4,8 @@
     {
         EdgeInsertionMode EdgeInsertionMode { get; }
 
-        ITrackingSpan Span { get; }
-
         DynamicReadOnlyRegionQuery QueryCallback { get; }
+
+        ITrackingSpan Span { get; }
     }
 }

@@ -1,19 +1,21 @@
-﻿namespace ModernApplicationFramework.Text.NativeMethods
+﻿using System.Runtime.InteropServices.ComTypes;
+
+namespace ModernApplicationFramework.Text.NativeMethods
 {
     internal static class NativeMethods
     {
         internal struct ByHandleFileInformation
         {
+            public FILETIME CreationTime;
             public uint FileAttributes;
-            public System.Runtime.InteropServices.ComTypes.FILETIME CreationTime;
-            public System.Runtime.InteropServices.ComTypes.FILETIME LastAccessTime;
-            public System.Runtime.InteropServices.ComTypes.FILETIME LastWriteTime;
-            public uint VolumeSerialNumber;
-            public uint FileSizeHigh;
-            public uint FileSizeLow;
-            public uint NumberOfLinks;
             public uint FileIndexHigh;
             public uint FileIndexLow;
+            public uint FileSizeHigh;
+            public uint FileSizeLow;
+            public FILETIME LastAccessTime;
+            public FILETIME LastWriteTime;
+            public uint NumberOfLinks;
+            public uint VolumeSerialNumber;
         }
     }
 }

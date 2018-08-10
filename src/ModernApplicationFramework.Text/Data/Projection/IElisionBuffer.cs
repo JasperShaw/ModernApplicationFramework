@@ -4,18 +4,17 @@ namespace ModernApplicationFramework.Text.Data.Projection
 {
     public interface IElisionBuffer : IProjectionBufferBase
     {
-        ITextBuffer SourceBuffer { get; }
+        event EventHandler<ElisionSourceSpansChangedEventArgs> SourceSpansChanged;
 
         new IElisionSnapshot CurrentSnapshot { get; }
+
+        ElisionBufferOptions Options { get; }
+        ITextBuffer SourceBuffer { get; }
 
         IProjectionSnapshot ElideSpans(NormalizedSpanCollection spansToElide);
 
         IProjectionSnapshot ExpandSpans(NormalizedSpanCollection spansToExpand);
 
         IProjectionSnapshot ModifySpans(NormalizedSpanCollection spansToElide, NormalizedSpanCollection spansToExpand);
-
-        ElisionBufferOptions Options { get; }
-
-        event EventHandler<ElisionSourceSpansChangedEventArgs> SourceSpansChanged;
     }
 }

@@ -4,16 +4,16 @@
     {
         ITextBuffer TextBuffer { get; }
 
+        TrackingFidelityMode TrackingFidelity { get; }
+
         PointTrackingMode TrackingMode { get; }
 
-        TrackingFidelityMode TrackingFidelity { get; }
+        char GetCharacter(ITextSnapshot snapshot);
 
         SnapshotPoint GetPoint(ITextSnapshot snapshot);
 
         int GetPosition(ITextSnapshot snapshot);
 
         int GetPosition(ITextVersion version);
-
-        char GetCharacter(ITextSnapshot snapshot);
     }
 }

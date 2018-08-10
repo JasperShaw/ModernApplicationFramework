@@ -10,6 +10,6 @@ namespace ModernApplicationFramework.Text.Ui.Editor
         public BackgroundBrushChangedEventArgs(Brush newBackgroundBrush)
         {
             NewBackgroundBrush = newBackgroundBrush ?? throw new ArgumentNullException(nameof(newBackgroundBrush));
-        }     
+        }
     }
 }

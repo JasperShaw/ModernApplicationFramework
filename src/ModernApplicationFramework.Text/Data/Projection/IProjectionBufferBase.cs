@@ -8,9 +8,9 @@ namespace ModernApplicationFramework.Text.Data.Projection
 
         IList<ITextBuffer> SourceBuffers { get; }
 
-        new IProjectionSnapshot Insert(int position, string text);
-
         new IProjectionSnapshot Delete(Span deleteSpan);
+
+        new IProjectionSnapshot Insert(int position, string text);
 
         new IProjectionSnapshot Replace(Span replaceSpan, string replaceWith);
     }

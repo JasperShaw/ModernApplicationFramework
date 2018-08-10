@@ -5,7 +5,8 @@ using ModernApplicationFramework.Utilities.Attributes;
 namespace ModernApplicationFramework.Text.Logic.Editor
 {
     [MetadataAttribute]
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method | AttributeTargets.Property | AttributeTargets.Field)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method | AttributeTargets.Property |
+                    AttributeTargets.Field)]
     public sealed class DeferCreationAttribute : SingletonBaseMetadataAttribute
     {
         private string _optionName = string.Empty;

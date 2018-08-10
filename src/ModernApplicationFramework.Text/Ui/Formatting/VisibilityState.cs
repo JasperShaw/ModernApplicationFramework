@@ -5,6 +5,6 @@
         Unattached,
         Hidden,
         PartiallyVisible,
-        FullyVisible,
+        FullyVisible
     }
 }

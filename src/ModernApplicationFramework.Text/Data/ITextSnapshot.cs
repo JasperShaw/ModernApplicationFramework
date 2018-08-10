@@ -7,39 +7,37 @@ namespace ModernApplicationFramework.Text.Data
 {
     public interface ITextSnapshot
     {
-        ITextBuffer TextBuffer { get; }
-
         IContentType ContentType { get; }
-
-        ITextVersion Version { get; }
 
         int Length { get; }
 
         int LineCount { get; }
 
-        string GetText(Span span);
+        IEnumerable<ITextSnapshotLine> Lines { get; }
+        ITextBuffer TextBuffer { get; }
 
-        string GetText(int startIndex, int length);
+        ITextImage TextImage { get; }
 
-        string GetText();
-
-        char[] ToCharArray(int startIndex, int length);
-
-        void CopyTo(int sourceIndex, char[] destination, int destinationIndex, int count);
+        ITextVersion Version { get; }
 
         char this[int position] { get; }
 
+        void CopyTo(int sourceIndex, char[] destination, int destinationIndex, int count);
+
         ITrackingPoint CreateTrackingPoint(int position, PointTrackingMode trackingMode);
 
-        ITrackingPoint CreateTrackingPoint(int position, PointTrackingMode trackingMode, TrackingFidelityMode trackingFidelity);
+        ITrackingPoint CreateTrackingPoint(int position, PointTrackingMode trackingMode,
+            TrackingFidelityMode trackingFidelity);
 
         ITrackingSpan CreateTrackingSpan(Span span, SpanTrackingMode trackingMode);
 
-        ITrackingSpan CreateTrackingSpan(Span span, SpanTrackingMode trackingMode, TrackingFidelityMode trackingFidelity);
+        ITrackingSpan CreateTrackingSpan(Span span, SpanTrackingMode trackingMode,
+            TrackingFidelityMode trackingFidelity);
 
         ITrackingSpan CreateTrackingSpan(int start, int length, SpanTrackingMode trackingMode);
 
-        ITrackingSpan CreateTrackingSpan(int start, int length, SpanTrackingMode trackingMode, TrackingFidelityMode trackingFidelity);
+        ITrackingSpan CreateTrackingSpan(int start, int length, SpanTrackingMode trackingMode,
+            TrackingFidelityMode trackingFidelity);
 
         ITextSnapshotLine GetLineFromLineNumber(int lineNumber);
 
@@ -47,14 +45,18 @@ namespace ModernApplicationFramework.Text.Data
 
         int GetLineNumberFromPosition(int position);
 
-        IEnumerable<ITextSnapshotLine> Lines { get; }
+        string GetText(Span span);
+
+        string GetText(int startIndex, int length);
+
+        string GetText();
+
+        void SaveToFile(string filePath, bool replaceFile, Encoding encoding);
+
+        char[] ToCharArray(int startIndex, int length);
 
         void Write(TextWriter writer, Span span);
 
         void Write(TextWriter writer);
-
-        ITextImage TextImage { get; }
-
-        void SaveToFile(string filePath, bool replaceFile, Encoding encoding);
     }
 }

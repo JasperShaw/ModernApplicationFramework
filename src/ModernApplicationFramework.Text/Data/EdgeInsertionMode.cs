@@ -3,6 +3,6 @@
     public enum EdgeInsertionMode
     {
         Allow,
-        Deny,
+        Deny
     }
 }

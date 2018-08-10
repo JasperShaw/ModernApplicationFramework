@@ -5,6 +5,12 @@ namespace ModernApplicationFramework.Text.Ui.Editor
 {
     public class MouseHoverEventArgs : EventArgs
     {
+        public int Position { get; }
+
+        public IMappingPoint TextPosition { get; }
+
+        public ITextView View { get; }
+
         public MouseHoverEventArgs(ITextView view, int position, IMappingPoint textPosition)
         {
             if (view == null)
@@ -15,11 +21,5 @@ namespace ModernApplicationFramework.Text.Ui.Editor
             Position = position;
             TextPosition = textPosition ?? throw new ArgumentNullException(nameof(textPosition));
         }
-
-        public ITextView View { get; }
-
-        public int Position { get; }
-
-        public IMappingPoint TextPosition { get; }
     }
 }

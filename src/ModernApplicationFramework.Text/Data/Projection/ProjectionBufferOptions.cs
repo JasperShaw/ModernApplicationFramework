@@ -7,6 +7,6 @@ namespace ModernApplicationFramework.Text.Data.Projection
     {
         None = 0,
         PermissiveEdgeInclusiveSourceSpans = 1,
-        WritableLiteralSpans = 2,
+        WritableLiteralSpans = 2
     }
 }

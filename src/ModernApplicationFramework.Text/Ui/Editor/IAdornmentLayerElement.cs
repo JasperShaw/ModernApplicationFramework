@@ -5,14 +5,13 @@ namespace ModernApplicationFramework.Text.Ui.Editor
 {
     public interface IAdornmentLayerElement
     {
-        SnapshotSpan? VisualSpan { get; }
+        UIElement Adornment { get; }
 
         AdornmentPositioningBehavior Behavior { get; }
 
-        UIElement Adornment { get; }
+        AdornmentRemovedCallback RemovedCallback { get; }
 
         object Tag { get; }
-
-        AdornmentRemovedCallback RemovedCallback { get; }
+        SnapshotSpan? VisualSpan { get; }
     }
 }

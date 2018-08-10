@@ -11,6 +11,6 @@ namespace ModernApplicationFramework.Text.Ui.Editor.DragDrop
         Move = 4,
         Scroll = 8,
         Track = 16, // 0x00000010
-        All = Track | Scroll | Move | Link | Copy, // 0x0000001F
+        All = Track | Scroll | Move | Link | Copy // 0x0000001F
     }
 }

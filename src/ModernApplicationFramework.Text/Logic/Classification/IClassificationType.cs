@@ -4,10 +4,9 @@ namespace ModernApplicationFramework.Text.Logic.Classification
 {
     public interface IClassificationType
     {
+        IEnumerable<IClassificationType> BaseTypes { get; }
         string Classification { get; }
 
         bool IsOfType(string type);
-
-        IEnumerable<IClassificationType> BaseTypes { get; }
     }
 }

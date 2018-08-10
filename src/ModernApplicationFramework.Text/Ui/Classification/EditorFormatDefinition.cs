@@ -6,23 +6,23 @@ namespace ModernApplicationFramework.Text.Ui.Classification
     public abstract class EditorFormatDefinition
     {
         public const string BackgroundBrushId = "Background";
-        public const string ForegroundBrushId = "Foreground";
         public const string BackgroundColorId = "BackgroundColor";
+        public const string ForegroundBrushId = "Foreground";
         public const string ForegroundColorId = "ForegroundColor";
-
-        public Color? ForegroundColor { get; protected set; }
-
-        public Color? BackgroundColor { get; protected set; }
 
         public Brush BackgroundBrush { get; protected set; }
 
-        public Brush ForegroundBrush { get; protected set; }
-
-        public bool? ForegroundCustomizable { get; protected set; }
+        public Color? BackgroundColor { get; protected set; }
 
         public bool? BackgroundCustomizable { get; protected set; }
 
         public string DisplayName { get; protected set; }
+
+        public Brush ForegroundBrush { get; protected set; }
+
+        public Color? ForegroundColor { get; protected set; }
+
+        public bool? ForegroundCustomizable { get; protected set; }
 
         public ResourceDictionary CreateResourceDictionary()
         {
@@ -39,6 +39,7 @@ namespace ModernApplicationFramework.Text.Ui.Classification
                 resourceDictionary["ForegroundColor"] = ForegroundColor;
                 brush1 = new SolidColorBrush(ForegroundColor.Value);
             }
+
             var backgroundColor = BackgroundColor;
             if (backgroundColor.HasValue)
             {
@@ -46,6 +47,7 @@ namespace ModernApplicationFramework.Text.Ui.Classification
                 backgroundColor = BackgroundColor;
                 brush2 = new SolidColorBrush(backgroundColor.Value);
             }
+
             if (ForegroundBrush != null)
                 brush1 = ForegroundBrush.Clone();
             if (BackgroundBrush != null)
@@ -55,11 +57,13 @@ namespace ModernApplicationFramework.Text.Ui.Classification
                 brush1.Freeze();
                 resourceDictionary["Foreground"] = brush1;
             }
+
             if (brush2 != null)
             {
                 brush2.Freeze();
                 resourceDictionary["Background"] = brush2;
             }
+
             return resourceDictionary;
         }
     }

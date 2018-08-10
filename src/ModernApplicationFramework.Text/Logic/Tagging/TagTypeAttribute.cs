@@ -5,6 +5,8 @@ namespace ModernApplicationFramework.Text.Logic.Tagging
 {
     public sealed class TagTypeAttribute : MultipleBaseMetadataAttribute
     {
+        public Type TagTypes { get; }
+
         public TagTypeAttribute(Type tagType)
         {
             if (tagType == null)
@@ -13,7 +15,5 @@ namespace ModernApplicationFramework.Text.Logic.Tagging
                 throw new ArgumentException("Given type must derive from ITag", nameof(tagType));
             TagTypes = tagType;
         }
-
-        public Type TagTypes { get; }
     }
 }

@@ -8,6 +8,6 @@ namespace ModernApplicationFramework.Text.Ui.Editor
         ShowStart = 1,
         MinimumScroll = 2,
         AlwaysCenter = 4,
-        None = 0,
+        None = 0
     }
 }

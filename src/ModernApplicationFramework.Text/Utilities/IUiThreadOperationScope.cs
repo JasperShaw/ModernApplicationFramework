@@ -6,9 +6,9 @@ namespace ModernApplicationFramework.Text.Utilities
     {
         bool AllowCancellation { get; set; }
 
-        string Description { get; set; }
-
         IUiThreadOperationContext Context { get; }
+
+        string Description { get; set; }
 
         IProgress<ProgressInfo> Progress { get; }
     }

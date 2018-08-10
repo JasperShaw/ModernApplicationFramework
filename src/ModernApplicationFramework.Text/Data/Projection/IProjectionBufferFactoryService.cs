@@ -6,16 +6,19 @@ namespace ModernApplicationFramework.Text.Data.Projection
 {
     public interface IProjectionBufferFactoryService
     {
+        event EventHandler<TextBufferCreatedEventArgs> ProjectionBufferCreated;
         IContentType ProjectionContentType { get; }
 
-        IProjectionBuffer CreateProjectionBuffer(IProjectionEditResolver projectionEditResolver, IList<object> sourceSpans, ProjectionBufferOptions options, IContentType contentType);
+        IElisionBuffer CreateElisionBuffer(IProjectionEditResolver projectionEditResolver,
+            NormalizedSnapshotSpanCollection exposedSpans, ElisionBufferOptions options, IContentType contentType);
 
-        IProjectionBuffer CreateProjectionBuffer(IProjectionEditResolver projectionEditResolver, IList<object> sourceSpans, ProjectionBufferOptions options);
+        IElisionBuffer CreateElisionBuffer(IProjectionEditResolver projectionEditResolver,
+            NormalizedSnapshotSpanCollection exposedSpans, ElisionBufferOptions options);
 
-        IElisionBuffer CreateElisionBuffer(IProjectionEditResolver projectionEditResolver, NormalizedSnapshotSpanCollection exposedSpans, ElisionBufferOptions options, IContentType contentType);
+        IProjectionBuffer CreateProjectionBuffer(IProjectionEditResolver projectionEditResolver,
+            IList<object> sourceSpans, ProjectionBufferOptions options, IContentType contentType);
 
-        IElisionBuffer CreateElisionBuffer(IProjectionEditResolver projectionEditResolver, NormalizedSnapshotSpanCollection exposedSpans, ElisionBufferOptions options);
-
-        event EventHandler<TextBufferCreatedEventArgs> ProjectionBufferCreated;
+        IProjectionBuffer CreateProjectionBuffer(IProjectionEditResolver projectionEditResolver,
+            IList<object> sourceSpans, ProjectionBufferOptions options);
     }
 }

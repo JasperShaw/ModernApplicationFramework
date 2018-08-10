@@ -4,18 +4,18 @@
     {
         ITextBuffer TextBuffer { get; }
 
+        TrackingFidelityMode TrackingFidelity { get; }
+
         SpanTrackingMode TrackingMode { get; }
 
-        TrackingFidelityMode TrackingFidelity { get; }
+        SnapshotPoint GetEndPoint(ITextSnapshot snapshot);
 
         SnapshotSpan GetSpan(ITextSnapshot snapshot);
 
         Span GetSpan(ITextVersion version);
 
-        string GetText(ITextSnapshot snapshot);
-
         SnapshotPoint GetStartPoint(ITextSnapshot snapshot);
 
-        SnapshotPoint GetEndPoint(ITextSnapshot snapshot);
+        string GetText(ITextSnapshot snapshot);
     }
 }

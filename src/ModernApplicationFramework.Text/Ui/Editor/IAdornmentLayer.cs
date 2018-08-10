@@ -7,6 +7,11 @@ namespace ModernApplicationFramework.Text.Ui.Editor
 {
     public interface IAdornmentLayer
     {
+        ReadOnlyCollection<IAdornmentLayerElement> Elements { get; }
+
+        bool IsEmpty { get; }
+
+        double Opacity { get; set; }
         ITextView TextView { get; }
 
         bool AddAdornment(AdornmentPositioningBehavior behavior, SnapshotSpan? visualSpan, object tag,
@@ -20,16 +25,10 @@ namespace ModernApplicationFramework.Text.Ui.Editor
 
         void RemoveAdornmentsByVisualSpan(SnapshotSpan visualSpan);
 
+        void RemoveAllAdornments();
+
         void RemoveMatchingAdornments(Predicate<IAdornmentLayerElement> match);
 
         void RemoveMatchingAdornments(SnapshotSpan visualSpan, Predicate<IAdornmentLayerElement> match);
-
-        void RemoveAllAdornments();
-
-        bool IsEmpty { get; }
-
-        double Opacity { get; set; }
-
-        ReadOnlyCollection<IAdornmentLayerElement> Elements { get; }
     }
 }

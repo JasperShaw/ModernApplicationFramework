@@ -19,71 +19,36 @@ namespace ModernApplicationFramework.Text.Data
             Position = position;
         }
 
+        public static SnapshotPoint operator +(SnapshotPoint point, int offset)
+        {
+            return point.Add(offset);
+        }
+
+        public static bool operator ==(SnapshotPoint left, SnapshotPoint right)
+        {
+            if (left.Snapshot == right.Snapshot)
+                return left.Position == right.Position;
+            return false;
+        }
+
+        public static bool operator >(SnapshotPoint left, SnapshotPoint right)
+        {
+            return left.CompareTo(right) > 0;
+        }
+
         public static implicit operator int(SnapshotPoint snapshotPoint)
         {
             return snapshotPoint.Position;
         }
 
-        public SnapshotPoint TranslateTo(ITextSnapshot targetSnapshot, PointTrackingMode trackingMode)
+        public static bool operator !=(SnapshotPoint left, SnapshotPoint right)
         {
-            if (targetSnapshot == Snapshot)
-                return this;
-            if (targetSnapshot == null)
-                throw new ArgumentNullException(nameof(targetSnapshot));
-            if (targetSnapshot.TextBuffer != Snapshot.TextBuffer)
-                throw new ArgumentException();
-            int position = targetSnapshot.Version.VersionNumber > Snapshot.Version.VersionNumber
-                ? Tracking.TrackPositionForwardInTime(trackingMode, Position, Snapshot.Version, targetSnapshot.Version)
-                : Tracking.TrackPositionBackwardInTime(trackingMode, Position, Snapshot.Version,
-                    targetSnapshot.Version);
-            return new SnapshotPoint(targetSnapshot, position);
+            return !(left == right);
         }
 
-        public ITextSnapshotLine GetContainingLine()
+        public static bool operator <(SnapshotPoint left, SnapshotPoint right)
         {
-            return Snapshot.GetLineFromPosition(Position);
-        }
-
-        public char GetChar()
-        {
-            return Snapshot[Position];
-        }
-
-
-        public int CompareTo(SnapshotPoint other)
-        {
-            if (Snapshot != other.Snapshot)
-                throw new ArgumentException();
-            return Position.CompareTo(other.Position);
-        }
-
-        public override int GetHashCode()
-        {
-            if (Snapshot == null)
-                return 0;
-            return Position.GetHashCode() ^ Snapshot.GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj is SnapshotPoint point)
-                return point == this;
-            return false;
-        }
-
-        public SnapshotPoint Add(int offset)
-        {
-            return new SnapshotPoint(Snapshot, Position + offset);
-        }
-
-        public SnapshotPoint Subtract(int offset)
-        {
-            return Add(-offset);
-        }
-
-        public int Difference(SnapshotPoint other)
-        {
-            return other - this;
+            return left.CompareTo(right) < 0;
         }
 
         public static SnapshotPoint operator -(SnapshotPoint point, int offset)
@@ -98,32 +63,66 @@ namespace ModernApplicationFramework.Text.Data
             return start.Position - other.Position;
         }
 
-        public static bool operator ==(SnapshotPoint left, SnapshotPoint right)
+        public SnapshotPoint Add(int offset)
         {
-            if (left.Snapshot == right.Snapshot)
-                return left.Position == right.Position;
+            return new SnapshotPoint(Snapshot, Position + offset);
+        }
+
+
+        public int CompareTo(SnapshotPoint other)
+        {
+            if (Snapshot != other.Snapshot)
+                throw new ArgumentException();
+            return Position.CompareTo(other.Position);
+        }
+
+        public int Difference(SnapshotPoint other)
+        {
+            return other - this;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is SnapshotPoint point)
+                return point == this;
             return false;
         }
 
-        public static bool operator !=(SnapshotPoint left, SnapshotPoint right)
+        public char GetChar()
         {
-            return !(left == right);
+            return Snapshot[Position];
         }
 
-        public static SnapshotPoint operator +(SnapshotPoint point, int offset)
+        public ITextSnapshotLine GetContainingLine()
         {
-            return point.Add(offset);
+            return Snapshot.GetLineFromPosition(Position);
         }
 
-        public static bool operator >(SnapshotPoint left, SnapshotPoint right)
+        public override int GetHashCode()
         {
-            return left.CompareTo(right) > 0;
+            if (Snapshot == null)
+                return 0;
+            return Position.GetHashCode() ^ Snapshot.GetHashCode();
         }
 
-        public static bool operator <(SnapshotPoint left, SnapshotPoint right)
+        public SnapshotPoint Subtract(int offset)
         {
-            return left.CompareTo(right) < 0;
+            return Add(-offset);
         }
 
+        public SnapshotPoint TranslateTo(ITextSnapshot targetSnapshot, PointTrackingMode trackingMode)
+        {
+            if (targetSnapshot == Snapshot)
+                return this;
+            if (targetSnapshot == null)
+                throw new ArgumentNullException(nameof(targetSnapshot));
+            if (targetSnapshot.TextBuffer != Snapshot.TextBuffer)
+                throw new ArgumentException();
+            var position = targetSnapshot.Version.VersionNumber > Snapshot.Version.VersionNumber
+                ? Tracking.TrackPositionForwardInTime(trackingMode, Position, Snapshot.Version, targetSnapshot.Version)
+                : Tracking.TrackPositionBackwardInTime(trackingMode, Position, Snapshot.Version,
+                    targetSnapshot.Version);
+            return new SnapshotPoint(targetSnapshot, position);
+        }
     }
 }

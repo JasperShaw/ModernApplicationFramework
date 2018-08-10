@@ -4,6 +4,6 @@
     {
         Forward,
         Backward,
-        UndoRedo,
+        UndoRedo
     }
 }

@@ -8,46 +8,17 @@ namespace ModernApplicationFramework.Text.Logic.Tagging
 {
     public class SimpleTagger<T> : ITagger<T> where T : ITag
     {
-        private readonly List<TrackingTagSpan<T>> _trackingTagSpans = new List<TrackingTagSpan<T>>();
-        private readonly object _mutex = new object();
         private readonly ITextBuffer _buffer;
+        private readonly object _mutex = new object();
+        private readonly List<TrackingTagSpan<T>> _trackingTagSpans = new List<TrackingTagSpan<T>>();
         private int _batchNesting;
         private ITrackingSpan _batchSpan;
+
+        public event EventHandler<SnapshotSpanEventArgs> TagsChanged;
 
         public SimpleTagger(ITextBuffer buffer)
         {
             _buffer = buffer;
-        }
-
-        private void StartBatch()
-        {
-            Interlocked.Increment(ref _batchNesting);
-        }
-
-        private void EndBatch()
-        {
-            if (Interlocked.Decrement(ref _batchNesting) != 0)
-                return;
-            var trackingSpan = Interlocked.Exchange(ref _batchSpan, null);
-            if (trackingSpan == null)
-                return;
-            var tagsChanged = TagsChanged;
-            tagsChanged?.Invoke(this, new SnapshotSpanEventArgs(trackingSpan.GetSpan(_buffer.CurrentSnapshot)));
-        }
-
-        private void UpdateBatchSpan(ITrackingSpan snapshotSpan)
-        {
-            var trackingSpan = snapshotSpan;
-            if (_batchSpan != null)
-            {
-                var currentSnapshot = _buffer.CurrentSnapshot;
-                var span1 = _batchSpan.GetSpan(currentSnapshot);
-                var span2 = snapshotSpan.GetSpan(currentSnapshot);
-                var start = span1.Start < span2.Start ? span1.Start : span2.Start;
-                var end = span1.End > span2.End ? span1.End : span2.End;
-                trackingSpan = currentSnapshot.CreateTrackingSpan(new SnapshotSpan(start, end), _batchSpan.TrackingMode);
-            }
-            _batchSpan = trackingSpan;
         }
 
         public TrackingTagSpan<T> CreateTagSpan(ITrackingSpan span, T tag)
@@ -70,7 +41,35 @@ namespace ModernApplicationFramework.Text.Logic.Tagging
             {
                 EndBatch();
             }
+
             return trackingTagSpan;
+        }
+
+        public IEnumerable<TrackingTagSpan<T>> GetTaggedSpans(SnapshotSpan span)
+        {
+            IList<TrackingTagSpan<T>> source;
+            lock (_mutex)
+            {
+                source = new List<TrackingTagSpan<T>>(_trackingTagSpans);
+            }
+
+            return source.Where(tagSpan => span.IntersectsWith(tagSpan.Span.GetSpan(span.Snapshot)));
+        }
+
+        public IEnumerable<ITagSpan<T>> GetTags(NormalizedSnapshotSpanCollection spans)
+        {
+            if (spans.Count == 0)
+                return Enumerable.Empty<ITagSpan<T>>();
+            var tagSpans = (TrackingTagSpan<T>[]) null;
+            lock (_mutex)
+            {
+                if (_trackingTagSpans.Count > 0)
+                    tagSpans = _trackingTagSpans.ToArray();
+            }
+
+            if (tagSpans == null)
+                return Enumerable.Empty<ITagSpan<T>>();
+            return Create(tagSpans, spans);
         }
 
         public bool RemoveTagSpan(TrackingTagSpan<T> tagSpan)
@@ -92,6 +91,7 @@ namespace ModernApplicationFramework.Text.Logic.Tagging
             {
                 EndBatch();
             }
+
             return flag;
         }
 
@@ -103,6 +103,7 @@ namespace ModernApplicationFramework.Text.Logic.Tagging
             try
             {
                 lock (_mutex)
+                {
                     return _trackingTagSpans.RemoveAll(tagSpan =>
                     {
                         if (!match(tagSpan))
@@ -110,6 +111,7 @@ namespace ModernApplicationFramework.Text.Logic.Tagging
                         UpdateBatchSpan(tagSpan.Span);
                         return true;
                     });
+                }
             }
             finally
             {
@@ -117,44 +119,52 @@ namespace ModernApplicationFramework.Text.Logic.Tagging
             }
         }
 
-        public IEnumerable<TrackingTagSpan<T>> GetTaggedSpans(SnapshotSpan span)
-        {
-            IList<TrackingTagSpan<T>> source;
-            lock (_mutex)
-                source = new List<TrackingTagSpan<T>>(_trackingTagSpans);
-            return source.Where(tagSpan => span.IntersectsWith(tagSpan.Span.GetSpan(span.Snapshot)));
-        }
-
         public IDisposable Update()
         {
             return new Batch(this);
         }
 
-        public IEnumerable<ITagSpan<T>> GetTags(NormalizedSnapshotSpanCollection spans)
-        {
-            if (spans.Count == 0)
-                return Enumerable.Empty<ITagSpan<T>>();
-            var tagSpans = (TrackingTagSpan<T>[])null;
-            lock (_mutex)
-            {
-                if (_trackingTagSpans.Count > 0)
-                    tagSpans = _trackingTagSpans.ToArray();
-            }
-            if (tagSpans == null)
-                return Enumerable.Empty<ITagSpan<T>>();
-            return Create(tagSpans, spans);
-        }
-
         internal static IEnumerable<ITagSpan<T>> Create(TrackingTagSpan<T>[] tagSpans,
             NormalizedSnapshotSpanCollection querySpans)
         {
-            return (from span in tagSpans
+            return from span in tagSpans
                 let tagSnapshotSpan = span.Span.GetSpan(querySpans[0].Snapshot)
                 where querySpans.Any(tagSnapshotSpan.IntersectsWith)
-                select new TagSpan<T>(tagSnapshotSpan, span.Tag));
+                select new TagSpan<T>(tagSnapshotSpan, span.Tag);
         }
 
-        public event EventHandler<SnapshotSpanEventArgs> TagsChanged;
+        private void EndBatch()
+        {
+            if (Interlocked.Decrement(ref _batchNesting) != 0)
+                return;
+            var trackingSpan = Interlocked.Exchange(ref _batchSpan, null);
+            if (trackingSpan == null)
+                return;
+            var tagsChanged = TagsChanged;
+            tagsChanged?.Invoke(this, new SnapshotSpanEventArgs(trackingSpan.GetSpan(_buffer.CurrentSnapshot)));
+        }
+
+        private void StartBatch()
+        {
+            Interlocked.Increment(ref _batchNesting);
+        }
+
+        private void UpdateBatchSpan(ITrackingSpan snapshotSpan)
+        {
+            var trackingSpan = snapshotSpan;
+            if (_batchSpan != null)
+            {
+                var currentSnapshot = _buffer.CurrentSnapshot;
+                var span1 = _batchSpan.GetSpan(currentSnapshot);
+                var span2 = snapshotSpan.GetSpan(currentSnapshot);
+                var start = span1.Start < span2.Start ? span1.Start : span2.Start;
+                var end = span1.End > span2.End ? span1.End : span2.End;
+                trackingSpan =
+                    currentSnapshot.CreateTrackingSpan(new SnapshotSpan(start, end), _batchSpan.TrackingMode);
+            }
+
+            _batchSpan = trackingSpan;
+        }
 
         private class Batch : IDisposable
         {

@@ -5,9 +5,12 @@ using ModernApplicationFramework.Utilities.Attributes;
 namespace ModernApplicationFramework.Text.Ui.Editor
 {
     [MetadataAttribute]
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method | AttributeTargets.Property | AttributeTargets.Field)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method | AttributeTargets.Property |
+                    AttributeTargets.Field)]
     public sealed class MarginContainerAttribute : SingletonBaseMetadataAttribute
     {
+        public string MarginContainer { get; }
+
         public MarginContainerAttribute(string marginContainer)
         {
             if (marginContainer == null)
@@ -16,7 +19,5 @@ namespace ModernApplicationFramework.Text.Ui.Editor
                 throw new ArgumentException("marginContainer is an empty string.");
             MarginContainer = marginContainer;
         }
-
-        public string MarginContainer { get; }
     }
 }

@@ -3,6 +3,6 @@
     public enum TextSelectionMode
     {
         Stream,
-        Box,
+        Box
     }
 }

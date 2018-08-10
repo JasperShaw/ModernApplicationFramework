@@ -6,10 +6,22 @@ namespace ModernApplicationFramework.Text.Data
     public struct TextImageLine : IEquatable<TextImageLine>
     {
         public static readonly TextImageLine Invalid;
-        public readonly ITextImage Image;
         public readonly Span Extent;
-        public readonly int LineNumber;
+        public readonly ITextImage Image;
         public readonly int LineBreakLength;
+        public readonly int LineNumber;
+
+        public int End => Extent.End;
+
+        public int EndIncludingLineBreak => Extent.End + LineBreakLength;
+
+        public Span ExtentIncludingLineBreak => new Span(Extent.Start, LengthIncludingLineBreak);
+
+        public int Length => Extent.Length;
+
+        public int LengthIncludingLineBreak => Extent.Length + LineBreakLength;
+
+        public int Start => Extent.Start;
 
         public TextImageLine(ITextImage image, int lineNumber, Span extent, int lineBreakLength)
         {
@@ -27,38 +39,14 @@ namespace ModernApplicationFramework.Text.Data
             LineBreakLength = lineBreakLength;
         }
 
-        public Span ExtentIncludingLineBreak => new Span(Extent.Start, LengthIncludingLineBreak);
-
-        public int Start => Extent.Start;
-
-        public int Length => Extent.Length;
-
-        public int LengthIncludingLineBreak => Extent.Length + LineBreakLength;
-
-        public int End => Extent.End;
-
-        public int EndIncludingLineBreak => Extent.End + LineBreakLength;
-
-        public string GetText()
+        public static bool operator ==(TextImageLine left, TextImageLine right)
         {
-            return Image.GetText(Extent);
+            return left.Equals(right);
         }
 
-        public string GetTextIncludingLineBreak()
+        public static bool operator !=(TextImageLine left, TextImageLine right)
         {
-            return Image.GetText(ExtentIncludingLineBreak);
-        }
-
-        public string GetLineBreakText()
-        {
-            return Image.GetText(new Span(Extent.End, LineBreakLength));
-        }
-
-        public override int GetHashCode()
-        {
-            if (Image == null)
-                return 0;
-            return LineNumber ^ Image.GetHashCode();
+            return !left.Equals(right);
         }
 
         public override bool Equals(object obj)
@@ -75,14 +63,26 @@ namespace ModernApplicationFramework.Text.Data
             return false;
         }
 
-        public static bool operator ==(TextImageLine left, TextImageLine right)
+        public override int GetHashCode()
         {
-            return left.Equals(right);
+            if (Image == null)
+                return 0;
+            return LineNumber ^ Image.GetHashCode();
         }
 
-        public static bool operator !=(TextImageLine left, TextImageLine right)
+        public string GetLineBreakText()
         {
-            return !left.Equals(right);
+            return Image.GetText(new Span(Extent.End, LineBreakLength));
+        }
+
+        public string GetText()
+        {
+            return Image.GetText(Extent);
+        }
+
+        public string GetTextIncludingLineBreak()
+        {
+            return Image.GetText(ExtentIncludingLineBreak);
         }
 
         public override string ToString()
@@ -100,11 +100,11 @@ namespace ModernApplicationFramework.Text.Data
             };
             var index1 = 1;
             var extent = Extent;
-            var start = (ValueType)extent.Start;
+            var start = (ValueType) extent.Start;
             objArray[index1] = start;
             var index2 = 2;
             extent = Extent;
-            var end = (ValueType)extent.End;
+            var end = (ValueType) extent.End;
             objArray[index2] = end;
             objArray[3] = LineBreakLength;
             return string.Format(currentCulture, format, objArray);

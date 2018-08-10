@@ -6,6 +6,6 @@ namespace ModernApplicationFramework.Text.Data.Projection
     public enum ElisionBufferOptions
     {
         None = 0,
-        FillInMappingMode = 1,
+        FillInMappingMode = 1
     }
 }

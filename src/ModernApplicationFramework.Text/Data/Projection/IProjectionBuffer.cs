@@ -5,18 +5,18 @@ namespace ModernApplicationFramework.Text.Data.Projection
 {
     public interface IProjectionBuffer : IProjectionBufferBase
     {
+        event EventHandler<ProjectionSourceBuffersChangedEventArgs> SourceBuffersChanged;
+
+        event EventHandler<ProjectionSourceSpansChangedEventArgs> SourceSpansChanged;
+
+        IProjectionSnapshot DeleteSpans(int position, int spansToDelete);
         IProjectionSnapshot InsertSpan(int position, ITrackingSpan spanToInsert);
 
         IProjectionSnapshot InsertSpan(int position, string literalSpanToInsert);
 
         IProjectionSnapshot InsertSpans(int position, IList<object> spansToInsert);
 
-        IProjectionSnapshot DeleteSpans(int position, int spansToDelete);
-
-        IProjectionSnapshot ReplaceSpans(int position, int spansToReplace, IList<object> spansToInsert, EditOptions options, object editTag);
-
-        event EventHandler<ProjectionSourceSpansChangedEventArgs> SourceSpansChanged;
-
-        event EventHandler<ProjectionSourceBuffersChangedEventArgs> SourceBuffersChanged;
+        IProjectionSnapshot ReplaceSpans(int position, int spansToReplace, IList<object> spansToInsert,
+            EditOptions options, object editTag);
     }
 }

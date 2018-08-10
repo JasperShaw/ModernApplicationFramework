@@ -2,11 +2,11 @@
 {
     public class OverviewMarkTag : IOverviewMarkTag
     {
+        public string MarkKindName { get; }
+
         public OverviewMarkTag(string markKindName)
         {
             MarkKindName = markKindName;
         }
-
-        public string MarkKindName { get; }
     }
 }

@@ -4,8 +4,7 @@ namespace ModernApplicationFramework.Text.Data.Differencing
 {
     public interface ITextDifferencingSelectorService
     {
-        ITextDifferencingService GetTextDifferencingService(IContentType contentType);
-
         ITextDifferencingService DefaultTextDifferencingService { get; }
+        ITextDifferencingService GetTextDifferencingService(IContentType contentType);
     }
 }

@@ -2,28 +2,27 @@
 {
     public interface ITextChange
     {
-        Span OldSpan { get; }
-
-        Span NewSpan { get; }
-
-        int OldPosition { get; }
-
-        int NewPosition { get; }
-
         int Delta { get; }
 
-        int OldEnd { get; }
+        int LineCountDelta { get; }
 
         int NewEnd { get; }
 
-        string OldText { get; }
+        int NewLength { get; }
+
+        int NewPosition { get; }
+
+        Span NewSpan { get; }
 
         string NewText { get; }
 
+        int OldEnd { get; }
+
         int OldLength { get; }
 
-        int NewLength { get; }
+        int OldPosition { get; }
+        Span OldSpan { get; }
 
-        int LineCountDelta { get; }
+        string OldText { get; }
     }
 }

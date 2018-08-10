@@ -5,21 +5,16 @@ namespace ModernApplicationFramework.Text.Ui.Editor
 {
     public abstract class PrimitiveTextView
     {
-        public abstract void MoveLineToTop(int lineNumber);
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public abstract ITextView AdvancedTextView { get; }
 
-        public abstract void MoveLineToBottom(int lineNumber);
+        public abstract Caret Caret { get; }
 
-        public abstract void ScrollUp(int lines);
+        public abstract Selection Selection { get; }
 
-        public abstract void ScrollDown(int lines);
+        public abstract PrimitiveTextBuffer TextBuffer { get; }
 
-        public abstract void ScrollPageDown();
-
-        public abstract void ScrollPageUp();
-
-        public abstract bool Show(DisplayTextPoint point, HowToShow howToShow);
-
-        public abstract VisibilityState Show(DisplayTextRange textRange, HowToShow howToShow);
+        public abstract DisplayTextRange VisibleSpan { get; }
 
         public abstract DisplayTextPoint GetTextPoint(int position);
 
@@ -33,15 +28,19 @@ namespace ModernApplicationFramework.Text.Ui.Editor
 
         public abstract DisplayTextRange GetTextRange(int startPosition, int endPosition);
 
-        public abstract DisplayTextRange VisibleSpan { get; }
+        public abstract void MoveLineToBottom(int lineNumber);
+        public abstract void MoveLineToTop(int lineNumber);
 
-        [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public abstract ITextView AdvancedTextView { get; }
+        public abstract void ScrollDown(int lines);
 
-        public abstract Caret Caret { get; }
+        public abstract void ScrollPageDown();
 
-        public abstract Selection Selection { get; }
+        public abstract void ScrollPageUp();
 
-        public abstract PrimitiveTextBuffer TextBuffer { get; }
+        public abstract void ScrollUp(int lines);
+
+        public abstract bool Show(DisplayTextPoint point, HowToShow howToShow);
+
+        public abstract VisibilityState Show(DisplayTextRange textRange, HowToShow howToShow);
     }
 }

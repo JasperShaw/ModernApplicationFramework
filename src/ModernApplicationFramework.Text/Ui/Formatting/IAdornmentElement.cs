@@ -4,13 +4,9 @@ namespace ModernApplicationFramework.Text.Ui.Formatting
 {
     public interface IAdornmentElement : ISequenceElement
     {
-        double Width { get; }
-
-        double TopSpace { get; }
+        PositionAffinity Affinity { get; }
 
         double Baseline { get; }
-
-        double TextHeight { get; }
 
         double BottomSpace { get; }
 
@@ -18,6 +14,9 @@ namespace ModernApplicationFramework.Text.Ui.Formatting
 
         object ProviderTag { get; }
 
-        PositionAffinity Affinity { get; }
+        double TextHeight { get; }
+
+        double TopSpace { get; }
+        double Width { get; }
     }
 }

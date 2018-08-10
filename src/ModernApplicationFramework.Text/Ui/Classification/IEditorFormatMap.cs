@@ -5,18 +5,17 @@ namespace ModernApplicationFramework.Text.Ui.Classification
 {
     public interface IEditorFormatMap
     {
-        ResourceDictionary GetProperties(string key);
+        event EventHandler<FormatItemsEventArgs> FormatMappingChanged;
+
+        bool IsInBatchUpdate { get; }
 
         void AddProperties(string key, ResourceDictionary properties);
-
-        void SetProperties(string key, ResourceDictionary properties);
 
         void BeginBatchUpdate();
 
         void EndBatchUpdate();
+        ResourceDictionary GetProperties(string key);
 
-        bool IsInBatchUpdate { get; }
-
-        event EventHandler<FormatItemsEventArgs> FormatMappingChanged;
+        void SetProperties(string key, ResourceDictionary properties);
     }
 }

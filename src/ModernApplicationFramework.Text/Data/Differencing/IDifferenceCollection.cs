@@ -5,12 +5,11 @@ namespace ModernApplicationFramework.Text.Data.Differencing
 {
     public interface IDifferenceCollection<T> : IEnumerable<Difference>
     {
-        IEnumerable<Tuple<int, int>> MatchSequence { get; }
+        IList<Difference> Differences { get; }
 
         IList<T> LeftSequence { get; }
+        IEnumerable<Tuple<int, int>> MatchSequence { get; }
 
         IList<T> RightSequence { get; }
-
-        IList<Difference> Differences { get; }
     }
 }

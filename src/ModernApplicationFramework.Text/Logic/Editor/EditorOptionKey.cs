@@ -2,12 +2,22 @@
 {
     public struct EditorOptionKey<T>
     {
+        public string Name { get; }
+
         public EditorOptionKey(string name)
         {
             Name = name;
         }
 
-        public string Name { get; }
+        public static bool operator ==(EditorOptionKey<T> left, EditorOptionKey<T> right)
+        {
+            return left.Name == right.Name;
+        }
+
+        public static bool operator !=(EditorOptionKey<T> left, EditorOptionKey<T> right)
+        {
+            return !(left == right);
+        }
 
         public override bool Equals(object obj)
         {
@@ -24,16 +34,6 @@
         public override string ToString()
         {
             return Name;
-        }
-
-        public static bool operator ==(EditorOptionKey<T> left, EditorOptionKey<T> right)
-        {
-            return left.Name == right.Name;
-        }
-
-        public static bool operator !=(EditorOptionKey<T> left, EditorOptionKey<T> right)
-        {
-            return !(left == right);
         }
     }
 }

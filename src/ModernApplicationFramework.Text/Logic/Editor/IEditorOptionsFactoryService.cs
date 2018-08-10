@@ -4,10 +4,9 @@ namespace ModernApplicationFramework.Text.Logic.Editor
 {
     public interface IEditorOptionsFactoryService
     {
-        IEditorOptions GetOptions(IPropertyOwner scope);
+        IEditorOptions GlobalOptions { get; }
 
         IEditorOptions CreateOptions();
-
-        IEditorOptions GlobalOptions { get; }
+        IEditorOptions GetOptions(IPropertyOwner scope);
     }
 }

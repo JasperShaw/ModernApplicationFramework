@@ -10,6 +10,7 @@ namespace ModernApplicationFramework.Text.Logic.Tagging
 
         IEnumerable<IMappingTagSpan<T>> GetAllTags(IMappingSpan span, CancellationToken cancel);
 
-        IEnumerable<IMappingTagSpan<T>> GetAllTags(NormalizedSnapshotSpanCollection snapshotSpans, CancellationToken cancel);
+        IEnumerable<IMappingTagSpan<T>> GetAllTags(NormalizedSnapshotSpanCollection snapshotSpans,
+            CancellationToken cancel);
     }
 }

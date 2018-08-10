@@ -3,6 +3,6 @@
     public enum UiThreadOperationStatus
     {
         Completed,
-        Canceled,
+        Canceled
     }
 }

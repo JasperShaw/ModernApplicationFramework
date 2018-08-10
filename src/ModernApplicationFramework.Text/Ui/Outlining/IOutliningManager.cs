@@ -6,13 +6,21 @@ namespace ModernApplicationFramework.Text.Ui.Outlining
 {
     public interface IOutliningManager : IDisposable
     {
-        IEnumerable<ICollapsed> GetCollapsedRegions(SnapshotSpan span);
+        event EventHandler<OutliningEnabledEventArgs> OutliningEnabledChanged;
 
-        IEnumerable<ICollapsed> GetCollapsedRegions(SnapshotSpan span, bool exposedRegionsOnly);
+        event EventHandler<RegionsChangedEventArgs> RegionsChanged;
 
-        IEnumerable<ICollapsed> GetCollapsedRegions(NormalizedSnapshotSpanCollection spans);
+        event EventHandler<RegionsCollapsedEventArgs> RegionsCollapsed;
 
-        IEnumerable<ICollapsed> GetCollapsedRegions(NormalizedSnapshotSpanCollection spans, bool exposedRegionsOnly);
+        event EventHandler<RegionsExpandedEventArgs> RegionsExpanded;
+
+        bool Enabled { get; set; }
+
+        IEnumerable<ICollapsed> CollapseAll(SnapshotSpan span, Predicate<ICollapsible> match);
+
+        ICollapsible Expand(ICollapsed collapsible);
+
+        IEnumerable<ICollapsible> ExpandAll(SnapshotSpan span, Predicate<ICollapsed> match);
 
         IEnumerable<ICollapsible> GetAllRegions(SnapshotSpan span);
 
@@ -21,23 +29,14 @@ namespace ModernApplicationFramework.Text.Ui.Outlining
         IEnumerable<ICollapsible> GetAllRegions(NormalizedSnapshotSpanCollection spans);
 
         IEnumerable<ICollapsible> GetAllRegions(NormalizedSnapshotSpanCollection spans, bool exposedRegionsOnly);
+        IEnumerable<ICollapsed> GetCollapsedRegions(SnapshotSpan span);
 
-        event EventHandler<RegionsChangedEventArgs> RegionsChanged;
+        IEnumerable<ICollapsed> GetCollapsedRegions(SnapshotSpan span, bool exposedRegionsOnly);
 
-        event EventHandler<RegionsExpandedEventArgs> RegionsExpanded;
+        IEnumerable<ICollapsed> GetCollapsedRegions(NormalizedSnapshotSpanCollection spans);
 
-        event EventHandler<RegionsCollapsedEventArgs> RegionsCollapsed;
-
-        event EventHandler<OutliningEnabledEventArgs> OutliningEnabledChanged;
-
-        ICollapsible Expand(ICollapsed collapsible);
+        IEnumerable<ICollapsed> GetCollapsedRegions(NormalizedSnapshotSpanCollection spans, bool exposedRegionsOnly);
 
         ICollapsed TryCollapse(ICollapsible collapsible);
-
-        IEnumerable<ICollapsed> CollapseAll(SnapshotSpan span, Predicate<ICollapsible> match);
-
-        IEnumerable<ICollapsible> ExpandAll(SnapshotSpan span, Predicate<ICollapsed> match);
-
-        bool Enabled { get; set; }
     }
 }

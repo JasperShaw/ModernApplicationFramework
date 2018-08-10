@@ -7,6 +7,6 @@ namespace ModernApplicationFramework.Text.Logic.Document
     {
         None = 0,
         ChangedSinceOpened = 1,
-        ChangedSinceSaved = 2,
+        ChangedSinceSaved = 2
     }
 }

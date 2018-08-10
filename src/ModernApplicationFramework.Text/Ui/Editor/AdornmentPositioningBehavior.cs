@@ -4,6 +4,6 @@
     {
         OwnerControlled,
         ViewportRelative,
-        TextRelative,
+        TextRelative
     }
 }

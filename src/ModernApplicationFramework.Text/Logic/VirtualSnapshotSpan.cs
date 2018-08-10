@@ -6,6 +6,54 @@ namespace ModernApplicationFramework.Text.Logic
 {
     public struct VirtualSnapshotSpan
     {
+        public VirtualSnapshotPoint End { get; }
+
+        public bool IsEmpty => Start == End;
+
+        public bool IsInVirtualSpace
+        {
+            get
+            {
+                if (!Start.IsInVirtualSpace)
+                    return End.IsInVirtualSpace;
+                return true;
+            }
+        }
+
+        public int Length
+        {
+            get
+            {
+                var virtualSnapshotPoint1 = Start;
+                var position1 = virtualSnapshotPoint1.Position;
+                virtualSnapshotPoint1 = End;
+                var position2 = virtualSnapshotPoint1.Position;
+                if (!(position1 == position2))
+                    return SnapshotSpan.Length + End.VirtualSpaces;
+                var virtualSnapshotPoint2 = End;
+                var virtualSpaces1 = virtualSnapshotPoint2.VirtualSpaces;
+                virtualSnapshotPoint2 = Start;
+                var virtualSpaces2 = virtualSnapshotPoint2.VirtualSpaces;
+                return virtualSpaces1 - virtualSpaces2;
+            }
+        }
+
+        public ITextSnapshot Snapshot => Start.Position.Snapshot;
+
+        public SnapshotSpan SnapshotSpan
+        {
+            get
+            {
+                var virtualSnapshotPoint = Start;
+                var position1 = virtualSnapshotPoint.Position;
+                virtualSnapshotPoint = End;
+                var position2 = virtualSnapshotPoint.Position;
+                return new SnapshotSpan(position1, position2);
+            }
+        }
+
+        public VirtualSnapshotPoint Start { get; }
+
         public VirtualSnapshotSpan(SnapshotSpan snapshotSpan)
         {
             Start = new VirtualSnapshotPoint(snapshotSpan.Start);
@@ -24,58 +72,17 @@ namespace ModernApplicationFramework.Text.Logic
             End = end;
         }
 
-        public VirtualSnapshotPoint Start { get; }
-
-        public VirtualSnapshotPoint End { get; }
-
-        public ITextSnapshot Snapshot => Start.Position.Snapshot;
-
-        public int Length
+        public static bool operator ==(VirtualSnapshotSpan left, VirtualSnapshotSpan right)
         {
-            get
-            {
-                VirtualSnapshotPoint virtualSnapshotPoint1 = Start;
-                SnapshotPoint position1 = virtualSnapshotPoint1.Position;
-                virtualSnapshotPoint1 = End;
-                SnapshotPoint position2 = virtualSnapshotPoint1.Position;
-                if (!(position1 == position2))
-                    return SnapshotSpan.Length + End.VirtualSpaces;
-                VirtualSnapshotPoint virtualSnapshotPoint2 = End;
-                int virtualSpaces1 = virtualSnapshotPoint2.VirtualSpaces;
-                virtualSnapshotPoint2 = Start;
-                int virtualSpaces2 = virtualSnapshotPoint2.VirtualSpaces;
-                return virtualSpaces1 - virtualSpaces2;
-            }
+            if (left.Start == right.Start)
+                return left.End == right.End;
+            return false;
         }
 
-        public string GetText()
+        public static bool operator !=(VirtualSnapshotSpan left, VirtualSnapshotSpan right)
         {
-            return SnapshotSpan.GetText();
+            return !(left == right);
         }
-
-        public SnapshotSpan SnapshotSpan
-        {
-            get
-            {
-                VirtualSnapshotPoint virtualSnapshotPoint = Start;
-                SnapshotPoint position1 = virtualSnapshotPoint.Position;
-                virtualSnapshotPoint = End;
-                SnapshotPoint position2 = virtualSnapshotPoint.Position;
-                return new SnapshotSpan(position1, position2);
-            }
-        }
-
-        public bool IsInVirtualSpace
-        {
-            get
-            {
-                if (!Start.IsInVirtualSpace)
-                    return End.IsInVirtualSpace;
-                return true;
-            }
-        }
-
-        public bool IsEmpty => Start == End;
 
         public bool Contains(VirtualSnapshotPoint virtualPoint)
         {
@@ -91,16 +98,32 @@ namespace ModernApplicationFramework.Text.Logic
             return false;
         }
 
-        public bool OverlapsWith(VirtualSnapshotSpan virtualSpan)
+        public override bool Equals(object obj)
         {
-            return (Start > virtualSpan.Start ? Start : virtualSpan.Start) < (End < virtualSpan.End ? End : virtualSpan.End);
+            if (obj is VirtualSnapshotSpan span)
+                return span == this;
+            return false;
         }
 
-        public VirtualSnapshotSpan? Overlap(VirtualSnapshotSpan virtualSpan)
+        public override int GetHashCode()
         {
-            VirtualSnapshotPoint start = Start > virtualSpan.Start ? Start : virtualSpan.Start;
-            VirtualSnapshotPoint end = End < virtualSpan.End ? End : virtualSpan.End;
-            if (start < end)
+            var virtualSnapshotPoint = Start;
+            var hashCode1 = virtualSnapshotPoint.GetHashCode();
+            virtualSnapshotPoint = End;
+            var hashCode2 = virtualSnapshotPoint.GetHashCode();
+            return hashCode1 ^ hashCode2;
+        }
+
+        public string GetText()
+        {
+            return SnapshotSpan.GetText();
+        }
+
+        public VirtualSnapshotSpan? Intersection(VirtualSnapshotSpan virtualSpan)
+        {
+            var start = Start > virtualSpan.Start ? Start : virtualSpan.Start;
+            var end = End < virtualSpan.End ? End : virtualSpan.End;
+            if (start <= end)
                 return new VirtualSnapshotSpan(start, end);
             return new VirtualSnapshotSpan?();
         }
@@ -112,22 +135,24 @@ namespace ModernApplicationFramework.Text.Logic
             return false;
         }
 
-        public VirtualSnapshotSpan? Intersection(VirtualSnapshotSpan virtualSpan)
+        public VirtualSnapshotSpan? Overlap(VirtualSnapshotSpan virtualSpan)
         {
-            VirtualSnapshotPoint start = Start > virtualSpan.Start ? Start : virtualSpan.Start;
-            VirtualSnapshotPoint end = End < virtualSpan.End ? End : virtualSpan.End;
-            if (start <= end)
+            var start = Start > virtualSpan.Start ? Start : virtualSpan.Start;
+            var end = End < virtualSpan.End ? End : virtualSpan.End;
+            if (start < end)
                 return new VirtualSnapshotSpan(start, end);
             return new VirtualSnapshotSpan?();
         }
 
-        public override int GetHashCode()
+        public bool OverlapsWith(VirtualSnapshotSpan virtualSpan)
         {
-            VirtualSnapshotPoint virtualSnapshotPoint = Start;
-            int hashCode1 = virtualSnapshotPoint.GetHashCode();
-            virtualSnapshotPoint = End;
-            int hashCode2 = virtualSnapshotPoint.GetHashCode();
-            return hashCode1 ^ hashCode2;
+            return (Start > virtualSpan.Start ? Start : virtualSpan.Start) <
+                   (End < virtualSpan.End ? End : virtualSpan.End);
+        }
+
+        public override string ToString()
+        {
+            return string.Format(CultureInfo.CurrentCulture, "({0},{1})", Start, End);
         }
 
         public VirtualSnapshotSpan TranslateTo(ITextSnapshot snapshot)
@@ -139,57 +164,38 @@ namespace ModernApplicationFramework.Text.Logic
         {
             if (snapshot == null)
                 throw new ArgumentNullException(nameof(snapshot));
-            int versionNumber1 = snapshot.Version.VersionNumber;
-            VirtualSnapshotPoint virtualSnapshotPoint1 = Start;
-            int versionNumber2 = virtualSnapshotPoint1.Position.Snapshot.Version.VersionNumber;
+            var versionNumber1 = snapshot.Version.VersionNumber;
+            var virtualSnapshotPoint1 = Start;
+            var versionNumber2 = virtualSnapshotPoint1.Position.Snapshot.Version.VersionNumber;
             if (versionNumber1 < versionNumber2)
-                throw new ArgumentException("VirtualSnapshotSpans can only be translated to later snapshots", nameof(snapshot));
-            ITextSnapshot textSnapshot = snapshot;
+                throw new ArgumentException("VirtualSnapshotSpans can only be translated to later snapshots",
+                    nameof(snapshot));
+            var textSnapshot = snapshot;
             virtualSnapshotPoint1 = Start;
-            ITextSnapshot snapshot1 = virtualSnapshotPoint1.Position.Snapshot;
+            var snapshot1 = virtualSnapshotPoint1.Position.Snapshot;
             if (textSnapshot == snapshot1)
                 return this;
             virtualSnapshotPoint1 = Start;
-            VirtualSnapshotPoint virtualSnapshotPoint2 = virtualSnapshotPoint1.TranslateTo(snapshot, GetStartPointMode(trackingMode));
+            var virtualSnapshotPoint2 = virtualSnapshotPoint1.TranslateTo(snapshot, GetStartPointMode(trackingMode));
             virtualSnapshotPoint1 = End;
-            VirtualSnapshotPoint end = virtualSnapshotPoint1.TranslateTo(snapshot, GetEndPointMode(trackingMode));
+            var end = virtualSnapshotPoint1.TranslateTo(snapshot, GetEndPointMode(trackingMode));
             if (virtualSnapshotPoint2 <= end)
                 return new VirtualSnapshotSpan(virtualSnapshotPoint2, end);
             return new VirtualSnapshotSpan(virtualSnapshotPoint2, virtualSnapshotPoint2);
         }
 
-        private static PointTrackingMode GetStartPointMode(SpanTrackingMode trackingMode)
-        {
-            return trackingMode == SpanTrackingMode.EdgeInclusive || trackingMode == SpanTrackingMode.EdgeNegative ? PointTrackingMode.Negative : PointTrackingMode.Positive;
-        }
-
         private static PointTrackingMode GetEndPointMode(SpanTrackingMode trackingMode)
         {
-            return trackingMode == SpanTrackingMode.EdgeInclusive || trackingMode == SpanTrackingMode.EdgePositive ? PointTrackingMode.Positive : PointTrackingMode.Negative;
+            return trackingMode == SpanTrackingMode.EdgeInclusive || trackingMode == SpanTrackingMode.EdgePositive
+                ? PointTrackingMode.Positive
+                : PointTrackingMode.Negative;
         }
 
-        public override string ToString()
+        private static PointTrackingMode GetStartPointMode(SpanTrackingMode trackingMode)
         {
-            return string.Format(CultureInfo.CurrentCulture, "({0},{1})", Start, End);
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj is VirtualSnapshotSpan span)
-                return span == this;
-            return false;
-        }
-
-        public static bool operator ==(VirtualSnapshotSpan left, VirtualSnapshotSpan right)
-        {
-            if (left.Start == right.Start)
-                return left.End == right.End;
-            return false;
-        }
-
-        public static bool operator !=(VirtualSnapshotSpan left, VirtualSnapshotSpan right)
-        {
-            return !(left == right);
+            return trackingMode == SpanTrackingMode.EdgeInclusive || trackingMode == SpanTrackingMode.EdgeNegative
+                ? PointTrackingMode.Negative
+                : PointTrackingMode.Positive;
         }
     }
 }

@@ -5,12 +5,11 @@ namespace ModernApplicationFramework.Text.Ui.Editor
 {
     public interface IVerticalFractionMap
     {
+        event EventHandler MappingChanged;
         ITextView TextView { get; }
-
-        double GetFractionAtBufferPosition(SnapshotPoint bufferPosition);
 
         SnapshotPoint GetBufferPositionAtFraction(double fraction);
 
-        event EventHandler MappingChanged;
+        double GetFractionAtBufferPosition(SnapshotPoint bufferPosition);
     }
 }

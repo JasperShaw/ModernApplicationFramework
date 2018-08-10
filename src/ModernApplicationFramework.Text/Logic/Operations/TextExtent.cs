@@ -4,6 +4,10 @@ namespace ModernApplicationFramework.Text.Logic.Operations
 {
     public struct TextExtent
     {
+        public bool IsSignificant { get; }
+
+        public SnapshotSpan Span { get; }
+
         public TextExtent(SnapshotSpan span, bool isSignificant)
         {
             Span = span;
@@ -16,9 +20,17 @@ namespace ModernApplicationFramework.Text.Logic.Operations
             IsSignificant = textExtent.IsSignificant;
         }
 
-        public SnapshotSpan Span { get; }
+        public static bool operator ==(TextExtent extent1, TextExtent extent2)
+        {
+            if (extent1.Span == extent2.Span)
+                return extent1.IsSignificant == extent2.IsSignificant;
+            return false;
+        }
 
-        public bool IsSignificant { get; }
+        public static bool operator !=(TextExtent extent1, TextExtent extent2)
+        {
+            return !(extent1 == extent2);
+        }
 
         public override bool Equals(object obj)
         {
@@ -30,18 +42,6 @@ namespace ModernApplicationFramework.Text.Logic.Operations
         public override int GetHashCode()
         {
             return base.GetHashCode();
-        }
-
-        public static bool operator ==(TextExtent extent1, TextExtent extent2)
-        {
-            if (extent1.Span == extent2.Span)
-                return extent1.IsSignificant == extent2.IsSignificant;
-            return false;
-        }
-
-        public static bool operator !=(TextExtent extent1, TextExtent extent2)
-        {
-            return !(extent1 == extent2);
         }
     }
 }
