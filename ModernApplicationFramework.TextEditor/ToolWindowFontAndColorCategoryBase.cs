@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 using Caliburn.Micro;
+using ModernApplicationFramework.Text.Logic.Classification;
 using ModernApplicationFramework.TextEditor.Implementation;
 
 namespace ModernApplicationFramework.TextEditor

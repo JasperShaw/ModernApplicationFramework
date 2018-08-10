@@ -1,4 +1,9 @@
 ﻿using System.Collections.Generic;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Logic;
+using ModernApplicationFramework.Text.Ui.Editor;
+using ModernApplicationFramework.Text.Ui.Editor.DragDrop;
+using ModernApplicationFramework.Text.Ui.Operations;
 
 namespace ModernApplicationFramework.TextEditor
 {

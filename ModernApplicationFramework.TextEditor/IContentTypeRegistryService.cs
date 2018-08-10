@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ModernApplicationFramework.Utilities.Core;
 
 namespace ModernApplicationFramework.TextEditor
 {

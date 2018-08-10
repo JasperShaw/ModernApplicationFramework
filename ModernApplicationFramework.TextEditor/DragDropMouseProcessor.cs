@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
+using ModernApplicationFramework.Text.Logic;
+using ModernApplicationFramework.Text.Ui.Classification;
+using ModernApplicationFramework.Text.Ui.Editor;
+using ModernApplicationFramework.Text.Ui.Editor.DragDrop;
+using ModernApplicationFramework.Text.Ui.Formatting;
+using ModernApplicationFramework.Text.Ui.Operations;
 using ModernApplicationFramework.TextEditor.Utilities;
 
 namespace ModernApplicationFramework.TextEditor

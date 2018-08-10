@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Data.Differencing;
 using ModernApplicationFramework.TextEditor.Text;
 using ModernApplicationFramework.TextEditor.Text.Differencing;
 

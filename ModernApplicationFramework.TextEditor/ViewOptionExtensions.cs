@@ -1,4 +1,5 @@
 ﻿using System;
+using ModernApplicationFramework.Text.Logic.Editor;
 
 namespace ModernApplicationFramework.TextEditor
 {

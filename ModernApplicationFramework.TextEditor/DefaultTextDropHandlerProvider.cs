@@ -1,5 +1,8 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using ModernApplicationFramework.Text.Ui.Editor;
+using ModernApplicationFramework.Text.Ui.Editor.DragDrop;
+using ModernApplicationFramework.Text.Ui.Operations;
 using ModernApplicationFramework.Utilities.Attributes;
 
 namespace ModernApplicationFramework.TextEditor

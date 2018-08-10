@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using ModernApplicationFramework.Text.Ui.Editor;
 
 namespace ModernApplicationFramework.TextEditor
 {

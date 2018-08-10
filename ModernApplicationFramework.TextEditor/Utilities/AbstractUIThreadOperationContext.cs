@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using ModernApplicationFramework.Text.Utilities;
+using ModernApplicationFramework.Utilities;
+using ModernApplicationFramework.Utilities.Core;
 
 namespace ModernApplicationFramework.TextEditor.Utilities
 {

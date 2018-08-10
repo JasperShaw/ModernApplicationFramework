@@ -4,6 +4,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Logic.Tagging;
+using ModernApplicationFramework.Text.Ui.Editor;
+using ModernApplicationFramework.Text.Ui.Formatting;
 using ModernApplicationFramework.TextEditor.Text.Formatting;
 
 namespace ModernApplicationFramework.TextEditor

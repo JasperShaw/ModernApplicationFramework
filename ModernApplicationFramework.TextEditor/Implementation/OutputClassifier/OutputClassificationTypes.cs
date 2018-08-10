@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using ModernApplicationFramework.Text.Logic.Classification;
 using ModernApplicationFramework.Utilities.Attributes;
 
 namespace ModernApplicationFramework.TextEditor.Implementation.OutputClassifier

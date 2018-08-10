@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Windows;
+using ModernApplicationFramework.Text.Ui.Classification;
 using ModernApplicationFramework.Utilities.Attributes;
 
 namespace ModernApplicationFramework.TextEditor.Implementation

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Utilities.Core;
 
 namespace ModernApplicationFramework.TextEditor.Text
 {

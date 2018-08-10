@@ -1,6 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using ModernApplicationFramework.Text.Ui.Classification;
+using ModernApplicationFramework.Text.Ui.Editor;
+using ModernApplicationFramework.Text.Ui.Editor.DragDrop;
+using ModernApplicationFramework.Text.Ui.Formatting;
+using ModernApplicationFramework.Text.Ui.Operations;
 using ModernApplicationFramework.TextEditor.Utilities;
 using ModernApplicationFramework.Utilities.Attributes;
 

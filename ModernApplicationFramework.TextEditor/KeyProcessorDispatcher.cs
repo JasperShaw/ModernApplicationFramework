@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
+using ModernApplicationFramework.Text.Ui.Editor;
 using ModernApplicationFramework.TextEditor.Utilities;
 
 namespace ModernApplicationFramework.TextEditor

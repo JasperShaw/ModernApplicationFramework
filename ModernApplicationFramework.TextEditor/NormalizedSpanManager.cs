@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Media.TextFormatting;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Data.Projection;
+using ModernApplicationFramework.Text.Ui.Formatting;
 using ModernApplicationFramework.TextEditor.Text.Formatting;
 using ModernApplicationFramework.TextEditor.Utilities;
 

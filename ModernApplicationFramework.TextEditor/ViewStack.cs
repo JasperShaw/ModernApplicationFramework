@@ -2,6 +2,9 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Ui.Editor;
+using ModernApplicationFramework.Text.Ui.Formatting;
 
 namespace ModernApplicationFramework.TextEditor
 {

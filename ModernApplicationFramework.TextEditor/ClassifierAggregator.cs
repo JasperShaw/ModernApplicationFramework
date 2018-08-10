@@ -1,6 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Logic.Classification;
+using ModernApplicationFramework.Text.Logic.Tagging;
+using ModernApplicationFramework.Text.Ui.Editor;
+using ModernApplicationFramework.Text.Ui.Tagging;
 
 namespace ModernApplicationFramework.TextEditor
 {

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Caliburn.Micro;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Logic.Classification;
+using ModernApplicationFramework.Text.Logic.Tagging;
 
 namespace ModernApplicationFramework.TextEditor.Implementation.OutputClassifier
 {

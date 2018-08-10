@@ -1,4 +1,6 @@
-﻿namespace ModernApplicationFramework.TextEditor.Text
+﻿using ModernApplicationFramework.Text.Data;
+
+namespace ModernApplicationFramework.TextEditor.Text
 {
     internal class TextSnapshot : BaseSnapshot
     {

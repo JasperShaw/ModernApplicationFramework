@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Ui.Editor;
 
 namespace ModernApplicationFramework.TextEditor
 {

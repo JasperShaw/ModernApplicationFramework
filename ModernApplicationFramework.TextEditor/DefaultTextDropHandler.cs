@@ -1,4 +1,7 @@
 ﻿using System;
+using ModernApplicationFramework.Text.Ui.Editor;
+using ModernApplicationFramework.Text.Ui.Editor.DragDrop;
+using ModernApplicationFramework.Text.Ui.Operations;
 
 namespace ModernApplicationFramework.TextEditor
 {

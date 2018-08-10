@@ -1,4 +1,7 @@
-﻿namespace ModernApplicationFramework.TextEditor
+﻿using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Utilities.Core;
+
+namespace ModernApplicationFramework.TextEditor
 {
     internal interface IInternalTextBufferFactory
     {

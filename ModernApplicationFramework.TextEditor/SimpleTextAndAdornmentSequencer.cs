@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Data.Projection;
+using ModernApplicationFramework.Text.Ui.Formatting;
 using ModernApplicationFramework.TextEditor.Text;
 
 namespace ModernApplicationFramework.TextEditor

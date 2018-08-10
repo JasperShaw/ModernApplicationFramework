@@ -1,6 +1,9 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Windows.Media;
+using ModernApplicationFramework.Text.Logic.Editor;
+using ModernApplicationFramework.Text.Ui.Classification;
+using ModernApplicationFramework.Text.Ui.Editor;
 using ModernApplicationFramework.Utilities.Attributes;
 
 namespace ModernApplicationFramework.TextEditor.Text.CurrentLineHighlighter
@@ -19,7 +22,6 @@ namespace ModernApplicationFramework.TextEditor.Text.CurrentLineHighlighter
         [Order(Before = "Caret")]
         [Order(After = "Outlining")]
         [Order(Before = "TextMarker")]
-        [Order(Before = "VsTextMarker")]
         internal AdornmentLayerDefinition CurrentLineHighlighterLayer;
         [Import]
         internal IEditorFormatMapService EditorFormatMapService;

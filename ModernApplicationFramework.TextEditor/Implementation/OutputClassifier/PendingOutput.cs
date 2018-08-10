@@ -1,4 +1,6 @@
-﻿namespace ModernApplicationFramework.TextEditor.Implementation.OutputClassifier
+﻿using ModernApplicationFramework.Text.Logic.Classification;
+
+namespace ModernApplicationFramework.TextEditor.Implementation.OutputClassifier
 {
     internal class PendingOutput
     {

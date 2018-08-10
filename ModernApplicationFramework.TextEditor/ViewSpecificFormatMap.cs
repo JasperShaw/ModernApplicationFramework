@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using ModernApplicationFramework.Text.Logic.Classification;
+using ModernApplicationFramework.Text.Logic.Editor;
+using ModernApplicationFramework.Text.Ui.Classification;
+using ModernApplicationFramework.Text.Ui.Editor;
+using ModernApplicationFramework.Text.Ui.Formatting;
 
 namespace ModernApplicationFramework.TextEditor
 {

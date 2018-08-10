@@ -1,4 +1,8 @@
 ﻿using System.Collections.Generic;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Data.Projection;
+using ModernApplicationFramework.Text.Logic.Tagging;
+using ModernApplicationFramework.Text.Ui.Editor;
 
 namespace ModernApplicationFramework.TextEditor
 {

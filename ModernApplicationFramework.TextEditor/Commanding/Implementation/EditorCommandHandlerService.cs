@@ -1,8 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Ui.Commanding;
+using ModernApplicationFramework.Text.Ui.Editor;
+using ModernApplicationFramework.Text.Ui.Editor.Commanding;
+using ModernApplicationFramework.Text.Utilities;
 using ModernApplicationFramework.TextEditor.Implementation;
 using ModernApplicationFramework.TextEditor.Utilities;
+using ModernApplicationFramework.Utilities.Core;
+using ModernApplicationFramework.Utilities.Interfaces;
 
 namespace ModernApplicationFramework.TextEditor.Commanding.Implementation
 {

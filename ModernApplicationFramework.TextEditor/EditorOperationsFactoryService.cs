@@ -1,5 +1,11 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using ModernApplicationFramework.Text.Logic.Editor;
+using ModernApplicationFramework.Text.Logic.Operations;
+using ModernApplicationFramework.Text.Ui.Editor;
+using ModernApplicationFramework.Text.Ui.Formatting;
+using ModernApplicationFramework.Text.Ui.Operations;
+using ModernApplicationFramework.Text.Ui.Outlining;
 
 namespace ModernApplicationFramework.TextEditor
 {

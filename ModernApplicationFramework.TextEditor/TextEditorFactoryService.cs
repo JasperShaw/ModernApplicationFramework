@@ -1,6 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Data.Projection;
+using ModernApplicationFramework.Text.Logic;
+using ModernApplicationFramework.Text.Logic.Editor;
+using ModernApplicationFramework.Text.Ui.Classification;
+using ModernApplicationFramework.Text.Ui.Editor;
+using ModernApplicationFramework.Text.Ui.Formatting;
+using ModernApplicationFramework.Text.Ui.Outlining;
 using ModernApplicationFramework.TextEditor.Utilities;
 using ModernApplicationFramework.Utilities;
 using ModernApplicationFramework.Utilities.Interfaces;

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Logic.Classification;
 using ModernApplicationFramework.TextEditor.Utilities;
 
 namespace ModernApplicationFramework.TextEditor

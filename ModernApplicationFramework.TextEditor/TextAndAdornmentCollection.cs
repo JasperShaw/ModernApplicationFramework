@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using ModernApplicationFramework.Text.Ui.Formatting;
 
 namespace ModernApplicationFramework.TextEditor
 {

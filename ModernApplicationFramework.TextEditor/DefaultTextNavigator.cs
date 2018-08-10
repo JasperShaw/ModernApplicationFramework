@@ -1,4 +1,7 @@
 ﻿using System;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Logic.Operations;
+using ModernApplicationFramework.Utilities.Core;
 
 namespace ModernApplicationFramework.TextEditor
 {

@@ -1,6 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Logic.Editor;
+using ModernApplicationFramework.Text.Logic.Operations;
+using ModernApplicationFramework.Text.Ui.Editor;
+using ModernApplicationFramework.Text.Ui.Formatting;
 
 namespace ModernApplicationFramework.TextEditor
 {

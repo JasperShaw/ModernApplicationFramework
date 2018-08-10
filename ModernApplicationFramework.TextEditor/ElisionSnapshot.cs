@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Data.Projection;
 using ModernApplicationFramework.TextEditor.Text;
 using ModernApplicationFramework.TextEditor.Utilities;
 

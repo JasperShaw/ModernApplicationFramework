@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using ModernApplicationFramework.Text.Ui.Adornments;
+using ModernApplicationFramework.Text.Ui.Classification;
+using ModernApplicationFramework.Text.Ui.Editor;
+using ModernApplicationFramework.Text.Ui.Tagging;
 using ModernApplicationFramework.TextEditor.Implementation;
 using ModernApplicationFramework.Utilities;
 using ModernApplicationFramework.Utilities.Interfaces;

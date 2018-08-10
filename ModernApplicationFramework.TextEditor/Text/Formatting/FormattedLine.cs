@@ -4,7 +4,12 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.TextFormatting;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Data.Projection;
+using ModernApplicationFramework.Text.Logic;
+using ModernApplicationFramework.Text.Ui.Formatting;
 using ModernApplicationFramework.TextEditor.Utilities;
+using TextBounds = ModernApplicationFramework.Text.Ui.Formatting.TextBounds;
 
 namespace ModernApplicationFramework.TextEditor.Text.Formatting
 {

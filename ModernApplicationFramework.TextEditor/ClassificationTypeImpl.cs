@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ModernApplicationFramework.Text.Logic.Classification;
 using ModernApplicationFramework.TextEditor.Utilities;
 
 namespace ModernApplicationFramework.TextEditor

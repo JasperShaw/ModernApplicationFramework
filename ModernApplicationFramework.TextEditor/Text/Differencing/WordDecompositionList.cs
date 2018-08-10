@@ -1,4 +1,7 @@
-﻿namespace ModernApplicationFramework.TextEditor.Text.Differencing
+﻿using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Data.Differencing;
+
+namespace ModernApplicationFramework.TextEditor.Text.Differencing
 {
     internal sealed class WordDecompositionList : TokenizedStringList
     {

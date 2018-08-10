@@ -1,4 +1,5 @@
 ﻿using System;
+using ModernApplicationFramework.Text.Logic.Classification;
 
 namespace ModernApplicationFramework.TextEditor.Implementation
 {

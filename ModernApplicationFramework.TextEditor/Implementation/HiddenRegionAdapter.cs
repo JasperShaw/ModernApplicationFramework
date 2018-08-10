@@ -1,4 +1,6 @@
 ﻿using System;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Ui.Tagging;
 
 namespace ModernApplicationFramework.TextEditor.Implementation
 {

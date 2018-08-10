@@ -4,10 +4,14 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.IO.MemoryMappedFiles;
 using System.Text;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Data.Differencing;
+using ModernApplicationFramework.Text.Data.Projection;
 using ModernApplicationFramework.TextEditor.Text;
 using ModernApplicationFramework.TextEditor.Text.Differencing;
 using ModernApplicationFramework.TextEditor.Utilities;
 using ModernApplicationFramework.Utilities.Attributes;
+using ModernApplicationFramework.Utilities.Core;
 
 namespace ModernApplicationFramework.TextEditor
 {

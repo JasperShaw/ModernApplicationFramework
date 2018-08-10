@@ -1,5 +1,10 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using ModernApplicationFramework.Text.Logic.Editor;
+using ModernApplicationFramework.Text.Logic.Tagging;
+using ModernApplicationFramework.Text.Ui.Editor;
+using ModernApplicationFramework.Text.Ui.Outlining;
+using ModernApplicationFramework.Text.Ui.Tagging;
 
 namespace ModernApplicationFramework.TextEditor
 {

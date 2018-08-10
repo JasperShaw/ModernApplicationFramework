@@ -1,5 +1,9 @@
 ﻿using System.Globalization;
 using System.Linq;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Logic.Tagging;
+using ModernApplicationFramework.Text.Ui.Formatting;
+using ModernApplicationFramework.Text.Ui.Tagging;
 
 namespace ModernApplicationFramework.TextEditor
 {

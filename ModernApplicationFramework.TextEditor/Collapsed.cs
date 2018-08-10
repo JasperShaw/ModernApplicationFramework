@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Ui.Outlining;
+using ModernApplicationFramework.Text.Ui.Tagging;
+using ModernApplicationFramework.Text.Utilities;
 using ModernApplicationFramework.TextEditor.Utilities;
 
 namespace ModernApplicationFramework.TextEditor

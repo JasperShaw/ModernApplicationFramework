@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using System.Windows.Media;
+using ModernApplicationFramework.Text.Logic.Classification;
+using ModernApplicationFramework.Text.Ui.Classification;
 using ModernApplicationFramework.Utilities.Attributes;
 
 namespace ModernApplicationFramework.TextEditor.Implementation

@@ -1,4 +1,6 @@
-﻿namespace ModernApplicationFramework.TextEditor
+﻿using ModernApplicationFramework.Text.Data;
+
+namespace ModernApplicationFramework.TextEditor
 {
     internal class ForwardFidelityTrackingPoint : TrackingPoint
     {

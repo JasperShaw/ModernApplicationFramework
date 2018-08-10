@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using ModernApplicationFramework.Text.Logic.Editor;
 using ModernApplicationFramework.TextEditor.Utilities;
+using ModernApplicationFramework.Utilities.Core;
+using ModernApplicationFramework.Utilities.Interfaces;
 
 namespace ModernApplicationFramework.TextEditor
 {

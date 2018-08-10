@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Ui.Adornments;
 
 namespace ModernApplicationFramework.TextEditor
 {

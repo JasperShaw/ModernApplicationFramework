@@ -1,4 +1,5 @@
-﻿using ModernApplicationFramework.TextEditor.Text.Formatting;
+﻿using ModernApplicationFramework.Text.Ui.Editor;
+using ModernApplicationFramework.TextEditor.Text.Formatting;
 
 namespace ModernApplicationFramework.TextEditor
 {

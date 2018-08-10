@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.Composition;
+using ModernApplicationFramework.Text.Ui.Editor;
+using ModernApplicationFramework.Text.Ui.Tagging;
 using ModernApplicationFramework.TextEditor.Text.Formatting;
 using ModernApplicationFramework.Utilities.Attributes;
 

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
-using ModernApplicationFramework.TextEditor.Text.Document;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Logic.Document;
+using ModernApplicationFramework.Text.Logic.Tagging;
 
 namespace ModernApplicationFramework.TextEditor.Utilities
 {

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Logic.Classification;
+using ModernApplicationFramework.Text.Logic.Tagging;
 
 namespace ModernApplicationFramework.TextEditor
 {

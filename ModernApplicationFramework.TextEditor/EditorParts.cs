@@ -1,4 +1,11 @@
 ﻿using Caliburn.Micro;
+using ModernApplicationFramework.Text.Logic.Classification;
+using ModernApplicationFramework.Text.Logic.Editor;
+using ModernApplicationFramework.Text.Logic.Tagging;
+using ModernApplicationFramework.Text.Ui.Classification;
+using ModernApplicationFramework.Text.Ui.Operations;
+using ModernApplicationFramework.Text.Ui.Outlining;
+using ModernApplicationFramework.Text.Ui.Tagging;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.TextEditor

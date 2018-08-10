@@ -352,6 +352,10 @@
       <Project>{240cc7db-f3a0-48e7-a8eb-5785a90128be}</Project>
       <Name>ModernApplicationFramework.Settings</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\ModernApplicationFramework.Text\ModernApplicationFramework.Text.csproj">
+      <Project>{27E9B710-9584-4FAD-93FF-EBF2A9600DA7}</Project>
+      <Name>ModernApplicationFramework.Text</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\ModernApplicationFramework.Themes.DarkIDE\ModernApplicationFramework.Themes.DarkIDE.csproj">
       <Project>{eb2b16ae-e6f6-4045-a578-d2c3e9a6652f}</Project>
       <Name>ModernApplicationFramework.Themes.DarkIDE</Name>

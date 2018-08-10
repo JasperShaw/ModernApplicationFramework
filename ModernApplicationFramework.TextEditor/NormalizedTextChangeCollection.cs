@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Data.Differencing;
 using ModernApplicationFramework.TextEditor.Text;
 using ModernApplicationFramework.TextEditor.Text.Differencing;
 

@@ -5,6 +5,9 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Markup;
 using System.Windows.Media;
+using ModernApplicationFramework.Text.Logic.Classification;
+using ModernApplicationFramework.Text.Ui.Classification;
+using ModernApplicationFramework.Text.Ui.Formatting;
 using Color = System.Windows.Media.Color;
 
 namespace ModernApplicationFramework.TextEditor.Implementation

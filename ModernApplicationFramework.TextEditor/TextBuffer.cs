@@ -1,7 +1,10 @@
 ﻿using System;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Data.Differencing;
 using ModernApplicationFramework.TextEditor.Text;
 using ModernApplicationFramework.TextEditor.Text.Differencing;
 using ModernApplicationFramework.TextEditor.Utilities;
+using ModernApplicationFramework.Utilities.Core;
 
 namespace ModernApplicationFramework.TextEditor
 {

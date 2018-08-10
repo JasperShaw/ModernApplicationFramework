@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using ModernApplicationFramework.Text.Data.Differencing;
 
 namespace ModernApplicationFramework.TextEditor.Text.Differencing
 {

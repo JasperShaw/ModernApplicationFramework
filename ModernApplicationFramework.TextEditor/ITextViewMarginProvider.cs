@@ -1,4 +1,6 @@
-﻿namespace ModernApplicationFramework.TextEditor
+﻿using ModernApplicationFramework.Text.Ui.Editor;
+
+namespace ModernApplicationFramework.TextEditor
 {
     public interface ITextViewMarginProvider
     {

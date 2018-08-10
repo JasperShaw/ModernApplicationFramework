@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Windows;
 using System.Windows.Media.TextFormatting;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Logic.Classification;
+using ModernApplicationFramework.Text.Ui.Classification;
+using ModernApplicationFramework.Text.Ui.Formatting;
 
 namespace ModernApplicationFramework.TextEditor
 {

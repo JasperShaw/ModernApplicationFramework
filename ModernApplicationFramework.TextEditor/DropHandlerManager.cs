@@ -2,8 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Data.Projection;
+using ModernApplicationFramework.Text.Ui.Editor;
+using ModernApplicationFramework.Text.Ui.Editor.DragDrop;
 using ModernApplicationFramework.TextEditor.Utilities;
 using ModernApplicationFramework.Utilities;
+using ModernApplicationFramework.Utilities.Core;
 
 namespace ModernApplicationFramework.TextEditor
 {

@@ -1,4 +1,8 @@
-﻿namespace ModernApplicationFramework.TextEditor
+﻿using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Ui.Outlining;
+using ModernApplicationFramework.Text.Ui.Tagging;
+
+namespace ModernApplicationFramework.TextEditor
 {
     internal class Collapsible : ICollapsible
     {

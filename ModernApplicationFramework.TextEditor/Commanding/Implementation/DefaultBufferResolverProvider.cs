@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.Composition;
+using ModernApplicationFramework.Text.Ui.Editor;
+using ModernApplicationFramework.Text.Ui.Editor.Commanding;
 using ModernApplicationFramework.Utilities.Attributes;
 
 namespace ModernApplicationFramework.TextEditor.Commanding.Implementation

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Linq;
-using ModernApplicationFramework.TextEditor.Utilities;
+using ModernApplicationFramework.Text.Utilities;
 using ModernApplicationFramework.Utilities.Attributes;
 
 namespace ModernApplicationFramework.TextEditor.Implementation

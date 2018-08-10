@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Ui.Adornments;
 
 namespace ModernApplicationFramework.TextEditor
 {

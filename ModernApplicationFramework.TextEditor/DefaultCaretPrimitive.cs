@@ -1,4 +1,10 @@
 ﻿using System.Collections.ObjectModel;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Logic;
+using ModernApplicationFramework.Text.Logic.Editor;
+using ModernApplicationFramework.Text.Logic.Operations;
+using ModernApplicationFramework.Text.Ui.Editor;
+using ModernApplicationFramework.Text.Ui.Formatting;
 
 namespace ModernApplicationFramework.TextEditor
 {

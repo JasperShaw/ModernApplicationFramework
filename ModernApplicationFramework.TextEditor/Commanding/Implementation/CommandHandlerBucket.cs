@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ModernApplicationFramework.Text.Ui.Commanding;
 using ModernApplicationFramework.TextEditor.Implementation;
 
 namespace ModernApplicationFramework.TextEditor.Commanding.Implementation

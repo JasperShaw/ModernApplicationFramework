@@ -1,6 +1,6 @@
 ﻿using System;
+using ModernApplicationFramework.Text.Utilities;
 using ModernApplicationFramework.TextEditor.Implementation;
-using ModernApplicationFramework.TextEditor.Utilities;
 using ModernApplicationFramework.Utilities.Attributes;
 
 namespace ModernApplicationFramework.TextEditor.Commanding.Implementation

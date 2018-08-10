@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using ModernApplicationFramework.Text.Logic;
+using ModernApplicationFramework.Text.Logic.Editor;
+using ModernApplicationFramework.Text.Ui.Editor;
 
 namespace ModernApplicationFramework.TextEditor
 {

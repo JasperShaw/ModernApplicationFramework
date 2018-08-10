@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Media;
+using ModernApplicationFramework.Text.Ui.Classification;
 
 namespace ModernApplicationFramework.TextEditor.Implementation
 {

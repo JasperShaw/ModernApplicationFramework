@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
+using ModernApplicationFramework.Text.Ui.Editor;
+using ModernApplicationFramework.Text.Ui.Operations;
 
 namespace ModernApplicationFramework.TextEditor
 {

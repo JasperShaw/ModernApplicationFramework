@@ -1,4 +1,8 @@
-﻿namespace ModernApplicationFramework.TextEditor
+﻿using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Logic;
+using ModernApplicationFramework.Text.Logic.Tagging;
+
+namespace ModernApplicationFramework.TextEditor
 {
     internal class VsTextMarkerTag : IVsVisibleTextMarkerTag
     {

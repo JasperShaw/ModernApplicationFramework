@@ -2,7 +2,12 @@
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Threading;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Logic;
+using ModernApplicationFramework.Text.Logic.Editor;
+using ModernApplicationFramework.Text.Ui.Editor;
 using ModernApplicationFramework.TextEditor.Implementation;
+using ModernApplicationFramework.Utilities.Core;
 
 namespace ModernApplicationFramework.TextEditor
 {

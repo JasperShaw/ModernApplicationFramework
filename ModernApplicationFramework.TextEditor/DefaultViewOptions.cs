@@ -1,4 +1,6 @@
-﻿namespace ModernApplicationFramework.TextEditor
+﻿using ModernApplicationFramework.Text.Logic.Editor;
+
+namespace ModernApplicationFramework.TextEditor
 {
     public static class DefaultViewOptions
     {

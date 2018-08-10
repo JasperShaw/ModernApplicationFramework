@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Text;
+using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.TextEditor.Utilities;
 using ModernApplicationFramework.Utilities;
+using ModernApplicationFramework.Utilities.Core;
 
 namespace ModernApplicationFramework.TextEditor
 {

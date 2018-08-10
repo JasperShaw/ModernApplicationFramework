@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using Caliburn.Micro;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Ui.Commanding;
+using ModernApplicationFramework.Text.Ui.Editor;
+using ModernApplicationFramework.Text.Ui.Editor.Commanding;
+using ModernApplicationFramework.Text.Ui.Editor.Commanding.Commands;
 using ModernApplicationFramework.TextEditor.Commanding;
-using ModernApplicationFramework.TextEditor.Commanding.Commands;
 using Action = System.Action;
 
 namespace ModernApplicationFramework.TextEditor.Implementation
@@ -531,10 +535,7 @@ namespace ModernApplicationFramework.TextEditor.Implementation
         }
 
     }
-}
 
-namespace ModernApplicationFramework.TextEditor.Commanding.Commands
-{
     public sealed class ReturnKeyCommandArgs : EditorCommandArgs
     {
         public ReturnKeyCommandArgs(ITextView textView, ITextBuffer subjectBuffer)

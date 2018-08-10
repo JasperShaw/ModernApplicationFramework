@@ -11,11 +11,21 @@ using System.Windows.Interop;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Threading;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Data.Projection;
+using ModernApplicationFramework.Text.Logic;
+using ModernApplicationFramework.Text.Logic.Classification;
+using ModernApplicationFramework.Text.Logic.Editor;
+using ModernApplicationFramework.Text.Ui.Classification;
+using ModernApplicationFramework.Text.Ui.Editor;
+using ModernApplicationFramework.Text.Ui.Formatting;
 using ModernApplicationFramework.TextEditor.NativeMethods;
 using ModernApplicationFramework.TextEditor.Text;
 using ModernApplicationFramework.TextEditor.Text.Formatting;
 using ModernApplicationFramework.TextEditor.Utilities;
+using ModernApplicationFramework.Utilities;
 using ModernApplicationFramework.Utilities.Attributes;
+using ModernApplicationFramework.Utilities.Core;
 
 namespace ModernApplicationFramework.TextEditor
 {
@@ -1506,7 +1516,7 @@ namespace ModernApplicationFramework.TextEditor
             if (IsClosed)
                 return;
             var newState = new ViewState(this, effectiveViewportWidth, effectiveViewportHeight);
-            using (ComponentContext.PerformanceBlockMarker.CreateBlock("VsTextEditor.LayoutChangedEvent"))
+            using (ComponentContext.PerformanceBlockMarker.CreateBlock("TextEditor.LayoutChangedEvent"))
             {
                 _caretElement.LayoutChanged(_oldState.EditSnapshot, TextSnapshot);
                 _selection.LayoutChanged(_oldState.VisualSnapshot != VisualSnapshot, TextSnapshot);

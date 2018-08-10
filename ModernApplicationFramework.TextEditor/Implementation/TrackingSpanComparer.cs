@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ModernApplicationFramework.Text.Data;
 
 namespace ModernApplicationFramework.TextEditor.Implementation
 {

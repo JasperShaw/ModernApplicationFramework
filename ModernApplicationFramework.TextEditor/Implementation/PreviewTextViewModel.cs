@@ -1,4 +1,10 @@
-﻿namespace ModernApplicationFramework.TextEditor.Implementation
+﻿using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Logic;
+using ModernApplicationFramework.Text.Ui.Editor;
+using ModernApplicationFramework.Utilities;
+using ModernApplicationFramework.Utilities.Core;
+
+namespace ModernApplicationFramework.TextEditor.Implementation
 {
     internal sealed class PreviewTextViewModel : ITextViewModel
     {

@@ -5,6 +5,9 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Ui.Adornments;
+using ModernApplicationFramework.Text.Ui.Outlining;
 using ModernApplicationFramework.TextEditor.Utilities;
 
 namespace ModernApplicationFramework.TextEditor

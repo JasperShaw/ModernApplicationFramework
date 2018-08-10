@@ -1,4 +1,5 @@
 ﻿using System.Windows.Media.TextFormatting;
+using ModernApplicationFramework.Text.Data;
 
 namespace ModernApplicationFramework.TextEditor
 {

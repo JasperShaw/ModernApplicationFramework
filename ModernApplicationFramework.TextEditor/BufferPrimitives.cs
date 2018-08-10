@@ -1,4 +1,7 @@
-﻿namespace ModernApplicationFramework.TextEditor
+﻿using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Ui.Editor;
+
+namespace ModernApplicationFramework.TextEditor
 {
     internal sealed class BufferPrimitives : IBufferPrimitives
     {

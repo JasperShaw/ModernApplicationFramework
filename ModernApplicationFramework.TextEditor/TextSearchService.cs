@@ -6,6 +6,8 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Logic.Operations;
 
 namespace ModernApplicationFramework.TextEditor
 {

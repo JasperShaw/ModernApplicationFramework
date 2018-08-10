@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Data.Differencing;
 
 namespace ModernApplicationFramework.TextEditor.Text.Differencing
 {

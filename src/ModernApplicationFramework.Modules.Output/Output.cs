@@ -2,10 +2,14 @@
 using System.ComponentModel.Composition;
 using Caliburn.Micro;
 using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Logic.Editor;
+using ModernApplicationFramework.Text.Ui.Editor;
 using ModernApplicationFramework.TextEditor;
 using ModernApplicationFramework.TextEditor.Implementation;
 using ModernApplicationFramework.TextEditor.Implementation.OutputClassifier;
 using ModernApplicationFramework.Utilities;
+using ModernApplicationFramework.Utilities.Core;
 
 namespace ModernApplicationFramework.Modules.Output
 {

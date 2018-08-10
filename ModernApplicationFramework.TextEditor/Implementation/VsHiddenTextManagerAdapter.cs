@@ -1,4 +1,6 @@
-﻿namespace ModernApplicationFramework.TextEditor.Implementation
+﻿using ModernApplicationFramework.Text.Data;
+
+namespace ModernApplicationFramework.TextEditor.Implementation
 {
     internal class HiddenTextManagerAdapter : IHiddenTextManager
     {

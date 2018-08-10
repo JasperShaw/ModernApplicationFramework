@@ -89,6 +89,8 @@
     <Compile Include="Converters\MultiValueConverter.cs" />
     <Compile Include="Converters\MultiValueConverterBase.cs" />
     <Compile Include="Converters\ValueConverter.cs" />
+    <Compile Include="Core\IContentType.cs" />
+    <Compile Include="Core\INamed.cs" />
     <Compile Include="DirtyObjectManager.cs" />
     <Compile Include="DisposableObject.cs" />
     <Compile Include="DpiHelper.cs" />
@@ -110,6 +112,7 @@
     <Compile Include="Interfaces\IExtendedEnvironmentVariables.cs" />
     <Compile Include="GetValueResult.cs" />
     <Compile Include="Interfaces\IOrderable.cs" />
+    <Compile Include="Core\IPropertyOwner.cs" />
     <Compile Include="Interfaces\Settings\IPropertyValueManager.cs" />
     <Compile Include="Interfaces\Settings\ISettingsManager.cs" />
     <Compile Include="Converters\LeftMarginMultiplierConverter.cs" />
@@ -136,6 +139,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Core\PropertyCollection.cs" />
     <Compile Include="RECT.cs" />
     <Compile Include="ReusableArray.cs" />
     <Compile Include="ReusableResourceHolder.cs" />

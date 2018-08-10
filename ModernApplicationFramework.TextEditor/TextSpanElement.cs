@@ -1,4 +1,7 @@
-﻿namespace ModernApplicationFramework.TextEditor
+﻿using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Ui.Formatting;
+
+namespace ModernApplicationFramework.TextEditor
 {
     internal sealed class TextSpanElement : ISequenceElement
     {
