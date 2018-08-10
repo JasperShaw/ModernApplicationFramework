@@ -539,7 +539,6 @@
     <Compile Include="ILineBreaksEditor.cs" />
     <Compile Include="ITextBufferFactoryService.cs" />
     <Compile Include="ITextEditorFactoryService.cs" />
-    <Compile Include="ITextViewHost.cs" />
     <Compile Include="LineBreakManager.cs" />
     <Compile Include="Markers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -649,7 +648,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ModernApplicationFramework.Text\ModernApplicationFramework.Text.csproj">
-      <Project>{27E9B710-9584-4FAD-93FF-EBF2A9600DA7}</Project>
+      <Project>{27e9b710-9584-4fad-93ff-ebf2a9600da7}</Project>
       <Name>ModernApplicationFramework.Text</Name>
     </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework.Utilities\ModernApplicationFramework.Utilities.csproj">

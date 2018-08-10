@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Windows.Controls;
-using ModernApplicationFramework.Text.Ui.Editor;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Text.Ui.Editor
 {
     public interface ITextViewHost
     {

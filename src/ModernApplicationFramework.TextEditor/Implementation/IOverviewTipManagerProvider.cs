@@ -1,4 +1,6 @@
-﻿namespace ModernApplicationFramework.TextEditor.Implementation
+﻿using ModernApplicationFramework.Text.Ui.Editor;
+
+namespace ModernApplicationFramework.TextEditor.Implementation
 {
     public interface IOverviewTipManagerProvider
     {

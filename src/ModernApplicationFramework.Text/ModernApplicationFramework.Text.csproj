@@ -274,6 +274,7 @@
     <Compile Include="Ui\Editor\ITextView.cs" />
     <Compile Include="Ui\Editor\ITextViewConnectionListener.cs" />
     <Compile Include="Ui\Editor\ITextViewCreationListener.cs" />
+    <Compile Include="Ui\Editor\ITextViewHost.cs" />
     <Compile Include="Ui\Editor\ITextViewLineCollection.cs" />
     <Compile Include="Ui\Editor\ITextViewMargin.cs" />
     <Compile Include="Ui\Editor\ITextViewModel.cs" />

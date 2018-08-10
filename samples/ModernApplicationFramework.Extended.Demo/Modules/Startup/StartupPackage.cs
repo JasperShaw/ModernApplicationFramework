@@ -6,7 +6,6 @@ using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Package;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Modules.Inspector;
-using ModernApplicationFramework.Modules.Output;
 using ModernApplicationFramework.Modules.Toolbox;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Items;

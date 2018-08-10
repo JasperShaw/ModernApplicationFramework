@@ -99,10 +99,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ModernApplicationFramework.TextEditor\ModernApplicationFramework.TextEditor.csproj">
-      <Project>{02E01928-3C7B-4428-9F68-7DB8B932C24E}</Project>
-      <Name>ModernApplicationFramework.TextEditor</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework.Extended.CommandBar\ModernApplicationFramework.Extended.CommandBar.csproj">
       <Project>{e3f05145-f9a9-42a4-b67d-ade61980b20a}</Project>
       <Name>ModernApplicationFramework.Extended.CommandBar</Name>
@@ -118,6 +114,10 @@
     <ProjectReference Include="..\ModernApplicationFramework.Imaging\ModernApplicationFramework.Imaging.csproj">
       <Project>{D8B696A7-BA7D-4762-8C34-13B7F212074F}</Project>
       <Name>ModernApplicationFramework.Imaging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModernApplicationFramework.TextEditor\ModernApplicationFramework.TextEditor.csproj">
+      <Project>{02E01928-3C7B-4428-9F68-7DB8B932C24E}</Project>
+      <Name>ModernApplicationFramework.TextEditor</Name>
     </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework.Text\ModernApplicationFramework.Text.csproj">
       <Project>{27E9B710-9584-4FAD-93FF-EBF2A9600DA7}</Project>

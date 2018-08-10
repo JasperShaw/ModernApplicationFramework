@@ -6,7 +6,6 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Extended.Package;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Text.Ui.Classification;
-using ModernApplicationFramework.TextEditor;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.EditorTheme
 {

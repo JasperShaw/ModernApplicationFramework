@@ -304,10 +304,6 @@
     <None Include="Modules\App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ModernApplicationFramework.TextEditor\ModernApplicationFramework.TextEditor.csproj">
-      <Project>{02e01928-3c7b-4428-9f68-7db8b932c24e}</Project>
-      <Name>ModernApplicationFramework.TextEditor</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\ModernApplicationFramework.DragDrop\ModernApplicationFramework.DragDrop.csproj">
       <Project>{72168066-609b-43e3-b474-54d1adb4af5b}</Project>
       <Name>ModernApplicationFramework.DragDrop</Name>
@@ -351,6 +347,10 @@
     <ProjectReference Include="..\..\src\ModernApplicationFramework.Settings\ModernApplicationFramework.Settings.csproj">
       <Project>{240cc7db-f3a0-48e7-a8eb-5785a90128be}</Project>
       <Name>ModernApplicationFramework.Settings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\ModernApplicationFramework.TextEditor\ModernApplicationFramework.TextEditor.csproj">
+      <Project>{02E01928-3C7B-4428-9F68-7DB8B932C24E}</Project>
+      <Name>ModernApplicationFramework.TextEditor</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\ModernApplicationFramework.Text\ModernApplicationFramework.Text.csproj">
       <Project>{27E9B710-9584-4FAD-93FF-EBF2A9600DA7}</Project>
