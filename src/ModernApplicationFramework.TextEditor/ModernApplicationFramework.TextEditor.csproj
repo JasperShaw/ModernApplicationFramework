@@ -648,11 +648,11 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\ModernApplicationFramework.Text\ModernApplicationFramework.Text.csproj">
+    <ProjectReference Include="..\ModernApplicationFramework.Text\ModernApplicationFramework.Text.csproj">
       <Project>{27E9B710-9584-4FAD-93FF-EBF2A9600DA7}</Project>
       <Name>ModernApplicationFramework.Text</Name>
     </ProjectReference>
-    <ProjectReference Include="..\src\ModernApplicationFramework.Utilities\ModernApplicationFramework.Utilities.csproj">
+    <ProjectReference Include="..\ModernApplicationFramework.Utilities\ModernApplicationFramework.Utilities.csproj">
       <Project>{2B388979-5B07-4F0A-A302-0C575AAA21C0}</Project>
       <Name>ModernApplicationFramework.Utilities</Name>
     </ProjectReference>
