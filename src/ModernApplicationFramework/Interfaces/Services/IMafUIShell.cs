@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using ModernApplicationFramework.Basics.Definitions.ContextMenu;
 using ModernApplicationFramework.Native.Platform.Structs;
 
@@ -44,6 +45,7 @@ namespace ModernApplicationFramework.Interfaces.Services
         /// </summary>
         /// <param name="position">The absolte position.</param>
         /// <param name="contextMenu">The Id of the <see cref="ContextMenuDefinition"/></param>
-        void ShowContextMenu(System.Windows.Point position, Guid contextMenu);
+        /// <param name="element">Placement Target</param>
+        void ShowContextMenu(System.Windows.Point position, Guid contextMenu, UIElement element);
     }
 }

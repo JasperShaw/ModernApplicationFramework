@@ -71,7 +71,7 @@ namespace ModernApplicationFramework.Modules.Output
             PendingFocusPane = null;
         }
 
-        private void MoveFocus(FrameworkElement consolePane)
+        private static void MoveFocus(UIElement consolePane)
         {
             consolePane.MoveFocus(new TraversalRequest(FocusNavigationDirection.First));
         }

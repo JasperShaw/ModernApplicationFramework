@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Interop;
 using Caliburn.Micro;
+using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Native.Platform.Structs;
@@ -115,18 +117,30 @@ namespace ModernApplicationFramework.Basics.Services
         }
 
 
+        /// <inheritdoc />
         /// <summary>
-        /// Shows a context menu at specified position.
+        /// Shows the context menu.
         /// </summary>
-        /// <param name="position">The absolte position.</param>
-        /// <exception cref="NotImplementedException"></exception>
-        public void ShowContextMenu(Point position, Guid contextMenu)
+        /// <param name="position">The position.</param>
+        /// <param name="contextMenu">The context menu.</param>
+        /// <param name="target">The target.</param>
+        public void ShowContextMenu(Point position, Guid contextMenu, UIElement target)
         {
-            var cm = new ContextMenu();
-            cm.Placement = PlacementMode.Absolute;
-            cm.HorizontalOffset = position.X;
-            cm.VerticalOffset = position.Y;
-            cm.IsOpen = true;
+            if (contextMenu == Guid.Empty)
+                return;
+
+            try
+            {
+                var contextMenuCtrl = IoC.Get<IContextMenuHost>().GetContextMenu(contextMenu);
+                contextMenuCtrl.Placement = PlacementMode.Absolute;
+                contextMenuCtrl.HorizontalOffset = position.X;
+                contextMenuCtrl.VerticalOffset = position.Y;
+                contextMenuCtrl.PlacementTarget = target;
+                contextMenuCtrl.IsOpen = true;
+            }
+            catch (KeyNotFoundException e)
+            {
+            }        
         }
 
         /// <summary>

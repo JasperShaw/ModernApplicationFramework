@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ModernApplicationFramework.Basics.Definitions.ContextMenu;
 using ModernApplicationFramework.Controls.Menu;
 using ModernApplicationFramework.Interfaces.ViewModels;
@@ -18,5 +19,13 @@ namespace ModernApplicationFramework.Interfaces
         /// <returns>Returns the context menu</returns>
         /// <exception cref="KeyNotFoundException"></exception>
         ContextMenu GetContextMenu(ContextMenuDefinition contextMenuDefinition);
+
+        /// <summary>
+        /// Gets a <see cref="ContextMenu"/> by a given <see cref="ContextMenuDefinition"/>
+        /// </summary>
+        /// <param name="contextMenuDefinition">The id of the definition</param>
+        /// <returns>Returns the context menu</returns>
+        /// <exception cref="KeyNotFoundException"></exception>
+        ContextMenu GetContextMenu(Guid contextMenuDefinition);
     }
 }

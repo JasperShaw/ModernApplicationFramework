@@ -55,17 +55,19 @@ namespace ModernApplicationFramework.Extended.Layout
             }
         }
 
-        [Browsable(false)]
-        public IContextMenuProvider ContextMenuProvider
-        {
-            get => _contextMenuProvider;
-            set
-            {
-                if (Equals(value, _contextMenuProvider)) return;
-                _contextMenuProvider = value;
-                NotifyOfPropertyChange();
-            }
-        }
+        //[Browsable(false)]
+        //public IContextMenuProvider ContextMenuProvider
+        //{
+        //    get => _contextMenuProvider;
+        //    set
+        //    {
+        //        if (Equals(value, _contextMenuProvider)) return;
+        //        _contextMenuProvider = value;
+        //        NotifyOfPropertyChange();
+        //    }
+        //}
+
+        public virtual Guid ContextMenuId => Guid.Empty;
 
         public virtual ImageSource IconSource
         {

@@ -379,8 +379,7 @@
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   ItemContainerStyleSelector="{StaticResource ToolboxTreeNodeStyleSelector}"
                   Background="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxBackground}}" 
-                                  BorderThickness="0" ItemsSource="{Binding Categories}"
-                                  ContextMenuProvider="{Binding ContextMenuProvider}">
+                                  BorderThickness="0" ItemsSource="{Binding Categories}">
             <i:Interaction.Behaviors>
                 <utilities:BindableSelectedItemBehavior SelectedItem="{Binding SelectedNode, Mode=TwoWay}" />
             </i:Interaction.Behaviors>

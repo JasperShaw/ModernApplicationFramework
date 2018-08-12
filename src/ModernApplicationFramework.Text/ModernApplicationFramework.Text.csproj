@@ -234,6 +234,7 @@
     <Compile Include="Ui\Commanding\CommandExecutionContext.cs" />
     <Compile Include="Ui\Commanding\CommandHandlerExtensions.cs" />
     <Compile Include="Ui\Commanding\CommandState.cs" />
+    <Compile Include="Ui\Commanding\CopyCommandArgs.cs" />
     <Compile Include="Ui\Commanding\IChainedCommandHandler.cs" />
     <Compile Include="Ui\Commanding\ICommandHandler.cs" />
     <Compile Include="Ui\Editor\AdornmentLayerDefinition.cs" />

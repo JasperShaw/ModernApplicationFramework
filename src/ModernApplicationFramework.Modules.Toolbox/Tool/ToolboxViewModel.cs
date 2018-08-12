@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -88,12 +89,14 @@ namespace ModernApplicationFramework.Modules.Toolbox.Tool
             }
         }
 
+        public override Guid ContextMenuId => new Guid("{70967216-21B8-454D-8361-201F127A6D32}");
+
 
         [ImportingConstructor]
         public ToolboxViewModel(IDockingHostViewModel hostViewModel, IInternalToolboxStateProvider stateProvider)
         {
             DisplayName = "Toolbox";
-            ContextMenuProvider = new ToolboxContextMenuProvider();
+            //ContextMenuProvider = new ToolboxContextMenuProvider();
             _categories = new BindableCollection<IToolboxCategory>();
             _hostViewModel = hostViewModel;
             _stateProvider = stateProvider;

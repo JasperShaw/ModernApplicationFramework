@@ -374,8 +374,14 @@ namespace ModernApplicationFramework.Editor.Implementation
                 return 0;
             }
 
+            if (format == MafUserDataFormat.ContextMenuId)
+            {
+                pvtData = ContextMenuId;
+                return 0;
+            }
+
             pvtData = null;
-            return int.MinValue;
+            return -2147467259;
         }
 
         public int InnerExec(ref Guid commandGroup, uint commandId, uint nCmdexecopt, IntPtr input, IntPtr output)
@@ -491,7 +497,8 @@ namespace ModernApplicationFramework.Editor.Implementation
             if (pos != null)
             {
                 //TODO:
-                IoC.Get<IMafUIShell>().ShowContextMenu(pos[0], Guid.Empty);
+                if (GetData(MafUserDataFormat.ContextMenuId, out var data) == 0 && data is Guid contextMenuId)
+                    IoC.Get<IMafUIShell>().ShowContextMenu(pos[0], contextMenuId, TextView.VisualElement);
             }
             else
                 result = -2147221248;
@@ -674,8 +681,16 @@ namespace ModernApplicationFramework.Editor.Implementation
 
         public int SetData(MafUserDataFormat format, object vtData)
         {
-            throw new NotImplementedException();
+            if (format == MafUserDataFormat.ContextMenuId && vtData is Guid contextMenuId)
+            {
+                ContextMenuId = contextMenuId;
+                return 0;
+            }
+
+            return -2147467263;
         }
+
+        private Guid ContextMenuId { get; set; } = Guid.Empty;
 
         public void SetInitialRoles(ITextViewRoleSet roles)
         {

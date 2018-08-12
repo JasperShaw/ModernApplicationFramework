@@ -10,6 +10,7 @@ using Caliburn.Micro;
 using ModernApplicationFramework.DragDrop;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Modules.Toolbox.CommandDefinitions;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces.Commands;
@@ -28,34 +29,19 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
                     FrameworkPropertyMetadataOptions.Inherits));
 
 
-        public static readonly DependencyProperty ContextMenuProviderProperty = DependencyProperty.Register(
-            "ContextMenuProvider", typeof(IContextMenuProvider), typeof(ToolboxTreeView), new PropertyMetadata(default(IContextMenuProvider)));
-
-        public IContextMenuProvider ContextMenuProvider
-        {
-            get => (IContextMenuProvider)GetValue(ContextMenuProviderProperty);
-            set => SetValue(ContextMenuProviderProperty, value);
-        }
-
-
-        private ContextMenuScope _contextMenuScope;
-
         public static readonly DependencyProperty IsContextMenuOpenProperty = IsContextMenuOpenPropertyKey.DependencyProperty;
+        private IToolbox _toolboxModel;
+
+        private IToolbox ToolboxModel => _toolboxModel ?? (_toolboxModel = IoC.Get<IToolbox>());
 
         public ToolboxTreeView()
         {
             RegisterCommandHandlers(typeof(ToolboxTreeView));
         }
 
-        private void EnterContextMenuVisualState()
+        private IDisposable EnterContextMenuVisualState()
         {
-            _contextMenuScope = new ContextMenuScope(this);
-        }
-
-        private void LeaveContextMenuVisualState()
-        {
-            _contextMenuScope?.Dispose();
-            _contextMenuScope = null;
+            return new ContextMenuScope(this);
         }
 
         protected override DependencyObject GetContainerForItemOverride()
@@ -121,27 +107,11 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
             EnterContextMenuVisualState();
             var point = GetContextMenuLocation();
 
-
-            var contextMenu = ContextMenuProvider.Provide(GetType());
-            if (contextMenu == null)
-                return;
-
-            ContextMenu = contextMenu;
-            ContextMenu.Placement = PlacementMode.Absolute;
-            ContextMenu.VerticalOffset = point.Y;
-            ContextMenu.HorizontalOffset = point.X;
-            ContextMenu.PlacementTarget = this;
-            ContextMenu.Closed += ContextMenu_Closed;
-
-            ContextMenu.IsOpen = true;
-            e.Handled = true;
-        }
-
-        private void ContextMenu_Closed(object sender, RoutedEventArgs e)
-        {
-            if (sender is ContextMenu contextMenu)
-                contextMenu.Closed -= ContextMenu_Closed;
-            LeaveContextMenuVisualState();
+            using (EnterContextMenuVisualState())
+            {
+                IoC.Get<IMafUIShell>().ShowContextMenu(point, ToolboxModel.ContextMenuId, this);
+                e.Handled = true;
+            }
         }
 
         private Point GetContextMenuLocation()

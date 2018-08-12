@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
@@ -61,6 +62,14 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
                 throw new KeyNotFoundException(contextMenuDefinition.Text);
             Build(contextMenuDefinition);
             return _hostedContextMenus[contextMenuDefinition];
+        }
+
+        public ContextMenu GetContextMenu(Guid contextMenuDefinition)
+        {
+            var definition = _hostedContextMenus.Keys.FirstOrDefault(x => x.Id == contextMenuDefinition);
+            if (definition == null)
+                throw new KeyNotFoundException();
+            return GetContextMenu(definition);
         }
     }
 }

@@ -101,6 +101,12 @@ namespace ModernApplicationFramework.Modules.Output
                             DefGuidList.OutputWindowCategory);
                     }
                 }
+
+                if (_view is IMafUserData userData)
+                {
+                    userData.SetData(MafUserDataFormat.ContextMenuId,
+                        new Guid("{18E35741-10B1-47C0-87F0-83058900B907}"));
+                }
                 TextView.TextBuffer.Properties.AddProperty(typeof(IOutput), this);
                 var options = IoC.Get<IEditorOptionsFactoryService>().GetOptions(TextView);
                 options.SetOptionValue(DefaultTextViewOptions.WordWrapStyleId, WordWrapStyles.WordWrap);
