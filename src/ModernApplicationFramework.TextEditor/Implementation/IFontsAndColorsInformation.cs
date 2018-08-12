@@ -1,7 +1,7 @@
 ﻿using System;
 using ModernApplicationFramework.Text.Logic.Classification;
 
-namespace ModernApplicationFramework.TextEditor.Implementation
+namespace ModernApplicationFramework.Editor.Implementation
 {
     public interface IFontsAndColorsInformation
     {

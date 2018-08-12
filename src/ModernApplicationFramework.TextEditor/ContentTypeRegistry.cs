@@ -5,9 +5,10 @@ using System.Collections.Immutable;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading;
+using ModernApplicationFramework.TextEditor;
 using ModernApplicationFramework.Utilities.Core;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     [Export(typeof(IContentTypeRegistryService))]
     internal sealed class ContentTypeRegistry : IContentTypeRegistryService

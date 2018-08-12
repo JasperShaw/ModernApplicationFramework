@@ -1,4 +1,4 @@
-﻿namespace ModernApplicationFramework.TextEditor
+﻿namespace ModernApplicationFramework.Editor
 {
     public interface IMafTextManager
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using ModernApplicationFramework.Text.Data;
 
-namespace ModernApplicationFramework.TextEditor.Implementation
+namespace ModernApplicationFramework.Editor.Implementation
 {
     internal class TrackingSpanComparer : IComparer<ITrackingSpan>
     {

@@ -1,4 +1,4 @@
-﻿namespace ModernApplicationFramework.TextEditor
+﻿namespace ModernApplicationFramework.Editor
 {
     internal class VsTextMarkerGlyphTag : IGlyphTag
     {

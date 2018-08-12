@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     internal abstract class TextEditorFontAndColorCategoryBase : FontAndColorCategoryBase
     {

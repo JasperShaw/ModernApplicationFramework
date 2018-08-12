@@ -7,7 +7,7 @@ using ModernApplicationFramework.Text.Logic.Editor;
 using ModernApplicationFramework.Text.Logic.Tagging;
 using ModernApplicationFramework.Text.Ui.Editor;
 
-namespace ModernApplicationFramework.TextEditor.Implementation
+namespace ModernApplicationFramework.Editor.Implementation
 {
     internal class UrlClickMouseHandler : MouseProcessorBase
     {

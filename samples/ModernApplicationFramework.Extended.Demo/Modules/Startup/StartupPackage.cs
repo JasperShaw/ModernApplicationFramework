@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Services;
+using ModernApplicationFramework.Editor.Implementation.OutputClassifier;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Package;
 using ModernApplicationFramework.Interfaces.Services;
@@ -9,7 +10,6 @@ using ModernApplicationFramework.Modules.Inspector;
 using ModernApplicationFramework.Modules.Toolbox;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Items;
-using ModernApplicationFramework.TextEditor.Implementation.OutputClassifier;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.Startup
 {

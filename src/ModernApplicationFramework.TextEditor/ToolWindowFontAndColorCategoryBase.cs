@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 using Caliburn.Micro;
+using ModernApplicationFramework.Editor.Implementation;
 using ModernApplicationFramework.Text.Logic.Classification;
-using ModernApplicationFramework.TextEditor.Implementation;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     internal abstract class ToolWindowFontAndColorCategoryBase : FontAndColorCategoryBase
     {

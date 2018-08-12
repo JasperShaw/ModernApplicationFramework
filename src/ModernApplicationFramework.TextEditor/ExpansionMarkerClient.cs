@@ -1,6 +1,6 @@
-﻿using ModernApplicationFramework.TextEditor.Implementation;
+﻿using ModernApplicationFramework.Editor.Implementation;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     public class ExpansionMarkerClient : IVsTextMarkerClient, IVsTextMarkerClientEx
     {

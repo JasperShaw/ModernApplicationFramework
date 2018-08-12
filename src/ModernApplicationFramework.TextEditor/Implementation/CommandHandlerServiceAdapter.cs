@@ -10,7 +10,7 @@ using ModernApplicationFramework.Text.Ui.Editor.Commanding;
 using ModernApplicationFramework.Text.Ui.Editor.Commanding.Commands;
 using Action = System.Action;
 
-namespace ModernApplicationFramework.TextEditor.Implementation
+namespace ModernApplicationFramework.Editor.Implementation
 {
     internal class CommandHandlerServiceAdapter : ICommandHandlerServiceAdapter
     {

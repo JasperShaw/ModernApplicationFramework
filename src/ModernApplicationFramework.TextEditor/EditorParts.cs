@@ -8,10 +8,11 @@ using ModernApplicationFramework.Text.Ui.Editor;
 using ModernApplicationFramework.Text.Ui.Operations;
 using ModernApplicationFramework.Text.Ui.Outlining;
 using ModernApplicationFramework.Text.Ui.Tagging;
+using ModernApplicationFramework.TextEditor;
 using ModernApplicationFramework.Utilities;
 using ModernApplicationFramework.Utilities.Core;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     internal static class EditorParts
     {

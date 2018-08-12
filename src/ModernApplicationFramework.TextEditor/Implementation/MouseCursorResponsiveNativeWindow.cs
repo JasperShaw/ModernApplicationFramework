@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
 using System.Windows.Input;
-using ModernApplicationFramework.TextEditor.NativeMethods;
+using ModernApplicationFramework.Editor.NativeMethods;
 
-namespace ModernApplicationFramework.TextEditor.Implementation
+namespace ModernApplicationFramework.Editor.Implementation
 {
     internal class MouseCursorResponsiveNativeWindow : NativeWindow
     {

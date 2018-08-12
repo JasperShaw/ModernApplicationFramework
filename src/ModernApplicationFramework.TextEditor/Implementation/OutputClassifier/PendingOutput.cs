@@ -1,6 +1,6 @@
 ﻿using ModernApplicationFramework.Text.Logic.Classification;
 
-namespace ModernApplicationFramework.TextEditor.Implementation.OutputClassifier
+namespace ModernApplicationFramework.Editor.Implementation.OutputClassifier
 {
     internal class PendingOutput
     {

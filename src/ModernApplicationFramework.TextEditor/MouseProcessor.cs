@@ -4,10 +4,10 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using ModernApplicationFramework.Editor.Implementation;
 using ModernApplicationFramework.Text.Ui.Editor;
-using ModernApplicationFramework.TextEditor.Implementation;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     internal sealed class MouseProcessor : MouseProcessorBase, IMouseProcessor2
     {

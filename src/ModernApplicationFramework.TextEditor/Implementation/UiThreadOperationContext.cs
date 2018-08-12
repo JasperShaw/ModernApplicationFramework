@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Threading;
 using ModernApplicationFramework.Text.Utilities;
-using ModernApplicationFramework.TextEditor.Utilities;
-using ModernApplicationFramework.Utilities;
 using ModernApplicationFramework.Utilities.Core;
 
-namespace ModernApplicationFramework.TextEditor.Implementation
+namespace ModernApplicationFramework.Editor.Implementation
 {
 
     //TODO: Implement from VSUIThreadOperationContext

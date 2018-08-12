@@ -2,7 +2,7 @@
 using ModernApplicationFramework.Text.Logic.Editor;
 using ModernApplicationFramework.Utilities.Attributes;
 
-namespace ModernApplicationFramework.TextEditor.Implementation
+namespace ModernApplicationFramework.Editor.Implementation
 {
     [Export(typeof(EditorOptionDefinition))]
     [Name("Enable Autonomous Find")]

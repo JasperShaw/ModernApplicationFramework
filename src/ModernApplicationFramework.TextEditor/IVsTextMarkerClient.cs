@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     internal interface IVsTextMarkerClient
     {

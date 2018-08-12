@@ -5,7 +5,7 @@ using ModernApplicationFramework.Text.Logic.Tagging;
 using ModernApplicationFramework.Text.Ui.Tagging;
 using ModernApplicationFramework.Utilities.Attributes;
 
-namespace ModernApplicationFramework.TextEditor.Implementation.Outlining
+namespace ModernApplicationFramework.Editor.Implementation.Outlining
 {
     [Export(typeof(ITaggerProvider))]
     [ContentType("any")]

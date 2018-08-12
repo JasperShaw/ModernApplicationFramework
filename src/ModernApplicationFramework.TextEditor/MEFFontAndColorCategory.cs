@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Media;
 using Caliburn.Micro;
 using ModernApplicationFramework.Text.Ui.Classification;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     internal class MefFontAndColorCategory : TextEditorFontAndColorCategoryBase
     {

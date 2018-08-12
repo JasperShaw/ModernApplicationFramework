@@ -4,7 +4,7 @@ using System.Linq;
 using ModernApplicationFramework.Text.Utilities;
 using ModernApplicationFramework.Utilities.Attributes;
 
-namespace ModernApplicationFramework.TextEditor.Implementation
+namespace ModernApplicationFramework.Editor.Implementation
 {
     //[ExportImplementation(typeof(IUiThreadOperationExecutor))]
     [Name("UI thread operation executor")]

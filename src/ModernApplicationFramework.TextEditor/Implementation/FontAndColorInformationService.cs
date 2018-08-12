@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 
-namespace ModernApplicationFramework.TextEditor.Implementation
+namespace ModernApplicationFramework.Editor.Implementation
 {
     [Export(typeof(IFontsAndColorsInformationService))]
     internal sealed class FontAndColorInformationService : IFontsAndColorsInformationService

@@ -7,7 +7,7 @@ using System.Text;
 using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Utilities.Attributes;
 
-namespace ModernApplicationFramework.TextEditor.Implementation
+namespace ModernApplicationFramework.Editor.Implementation
 {
     [Export(typeof(IEncodingDetector))]
     [Order]

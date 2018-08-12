@@ -1,4 +1,4 @@
-﻿namespace ModernApplicationFramework.TextEditor.Implementation
+﻿namespace ModernApplicationFramework.Editor.Implementation
 {
     public enum HiddenRegionState
     {

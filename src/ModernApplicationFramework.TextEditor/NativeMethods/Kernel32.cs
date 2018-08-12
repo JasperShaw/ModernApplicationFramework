@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace ModernApplicationFramework.TextEditor.NativeMethods
+namespace ModernApplicationFramework.Editor.NativeMethods
 {
     internal static class Kernel32
     {

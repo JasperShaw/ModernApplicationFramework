@@ -8,7 +8,7 @@ using ModernApplicationFramework.Text.Logic.Classification;
 using ModernApplicationFramework.Text.Logic.Tagging;
 using Action = System.Action;
 
-namespace ModernApplicationFramework.TextEditor.Implementation
+namespace ModernApplicationFramework.Editor.Implementation
 {
     internal sealed class LanguageServiceClassificationTagger : ITagger<IClassificationTag>
     {

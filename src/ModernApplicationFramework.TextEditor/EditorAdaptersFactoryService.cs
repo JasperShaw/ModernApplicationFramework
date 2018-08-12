@@ -1,11 +1,11 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using ModernApplicationFramework.Editor.Implementation;
 using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Text.Ui.Editor;
-using ModernApplicationFramework.TextEditor.Implementation;
 using ModernApplicationFramework.Utilities.Core;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     [Export(typeof(IEditorAdaptersFactoryService))]
     internal class EditorAdaptersFactoryService : IEditorAdaptersFactoryService

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using ModernApplicationFramework.TextEditor.Implementation;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     public interface IFontAndColorStorage
     {

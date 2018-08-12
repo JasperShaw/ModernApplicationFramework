@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Runtime.InteropServices;
-using ModernApplicationFramework.TextEditor.Implementation;
+using ModernApplicationFramework.Editor.Implementation;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     [Export(typeof(IFontAndColorDefaultsProvider))]
     [Guid(CategoryGuids.FontAndColorDefaultsProvider)]

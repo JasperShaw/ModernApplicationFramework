@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using ModernApplicationFramework.Text.Ui.Editor;
 
-namespace ModernApplicationFramework.TextEditor.Implementation
+namespace ModernApplicationFramework.Editor.Implementation
 {
     public sealed class BottomRightCornerMargin : Border, ITextViewMargin
     {

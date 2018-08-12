@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Text.Logic.Tagging;
 
-namespace ModernApplicationFramework.TextEditor.Implementation.OutputClassifier
+namespace ModernApplicationFramework.Editor.Implementation.OutputClassifier
 {
     public class OutputWindowTagger : ITagger<IClassificationTag>
     {

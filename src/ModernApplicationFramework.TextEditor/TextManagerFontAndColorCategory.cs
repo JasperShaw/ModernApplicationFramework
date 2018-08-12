@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Windows.Media;
-using ModernApplicationFramework.TextEditor.Implementation;
 using Brush = System.Windows.Media.Brush;
 using Color = System.Windows.Media.Color;
 using SystemColors = System.Windows.SystemColors;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     internal class TextManagerFontAndColorCategory : TextEditorFontAndColorCategoryBase
     {

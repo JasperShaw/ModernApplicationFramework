@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     public interface IWaitContext : IDisposable
     {

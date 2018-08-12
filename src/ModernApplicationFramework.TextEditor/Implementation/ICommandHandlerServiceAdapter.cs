@@ -1,6 +1,6 @@
 ﻿using ModernApplicationFramework.Text.Ui.Editor;
 
-namespace ModernApplicationFramework.TextEditor.Implementation
+namespace ModernApplicationFramework.Editor.Implementation
 {
     public interface ICommandHandlerServiceAdapter : ICommandTarget
     {

@@ -2,7 +2,7 @@
 using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Text.Ui.Outlining;
 
-namespace ModernApplicationFramework.TextEditor.Implementation
+namespace ModernApplicationFramework.Editor.Implementation
 {
     internal class SortedCollapsibleMatcher
     {

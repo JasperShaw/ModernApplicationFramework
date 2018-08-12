@@ -6,7 +6,7 @@ using ModernApplicationFramework.Text.Logic.Editor;
 using ModernApplicationFramework.Text.Ui.Editor;
 using ModernApplicationFramework.Text.Ui.Outlining;
 
-namespace ModernApplicationFramework.TextEditor.Implementation
+namespace ModernApplicationFramework.Editor.Implementation
 {
     internal class HiddenTextSessionCoordinator
     {

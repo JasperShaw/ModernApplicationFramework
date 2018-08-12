@@ -2,9 +2,8 @@
 using System.Windows.Input;
 using ModernApplicationFramework.Text.Ui.Editor;
 using ModernApplicationFramework.Utilities.Core;
-using ModernApplicationFramework.Utilities.Interfaces;
 
-namespace ModernApplicationFramework.TextEditor.Implementation
+namespace ModernApplicationFramework.Editor.Implementation
 {
     internal sealed class CtrlKeyStateTracker
     {

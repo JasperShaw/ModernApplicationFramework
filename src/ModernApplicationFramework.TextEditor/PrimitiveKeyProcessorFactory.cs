@@ -3,7 +3,7 @@ using ModernApplicationFramework.Text.Ui.Editor;
 using ModernApplicationFramework.Text.Ui.Operations;
 using ModernApplicationFramework.Utilities.Attributes;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     [Export(typeof(IKeyProcessorProvider))]
     [Name("DefaultKeyProcessor")]

@@ -1,4 +1,4 @@
-﻿namespace ModernApplicationFramework.TextEditor.Implementation.Outlining
+﻿namespace ModernApplicationFramework.Editor.Implementation.Outlining
 {
     internal enum AdhocOutlinerAction
     {

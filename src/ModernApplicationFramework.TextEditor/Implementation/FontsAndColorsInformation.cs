@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using Caliburn.Micro;
 using ModernApplicationFramework.Text.Logic.Classification;
 
-namespace ModernApplicationFramework.TextEditor.Implementation
+namespace ModernApplicationFramework.Editor.Implementation
 {
     internal class FontsAndColorsInformation : IFontsAndColorsInformation
     {

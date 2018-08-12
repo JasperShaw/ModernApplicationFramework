@@ -1,7 +1,7 @@
 ﻿using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Text.Ui.Editor;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     internal sealed class ShimSmartIndent : ISmartIndent
     {

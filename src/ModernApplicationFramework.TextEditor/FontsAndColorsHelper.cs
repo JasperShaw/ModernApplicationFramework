@@ -10,7 +10,7 @@ using ModernApplicationFramework.Text.Ui.Classification;
 using ModernApplicationFramework.Text.Ui.Formatting;
 using Color = System.Windows.Media.Color;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     internal static class FontsAndColorsHelper
     {

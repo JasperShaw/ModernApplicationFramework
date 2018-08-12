@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Threading;
 using ModernApplicationFramework.Text.Data;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     [Export(typeof(IExtensionErrorHandler))]
     internal class ExtensionErrorHandler : IExtensionErrorHandler

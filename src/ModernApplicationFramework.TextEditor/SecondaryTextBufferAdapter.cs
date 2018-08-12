@@ -1,6 +1,6 @@
 ﻿using ModernApplicationFramework.Text.Data;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     internal class SecondaryTextBufferAdapter : TextBufferAdapter
     {

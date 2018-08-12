@@ -2,9 +2,9 @@
 using System.ComponentModel.Composition;
 using System.Windows.Input;
 using Caliburn.Micro;
+using ModernApplicationFramework.Editor.Implementation.OutputClassifier;
 using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Input.Command;
-using ModernApplicationFramework.TextEditor.Implementation.OutputClassifier;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.UndoRedoTest
 {

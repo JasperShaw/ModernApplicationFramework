@@ -5,7 +5,7 @@ using ModernApplicationFramework.Text.Ui.Editor;
 using ModernApplicationFramework.Text.Ui.Tagging;
 using ModernApplicationFramework.Utilities.Attributes;
 
-namespace ModernApplicationFramework.TextEditor.Implementation
+namespace ModernApplicationFramework.Editor.Implementation
 {
     [Export(typeof(IMouseProcessorProvider))]
     [TextViewRole("INTERACTIVE")]

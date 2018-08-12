@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using System.Windows.Media;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public struct ColorableItemInfo

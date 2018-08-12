@@ -3,7 +3,7 @@ using ModernApplicationFramework.Text.Logic.Editor;
 using ModernApplicationFramework.Text.Ui.Editor;
 using ModernApplicationFramework.Utilities.Attributes;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     [Export(typeof(EditorOptionDefinition))]
     [Name("Graphics/Simple/Enable")]

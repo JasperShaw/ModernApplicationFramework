@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using ModernApplicationFramework.TextEditor.Implementation;
+using ModernApplicationFramework.Editor.Implementation;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     internal static class MostOftenUsedItems
     {

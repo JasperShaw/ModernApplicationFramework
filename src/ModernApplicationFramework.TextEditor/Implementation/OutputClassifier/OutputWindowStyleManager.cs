@@ -8,7 +8,7 @@ using ModernApplicationFramework.Text.Logic.Classification;
 using ModernApplicationFramework.Text.Logic.Tagging;
 using ModernApplicationFramework.Text.Ui.Editor;
 
-namespace ModernApplicationFramework.TextEditor.Implementation.OutputClassifier
+namespace ModernApplicationFramework.Editor.Implementation.OutputClassifier
 {
     public class OutputWindowStyleManager : IDisposable
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ModernApplicationFramework.TextEditor.Implementation
+namespace ModernApplicationFramework.Editor.Implementation
 {
     public interface IContentTypeAndTextViewRoleMetadata
     {

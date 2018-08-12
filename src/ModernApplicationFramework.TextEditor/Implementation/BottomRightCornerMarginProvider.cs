@@ -3,7 +3,7 @@ using System.Windows;
 using ModernApplicationFramework.Text.Ui.Editor;
 using ModernApplicationFramework.Utilities.Attributes;
 
-namespace ModernApplicationFramework.TextEditor.Implementation
+namespace ModernApplicationFramework.Editor.Implementation
 {
     [Export(typeof(ITextViewMarginProvider))]
     [Name("BottomRightCornerMargin")]

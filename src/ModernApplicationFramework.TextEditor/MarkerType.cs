@@ -1,9 +1,7 @@
-﻿using System;
-using ModernApplicationFramework.Text.Logic.Classification;
+﻿using ModernApplicationFramework.Text.Logic.Classification;
 using ModernApplicationFramework.Text.Ui.Classification;
-using ModernApplicationFramework.TextEditor.Implementation;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     internal class MarkerType
     {

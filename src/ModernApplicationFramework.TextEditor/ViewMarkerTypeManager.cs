@@ -8,9 +8,8 @@ using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Text.Logic.Tagging;
 using ModernApplicationFramework.Text.Ui.Classification;
 using ModernApplicationFramework.Text.Ui.Editor;
-using ModernApplicationFramework.TextEditor.Implementation;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     internal class ViewMarkerTypeManager
     {

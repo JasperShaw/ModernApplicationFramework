@@ -1,6 +1,6 @@
 ﻿using ModernApplicationFramework.Text.Logic.Tagging;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     public interface IGlyphTag : ITag
     {

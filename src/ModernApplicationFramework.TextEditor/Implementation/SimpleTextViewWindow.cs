@@ -12,6 +12,8 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Caliburn.Micro;
+using ModernApplicationFramework.Editor.Implementation.Outlining;
+using ModernApplicationFramework.Editor.NativeMethods;
 using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Text.Logic;
 using ModernApplicationFramework.Text.Logic.Editor;
@@ -20,14 +22,12 @@ using ModernApplicationFramework.Text.Ui.Classification;
 using ModernApplicationFramework.Text.Ui.Editor;
 using ModernApplicationFramework.Text.Ui.Operations;
 using ModernApplicationFramework.Text.Ui.Outlining;
-using ModernApplicationFramework.TextEditor.Implementation.Outlining;
-using ModernApplicationFramework.TextEditor.NativeMethods;
 using ModernApplicationFramework.Utilities;
 using ModernApplicationFramework.Utilities.Core;
 using IWin32Window = System.Windows.Interop.IWin32Window;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 
-namespace ModernApplicationFramework.TextEditor.Implementation
+namespace ModernApplicationFramework.Editor.Implementation
 {
     // TODO: Add forward backward stuff
     internal abstract class SimpleTextViewWindow : ICommandTarget, ITypedTextTarget,

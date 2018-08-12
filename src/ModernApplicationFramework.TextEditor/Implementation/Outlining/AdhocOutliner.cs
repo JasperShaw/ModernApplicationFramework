@@ -6,7 +6,7 @@ using ModernApplicationFramework.Text.Ui.Editor;
 using ModernApplicationFramework.Text.Ui.Outlining;
 using ModernApplicationFramework.Text.Ui.Tagging;
 
-namespace ModernApplicationFramework.TextEditor.Implementation.Outlining
+namespace ModernApplicationFramework.Editor.Implementation.Outlining
 {
     internal class AdhocOutliner
     {

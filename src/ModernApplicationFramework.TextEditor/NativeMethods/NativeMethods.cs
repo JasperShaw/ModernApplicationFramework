@@ -1,4 +1,4 @@
-﻿namespace ModernApplicationFramework.TextEditor.NativeMethods
+﻿namespace ModernApplicationFramework.Editor.NativeMethods
 {
     public static class NativeMethods
     {

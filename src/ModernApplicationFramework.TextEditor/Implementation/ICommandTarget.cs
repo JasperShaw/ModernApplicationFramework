@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ModernApplicationFramework.TextEditor.Implementation
+namespace ModernApplicationFramework.Editor.Implementation
 {
 
     //TODO: move to other project

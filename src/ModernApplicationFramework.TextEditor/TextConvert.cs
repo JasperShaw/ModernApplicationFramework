@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Text.Logic;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     internal static class TextConvert
     {

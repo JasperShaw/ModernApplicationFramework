@@ -5,7 +5,7 @@ using ModernApplicationFramework.Text.Logic.Editor;
 using ModernApplicationFramework.Text.Logic.Tagging;
 using ModernApplicationFramework.Utilities.Attributes;
 
-namespace ModernApplicationFramework.TextEditor.Implementation
+namespace ModernApplicationFramework.Editor.Implementation
 {
     [Export(typeof(ITaggerProvider))]
     [TagType(typeof(IClassificationTag))]

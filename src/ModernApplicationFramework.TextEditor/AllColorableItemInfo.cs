@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     public struct AllColorableItemInfo
     {

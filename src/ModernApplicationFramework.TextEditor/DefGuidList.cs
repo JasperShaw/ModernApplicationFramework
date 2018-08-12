@@ -1,7 +1,7 @@
 ﻿using System;
-using ModernApplicationFramework.TextEditor.Implementation;
+using ModernApplicationFramework.Editor.Implementation;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     public static class DefGuidList
     {

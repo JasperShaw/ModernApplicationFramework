@@ -2,7 +2,7 @@
 using ModernApplicationFramework.Text.Logic.Classification;
 using ModernApplicationFramework.Utilities.Attributes;
 
-namespace ModernApplicationFramework.TextEditor.Implementation.OutputClassifier
+namespace ModernApplicationFramework.Editor.Implementation.OutputClassifier
 {
     public class OutputClassificationTypes
     {

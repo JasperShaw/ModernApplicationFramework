@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 using Caliburn.Micro;
+using ModernApplicationFramework.Editor.Implementation;
 using ModernApplicationFramework.Text.Storage;
-using ModernApplicationFramework.TextEditor.Implementation;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     internal class DataStorage : IDataStorage
     {

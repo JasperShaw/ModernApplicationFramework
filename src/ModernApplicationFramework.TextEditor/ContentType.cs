@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ModernApplicationFramework.Utilities.Core;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     internal class ContentType : IContentType
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using ModernApplicationFramework.Text.Utilities;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     public interface IWaitIndicator
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using ModernApplicationFramework.Text.Data;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     public class TextDocumentEventArgs : EventArgs
     {

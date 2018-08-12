@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Media;
+using ModernApplicationFramework.Editor.Implementation;
 using ModernApplicationFramework.Text.Ui.Classification;
-using ModernApplicationFramework.TextEditor.Implementation;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     internal abstract class FontAndColorCategoryBase : IFontAndColorDefaults, IFontAndColorEvents
     {

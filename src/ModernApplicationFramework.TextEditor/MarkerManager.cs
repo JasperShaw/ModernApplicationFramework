@@ -7,9 +7,8 @@ using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Text.Logic;
 using ModernApplicationFramework.Text.Logic.Tagging;
 using ModernApplicationFramework.Text.Ui.Tagging;
-using ModernApplicationFramework.TextEditor.Implementation;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     internal sealed class MarkerManager
     {

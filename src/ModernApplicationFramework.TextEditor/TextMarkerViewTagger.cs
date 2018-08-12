@@ -4,7 +4,7 @@ using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Text.Logic.Tagging;
 using ModernApplicationFramework.Text.Ui.Editor;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     internal class TextMarkerViewTagger : ITagger<ClassificationTag>
     {

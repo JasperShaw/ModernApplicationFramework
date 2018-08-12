@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace ModernApplicationFramework.TextEditor.Implementation
+namespace ModernApplicationFramework.Editor.Implementation
 {
     [Guid(CategoryGuids.PrinterTextManager)]
     internal sealed class PrinterTextManagerFontAndColorCategory : TextManagerFontAndColorCategory

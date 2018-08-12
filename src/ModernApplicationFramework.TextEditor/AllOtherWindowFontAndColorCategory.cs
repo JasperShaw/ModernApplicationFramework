@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     internal sealed class AllOtherWindowFontAndColorCategory : ToolWindowFontAndColorCategoryBase
     {

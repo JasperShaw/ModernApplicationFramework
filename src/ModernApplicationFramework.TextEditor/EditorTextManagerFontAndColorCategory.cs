@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
-using ModernApplicationFramework.TextEditor.Implementation;
+using ModernApplicationFramework.Editor.Implementation;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     [Guid(CategoryGuids.EditorTextManager)]
     internal sealed class EditorTextManagerFontAndColorCategory : TextManagerFontAndColorCategory

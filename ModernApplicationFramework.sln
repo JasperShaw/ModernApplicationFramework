@@ -59,7 +59,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.Extended.Demo.ImageCatalog", "samples\ModernApplicationFramework.Extended.Demo.ImageCatalog\ModernApplicationFramework.Extended.Demo.ImageCatalog.csproj", "{0C253408-42AE-4698-83BC-48347F8E5357}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.TextEditor", "src\ModernApplicationFramework.TextEditor\ModernApplicationFramework.TextEditor.csproj", "{02E01928-3C7B-4428-9F68-7DB8B932C24E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.Editor", "src\ModernApplicationFramework.TextEditor\ModernApplicationFramework.Editor.csproj", "{02E01928-3C7B-4428-9F68-7DB8B932C24E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.Threading", "src\ModernApplicationFramework.Threading\ModernApplicationFramework.Threading.csproj", "{F6B73506-4197-49A6-9F57-6E83827D415C}"
 EndProject

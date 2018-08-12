@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Windows.Media;
-using ModernApplicationFramework.TextEditor.Implementation;
+using ModernApplicationFramework.Editor.Implementation;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     [Guid(CategoryGuids.ToolTip)]
     internal sealed class ToolTipFontAndColorCategory : ToolWindowFontAndColorCategoryBase

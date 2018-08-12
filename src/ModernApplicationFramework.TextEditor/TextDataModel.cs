@@ -3,7 +3,7 @@ using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Text.Logic;
 using ModernApplicationFramework.Utilities.Core;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     internal class TextDataModel : ITextDataModel
     {

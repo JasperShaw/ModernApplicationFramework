@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace ModernApplicationFramework.TextEditor.Implementation
+namespace ModernApplicationFramework.Editor.Implementation
 {
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public struct NewHiddenRegionEx

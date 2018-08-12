@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     public struct FontInfo
     {

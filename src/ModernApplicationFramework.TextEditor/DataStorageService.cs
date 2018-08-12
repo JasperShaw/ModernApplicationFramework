@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Text.Storage;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     [Export(typeof(IDataStorageService))]
     internal sealed class DataStorageService : IDataStorageService

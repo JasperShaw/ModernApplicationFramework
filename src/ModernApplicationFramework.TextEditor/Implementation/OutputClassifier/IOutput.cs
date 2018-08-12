@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ModernApplicationFramework.TextEditor.Implementation.OutputClassifier
+namespace ModernApplicationFramework.Editor.Implementation.OutputClassifier
 {
     public interface IOutput
     {

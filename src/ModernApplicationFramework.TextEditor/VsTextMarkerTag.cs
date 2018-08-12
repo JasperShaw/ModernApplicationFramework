@@ -2,7 +2,7 @@
 using ModernApplicationFramework.Text.Logic;
 using ModernApplicationFramework.Text.Logic.Tagging;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     internal class VsTextMarkerTag : IVsVisibleTextMarkerTag
     {

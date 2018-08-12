@@ -2,7 +2,7 @@
 using ModernApplicationFramework.Text.Ui.Editor;
 using ModernApplicationFramework.Utilities.Attributes;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     [Export(typeof(IMouseProcessorProvider))]
     [Name("MouseProcessor")]

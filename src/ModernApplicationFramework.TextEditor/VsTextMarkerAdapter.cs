@@ -1,9 +1,9 @@
 ﻿using System;
+using ModernApplicationFramework.Editor.Implementation;
 using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Text.Logic.Classification;
-using ModernApplicationFramework.TextEditor.Implementation;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Editor
 {
     internal class VsTextMarkerAdapter : IVsTextMarker, IVsTextLineMarker, IVsTextStreamMarker, IDisposable
     {

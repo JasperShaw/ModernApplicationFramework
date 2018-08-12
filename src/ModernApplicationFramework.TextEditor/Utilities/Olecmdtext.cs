@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace ModernApplicationFramework.TextEditor.Utilities
+namespace ModernApplicationFramework.Editor.Utilities
 {
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public struct Olecmdtext

@@ -2,7 +2,7 @@
 using ModernApplicationFramework.Utilities.Attributes;
 using ModernApplicationFramework.Utilities.Core;
 
-namespace ModernApplicationFramework.TextEditor.Implementation
+namespace ModernApplicationFramework.Editor.Implementation
 {
     internal static class ToolWindowContentTypes
     {
