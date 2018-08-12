@@ -10,7 +10,7 @@ using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Text.Logic.Operations;
 using ModernApplicationFramework.Text.Utilities;
 
-namespace ModernApplicationFramework.TextEditor
+namespace ModernApplicationFramework.Modules.Editor.Find
 {
     [Export(typeof(ITextSearchService))]
     [Export(typeof(ITextSearchService2))]

@@ -127,6 +127,7 @@
     <Compile Include="EditorPrimitives\EditorPrimitivesFactoryService.cs" />
     <Compile Include="EditorPrimitives\PrimitivesUtilities.cs" />
     <Compile Include="EditorPrimitives\ViewPrimitives.cs" />
+    <Compile Include="Find\TextSearchService.cs" />
     <Compile Include="Formatting\BufferPositionToTokenIndexMap.cs" />
     <Compile Include="Formatting\ClassifiedRun.cs" />
     <Compile Include="Formatting\EmptyClassifier.cs" />
@@ -453,7 +454,6 @@
     <Folder Include="AdornmentLibrary\Squiggles\" />
     <Folder Include="AdornmentLibrary\ToolTip\" />
     <Folder Include="BraceCompletion\" />
-    <Folder Include="Find\" />
     <Folder Include="IncrementalSearch\" />
     <Folder Include="PatternMatching\" />
     <Folder Include="PrintingService\" />

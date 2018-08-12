@@ -242,7 +242,6 @@
     <Compile Include="TextMarkerGlyphTag.cs" />
     <Compile Include="TextMarkerViewTagger.cs" />
     <Compile Include="TextMarkerViewTaggerProvider.cs" />
-    <Compile Include="TextSearchService.cs" />
     <Compile Include="TextSpan.cs" />
     <Compile Include="DataStorage.cs" />
     <Compile Include="DataStorageService.cs" />
