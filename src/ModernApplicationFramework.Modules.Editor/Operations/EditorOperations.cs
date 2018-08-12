@@ -12,6 +12,7 @@ using ModernApplicationFramework.Text.Logic.Operations;
 using ModernApplicationFramework.Text.Ui.Editor;
 using ModernApplicationFramework.Text.Ui.Formatting;
 using ModernApplicationFramework.Text.Ui.Operations;
+using ModernApplicationFramework.Text.Utilities;
 
 namespace ModernApplicationFramework.Modules.Editor.Operations
 {
@@ -275,7 +276,12 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
 
         public bool CopySelection()
         {
-            throw new NotImplementedException();
+            if (!TextView.Selection.IsEmpty)
+                return PrepareClipboardSelectionCopy()();
+            if (!IsPointOnBlankViewLine(_editorPrimitives.Caret) ||
+                Options.GetOptionValue(DefaultTextViewOptions.CutOrCopyBlankLineIfNoSelectionId))
+                return PrepareClipboardFullLineCopy(GetFullLines())();
+            return true;
         }
 
         public bool CutFullLine()
@@ -1241,6 +1247,16 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
             TextView.Caret.MoveTo(GetPreviousIndentStopInVirtualSpace(TextView.Caret.Position.VirtualBufferPosition));
         }
 
+        private DisplayTextRange GetFullLines()
+        {
+            var displayTextRange = _editorPrimitives.Selection.Clone();
+            var displayStartPoint = displayTextRange.GetDisplayStartPoint();
+            var displayEndPoint = displayTextRange.GetDisplayEndPoint();
+            displayStartPoint.MoveTo(displayStartPoint.StartOfViewLine);
+            displayEndPoint.MoveToBeginningOfNextViewLine();
+            return displayStartPoint.GetDisplayTextRange(displayEndPoint);
+        }
+
         private bool PositionCaretWithSmartIndent(bool useOnlyVirtualSpace = true, bool extendSelection = false)
         {
             var virtualBufferPosition = TextView.Caret.Position.VirtualBufferPosition;
@@ -1287,6 +1303,76 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
                 (TextView.Selection.IsReversed ? containingBufferPosition1 : containingBufferPosition2)
                 .GetInsertionBufferPositionFromXCoordinate(xCoordinate));
             TextView.Selection.Clear();
+        }
+
+        private Func<bool> PrepareClipboardSelectionCopy()
+        {
+            var selectedSpans = TextView.Selection.SelectedSpans;
+            var text = SelectedText;
+            string rtfText = null;
+            try
+            {
+                rtfText = GenerateRtf(selectedSpans);
+            }
+            catch (OperationCanceledException)
+            {
+            }
+
+            var isBox = TextView.Selection.Mode == TextSelectionMode.Box;
+            return () => CopyToClipboard(text, rtfText, false, isBox);
+        }
+
+        private Func<bool> PrepareClipboardFullLineCopy(DisplayTextRange textRange)
+        {
+            var text = textRange.GetText();
+            string rtfText = null;
+            try
+            {
+                rtfText = GenerateRtf(textRange.AdvancedTextRange);
+            }
+            catch (OperationCanceledException)
+            {
+            }
+            return () => CopyToClipboard(text, rtfText, true, false);
+        }
+
+        private string GenerateRtf(SnapshotSpan span)
+        {
+            return GenerateRtf(new NormalizedSnapshotSpanCollection(span));
+        }
+
+        private string GenerateRtf(NormalizedSnapshotSpanCollection spans)
+        {
+            var source = spans;
+            int Func(SnapshotSpan span) => span.Length;
+            if (source.Sum(Func) >= TextView.Options.GetOptionValue(MaxRtfCopyLength.OptionKey))
+                return null;
+            if (!TextView.Options.GetOptionValue(UseAccurateClassificationForRtfCopy.OptionKey))
+                return _factory.RtfBuilderService.GenerateRtf(spans);
+            //TODO: Text
+            using (var waitContext = WaitHelper.Wait(_factory.WaitIndicator, "Wait Title", "Wait Message"))
+                return ((IRtfBuilderService2) _factory.RtfBuilderService).GenerateRtf(spans, waitContext.CancellationToken);
+        }
+
+        private static bool CopyToClipboard(string textData, string rtfData, bool lineCutCopyTag, bool boxCutCopyTag)
+        {
+            try
+            {
+                var dataObject = new DataObject();
+                dataObject.SetText(textData);
+                if (rtfData != null)
+                    dataObject.SetData(DataFormats.Rtf, rtfData);
+                if (lineCutCopyTag)
+                    dataObject.SetData("EditorOperationsLineCutCopyClipboardTag", true);
+                if (boxCutCopyTag)
+                    dataObject.SetData("ColumnSelect", true);
+                Clipboard.SetDataObject(dataObject, false);
+                return true;
+            }
+            catch (ExternalException)
+            {
+                return false;
+            }
         }
     }
 }

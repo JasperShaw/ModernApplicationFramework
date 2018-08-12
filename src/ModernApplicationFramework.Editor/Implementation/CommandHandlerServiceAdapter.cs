@@ -188,9 +188,9 @@ namespace ModernApplicationFramework.Editor.Implementation
                 //case VSConstants.VSStd2KCmdID.CUT:
                 //    ExecuteCutCommand(next);
                 //    return 0;
-                //case VSConstants.VSStd2KCmdID.COPY:
-                //    ExecuteCopyCommand(next);
-                //    return 0;
+                case (uint)MafConstants.EditorCommands.Copy:
+                    ExecuteCopyCommand(next);
+                    return 0;
                 //case VSConstants.VSStd2KCmdID.PASTE:
                 //    ExecutePasteCommand(next);
                 //    return 0;
@@ -335,10 +335,10 @@ namespace ModernApplicationFramework.Editor.Implementation
         {
             switch (prgCmds[0].cmdID)
             {
-                //case VSConstants.VSStd2KCmdID.BACKSPACE:
-                //    return QueryBackspaceKeyStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
-                //case VSConstants.VSStd2KCmdID.RETURN:
-                //    return QueryReturnKeyStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
+                case (uint)MafConstants.EditorCommands.Backspace:
+                    return QueryBackspaceKeyStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
+                case (uint)MafConstants.EditorCommands.Return:
+                    return QueryReturnKeyStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
                 //case VSConstants.VSStd2KCmdID.TAB:
                 //    return QueryTabKeyStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
                 //case VSConstants.VSStd2QueryLeftKeyStatusKCmdID.BACKTAB:
@@ -373,8 +373,8 @@ namespace ModernApplicationFramework.Editor.Implementation
                 //    return QuerySelectAllStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
                 //case VSConstants.VSStd2KCmdID.CUT:
                 //    return QueryCutStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
-                //case VSConstants.VSStd2KCmdID.COPY:
-                //    return QueryCopyStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
+                case (uint)MafConstants.EditorCommands.Copy:
+                    return QueryCopyStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
                 //case VSConstants.VSStd2KCmdID.PASTE:
                 //    return QueryPasteStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
                 //case VSConstants.VSStd2KCmdID.OPENLINEABOVE:
@@ -508,6 +508,21 @@ namespace ModernApplicationFramework.Editor.Implementation
                 commandCount, prgCmds, commandText);
         }
 
+        private int QueryBackspaceKeyStatus(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
+        {
+            return GetCommandState((view, buffer) => new BackspaceKeyCommandArgs(view, buffer), ref pguidCmdGroup, commandCount, prgCmds, commandText);
+        }
+
+        private int QueryCopyStatus(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
+        {
+            return GetCommandState((view, buffer) => new CopyCommandArgs(view, buffer), ref pguidCmdGroup, commandCount, prgCmds, commandText);
+        }
+
+        private int QueryReturnKeyStatus(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
+        {
+            return GetCommandState((view, buffer) => new ReturnKeyCommandArgs(view, buffer), ref pguidCmdGroup, commandCount, prgCmds, commandText);
+        }
+
 
         private void ExecuteTypeCharCommand(Action next, char typedChar)
         {
@@ -523,8 +538,8 @@ namespace ModernApplicationFramework.Editor.Implementation
 
         private void ExecuteReturnKeyCommand(Action next)
         {
-            IEditorCommandHandlerService commandHandlerService = _commandHandlerService;
-            Action nextCommandHandler = next;
+            var commandHandlerService = _commandHandlerService;
+            var nextCommandHandler = next;
             commandHandlerService.Execute((view, buffer) => new ReturnKeyCommandArgs(view, buffer), nextCommandHandler);
         }
 
@@ -535,6 +550,12 @@ namespace ModernApplicationFramework.Editor.Implementation
             commandHandlerService.Execute((view, buffer) => new LeftKeyCommandArgs(view, buffer), nextCommandHandler);
         }
 
+        private void ExecuteCopyCommand(Action next)
+        {
+            var commandHandlerService = _commandHandlerService;
+            var nextCommandHandler = next;
+            commandHandlerService.Execute((view, buffer) => new CopyCommandArgs(view, buffer), nextCommandHandler);
+        }
     }
 
     public sealed class ReturnKeyCommandArgs : EditorCommandArgs

@@ -7,6 +7,7 @@ using ModernApplicationFramework.Text.Ui.Editor;
 using ModernApplicationFramework.Text.Ui.Formatting;
 using ModernApplicationFramework.Text.Ui.Operations;
 using ModernApplicationFramework.Text.Ui.Outlining;
+using ModernApplicationFramework.Text.Utilities;
 using ModernApplicationFramework.TextEditor;
 
 namespace ModernApplicationFramework.Modules.Editor.Operations
@@ -20,8 +21,8 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
 
         [Import] internal IEditorOptionsFactoryService EditorOptionsProvider { get; set; }
 
-        //[Import(AllowDefault = true)]
-        //internal IWaitIndicator WaitIndicator { get; set; }
+        [Import(AllowDefault = true)]
+        internal IWaitIndicator WaitIndicator { get; set; }
 
         //TODO: Add Search Stuff
 

@@ -16,6 +16,7 @@ using ModernApplicationFramework.Editor.Interop;
 using ModernApplicationFramework.Editor.NativeMethods;
 using ModernApplicationFramework.Editor.Outlining;
 using ModernApplicationFramework.Editor.TextManager;
+using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Text.Logic;
@@ -123,7 +124,7 @@ namespace ModernApplicationFramework.Editor.Implementation
                 _fontsAndColorsCategory = value;
                 if (CurrentInitializationState >= InitializationState.TextViewAvailable && _editorOptions.GetOptionValue(DefaultViewOptions.AppearanceCategory) != value.AppearanceCategory)
                     _editorOptions.SetOptionValue(DefaultViewOptions.AppearanceCategory, value.AppearanceCategory);
-                if (CurrentInitializationState < InitializationState.TextBufferAvailable ||TextView == null)
+                if (CurrentInitializationState < InitializationState.TextBufferAvailable || TextView == null)
                     return;
                 EditorFormatMap = IoC.Get<IEditorFormatMapService>().GetEditorFormatMap(TextView);
                 ApplyBackgroundColor();
@@ -244,7 +245,7 @@ namespace ModernApplicationFramework.Editor.Implementation
             {
                 switch (commandId)
                 {
-                    case (uint) MafConstants.EditorCommands.TypeChar:
+                    case (uint)MafConstants.EditorCommands.TypeChar:
                         return Fire_KeyPressEvent(isPreEvent, GetTypeCharFromKeyPressEventArg(înput));
                     case (uint)MafConstants.EditorCommands.Backspace:
                         return Fire_KeyPressEvent(isPreEvent, '\b');
@@ -396,7 +397,7 @@ namespace ModernApplicationFramework.Editor.Implementation
 
                 if (commandGroup == MafConstants.EditorCommandGroup)
                 {
-                    switch ((MafConstants.EditorCommands) commandId)
+                    switch ((MafConstants.EditorCommands)commandId)
                     {
                         // Some other Commands
                         case MafConstants.EditorCommands.MoveSelLinesDown:
@@ -422,6 +423,9 @@ namespace ModernApplicationFramework.Editor.Implementation
                         case MafConstants.EditorCommands.Left:
                             _editorOperations.MoveToPreviousCharacter(false);
                             break;
+                        case MafConstants.EditorCommands.Copy:
+                            Copy();
+                            break;
                         case MafConstants.EditorCommands.ShowContextMenu:
                             ShowContextMenu(input, ref result);
                             break;
@@ -446,6 +450,11 @@ namespace ModernApplicationFramework.Editor.Implementation
             {
             }
             return -2147221248;
+        }
+
+        private void Copy()
+        {
+            _editorOperations.CopySelection();
         }
 
         private void ShowContextMenu(IntPtr location, ref int result)
@@ -561,7 +570,7 @@ namespace ModernApplicationFramework.Editor.Implementation
                 return false;
             if (cmdGroup == MafConstants.EditorCommandGroup)
             {
-                switch ((MafConstants.EditorCommands) cmdId)
+                switch ((MafConstants.EditorCommands)cmdId)
                 {
                     case MafConstants.EditorCommands.TypeChar:
                     case MafConstants.EditorCommands.Backspace:
@@ -577,7 +586,7 @@ namespace ModernApplicationFramework.Editor.Implementation
         {
             if (commandGroup == MafConstants.EditorCommandGroup)
             {
-                switch ((MafConstants.EditorCommands) commandId)
+                switch ((MafConstants.EditorCommands)commandId)
                 {
                     case MafConstants.EditorCommands.TypeChar:
                     case MafConstants.EditorCommands.Backspace:
@@ -603,12 +612,34 @@ namespace ModernApplicationFramework.Editor.Implementation
 
         public int InnerQueryStatus(ref Guid commandGroup, uint cCmds, Olecmd[] prgCmds, IntPtr pCmdText)
         {
+            if (IsCommandExecutionProhibited())
+                return -2147221248;
+            if (commandGroup == MafConstants.EditorCommandGroup)
+            {
+                for (var i = 0; i < cCmds; ++i)
+                {
+                    switch (prgCmds[i].cmdID)
+                    {
+                        case 57:
+                            break;
+                        default:
+                            prgCmds[i].cmdf = prgCmds[i].cmdID <= 0 || prgCmds[i].cmdID >= 145
+                                ? Olecmdf.None
+                                : Olecmdf.Supported | Olecmdf.Enabled;
+                            break;
+                    }
+                }
+
+            }
             return 0;
         }
 
         public int QueryStatus(ref Guid commandGroup, uint cCmds, Olecmd[] prgCmds, IntPtr pCmdText)
         {
-            return 0;
+            var hr = PreOuterQueryStatus(ref commandGroup, cCmds, prgCmds);
+            if (hr < 0)
+                return hr;
+            return _commandChain.QueryStatus(ref commandGroup, cCmds, prgCmds, pCmdText);
         }
 
         public int SetBuffer(IMafTextLines pBuffer)
@@ -627,9 +658,9 @@ namespace ModernApplicationFramework.Editor.Implementation
                 FailInitializationAndThrow("Initialize is being called before the adapter has been sited.");
             _initFlags = flags;
 
-            var t = ((int) flags & 32768) != 0;
+            var t = ((int)flags & 32768) != 0;
 
-            ShimHost.Initialize(((int) flags & 32768) == 0, hwndParent);
+            ShimHost.Initialize(((int)flags & 32768) == 0, hwndParent);
             ShimHost.NowVisible += ShimHostNowVisible;
             Init_SetBuffer(buffer);
         }
@@ -687,7 +718,7 @@ namespace ModernApplicationFramework.Editor.Implementation
             //    textView.ViewportLeftChanged -= View_ViewportLeftChanged;
             //    textView.ViewportWidthChanged -= View_ViewportWidthChanged;
             //    _editorOptions.OptionChanged -= EditorOptions_OptionChanged;
-                _classificationFormatMap.ClassificationFormatMappingChanged -= ClassificationFormatMap_ClassificationFormatMappingChanged;
+            _classificationFormatMap.ClassificationFormatMappingChanged -= ClassificationFormatMap_ClassificationFormatMappingChanged;
             //    textView.TextBuffer.Changed -= DocData_OnChangeLineText;
             //    //TODO: Add textDocData stuff
             //    _editorAndMenuFocusTracker.GotFocus -= OnEditorOrMenuGotFocus;
@@ -827,6 +858,7 @@ namespace ModernApplicationFramework.Editor.Implementation
             _urlTagAggregator = EditorParts.ViewTagAggregatorFactoryService.CreateTagAggregator<IUrlTag>(textView);
             CleanUpEvents();
             InitializeEvents();
+            RegisterApplicationCommands();
             var textViewHostUpdated = TextViewHostUpdated;
             textViewHostUpdated?.Invoke(this, EventArgs.Empty);
             //Lang stuff
@@ -837,7 +869,7 @@ namespace ModernApplicationFramework.Editor.Implementation
                 {
                     var virtualSnapshotPoint = new VirtualSnapshotPoint(currentSnapshot, currentSnapshot.Length);
                     _editorOperations.SelectAndMoveCaret(virtualSnapshotPoint, virtualSnapshotPoint, TextSelectionMode.Stream);
-                }      
+                }
             }
             //TODO: TextManager stuff
             //if (!_isViewRegistered && )
@@ -866,6 +898,30 @@ namespace ModernApplicationFramework.Editor.Implementation
 
             //StatusBar Stuff
             Initialized?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void RegisterApplicationCommands()
+        {
+            CommandHelpers.RegisterCommandHandler(TextView.VisualElement.GetType(), ApplicationCommands.Copy, OnCopy, CanCopy);
+
+
+        }
+
+        private void CanCopy(object sender, CanExecuteRoutedEventArgs e)
+        {
+            var guid = MafConstants.EditorCommandGroup;
+            var prgCmds = new[]
+            {
+                new Olecmd { cmdID = (uint) MafConstants.EditorCommands.Copy }
+            };
+            QueryStatus(ref guid, (uint)prgCmds.Length, prgCmds, IntPtr.Zero);
+            e.CanExecute = prgCmds[0].cmdf.HasFlag(Olecmdf.Supported) && prgCmds[0].cmdf.HasFlag(Olecmdf.Enabled);
+        }
+
+        private void OnCopy(object sender, ExecutedRoutedEventArgs e)
+        {
+            var guid = MafConstants.EditorCommandGroup;
+            Exec(ref guid, (uint) MafConstants.EditorCommands.Copy, 0, IntPtr.Zero, IntPtr.Zero);
         }
 
         private void SendTextViewCreated()
@@ -926,7 +982,7 @@ namespace ModernApplicationFramework.Editor.Implementation
             return TextView.BufferGraph.MapDownToSnapshot(viewPoint, PointTrackingMode.Positive, DataTextSnapshot, PositionAffinity.Successor);
         }
 
-        
+
 
         private int AddCommandFilter(ICommandTarget pNewCmdTarg, out ICommandTarget ppNextCmdTarg,
             bool projectionAware)
@@ -1140,15 +1196,15 @@ namespace ModernApplicationFramework.Editor.Implementation
             if (_scrollMap == null)
             {
                 iMaxUnits = TextView.TextSnapshot.LineCount;
-                iVisibleUnits = (int) (TextView.ViewportHeight / 14.0);
+                iVisibleUnits = (int)(TextView.ViewportHeight / 14.0);
                 iFirstVisibleUnit = TextView.TextViewLines.FirstVisibleLine.Start.GetContainingLine().LineNumber;
             }
             else
             {
-                iMaxUnits = (int) (_scrollMap.End - _scrollMap.Start);
-                iVisibleUnits = (int) _scrollMap.ThumbSize;
+                iMaxUnits = (int)(_scrollMap.End - _scrollMap.Start);
+                iVisibleUnits = (int)_scrollMap.ThumbSize;
                 iFirstVisibleUnit =
-                    (int) _scrollMap.GetCoordinateAtBufferPosition(TextView.TextViewLines.FirstVisibleLine.Start);
+                    (int)_scrollMap.GetCoordinateAtBufferPosition(TextView.TextViewLines.FirstVisibleLine.Start);
             }
             if (_oldVerticalMaxUnits == iMaxUnits && _oldVerticalVisibleUnits == iVisibleUnits && _oldVerticalFirstVisibleUnit == iFirstVisibleUnit)
                 return;
@@ -1169,7 +1225,7 @@ namespace ModernApplicationFramework.Editor.Implementation
                 return;
             if (_tipDimmingTimer == null)
             {
-                _tipDimmingTimer = new DispatcherTimer {Interval = new TimeSpan(0, 0, 0, 0, 250)};
+                _tipDimmingTimer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, 250) };
                 _tipDimmingTimer.Tick += ((tickSender, tickArgs) => SetTipOpacity(0.3));
             }
             _tipDimmingTimer.Start();
@@ -1583,7 +1639,7 @@ namespace ModernApplicationFramework.Editor.Implementation
 
     public interface ITextEditorPropertyContainer
     {
-        int GetProperty(EditPropId idProp,  out object pvar);
+        int GetProperty(EditPropId idProp, out object pvar);
 
         int SetProperty(EditPropId idProp, object var);
 

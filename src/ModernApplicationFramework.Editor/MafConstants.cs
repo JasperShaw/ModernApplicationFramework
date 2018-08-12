@@ -9,10 +9,12 @@ namespace ModernApplicationFramework.Editor
         public enum EditorCommands : uint
         {
             //Update SimpleTextViewWindow. IsEditingCommand IsSearchingCommand as required
+            // Update InnerExec and InnerQueryStatus also
             TypeChar = 1,
             Backspace = 2,
             Return = 3,
             Left = 7,
+            Copy = 59,
             SelectCurrentWord = 90,
             ShowContextMenu = 102,
             OpenUrl = 113,
