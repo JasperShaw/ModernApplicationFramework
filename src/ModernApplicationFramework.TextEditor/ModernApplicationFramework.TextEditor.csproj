@@ -88,7 +88,6 @@
     <Compile Include="FontsAndColorsHelper.cs" />
     <Compile Include="ImmediateWindowFontAndColorCategory.cs" />
     <Compile Include="AppearanceCategoryOption.cs" />
-    <Compile Include="BufferPrimitives.cs" />
     <Compile Include="EditorMEFFontAndColorCategory.cs" />
     <Compile Include="Fcpriority.cs" />
     <Compile Include="FontAndColorDefaultsProvider.cs" />
@@ -101,28 +100,13 @@
     <Compile Include="Implementation\IOutliningSession.cs" />
     <Compile Include="Implementation\Outlining\AdhocOutliner.cs" />
     <Compile Include="Implementation\CategoryGuids.cs" />
-    <Compile Include="Collapsed.cs" />
-    <Compile Include="Collapsible.cs" />
-    <Compile Include="CollapsibleSorter.cs" />
-    <Compile Include="DefaultBufferPrimitive.cs" />
-    <Compile Include="DefaultBufferPrimitivesFactoryService.cs" />
-    <Compile Include="DefaultCaretPrimitive.cs" />
-    <Compile Include="DefaultDisplayTextPointPrimitive.cs" />
-    <Compile Include="DefaultDisplayTextRangePrimitive.cs" />
     <Compile Include="DefaultKeyProcessorFactory.cs" />
-    <Compile Include="DefaultSelectionPrimitive.cs" />
-    <Compile Include="DefaultTextPointPrimitive.cs" />
-    <Compile Include="DefaultTextRangePrimitive.cs" />
-    <Compile Include="DefaultTextViewPrimitive.cs" />
-    <Compile Include="DefaultViewPrimitivesFactoryService.cs" />
     <Compile Include="EditorAdaptersFactoryService.cs" />
-    <Compile Include="EditorPrimitivesFactoryService.cs" />
     <Compile Include="EditorTextManagerFontAndColorCategory.cs" />
     <Compile Include="Eoltype.cs" />
     <Compile Include="Eoltype2.cs" />
     <Compile Include="ExpansionMarkerClient.cs" />
     <Compile Include="DefGuidList.cs" />
-    <Compile Include="Implementation\EditorFormat.cs" />
     <Compile Include="Implementation\EnableFindOptionDefinition.cs" />
     <Compile Include="Implementation\FontAndColorInformationService.cs" />
     <Compile Include="Implementation\FontColorPreferences2.cs" />
@@ -172,7 +156,6 @@
     <Compile Include="Implementation\TextViewInitFlags.cs" />
     <Compile Include="Implementation\ToolWindowContentTypes.cs" />
     <Compile Include="Implementation\TrackingSpanComparer.cs" />
-    <Compile Include="Implementation\UrlClassificationTypeExports.cs" />
     <Compile Include="Implementation\VsEditPropId.cs" />
     <Compile Include="Implementation\HiddenRegionAdapter.cs" />
     <Compile Include="Implementation\HiddenTextSessionAdapter.cs" />
@@ -197,16 +180,10 @@
     <Compile Include="ToolTipFontAndColorCategory.cs" />
     <Compile Include="ToolWindowFontAndColorCategoryBase.cs" />
     <Compile Include="ToolWindowGroup.cs" />
-    <Compile Include="Utilities\ChangeBrushes.cs" />
-    <Compile Include="IBufferPrimitivesFactoryService.cs" />
     <Compile Include="IEditorAdaptersFactoryService.cs" />
     <Compile Include="IGetManagedObject.cs" />
     <Compile Include="IGlyphTag.cs" />
-    <Compile Include="Implementation\DefaultScrollMapFactoryService.cs" />
-    <Compile Include="Implementation\SpacerMargin.cs" />
-    <Compile Include="Implementation\SpacerMarginProvider.cs" />
     <Compile Include="Implementation\BottomRightCornerMarginProvider.cs" />
-    <Compile Include="Utilities\AbstractUIThreadOperationContext.cs" />
     <Compile Include="Implementation\CommandBindingDefinition.cs" />
     <Compile Include="Implementation\CommandChainNode.cs" />
     <Compile Include="Implementation\CommandHandlerServiceAdapter.cs" />
@@ -216,7 +193,6 @@
     <Compile Include="Implementation\ConnectionPoint.cs" />
     <Compile Include="Implementation\ConnectionPointContainer.cs" />
     <Compile Include="Implementation\CtrlKeyStateTracker.cs" />
-    <Compile Include="Implementation\DefaultScrollMap.cs" />
     <Compile Include="Implementation\EditorAndMenuFocusTracker.cs" />
     <Compile Include="Implementation\EmbeddedObjectHelper.cs" />
     <Compile Include="Implementation\EnumConnectionPoints.cs" />
@@ -244,7 +220,6 @@
     <Compile Include="Utilities\Olecmdtext.cs" />
     <Compile Include="Utilities\Utilities.cs" />
     <Compile Include="INormalizeNewLines.cs" />
-    <Compile Include="IViewPrimitivesFactoryService.cs" />
     <Compile Include="IMafTextManager.cs" />
     <Compile Include="IVsTextMarker.cs" />
     <Compile Include="IVsTextMarkerClient.cs" />
@@ -257,7 +232,6 @@
     <Compile Include="MarkerType.cs" />
     <Compile Include="MouseProcessor.cs" />
     <Compile Include="MouseProcessorProvider.cs" />
-    <Compile Include="PrimitivesUtilities.cs" />
     <Compile Include="SecondaryTextBufferAdapter.cs" />
     <Compile Include="SurfaceTextMarkerViewTagger.cs" />
     <Compile Include="TextBufferAdapter.cs" />
@@ -270,21 +244,14 @@
     <Compile Include="TextMarkerViewTaggerProvider.cs" />
     <Compile Include="TextSearchService.cs" />
     <Compile Include="TextSpan.cs" />
-    <Compile Include="UnicodeWordExtent.cs" />
-    <Compile Include="UrlClassifier.cs" />
-    <Compile Include="UrlClassifierProvider.cs" />
     <Compile Include="DataStorage.cs" />
     <Compile Include="DataStorageService.cs" />
     <Compile Include="ExtensionErrorHandler.cs" />
     <Compile Include="HighlightCurrentLineOption.cs" />
     <Compile Include="IAccessible.cs" />
     <Compile Include="NativeMethods\User32.cs" />
-    <Compile Include="OutliningManager.cs" />
-    <Compile Include="OutliningManagerService.cs" />
     <Compile Include="ShimSmartIndent.cs" />
     <Compile Include="ShimSmartIndentProvider.cs" />
-    <Compile Include="Utilities\IPerformanceMarkerBlockProvider.cs" />
-    <Compile Include="MouseWheelZoomEnabled.cs" />
     <Compile Include="NativeMethods\Kernel32.cs" />
     <Compile Include="NativeMethods\NativeMethods.cs" />
     <Compile Include="SimpleGraphicsOption.cs" />
@@ -305,20 +272,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="TextDataModel.cs" />
-    <Compile Include="UseReducedOpacityForHighContrastOption.cs" />
-    <Compile Include="UseVisibleWhitespace.cs" />
     <Compile Include="ViewMarkerTypeManager.cs" />
-    <Compile Include="ViewPrimitives.cs" />
-    <Compile Include="VisualStudioWaitIndicator.cs" />
+    <Compile Include="WaitIndicator.cs" />
     <Compile Include="VsTextMarkerAdapter.cs" />
     <Compile Include="VsTextMarkerGlyphTag.cs" />
     <Compile Include="VsTextMarkerTag.cs" />
     <Compile Include="WaitContext.cs" />
-    <Compile Include="WaitHelper.cs" />
-    <Compile Include="WaitIndicatorResult.cs" />
-    <Compile Include="ZoomLevel.cs" />
-    <Compile Include="ZoomMouseProcessor.cs" />
-    <Compile Include="ZoomMouseProcessorProvider.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

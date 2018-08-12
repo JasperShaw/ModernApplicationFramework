@@ -1,6 +1,6 @@
 ﻿namespace ModernApplicationFramework.TextEditor
 {
-    //TODO: Implement
+    //TODO: Implement (VisualStudioWaitContext)
 
     //internal sealed class WaitContext : IWaitContext
     //{

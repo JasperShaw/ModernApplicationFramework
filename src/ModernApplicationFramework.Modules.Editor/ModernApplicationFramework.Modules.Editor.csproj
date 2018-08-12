@@ -73,6 +73,10 @@
     <Compile Include="Commanding\ICommandHandlerMetadata.cs" />
     <Compile Include="Commanding\SingleBufferResolver.cs" />
     <Compile Include="Commanding\UIThreadOperationExecutor.cs" />
+    <Compile Include="CompressedStorageFileSizeThreshold.cs" />
+    <Compile Include="CompressedStorageMaxLoadedPages.cs" />
+    <Compile Include="CompressedStoragePageSize.cs" />
+    <Compile Include="CompressedStorageRetainWeakReferences.cs" />
     <Compile Include="CurrentLineHighlighter\CurrentLineHighlighter.cs" />
     <Compile Include="CurrentLineHighlighter\CurrentLineHighlighterProvider.cs" />
     <Compile Include="Differencing\CharacterDecompositionList.cs" />
@@ -94,6 +98,7 @@
     <Compile Include="Differencing\TokenizedStringList.cs" />
     <Compile Include="Differencing\WordDecompositionList.cs" />
     <Compile Include="Differencing\WrappedLineDifferenceCollection.cs" />
+    <Compile Include="DiffSizeThreshold.cs" />
     <Compile Include="DragDrop\DefaultBoxTextDropHandler.cs" />
     <Compile Include="DragDrop\DefaultBoxTextDropHandlerProvider.cs" />
     <Compile Include="DragDrop\DefaultTextDropHandler.cs" />
@@ -108,6 +113,20 @@
     <Compile Include="EditorOptions\EditorOptions.cs" />
     <Compile Include="EditorOptions\EditorOptionsFactoryService.cs" />
     <Compile Include="EditorOptions\INameMetadata.cs" />
+    <Compile Include="EditorPrimitives\BufferPrimitives.cs" />
+    <Compile Include="EditorPrimitives\DefaultBufferPrimitive.cs" />
+    <Compile Include="EditorPrimitives\DefaultBufferPrimitivesFactoryService.cs" />
+    <Compile Include="EditorPrimitives\DefaultCaretPrimitive.cs" />
+    <Compile Include="EditorPrimitives\DefaultDisplayTextPointPrimitive.cs" />
+    <Compile Include="EditorPrimitives\DefaultDisplayTextRangePrimitive.cs" />
+    <Compile Include="EditorPrimitives\DefaultSelectionPrimitive.cs" />
+    <Compile Include="EditorPrimitives\DefaultTextPointPrimitive.cs" />
+    <Compile Include="EditorPrimitives\DefaultTextRangePrimitive.cs" />
+    <Compile Include="EditorPrimitives\DefaultTextViewPrimitive.cs" />
+    <Compile Include="EditorPrimitives\DefaultViewPrimitivesFactoryService.cs" />
+    <Compile Include="EditorPrimitives\EditorPrimitivesFactoryService.cs" />
+    <Compile Include="EditorPrimitives\PrimitivesUtilities.cs" />
+    <Compile Include="EditorPrimitives\ViewPrimitives.cs" />
     <Compile Include="Formatting\BufferPositionToTokenIndexMap.cs" />
     <Compile Include="Formatting\ClassifiedRun.cs" />
     <Compile Include="Formatting\EmptyClassifier.cs" />
@@ -122,6 +141,10 @@
     <Compile Include="Formatting\TextInfoCache.cs" />
     <Compile Include="Formatting\TextLineData.cs" />
     <Compile Include="Formatting\ViewWrapProperties.cs" />
+    <Compile Include="HighContrast\HighContrastSelectionClassificationExports.cs" />
+    <Compile Include="HighContrast\HighContrastSelectionTag.cs" />
+    <Compile Include="HighContrast\HighContrastSelectionTagger.cs" />
+    <Compile Include="HighContrast\HighContrastSelectionTaggerProvider.cs" />
     <Compile Include="Implementation\AccessibleCaret.cs" />
     <Compile Include="Implementation\ActiveSelectionProperties.cs" />
     <Compile Include="Implementation\AdornmentLayer.cs" />
@@ -133,6 +156,8 @@
     <Compile Include="Implementation\CollapsedAdornmentProvider.cs" />
     <Compile Include="Implementation\ConnectionManager.cs" />
     <Compile Include="Implementation\ContainerMargin.cs" />
+    <Compile Include="Implementation\DefaultScrollMap.cs" />
+    <Compile Include="Implementation\DefaultScrollMapFactoryService.cs" />
     <Compile Include="Implementation\DefaultViewScroller.cs" />
     <Compile Include="Implementation\DirectionalSelectionEnabled.cs" />
     <Compile Include="Implementation\DragDropHelper.cs" />
@@ -169,6 +194,8 @@
     <Compile Include="Implementation\SolidColorBrushSelectionPainter.cs" />
     <Compile Include="Implementation\SpaceReservationManager.cs" />
     <Compile Include="Implementation\SpaceReservationStack.cs" />
+    <Compile Include="Implementation\SpacerMargin.cs" />
+    <Compile Include="Implementation\SpacerMarginProvider.cs" />
     <Compile Include="Implementation\TextContentLayer.cs" />
     <Compile Include="Operations\DefaultTextNavigator.cs" />
     <Compile Include="Operations\EditorOperations.cs" />
@@ -179,11 +206,18 @@
     <Compile Include="Operations\TextStructureNavigatorSelectorService.cs" />
     <Compile Include="Operations\TextTransactionMergeDirections.cs" />
     <Compile Include="Operations\UseAccurateClassificationForRtfCopy.cs" />
+    <Compile Include="Outlining\Collapsed.cs" />
+    <Compile Include="Outlining\Collapsible.cs" />
+    <Compile Include="Outlining\CollapsibleSorter.cs" />
+    <Compile Include="Outlining\OutliningManager.cs" />
+    <Compile Include="Outlining\OutliningManagerService.cs" />
+    <Compile Include="Structure\EditorFormat.cs" />
     <Compile Include="TextAndAdornmentSequencer\AdornmentElement.cs" />
     <Compile Include="TextAndAdornmentSequencer\TextAndAdornmentCollection.cs" />
     <Compile Include="TextAndAdornmentSequencer\TextAndAdornmentSequencer.cs" />
     <Compile Include="TextAndAdornmentSequencer\TextAndAdornmentSequencerFactoryService.cs" />
     <Compile Include="TextAndAdornmentSequencer\TextSpanElement.cs" />
+    <Compile Include="TextModelEditorOptions.cs" />
     <Compile Include="Text\ExtendedCharacterDetectionDecoder.cs" />
     <Compile Include="Text\ExtendedCharacterDetector.cs" />
     <Compile Include="Text\TextDocument.cs" />
@@ -210,6 +244,15 @@
     <Compile Include="Tagging\IViewTaggerMetadata.cs" />
     <Compile Include="Tagging\TagAggregator.cs" />
     <Compile Include="Tagging\TagAggregatorFactoryService.cs" />
+    <Compile Include="UrlTagger\UrlClassificationTypeExports.cs" />
+    <Compile Include="UrlTagger\UrlClassifier.cs" />
+    <Compile Include="UrlTagger\UrlClassifierProvider.cs" />
+    <Compile Include="UrlTagger\UrlSpan.cs" />
+    <Compile Include="UrlTagger\UrlTagger.cs" />
+    <Compile Include="UrlTagger\UrlTaggerProvider.cs" />
+    <Compile Include="UrlTagger\UrlUtility.cs" />
+    <Compile Include="UrlTagger\ValidProtocolFound.cs" />
+    <Compile Include="Utilities\ChangeBrushes.cs" />
     <Compile Include="Utilities\GeometryAdornment.cs" />
     <Compile Include="Utilities\Markers.cs" />
     <Compile Include="Utilities\MouseWheelHelper.cs" />
@@ -378,6 +421,8 @@
     <Compile Include="Utilities\VacuousTextViewModel.cs" />
     <Compile Include="Utilities\WeakReferenceForDictionaryKey.cs" />
     <Compile Include="Utilities\WpfHelper.cs" />
+    <Compile Include="ZoomMouseProcessor\ZoomMouseProcessor.cs" />
+    <Compile Include="ZoomMouseProcessor\ZoomMouseProcessorProvider.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -403,6 +448,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="AdornmentLibrary\Squiggles\" />
+    <Folder Include="AdornmentLibrary\ToolTip\" />
+    <Folder Include="BraceCompletion\" />
+    <Folder Include="Find\" />
+    <Folder Include="IncrementalSearch\" />
+    <Folder Include="PatternMatching\" />
+    <Folder Include="PrintingService\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

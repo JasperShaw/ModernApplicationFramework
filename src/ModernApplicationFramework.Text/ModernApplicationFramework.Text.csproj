@@ -277,6 +277,7 @@
     <Compile Include="Ui\Editor\IAdornmentLayer.cs" />
     <Compile Include="Ui\Editor\IAdornmentLayerElement.cs" />
     <Compile Include="Ui\Editor\IBufferPrimitives.cs" />
+    <Compile Include="Ui\Editor\IBufferPrimitivesFactoryService.cs" />
     <Compile Include="Ui\Editor\IEditorPrimitivesFactoryService.cs" />
     <Compile Include="Ui\Editor\IKeyProcessorProvider.cs" />
     <Compile Include="Ui\Editor\ImeTextComposition.cs" />
@@ -310,12 +311,14 @@
     <Compile Include="Ui\Editor\IVerticalFractionMap.cs" />
     <Compile Include="Ui\Editor\IVerticalScrollBar.cs" />
     <Compile Include="Ui\Editor\IViewPrimitives.cs" />
+    <Compile Include="Ui\Editor\IViewPrimitivesFactoryService.cs" />
     <Compile Include="Ui\Editor\IViewScroller.cs" />
     <Compile Include="Ui\Editor\KeyProcessor.cs" />
     <Compile Include="Ui\Editor\MarginContainerAttribute.cs" />
     <Compile Include="Ui\Editor\MouseHoverAttribute.cs" />
     <Compile Include="Ui\Editor\MouseHoverEventArgs.cs" />
     <Compile Include="Ui\Editor\MouseProcessorBase.cs" />
+    <Compile Include="Ui\Editor\MouseWheelZoomEnabled.cs" />
     <Compile Include="Ui\Editor\OutliningMarginEnabled.cs" />
     <Compile Include="Ui\Editor\OverwriteMode.cs" />
     <Compile Include="Ui\Editor\PredefinedTextViewRoles.cs" />
@@ -335,7 +338,9 @@
     <Compile Include="Ui\Editor\TextViewLayoutChangedEventArgs.cs" />
     <Compile Include="Ui\Editor\TextViewOptionExtensions.cs" />
     <Compile Include="Ui\Editor\TextViewRoleAttribute.cs" />
+    <Compile Include="Ui\Editor\UseReducedOpacityForHighContrastOption.cs" />
     <Compile Include="Ui\Editor\UseVirtualSpace.cs" />
+    <Compile Include="Ui\Editor\UseVisibleWhitespace.cs" />
     <Compile Include="Ui\Editor\VerticalScrollBarEnabled.cs" />
     <Compile Include="Ui\Editor\ViewOptionDefinition.cs" />
     <Compile Include="Ui\Editor\ViewOptionExtensions.cs" />
@@ -346,6 +351,7 @@
     <Compile Include="Ui\Editor\WordWrapStyles.cs" />
     <Compile Include="Ui\Editor\ZoomControl.cs" />
     <Compile Include="Ui\Editor\ZoomControlEnabled.cs" />
+    <Compile Include="Ui\Editor\ZoomLevel.cs" />
     <Compile Include="Ui\Editor\ZoomLevelChangedEventArgs.cs" />
     <Compile Include="Ui\Editor\ZoomLevelConverter.cs" />
     <Compile Include="Ui\Formatting\IAdornmentElement.cs" />
@@ -401,12 +407,16 @@
     <Compile Include="Utilities\IUiThreadOperationContext.cs" />
     <Compile Include="Utilities\IUIThreadOperationExecutor.cs" />
     <Compile Include="Utilities\IUiThreadOperationScope.cs" />
+    <Compile Include="Utilities\IWaitContext.cs" />
+    <Compile Include="Utilities\IWaitIndicator.cs" />
     <Compile Include="Utilities\LineBuffer.cs" />
     <Compile Include="Utilities\ProgressInfo.cs" />
     <Compile Include="Utilities\TrackingSpanNode.cs" />
     <Compile Include="Utilities\TrackingSpanTree.cs" />
     <Compile Include="Utilities\UiThreadOperationStatus.cs" />
     <Compile Include="Utilities\UnicodeWordExtent.cs" />
+    <Compile Include="Utilities\WaitHelper.cs" />
+    <Compile Include="Utilities\WaitIndicatorResult.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
