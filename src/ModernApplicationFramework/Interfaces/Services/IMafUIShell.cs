@@ -1,4 +1,6 @@
 ﻿using System;
+using ModernApplicationFramework.Basics.Definitions.ContextMenu;
+using ModernApplicationFramework.Native.Platform.Structs;
 
 namespace ModernApplicationFramework.Interfaces.Services
 {
@@ -36,5 +38,12 @@ namespace ModernApplicationFramework.Interfaces.Services
         /// <returns>If the method succeeds, it returns 0. If it fails, it returns an error code.</returns>
         int GetAppName(out string pbstrAppName);
         void EnableModeless(int v, IntPtr handel);
+
+        /// <summary>
+        /// Shows a context menu at specified position.
+        /// </summary>
+        /// <param name="position">The absolte position.</param>
+        /// <param name="contextMenu">The Id of the <see cref="ContextMenuDefinition"/></param>
+        void ShowContextMenu(System.Windows.Point position, Guid contextMenu);
     }
 }

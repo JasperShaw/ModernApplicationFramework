@@ -287,6 +287,10 @@
       <Project>{2B388979-5B07-4F0A-A302-0C575AAA21C0}</Project>
       <Name>ModernApplicationFramework.Utilities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ModernApplicationFramework\ModernApplicationFramework.csproj">
+      <Project>{74f6c6a1-64bb-47d4-9e7f-6cd5c4ca166c}</Project>
+      <Name>ModernApplicationFramework</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controls\" />

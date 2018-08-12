@@ -16,6 +16,7 @@ using ModernApplicationFramework.Editor.Interop;
 using ModernApplicationFramework.Editor.NativeMethods;
 using ModernApplicationFramework.Editor.Outlining;
 using ModernApplicationFramework.Editor.TextManager;
+using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Text.Logic;
 using ModernApplicationFramework.Text.Logic.Editor;
@@ -449,7 +450,7 @@ namespace ModernApplicationFramework.Editor.Implementation
 
         private void ShowContextMenu(IntPtr location, ref int result)
         {
-            NativeMethods.NativeMethods.POINT[] pos = null;
+            Point[] pos = null;
             if (location != IntPtr.Zero)
             {
                 var forNativeVariant1 = Marshal.GetObjectForNativeVariant(location);
@@ -459,9 +460,9 @@ namespace ModernApplicationFramework.Editor.Implementation
                 var nullable2 = forNativeVariant2 as short?;
                 if (nullable1.HasValue && nullable2.HasValue)
                 {
-                    pos = new NativeMethods.NativeMethods.POINT[1];
-                    pos[0].x = nullable1.Value;
-                    pos[0].y = nullable2.Value;
+                    pos = new Point[1];
+                    pos[0].X = nullable1.Value;
+                    pos[0].Y = nullable2.Value;
                 }
             }
 
@@ -472,24 +473,16 @@ namespace ModernApplicationFramework.Editor.Implementation
                 {
                     var contextMenuPosition = CalculateContextMenuPosition(wpfTextView);
                     var screen = wpfTextView.VisualElement.PointToScreen(contextMenuPosition);
-                    pos = new NativeMethods.NativeMethods.POINT[1];
-                    pos[0].x = (short)screen.X;
-                    pos[0].y = (short)screen.Y;
+                    pos = new Point[1];
+                    pos[0].X = (short)screen.X;
+                    pos[0].Y = (short)screen.Y;
                 }
             }
 
             if (pos != null)
             {
                 //TODO:
-
-
-                var cm = new ContextMenu();
-
-                cm.Placement = PlacementMode.Absolute;
-                cm.HorizontalOffset = pos[0].x;
-                cm.VerticalOffset = pos[0].y;
-                cm.IsOpen = true;
-
+                IoC.Get<IMafUIShell>().ShowContextMenu(pos[0], Guid.Empty);
             }
             else
                 result = -2147221248;

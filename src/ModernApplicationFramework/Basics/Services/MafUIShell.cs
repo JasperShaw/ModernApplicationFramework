@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Interop;
 using Caliburn.Micro;
 using ModernApplicationFramework.Interfaces.Services;
@@ -110,6 +112,21 @@ namespace ModernApplicationFramework.Basics.Services
                 return -1;
             pbstrAppName = env.ApplicationName;
             return 0;
+        }
+
+
+        /// <summary>
+        /// Shows a context menu at specified position.
+        /// </summary>
+        /// <param name="position">The absolte position.</param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void ShowContextMenu(Point position)
+        {
+            var cm = new ContextMenu();
+            cm.Placement = PlacementMode.Absolute;
+            cm.HorizontalOffset = position.X;
+            cm.VerticalOffset = position.Y;
+            cm.IsOpen = true;
         }
 
         /// <summary>
