@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using ModernApplicationFramework.Utilities.Attributes;
+using ModernApplicationFramework.Utilities.Core;
 
 namespace ModernApplicationFramework.TextEditor.Implementation
 {

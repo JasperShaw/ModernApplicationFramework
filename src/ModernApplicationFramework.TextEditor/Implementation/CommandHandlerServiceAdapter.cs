@@ -8,7 +8,6 @@ using ModernApplicationFramework.Text.Ui.Commanding;
 using ModernApplicationFramework.Text.Ui.Editor;
 using ModernApplicationFramework.Text.Ui.Editor.Commanding;
 using ModernApplicationFramework.Text.Ui.Editor.Commanding.Commands;
-using ModernApplicationFramework.TextEditor.Commanding;
 using Action = System.Action;
 
 namespace ModernApplicationFramework.TextEditor.Implementation

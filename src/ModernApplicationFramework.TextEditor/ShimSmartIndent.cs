@@ -1,6 +1,5 @@
 ﻿using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Text.Ui.Editor;
-using ModernApplicationFramework.TextEditor.Text;
 
 namespace ModernApplicationFramework.TextEditor
 {

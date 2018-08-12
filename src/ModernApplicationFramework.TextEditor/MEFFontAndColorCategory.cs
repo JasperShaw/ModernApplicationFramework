@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Media;
 using Caliburn.Micro;
 using ModernApplicationFramework.Text.Ui.Classification;
-using ModernApplicationFramework.TextEditor.Implementation;
 
 namespace ModernApplicationFramework.TextEditor
 {
@@ -18,7 +18,7 @@ namespace ModernApplicationFramework.TextEditor
             {
                 if (_exportedFormatDefinitions == null)
                 {
-                    var service = IoC.Get<IEditorFormatMapService>() as EditorFormatMapService;
+                    var service = IoC.Get<IEditorFormatMapService>();
                     _exportedFormatDefinitions = service?.Formats.Where(export => export.Metadata.UserVisible).ToList();
                 }
                 return _exportedFormatDefinitions;
@@ -112,9 +112,9 @@ namespace ModernApplicationFramework.TextEditor
             colorableItemInfo.MarkerVisualStyleValid = true;
             colorableItemInfo.MarkerVisualStyle = 0U;
             colorableItemInfo.LineStyleValid = true;
-            colorableItemInfo.LineStyle = Implementation.Linestyle.None;
+            colorableItemInfo.LineStyle = Linestyle.None;
             colorableItemInfo.FlagsValid = true;
-            colorableItemInfo.Flags = FcItemflags.AllowCustomColors;
+            colorableItemInfo.Flags = FcItemFlags.AllowCustomColors;
             var nullable = exportValue.BackgroundCustomizable;
             if (nullable.HasValue)
             {
@@ -122,7 +122,7 @@ namespace ModernApplicationFramework.TextEditor
                 if (!nullable.Value)
                     goto label_15;
             }
-            colorableItemInfo.Flags |= FcItemflags.AllowBgChange;
+            colorableItemInfo.Flags |= FcItemFlags.AllowBgChange;
             label_15:
             nullable = exportValue.ForegroundCustomizable;
             if (nullable.HasValue)
@@ -131,11 +131,11 @@ namespace ModernApplicationFramework.TextEditor
                 if (!nullable.Value)
                     goto label_18;
             }
-            colorableItemInfo.Flags |= FcItemflags.AllowFgChange;
+            colorableItemInfo.Flags |= FcItemFlags.AllowFgChange;
             label_18:
             if (exportValue is ClassificationFormatDefinition formatDefinition)
             {
-                colorableItemInfo.Flags |= FcItemflags.AllowBoldChange;
+                colorableItemInfo.Flags |= FcItemFlags.AllowBoldChange;
                 nullable = formatDefinition.IsBold;
                 if (nullable.HasValue)
                 {
@@ -145,7 +145,7 @@ namespace ModernApplicationFramework.TextEditor
                 }
             }
             if (exportValue is MarkerFormatDefinition)
-                colorableItemInfo.Flags |= FcItemflags.IsMarker;
+                colorableItemInfo.Flags |= FcItemFlags.IsMarker;
             return colorableItemInfo;
         }
 

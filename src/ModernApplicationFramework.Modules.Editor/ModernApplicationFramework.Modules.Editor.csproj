@@ -1,0 +1,408 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8EB8C0DC-55F0-4C32-B4A5-E45850C42F2F}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <RootNamespace>ModernApplicationFramework.Modules.Editor</RootNamespace>
+    <AssemblyName>ModernApplicationFramework.Modules.Editor</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Accessibility" />
+    <Reference Include="Caliburn.Micro, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Caliburn.Micro.Core.3.2.0\lib\net45\Caliburn.Micro.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.2.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Collections.Immutable.1.5.0\lib\netstandard2.0\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdornmentLibrary\TextMarkers\TextMarkerProviderFactory.cs" />
+    <Compile Include="AdornmentLibrary\TextMarkers\TextMarkerVisualManager.cs" />
+    <Compile Include="AdornmentLibrary\VisibleWhitespace\VisibleWhitespaceAdornment.cs" />
+    <Compile Include="AdornmentLibrary\VisibleWhitespace\VisibleWhitespaceFactory.cs" />
+    <Compile Include="AdornmentLibrary\VisibleWhitespace\VisibleWhitespaceVisualProvider.cs" />
+    <Compile Include="Commanding\CommandHandlerBucket.cs" />
+    <Compile Include="Commanding\DefaultBufferResolver.cs" />
+    <Compile Include="Commanding\DefaultBufferResolverProvider.cs" />
+    <Compile Include="Commanding\DefaultUiThreadOperationContext.cs" />
+    <Compile Include="Commanding\DefaultUiThreadOperationExecutor.cs" />
+    <Compile Include="Commanding\EditorCommandHandlerService.cs" />
+    <Compile Include="Commanding\EditorCommandHandlerServiceFactory.cs" />
+    <Compile Include="Commanding\ICommandHandlerMetadata.cs" />
+    <Compile Include="Commanding\SingleBufferResolver.cs" />
+    <Compile Include="Commanding\UIThreadOperationExecutor.cs" />
+    <Compile Include="CurrentLineHighlighter\CurrentLineHighlighter.cs" />
+    <Compile Include="CurrentLineHighlighter\CurrentLineHighlighterProvider.cs" />
+    <Compile Include="Differencing\CharacterDecompositionList.cs" />
+    <Compile Include="Differencing\DefaultTextDifferencingService.cs" />
+    <Compile Include="Differencing\DiffChange.cs" />
+    <Compile Include="Differencing\DiffChangeCollectionHelper.cs" />
+    <Compile Include="Differencing\DiffChangeHelper.cs" />
+    <Compile Include="Differencing\DiffChangeType.cs" />
+    <Compile Include="Differencing\DifferenceCollection.cs" />
+    <Compile Include="Differencing\DiffFinder.cs" />
+    <Compile Include="Differencing\HierarchicalDifferenceCollection.cs" />
+    <Compile Include="Differencing\IDiffChange.cs" />
+    <Compile Include="Differencing\ITokenizedStringListInternal.cs" />
+    <Compile Include="Differencing\LcsDiff.cs" />
+    <Compile Include="Differencing\LineDecompositionList.cs" />
+    <Compile Include="Differencing\MaximalSubsequenceAlgorithm.cs" />
+    <Compile Include="Differencing\SnapshotLineList.cs" />
+    <Compile Include="Differencing\TextDifferencingSelectorService.cs" />
+    <Compile Include="Differencing\TokenizedStringList.cs" />
+    <Compile Include="Differencing\WordDecompositionList.cs" />
+    <Compile Include="Differencing\WrappedLineDifferenceCollection.cs" />
+    <Compile Include="DragDrop\DefaultBoxTextDropHandler.cs" />
+    <Compile Include="DragDrop\DefaultBoxTextDropHandlerProvider.cs" />
+    <Compile Include="DragDrop\DefaultTextDropHandler.cs" />
+    <Compile Include="DragDrop\DefaultTextDropHandlerProvider.cs" />
+    <Compile Include="DragDrop\DragDropMouseProcessor.cs" />
+    <Compile Include="DragDrop\DragDropMouseProcessorProvider.cs" />
+    <Compile Include="DragDrop\DragDropState.cs" />
+    <Compile Include="DragDrop\DragDropStateManager.cs" />
+    <Compile Include="DragDrop\DragDropVisualManager.cs" />
+    <Compile Include="DragDrop\DropHandlerManager.cs" />
+    <Compile Include="DragDrop\IDropHandlerMetadata.cs" />
+    <Compile Include="EditorOptions\EditorOptions.cs" />
+    <Compile Include="EditorOptions\EditorOptionsFactoryService.cs" />
+    <Compile Include="EditorOptions\INameMetadata.cs" />
+    <Compile Include="Formatting\BufferPositionToTokenIndexMap.cs" />
+    <Compile Include="Formatting\ClassifiedRun.cs" />
+    <Compile Include="Formatting\EmptyClassifier.cs" />
+    <Compile Include="Formatting\FormattedLine.cs" />
+    <Compile Include="Formatting\FormattedLineSource.cs" />
+    <Compile Include="Formatting\FormattedTextSourceFactoryService.cs" />
+    <Compile Include="Formatting\NormalizedSpan.cs" />
+    <Compile Include="Formatting\NormalizedSpanGenerator.cs" />
+    <Compile Include="Formatting\NormalizedSpanManager.cs" />
+    <Compile Include="Formatting\NormalizedSpanTextSource.cs" />
+    <Compile Include="Formatting\RtfBuilderService.cs" />
+    <Compile Include="Formatting\TextInfoCache.cs" />
+    <Compile Include="Formatting\TextLineData.cs" />
+    <Compile Include="Formatting\ViewWrapProperties.cs" />
+    <Compile Include="Implementation\AccessibleCaret.cs" />
+    <Compile Include="Implementation\ActiveSelectionProperties.cs" />
+    <Compile Include="Implementation\AdornmentLayer.cs" />
+    <Compile Include="Implementation\BottomControlMarginProvider.cs" />
+    <Compile Include="Implementation\BrushSelectionPainter.cs" />
+    <Compile Include="Implementation\CaretBlinkTimeManager.cs" />
+    <Compile Include="Implementation\CaretElement.cs" />
+    <Compile Include="Implementation\CollapsedAdornment.cs" />
+    <Compile Include="Implementation\CollapsedAdornmentProvider.cs" />
+    <Compile Include="Implementation\ConnectionManager.cs" />
+    <Compile Include="Implementation\ContainerMargin.cs" />
+    <Compile Include="Implementation\DefaultViewScroller.cs" />
+    <Compile Include="Implementation\DirectionalSelectionEnabled.cs" />
+    <Compile Include="Implementation\DragDropHelper.cs" />
+    <Compile Include="Implementation\FallbackDetector.cs" />
+    <Compile Include="Implementation\GradientBrushSelectionPainter.cs" />
+    <Compile Include="Implementation\HorizontalScrollBarContainerMargin.cs" />
+    <Compile Include="Implementation\HorizontalScrollBarContainerMarginProvider.cs" />
+    <Compile Include="Implementation\HorizontalScrollBarMargin.cs" />
+    <Compile Include="Implementation\HorizontalScrollBarMarginProvider.cs" />
+    <Compile Include="Implementation\IAdornmentLayersMetadata.cs" />
+    <Compile Include="Implementation\ImeCompositionWindowBottomOffset.cs" />
+    <Compile Include="Implementation\ImeCompositionWindowFont.cs" />
+    <Compile Include="Implementation\ImeCompositionWindowHeightOffset.cs" />
+    <Compile Include="Implementation\ImeCompositionWindowTopOffset.cs" />
+    <Compile Include="Implementation\InputController.cs" />
+    <Compile Include="Implementation\InputControllerState.cs" />
+    <Compile Include="Implementation\InputControllerViewCreationListener.cs" />
+    <Compile Include="Implementation\ISelectionPainter.cs" />
+    <Compile Include="Implementation\KeyProcessorDispatcher.cs" />
+    <Compile Include="Implementation\LeftMargin.cs" />
+    <Compile Include="Implementation\LeftSelectionMargin.cs" />
+    <Compile Include="Implementation\LeftSelectionMarginProvider.cs" />
+    <Compile Include="Implementation\MasterMouseProcessor.cs" />
+    <Compile Include="Implementation\OutliningAdornmentManagerFactory.cs" />
+    <Compile Include="Implementation\OutliningCollapsedAdornmentControl.cs" />
+    <Compile Include="Implementation\PopupAgent.cs" />
+    <Compile Include="Implementation\ProvisionalTextHighlight.cs" />
+    <Compile Include="Implementation\ReadOnlyRegion.cs" />
+    <Compile Include="Implementation\RightControlMarginProvider.cs" />
+    <Compile Include="Implementation\SelectionAdornment.cs" />
+    <Compile Include="Implementation\SelectionMouseProcessor.cs" />
+    <Compile Include="Implementation\SelectionMouseProcessorProvider.cs" />
+    <Compile Include="Implementation\SmartIndentationService.cs" />
+    <Compile Include="Implementation\SolidColorBrushSelectionPainter.cs" />
+    <Compile Include="Implementation\SpaceReservationManager.cs" />
+    <Compile Include="Implementation\SpaceReservationStack.cs" />
+    <Compile Include="Implementation\TextContentLayer.cs" />
+    <Compile Include="Operations\DefaultTextNavigator.cs" />
+    <Compile Include="Operations\EditorOperations.cs" />
+    <Compile Include="Operations\EditorOperationsFactoryService.cs" />
+    <Compile Include="Operations\NaturalLanguageNavigator.cs" />
+    <Compile Include="Operations\NaturalLanguageNavigatorProvider.cs" />
+    <Compile Include="Operations\TextEditAction.cs" />
+    <Compile Include="Operations\TextStructureNavigatorSelectorService.cs" />
+    <Compile Include="Operations\TextTransactionMergeDirections.cs" />
+    <Compile Include="Operations\UseAccurateClassificationForRtfCopy.cs" />
+    <Compile Include="TextAndAdornmentSequencer\AdornmentElement.cs" />
+    <Compile Include="TextAndAdornmentSequencer\TextAndAdornmentCollection.cs" />
+    <Compile Include="TextAndAdornmentSequencer\TextAndAdornmentSequencer.cs" />
+    <Compile Include="TextAndAdornmentSequencer\TextAndAdornmentSequencerFactoryService.cs" />
+    <Compile Include="TextAndAdornmentSequencer\TextSpanElement.cs" />
+    <Compile Include="Text\Implementation\ExtendedCharacterDetectionDecoder.cs" />
+    <Compile Include="Text\Implementation\ExtendedCharacterDetector.cs" />
+    <Compile Include="Text\Implementation\TextDocument.cs" />
+    <Compile Include="Text\Implementation\TextDocumentFactoryService.cs" />
+    <Compile Include="Implementation\TextEditorFactoryService.cs" />
+    <Compile Include="Implementation\TextSelection.cs" />
+    <Compile Include="Implementation\TextView.cs" />
+    <Compile Include="Implementation\TextViewHost.cs" />
+    <Compile Include="Implementation\TextViewLineCollection.cs" />
+    <Compile Include="Implementation\TextViewRoleSet.cs" />
+    <Compile Include="Implementation\VerticalScrollBarContainerMargin.cs" />
+    <Compile Include="Implementation\VerticalScrollBarContainerMarginProvider.cs" />
+    <Compile Include="InterTextAdornmentSupport\InterLineAdornmentManager.cs" />
+    <Compile Include="InterTextAdornmentSupport\InterLineAdornmentManagerFactory.cs" />
+    <Compile Include="IntraTextAdornmentSupport\ElisionViewModel.cs" />
+    <Compile Include="IntraTextAdornmentSupport\ElisionViewModelProvider.cs" />
+    <Compile Include="IntraTextAdornmentSupport\HiddenRegionManager.cs" />
+    <Compile Include="IntraTextAdornmentSupport\HiddenRegionManagerFactory.cs" />
+    <Compile Include="IntraTextAdornmentSupport\IntraTextAdornmentElisionTaggerProvider.cs" />
+    <Compile Include="IntraTextAdornmentSupport\IntraTextAdornmentManager.cs" />
+    <Compile Include="IntraTextAdornmentSupport\IntraTextAdornmentSpaceNegotiatingTaggerProvider.cs" />
+    <Compile Include="Tagging\INamedTaggerMetadata.cs" />
+    <Compile Include="Tagging\ITaggerMetadata.cs" />
+    <Compile Include="Tagging\IViewTaggerMetadata.cs" />
+    <Compile Include="Tagging\TagAggregator.cs" />
+    <Compile Include="Tagging\TagAggregatorFactoryService.cs" />
+    <Compile Include="Utilities\GeometryAdornment.cs" />
+    <Compile Include="Utilities\Markers.cs" />
+    <Compile Include="Utilities\MouseWheelHelper.cs" />
+    <Compile Include="Utilities\StableContentTypeComparer.cs" />
+    <Compile Include="Utilities\StableOrderer.cs" />
+    <Compile Include="Utilities\StableTopologicalSort.cs" />
+    <Compile Include="Utilities\VerticalScrollBarMargin.cs" />
+    <Compile Include="Implementation\ViewStack.cs" />
+    <Compile Include="Implementation\ZoomControlMargin.cs" />
+    <Compile Include="Implementation\ZoomControlMarginProvider.cs" />
+    <Compile Include="Implementation\ZoomLevelValidationRule.cs" />
+    <Compile Include="NativeMethods\Imm32.cs" />
+    <Compile Include="NativeMethods\Msctf.cs" />
+    <Compile Include="NativeMethods\NativeMethods.cs" />
+    <Compile Include="NativeMethods\User32.cs" />
+    <Compile Include="OverviewMargin\BaseMarginElement.cs" />
+    <Compile Include="OverviewMargin\CaretColorDefinition.cs" />
+    <Compile Include="OverviewMargin\ChangeTrackingMarginElement.cs" />
+    <Compile Include="OverviewMargin\ElisionColorDefinition.cs" />
+    <Compile Include="OverviewMargin\ErrorMarginElement.cs" />
+    <Compile Include="OverviewMargin\ErrorsEnabledOption.cs" />
+    <Compile Include="OverviewMargin\ITipMetadata.cs" />
+    <Compile Include="OverviewMargin\LineTile.cs" />
+    <Compile Include="OverviewMargin\MarginProvider.cs" />
+    <Compile Include="OverviewMargin\MarkMarginElement.cs" />
+    <Compile Include="OverviewMargin\MarkMarginWidthOption.cs" />
+    <Compile Include="OverviewMargin\MarksEnabledOption.cs" />
+    <Compile Include="OverviewMargin\OffscreenColorDefinition.cs" />
+    <Compile Include="OverviewMargin\OverviewChangeTrackingMargin.cs" />
+    <Compile Include="OverviewMargin\OverviewChangeTrackingMarginEnabledOption.cs" />
+    <Compile Include="OverviewMargin\OverviewChangeTrackingMarginProvider.cs" />
+    <Compile Include="OverviewMargin\OverviewChangeTrackingMarginWidthOption.cs" />
+    <Compile Include="OverviewMargin\OverviewErrorMarginProvider.cs" />
+    <Compile Include="OverviewMargin\OverviewMargin.cs" />
+    <Compile Include="OverviewMargin\OverviewMarginProvider.cs" />
+    <Compile Include="OverviewMargin\OverviewMarkMargin.cs" />
+    <Compile Include="OverviewMargin\OverviewMarkMarginProvider.cs" />
+    <Compile Include="OverviewMargin\PreviewSizeOption.cs" />
+    <Compile Include="OverviewMargin\PreviewTextMarkerTagger.cs" />
+    <Compile Include="OverviewMargin\PreviewTextMarkerTaggerProvider.cs" />
+    <Compile Include="OverviewMargin\PreviewTextViewModel.cs" />
+    <Compile Include="OverviewMargin\ShowCaretPositionOption.cs" />
+    <Compile Include="OverviewMargin\ShowPreviewOption.cs" />
+    <Compile Include="OverviewMargin\ShowScrollBarAnnotationsOption.cs" />
+    <Compile Include="OverviewMargin\SimpleTextAndAdornmentSequencer.cs" />
+    <Compile Include="OverviewMargin\SourceImageMargin.cs" />
+    <Compile Include="OverviewMargin\SourceImageMarginElement.cs" />
+    <Compile Include="OverviewMargin\SourceImageMarginEnabledOption.cs" />
+    <Compile Include="OverviewMargin\SourceImageMarginFactory.cs" />
+    <Compile Include="OverviewMargin\SourceImageMarginWidthOption.cs" />
+    <Compile Include="OverviewMargin\UseEnhancedScrollBarOption.cs" />
+    <Compile Include="OverviewMargin\VisibleColorDefinition.cs" />
+    <Compile Include="Text\Classification\ClassificationFormatMap.cs" />
+    <Compile Include="Text\Classification\ClassificationFormatMapService.cs" />
+    <Compile Include="Text\Classification\ClassificationTypeImpl.cs" />
+    <Compile Include="Text\Classification\ClassificationTypeRegistryService.cs" />
+    <Compile Include="Text\Classification\ClassifierAggregator.cs" />
+    <Compile Include="Text\Classification\ClassifierAggregatorService.cs" />
+    <Compile Include="Text\Classification\ClassifierTagger.cs" />
+    <Compile Include="Text\Classification\ClassifierTaggerProvider.cs" />
+    <Compile Include="Text\Classification\EditorFormatMap.cs" />
+    <Compile Include="Text\Classification\EditorFormatMapService.cs" />
+    <Compile Include="Text\Classification\IClassificationTypeDefinitionMetadata.cs" />
+    <Compile Include="Text\Classification\ProjectionWorkaroundProvider.cs" />
+    <Compile Include="Text\Classification\ProjectionWorkaroundTagger.cs" />
+    <Compile Include="Text\Classification\ViewSpecificFormatMap.cs" />
+    <Compile Include="Text\Implementation\BaseBuffer.cs" />
+    <Compile Include="Text\Implementation\BaseSnapshot.cs" />
+    <Compile Include="Text\Implementation\BinaryStringRebuilder.cs" />
+    <Compile Include="Text\Implementation\BufferFactoryService.cs" />
+    <Compile Include="Text\Implementation\BufferGroup.cs" />
+    <Compile Include="Text\Implementation\CachingTextImage.cs" />
+    <Compile Include="Text\Implementation\CharStream.cs" />
+    <Compile Include="Text\Implementation\Compressor.cs" />
+    <Compile Include="Text\Implementation\EncodedStreamReader.cs" />
+    <Compile Include="Text\Implementation\ForwardFidelityCustomTrackingSpan.cs" />
+    <Compile Include="Text\Implementation\ForwardFidelityTrackingPoint.cs" />
+    <Compile Include="Text\Implementation\ForwardFidelityTrackingSpan.cs" />
+    <Compile Include="Text\Implementation\HighFidelityTrackingPoint.cs" />
+    <Compile Include="Text\Implementation\HighFidelityTrackingSpan.cs" />
+    <Compile Include="Text\Implementation\IInternalTextBufferFactory.cs" />
+    <Compile Include="Text\Implementation\ILineBreaks.cs" />
+    <Compile Include="Text\Implementation\ILineBreaksEditor.cs" />
+    <Compile Include="Text\Implementation\ISubordinateTextEdit.cs" />
+    <Compile Include="Text\Implementation\LineBreakBoundaryConditions.cs" />
+    <Compile Include="Text\Implementation\LineBreakManager.cs" />
+    <Compile Include="Text\Implementation\MappingPoint.cs" />
+    <Compile Include="Text\Implementation\MappingSpan.cs" />
+    <Compile Include="Text\Implementation\NormalizedTextChangeCollection.cs" />
+    <Compile Include="Text\Implementation\Page.cs" />
+    <Compile Include="Text\Implementation\PageManager.cs" />
+    <Compile Include="Text\Implementation\ReadOnlySpan.cs" />
+    <Compile Include="Text\Implementation\ReadOnlySpanCollection.cs" />
+    <Compile Include="Text\Implementation\StringRebuilder.cs" />
+    <Compile Include="Text\Implementation\StringRebuilderForChars.cs" />
+    <Compile Include="Text\Implementation\StringRebuilderForCompressedChars.cs" />
+    <Compile Include="Text\Implementation\StringRebuilderForString.cs" />
+    <Compile Include="Text\Implementation\TextBuffer.cs" />
+    <Compile Include="Text\Implementation\TextChange.cs" />
+    <Compile Include="Text\Implementation\TextImageLoader.cs" />
+    <Compile Include="Text\Implementation\TextImageVersion.cs" />
+    <Compile Include="Text\Implementation\TextModelUtilities.cs" />
+    <Compile Include="Text\Implementation\TextSnapshot.cs" />
+    <Compile Include="Text\Implementation\TextSnapshotLine.cs" />
+    <Compile Include="Text\Implementation\TextVersion.cs" />
+    <Compile Include="Text\Implementation\TrackingPoint.cs" />
+    <Compile Include="Text\Implementation\TrackingSpan.cs" />
+    <Compile Include="Text\Implementation\TrivialNormalizedTextChangeCollection.cs" />
+    <Compile Include="Text\Implementation\UnaryStringRebuilder.cs" />
+    <Compile Include="Text\Implementation\VersionNumberPosition.cs" />
+    <Compile Include="Text\Implementation\VersionNumberPositionComparer.cs" />
+    <Compile Include="Text\Projection\Implementation\BaseProjectionBuffer.cs" />
+    <Compile Include="Text\Projection\Implementation\BaseProjectionSnapshot.cs" />
+    <Compile Include="Text\Projection\Implementation\BufferGraph.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Text\Projection\Implementation\BufferGraphFactoryService.cs" />
+    <Compile Include="Text\Projection\Implementation\ElisionBuffer.cs" />
+    <Compile Include="Text\Projection\Implementation\ElisionMap.cs" />
+    <Compile Include="Text\Projection\Implementation\ElisionMapNode.cs" />
+    <Compile Include="Text\Projection\Implementation\ElisionSnapshot.cs" />
+    <Compile Include="Text\Projection\Implementation\ProjectionBuffer.cs" />
+    <Compile Include="Text\Projection\Implementation\ProjectionLineCalculationState.cs" />
+    <Compile Include="Text\Projection\Implementation\ProjectionLineInfo.cs" />
+    <Compile Include="Text\Projection\Implementation\ProjectionSnapshot.cs" />
+    <Compile Include="Text\Projection\Implementation\ProjectionSpanToNormalizedChangeConverter.cs" />
+    <Compile Include="Text\Projection\Implementation\WeakEventHook.cs" />
+    <Compile Include="Utilities\DataObjectManager.cs" />
+    <Compile Include="Utilities\ExtensionSelector.cs" />
+    <Compile Include="Utilities\FrugalList.cs" />
+    <Compile Include="Utilities\GuardedOperations.cs" />
+    <Compile Include="Utilities\IContentTypeAndTextViewRoleMetadata.cs" />
+    <Compile Include="Utilities\IDeferrableContentTypeAndTextViewRoleMetadata.cs" />
+    <Compile Include="Utilities\IDragDropMouseProcessor.cs" />
+    <Compile Include="Utilities\IEncodingDetectorMetadata.cs" />
+    <Compile Include="Utilities\IOrderableContentTypeAndTextViewRoleMetadata.cs" />
+    <Compile Include="Utilities\ITextViewMarginMetadata.cs" />
+    <Compile Include="Utilities\ITextViewRoleMetadata.cs" />
+    <Compile Include="Utilities\MappingHelper.cs" />
+    <Compile Include="Utilities\MappingPointSnapshot.cs" />
+    <Compile Include="Utilities\MappingSpanSnapshot.cs" />
+    <Compile Include="Utilities\PerformanceBlockMarker.cs" />
+    <Compile Include="Utilities\ProjectionSpanDiffer.cs" />
+    <Compile Include="Utilities\ProjectionSpanDifference.cs" />
+    <Compile Include="Utilities\SafeCursor.cs" />
+    <Compile Include="Utilities\ShiftClickScrollBarMargin.cs" />
+    <Compile Include="Utilities\TextModelOptions.cs" />
+    <Compile Include="Utilities\TextUtilities.cs" />
+    <Compile Include="Utilities\TextViewMarginState.cs" />
+    <Compile Include="Utilities\UiExtensionSelector.cs" />
+    <Compile Include="Utilities\WorkaroundMargin.cs" />
+    <Compile Include="Utilities\WorkaroundMetadata.cs" />
+    <Compile Include="Utilities\WpfMouseProcessor.cs" />
+    <Compile Include="VacuousTextDataModel.cs" />
+    <Compile Include="Utilities\VacuousTextViewModel.cs" />
+    <Compile Include="Utilities\WeakReferenceForDictionaryKey.cs" />
+    <Compile Include="Utilities\WpfHelper.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ModernApplicationFramework.Text\ModernApplicationFramework.Text.csproj">
+      <Project>{27E9B710-9584-4FAD-93FF-EBF2A9600DA7}</Project>
+      <Name>ModernApplicationFramework.Text</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModernApplicationFramework.Utilities\ModernApplicationFramework.Utilities.csproj">
+      <Project>{2B388979-5B07-4F0A-A302-0C575AAA21C0}</Project>
+      <Name>ModernApplicationFramework.Utilities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Themes\Generic\EditorResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

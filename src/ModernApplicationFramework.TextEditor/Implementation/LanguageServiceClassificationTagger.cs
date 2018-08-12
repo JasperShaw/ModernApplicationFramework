@@ -6,7 +6,6 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Text.Logic.Classification;
 using ModernApplicationFramework.Text.Logic.Tagging;
-using ModernApplicationFramework.TextEditor.Text;
 using Action = System.Action;
 
 namespace ModernApplicationFramework.TextEditor.Implementation

@@ -47,5 +47,6 @@ namespace ModernApplicationFramework.Utilities.NativeMethods
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         internal static extern ushort RegisterClass(ref WndClass lpWndClass);
+
     }
 }

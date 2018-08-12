@@ -332,6 +332,10 @@
       <Project>{D8B696A7-BA7D-4762-8C34-13B7F212074F}</Project>
       <Name>ModernApplicationFramework.Imaging</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\ModernApplicationFramework.Modules.Editor\ModernApplicationFramework.Modules.Editor.csproj">
+      <Project>{8eb8c0dc-55f0-4c32-b4a5-e45850c42f2f}</Project>
+      <Name>ModernApplicationFramework.Modules.Editor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\ModernApplicationFramework.Modules.Inspector\ModernApplicationFramework.Modules.Inspector.csproj">
       <Project>{96e6bb64-30ec-49dc-831a-c9d5e25aa46d}</Project>
       <Name>ModernApplicationFramework.Modules.Inspector</Name>

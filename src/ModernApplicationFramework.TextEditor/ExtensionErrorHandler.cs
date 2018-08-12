@@ -2,7 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Threading;
-using ModernApplicationFramework.TextEditor.Utilities;
+using ModernApplicationFramework.Text.Data;
 
 namespace ModernApplicationFramework.TextEditor
 {

@@ -89,8 +89,14 @@
     <Compile Include="Converters\MultiValueConverter.cs" />
     <Compile Include="Converters\MultiValueConverterBase.cs" />
     <Compile Include="Converters\ValueConverter.cs" />
+    <Compile Include="Core\ContentTypeDefinition.cs" />
     <Compile Include="Core\IContentType.cs" />
+    <Compile Include="Core\IContentTypeMetadata.cs" />
+    <Compile Include="Core\IContentTypeRegistryService.cs" />
+    <Compile Include="Core\IGuardedOperations.cs" />
+    <Compile Include="Core\INameAndReplacesMetadata.cs" />
     <Compile Include="Core\INamed.cs" />
+    <Compile Include="Core\INamedContentTypeMetadata.cs" />
     <Compile Include="DirtyObjectManager.cs" />
     <Compile Include="DisposableObject.cs" />
     <Compile Include="DpiHelper.cs" />

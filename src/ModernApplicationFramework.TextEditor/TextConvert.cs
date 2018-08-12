@@ -2,7 +2,6 @@
 using System.Runtime.InteropServices;
 using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Text.Logic;
-using ModernApplicationFramework.TextEditor.Text;
 
 namespace ModernApplicationFramework.TextEditor
 {

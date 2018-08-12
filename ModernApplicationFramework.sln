@@ -65,6 +65,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.Text", "src\ModernApplicationFramework.Text\ModernApplicationFramework.Text.csproj", "{27E9B710-9584-4FAD-93FF-EBF2A9600DA7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.Modules.Editor", "src\ModernApplicationFramework.Modules.Editor\ModernApplicationFramework.Modules.Editor.csproj", "{8EB8C0DC-55F0-4C32-B4A5-E45850C42F2F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -183,6 +185,10 @@ Global
 		{27E9B710-9584-4FAD-93FF-EBF2A9600DA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27E9B710-9584-4FAD-93FF-EBF2A9600DA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27E9B710-9584-4FAD-93FF-EBF2A9600DA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EB8C0DC-55F0-4C32-B4A5-E45850C42F2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EB8C0DC-55F0-4C32-B4A5-E45850C42F2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EB8C0DC-55F0-4C32-B4A5-E45850C42F2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EB8C0DC-55F0-4C32-B4A5-E45850C42F2F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -216,6 +222,7 @@ Global
 		{02E01928-3C7B-4428-9F68-7DB8B932C24E} = {4D1C8100-FF4F-4F76-B4F3-AA904214A46E}
 		{F6B73506-4197-49A6-9F57-6E83827D415C} = {4D1C8100-FF4F-4F76-B4F3-AA904214A46E}
 		{27E9B710-9584-4FAD-93FF-EBF2A9600DA7} = {4D1C8100-FF4F-4F76-B4F3-AA904214A46E}
+		{8EB8C0DC-55F0-4C32-B4A5-E45850C42F2F} = {4D1C8100-FF4F-4F76-B4F3-AA904214A46E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3A9B2099-61B4-452F-BF63-91B31A07DD83}
