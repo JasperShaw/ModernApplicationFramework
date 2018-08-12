@@ -240,6 +240,7 @@
     <Compile Include="Ui\Editor\AdornmentPositioningBehavior.cs" />
     <Compile Include="Ui\Editor\AdornmentRemovedCallback.cs" />
     <Compile Include="Ui\Editor\AggregateFocusInterceptor.cs" />
+    <Compile Include="Ui\Editor\AppearanceCategoryOption.cs" />
     <Compile Include="Ui\Editor\AutoScrollEnabled.cs" />
     <Compile Include="Ui\Editor\BackgroundBrushChangedEventArgs.cs" />
     <Compile Include="Ui\Editor\Caret.cs" />
@@ -270,7 +271,9 @@
     <Compile Include="Ui\Editor\DragDrop\IDropHandler.cs" />
     <Compile Include="Ui\Editor\DragDrop\IDropHandlerProvider.cs" />
     <Compile Include="Ui\Editor\EnsureSpanVisibleOptions.cs" />
+    <Compile Include="Ui\Editor\GridCellLengthAttribute.cs" />
     <Compile Include="Ui\Editor\GridUnitTypeAttribute.cs" />
+    <Compile Include="Ui\Editor\HighlightCurrentLineOption.cs" />
     <Compile Include="Ui\Editor\HorizontalPositioningMode.cs" />
     <Compile Include="Ui\Editor\HorizontalScrollBarEnabled.cs" />
     <Compile Include="Ui\Editor\HowToShow.cs" />
@@ -279,6 +282,7 @@
     <Compile Include="Ui\Editor\IBufferPrimitives.cs" />
     <Compile Include="Ui\Editor\IBufferPrimitivesFactoryService.cs" />
     <Compile Include="Ui\Editor\IEditorPrimitivesFactoryService.cs" />
+    <Compile Include="Ui\Editor\IGlyphTag.cs" />
     <Compile Include="Ui\Editor\IKeyProcessorProvider.cs" />
     <Compile Include="Ui\Editor\ImeTextComposition.cs" />
     <Compile Include="Ui\Editor\IMouseProcessor.cs" />
@@ -328,6 +332,7 @@
     <Compile Include="Ui\Editor\ScrollDirection.cs" />
     <Compile Include="Ui\Editor\Selection.cs" />
     <Compile Include="Ui\Editor\SelectionMarginEnabled.cs" />
+    <Compile Include="Ui\Editor\SimpleGraphicsOption.cs" />
     <Compile Include="Ui\Editor\SpaceReservationAgentChangedEventArgs.cs" />
     <Compile Include="Ui\Editor\SpaceReservationManagerDefinition.cs" />
     <Compile Include="Ui\Editor\TextPoint.cs" />

@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
+using ModernApplicationFramework.Editor.Interop;
 using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Text.Logic.Editor;
 using ModernApplicationFramework.Text.Logic.Tagging;

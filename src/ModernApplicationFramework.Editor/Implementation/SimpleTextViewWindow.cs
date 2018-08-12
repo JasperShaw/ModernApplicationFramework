@@ -12,8 +12,10 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Caliburn.Micro;
-using ModernApplicationFramework.Editor.Implementation.Outlining;
+using ModernApplicationFramework.Editor.Interop;
 using ModernApplicationFramework.Editor.NativeMethods;
+using ModernApplicationFramework.Editor.Outlining;
+using ModernApplicationFramework.Editor.TextManager;
 using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Text.Logic;
 using ModernApplicationFramework.Text.Logic.Editor;
@@ -344,7 +346,7 @@ namespace ModernApplicationFramework.Editor.Implementation
                         if (TextDocData.IsCommandSupported(ref commandGroup, prgCmds[index].cmdID))
                         {
                             flag = true;
-                            prgCmds[index].cmdf = 1;
+                            prgCmds[index].cmdf = Olecmdf.Supported;
                         }
                     }
 
@@ -1226,9 +1228,9 @@ namespace ModernApplicationFramework.Editor.Implementation
                 _canChangeIndentStyle = false;
             }
 
-            if ((_initFlags & TextViewInitFlags.ProhibitUserInput) != 0)
+            if ((_initFlags & TextViewInitFlags.Readonly) != 0)
                 _editorOptions.SetOptionValue(DefaultTextViewOptions.ViewProhibitUserInputId, true);
-            if ((_initFlags & TextViewInitFlags.DisableGoBack) != 0)
+            if ((_initFlags & TextViewInitFlags.SuppressTrackGoBack) != 0)
                 RaiseGoBackEvents = false;
             if ((_initFlags & TextViewInitFlags.UpdateStatusBar) != 0)
                 SupressUpdateStatusBarEvents = false;
@@ -1252,7 +1254,7 @@ namespace ModernApplicationFramework.Editor.Implementation
                 _editorOptions.SetOptionValue(DefaultTextViewOptions.OverwriteModeId, false);
                 _canChangeOvertypeMode = false;
             }
-            if ((_initFlags & TextViewInitFlags.ChangeTracking) != 0)
+            if ((_initFlags & TextViewInitFlags.SuppressTrackChanges) != 0)
             {
                 _editorOptions.SetOptionValue(DefaultTextViewHostOptions.ChangeTrackingId, false);
                 _canChangeTrackChanges = false;
@@ -1262,7 +1264,7 @@ namespace ModernApplicationFramework.Editor.Implementation
                 _editorOptions.SetOptionValue(DefaultTextViewOptions.DisplayUrlsAsHyperlinksId, false);
                 _canChangeHotURLs = false;
             }
-            if ((_initFlags & TextViewInitFlags.Find) != 0)
+            if ((_initFlags & TextViewInitFlags.EnableAutoModusFind) != 0)
                 _editorOptions.SetOptionValue(EnableFindOptionDefinition.KeyId, true);
         }
 
@@ -1279,22 +1281,22 @@ namespace ModernApplicationFramework.Editor.Implementation
         {
             if (rguidCategory == DefGuidList.GuidEditPropCategoryViewMasterSettings)
             {
-                ppProp = new VsTextEditorPropertyContainerAdapter(this);
+                ppProp = new TextEditorPropertyContainerAdapter(this);
                 return 0;
             }
             ppProp = null;
             return -2147024809;
         }
 
-        internal int GetPropertyFromPropertyContainer(VsEditPropId idProp, out object pvar)
+        internal int GetPropertyFromPropertyContainer(EditPropId idProp, out object pvar)
         {
             pvar = null;
             switch (idProp)
             {
-                case VsEditPropId.ViewGeneralColorCategory:
+                case EditPropId.ViewGeneralColorCategory:
                     pvar = FontsAndColorsCategory.ColorCategory;
                     return 0;
-                case VsEditPropId.ViewGeneralFontCategory:
+                case EditPropId.ViewGeneralFontCategory:
                     pvar = FontsAndColorsCategory.FontCategory;
                     return 0;
                 default:
@@ -1302,14 +1304,14 @@ namespace ModernApplicationFramework.Editor.Implementation
             }
         }
 
-        internal int SetPropertyInPropertyContainer(VsEditPropId idProp, object pvar)
+        internal int SetPropertyInPropertyContainer(EditPropId idProp, object pvar)
         {
             switch (idProp)
             {
-                case VsEditPropId.ViewGeneralFontCategory:
+                case EditPropId.ViewGeneralFontCategory:
                     FontsAndColorsCategory = FontsAndColorsCategory.SetFontCategory(new Guid(pvar.ToString()));
                     return 0;
-                case VsEditPropId.ViewGeneralColorCategory:
+                case EditPropId.ViewGeneralColorCategory:
                     FontsAndColorsCategory = FontsAndColorsCategory.SetColorCategory(new Guid(pvar.ToString()));
                     return 0;
                 default:
@@ -1317,15 +1319,15 @@ namespace ModernApplicationFramework.Editor.Implementation
             }
         }
 
-        public int RemovePropertyFromPropertyContainer(VsEditPropId idProp)
+        public int RemovePropertyFromPropertyContainer(EditPropId idProp)
         {
-            if (idProp <= VsEditPropId.ViewLangOptWordWrap)
+            if (idProp <= EditPropId.ViewLangOptWordWrap)
             {
-                if (idProp == VsEditPropId.ViewLangOptRawTextDisplay)
+                if (idProp == EditPropId.ViewLangOptRawTextDisplay)
                     return -2147467259;
-                if (idProp != VsEditPropId.ViewLangOptVirtualSpace)
+                if (idProp != EditPropId.ViewLangOptVirtualSpace)
                 {
-                    if (idProp != VsEditPropId.ViewLangOptWordWrap)
+                    if (idProp != EditPropId.ViewLangOptWordWrap)
                         return -2147024809;
                     _canChangeWordWrap = true;
                     return 0;
@@ -1333,17 +1335,17 @@ namespace ModernApplicationFramework.Editor.Implementation
                 _canChangeUseVirtualSpace = true;
                 return 0;
             }
-            if (idProp == VsEditPropId.ViewGlobalOptAutoScrollCaretOnTextEntry)
+            if (idProp == EditPropId.ViewGlobalOptAutoScrollCaretOnTextEntry)
                 return -2147467259;
             switch (idProp - -131075)
             {
-                case ~VsEditPropId.Last:
+                case ~EditPropId.Last:
                     _canChangeSelectionMarginEnabled = true;
                     return 0;
-                case (VsEditPropId)1:
+                case (EditPropId)1:
                     _canChangeOvertypeMode = true;
                     return 0;
-                case (VsEditPropId)2:
+                case (EditPropId)2:
                     _canChangeVisibleWhitespace = true;
                     return 0;
                 default:
@@ -1588,11 +1590,11 @@ namespace ModernApplicationFramework.Editor.Implementation
 
     public interface ITextEditorPropertyContainer
     {
-        int GetProperty(VsEditPropId idProp,  out object pvar);
+        int GetProperty(EditPropId idProp,  out object pvar);
 
-        int SetProperty(VsEditPropId idProp, object var);
+        int SetProperty(EditPropId idProp, object var);
 
-        int RemoveProperty(VsEditPropId idProp);
+        int RemoveProperty(EditPropId idProp);
     }
 
     public interface IMafTextViewEvents

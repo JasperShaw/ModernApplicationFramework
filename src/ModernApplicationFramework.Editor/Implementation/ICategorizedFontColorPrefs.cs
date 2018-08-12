@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using ModernApplicationFramework.Editor.TextManager;
 
 namespace ModernApplicationFramework.Editor.Implementation
 {

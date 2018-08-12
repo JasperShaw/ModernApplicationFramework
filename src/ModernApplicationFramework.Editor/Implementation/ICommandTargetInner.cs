@@ -1,4 +1,5 @@
 ﻿using System;
+using ModernApplicationFramework.Editor.Interop;
 
 namespace ModernApplicationFramework.Editor.Implementation
 {

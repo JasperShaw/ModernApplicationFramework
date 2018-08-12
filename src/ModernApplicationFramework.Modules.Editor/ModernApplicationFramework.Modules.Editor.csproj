@@ -198,6 +198,7 @@
     <Compile Include="Implementation\SpacerMargin.cs" />
     <Compile Include="Implementation\SpacerMarginProvider.cs" />
     <Compile Include="Implementation\TextContentLayer.cs" />
+    <Compile Include="Implementation\WordWrapAndVisibleWhitespaceFormatDefinition.cs" />
     <Compile Include="Operations\DefaultTextNavigator.cs" />
     <Compile Include="Operations\EditorOperations.cs" />
     <Compile Include="Operations\EditorOperationsFactoryService.cs" />
@@ -254,7 +255,12 @@
     <Compile Include="UrlTagger\UrlUtility.cs" />
     <Compile Include="UrlTagger\ValidProtocolFound.cs" />
     <Compile Include="Utilities\ChangeBrushes.cs" />
+    <Compile Include="Utilities\ContentType.cs" />
+    <Compile Include="Utilities\ContentTypeRegistry.cs" />
     <Compile Include="Utilities\GeometryAdornment.cs" />
+    <Compile Include="Utilities\IContentTypeDefinitionMetadata.cs" />
+    <Compile Include="Utilities\IFileExtensionRegistryService.cs" />
+    <Compile Include="Utilities\IFileToContentTypeMetadata.cs" />
     <Compile Include="Utilities\Markers.cs" />
     <Compile Include="Utilities\MouseWheelHelper.cs" />
     <Compile Include="Utilities\StableContentTypeComparer.cs" />

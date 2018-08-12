@@ -1,4 +1,5 @@
 ﻿using System;
+using ModernApplicationFramework.Editor.TextManager;
 using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Text.Ui.Tagging;
 

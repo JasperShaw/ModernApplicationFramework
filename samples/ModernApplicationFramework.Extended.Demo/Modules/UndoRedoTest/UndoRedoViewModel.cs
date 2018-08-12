@@ -2,7 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Windows.Input;
 using Caliburn.Micro;
-using ModernApplicationFramework.Editor.Implementation.OutputClassifier;
+using ModernApplicationFramework.Editor.OutputClassifier;
 using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Input.Command;
 

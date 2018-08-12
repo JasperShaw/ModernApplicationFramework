@@ -90,6 +90,7 @@
     <Compile Include="Converters\MultiValueConverterBase.cs" />
     <Compile Include="Converters\ValueConverter.cs" />
     <Compile Include="Core\ContentTypeDefinition.cs" />
+    <Compile Include="Core\FileExtensionToContentTypeDefinition.cs" />
     <Compile Include="Core\IContentType.cs" />
     <Compile Include="Core\IContentTypeMetadata.cs" />
     <Compile Include="Core\IContentTypeRegistryService.cs" />

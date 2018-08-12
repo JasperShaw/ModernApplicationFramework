@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using Caliburn.Micro;
+using ModernApplicationFramework.Editor.Commanding;
+using ModernApplicationFramework.Editor.Interop;
 using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Text.Ui.Commanding;
 using ModernApplicationFramework.Text.Ui.Editor;
@@ -490,9 +492,9 @@ namespace ModernApplicationFramework.Editor.Implementation
             });
             if (!commandState.IsAvailable)
                 return 1;
-            var olecmdf1 = commandState.IsAvailable ? Olecmdf.OlecmdfEnabled : Olecmdf.OlecmdfInvisible;
-            var olecmdf2 = commandState.IsChecked ? Olecmdf.OlecmdfLatched : Olecmdf.OlecmdfNinched;
-            prgCmds[0].cmdf = (uint) (olecmdf1 | olecmdf2 | Olecmdf.OlecmdfSupported);
+            var olecmdf1 = commandState.IsAvailable ? Olecmdf.Enabled : Olecmdf.Invisible;
+            var olecmdf2 = commandState.IsChecked ? Olecmdf.Latched : Olecmdf.Ninched;
+            prgCmds[0].cmdf = olecmdf1 | olecmdf2 | Olecmdf.Supported;
             if (!string.IsNullOrEmpty(commandState.DisplayText) &&
                 Utilities.Utilities.GetCmdText(commandText) != commandState.DisplayText)
                 Utilities.Utilities.SetCmdText(commandText, commandState.DisplayText);

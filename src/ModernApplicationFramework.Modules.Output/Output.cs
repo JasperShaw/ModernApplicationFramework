@@ -3,7 +3,8 @@ using System.ComponentModel.Composition;
 using Caliburn.Micro;
 using ModernApplicationFramework.Editor;
 using ModernApplicationFramework.Editor.Implementation;
-using ModernApplicationFramework.Editor.Implementation.OutputClassifier;
+using ModernApplicationFramework.Editor.OutputClassifier;
+using ModernApplicationFramework.Editor.TextManager;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Text.Logic.Editor;
@@ -88,15 +89,15 @@ namespace ModernApplicationFramework.Modules.Output
                 _view = IoC.Get<IEditorAdaptersFactoryService>()
                     .CreateTextViewAdapter(service.CreateTextViewRoleSet("INTERACTIVE"));
                 _view.Initialize(TextBuffer as IMafTextLines, IntPtr.Zero,
-                    TextViewInitFlags.Hscroll | TextViewInitFlags.Vscroll | TextViewInitFlags.ProhibitUserInput);
+                    TextViewInitFlags.Hscroll | TextViewInitFlags.Vscroll | TextViewInitFlags.Readonly);
                 if (_view is ITextEditorPropertyCategoryContainer view)
                 {
                     var guid = DefGuidList.GuidEditPropCategoryViewMasterSettings;
                     if (view.GetPropertyCategory(ref guid, out var prop) == 0)
                     {
-                        prop.SetProperty(VsEditPropId.ViewGeneralFontCategory,
+                        prop.SetProperty(EditPropId.ViewGeneralFontCategory,
                             DefGuidList.OutputWindowCategory);
-                        prop.SetProperty(VsEditPropId.ViewGeneralColorCategory,
+                        prop.SetProperty(EditPropId.ViewGeneralColorCategory,
                             DefGuidList.OutputWindowCategory);
                     }
                 }

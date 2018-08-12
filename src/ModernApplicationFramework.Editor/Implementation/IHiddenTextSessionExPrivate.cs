@@ -1,4 +1,6 @@
-﻿namespace ModernApplicationFramework.Editor.Implementation
+﻿using ModernApplicationFramework.Editor.TextManager;
+
+namespace ModernApplicationFramework.Editor.Implementation
 {
     internal interface IHiddenTextSessionExPrivate
     {

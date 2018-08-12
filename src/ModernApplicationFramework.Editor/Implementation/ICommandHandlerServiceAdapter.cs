@@ -1,4 +1,5 @@
-﻿using ModernApplicationFramework.Text.Ui.Editor;
+﻿using ModernApplicationFramework.Editor.Interop;
+using ModernApplicationFramework.Text.Ui.Editor;
 
 namespace ModernApplicationFramework.Editor.Implementation
 {
