@@ -21,17 +21,14 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
         {
         }
 
-        public override int GetHashCode()
-        {
-            return _hashCode;
-        }
-
         public override bool Equals(object obj)
         {
             var forDictionaryKey = obj as WeakReferenceForDictionaryKey;
             bool flag;
             if (forDictionaryKey == null)
+            {
                 flag = false;
+            }
             else if (this == forDictionaryKey)
             {
                 flag = true;
@@ -39,7 +36,7 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
             else
             {
                 var objA = null as object;
-                var objB = (object)null;
+                var objB = (object) null;
                 try
                 {
                     objA = Target;
@@ -48,9 +45,16 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
                 catch (InvalidOperationException)
                 {
                 }
+
                 flag = objA != null && objB != null && Equals(objA, objB);
             }
+
             return flag;
+        }
+
+        public override int GetHashCode()
+        {
+            return _hashCode;
         }
     }
 }

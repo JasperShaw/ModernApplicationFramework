@@ -10,23 +10,33 @@ namespace ModernApplicationFramework.Modules.Editor.Classification
     [Export(typeof(IClassificationTypeRegistryService))]
     internal sealed class ClassificationTypeRegistryService : IClassificationTypeRegistryService
     {
-        [Export]
-        [Name("(TRANSIENT)")]
-        public ClassificationTypeDefinition transientClassificationType;
-        [Export]
-        [Name("text")]
-        public ClassificationTypeDefinition TextClassificationType;
+        [Export] [Name("text")] public ClassificationTypeDefinition TextClassificationType;
+
+        [Export] [Name("(TRANSIENT)")] public ClassificationTypeDefinition transientClassificationType;
+
         private Dictionary<string, ClassificationTypeImpl> _classificationTypes;
         private Dictionary<string, ClassificationTypeImpl> _transientClassificationTypes;
 
         [ImportMany]
-        internal List<Lazy<ClassificationTypeDefinition, IClassificationTypeDefinitionMetadata>> ClassificationTypeDefinitions { get; set; }
+        internal List<Lazy<ClassificationTypeDefinition, IClassificationTypeDefinitionMetadata>>
+            ClassificationTypeDefinitions { get; set; }
 
-        public IClassificationType GetClassificationType(string type)
+        private Dictionary<string, ClassificationTypeImpl> ClassificationTypes
         {
-            ClassificationTypes.TryGetValue(type, out var classificationTypeImpl);
-            return classificationTypeImpl;
+            get
+            {
+                if (_classificationTypes == null)
+                {
+                    _classificationTypes =
+                        new Dictionary<string, ClassificationTypeImpl>(StringComparer.InvariantCultureIgnoreCase);
+                    BuildClassificationTypes(_classificationTypes);
+                }
+
+                return _classificationTypes;
+            }
         }
+
+        private IClassificationType TransientClassificationType => ClassificationTypes["(TRANSIENT)"];
 
         public IClassificationType CreateClassificationType(string type, IEnumerable<IClassificationType> baseTypes)
         {
@@ -61,19 +71,10 @@ namespace ModernApplicationFramework.Modules.Editor.Classification
             return BuildTransientClassificationType(baseTypes);
         }
 
-        private IClassificationType TransientClassificationType => ClassificationTypes["(TRANSIENT)"];
-
-        private Dictionary<string, ClassificationTypeImpl> ClassificationTypes
+        public IClassificationType GetClassificationType(string type)
         {
-            get
-            {
-                if (_classificationTypes == null)
-                {
-                    _classificationTypes = new Dictionary<string, ClassificationTypeImpl>(StringComparer.InvariantCultureIgnoreCase);
-                    BuildClassificationTypes(_classificationTypes);
-                }
-                return _classificationTypes;
-            }
+            ClassificationTypes.TryGetValue(type, out var classificationTypeImpl);
+            return classificationTypeImpl;
         }
 
         private void BuildClassificationTypes(Dictionary<string, ClassificationTypeImpl> classificationTypes)
@@ -86,9 +87,9 @@ namespace ModernApplicationFramework.Modules.Editor.Classification
                     classificationTypeImpl1 = new ClassificationTypeImpl(name);
                     classificationTypes.Add(name, classificationTypeImpl1);
                 }
+
                 var baseDefinition = classificationTypeDefinition.Metadata.BaseDefinition;
                 if (baseDefinition != null)
-                {
                     foreach (var str in baseDefinition)
                     {
                         if (!classificationTypes.TryGetValue(str, out var classificationTypeImpl2))
@@ -96,16 +97,17 @@ namespace ModernApplicationFramework.Modules.Editor.Classification
                             classificationTypeImpl2 = new ClassificationTypeImpl(str);
                             classificationTypes.Add(str, classificationTypeImpl2);
                         }
+
                         classificationTypeImpl1.AddBaseType(classificationTypeImpl2);
                     }
-                }
             }
         }
 
         private IClassificationType BuildTransientClassificationType(IEnumerable<IClassificationType> baseTypes)
         {
             if (_transientClassificationTypes == null)
-                _transientClassificationTypes = new Dictionary<string, ClassificationTypeImpl>(StringComparer.InvariantCultureIgnoreCase);
+                _transientClassificationTypes =
+                    new Dictionary<string, ClassificationTypeImpl>(StringComparer.InvariantCultureIgnoreCase);
             var classificationTypeList = new List<IClassificationType>(baseTypes);
             classificationTypeList.Sort((a, b) => string.CompareOrdinal(a.Classification, b.Classification));
             var stringBuilder = new StringBuilder();
@@ -114,6 +116,7 @@ namespace ModernApplicationFramework.Modules.Editor.Classification
                 stringBuilder.Append(classificationType.Classification);
                 stringBuilder.Append(" - ");
             }
+
             stringBuilder.Append(TransientClassificationType.Classification);
             if (!_transientClassificationTypes.TryGetValue(stringBuilder.ToString(), out var classificationTypeImpl))
             {
@@ -123,6 +126,7 @@ namespace ModernApplicationFramework.Modules.Editor.Classification
                 classificationTypeImpl.AddBaseType(TransientClassificationType);
                 _transientClassificationTypes[classificationTypeImpl.Classification] = classificationTypeImpl;
             }
+
             return classificationTypeImpl;
         }
     }

@@ -6,17 +6,17 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
 {
     internal class MappingPointSnapshot : IMappingPoint
     {
-        internal ITextSnapshot Root;
         internal SnapshotPoint Anchor;
+        internal ITextSnapshot Root;
         internal PointTrackingMode TrackingMode;
         internal bool Unmappable;
 
-        public static IMappingPoint Create(ITextSnapshot root, SnapshotPoint anchor, PointTrackingMode trackingMode, IBufferGraph graph)
-        {
-            return new MappingPointSnapshot(root, anchor, trackingMode, graph);
-        }
+        public ITextBuffer AnchorBuffer => Anchor.Snapshot.TextBuffer;
 
-        private MappingPointSnapshot(ITextSnapshot root, SnapshotPoint anchor, PointTrackingMode trackingMode, IBufferGraph graph)
+        public IBufferGraph BufferGraph { get; }
+
+        private MappingPointSnapshot(ITextSnapshot root, SnapshotPoint anchor, PointTrackingMode trackingMode,
+            IBufferGraph graph)
         {
             var correspondingSnapshot = MappingHelper.FindCorrespondingSnapshot(root, anchor.Snapshot.TextBuffer);
             Root = root;
@@ -29,8 +29,47 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
                 Anchor = anchor;
                 Unmappable = true;
             }
+
             TrackingMode = trackingMode;
             BufferGraph = graph;
+        }
+
+        public static IMappingPoint Create(ITextSnapshot root, SnapshotPoint anchor, PointTrackingMode trackingMode,
+            IBufferGraph graph)
+        {
+            return new MappingPointSnapshot(root, anchor, trackingMode, graph);
+        }
+
+        public static SnapshotPoint? MapUpToSnapshotNoTrack(ITextSnapshot targetSnapshot, SnapshotPoint anchor,
+            PositionAffinity affinity)
+        {
+            if (anchor.Snapshot == targetSnapshot)
+                return anchor;
+            if (targetSnapshot is IProjectionSnapshot projectionSnapshot)
+            {
+                var sourceSnapshots = projectionSnapshot.SourceSnapshots;
+                foreach (var t in sourceSnapshots)
+                {
+                    var snapshotNoTrack = MapUpToSnapshotNoTrack(t, anchor, affinity);
+                    if (snapshotNoTrack.HasValue)
+                    {
+                        var nullable = projectionSnapshot.MapFromSourceSnapshot(snapshotNoTrack.Value, affinity);
+                        if (nullable.HasValue)
+                            return nullable;
+                    }
+                }
+            }
+
+            return new SnapshotPoint?();
+        }
+
+        public SnapshotPoint? GetInsertionPoint(Predicate<ITextBuffer> match)
+        {
+            if (match == null)
+                throw new ArgumentNullException(nameof(match));
+            if (Unmappable)
+                return new SnapshotPoint?();
+            return MappingHelper.MapDownToFirstMatchNoTrack(Anchor, match);
         }
 
         public SnapshotPoint? GetPoint(ITextBuffer targetBuffer, PositionAffinity affinity)
@@ -69,19 +108,6 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
             return firstMatchNoTrack;
         }
 
-        public SnapshotPoint? GetInsertionPoint(Predicate<ITextBuffer> match)
-        {
-            if (match == null)
-                throw new ArgumentNullException(nameof(match));
-            if (Unmappable)
-                return new SnapshotPoint?();
-            return MappingHelper.MapDownToFirstMatchNoTrack(Anchor, match);
-        }
-
-        public ITextBuffer AnchorBuffer => Anchor.Snapshot.TextBuffer;
-
-        public IBufferGraph BufferGraph { get; }
-
         private SnapshotPoint? MapUpToBufferNoTrack(ITextBuffer targetBuffer, PositionAffinity affinity)
         {
             var correspondingSnapshot = MappingHelper.FindCorrespondingSnapshot(Root, targetBuffer);
@@ -101,27 +127,6 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
         private SnapshotPoint? MapUpToSnapshotNoTrack(ITextSnapshot targetSnapshot, PositionAffinity affinity)
         {
             return MapUpToSnapshotNoTrack(targetSnapshot, Anchor, affinity);
-        }
-
-        public static SnapshotPoint? MapUpToSnapshotNoTrack(ITextSnapshot targetSnapshot, SnapshotPoint anchor, PositionAffinity affinity)
-        {
-            if (anchor.Snapshot == targetSnapshot)
-                return anchor;
-            if (targetSnapshot is IProjectionSnapshot projectionSnapshot)
-            {
-                var sourceSnapshots = projectionSnapshot.SourceSnapshots;
-                foreach (var t in sourceSnapshots)
-                {
-                    var snapshotNoTrack = MapUpToSnapshotNoTrack(t, anchor, affinity);
-                    if (snapshotNoTrack.HasValue)
-                    {
-                        var nullable = projectionSnapshot.MapFromSourceSnapshot(snapshotNoTrack.Value, affinity);
-                        if (nullable.HasValue)
-                            return nullable;
-                    }
-                }
-            }
-            return new SnapshotPoint?();
         }
     }
 }

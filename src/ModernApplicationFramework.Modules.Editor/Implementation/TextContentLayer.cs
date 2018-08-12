@@ -8,10 +8,10 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
 {
     internal class TextContentLayer : FrameworkElement
     {
-        private bool _removeTextVisualsWhenHidden = true;
-        private bool _needsRefresh;
-        private List<IFormattedLine> _formattedLines;
         private List<Visual> _children = new List<Visual>();
+        private List<IFormattedLine> _formattedLines;
+        private bool _needsRefresh;
+        private bool _removeTextVisualsWhenHidden = true;
 
 
         public bool RemoveTextVisualsWhenHidden
@@ -56,6 +56,7 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                 UpdateTextVisuals();
                 _needsRefresh = false;
             }
+
             SignalName();
             return base.ArrangeOverride(finalSize);
         }
@@ -67,13 +68,6 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             return _children[index];
         }
 
-        private void SignalName()
-        {
-            var name = Name;
-            Name = "temporary_toggle_value";
-            Name = name;
-        }
-
 
         private void OnVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
@@ -83,7 +77,9 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                 _needsRefresh = true;
             }
             else
+            {
                 RemoveTextVisuals();
+            }
         }
 
         private void RemoveTextVisuals()
@@ -97,6 +93,13 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             _children.Clear();
         }
 
+        private void SignalName()
+        {
+            var name = Name;
+            Name = "temporary_toggle_value";
+            Name = name;
+        }
+
         private void UpdateTextVisuals()
         {
             if (_formattedLines == null)
@@ -104,30 +107,26 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             var visualList = new List<Visual>(_formattedLines.Count);
             var dict = new Dictionary<Visual, SettableBool>(_formattedLines.Count);
             foreach (var line in _formattedLines)
-            {
                 if (line.VisibilityState == VisibilityState.Hidden)
+                {
                     line.RemoveVisual();
+                }
                 else
                 {
                     var visual = line.GetOrCreateVisual();
                     visualList.Add(visual);
                     dict.Add(visual, new SettableBool());
                 }
-            }
 
             foreach (var child in _children)
-            {
                 if (dict.TryGetValue(child, out var settableBool))
                     settableBool.AddVisual = false;
                 else
                     RemoveVisualChild(child);
-            }
 
-            foreach (var pair  in dict)
-            {
+            foreach (var pair in dict)
                 if (pair.Value.AddVisual)
                     AddVisualChild(pair.Key);
-            }
 
             _children = visualList;
         }

@@ -11,9 +11,10 @@ namespace ModernApplicationFramework.Modules.Editor.Commanding
     [Export(typeof(IUiThreadOperationExecutor))]
     internal class UiThreadOperationExecutor : IUiThreadOperationExecutor
     {
+        private IUiThreadOperationExecutor _bestImpl;
+
         [ImportImplementations(typeof(IUiThreadOperationExecutor))]
         private IEnumerable<Lazy<IUiThreadOperationExecutor, IOrderable>> _unorderedImplementations;
-        private IUiThreadOperationExecutor _bestImpl;
 
         private IUiThreadOperationExecutor BestImplementation
         {
@@ -27,16 +28,19 @@ namespace ModernApplicationFramework.Modules.Editor.Commanding
                             $"Expected to import at least one export of {typeof(IUiThreadOperationExecutor).FullName}, but got none.");
                     _bestImpl = lazyList[0].Value;
                 }
+
                 return _bestImpl;
             }
         }
 
-        public IUiThreadOperationContext BeginExecute(string title, string defaultDescription, bool allowCancellation, bool showProgress)
+        public IUiThreadOperationContext BeginExecute(string title, string defaultDescription, bool allowCancellation,
+            bool showProgress)
         {
             return BestImplementation.BeginExecute(title, defaultDescription, allowCancellation, showProgress);
         }
 
-        public UiThreadOperationStatus Execute(string title, string defaultDescription, bool allowCancellation, bool showProgress, Action<IUiThreadOperationContext> action)
+        public UiThreadOperationStatus Execute(string title, string defaultDescription, bool allowCancellation,
+            bool showProgress, Action<IUiThreadOperationContext> action)
         {
             return BestImplementation.Execute(title, defaultDescription, allowCancellation, showProgress, action);
         }

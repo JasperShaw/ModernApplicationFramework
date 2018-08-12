@@ -4,6 +4,14 @@ namespace ModernApplicationFramework.Modules.Editor.EditorPrimitives
 {
     internal sealed class ViewPrimitives : IViewPrimitives
     {
+        public PrimitiveTextBuffer Buffer { get; }
+
+        public Caret Caret { get; }
+
+        public Selection Selection { get; }
+
+        public PrimitiveTextView View { get; }
+
         internal ViewPrimitives(ITextView textView, IViewPrimitivesFactoryService viewPrimitivesFactory)
         {
             View = viewPrimitivesFactory.CreateTextView(textView);
@@ -11,13 +19,5 @@ namespace ModernApplicationFramework.Modules.Editor.EditorPrimitives
             Selection = View.Selection;
             Caret = View.Caret;
         }
-
-        public PrimitiveTextView View { get; }
-
-        public Selection Selection { get; }
-
-        public Caret Caret { get; }
-
-        public PrimitiveTextBuffer Buffer { get; }
     }
 }

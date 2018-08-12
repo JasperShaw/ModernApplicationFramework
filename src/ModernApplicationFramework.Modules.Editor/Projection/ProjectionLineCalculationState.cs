@@ -5,6 +5,6 @@
         Primary,
         Append,
         Prepend,
-        Bipend,
+        Bipend
     }
 }

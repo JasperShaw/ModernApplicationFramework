@@ -12,6 +12,44 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
         private readonly ITextView _view;
         private bool _isDisposed;
 
+        public bool Enabled
+        {
+            get
+            {
+                if (_view.Options.IsHorizontalScrollBarEnabled())
+                    return _view.Options.IsZoomControlEnabled();
+                return false;
+            }
+        }
+
+        public double MarginSize
+        {
+            get
+            {
+                ThrowIfDisposed();
+                return ActualWidth;
+            }
+        }
+
+        public FrameworkElement VisualElement
+        {
+            get
+            {
+                ThrowIfDisposed();
+                return this;
+            }
+        }
+
+        private int MaxLength
+        {
+            set
+            {
+                if (!(GetTemplateChild("PART_EditableTextBox") is TextBox templateChild))
+                    return;
+                templateChild.MaxLength = value;
+            }
+        }
+
         internal ZoomControlMargin(ITextView textView)
         {
             _view = textView;
@@ -26,20 +64,34 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                     _view.ZoomLevelChanged += OnZoomLevelChanged;
                 }
                 else
+                {
                     _view.ZoomLevelChanged -= OnZoomLevelChanged;
+                }
             };
             SetResourceReference(StyleProperty, typeof(ZoomControl));
             InitializeComponents();
         }
 
-        private void OnOptionChanged(object sender, EventArgs e)
+        public void Dispose()
         {
-            Visibility = Enabled ? Visibility.Visible : Visibility.Collapsed;
+            if (_isDisposed)
+                return;
+            _view.Options.OptionChanged -= OnOptionChanged;
+            GC.SuppressFinalize(this);
+            _isDisposed = true;
         }
 
-        private void OnZoomLevelChanged(object sender, ZoomLevelChangedEventArgs e)
+        public ITextViewMargin GetTextViewMargin(string marginName)
         {
-            SelectedZoomLevel = e.NewZoomLevel;
+            if (!_isDisposed && string.Compare(marginName, "ZoomControl", StringComparison.OrdinalIgnoreCase) == 0)
+                return this;
+            return null;
+        }
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+            MaxLength = 5;
         }
 
         protected override void OnDropDownClosed(EventArgs e)
@@ -48,16 +100,6 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             if (SelectedItem == null)
                 return;
             ApplyZoom();
-        }
-
-        protected override void OnLostKeyboardFocus(KeyboardFocusChangedEventArgs e)
-        {
-            if (!IsFocused)
-            {
-                e.Handled = true;
-                Reset();
-            }
-            base.OnLostKeyboardFocus(e);
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
@@ -73,80 +115,19 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                 Reset();
                 Keyboard.Focus(_view.VisualElement);
             }
+
             base.OnKeyDown(e);
         }
 
-        public override void OnApplyTemplate()
+        protected override void OnLostKeyboardFocus(KeyboardFocusChangedEventArgs e)
         {
-            base.OnApplyTemplate();
-            MaxLength = 5;
-        }
-
-        public FrameworkElement VisualElement
-        {
-            get
+            if (!IsFocused)
             {
-                ThrowIfDisposed();
-                return this;
+                e.Handled = true;
+                Reset();
             }
-        }
 
-        public double MarginSize
-        {
-            get
-            {
-                ThrowIfDisposed();
-                return ActualWidth;
-            }
-        }
-
-        public bool Enabled
-        {
-            get
-            {
-                if (_view.Options.IsHorizontalScrollBarEnabled())
-                    return _view.Options.IsZoomControlEnabled();
-                return false;
-            }
-        }
-
-        public ITextViewMargin GetTextViewMargin(string marginName)
-        {
-            if (!_isDisposed && string.Compare(marginName, "ZoomControl", StringComparison.OrdinalIgnoreCase) == 0)
-                return this;
-            return null;
-        }
-
-        public void Dispose()
-        {
-            if (_isDisposed)
-                return;
-            _view.Options.OptionChanged -= OnOptionChanged;
-            GC.SuppressFinalize(this);
-            _isDisposed = true;
-        }
-
-        private void InitializeComponents()
-        {
-            IsSynchronizedWithCurrentItem = false;
-            var zoomLevelConverter = new ZoomLevelConverter();
-            BindingOperations.SetBinding(this, TextProperty, new Binding()
-            {
-                Path = new PropertyPath("SelectedZoomLevel", Array.Empty<object>()),
-                Mode = BindingMode.TwoWay,
-                RelativeSource = RelativeSource.Self,
-                UpdateSourceTrigger = UpdateSourceTrigger.Explicit,
-                Converter = zoomLevelConverter,
-                ValidationRules = {
-                    new ZoomLevelValidationRule()
-                }
-            });
-        }
-
-        private void ThrowIfDisposed()
-        {
-            if (_isDisposed)
-                throw new ObjectDisposedException("ZoomControl");
+            base.OnLostKeyboardFocus(e);
         }
 
         private void ApplyZoom()
@@ -161,19 +142,43 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             Keyboard.Focus(_view.VisualElement);
         }
 
+        private void InitializeComponents()
+        {
+            IsSynchronizedWithCurrentItem = false;
+            var zoomLevelConverter = new ZoomLevelConverter();
+            BindingOperations.SetBinding(this, TextProperty, new Binding
+            {
+                Path = new PropertyPath("SelectedZoomLevel", Array.Empty<object>()),
+                Mode = BindingMode.TwoWay,
+                RelativeSource = RelativeSource.Self,
+                UpdateSourceTrigger = UpdateSourceTrigger.Explicit,
+                Converter = zoomLevelConverter,
+                ValidationRules =
+                {
+                    new ZoomLevelValidationRule()
+                }
+            });
+        }
+
+        private void OnOptionChanged(object sender, EventArgs e)
+        {
+            Visibility = Enabled ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void OnZoomLevelChanged(object sender, ZoomLevelChangedEventArgs e)
+        {
+            SelectedZoomLevel = e.NewZoomLevel;
+        }
+
         private void Reset()
         {
             GetBindingExpression(TextProperty).UpdateTarget();
         }
 
-        private int MaxLength
+        private void ThrowIfDisposed()
         {
-            set
-            {
-                if (!(GetTemplateChild("PART_EditableTextBox") is TextBox templateChild))
-                    return;
-                templateChild.MaxLength = value;
-            }
+            if (_isDisposed)
+                throw new ObjectDisposedException("ZoomControl");
         }
     }
 }

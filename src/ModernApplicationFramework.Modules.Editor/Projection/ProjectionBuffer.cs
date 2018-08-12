@@ -906,7 +906,7 @@ namespace ModernApplicationFramework.Modules.Editor.Projection
             }
         }
 
-        private class ProjectionEdit : BaseBuffer.Edit, ISubordinateTextEdit
+        private class ProjectionEdit : Edit, ISubordinateTextEdit
         {
             private readonly ProjectionBuffer _projectionBuffer;
             private bool _subordinate;
@@ -1062,7 +1062,7 @@ namespace ModernApplicationFramework.Modules.Editor.Projection
             }
         }
 
-        private class SourceSpansChangedEventRaiser : BaseBuffer.ITextEventRaiser
+        private class SourceSpansChangedEventRaiser : ITextEventRaiser
         {
             private readonly ProjectionSourceSpansChangedEventArgs _args;
 
@@ -1098,7 +1098,7 @@ namespace ModernApplicationFramework.Modules.Editor.Projection
             public TextChange TrailingChange;
         }
 
-        private class SpanEdit : BaseBuffer.TextBufferBaseEdit, ISubordinateTextEdit
+        private class SpanEdit : TextBufferBaseEdit, ISubordinateTextEdit
         {
             private readonly ProjectionBuffer _projBuffer;
             private EditOptions _editOptions = EditOptions.None;

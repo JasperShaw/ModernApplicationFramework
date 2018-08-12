@@ -7,10 +7,10 @@ namespace ModernApplicationFramework.Modules.Editor.Text
     internal abstract class StringRebuilder
     {
         public static readonly StringRebuilder Empty = new StringRebuilderForString();
-        public readonly int Length;
-        public int LineBreakCount;
         public readonly char FirstCharacter;
         public readonly char LastCharacter;
+        public readonly int Length;
+        public int LineBreakCount;
 
         public virtual int Depth => 0;
 
@@ -20,6 +20,47 @@ namespace ModernApplicationFramework.Modules.Editor.Text
             LineBreakCount = lineBreakCount;
             FirstCharacter = first;
             LastCharacter = last;
+        }
+
+        public abstract char this[int index] { get; }
+
+        public static StringRebuilder Consolidate(StringRebuilder left, StringRebuilder right)
+        {
+            var length = left.Length + right.Length;
+            var chArray = new char[length];
+            left.CopyTo(0, chArray, 0, left.Length);
+            right.CopyTo(0, chArray, left.Length, right.Length);
+            ILineBreaks lineBreaks;
+            if (left.LineBreakCount == 0 && right.LineBreakCount == 0)
+            {
+                lineBreaks = LineBreakManager.Empty;
+            }
+            else
+            {
+                var lineBreakEditor =
+                    LineBreakManager.CreateLineBreakEditor(length, left.LineBreakCount + right.LineBreakCount);
+                var num1 = 0;
+                if (chArray[left.Length] == '\n' && chArray[left.Length - 1] == '\r')
+                    num1 = 1;
+                var num2 = left.LineBreakCount - num1;
+                for (var lineNumber = 0; lineNumber < num2; ++lineNumber)
+                {
+                    left.GetLineFromLineNumber(lineNumber, out var extent, out var lineBreakLength);
+                    lineBreakEditor.Add(extent.End, lineBreakLength);
+                }
+
+                if (num1 == 1)
+                    lineBreakEditor.Add(left.Length - 1, 2);
+                for (var lineNumber = num1; lineNumber < right.LineBreakCount; ++lineNumber)
+                {
+                    right.GetLineFromLineNumber(lineNumber, out var extent, out var lineBreakLength);
+                    lineBreakEditor.Add(extent.End + left.Length, lineBreakLength);
+                }
+
+                lineBreaks = lineBreakEditor;
+            }
+
+            return StringRebuilderForChars.Create(chArray, length, lineBreaks);
         }
 
         public static StringRebuilder Create(string text)
@@ -40,70 +81,6 @@ namespace ModernApplicationFramework.Modules.Editor.Text
             return Create(image.GetText(0, image.Length));
         }
 
-        public static StringRebuilder Consolidate(StringRebuilder left, StringRebuilder right)
-        {
-            var length = left.Length + right.Length;
-            var chArray = new char[length];
-            left.CopyTo(0, chArray, 0, left.Length);
-            right.CopyTo(0, chArray, left.Length, right.Length);
-            ILineBreaks lineBreaks;
-            if (left.LineBreakCount == 0 && right.LineBreakCount == 0)
-            {
-                lineBreaks = LineBreakManager.Empty;
-            }
-            else
-            {
-                var lineBreakEditor = LineBreakManager.CreateLineBreakEditor(length, left.LineBreakCount + right.LineBreakCount);
-                var num1 = 0;
-                if (chArray[left.Length] == '\n' && chArray[left.Length - 1] == '\r')
-                    num1 = 1;
-                var num2 = left.LineBreakCount - num1;
-                for (var lineNumber = 0; lineNumber < num2; ++lineNumber)
-                {
-                    left.GetLineFromLineNumber(lineNumber, out var extent, out var lineBreakLength);
-                    lineBreakEditor.Add(extent.End, lineBreakLength);
-                }
-                if (num1 == 1)
-                    lineBreakEditor.Add(left.Length - 1, 2);
-                for (var lineNumber = num1; lineNumber < right.LineBreakCount; ++lineNumber)
-                {
-                    right.GetLineFromLineNumber(lineNumber, out var extent, out var lineBreakLength);
-                    lineBreakEditor.Add(extent.End + left.Length, lineBreakLength);
-                }
-                lineBreaks = lineBreakEditor;
-            }
-            return StringRebuilderForChars.Create(chArray, length, lineBreaks);
-        }
-
-        public abstract int GetLineNumberFromPosition(int position);
-
-        public abstract void GetLineFromLineNumber(int lineNumber, out Span extent, out int lineBreakLength);
-
-        public abstract StringRebuilder GetLeaf(int position, out int offset);
-
-        public abstract char this[int index] { get; }
-
-        public abstract void CopyTo(int sourceIndex, char[] destination, int destinationIndex, int count);
-
-        public abstract void Write(TextWriter writer, Span span);
-
-        public abstract StringRebuilder GetSubText(Span span);
-
-        public abstract string GetText(Span span);
-
-        public abstract StringRebuilder Child(bool rightSide);
-
-        public char[] ToCharArray(int startIndex, int lenght)
-        {
-            if (startIndex < 0 )
-                throw new ArgumentOutOfRangeException(nameof(startIndex));
-            if (lenght < 0 || startIndex + lenght > Length || startIndex + lenght < 0)
-                throw new ArgumentOutOfRangeException(nameof(lenght));
-            var destination = new char[lenght];
-            CopyTo(startIndex, destination, 0, lenght);
-            return destination;
-        }
-
         public StringRebuilder Append(string text)
         {
             return Insert(Length, text);
@@ -113,6 +90,27 @@ namespace ModernApplicationFramework.Modules.Editor.Text
         {
             return Insert(Length, text);
         }
+
+        public abstract StringRebuilder Child(bool rightSide);
+
+        public abstract void CopyTo(int sourceIndex, char[] destination, int destinationIndex, int count);
+
+        public StringRebuilder Delete(Span span)
+        {
+            if (span.End > Length)
+                throw new ArgumentOutOfRangeException(nameof(span));
+            return Assemble(Span.FromBounds(0, span.Start), Span.FromBounds(span.End, Length));
+        }
+
+        public abstract StringRebuilder GetLeaf(int position, out int offset);
+
+        public abstract void GetLineFromLineNumber(int lineNumber, out Span extent, out int lineBreakLength);
+
+        public abstract int GetLineNumberFromPosition(int position);
+
+        public abstract StringRebuilder GetSubText(Span span);
+
+        public abstract string GetText(Span span);
 
         public StringRebuilder Insert(int position, string text)
         {
@@ -128,13 +126,6 @@ namespace ModernApplicationFramework.Modules.Editor.Text
             return Assemble(Span.FromBounds(0, position), text, Span.FromBounds(position, Length));
         }
 
-        public StringRebuilder Delete(Span span)
-        {
-            if (span.End > Length)
-                throw new ArgumentOutOfRangeException(nameof(span));
-            return Assemble(Span.FromBounds(0, span.Start), Span.FromBounds(span.End, Length));
-        }
-
         public StringRebuilder Replace(Span span, string text)
         {
             return Replace(span, Create(text));
@@ -148,6 +139,19 @@ namespace ModernApplicationFramework.Modules.Editor.Text
                 throw new ArgumentNullException(nameof(text));
             return Assemble(Span.FromBounds(0, span.Start), text, Span.FromBounds(span.End, Length));
         }
+
+        public char[] ToCharArray(int startIndex, int lenght)
+        {
+            if (startIndex < 0)
+                throw new ArgumentOutOfRangeException(nameof(startIndex));
+            if (lenght < 0 || startIndex + lenght > Length || startIndex + lenght < 0)
+                throw new ArgumentOutOfRangeException(nameof(lenght));
+            var destination = new char[lenght];
+            CopyTo(startIndex, destination, 0, lenght);
+            return destination;
+        }
+
+        public abstract void Write(TextWriter writer, Span span);
 
         private StringRebuilder Assemble(Span left, Span right)
         {
@@ -165,15 +169,15 @@ namespace ModernApplicationFramework.Modules.Editor.Text
             if (text.Length == 0)
                 return Assemble(left, right);
             if (left.Length == 0)
-            {
                 return right.Length != 0 ? BinaryStringRebuilder.Create(text, GetSubText(right)) : text;
-            }
 
             if (right.Length == 0)
                 return BinaryStringRebuilder.Create(GetSubText(left), text);
             if (left.Length < right.Length)
-                return BinaryStringRebuilder.Create(BinaryStringRebuilder.Create(GetSubText(left), text), GetSubText(right));
-            return BinaryStringRebuilder.Create(GetSubText(left), BinaryStringRebuilder.Create(text, GetSubText(right)));
+                return BinaryStringRebuilder.Create(BinaryStringRebuilder.Create(GetSubText(left), text),
+                    GetSubText(right));
+            return BinaryStringRebuilder.Create(GetSubText(left),
+                BinaryStringRebuilder.Create(text, GetSubText(right)));
         }
     }
 }

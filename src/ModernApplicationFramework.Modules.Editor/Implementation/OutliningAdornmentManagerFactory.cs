@@ -15,17 +15,13 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
     [TagType(typeof(IntraTextAdornmentTag))]
     internal sealed class OutliningAdornmentManagerFactory : IViewTaggerProvider
     {
-        [Import]
-        internal IOutliningManagerService OutliningManagerService { get; set; }
+        [Import] internal IClassificationFormatMapService ClassificationFormatMapService { get; set; }
 
-        [Import]
-        internal IEditorFormatMapService EditorFormatMapService { get; set; }
+        [Import] internal IEditorFormatMapService EditorFormatMapService { get; set; }
 
-        [Import]
-        internal IClassificationFormatMapService ClassificationFormatMapService { get; set; }
+        [Import] internal IEditorPrimitivesFactoryService EditorPrimitivesFactoryService { get; set; }
 
-        [Import]
-        internal IEditorPrimitivesFactoryService EditorPrimitivesFactoryService { get; set; }
+        [Import] internal IOutliningManagerService OutliningManagerService { get; set; }
 
         public ITagger<T> CreateTagger<T>(ITextView textView, ITextBuffer buffer) where T : ITag
         {
@@ -40,7 +36,9 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                 return null;
             var editorFormatMap = EditorFormatMapService.GetEditorFormatMap(textView);
             var classificationFormatMap = ClassificationFormatMapService.GetClassificationFormatMap(textView);
-            return textView.Properties.GetOrCreateSingletonProperty(() => new CollapsedAdornmentProvider(textView, manager, editorFormatMap, classificationFormatMap, EditorPrimitivesFactoryService.GetViewPrimitives(textView))) as ITagger<T>;
+            return textView.Properties.GetOrCreateSingletonProperty(() => new CollapsedAdornmentProvider(textView,
+                manager, editorFormatMap, classificationFormatMap,
+                EditorPrimitivesFactoryService.GetViewPrimitives(textView))) as ITagger<T>;
         }
     }
 }

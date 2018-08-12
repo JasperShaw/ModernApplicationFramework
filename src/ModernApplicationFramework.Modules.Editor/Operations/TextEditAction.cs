@@ -10,6 +10,6 @@
         Enter,
         AutoIndent,
         Replace,
-        ProvisionalOverwrite,
+        ProvisionalOverwrite
     }
 }

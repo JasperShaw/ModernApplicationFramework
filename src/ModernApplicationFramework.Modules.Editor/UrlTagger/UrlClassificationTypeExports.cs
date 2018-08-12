@@ -9,9 +9,7 @@ namespace ModernApplicationFramework.Modules.Editor.UrlTagger
 {
     internal static class UrlClassificationTypeExports
     {
-        [Export]
-        [Name("url")]
-        internal static ClassificationTypeDefinition UrlClassificationType;
+        [Export] [Name("url")] internal static ClassificationTypeDefinition UrlClassificationType;
 
         [Export(typeof(EditorFormatDefinition))]
         [ClassificationType(ClassificationTypeNames = "url")]

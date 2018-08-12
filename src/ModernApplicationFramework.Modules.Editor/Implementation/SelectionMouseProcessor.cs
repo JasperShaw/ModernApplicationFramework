@@ -12,22 +12,22 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
 {
     internal class SelectionMouseProcessor : MouseProcessorBase, IMouseProcessor2
     {
-        private readonly ITextView _textView;
-        private ITrackingSpan _originalSelectedWord;
-        private ITrackingSpan _originalSelectedLine;
+        private readonly Stopwatch _doubleTapStopWatch = new Stopwatch();
         private readonly IEditorOperations _editorOperations;
         private readonly IViewPrimitives _editorPrimitives;
-        private int _ignoreSelectionChangedEvents;
-        private bool _doingWordSelection;
+        private readonly TimeSpan _maximumElapsedDoubleTap = new TimeSpan(0, 0, 0, 0, 600);
+        private readonly ITextView _textView;
+        private Point _currentTapPosition;
         private bool _doingLineSelection;
+        private bool _doingWordSelection;
 
         private TimeSpan _elapsedSinceLastTap;
+        private int _ignoreSelectionChangedEvents;
         private Point _lastTapPosition;
-        private Point _currentTapPosition;
-        private readonly TimeSpan _maximumElapsedDoubleTap = new TimeSpan(0, 0, 0, 0, 600);
-        private readonly Stopwatch _doubleTapStopWatch = new Stopwatch();
+        private ITrackingSpan _originalSelectedLine;
+        private ITrackingSpan _originalSelectedWord;
 
-        public SelectionMouseProcessor(ITextView textView, IEditorOperationsFactoryService editorOperationsProvider, 
+        public SelectionMouseProcessor(ITextView textView, IEditorOperationsFactoryService editorOperationsProvider,
             IEditorPrimitivesFactoryService editorPrimitivesFactory)
         {
             if (editorOperationsProvider == null)
@@ -41,93 +41,6 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             _editorOperations = editorOperationsProvider.GetEditorOperations(textView);
             _editorPrimitives = editorPrimitivesFactory.GetViewPrimitives(_textView);
             _ignoreSelectionChangedEvents = 0;
-        }
-
-        public override void PreprocessMouseLeftButtonDown(MouseButtonEventArgs e)
-        {
-            HandleLeftButtonDown(e);
-        }
-
-        public override void PreprocessMouseMove(MouseEventArgs e)
-        {
-            if (e == null)
-                throw new ArgumentNullException(nameof(e));
-            e.Handled = PreprocessMouseMoveByPosition(GetAdjustedPosition(e, _textView), e.LeftButton);
-        }
-
-        public override void PostprocessMouseUp(MouseButtonEventArgs e)
-        {
-            _doingLineSelection = false;
-            _doingWordSelection = false;
-            _originalSelectedLine = null;
-            _originalSelectedWord = null;
-            _lastTapPosition = GetAdjustedPosition(e, _textView);
-            _doubleTapStopWatch.Restart();
-        }
-
-        public void PreprocessTouchDown(TouchEventArgs e)
-        {
-            _currentTapPosition = GetAdjustedPosition(e, _textView);
-            _elapsedSinceLastTap = _doubleTapStopWatch.Elapsed;
-            _doubleTapStopWatch.Restart();
-            HandleLeftButtonDown(e);
-            _lastTapPosition = _currentTapPosition;
-        }
-
-        public void PostprocessTouchDown(TouchEventArgs e)
-        {
-        }
-
-        public void PreprocessTouchUp(TouchEventArgs e)
-        {
-        }
-
-        public void PostprocessTouchUp(TouchEventArgs e)
-        {
-            _doingLineSelection = false;
-            _doingWordSelection = false;
-            _originalSelectedLine = null;
-            _originalSelectedWord = null;
-        }
-
-        public void PreprocessManipulationInertiaStarting(ManipulationInertiaStartingEventArgs e)
-        {
-        }
-
-        public void PostprocessManipulationInertiaStarting(ManipulationInertiaStartingEventArgs e)
-        {
-        }
-
-        public void PreprocessManipulationStarting(ManipulationStartingEventArgs e)
-        {
-        }
-
-        public void PostprocessManipulationStarting(ManipulationStartingEventArgs e)
-        {
-        }
-
-        public void PreprocessManipulationDelta(ManipulationDeltaEventArgs e)
-        {
-        }
-
-        public void PostprocessManipulationDelta(ManipulationDeltaEventArgs e)
-        {
-        }
-
-        public void PreprocessManipulationCompleted(ManipulationCompletedEventArgs e)
-        {
-        }
-
-        public void PostprocessManipulationCompleted(ManipulationCompletedEventArgs e)
-        {
-        }
-
-        public void PreprocessStylusSystemGesture(StylusSystemGestureEventArgs e)
-        {
-        }
-
-        public void PostprocessStylusSystemGesture(StylusSystemGestureEventArgs e)
-        {
         }
 
         public void HandleLeftButtonDown(InputEventArgs e)
@@ -153,20 +66,158 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             }
         }
 
+        public void PostprocessManipulationCompleted(ManipulationCompletedEventArgs e)
+        {
+        }
+
+        public void PostprocessManipulationDelta(ManipulationDeltaEventArgs e)
+        {
+        }
+
+        public void PostprocessManipulationInertiaStarting(ManipulationInertiaStartingEventArgs e)
+        {
+        }
+
+        public void PostprocessManipulationStarting(ManipulationStartingEventArgs e)
+        {
+        }
+
+        public override void PostprocessMouseUp(MouseButtonEventArgs e)
+        {
+            _doingLineSelection = false;
+            _doingWordSelection = false;
+            _originalSelectedLine = null;
+            _originalSelectedWord = null;
+            _lastTapPosition = GetAdjustedPosition(e, _textView);
+            _doubleTapStopWatch.Restart();
+        }
+
+        public void PostprocessStylusSystemGesture(StylusSystemGestureEventArgs e)
+        {
+        }
+
+        public void PostprocessTouchDown(TouchEventArgs e)
+        {
+        }
+
+        public void PostprocessTouchUp(TouchEventArgs e)
+        {
+            _doingLineSelection = false;
+            _doingWordSelection = false;
+            _originalSelectedLine = null;
+            _originalSelectedWord = null;
+        }
+
+        public void PreprocessManipulationCompleted(ManipulationCompletedEventArgs e)
+        {
+        }
+
+        public void PreprocessManipulationDelta(ManipulationDeltaEventArgs e)
+        {
+        }
+
+        public void PreprocessManipulationInertiaStarting(ManipulationInertiaStartingEventArgs e)
+        {
+        }
+
+        public void PreprocessManipulationStarting(ManipulationStartingEventArgs e)
+        {
+        }
+
+        public override void PreprocessMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            HandleLeftButtonDown(e);
+        }
+
+        public override void PreprocessMouseMove(MouseEventArgs e)
+        {
+            if (e == null)
+                throw new ArgumentNullException(nameof(e));
+            e.Handled = PreprocessMouseMoveByPosition(GetAdjustedPosition(e, _textView), e.LeftButton);
+        }
+
+        public void PreprocessStylusSystemGesture(StylusSystemGestureEventArgs e)
+        {
+        }
+
+        public void PreprocessTouchDown(TouchEventArgs e)
+        {
+            _currentTapPosition = GetAdjustedPosition(e, _textView);
+            _elapsedSinceLastTap = _doubleTapStopWatch.Elapsed;
+            _doubleTapStopWatch.Restart();
+            HandleLeftButtonDown(e);
+            _lastTapPosition = _currentTapPosition;
+        }
+
+        public void PreprocessTouchUp(TouchEventArgs e)
+        {
+        }
+
 
         internal int GetClickCount(InputEventArgs e)
         {
             var num = 1;
             if (e is MouseButtonEventArgs args)
+            {
                 num = args.ClickCount;
+            }
             else if (e is TouchEventArgs)
             {
                 num = 1;
-                var flag = Math.Abs(_currentTapPosition.X - _lastTapPosition.X) < 30.0 && Math.Abs(_currentTapPosition.Y - _lastTapPosition.Y) < 30.0;
-                if (((!(_elapsedSinceLastTap != TimeSpan.Zero) ? 0 : (_elapsedSinceLastTap < _maximumElapsedDoubleTap ? 1 : 0)) & (flag ? 1 : 0)) != 0)
+                var flag = Math.Abs(_currentTapPosition.X - _lastTapPosition.X) < 30.0 &&
+                           Math.Abs(_currentTapPosition.Y - _lastTapPosition.Y) < 30.0;
+                if (((!(_elapsedSinceLastTap != TimeSpan.Zero)
+                         ? 0
+                         : (_elapsedSinceLastTap < _maximumElapsedDoubleTap ? 1 : 0)) & (flag ? 1 : 0)) != 0)
                     num = 2;
             }
+
             return num;
+        }
+
+        internal bool HandleDoubleClick(InputEventArgs e, bool shift, bool control)
+        {
+            if (shift | control)
+                return HandleSingleClick(e, shift, control);
+            SelectWordUnderCaret();
+            _doingWordSelection = true;
+            return true;
+        }
+
+        internal bool HandleSingleClick(InputEventArgs e, bool shift, bool control)
+        {
+            if (control)
+                return HandleSingleControlClick(GetAdjustedPosition(e, _textView), shift);
+            return false;
+        }
+
+        internal bool HandleSingleControlClick(Point pt, bool shift)
+        {
+            var positionFromPoint = GetBufferPositionFromPoint(pt);
+            if (!positionFromPoint.HasValue)
+                return false;
+            if (shift)
+            {
+                ExtendWordSelection(positionFromPoint.Value);
+                _doingWordSelection = true;
+                return true;
+            }
+
+            SelectWordAtBufferPosition(positionFromPoint.Value);
+            _doingWordSelection = true;
+            return true;
+        }
+
+        internal bool HandleTripleClick(InputEventArgs e, bool shift, bool control)
+        {
+            if (shift | control)
+                return HandleSingleClick(e, shift, control);
+            var viewLineUnderPoint = GetTextViewLineUnderPoint(GetAdjustedPosition(e, _textView));
+            if (viewLineUnderPoint == null)
+                return false;
+            SelectLine(viewLineUnderPoint);
+            _doingLineSelection = true;
+            return true;
         }
 
         internal bool PreprocessMouseMoveByPosition(Point pt, MouseButtonState leftButtonState)
@@ -188,50 +239,6 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             return true;
         }
 
-        internal bool HandleSingleControlClick(Point pt, bool shift)
-        {
-            var positionFromPoint = GetBufferPositionFromPoint(pt);
-            if (!positionFromPoint.HasValue)
-                return false;
-            if (shift)
-            {
-                ExtendWordSelection(positionFromPoint.Value);
-                _doingWordSelection = true;
-                return true;
-            }
-            SelectWordAtBufferPosition(positionFromPoint.Value);
-            _doingWordSelection = true;
-            return true;
-        }
-
-        internal bool HandleSingleClick(InputEventArgs e, bool shift, bool control)
-        {
-            if (control)
-                return HandleSingleControlClick(GetAdjustedPosition(e, _textView), shift);
-            return false;
-        }
-
-        internal bool HandleDoubleClick(InputEventArgs e, bool shift, bool control)
-        {
-            if (shift | control)
-                return HandleSingleClick(e, shift, control);
-            SelectWordUnderCaret();
-            _doingWordSelection = true;
-            return true;
-        }
-
-        internal bool HandleTripleClick(InputEventArgs e, bool shift, bool control)
-        {
-            if (shift | control)
-                return HandleSingleClick(e, shift, control);
-            var viewLineUnderPoint = GetTextViewLineUnderPoint(GetAdjustedPosition(e, _textView));
-            if (viewLineUnderPoint == null)
-                return false;
-            SelectLine(viewLineUnderPoint);
-            _doingLineSelection = true;
-            return true;
-        }
-
         private static Point GetAdjustedPosition(InputEventArgs e, ITextView view)
         {
             var point = new Point(0.0, 0.0);
@@ -244,21 +251,6 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             return point;
         }
 
-        private void SelectLine(ITextViewLine line)
-        {
-            try
-            {
-                ++_ignoreSelectionChangedEvents;
-                _textView.Selection.Mode = TextSelectionMode.Stream;
-                _editorOperations.SelectLine(line, false);
-                _originalSelectedLine = _textView.TextSnapshot.CreateTrackingSpan(_textView.Selection.StreamSelectionSpan.SnapshotSpan, SpanTrackingMode.EdgeExclusive);
-            }
-            finally
-            {
-                --_ignoreSelectionChangedEvents;
-            }
-        }
-
         private bool ExtendLineSelection(Point ptMousePosition)
         {
             try
@@ -269,12 +261,15 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                     _doingLineSelection = false;
                     return false;
                 }
+
                 var viewLineUnderPoint = GetTextViewLineUnderPoint(ptMousePosition);
                 if (viewLineUnderPoint == null)
                     return false;
                 var includingLineBreak = viewLineUnderPoint.ExtentIncludingLineBreak;
-                var position1 = Math.Min(includingLineBreak.Start, _originalSelectedLine.GetStartPoint(_textView.TextSnapshot));
-                var position2 = Math.Max(includingLineBreak.End, _originalSelectedLine.GetEndPoint(_textView.TextSnapshot));
+                var position1 = Math.Min(includingLineBreak.Start,
+                    _originalSelectedLine.GetStartPoint(_textView.TextSnapshot));
+                var position2 = Math.Max(includingLineBreak.End,
+                    _originalSelectedLine.GetEndPoint(_textView.TextSnapshot));
                 TextPoint textPoint1 = _editorPrimitives.View.GetTextPoint(position1);
                 TextPoint textPoint2 = _editorPrimitives.View.GetTextPoint(position2);
                 _textView.Selection.Mode = TextSelectionMode.Stream;
@@ -307,18 +302,63 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                 TextPoint textPoint2 = _editorPrimitives.View.GetTextPoint(position2);
                 var currentWord1 = textPoint1.GetCurrentWord();
                 var currentWord2 = textPoint2.GetCurrentWord();
-                var flag3 = currentWord1.GetEndPoint().CurrentPosition != textPoint1.EndOfLine && (textPoint1.CurrentPosition == currentWord1.GetStartPoint().CurrentPosition || textPoint1.CurrentPosition == textPoint1.GetNextWord().GetStartPoint().CurrentPosition);
-                var num2 = currentWord2.GetStartPoint().CurrentPosition == textPoint2.StartOfLine ? 0 : (textPoint2.CurrentPosition == currentWord2.GetEndPoint().CurrentPosition ? 1 : (textPoint2.CurrentPosition == textPoint2.GetPreviousWord().GetEndPoint().CurrentPosition ? 1 : 0));
-                if (((textPoint1.CurrentPosition == textPoint1.EndOfLine ? 0 : (!flag3 ? 1 : 0)) & (flag1 ? 1 : 0)) != 0)
+                var flag3 = currentWord1.GetEndPoint().CurrentPosition != textPoint1.EndOfLine &&
+                            (textPoint1.CurrentPosition == currentWord1.GetStartPoint().CurrentPosition ||
+                             textPoint1.CurrentPosition == textPoint1.GetNextWord().GetStartPoint().CurrentPosition);
+                var num2 = currentWord2.GetStartPoint().CurrentPosition == textPoint2.StartOfLine
+                    ? 0
+                    : (textPoint2.CurrentPosition == currentWord2.GetEndPoint().CurrentPosition
+                        ? 1
+                        : (textPoint2.CurrentPosition == textPoint2.GetPreviousWord().GetEndPoint().CurrentPosition
+                            ? 1
+                            : 0));
+                if (((textPoint1.CurrentPosition == textPoint1.EndOfLine ? 0 : (!flag3 ? 1 : 0)) & (flag1 ? 1 : 0)) !=
+                    0)
                     textPoint1 = currentWord1.GetStartPoint();
                 var num3 = 0;
-                if (num2 == num3 & flag2)
+                if ((num2 == num3) & flag2)
                     textPoint2 = currentWord2.GetEndPoint();
                 _textView.Selection.Mode = TextSelectionMode.Stream;
                 if (num1 == 0)
                     _editorPrimitives.Selection.SelectRange(textPoint1, textPoint2);
                 else
                     _editorPrimitives.Selection.SelectRange(textPoint2, textPoint1);
+            }
+            finally
+            {
+                --_ignoreSelectionChangedEvents;
+            }
+        }
+
+        private SnapshotPoint? GetBufferPositionFromPoint(Point pt)
+        {
+            return GetTextViewLineUnderPoint(pt)?.GetInsertionBufferPositionFromXCoordinate(pt.X).Position;
+        }
+
+        private ITextViewLine GetTextViewLineUnderPoint(Point pt)
+        {
+            return _textView.TextViewLines.GetTextViewLineContainingYCoordinate(pt.Y);
+        }
+
+        private void SelectionChanged(object sender, EventArgs e)
+        {
+            if (_ignoreSelectionChangedEvents != 0)
+                return;
+            _doingWordSelection = false;
+            _doingLineSelection = false;
+            _originalSelectedWord = null;
+            _originalSelectedLine = null;
+        }
+
+        private void SelectLine(ITextViewLine line)
+        {
+            try
+            {
+                ++_ignoreSelectionChangedEvents;
+                _textView.Selection.Mode = TextSelectionMode.Stream;
+                _editorOperations.SelectLine(line, false);
+                _originalSelectedLine = _textView.TextSnapshot.CreateTrackingSpan(
+                    _textView.Selection.StreamSelectionSpan.SnapshotSpan, SpanTrackingMode.EdgeExclusive);
             }
             finally
             {
@@ -341,21 +381,6 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             }
         }
 
-        private SnapshotPoint? GetBufferPositionFromPoint(Point pt)
-        {
-            return GetTextViewLineUnderPoint(pt)?.GetInsertionBufferPositionFromXCoordinate(pt.X).Position;
-        }
-
-        private void SelectionChanged(object sender, EventArgs e)
-        {
-            if (_ignoreSelectionChangedEvents != 0)
-                return;
-            _doingWordSelection = false;
-            _doingLineSelection = false;
-            _originalSelectedWord = null;
-            _originalSelectedLine = null;
-        }
-
         private void SelectWordUnderCaret()
         {
             try
@@ -363,17 +388,13 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                 ++_ignoreSelectionChangedEvents;
                 _textView.Selection.Mode = TextSelectionMode.Stream;
                 _editorOperations.SelectCurrentWord();
-                _originalSelectedWord = _textView.TextSnapshot.CreateTrackingSpan(_textView.Selection.StreamSelectionSpan.SnapshotSpan, SpanTrackingMode.EdgeExclusive);
+                _originalSelectedWord = _textView.TextSnapshot.CreateTrackingSpan(
+                    _textView.Selection.StreamSelectionSpan.SnapshotSpan, SpanTrackingMode.EdgeExclusive);
             }
             finally
             {
                 --_ignoreSelectionChangedEvents;
             }
-        }
-
-        private ITextViewLine GetTextViewLineUnderPoint(Point pt)
-        {
-            return _textView.TextViewLines.GetTextViewLineContainingYCoordinate(pt.Y);
         }
     }
 }

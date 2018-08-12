@@ -9,8 +9,7 @@ namespace ModernApplicationFramework.Modules.Editor.OverviewMargin
     [Name("OverviewMargin/ShowMarks")]
     public sealed class MarksEnabledOption : EditorOptionDefinition<bool>
     {
-        public override EditorOptionKey<bool> Key => DefaultTextViewHostOptions.ShowMarksOptionId;
-
         public override bool Default => true;
+        public override EditorOptionKey<bool> Key => DefaultTextViewHostOptions.ShowMarksOptionId;
     }
 }

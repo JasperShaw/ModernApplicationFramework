@@ -5,17 +5,16 @@ namespace ModernApplicationFramework.Modules.Editor.Text
 {
     internal interface ISubordinateTextEdit
     {
-        void PreApply();
-
-        bool CheckForCancellation(Action cancelAction);
-
-        void FinalApply();
+        bool Canceled { get; }
 
         ITextBuffer TextBuffer { get; }
 
         void CancelApplication();
 
-        bool Canceled { get; }
+        bool CheckForCancellation(Action cancelAction);
+
+        void FinalApply();
+        void PreApply();
 
         void RecordMasterChangeOffset(int masterChangeOffset);
     }

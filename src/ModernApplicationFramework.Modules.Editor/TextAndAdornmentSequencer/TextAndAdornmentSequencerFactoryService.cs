@@ -8,8 +8,7 @@ namespace ModernApplicationFramework.Modules.Editor.TextAndAdornmentSequencer
     [Export(typeof(ITextAndAdornmentSequencerFactoryService))]
     internal sealed class TextAndAdornmentSequencerFactoryService : ITextAndAdornmentSequencerFactoryService
     {
-        [Import]
-        internal IViewTagAggregatorFactoryService TagAggregatorFactoryService { get; set; }
+        [Import] internal IViewTagAggregatorFactoryService TagAggregatorFactoryService { get; set; }
 
         public ITextAndAdornmentSequencer Create(ITextView view)
         {

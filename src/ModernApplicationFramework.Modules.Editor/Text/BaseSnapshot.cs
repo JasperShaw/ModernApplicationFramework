@@ -10,18 +10,27 @@ namespace ModernApplicationFramework.Modules.Editor.Text
 {
     internal abstract class BaseSnapshot : ITextSnapshot
     {
-        internal readonly StringRebuilder Content;
         internal readonly ITextImage CachingContent;
-
-        public ITextBuffer TextBuffer => TextBufferHelper;
+        internal readonly StringRebuilder Content;
         public IContentType ContentType { get; }
-        public ITextVersion Version { get; }
 
         public int Length => CachingContent.Length;
 
         public int LineCount => CachingContent.LineCount;
 
+        public IEnumerable<ITextSnapshotLine> Lines
+        {
+            get
+            {
+                var lineCount = CachingContent.LineCount;
+                for (var line = 0; line < lineCount; ++line) yield return GetLineFromLineNumber(line);
+            }
+        }
+
+        public ITextBuffer TextBuffer => TextBufferHelper;
+
         public ITextImage TextImage => CachingContent;
+        public ITextVersion Version { get; }
 
         protected abstract ITextBuffer TextBufferHelper { get; }
 
@@ -31,6 +40,61 @@ namespace ModernApplicationFramework.Modules.Editor.Text
             Content = content;
             CachingContent = CachingTextImage.Create(Content, version.ImageVersion);
             ContentType = version.TextBuffer.ContentType;
+        }
+
+        public char this[int position] => CachingContent[position];
+
+        public void CopyTo(int sourceIndex, char[] destination, int destinationIndex, int count)
+        {
+            CachingContent.CopyTo(sourceIndex, destination, destinationIndex, count);
+        }
+
+        public ITrackingPoint CreateTrackingPoint(int position, PointTrackingMode trackingMode)
+        {
+            return Version.CreateTrackingPoint(position, trackingMode);
+        }
+
+        public ITrackingPoint CreateTrackingPoint(int position, PointTrackingMode trackingMode,
+            TrackingFidelityMode trackingFidelity)
+        {
+            return Version.CreateTrackingPoint(position, trackingMode, trackingFidelity);
+        }
+
+        public ITrackingSpan CreateTrackingSpan(int start, int length, SpanTrackingMode trackingMode)
+        {
+            return Version.CreateTrackingSpan(start, length, trackingMode);
+        }
+
+        public ITrackingSpan CreateTrackingSpan(int start, int length, SpanTrackingMode trackingMode,
+            TrackingFidelityMode trackingFidelity)
+        {
+            return Version.CreateTrackingSpan(start, length, trackingMode, trackingFidelity);
+        }
+
+        public ITrackingSpan CreateTrackingSpan(Span span, SpanTrackingMode trackingMode)
+        {
+            return Version.CreateTrackingSpan(span, trackingMode, TrackingFidelityMode.Forward);
+        }
+
+        public ITrackingSpan CreateTrackingSpan(Span span, SpanTrackingMode trackingMode,
+            TrackingFidelityMode trackingFidelity)
+        {
+            return Version.CreateTrackingSpan(span, trackingMode, trackingFidelity);
+        }
+
+        public ITextSnapshotLine GetLineFromLineNumber(int lineNumber)
+        {
+            return new TextSnapshotLine(this, CachingContent.GetLineFromLineNumber(lineNumber));
+        }
+
+        public ITextSnapshotLine GetLineFromPosition(int position)
+        {
+            return GetLineFromLineNumber(CachingContent.GetLineNumberFromPosition(position));
+        }
+
+        public int GetLineNumberFromPosition(int position)
+        {
+            return CachingContent.GetLineNumberFromPosition(position);
         }
 
         public string GetText(Span span)
@@ -48,78 +112,20 @@ namespace ModernApplicationFramework.Modules.Editor.Text
             return GetText(new Span(0, Length));
         }
 
-        public char[] ToCharArray(int startIndex, int length)
-        {
-            return CachingContent.ToCharArray(startIndex, length);
-        }
-
-        public void CopyTo(int sourceIndex, char[] destination, int destinationIndex, int count)
-        {
-            CachingContent.CopyTo(sourceIndex, destination, destinationIndex, count);
-        }
-
-        public char this[int position] => CachingContent[position];
-
-        public ITextSnapshotLine GetLineFromLineNumber(int lineNumber)
-        {
-            return new TextSnapshotLine(this, CachingContent.GetLineFromLineNumber(lineNumber));
-        }
-
-        public ITrackingPoint CreateTrackingPoint(int position, PointTrackingMode trackingMode)
-        {
-            return Version.CreateTrackingPoint(position, trackingMode);
-        }
-
-        public ITrackingPoint CreateTrackingPoint(int position, PointTrackingMode trackingMode, TrackingFidelityMode trackingFidelity)
-        {
-            return Version.CreateTrackingPoint(position, trackingMode, trackingFidelity);
-        }
-
-        public ITrackingSpan CreateTrackingSpan(int start, int length, SpanTrackingMode trackingMode)
-        {
-            return Version.CreateTrackingSpan(start, length, trackingMode);
-        }
-
-        public ITrackingSpan CreateTrackingSpan(int start, int length, SpanTrackingMode trackingMode, TrackingFidelityMode trackingFidelity)
-        {
-            return Version.CreateTrackingSpan(start, length, trackingMode, trackingFidelity);
-        }
-
-        public ITrackingSpan CreateTrackingSpan(Span span, SpanTrackingMode trackingMode)
-        {
-            return Version.CreateTrackingSpan(span, trackingMode, TrackingFidelityMode.Forward);
-        }
-
-        public ITrackingSpan CreateTrackingSpan(Span span, SpanTrackingMode trackingMode, TrackingFidelityMode trackingFidelity)
-        {
-            return Version.CreateTrackingSpan(span, trackingMode, trackingFidelity);
-        }
-
         public void SaveToFile(string filePath, bool replaceFile, Encoding encoding)
         {
             FileUtilities.SaveSnapshot(this, replaceFile ? FileMode.Create : FileMode.CreateNew, encoding, filePath);
         }
 
-        public ITextSnapshotLine GetLineFromPosition(int position)
+        public char[] ToCharArray(int startIndex, int length)
         {
-            return GetLineFromLineNumber(CachingContent.GetLineNumberFromPosition(position));
+            return CachingContent.ToCharArray(startIndex, length);
         }
 
-        public int GetLineNumberFromPosition(int position)
+        public override string ToString()
         {
-            return CachingContent.GetLineNumberFromPosition(position);
-        }
-
-        public IEnumerable<ITextSnapshotLine> Lines
-        {
-            get
-            {
-                var lineCount = CachingContent.LineCount;
-                for (var line = 0; line < lineCount; ++line)
-                {
-                    yield return GetLineFromLineNumber(line);
-                }
-            }
+            return
+                $"version: {Version.VersionNumber} lines: {LineCount} length: {Length} \r\n content: {TextUtilities.Escape(GetText(0, Math.Min(40, Length)))}";
         }
 
         public void Write(TextWriter writer, Span span)
@@ -130,12 +136,6 @@ namespace ModernApplicationFramework.Modules.Editor.Text
         public void Write(TextWriter writer)
         {
             CachingContent.Write(writer, new Span(0, CachingContent.Length));
-        }
-
-        public override string ToString()
-        {
-            return
-                $"version: {Version.VersionNumber} lines: {LineCount} length: {Length} \r\n content: {TextUtilities.Escape(GetText(0, Math.Min(40, Length)))}";
         }
     }
 }

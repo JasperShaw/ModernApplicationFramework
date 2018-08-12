@@ -7,8 +7,8 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
 {
     internal class DragDropHelper : MouseProcessorBase
     {
-        private readonly IDragDropMouseProcessor _processor;
         private readonly ITextViewMargin _margin;
+        private readonly IDragDropMouseProcessor _processor;
         private readonly ITextView _wpfTextView;
 
         public DragDropHelper(ITextViewMargin margin, ITextView wpfTextView, IDragDropMouseProcessor processor)
@@ -18,29 +18,14 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             _processor = processor;
         }
 
-        public override void PreprocessMouseLeftButtonDown(MouseButtonEventArgs e)
+        public override void PostprocessMouseLeave(MouseEventArgs e)
         {
-            _processor.DoPreprocessMouseLeftButtonDown(e, GetClickedPoint(e));
-        }
-
-        public override void PreprocessMouseLeftButtonUp(MouseButtonEventArgs e)
-        {
-            _processor.DoPreprocessMouseLeftButtonUp(e, GetClickedPoint(e));
+            _processor.DoPostprocessMouseLeave(e);
         }
 
         public override void PostprocessMouseLeftButtonUp(MouseButtonEventArgs e)
         {
             _processor.DoPostprocessMouseLeftButtonUp(e, GetClickedPoint(e));
-        }
-
-        public override void PreprocessMouseMove(MouseEventArgs e)
-        {
-            _processor.DoPreprocessMouseMove(e, GetClickedPoint(e));
-        }
-
-        public override void PreprocessDrop(DragEventArgs e)
-        {
-            _processor.DoPreprocessDrop(e, GetClickedPoint(e));
         }
 
         public override void PreprocessDragEnter(DragEventArgs e)
@@ -58,14 +43,29 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             _processor.DoPreprocessDragOver(e, GetClickedPoint(e));
         }
 
+        public override void PreprocessDrop(DragEventArgs e)
+        {
+            _processor.DoPreprocessDrop(e, GetClickedPoint(e));
+        }
+
+        public override void PreprocessMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            _processor.DoPreprocessMouseLeftButtonDown(e, GetClickedPoint(e));
+        }
+
+        public override void PreprocessMouseLeftButtonUp(MouseButtonEventArgs e)
+        {
+            _processor.DoPreprocessMouseLeftButtonUp(e, GetClickedPoint(e));
+        }
+
+        public override void PreprocessMouseMove(MouseEventArgs e)
+        {
+            _processor.DoPreprocessMouseMove(e, GetClickedPoint(e));
+        }
+
         public override void PreprocessQueryContinueDrag(QueryContinueDragEventArgs e)
         {
             _processor.DoPreprocessQueryContinueDrag(e);
-        }
-
-        public override void PostprocessMouseLeave(MouseEventArgs e)
-        {
-            _processor.DoPostprocessMouseLeave(e);
         }
 
         private Point GetClickedPoint(MouseEventArgs e)

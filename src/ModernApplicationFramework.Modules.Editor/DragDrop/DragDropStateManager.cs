@@ -5,7 +5,6 @@ using System.Threading;
 using System.Windows;
 using ModernApplicationFramework.Modules.Editor.Utilities;
 using ModernApplicationFramework.Text.Data;
-using ModernApplicationFramework.Text.Logic;
 using ModernApplicationFramework.Text.Ui.Editor;
 using ModernApplicationFramework.Text.Ui.Editor.DragDrop;
 using ModernApplicationFramework.Text.Ui.Formatting;
@@ -16,19 +15,32 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
 
     internal class DragDropStateManager
     {
-        internal DragDropInitializer DoDragDrop = System.Windows.DragDrop.DoDragDrop;
-        internal DragDropState _state;
         internal bool _isInternalDragDrop;
-        private readonly ITextView _textView;
-        private readonly IRtfBuilderService2 _rtfBuilderService;
+        internal DragDropState _state;
         internal IDropHandler CurrentDropHandler;
+        internal DragDropInitializer DoDragDrop = System.Windows.DragDrop.DoDragDrop;
+
+        internal IList<IReadOnlyRegion> ReadOnlyRegions;
+
         //private readonly ITextUndoHistory _undoHistory;
         private readonly DropHandlerManager _dropHandlerManager;
-        internal IList<IReadOnlyRegion> ReadOnlyRegions;
-        private readonly DragDropVisualManager _visualManager;
         private readonly GuardedOperations _guardedOperations;
+        private readonly IRtfBuilderService2 _rtfBuilderService;
+        private readonly ITextView _textView;
+        private readonly DragDropVisualManager _visualManager;
 
-        public DragDropStateManager(ITextView textView, IRtfBuilderService2 rtfBuilderService, DropHandlerManager dropHandlerManager, DragDropVisualManager visualManager, /*ITextUndoHistory undoHistory,*/ GuardedOperations guardedOperations)
+        internal delegate DragDropEffects DragDropInitializer(DependencyObject source, object data,
+            DragDropEffects allowedEffects);
+
+        public IDropHandler DropHandler => CurrentDropHandler;
+
+        public bool IsInternalDragDrop => _isInternalDragDrop;
+
+        public DragDropState State => _state;
+
+        public DragDropStateManager(ITextView textView, IRtfBuilderService2 rtfBuilderService,
+            DropHandlerManager dropHandlerManager,
+            DragDropVisualManager visualManager, /*ITextUndoHistory undoHistory,*/ GuardedOperations guardedOperations)
         {
             _textView = textView;
             _rtfBuilderService = rtfBuilderService;
@@ -41,20 +53,6 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
             ReadOnlyRegions = new List<IReadOnlyRegion>();
             //_undoHistory = undoHistory;
             _guardedOperations = guardedOperations;
-        }
-
-        public void SetToStart()
-        {
-            if (_state == DragDropState.Dragging)
-                HandleFromDraggingToStart();
-            _state = DragDropState.Start;
-        }
-
-        public void SetToMouseDown()
-        {
-            if (_state != DragDropState.Start)
-                return;
-            _state = DragDropState.MouseDown;
         }
 
         public void SetToCanceled()
@@ -75,7 +73,31 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
                 if (CurrentDropHandler != null)
                     _state = DragDropState.Dragging;
             }
+
             return dropPointerEffects;
+        }
+
+        public DragDropPointerEffects SetToDropped(DragDropInfo dragDropInfo)
+        {
+            var dropPointerEffects = DragDropPointerEffects.None;
+            if (_state == DragDropState.Dragging)
+                dropPointerEffects = HandleFromDraggingToDropped(dragDropInfo);
+            _state = DragDropState.Dropped;
+            return dropPointerEffects;
+        }
+
+        public void SetToMouseDown()
+        {
+            if (_state != DragDropState.Start)
+                return;
+            _state = DragDropState.MouseDown;
+        }
+
+        public void SetToStart()
+        {
+            if (_state == DragDropState.Dragging)
+                HandleFromDraggingToStart();
+            _state = DragDropState.Start;
         }
 
         public void StartAndFinishDragDrop()
@@ -92,8 +114,8 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
             if (_state != DragDropState.Dropped && _state != DragDropState.Canceled)
             {
                 RemoveReadOnlyRegions();
-                if ((dragDropEffects & DragDropEffects.Move) == DragDropEffects.Move && !_textView.Options.GetOptionValue(DefaultTextViewOptions.ViewProhibitUserInputId))
-                {
+                if ((dragDropEffects & DragDropEffects.Move) == DragDropEffects.Move &&
+                    !_textView.Options.GetOptionValue(DefaultTextViewOptions.ViewProhibitUserInputId))
                     using (var edit = _textView.TextBuffer.CreateEdit())
                     {
                         var textSnapshot2 = _textView.TextSnapshot;
@@ -101,32 +123,14 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
                             edit.Delete(trackingSpan.GetSpan(textSnapshot2));
                         edit.Apply();
                     }
-                }
             }
+
             //if (dragDropEffects == DragDropEffects.None)
             //    transaction.Cancel();
             //else
             //    transaction.Complete();
             //transaction.Dispose();
             _state = DragDropState.Start;
-        }
-
-        public DragDropPointerEffects SetToDropped(DragDropInfo dragDropInfo)
-        {
-            var dropPointerEffects = DragDropPointerEffects.None;
-            if (_state == DragDropState.Dragging)
-                dropPointerEffects = HandleFromDraggingToDropped(dragDropInfo);
-            _state = DragDropState.Dropped;
-            return dropPointerEffects;
-        }
-
-        private DragDropEffects PerformDragDrop()
-        {
-            var dataObject = CreateDataObject();
-            _isInternalDragDrop = true;
-            var num = (int)DoDragDrop(_textView.VisualElement, dataObject, DragDropEffects.All);
-            _isInternalDragDrop = false;
-            return (DragDropEffects)num;
         }
 
         internal DataObject CreateDataObject()
@@ -139,77 +143,21 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
             dataObject.SetText(textData);
             dataObject.SetText(textData, TextDataFormat.Text);
             if (textData.Length < 1000000)
-            {
                 using (var cancellationTokenSource = new CancellationTokenSource(250))
                 {
                     try
                     {
-                        dataObject.SetData(DataFormats.Rtf, _rtfBuilderService.GenerateRtf(selectedSpans, cancellationTokenSource.Token));
+                        dataObject.SetData(DataFormats.Rtf,
+                            _rtfBuilderService.GenerateRtf(selectedSpans, cancellationTokenSource.Token));
                     }
                     catch (OperationCanceledException)
                     {
                     }
                 }
-            }
+
             if (flag)
                 dataObject.SetData("ColumnSelect", new object());
             return dataObject;
-        }
-
-        private DragDropPointerEffects HandleFromDraggingToDropped(DragDropInfo dragDropInfo)
-        {
-            var dropPointerEffects = DragDropPointerEffects.None;
-            if (dragDropInfo.IsInternal)
-                RemoveReadOnlyRegions();
-            if (CurrentDropHandler != null)
-            {
-                dropPointerEffects = _guardedOperations.CallExtensionPoint(() => CurrentDropHandler.HandleDataDropped(dragDropInfo), DragDropPointerEffects.None);
-                CurrentDropHandler = null;
-            }
-            _visualManager.DisableDragDropVisuals();
-            return dropPointerEffects;
-        }
-
-        private void RemoveReadOnlyRegions()
-        {
-            using (var readOnlyRegionEdit = _textView.TextBuffer.CreateReadOnlyRegionEdit())
-            {
-                foreach (var readOnlyRegion in ReadOnlyRegions)
-                    readOnlyRegionEdit.RemoveReadOnlyRegion(readOnlyRegion);
-                readOnlyRegionEdit.Apply();
-            }
-            ReadOnlyRegions = new List<IReadOnlyRegion>();
-        }
-
-        private DragDropPointerEffects HandleFromStartToDragging(DragDropInfo dragDropInfo)
-        {
-            var dropHandlerRequest = DragDropPointerEffects.None;
-            CurrentDropHandler = _dropHandlerManager.GetSupportingHandler(dragDropInfo);
-            if (CurrentDropHandler != null)
-            {
-                _visualManager.EnableDragDropVisuals();
-                dropHandlerRequest = _guardedOperations.CallExtensionPoint(() => CurrentDropHandler.HandleDragStarted(dragDropInfo), DragDropPointerEffects.None);
-                DisplayTracker(dragDropInfo, dropHandlerRequest);
-            }
-            return dropHandlerRequest;
-        }
-
-        private void HandleFromDraggingToStart()
-        {
-            CancelDropHandler();
-            _visualManager.DisableDragDropVisuals();
-        }
-
-        private void HandleFromDraggingToCanceled()
-        {
-            RemoveReadOnlyRegions();
-            CancelDropHandler();
-            _visualManager.DisableDragDropVisuals();
-        }
-
-        private void HandleFromStartToCanceled()
-        {
-            RemoveReadOnlyRegions();
         }
 
         private void AddReadOnlyRegions()
@@ -234,19 +182,84 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
         {
             if ((dropHandlerRequest & DragDropPointerEffects.Track) == DragDropPointerEffects.Track)
             {
-                VirtualSnapshotPoint bufferPosition = dragDropInfo.VirtualBufferPosition.TranslateTo(_textView.TextSnapshot);
-                _visualManager.DrawTracker(_textView.GetTextViewLineContainingBufferPosition(bufferPosition.Position).GetExtendedCharacterBounds(bufferPosition));
+                var bufferPosition = dragDropInfo.VirtualBufferPosition.TranslateTo(_textView.TextSnapshot);
+                _visualManager.DrawTracker(_textView.GetTextViewLineContainingBufferPosition(bufferPosition.Position)
+                    .GetExtendedCharacterBounds(bufferPosition));
             }
             else
+            {
                 _visualManager.ClearTracker();
+            }
         }
 
-        public bool IsInternalDragDrop => _isInternalDragDrop;
+        private void HandleFromDraggingToCanceled()
+        {
+            RemoveReadOnlyRegions();
+            CancelDropHandler();
+            _visualManager.DisableDragDropVisuals();
+        }
 
-        public DragDropState State => _state;
+        private DragDropPointerEffects HandleFromDraggingToDropped(DragDropInfo dragDropInfo)
+        {
+            var dropPointerEffects = DragDropPointerEffects.None;
+            if (dragDropInfo.IsInternal)
+                RemoveReadOnlyRegions();
+            if (CurrentDropHandler != null)
+            {
+                dropPointerEffects = _guardedOperations.CallExtensionPoint(
+                    () => CurrentDropHandler.HandleDataDropped(dragDropInfo), DragDropPointerEffects.None);
+                CurrentDropHandler = null;
+            }
 
-        public IDropHandler DropHandler => CurrentDropHandler;
+            _visualManager.DisableDragDropVisuals();
+            return dropPointerEffects;
+        }
 
-        internal delegate DragDropEffects DragDropInitializer(DependencyObject source, object data, DragDropEffects allowedEffects);
+        private void HandleFromDraggingToStart()
+        {
+            CancelDropHandler();
+            _visualManager.DisableDragDropVisuals();
+        }
+
+        private void HandleFromStartToCanceled()
+        {
+            RemoveReadOnlyRegions();
+        }
+
+        private DragDropPointerEffects HandleFromStartToDragging(DragDropInfo dragDropInfo)
+        {
+            var dropHandlerRequest = DragDropPointerEffects.None;
+            CurrentDropHandler = _dropHandlerManager.GetSupportingHandler(dragDropInfo);
+            if (CurrentDropHandler != null)
+            {
+                _visualManager.EnableDragDropVisuals();
+                dropHandlerRequest = _guardedOperations.CallExtensionPoint(
+                    () => CurrentDropHandler.HandleDragStarted(dragDropInfo), DragDropPointerEffects.None);
+                DisplayTracker(dragDropInfo, dropHandlerRequest);
+            }
+
+            return dropHandlerRequest;
+        }
+
+        private DragDropEffects PerformDragDrop()
+        {
+            var dataObject = CreateDataObject();
+            _isInternalDragDrop = true;
+            var num = (int) DoDragDrop(_textView.VisualElement, dataObject, DragDropEffects.All);
+            _isInternalDragDrop = false;
+            return (DragDropEffects) num;
+        }
+
+        private void RemoveReadOnlyRegions()
+        {
+            using (var readOnlyRegionEdit = _textView.TextBuffer.CreateReadOnlyRegionEdit())
+            {
+                foreach (var readOnlyRegion in ReadOnlyRegions)
+                    readOnlyRegionEdit.RemoveReadOnlyRegion(readOnlyRegion);
+                readOnlyRegionEdit.Apply();
+            }
+
+            ReadOnlyRegions = new List<IReadOnlyRegion>();
+        }
     }
 }

@@ -6,16 +6,16 @@ namespace ModernApplicationFramework.Modules.Editor.Commanding
 {
     internal class CommandHandlerBucket
     {
-        private int _currentCommandHandlerIndex;
         private readonly IReadOnlyList<Lazy<ICommandHandler, ICommandHandlerMetadata>> _commandHandlers;
+        private int _currentCommandHandlerIndex;
+
+        public bool IsEmpty => _currentCommandHandlerIndex >= _commandHandlers.Count;
 
         public CommandHandlerBucket(IReadOnlyList<Lazy<ICommandHandler, ICommandHandlerMetadata>> commandHandlers)
         {
             var lazyList = commandHandlers;
             _commandHandlers = lazyList ?? throw new ArgumentNullException(nameof(commandHandlers));
         }
-
-        public bool IsEmpty => _currentCommandHandlerIndex >= _commandHandlers.Count;
 
         public Lazy<ICommandHandler, ICommandHandlerMetadata> Peek()
         {

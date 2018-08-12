@@ -6,7 +6,10 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
 {
     internal static class StableTopologicalSort
     {
-        public static IEnumerable<T> Order<T>(IEnumerable<T> itemsToOrder, TopologicalDependencyFunction<T> dependencyFunction)
+        public delegate bool TopologicalDependencyFunction<in T>(T x, T y);
+
+        public static IEnumerable<T> Order<T>(IEnumerable<T> itemsToOrder,
+            TopologicalDependencyFunction<T> dependencyFunction)
         {
             if (itemsToOrder == null)
                 throw new ArgumentNullException(nameof(itemsToOrder));
@@ -22,23 +25,19 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
                 return toOrder;
             loop:
             for (var index1 = 0; index1 < count; ++index1)
-            {
-                for (var index2 = 0; index2 < index1; ++index2)
+            for (var index2 = 0; index2 < index1; ++index2)
+                if (dependencyGraph.DoesXHaveDirectDependencyOnY(list[index2], list[index1]) &&
+                    !(dependencyGraph.DoesXHaveTransientDependencyOnY(list[index2], list[index1]) &
+                      dependencyGraph.DoesXHaveTransientDependencyOnY(list[index1], list[index2])))
                 {
-                    if (dependencyGraph.DoesXHaveDirectDependencyOnY(list[index2], list[index1]) && !(dependencyGraph.DoesXHaveTransientDependencyOnY(list[index2], list[index1]) & dependencyGraph.DoesXHaveTransientDependencyOnY(list[index1], list[index2])))
-                    {
-                        var obj = list[index1];
-                        list.RemoveAt(index1);
-                        list.Insert(index2, obj);
-                        goto loop;
-                    }
+                    var obj = list[index1];
+                    list.RemoveAt(index1);
+                    list.Insert(index2, obj);
+                    goto loop;
                 }
-            }
+
             return list;
         }
-
-
-        public delegate bool TopologicalDependencyFunction<in T>(T x, T y);
 
         private class DependencyGraph<T>
         {
@@ -53,7 +52,8 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
                 Nodes = new Dictionary<T, Node>(n, equalityComparer);
             }
 
-            public static DependencyGraph<T> TryCreate(ICollection<T> items, TopologicalDependencyFunction<T> dependencyFunction, IEqualityComparer<T> equalityComparer)
+            public static DependencyGraph<T> TryCreate(ICollection<T> items,
+                TopologicalDependencyFunction<T> dependencyFunction, IEqualityComparer<T> equalityComparer)
             {
                 var dependencyGraph = new DependencyGraph<T>(equalityComparer, items.Count);
                 var flag = false;
@@ -64,15 +64,15 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
                         node = new Node();
                         dependencyGraph.Nodes.Add(obj, node);
                     }
+
                     foreach (var y in items)
-                    {
                         if (!equalityComparer.Equals(obj, y) && dependencyFunction(obj, y))
                         {
                             node.Children.Add(y);
                             flag = true;
                         }
-                    }
                 }
+
                 if (!flag)
                     return null;
                 return dependencyGraph;
@@ -86,13 +86,6 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
             public bool DoesXHaveTransientDependencyOnY(T x, T y)
             {
                 return new DependencyWalker(this).DoesXHaveTransientDependencyOnY(x, y);
-            }
-
-            private class Node
-            {
-                private IList<T> _children = new FrugalList<T>();
-
-                public IList<T> Children => _children ?? (_children = new FrugalList<T>());
             }
 
             private class DependencyWalker
@@ -110,8 +103,16 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
                 {
                     if (!_visitedNodes.Add(x) || !_graph.Nodes.TryGetValue(x, out var node))
                         return false;
-                    return node.Children.Contains(y, _graph.EqualityComparer) || node.Children.Any(child => DoesXHaveTransientDependencyOnY(child, y));
+                    return node.Children.Contains(y, _graph.EqualityComparer) ||
+                           node.Children.Any(child => DoesXHaveTransientDependencyOnY(child, y));
                 }
+            }
+
+            private class Node
+            {
+                private IList<T> _children = new FrugalList<T>();
+
+                public IList<T> Children => _children ?? (_children = new FrugalList<T>());
             }
         }
     }

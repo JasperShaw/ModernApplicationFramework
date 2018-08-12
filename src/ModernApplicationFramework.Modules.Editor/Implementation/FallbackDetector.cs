@@ -7,6 +7,8 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
     {
         private readonly DecoderFallback _decoderFallback;
 
+        public override int MaxCharCount => _decoderFallback.MaxCharCount;
+
         internal bool FallbackOccurred { get; private set; }
 
         public FallbackDetector(DecoderFallback decoderFallback)
@@ -21,13 +23,13 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             return fallbackBufferDetector;
         }
 
-        public override int MaxCharCount => _decoderFallback.MaxCharCount;
-
         private class FallbackBufferDetector : DecoderFallbackBuffer
         {
             private readonly DecoderFallbackBuffer _inner;
 
             internal event EventHandler FallbackOccurred;
+
+            public override int Remaining => _inner.Remaining;
 
             internal FallbackBufferDetector(DecoderFallbackBuffer inner)
             {
@@ -49,8 +51,6 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             {
                 return _inner.MovePrevious();
             }
-
-            public override int Remaining => _inner.Remaining;
         }
     }
 }

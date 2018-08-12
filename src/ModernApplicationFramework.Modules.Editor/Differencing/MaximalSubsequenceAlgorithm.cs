@@ -15,12 +15,14 @@ namespace ModernApplicationFramework.Modules.Editor.Differencing
             return DifferenceSequences(left, right, null);
         }
 
-        public IDifferenceCollection<T> DifferenceSequences<T>(IList<T> left, IList<T> right, ContinueProcessingPredicate<T> continueProcessingPredicate)
+        public IDifferenceCollection<T> DifferenceSequences<T>(IList<T> left, IList<T> right,
+            ContinueProcessingPredicate<T> continueProcessingPredicate)
         {
             return DifferenceSequences(left, right, left, right, continueProcessingPredicate);
         }
 
-        internal static DifferenceCollection<T> DifferenceSequences<T>(IList<T> left, IList<T> right, IList<T> originalLeft, IList<T> originalRight, ContinueProcessingPredicate<T> continueProcessingPredicate)
+        internal static DifferenceCollection<T> DifferenceSequences<T>(IList<T> left, IList<T> right,
+            IList<T> originalLeft, IList<T> originalRight, ContinueProcessingPredicate<T> continueProcessingPredicate)
         {
             if (left == null)
                 throw new ArgumentNullException(nameof(left));
@@ -34,17 +36,25 @@ namespace ModernApplicationFramework.Modules.Editor.Differencing
                 else
                     changes = new IDiffChange[]
                     {
-            new DiffChange(0, left.Count, 0, right.Count)
+                        new DiffChange(0, left.Count, 0, right.Count)
                     };
             }
             else
+            {
                 changes = ComputeMaximalSubsequence(left, right, continueProcessingPredicate);
+            }
+
             return DiffChangeCollectionHelper<T>.Create(changes, originalLeft, originalRight);
         }
 
-        private static IDiffChange[] ComputeMaximalSubsequence<T>(IList<T> left, IList<T> right, ContinueProcessingPredicate<T> continueProcessingPredicate)
+        private static IDiffChange[] ComputeMaximalSubsequence<T>(IList<T> left, IList<T> right,
+            ContinueProcessingPredicate<T> continueProcessingPredicate)
         {
-            return new LcsDiff<T>().Diff(left, right, EqualityComparer<T>.Default, continueProcessingPredicate == null ? null : (ContinueDifferencePredicate<T>)((originalIndex, originalSequence, longestMatchSoFar) => continueProcessingPredicate(originalIndex, originalSequence, longestMatchSoFar)));
+            return new LcsDiff<T>().Diff(left, right, EqualityComparer<T>.Default,
+                continueProcessingPredicate == null
+                    ? null
+                    : (ContinueDifferencePredicate<T>) ((originalIndex, originalSequence, longestMatchSoFar) =>
+                        continueProcessingPredicate(originalIndex, originalSequence, longestMatchSoFar)));
         }
     }
 }

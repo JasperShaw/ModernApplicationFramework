@@ -13,15 +13,14 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
     [TextViewRole("INTERACTIVE")]
     internal sealed class BottomControlMarginProvider : ITextViewMarginProvider
     {
-        [Import]
-        private TextViewMarginState _marginState;
+        [Import] private TextViewMarginState _marginState;
 
-        [Import]
-        internal GuardedOperations GuardedOperations { get; set; }
+        [Import] internal GuardedOperations GuardedOperations { get; set; }
 
         public ITextViewMargin CreateMargin(ITextViewHost wpfTextViewHost, ITextViewMargin marginContainer)
         {
-            return ContainerMargin.Create("BottomControl", Orientation.Vertical, wpfTextViewHost, GuardedOperations, _marginState);
+            return ContainerMargin.Create("BottomControl", Orientation.Vertical, wpfTextViewHost, GuardedOperations,
+                _marginState);
         }
     }
 }

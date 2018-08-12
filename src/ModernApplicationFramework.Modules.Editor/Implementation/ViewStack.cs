@@ -11,15 +11,39 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
     internal class ViewStack : Canvas
     {
         internal IList<UiElementData> _elements = new List<UiElementData>();
+        private readonly bool _isOverlayLayer;
         private readonly Dictionary<string, int> _orderedViewLayerDefinitions;
         private readonly ITextView _textView;
-        private readonly bool _isOverlayLayer;
 
-        public ViewStack(Dictionary<string, int> orderedViewLayerDefinitions, ITextView textView, bool isOverlayLayer = false)
+        public ViewStack(Dictionary<string, int> orderedViewLayerDefinitions, ITextView textView,
+            bool isOverlayLayer = false)
         {
             _orderedViewLayerDefinitions = orderedViewLayerDefinitions;
             _textView = textView;
             _isOverlayLayer = isOverlayLayer;
+        }
+
+        public UIElement GetElement(string name)
+        {
+            return (from element in _elements where element.Name == name select element.Element).FirstOrDefault();
+        }
+
+        public void SetSize(Size size)
+        {
+            Width = size.Width;
+            Height = size.Height;
+            if (_isOverlayLayer)
+                ClipToBounds = true;
+            else
+                VisualScrollableAreaClip = new Rect(new Point(0, 0), size);
+        }
+
+        public void SetSnapshotAndUpdate(ITextSnapshot snapshot, double deltaX, double deltaY,
+            IList<ITextViewLine> newOrReformattedLines, IList<ITextViewLine> translatedLines)
+        {
+            foreach (var element in _elements)
+                (element.Element as AdornmentLayer)?.SetSnapshotAndUpdate(snapshot, deltaX, deltaY,
+                    newOrReformattedLines, translatedLines);
         }
 
         public bool TryAddElement(string name, UIElement element)
@@ -36,30 +60,9 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                 fe.Width = ActualWidth;
                 fe.Height = ActualHeight;
             }
+
             _elements.Insert(index, data);
             return true;
-        }
-
-        public void SetSnapshotAndUpdate(ITextSnapshot snapshot, double deltaX, double deltaY, IList<ITextViewLine> newOrReformattedLines, IList<ITextViewLine> translatedLines)
-        {
-            foreach (var element in _elements)
-                (element.Element as AdornmentLayer)?.SetSnapshotAndUpdate(snapshot, deltaX, deltaY,
-                    newOrReformattedLines, translatedLines);
-        }
-
-        public UIElement GetElement(string name)
-        {
-            return (from element in _elements where element.Name == name select element.Element).FirstOrDefault();
-        }
-
-        public void SetSize(Size size)
-        {
-            Width = size.Width;
-            Height = size.Height;
-            if (_isOverlayLayer)
-                ClipToBounds = true;
-            else
-                VisualScrollableAreaClip = new Rect(new Point(0, 0), size);
         }
 
         internal class UiElementData

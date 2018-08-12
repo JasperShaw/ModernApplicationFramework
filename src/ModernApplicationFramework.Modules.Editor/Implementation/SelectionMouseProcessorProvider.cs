@@ -11,11 +11,9 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
     [TextViewRole("INTERACTIVE")]
     internal sealed class SelectionMouseProcessorProvider : IMouseProcessorProvider
     {
-        [Import]
-        internal IEditorOperationsFactoryService EditorOperationsProvider { get; set; }
+        [Import] internal IEditorOperationsFactoryService EditorOperationsProvider { get; set; }
 
-        [Import]
-        internal IEditorPrimitivesFactoryService EditorPrimitivesFactory { get; set; }
+        [Import] internal IEditorPrimitivesFactoryService EditorPrimitivesFactory { get; set; }
 
         public IMouseProcessor GetAssociatedProcessor(ITextView wpfTextView)
         {

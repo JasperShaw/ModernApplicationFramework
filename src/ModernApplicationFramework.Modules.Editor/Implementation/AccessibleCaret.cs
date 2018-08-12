@@ -10,33 +10,38 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
         private readonly CaretElement _owner;
         private readonly CaretElement.Win32Caret _w32Caret;
 
+        public int accChildCount => 0;
+
+        public object accFocus => null;
+
+        public object accParent => 1;
+
+        public object accSelection => null;
+
         public AccessibleCaret(CaretElement owner, CaretElement.Win32Caret w32Caret)
         {
             _owner = owner;
             _w32Caret = w32Caret;
         }
 
-        public int accChildCount => 0;
-
         public void accDoDefaultAction(object varChild = null)
         {
         }
-
-        public object accFocus => null;
 
         public object accHitTest(int xLeft, int yTop)
         {
             return null;
         }
 
-        public void accLocation(out int pxLeft, out int pyTop, out int pcxWidth, out int pcyHeight, object varChild = null)
+        public void accLocation(out int pxLeft, out int pyTop, out int pcxWidth, out int pcyHeight,
+            object varChild = null)
         {
             var topLeft = _w32Caret.TopLeft;
             var bottomRight = _w32Caret.BottomRight;
-            pxLeft = (int)Math.Round(topLeft.X);
-            pyTop = (int)Math.Round(topLeft.Y);
-            pcxWidth = (int)Math.Round(bottomRight.X - topLeft.X);
-            pcyHeight = (int)Math.Round(bottomRight.Y - topLeft.Y);
+            pxLeft = (int) Math.Round(topLeft.X);
+            pyTop = (int) Math.Round(topLeft.Y);
+            pcxWidth = (int) Math.Round(bottomRight.X - topLeft.X);
+            pcyHeight = (int) Math.Round(bottomRight.Y - topLeft.Y);
         }
 
         public object accNavigate(int navDir, object varStart = null)
@@ -44,13 +49,9 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             throw new NotImplementedException();
         }
 
-        public object accParent => 1;
-
         public void accSelect(int flagsSelect, object varChild = null)
         {
         }
-
-        public object accSelection => null;
 
         public object get_accChild(object varChild)
         {

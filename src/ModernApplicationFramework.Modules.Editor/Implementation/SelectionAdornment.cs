@@ -8,6 +8,8 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
     {
         internal DrawingVisual Child;
 
+        protected override int VisualChildrenCount => 1;
+
         public SelectionAdornment(Pen borderPen, Brush fillBrush, Geometry drawingPath)
         {
             Child = new DrawingVisual();
@@ -23,7 +25,5 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
         {
             return Child;
         }
-
-        protected override int VisualChildrenCount => 1;
     }
 }

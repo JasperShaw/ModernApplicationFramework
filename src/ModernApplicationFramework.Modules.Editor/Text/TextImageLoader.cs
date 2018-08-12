@@ -10,7 +10,33 @@ namespace ModernApplicationFramework.Modules.Editor.Text
         public const int BlockSize = 16384;
         private static char[] _pooledBuffer;
 
-        internal static StringRebuilder Load(TextReader reader, long fileSize, string id, out bool hasConsistentLineEndings, out int longestLineLength, int blockSize = 0, int minCompressedBlockSize = 16384)
+        internal enum LineEndingState
+        {
+            Unknown,
+            Crlf,
+            Cr,
+            Lf,
+            Nel,
+            Ls,
+            Ps,
+            Inconsistent
+        }
+
+        public static int LoadNextBlock(TextReader reader, char[] buffer)
+        {
+            var num = reader.ReadBlock(buffer, 0, buffer.Length - 1);
+            if (num == buffer.Length - 1 && buffer[num - 1] == '\r' && reader.Peek() == 10)
+            {
+                reader.Read();
+                buffer[num++] = '\n';
+            }
+
+            return num;
+        }
+
+        internal static StringRebuilder Load(TextReader reader, long fileSize, string id,
+            out bool hasConsistentLineEndings, out int longestLineLength, int blockSize = 0,
+            int minCompressedBlockSize = 16384)
         {
             var lineEnding = LineEndingState.Unknown;
             var currentLineLength = 0;
@@ -26,7 +52,10 @@ namespace ModernApplicationFramework.Modules.Editor.Text
                 buffer = new char[blockSize];
             }
             else
+            {
                 buffer = AcquireBuffer(blockSize);
+            }
+
             var stringRebuilder = StringRebuilder.Empty;
             try
             {
@@ -36,7 +65,8 @@ namespace ModernApplicationFramework.Modules.Editor.Text
                     if (length != 0)
                     {
                         var lineBreakEditor = LineBreakManager.CreateLineBreakEditor(length, 0);
-                        ParseBlock(buffer, length, lineBreakEditor, ref lineEnding, ref currentLineLength, ref longestLineLength);
+                        ParseBlock(buffer, length, lineBreakEditor, ref lineEnding, ref currentLineLength,
+                            ref longestLineLength);
                         var chArray = buffer;
                         if (length < buffer.Length / 2)
                         {
@@ -44,13 +74,22 @@ namespace ModernApplicationFramework.Modules.Editor.Text
                             Array.Copy(buffer, chArray, length);
                         }
                         else
+                        {
                             buffer = new char[blockSize];
-                        var text = !flag || length <= minCompressedBlockSize ? StringRebuilderForChars.Create(chArray, length, lineBreakEditor) : StringRebuilderForCompressedChars.Create(new Page(manager, chArray, length), (ILineBreaks)lineBreakEditor);
+                        }
+
+                        var text = !flag || length <= minCompressedBlockSize
+                            ? StringRebuilderForChars.Create(chArray, length, lineBreakEditor)
+                            : StringRebuilderForCompressedChars.Create(new Page(manager, chArray, length),
+                                lineBreakEditor);
                         stringRebuilder = stringRebuilder.Insert(stringRebuilder.Length, text);
                     }
                     else
+                    {
                         break;
+                    }
                 }
+
                 longestLineLength = Math.Max(longestLineLength, currentLineLength);
                 hasConsistentLineEndings = lineEnding != LineEndingState.Inconsistent;
             }
@@ -59,21 +98,21 @@ namespace ModernApplicationFramework.Modules.Editor.Text
                 if (!flag)
                     ReleaseBuffer(buffer);
             }
+
             return stringRebuilder;
         }
 
-        public static int LoadNextBlock(TextReader reader, char[] buffer)
+        private static char[] AcquireBuffer(int size)
         {
-            var num = reader.ReadBlock(buffer, 0, buffer.Length - 1);
-            if (num == buffer.Length - 1 && buffer[num - 1] == '\r' && reader.Peek() == 10)
-            {
-                reader.Read();
-                buffer[num++] = '\n';
-            }
-            return num;
+            var comparand = Volatile.Read(ref _pooledBuffer);
+            if (comparand != null && comparand.Length >= size &&
+                comparand == Interlocked.CompareExchange(ref _pooledBuffer, null, comparand))
+                return comparand;
+            return new char[size];
         }
 
-        private static void ParseBlock(char[] buffer, int length, ILineBreaksEditor lineBreaks, ref LineEndingState lineEnding, ref int currentLineLength, ref int longestLineLength)
+        private static void ParseBlock(char[] buffer, int length, ILineBreaksEditor lineBreaks,
+            ref LineEndingState lineEnding, ref int currentLineLength, ref int longestLineLength)
         {
             var start = 0;
             while (start < length)
@@ -121,40 +160,22 @@ namespace ModernApplicationFramework.Modules.Editor.Text
                                 default:
                                     throw new InvalidOperationException("Unexpected line ending");
                             }
+
                             if (lineEnding == LineEndingState.Unknown)
                                 lineEnding = lineEndingState;
                             else if (lineEnding != lineEndingState)
                                 lineEnding = LineEndingState.Inconsistent;
                         }
                     }
+
                     start += length1;
                 }
             }
         }
 
-        private static char[] AcquireBuffer(int size)
-        {
-            var comparand = Volatile.Read(ref _pooledBuffer);
-            if (comparand != null && comparand.Length >= size && comparand == Interlocked.CompareExchange(ref _pooledBuffer, null, comparand))
-                return comparand;
-            return new char[size];
-        }
-
         private static void ReleaseBuffer(char[] buffer)
         {
             Interlocked.CompareExchange(ref _pooledBuffer, buffer, null);
-        }
-
-        internal enum LineEndingState
-        {
-            Unknown,
-            Crlf,
-            Cr,
-            Lf,
-            Nel,
-            Ls,
-            Ps,
-            Inconsistent,
         }
     }
 }

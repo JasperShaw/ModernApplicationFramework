@@ -9,7 +9,23 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
 {
     internal static class UiExtensionSelector
     {
-        public static List<Lazy<TProvider, TMetadataView>> SelectMatchingExtensions<TProvider, TMetadataView>(IEnumerable<Lazy<TProvider, TMetadataView>> providerHandles, ITextViewRoleSet viewRoles) where TMetadataView : ITextViewRoleMetadata
+        public static TExtensionInstance
+            InvokeBestMatchingFactory<TExtensionInstance, TExtensionFactory, TMetadataView>(
+                IEnumerable<Lazy<TExtensionFactory, TMetadataView>> providerHandles, IContentType dataContentType,
+                ITextViewRoleSet viewRoles, Func<TExtensionFactory, TExtensionInstance> getter,
+                IContentTypeRegistryService contentTypeRegistryService, GuardedOperations guardedOperations,
+                object errorSource) where TExtensionInstance : class
+            where TExtensionFactory : class
+            where TMetadataView : IContentTypeAndTextViewRoleMetadata
+        {
+            var lazyList = SelectMatchingExtensions(providerHandles, viewRoles);
+            return guardedOperations.InvokeBestMatchingFactory(lazyList, dataContentType, getter,
+                contentTypeRegistryService, errorSource);
+        }
+
+        public static List<Lazy<TProvider, TMetadataView>> SelectMatchingExtensions<TProvider, TMetadataView>(
+            IEnumerable<Lazy<TProvider, TMetadataView>> providerHandles, ITextViewRoleSet viewRoles)
+            where TMetadataView : ITextViewRoleMetadata
         {
             return (from providerHandle in providerHandles
                 let textViewRoles = providerHandle.Metadata.TextViewRoles
@@ -17,7 +33,10 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
                 select providerHandle).ToList();
         }
 
-        public static List<Lazy<TProvider, TMetadataView>> SelectMatchingExtensions<TProvider, TMetadataView>(IEnumerable<Lazy<TProvider, TMetadataView>> providerHandles, IContentType documentContentType, IContentType excludedContentType, ITextViewRoleSet viewRoles) where TMetadataView : IContentTypeAndTextViewRoleMetadata
+        public static List<Lazy<TProvider, TMetadataView>> SelectMatchingExtensions<TProvider, TMetadataView>(
+            IEnumerable<Lazy<TProvider, TMetadataView>> providerHandles, IContentType documentContentType,
+            IContentType excludedContentType, ITextViewRoleSet viewRoles)
+            where TMetadataView : IContentTypeAndTextViewRoleMetadata
         {
             var lazyList = new List<Lazy<TProvider, TMetadataView>>();
             foreach (var providerHandle in providerHandles)
@@ -31,6 +50,7 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
                     if (ExtensionSelector.ContentTypeMatch(dataContentType, contentTypes))
                         continue;
                 }
+
                 var dataContentType1 = documentContentType;
                 metadata = providerHandle.Metadata;
                 var contentTypes1 = metadata.ContentTypes;
@@ -43,13 +63,8 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
                         lazyList.Add(providerHandle);
                 }
             }
-            return lazyList;
-        }
 
-        public static TExtensionInstance InvokeBestMatchingFactory<TExtensionInstance, TExtensionFactory, TMetadataView>(IEnumerable<Lazy<TExtensionFactory, TMetadataView>> providerHandles, IContentType dataContentType, ITextViewRoleSet viewRoles, Func<TExtensionFactory, TExtensionInstance> getter, IContentTypeRegistryService contentTypeRegistryService, GuardedOperations guardedOperations, object errorSource) where TExtensionInstance : class where TExtensionFactory : class where TMetadataView : IContentTypeAndTextViewRoleMetadata
-        {
-            var lazyList = SelectMatchingExtensions(providerHandles, viewRoles);
-            return guardedOperations.InvokeBestMatchingFactory(lazyList, dataContentType, getter, contentTypeRegistryService, errorSource);
+            return lazyList;
         }
     }
 }

@@ -4,6 +4,6 @@
     {
         Insert,
         Delete,
-        Change,
+        Change
     }
 }

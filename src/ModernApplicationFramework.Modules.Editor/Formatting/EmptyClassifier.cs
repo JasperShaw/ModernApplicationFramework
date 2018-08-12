@@ -11,12 +11,12 @@ namespace ModernApplicationFramework.Modules.Editor.Formatting
     {
         public event EventHandler<ClassificationChangedEventArgs> ClassificationChanged;
 
-        public IList<ClassificationSpan> GetClassificationSpans(SnapshotSpan textSpan)
+        public IList<ClassificationSpan> GetAllClassificationSpans(SnapshotSpan textSpan, CancellationToken cancel)
         {
             return new FrugalList<ClassificationSpan>();
         }
 
-        public IList<ClassificationSpan> GetAllClassificationSpans(SnapshotSpan textSpan, CancellationToken cancel)
+        public IList<ClassificationSpan> GetClassificationSpans(SnapshotSpan textSpan)
         {
             return new FrugalList<ClassificationSpan>();
         }

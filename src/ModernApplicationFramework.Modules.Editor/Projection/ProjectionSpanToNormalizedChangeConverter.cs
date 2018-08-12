@@ -9,18 +9,11 @@ namespace ModernApplicationFramework.Modules.Editor.Projection
 {
     internal class ProjectionSpanToNormalizedChangeConverter
     {
-        private INormalizedTextChangeCollection _normalizedChanges;
-        private bool _computed;
-        private readonly int _textPosition;
-        private readonly ProjectionSpanDiffer _differ;
         private readonly ITextSnapshot _currentSnapshot;
-
-        public ProjectionSpanToNormalizedChangeConverter(ProjectionSpanDiffer differ, int textPosition, ITextSnapshot currentSnapshot)
-        {
-            _differ = differ;
-            _textPosition = textPosition;
-            _currentSnapshot = currentSnapshot;
-        }
+        private readonly ProjectionSpanDiffer _differ;
+        private readonly int _textPosition;
+        private bool _computed;
+        private INormalizedTextChangeCollection _normalizedChanges;
 
         public INormalizedTextChangeCollection NormalizedChanges
         {
@@ -34,19 +27,12 @@ namespace ModernApplicationFramework.Modules.Editor.Projection
             }
         }
 
-        private void ConstructChanges()
+        public ProjectionSpanToNormalizedChangeConverter(ProjectionSpanDiffer differ, int textPosition,
+            ITextSnapshot currentSnapshot)
         {
-            var differences = _differ.GetDifferences();
-            var textChangeList = new List<TextChange>();
-            var num = _textPosition;
-            foreach (var difference in differences)
-            {
-                var oldPosition = num + GetMatchSize(_differ.DeletedSpans, difference.Before);
-                var textChange = TextChange.Create(oldPosition, BufferFactoryService.StringRebuilderFromSnapshotSpans(_differ.DeletedSpans, difference.Left), BufferFactoryService.StringRebuilderFromSnapshotSpans(_differ.InsertedSpans, difference.Right), _currentSnapshot);
-                textChangeList.Add(textChange);
-                num = oldPosition + textChange.OldLength;
-            }
-            _normalizedChanges = NormalizedTextChangeCollection.Create(textChangeList);
+            _differ = differ;
+            _textPosition = textPosition;
+            _currentSnapshot = currentSnapshot;
         }
 
         private static int GetMatchSize(ReadOnlyCollection<SnapshotSpan> spans, Match match)
@@ -58,7 +44,27 @@ namespace ModernApplicationFramework.Modules.Editor.Projection
                 for (var start = left.Start; start < left.End; ++start)
                     num += spans[start].Length;
             }
+
             return num;
+        }
+
+        private void ConstructChanges()
+        {
+            var differences = _differ.GetDifferences();
+            var textChangeList = new List<TextChange>();
+            var num = _textPosition;
+            foreach (var difference in differences)
+            {
+                var oldPosition = num + GetMatchSize(_differ.DeletedSpans, difference.Before);
+                var textChange = TextChange.Create(oldPosition,
+                    BufferFactoryService.StringRebuilderFromSnapshotSpans(_differ.DeletedSpans, difference.Left),
+                    BufferFactoryService.StringRebuilderFromSnapshotSpans(_differ.InsertedSpans, difference.Right),
+                    _currentSnapshot);
+                textChangeList.Add(textChange);
+                num = oldPosition + textChange.OldLength;
+            }
+
+            _normalizedChanges = NormalizedTextChangeCollection.Create(textChangeList);
         }
     }
 }

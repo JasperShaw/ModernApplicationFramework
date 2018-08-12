@@ -8,10 +8,10 @@ namespace ModernApplicationFramework.Modules.Editor.HighContrast
 {
     internal static class HighContrastSelectionClassificationExports
     {
-        internal const string ClassificationTypeName = "HighContrastSelection";
         internal const string ClassificationFormatName = "Selected Text in High Contrast";
-        [Export(typeof(ClassificationTypeDefinition))]
-        [Name("HighContrastSelection")]
+        internal const string ClassificationTypeName = "HighContrastSelection";
+
+        [Export(typeof(ClassificationTypeDefinition))] [Name("HighContrastSelection")]
         internal static ClassificationTypeDefinition HighContrastSelectionClassificationType;
 
         [Export(typeof(EditorFormatDefinition))]

@@ -14,10 +14,9 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
     [GridUnitType(GridUnitType.Star)]
     internal sealed class HorizontalScrollBarContainerMarginProvider : ITextViewMarginProvider
     {
-        [Import]
-        private TextViewMarginState _marginState;
-        [Import]
-        private GuardedOperations _guardedOperations;
+        [Import] private GuardedOperations _guardedOperations;
+
+        [Import] private TextViewMarginState _marginState;
 
         public ITextViewMargin CreateMargin(ITextViewHost textViewHost, ITextViewMargin containerMargin)
         {

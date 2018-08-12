@@ -6,11 +6,17 @@ namespace ModernApplicationFramework.Modules.Editor.Text
 {
     internal abstract class TrackingPoint : ITrackingPoint
     {
+        public abstract ITextBuffer TextBuffer { get; }
+
+        public abstract TrackingFidelityMode TrackingFidelity { get; }
+
+        public PointTrackingMode TrackingMode { get; }
+
         protected TrackingPoint(ITextVersion version, int position, PointTrackingMode trackingMode)
         {
             if (version == null)
                 throw new ArgumentNullException(nameof(version));
-            if (position < 0 | position > version.Length)
+            if ((position < 0) | (position > version.Length))
                 throw new ArgumentOutOfRangeException(nameof(position));
             switch (trackingMode)
             {
@@ -23,11 +29,15 @@ namespace ModernApplicationFramework.Modules.Editor.Text
             }
         }
 
-        public abstract ITextBuffer TextBuffer { get; }
+        public char GetCharacter(ITextSnapshot snapshot)
+        {
+            return GetPoint(snapshot).GetChar();
+        }
 
-        public PointTrackingMode TrackingMode { get; }
-
-        public abstract TrackingFidelityMode TrackingFidelity { get; }
+        public SnapshotPoint GetPoint(ITextSnapshot snapshot)
+        {
+            return new SnapshotPoint(snapshot, GetPosition(snapshot));
+        }
 
         public int GetPosition(ITextVersion version)
         {
@@ -47,18 +57,6 @@ namespace ModernApplicationFramework.Modules.Editor.Text
             return TrackPosition(snapshot.Version);
         }
 
-        public SnapshotPoint GetPoint(ITextSnapshot snapshot)
-        {
-            return new SnapshotPoint(snapshot, GetPosition(snapshot));
-        }
-
-        public char GetCharacter(ITextSnapshot snapshot)
-        {
-            return GetPoint(snapshot).GetChar();
-        }
-
-        protected abstract int TrackPosition(ITextVersion targetVersion);
-
         protected static string PointTrackingModeToString(PointTrackingMode trackingMode)
         {
             return trackingMode != PointTrackingMode.Positive ? "←" : "→";
@@ -66,7 +64,10 @@ namespace ModernApplicationFramework.Modules.Editor.Text
 
         protected static string ToString(ITextVersion version, int position, PointTrackingMode trackingMode)
         {
-            return string.Format(CultureInfo.CurrentCulture, "V{0} {2}@{1}", version.VersionNumber, position, PointTrackingModeToString(trackingMode));
+            return string.Format(CultureInfo.CurrentCulture, "V{0} {2}@{1}", version.VersionNumber, position,
+                PointTrackingModeToString(trackingMode));
         }
+
+        protected abstract int TrackPosition(ITextVersion targetVersion);
     }
 }

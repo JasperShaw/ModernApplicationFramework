@@ -16,16 +16,18 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
 
     internal class DragDropMouseProcessor : MouseProcessorBase, IDragDropMouseProcessor
     {
-        private readonly ITextView _wpfTextView;
-        internal DragDropStateManager StateManager;
-        private readonly DragDropVisualManager _visualManager;
         internal bool IsDragDropEnabled;
-        private Point? _mouseDownAnchorPoint;
+        internal DragDropStateManager StateManager;
         private readonly GuardedOperations _guardedOperations;
+        private readonly DragDropVisualManager _visualManager;
+        private readonly ITextView _wpfTextView;
+        private Point? _mouseDownAnchorPoint;
 
-        public DragDropMouseProcessor(ITextView wpfTextView, List<Lazy<IDropHandlerProvider, IDropHandlerMetadata>> dropHandlers, 
-            IEditorOperations editorOperations, IRtfBuilderService2 rtfBuilderService, 
-            IClassificationFormatMapService classificationFormatMapService, /*ITextUndoHistory undoHistory,*/ GuardedOperations guardedOperations)
+        public DragDropMouseProcessor(ITextView wpfTextView,
+            List<Lazy<IDropHandlerProvider, IDropHandlerMetadata>> dropHandlers,
+            IEditorOperations editorOperations, IRtfBuilderService2 rtfBuilderService,
+            IClassificationFormatMapService classificationFormatMapService, /*ITextUndoHistory undoHistory,*/
+            GuardedOperations guardedOperations)
         {
             if (editorOperations == null)
                 throw new ArgumentNullException(nameof(editorOperations));
@@ -37,7 +39,9 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
                 throw new ArgumentNullException(nameof(guardedOperations));
             _wpfTextView = wpfTextView ?? throw new ArgumentNullException(nameof(wpfTextView));
             _visualManager = new DragDropVisualManager(wpfTextView, classificationFormatMapService);
-            StateManager = new DragDropStateManager(wpfTextView, rtfBuilderService, new DropHandlerManager(dropHandlers, wpfTextView, guardedOperations), _visualManager, /*undoHistory,*/ guardedOperations);
+            StateManager = new DragDropStateManager(wpfTextView, rtfBuilderService,
+                new DropHandlerManager(dropHandlers, wpfTextView, guardedOperations), _visualManager, /*undoHistory,*/
+                guardedOperations);
             IsDragDropEnabled = _wpfTextView.Options.IsDragDropEditingEnabled();
             _mouseDownAnchorPoint = new Point?();
             _guardedOperations = guardedOperations;
@@ -49,18 +53,12 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
             };
         }
 
-        public void DoPreprocessMouseLeftButtonDown(MouseButtonEventArgs e, Point position)
+        public void DoPostprocessMouseLeave(MouseEventArgs e)
         {
-            if (e.ClickCount != 1 || (Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift || !HandleMouseLeftButtonDown(e.ButtonState == MouseButtonState.Pressed, position))
+            if (StateManager.State != DragDropState.MouseDown)
                 return;
-            e.Handled = true;
-        }
-
-        public void DoPreprocessMouseLeftButtonUp(MouseButtonEventArgs e, Point position)
-        {
-            if (e.ClickCount != 1 || !HandleMouseLeftButtonUp(position))
-                return;
-            e.Handled = true;
+            _mouseDownAnchorPoint = new Point?();
+            StateManager.SetToStart();
         }
 
         public void DoPostprocessMouseLeftButtonUp(MouseButtonEventArgs e, Point position)
@@ -69,27 +67,6 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
                 return;
             _mouseDownAnchorPoint = new Point?();
             StateManager.SetToStart();
-        }
-
-        private bool FromTouch(MouseEventArgs e)
-        {
-            return e.StylusDevice != null;
-        }
-
-        public void DoPreprocessMouseMove(MouseEventArgs e, Point position)
-        {
-            if (FromTouch(e) || !HandleMouseMove(e.LeftButton == MouseButtonState.Pressed, position))
-                return;
-            e.Handled = true;
-        }
-
-        public void DoPreprocessDrop(DragEventArgs e, Point position)
-        {
-            var effects = e.Effects;
-            if (!HandleDrop(CreateDragDropInfo(e, position), ref effects))
-                return;
-            e.Effects = effects;
-            e.Handled = true;
         }
 
         public void DoPreprocessDragEnter(DragEventArgs e, Point position)
@@ -115,6 +92,37 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
             e.Handled = true;
         }
 
+        public void DoPreprocessDrop(DragEventArgs e, Point position)
+        {
+            var effects = e.Effects;
+            if (!HandleDrop(CreateDragDropInfo(e, position), ref effects))
+                return;
+            e.Effects = effects;
+            e.Handled = true;
+        }
+
+        public void DoPreprocessMouseLeftButtonDown(MouseButtonEventArgs e, Point position)
+        {
+            if (e.ClickCount != 1 || (Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift ||
+                !HandleMouseLeftButtonDown(e.ButtonState == MouseButtonState.Pressed, position))
+                return;
+            e.Handled = true;
+        }
+
+        public void DoPreprocessMouseLeftButtonUp(MouseButtonEventArgs e, Point position)
+        {
+            if (e.ClickCount != 1 || !HandleMouseLeftButtonUp(position))
+                return;
+            e.Handled = true;
+        }
+
+        public void DoPreprocessMouseMove(MouseEventArgs e, Point position)
+        {
+            if (FromTouch(e) || !HandleMouseMove(e.LeftButton == MouseButtonState.Pressed, position))
+                return;
+            e.Handled = true;
+        }
+
         public void DoPreprocessQueryContinueDrag(QueryContinueDragEventArgs e)
         {
             var action = e.Action;
@@ -124,37 +132,14 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
             e.Handled = true;
         }
 
-        public void DoPostprocessMouseLeave(MouseEventArgs e)
+        public override void PostprocessMouseLeave(MouseEventArgs e)
         {
-            if (StateManager.State != DragDropState.MouseDown)
-                return;
-            _mouseDownAnchorPoint = new Point?();
-            StateManager.SetToStart();
-        }
-
-        public override void PreprocessMouseLeftButtonDown(MouseButtonEventArgs e)
-        {
-            DoPreprocessMouseLeftButtonDown(e, GetClickedPoint(e));
-        }
-
-        public override void PreprocessMouseLeftButtonUp(MouseButtonEventArgs e)
-        {
-            DoPreprocessMouseLeftButtonUp(e, GetClickedPoint(e));
+            DoPostprocessMouseLeave(e);
         }
 
         public override void PostprocessMouseLeftButtonUp(MouseButtonEventArgs e)
         {
             DoPostprocessMouseLeftButtonUp(e, GetClickedPoint(e));
-        }
-
-        public override void PreprocessMouseMove(MouseEventArgs e)
-        {
-            DoPreprocessMouseMove(e, GetClickedPoint(e));
-        }
-
-        public override void PreprocessDrop(DragEventArgs e)
-        {
-            DoPreprocessDrop(e, GetClickedPoint(e));
         }
 
         public override void PreprocessDragEnter(DragEventArgs e)
@@ -172,34 +157,29 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
             DoPreprocessDragOver(e, GetClickedPoint(e));
         }
 
+        public override void PreprocessDrop(DragEventArgs e)
+        {
+            DoPreprocessDrop(e, GetClickedPoint(e));
+        }
+
+        public override void PreprocessMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            DoPreprocessMouseLeftButtonDown(e, GetClickedPoint(e));
+        }
+
+        public override void PreprocessMouseLeftButtonUp(MouseButtonEventArgs e)
+        {
+            DoPreprocessMouseLeftButtonUp(e, GetClickedPoint(e));
+        }
+
+        public override void PreprocessMouseMove(MouseEventArgs e)
+        {
+            DoPreprocessMouseMove(e, GetClickedPoint(e));
+        }
+
         public override void PreprocessQueryContinueDrag(QueryContinueDragEventArgs e)
         {
             DoPreprocessQueryContinueDrag(e);
-        }
-
-        public override void PostprocessMouseLeave(MouseEventArgs e)
-        {
-            DoPostprocessMouseLeave(e);
-        }
-
-        internal bool HandleQueryContinueDrag(bool escapePressed, bool dragCanceled, ref DragAction resultingDragAction)
-        {
-            if (!(escapePressed | dragCanceled))
-                return false;
-            StateManager.SetToCanceled();
-            resultingDragAction = DragAction.Cancel;
-            return true;
-        }
-
-        internal bool HandleDragOver(DragDropInfo dragDropInfo, DragDropEffects effects, ref DragDropEffects resultingDragEffects)
-        {
-            var currentDropHandler = StateManager.DropHandler;
-            if (!IsDragDropEnabled || StateManager.State != DragDropState.Dragging || currentDropHandler == null)
-                return false;
-            var dropPointerEffects = _guardedOperations.CallExtensionPoint(() => currentDropHandler.HandleDraggingOver(dragDropInfo), DragDropPointerEffects.None);
-            DrawTrackerAndScroll(dragDropInfo, dropPointerEffects);
-            resultingDragEffects = ConvertToDragDropEffect(dropPointerEffects);
-            return true;
         }
 
         internal bool HandleDragEnter(DragDropInfo dragDropInfo, ref DragDropEffects resultingDragEffects)
@@ -209,7 +189,8 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
             DragDropPointerEffects dropPointerEffects;
             if (StateManager.State == DragDropState.Dragging && StateManager.DropHandler != null)
             {
-                dropPointerEffects = _guardedOperations.CallExtensionPoint(() => StateManager.DropHandler.HandleDraggingOver(dragDropInfo), DragDropPointerEffects.None);
+                dropPointerEffects = _guardedOperations.CallExtensionPoint(
+                    () => StateManager.DropHandler.HandleDraggingOver(dragDropInfo), DragDropPointerEffects.None);
                 DrawTrackerAndScroll(dragDropInfo, dropPointerEffects);
             }
             else
@@ -218,6 +199,31 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
                 if (StateManager.DropHandler == null)
                     return false;
             }
+
+            resultingDragEffects = ConvertToDragDropEffect(dropPointerEffects);
+            return true;
+        }
+
+        internal bool HandleDragLeave()
+        {
+            if (StateManager.State == DragDropState.Canceled)
+                return true;
+            if (StateManager.State != DragDropState.Dragging)
+                return false;
+            StateManager.SetToStart();
+            return true;
+        }
+
+        internal bool HandleDragOver(DragDropInfo dragDropInfo, DragDropEffects effects,
+            ref DragDropEffects resultingDragEffects)
+        {
+            var currentDropHandler = StateManager.DropHandler;
+            if (!IsDragDropEnabled || StateManager.State != DragDropState.Dragging || currentDropHandler == null)
+                return false;
+            var dropPointerEffects =
+                _guardedOperations.CallExtensionPoint(() => currentDropHandler.HandleDraggingOver(dragDropInfo),
+                    DragDropPointerEffects.None);
+            DrawTrackerAndScroll(dragDropInfo, dropPointerEffects);
             resultingDragEffects = ConvertToDragDropEffect(dropPointerEffects);
             return true;
         }
@@ -235,68 +241,19 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
             return true;
         }
 
-        internal bool HandleDragLeave()
-        {
-            if (StateManager.State == DragDropState.Canceled)
-                return true;
-            if (StateManager.State != DragDropState.Dragging)
-                return false;
-            StateManager.SetToStart();
-            return true;
-        }
-
-        internal bool HandleMouseMove(bool leftButtonPressed, Point viewRelativeMousePosition)
-        {
-            if (!IsDragDropEnabled)
-                return false;
-            if (StateManager.State == DragDropState.Dragging)
-                return true;
-            if (!(StateManager.State == DragDropState.MouseDown & leftButtonPressed) || _wpfTextView.Selection.IsEmpty)
-                return false;
-            if (_mouseDownAnchorPoint.HasValue)
-            {
-                var point = _mouseDownAnchorPoint.Value;
-                if (Math.Abs(point.X - viewRelativeMousePosition.X) < SystemParameters.MinimumHorizontalDragDistance)
-                {
-                    point = _mouseDownAnchorPoint.Value;
-                    if (Math.Abs(point.Y - viewRelativeMousePosition.Y) < SystemParameters.MinimumVerticalDragDistance)
-                        return true; ;
-                }
-                StateManager.StartAndFinishDragDrop();
-            }
-            else
-                StateManager.StartAndFinishDragDrop();
-            return true;
-        }
-
-        internal bool HandleMouseLeftButtonUp(Point clickedPoint)
-        {
-            if (!IsDragDropEnabled || StateManager.State != DragDropState.MouseDown)
-                return false;
-            var textViewLines = _wpfTextView.TextViewLines;
-            var y = clickedPoint.Y;
-            var textLine = y > textViewLines.FirstVisibleLine.Top ? (y < textViewLines.LastVisibleLine.Bottom ? textViewLines.GetTextViewLineContainingYCoordinate(y) : textViewLines.LastVisibleLine) : textViewLines.FirstVisibleLine;
-            if (textLine != null)
-            {
-                _wpfTextView.Selection.Clear();
-                _wpfTextView.Caret.MoveTo(textLine, clickedPoint.X);
-            }
-            _mouseDownAnchorPoint = new Point?();
-            StateManager.SetToStart();
-            return true;
-        }
-
         internal bool HandleMouseLeftButtonDown(bool buttonPressed, Point viewRelativeMousePosition)
         {
             if (!IsDragDropEnabled || !buttonPressed || _wpfTextView.Selection.IsEmpty)
                 return false;
-            var containingYcoordinate = _wpfTextView.TextViewLines.GetTextViewLineContainingYCoordinate(viewRelativeMousePosition.Y);
+            var containingYcoordinate =
+                _wpfTextView.TextViewLines.GetTextViewLineContainingYCoordinate(viewRelativeMousePosition.Y);
             if (containingYcoordinate == null)
                 return false;
             var selectionOnTextViewLine = _wpfTextView.Selection.GetSelectionOnTextViewLine(containingYcoordinate);
             if (!selectionOnTextViewLine.HasValue)
                 return false;
-            var positionFromXcoordinate = containingYcoordinate.GetVirtualBufferPositionFromXCoordinate(viewRelativeMousePosition.X);
+            var positionFromXcoordinate =
+                containingYcoordinate.GetVirtualBufferPositionFromXCoordinate(viewRelativeMousePosition.X);
             var virtualSnapshotPoint1 = positionFromXcoordinate;
             var virtualSnapshotSpan = selectionOnTextViewLine.Value;
             var start = virtualSnapshotSpan.Start;
@@ -312,49 +269,69 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
                     return true;
                 }
             }
+
             return false;
         }
 
-        private VirtualSnapshotPoint CalculateInsertionPoint(Point location)
+        internal bool HandleMouseLeftButtonUp(Point clickedPoint)
         {
+            if (!IsDragDropEnabled || StateManager.State != DragDropState.MouseDown)
+                return false;
             var textViewLines = _wpfTextView.TextViewLines;
-            var virtualSnapshotPoint = (textViewLines.GetTextViewLineContainingYCoordinate(location.Y) ?? (location.Y < textViewLines.FirstVisibleLine.Top ? textViewLines.FirstVisibleLine : textViewLines.LastVisibleLine)).GetInsertionBufferPositionFromXCoordinate(location.X);
-            if (!_wpfTextView.Options.IsVirtualSpaceEnabled())
-                virtualSnapshotPoint = new VirtualSnapshotPoint(virtualSnapshotPoint.Position);
-            return virtualSnapshotPoint;
+            var y = clickedPoint.Y;
+            var textLine = y > textViewLines.FirstVisibleLine.Top
+                ? (y < textViewLines.LastVisibleLine.Bottom
+                    ? textViewLines.GetTextViewLineContainingYCoordinate(y)
+                    : textViewLines.LastVisibleLine)
+                : textViewLines.FirstVisibleLine;
+            if (textLine != null)
+            {
+                _wpfTextView.Selection.Clear();
+                _wpfTextView.Caret.MoveTo(textLine, clickedPoint.X);
+            }
+
+            _mouseDownAnchorPoint = new Point?();
+            StateManager.SetToStart();
+            return true;
         }
 
-        private void DrawTrackerAndScroll(DragDropInfo dragDropInfo, DragDropPointerEffects dropHandlerFeedback)
+        internal bool HandleMouseMove(bool leftButtonPressed, Point viewRelativeMousePosition)
         {
-            var virtualBufferPosition = dragDropInfo.VirtualBufferPosition;
-            var containingBufferPosition = _wpfTextView.GetTextViewLineContainingBufferPosition(virtualBufferPosition.Position);
-            var extendedCharacterBounds = containingBufferPosition.GetExtendedCharacterBounds(virtualBufferPosition);
-            if ((dropHandlerFeedback & DragDropPointerEffects.Track) == DragDropPointerEffects.Track)
-                _visualManager.DrawTracker(extendedCharacterBounds);
+            if (!IsDragDropEnabled)
+                return false;
+            if (StateManager.State == DragDropState.Dragging)
+                return true;
+            if (!((StateManager.State == DragDropState.MouseDown) & leftButtonPressed) ||
+                _wpfTextView.Selection.IsEmpty)
+                return false;
+            if (_mouseDownAnchorPoint.HasValue)
+            {
+                var point = _mouseDownAnchorPoint.Value;
+                if (Math.Abs(point.X - viewRelativeMousePosition.X) < SystemParameters.MinimumHorizontalDragDistance)
+                {
+                    point = _mouseDownAnchorPoint.Value;
+                    if (Math.Abs(point.Y - viewRelativeMousePosition.Y) < SystemParameters.MinimumVerticalDragDistance)
+                        return true;
+                    ;
+                }
+
+                StateManager.StartAndFinishDragDrop();
+            }
             else
-                _visualManager.ClearTracker();
-            _visualManager.ScrollView(containingBufferPosition, extendedCharacterBounds);
+            {
+                StateManager.StartAndFinishDragDrop();
+            }
+
+            return true;
         }
 
-        private DragDropInfo CreateDragDropInfo(DragEventArgs dragEventArgs, Point position)
+        internal bool HandleQueryContinueDrag(bool escapePressed, bool dragCanceled, ref DragAction resultingDragAction)
         {
-            return new DragDropInfo(position, dragEventArgs.KeyStates, dragEventArgs.Data, StateManager.IsInternalDragDrop, dragEventArgs.Source, dragEventArgs.AllowedEffects, CalculateInsertionPoint(position));
-        }
-
-        private Point GetClickedPoint(MouseEventArgs e)
-        {
-            var position = e.GetPosition(_wpfTextView.VisualElement);
-            position.X += _wpfTextView.ViewportLeft;
-            position.Y += _wpfTextView.ViewportTop;
-            return position;
-        }
-
-        private Point GetClickedPoint(DragEventArgs e)
-        {
-            var position = e.GetPosition(_wpfTextView.VisualElement);
-            position.X += _wpfTextView.ViewportLeft;
-            position.Y += _wpfTextView.ViewportTop;
-            return position;
+            if (!(escapePressed | dragCanceled))
+                return false;
+            StateManager.SetToCanceled();
+            resultingDragAction = DragAction.Cancel;
+            return true;
         }
 
         private static DragDropEffects ConvertToDragDropEffect(DragDropPointerEffects original)
@@ -373,6 +350,60 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
             if ((original & DragDropPointerEffects.Scroll) == DragDropPointerEffects.Scroll)
                 dragDropEffects |= DragDropEffects.Scroll;
             return dragDropEffects;
+        }
+
+        private VirtualSnapshotPoint CalculateInsertionPoint(Point location)
+        {
+            var textViewLines = _wpfTextView.TextViewLines;
+            var virtualSnapshotPoint =
+                (textViewLines.GetTextViewLineContainingYCoordinate(location.Y) ??
+                 (location.Y < textViewLines.FirstVisibleLine.Top
+                     ? textViewLines.FirstVisibleLine
+                     : textViewLines.LastVisibleLine)).GetInsertionBufferPositionFromXCoordinate(location.X);
+            if (!_wpfTextView.Options.IsVirtualSpaceEnabled())
+                virtualSnapshotPoint = new VirtualSnapshotPoint(virtualSnapshotPoint.Position);
+            return virtualSnapshotPoint;
+        }
+
+        private DragDropInfo CreateDragDropInfo(DragEventArgs dragEventArgs, Point position)
+        {
+            return new DragDropInfo(position, dragEventArgs.KeyStates, dragEventArgs.Data,
+                StateManager.IsInternalDragDrop, dragEventArgs.Source, dragEventArgs.AllowedEffects,
+                CalculateInsertionPoint(position));
+        }
+
+        private void DrawTrackerAndScroll(DragDropInfo dragDropInfo, DragDropPointerEffects dropHandlerFeedback)
+        {
+            var virtualBufferPosition = dragDropInfo.VirtualBufferPosition;
+            var containingBufferPosition =
+                _wpfTextView.GetTextViewLineContainingBufferPosition(virtualBufferPosition.Position);
+            var extendedCharacterBounds = containingBufferPosition.GetExtendedCharacterBounds(virtualBufferPosition);
+            if ((dropHandlerFeedback & DragDropPointerEffects.Track) == DragDropPointerEffects.Track)
+                _visualManager.DrawTracker(extendedCharacterBounds);
+            else
+                _visualManager.ClearTracker();
+            _visualManager.ScrollView(containingBufferPosition, extendedCharacterBounds);
+        }
+
+        private bool FromTouch(MouseEventArgs e)
+        {
+            return e.StylusDevice != null;
+        }
+
+        private Point GetClickedPoint(MouseEventArgs e)
+        {
+            var position = e.GetPosition(_wpfTextView.VisualElement);
+            position.X += _wpfTextView.ViewportLeft;
+            position.Y += _wpfTextView.ViewportTop;
+            return position;
+        }
+
+        private Point GetClickedPoint(DragEventArgs e)
+        {
+            var position = e.GetPosition(_wpfTextView.VisualElement);
+            position.X += _wpfTextView.ViewportLeft;
+            position.Y += _wpfTextView.ViewportTop;
+            return position;
         }
     }
 }

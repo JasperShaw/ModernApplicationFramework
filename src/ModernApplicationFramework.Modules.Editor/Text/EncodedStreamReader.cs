@@ -9,7 +9,9 @@ namespace ModernApplicationFramework.Modules.Editor.Text
 {
     internal class EncodedStreamReader
     {
-        public static Encoding DetectEncoding(Stream stream, List<Lazy<IEncodingDetector, IEncodingDetectorMetadata>> encodingDetectorExtensions, GuardedOperations guardedOperations)
+        public static Encoding DetectEncoding(Stream stream,
+            List<Lazy<IEncodingDetector, IEncodingDetectorMetadata>> encodingDetectorExtensions,
+            GuardedOperations guardedOperations)
         {
             if (stream == null)
                 throw new ArgumentNullException(nameof(stream));
@@ -20,6 +22,7 @@ namespace ModernApplicationFramework.Modules.Editor.Text
                 encoding = SniffForEncoding(stream, encodingDetectorExtensions, guardedOperations);
                 stream.Position = position;
             }
+
             return encoding;
         }
 
@@ -37,7 +40,9 @@ namespace ModernApplicationFramework.Modules.Editor.Text
             }
         }
 
-        private static Encoding SniffForEncoding(Stream stream, List<Lazy<IEncodingDetector, IEncodingDetectorMetadata>> orderedEncodingDetectors, GuardedOperations guardedOperations)
+        private static Encoding SniffForEncoding(Stream stream,
+            List<Lazy<IEncodingDetector, IEncodingDetectorMetadata>> orderedEncodingDetectors,
+            GuardedOperations guardedOperations)
         {
             var position = stream.Position;
             foreach (var encodingDetector in orderedEncodingDetectors)
@@ -51,16 +56,19 @@ namespace ModernApplicationFramework.Modules.Editor.Text
                 {
                     guardedOperations.HandleException(encodingDetector, ex);
                 }
+
                 stream.Position = position;
                 if (encoding != null)
                     return encoding;
             }
+
             return null;
         }
 
         internal class NonStreamClosingStreamReader : StreamReader
         {
-            internal NonStreamClosingStreamReader(Stream stream, Encoding encoding, bool detectEncodingFromByteOrderMarks)
+            internal NonStreamClosingStreamReader(Stream stream, Encoding encoding,
+                bool detectEncodingFromByteOrderMarks)
                 : base(stream, encoding, detectEncodingFromByteOrderMarks)
             {
             }

@@ -6,23 +6,16 @@ namespace ModernApplicationFramework.Modules.Editor.OverviewMargin
 {
     internal class SourceImageMargin : ITextViewMargin
     {
+        public const double MarginWidth = 100.0;
         private readonly SourceImageMarginElement _sourceImageMarginElement;
         private bool _isDisposed;
-        public const double MarginWidth = 100.0;
 
-        public SourceImageMargin(ITextViewHost textViewHost, IVerticalScrollBar scrollBar, SourceImageMarginFactory factory)
-        {
-            if (textViewHost == null)
-                throw new ArgumentNullException(nameof(textViewHost));
-            _sourceImageMarginElement = new SourceImageMarginElement(textViewHost.TextView, factory, scrollBar);
-        }
-
-        public FrameworkElement VisualElement
+        public bool Enabled
         {
             get
             {
                 ThrowIfDisposed();
-                return _sourceImageMarginElement;
+                return _sourceImageMarginElement.Enabled;
             }
         }
 
@@ -35,20 +28,21 @@ namespace ModernApplicationFramework.Modules.Editor.OverviewMargin
             }
         }
 
-        public bool Enabled
+        public FrameworkElement VisualElement
         {
             get
             {
                 ThrowIfDisposed();
-                return _sourceImageMarginElement.Enabled;
+                return _sourceImageMarginElement;
             }
         }
 
-        public ITextViewMargin GetTextViewMargin(string marginName)
+        public SourceImageMargin(ITextViewHost textViewHost, IVerticalScrollBar scrollBar,
+            SourceImageMarginFactory factory)
         {
-            if (string.Compare(marginName, "OverviewSourceImageMargin", StringComparison.OrdinalIgnoreCase) != 0)
-                return null;
-            return this;
+            if (textViewHost == null)
+                throw new ArgumentNullException(nameof(textViewHost));
+            _sourceImageMarginElement = new SourceImageMarginElement(textViewHost.TextView, factory, scrollBar);
         }
 
         public void Dispose()
@@ -58,6 +52,13 @@ namespace ModernApplicationFramework.Modules.Editor.OverviewMargin
             _sourceImageMarginElement.Dispose();
             GC.SuppressFinalize(this);
             _isDisposed = true;
+        }
+
+        public ITextViewMargin GetTextViewMargin(string marginName)
+        {
+            if (string.Compare(marginName, "OverviewSourceImageMargin", StringComparison.OrdinalIgnoreCase) != 0)
+                return null;
+            return this;
         }
 
         private void ThrowIfDisposed()

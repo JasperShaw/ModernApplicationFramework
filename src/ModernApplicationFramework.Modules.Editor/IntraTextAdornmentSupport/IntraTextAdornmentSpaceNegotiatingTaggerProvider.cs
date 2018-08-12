@@ -12,19 +12,19 @@ namespace ModernApplicationFramework.Modules.Editor.IntraTextAdornmentSupport
     [Export(typeof(IViewTaggerProvider))]
     internal sealed class IntraTextAdornmentSpaceNegotiatingTaggerProvider : IViewTaggerProvider
     {
-        [Name("Intra Text Adornment")]
-        [Order(After = "Text")]
-        [Export]
+        [Name("Intra Text Adornment")] [Order(After = "Text")] [Export]
         internal AdornmentLayerDefinition AdornmentLayer;
 
-        [Import]
-        internal IViewTagAggregatorFactoryService TagAggregatorFactoryService { get; set; }
+        [Import] internal IViewTagAggregatorFactoryService TagAggregatorFactoryService { get; set; }
 
         public ITagger<T> CreateTagger<T>(ITextView textView, ITextBuffer buffer) where T : ITag
         {
             if (buffer != textView.TextBuffer)
                 return null;
-            return textView.Properties.GetOrCreateSingletonProperty(() => new IntraTextAdornmentManager(textView, TagAggregatorFactoryService.CreateTagAggregator<IntraTextAdornmentTag>(textView))).SpaceNegotiationTagger as ITagger<T>;
+            return textView.Properties.GetOrCreateSingletonProperty(() =>
+                    new IntraTextAdornmentManager(textView,
+                        TagAggregatorFactoryService.CreateTagAggregator<IntraTextAdornmentTag>(textView)))
+                .SpaceNegotiationTagger as ITagger<T>;
         }
     }
 }

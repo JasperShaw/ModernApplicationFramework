@@ -6,6 +6,12 @@ namespace ModernApplicationFramework.Modules.Editor.Text
 {
     internal abstract class TrackingSpan : ITrackingSpan
     {
+        public abstract ITextBuffer TextBuffer { get; }
+
+        public abstract TrackingFidelityMode TrackingFidelity { get; }
+
+        public SpanTrackingMode TrackingMode { get; }
+
         protected TrackingSpan(ITextVersion version, Span span, SpanTrackingMode trackingMode)
         {
             if (version == null)
@@ -26,11 +32,11 @@ namespace ModernApplicationFramework.Modules.Editor.Text
             }
         }
 
-        public abstract ITextBuffer TextBuffer { get; }
-
-        public SpanTrackingMode TrackingMode { get; }
-
-        public abstract TrackingFidelityMode TrackingFidelity { get; }
+        public SnapshotPoint GetEndPoint(ITextSnapshot snapshot)
+        {
+            var span = GetSpan(snapshot);
+            return new SnapshotPoint(snapshot, span.End);
+        }
 
         public Span GetSpan(ITextVersion version)
         {
@@ -56,18 +62,10 @@ namespace ModernApplicationFramework.Modules.Editor.Text
             return new SnapshotPoint(snapshot, span.Start);
         }
 
-        public SnapshotPoint GetEndPoint(ITextSnapshot snapshot)
-        {
-            var span = GetSpan(snapshot);
-            return new SnapshotPoint(snapshot, span.End);
-        }
-
         public string GetText(ITextSnapshot snapshot)
         {
             return GetSpan(snapshot).GetText();
         }
-
-        protected abstract Span TrackSpan(ITextVersion targetVersion);
 
         protected static string SpanTrackingModeToString(SpanTrackingMode trackingMode)
         {
@@ -90,7 +88,10 @@ namespace ModernApplicationFramework.Modules.Editor.Text
 
         protected static string ToString(ITextVersion version, Span span, SpanTrackingMode trackingMode)
         {
-            return string.Format(CultureInfo.CurrentCulture, "V{0} {2}@{1}", version.VersionNumber, span.ToString(), SpanTrackingModeToString(trackingMode));
+            return string.Format(CultureInfo.CurrentCulture, "V{0} {2}@{1}", version.VersionNumber, span.ToString(),
+                SpanTrackingModeToString(trackingMode));
         }
+
+        protected abstract Span TrackSpan(ITextVersion targetVersion);
     }
 }

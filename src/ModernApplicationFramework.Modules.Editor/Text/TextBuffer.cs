@@ -10,12 +10,14 @@ namespace ModernApplicationFramework.Modules.Editor.Text
     {
         private readonly bool _spurnGroup;
 
-        public TextBuffer(IContentType contentType, StringRebuilder content, ITextDifferencingService textDifferencingService, GuardedOperations guardedOperations)
+        public TextBuffer(IContentType contentType, StringRebuilder content,
+            ITextDifferencingService textDifferencingService, GuardedOperations guardedOperations)
             : this(contentType, content, textDifferencingService, guardedOperations, false)
         {
         }
 
-        public TextBuffer(IContentType contentType, StringRebuilder content, ITextDifferencingService textDifferencingService, GuardedOperations guardedOperations, bool spurnGroup)
+        public TextBuffer(IContentType contentType, StringRebuilder content,
+            ITextDifferencingService textDifferencingService, GuardedOperations guardedOperations, bool spurnGroup)
             : base(contentType, content.Length, textDifferencingService, guardedOperations)
         {
             Group = new BufferGroup(this);
@@ -24,10 +26,17 @@ namespace ModernApplicationFramework.Modules.Editor.Text
             CurrentSnapshotProtected = TakeSnapshot();
         }
 
+        public override ITextEdit CreateEdit(EditOptions options, int? reiteratedVersionNumber, object editTag)
+        {
+            return new BasicEdit(this, CurrentSnapshotProtected, options, reiteratedVersionNumber, editTag);
+        }
+
         public ITextSnapshot ReloadContent(StringRebuilder newContent, EditOptions editOptions, object editTag)
         {
             using (var reloadEdit = new ReloadEdit(this, CurrentSnapshotProtected, editOptions, editTag))
+            {
                 return reloadEdit.ReloadContent(newContent);
+            }
         }
 
 
@@ -35,32 +44,39 @@ namespace ModernApplicationFramework.Modules.Editor.Text
             object editTag)
         {
             ITextSnapshot currentSnapshot = CurrentSnapshotProtected;
-            var textChange = TextChange.Create(0, BufferFactoryService.StringRebuilderFromSnapshotSpan(new SnapshotSpan(currentSnapshot, 0, currentSnapshot.Length)), newContent, currentSnapshot);
+            var textChange = TextChange.Create(0,
+                BufferFactoryService.StringRebuilderFromSnapshotSpan(new SnapshotSpan(currentSnapshot, 0,
+                    currentSnapshot.Length)), newContent, currentSnapshot);
             var next = CurrentVersion.CreateNext(null, newContent.Length);
             var textSnapshot = new TextSnapshot(this, next, newContent);
             CurrentVersion.SetChanges(NormalizedTextChangeCollection.Create(new[]
-            {
-                textChange
-            }, editOptions.ComputeMinimalChange ? editOptions.DifferenceOptions : new StringDifferenceOptions?(), TextDifferencingService, currentSnapshot, textSnapshot));
+                {
+                    textChange
+                }, editOptions.ComputeMinimalChange ? editOptions.DifferenceOptions : new StringDifferenceOptions?(),
+                TextDifferencingService, currentSnapshot, textSnapshot));
             CurrentVersion = next;
             Builder = newContent;
             CurrentSnapshotProtected = textSnapshot;
             return new TextContentChangedEventArgs(currentSnapshot, textSnapshot, editOptions, editTag);
         }
 
-        public override ITextEdit CreateEdit(EditOptions options, int? reiteratedVersionNumber, object editTag)
+        protected internal override ISubordinateTextEdit CreateSubordinateEdit(EditOptions options,
+            int? reiteratedVersionNumber, object editTag)
         {
             return new BasicEdit(this, CurrentSnapshotProtected, options, reiteratedVersionNumber, editTag);
         }
 
-        protected internal override ISubordinateTextEdit CreateSubordinateEdit(EditOptions options, int? reiteratedVersionNumber, object editTag)
+        protected override BaseSnapshot TakeSnapshot()
         {
-            return new BasicEdit(this, CurrentSnapshotProtected, options, reiteratedVersionNumber, editTag);
+            return new TextSnapshot(this, CurrentVersion, Builder);
         }
 
-        private ITextEventRaiser ApplyChangesAndSetSnapshot(FrugalList<TextChange> changes, EditOptions options, int? reiteratedVersionNumber, object editTag)
+        private ITextEventRaiser ApplyChangesAndSetSnapshot(FrugalList<TextChange> changes, EditOptions options,
+            int? reiteratedVersionNumber, object editTag)
         {
-            var normalizedChanges = NormalizedTextChangeCollection.Create(changes, options.ComputeMinimalChange ? options.DifferenceOptions : new StringDifferenceOptions?(), TextDifferencingService);
+            var normalizedChanges = NormalizedTextChangeCollection.Create(changes,
+                options.ComputeMinimalChange ? options.DifferenceOptions : new StringDifferenceOptions?(),
+                TextDifferencingService);
             var currentSnapshot1 = CurrentSnapshot;
             SetCurrentVersionAndSnapshot(normalizedChanges, reiteratedVersionNumber ?? -1);
             var currentSnapshot2 = CurrentSnapshot;
@@ -69,24 +85,40 @@ namespace ModernApplicationFramework.Modules.Editor.Text
             return new TextContentChangedEventRaiser(currentSnapshot1, currentSnapshot2, options1, editTag1);
         }
 
-        protected override BaseSnapshot TakeSnapshot()
-        {
-            return new TextSnapshot(this, CurrentVersion, Builder);
-        }
-
         private class BasicEdit : Edit, ISubordinateTextEdit
         {
             private readonly TextBuffer _textBuffer;
             private bool _subordinate;
 
-            public BasicEdit(TextBuffer textBuffer, ITextSnapshot originSnapshot, EditOptions options, int? reiteratedVersionNumber, object editTag)
-              : base(textBuffer, originSnapshot, options, reiteratedVersionNumber, editTag)
+            public ITextBuffer TextBuffer => _textBuffer;
+
+            public BasicEdit(TextBuffer textBuffer, ITextSnapshot originSnapshot, EditOptions options,
+                int? reiteratedVersionNumber, object editTag)
+                : base(textBuffer, originSnapshot, options, reiteratedVersionNumber, editTag)
             {
                 _textBuffer = textBuffer;
                 _subordinate = true;
             }
 
-            public ITextBuffer TextBuffer => _textBuffer;
+            public void FinalApply()
+            {
+                if (Changes.Count > 0)
+                {
+                    var raiser =
+                        _textBuffer.ApplyChangesAndSetSnapshot(Changes, Options, ReiteratedVersionNumber, EditTag);
+                    BaseBuffer.Group.EnqueueEvents(raiser, BaseBuffer);
+                    raiser.RaiseEvent(BaseBuffer, true);
+                }
+
+                BaseBuffer.EditInProgressProtected = false;
+                if (!_subordinate)
+                    return;
+                BaseBuffer.Group.FinishEdit();
+            }
+
+            public void PreApply()
+            {
+            }
 
             protected override ITextSnapshot PerformApply()
             {
@@ -114,45 +146,66 @@ namespace ModernApplicationFramework.Modules.Editor.Text
                     }
                 }
                 else
+                {
                     BaseBuffer.EditInProgressProtected = false;
+                }
+
                 return currentSnapshot;
+            }
+        }
+
+        private class ReloadEdit : TextBufferBaseEdit, ISubordinateTextEdit
+        {
+            private readonly EditOptions _editOptions;
+            private readonly object _editTag;
+            private readonly ITextSnapshot _originSnapshot;
+            private readonly TextBuffer _textBuffer;
+            private StringRebuilder _newContent;
+            private TextContentChangingEventArgs _raisedChangingEventArgs;
+
+            public ITextBuffer TextBuffer => BaseBuffer;
+
+            public ReloadEdit(TextBuffer textBuffer, ITextSnapshot originSnapshot, EditOptions editOptions,
+                object editTag)
+                : base(textBuffer)
+            {
+                _textBuffer = textBuffer;
+                _originSnapshot = originSnapshot;
+                _editOptions = editOptions;
+                _editTag = editTag;
+            }
+
+            public bool CheckForCancellation(Action cancelationResponse)
+            {
+                if (_raisedChangingEventArgs == null)
+                {
+                    _raisedChangingEventArgs =
+                        new TextContentChangingEventArgs(_originSnapshot, _editTag, args => Cancel());
+                    BaseBuffer.RaiseChangingEvent(_raisedChangingEventArgs);
+                }
+
+                Canceled = _raisedChangingEventArgs.Canceled;
+                return !_raisedChangingEventArgs.Canceled;
+            }
+
+            public void FinalApply()
+            {
+                _textBuffer.ApplyReload(_newContent, _editOptions, _editTag);
+                var changedEventRaiser = new TextContentChangedEventRaiser(_originSnapshot,
+                    BaseBuffer.CurrentSnapshotProtected, _editOptions, _editTag);
+                Applied = true;
+                BaseBuffer.Group.EnqueueEvents(changedEventRaiser, BaseBuffer);
+                changedEventRaiser.RaiseEvent(BaseBuffer, true);
+                BaseBuffer.EditInProgressProtected = false;
             }
 
             public void PreApply()
             {
             }
 
-            public void FinalApply()
+            public void RecordMasterChangeOffset(int masterChangeOffset)
             {
-                if (Changes.Count > 0)
-                {
-                    var raiser = _textBuffer.ApplyChangesAndSetSnapshot(Changes, Options, ReiteratedVersionNumber, EditTag);
-                    BaseBuffer.Group.EnqueueEvents(raiser, BaseBuffer);
-                    raiser.RaiseEvent(BaseBuffer, true);
-                }
-                BaseBuffer.EditInProgressProtected = false;
-                if (!_subordinate)
-                    return;
-                BaseBuffer.Group.FinishEdit();
-            }
-        }
-
-        private class ReloadEdit : TextBufferBaseEdit, ISubordinateTextEdit
-        {
-            private StringRebuilder _newContent;
-            private readonly TextBuffer _textBuffer;
-            private readonly ITextSnapshot _originSnapshot;
-            private readonly object _editTag;
-            private readonly EditOptions _editOptions;
-            private TextContentChangingEventArgs _raisedChangingEventArgs;
-
-            public ReloadEdit(TextBuffer textBuffer, ITextSnapshot originSnapshot, EditOptions editOptions, object editTag)
-              : base(textBuffer)
-            {
-                _textBuffer = textBuffer;
-                _originSnapshot = originSnapshot;
-                _editOptions = editOptions;
-                _editTag = editTag;
+                throw new InvalidOperationException("Reloads should not be getting offsets from any other change.");
             }
 
             public ITextSnapshot ReloadContent(StringRebuilder newContent)
@@ -164,42 +217,11 @@ namespace ModernApplicationFramework.Modules.Editor.Text
                     BaseBuffer.Group.FinishEdit();
                     return _originSnapshot;
                 }
+
                 _newContent = newContent;
                 BaseBuffer.Group.PerformMasterEdit(_textBuffer, this, _editOptions, _editTag);
                 BaseBuffer.Group.FinishEdit();
                 return _textBuffer.CurrentSnapshot;
-            }
-
-            public void PreApply()
-            {
-            }
-
-            public bool CheckForCancellation(Action cancelationResponse)
-            {
-                if (_raisedChangingEventArgs == null)
-                {
-                    _raisedChangingEventArgs = new TextContentChangingEventArgs(_originSnapshot, _editTag, args => Cancel());
-                    BaseBuffer.RaiseChangingEvent(_raisedChangingEventArgs);
-                }
-                Canceled = _raisedChangingEventArgs.Canceled;
-                return !_raisedChangingEventArgs.Canceled;
-            }
-
-            public void FinalApply()
-            {
-                _textBuffer.ApplyReload(_newContent, _editOptions, _editTag);
-                var changedEventRaiser = new TextContentChangedEventRaiser(_originSnapshot, BaseBuffer.CurrentSnapshotProtected, _editOptions, _editTag);
-                Applied = true;
-                BaseBuffer.Group.EnqueueEvents(changedEventRaiser, BaseBuffer);
-                changedEventRaiser.RaiseEvent(BaseBuffer, true);
-                BaseBuffer.EditInProgressProtected = false;
-            }
-
-            public ITextBuffer TextBuffer => BaseBuffer;
-
-            public void RecordMasterChangeOffset(int masterChangeOffset)
-            {
-                throw new InvalidOperationException("Reloads should not be getting offsets from any other change.");
             }
         }
     }

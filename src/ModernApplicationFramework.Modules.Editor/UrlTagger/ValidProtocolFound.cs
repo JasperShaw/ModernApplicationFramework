@@ -4,6 +4,6 @@
     {
         ValidProtocol,
         ValidProtocolNoSlash,
-        InvalidProtocol,
+        InvalidProtocol
     }
 }

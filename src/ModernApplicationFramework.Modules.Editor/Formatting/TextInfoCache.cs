@@ -7,17 +7,24 @@ namespace ModernApplicationFramework.Modules.Editor.Formatting
 {
     internal class TextInfoCache
     {
-        private readonly IDictionary<TextRunProperties, FontInfo> _textInfoTable = new Dictionary<TextRunProperties, FontInfo>();
-
-        public TextInfoCache(bool useDisplayMode)
-        {
-            UseDisplayMode = useDisplayMode;
-            TextFormatter = TextFormatter.Create(UseDisplayMode ? TextFormattingMode.Display : TextFormattingMode.Ideal);
-        }
+        private readonly IDictionary<TextRunProperties, FontInfo> _textInfoTable =
+            new Dictionary<TextRunProperties, FontInfo>();
 
         public TextFormatter TextFormatter { get; }
 
         public bool UseDisplayMode { get; }
+
+        public TextInfoCache(bool useDisplayMode)
+        {
+            UseDisplayMode = useDisplayMode;
+            TextFormatter =
+                TextFormatter.Create(UseDisplayMode ? TextFormattingMode.Display : TextFormattingMode.Ideal);
+        }
+
+        public double GetSpaceWidth(TextRunProperties properties)
+        {
+            return GetTextInfo(properties).SpaceWidth;
+        }
 
         public double GetTextBaseline(TextRunProperties properties)
         {
@@ -29,11 +36,6 @@ namespace ModernApplicationFramework.Modules.Editor.Formatting
             return GetTextInfo(properties).TextHeight;
         }
 
-        public double GetSpaceWidth(TextRunProperties properties)
-        {
-            return GetTextInfo(properties).SpaceWidth;
-        }
-
         public FontInfo GetTextInfo(TextRunProperties key)
         {
             if (!_textInfoTable.TryGetValue(key, out var fontInfo))
@@ -41,17 +43,19 @@ namespace ModernApplicationFramework.Modules.Editor.Formatting
                 var formattedText = new FormattedText("Xg ", key.CultureInfo, FlowDirection.LeftToRight,
                     key.Typeface, key.FontRenderingEmSize, Brushes.Black, null,
                     UseDisplayMode ? TextFormattingMode.Display : TextFormattingMode.Ideal);
-                fontInfo = new FontInfo(formattedText.Height, formattedText.Baseline, formattedText.WidthIncludingTrailingWhitespace - formattedText.Width);
+                fontInfo = new FontInfo(formattedText.Height, formattedText.Baseline,
+                    formattedText.WidthIncludingTrailingWhitespace - formattedText.Width);
                 _textInfoTable.Add(key, fontInfo);
             }
+
             return fontInfo;
         }
 
         internal class FontInfo
         {
-            public readonly double TextHeight;
             public readonly double Baseline;
             public readonly double SpaceWidth;
+            public readonly double TextHeight;
 
             public FontInfo(double textHeight, double baseline, double spaceWidth)
             {

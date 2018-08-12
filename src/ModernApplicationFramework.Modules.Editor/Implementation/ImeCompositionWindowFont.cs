@@ -8,8 +8,10 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
     [Name("ImeCompositionWindowFont")]
     public sealed class ImeCompositionWindowFont : EditorOptionDefinition<string>
     {
-        public static readonly EditorOptionKey<string> KeyId = new EditorOptionKey<string>(nameof(ImeCompositionWindowFont));
         public const string OptionName = "ImeCompositionWindowFont";
+
+        public static readonly EditorOptionKey<string> KeyId =
+            new EditorOptionKey<string>(nameof(ImeCompositionWindowFont));
 
         public override string Default => "";
 

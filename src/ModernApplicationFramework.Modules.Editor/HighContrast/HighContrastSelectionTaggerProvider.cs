@@ -15,17 +15,16 @@ namespace ModernApplicationFramework.Modules.Editor.HighContrast
     [TextViewRole("INTERACTIVE")]
     internal class HighContrastSelectionTaggerProvider : IViewTaggerProvider
     {
-        [Import]
-        private IClassificationTypeRegistryService _classificationRegistry;
+        [Import] private IClassificationTypeRegistryService _classificationRegistry;
 
-        [Import]
-        internal IEditorFormatMapService EditorFormatMapService { get; set; }
+        [Import] internal IEditorFormatMapService EditorFormatMapService { get; set; }
 
         public ITagger<T> CreateTagger<T>(ITextView textView, ITextBuffer buffer) where T : ITag
         {
             if (textView.TextBuffer != buffer)
                 return null;
-            return new HighContrastSelectionTagger(textView, _classificationRegistry, EditorFormatMapService) as ITagger<T>;
+            return new HighContrastSelectionTagger(textView, _classificationRegistry, EditorFormatMapService) as
+                ITagger<T>;
         }
     }
 }

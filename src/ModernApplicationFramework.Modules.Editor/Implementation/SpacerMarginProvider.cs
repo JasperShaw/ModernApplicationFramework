@@ -16,11 +16,9 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
     [DeferCreation(OptionName = "TextViewHost/SelectionMargin")]
     internal sealed class SpacerMarginProvider : ITextViewMarginProvider
     {
-        [Import]
-        internal IViewTagAggregatorFactoryService TagAggregatorFactoryService { get; set; }
+        [Import] internal IEditorFormatMapService EditorFormatMapService { get; set; }
 
-        [Import]
-        internal IEditorFormatMapService EditorFormatMapService { get; set; }
+        [Import] internal IViewTagAggregatorFactoryService TagAggregatorFactoryService { get; set; }
 
         public ITextViewMargin CreateMargin(ITextViewHost textViewHost, ITextViewMargin containerMargin)
         {

@@ -7,23 +7,23 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
     {
         private readonly string[] _emptyStrings = new string[0];
 
-        public string MarginContainer => string.Empty;
-
-        public IEnumerable<string> Replaces => _emptyStrings;
-
-        public string OptionName => string.Empty;
-
-        public GridUnitType GridUnitType => GridUnitType.Auto;
-
-        public double GridCellLength => 0.0;
-
         public IEnumerable<string> After => _emptyStrings;
 
         public IEnumerable<string> Before => _emptyStrings;
 
+        public IEnumerable<string> ContentTypes => _emptyStrings;
+
+        public double GridCellLength => 0.0;
+
+        public GridUnitType GridUnitType => GridUnitType.Auto;
+
+        public string MarginContainer => string.Empty;
+
         public string Name => string.Empty;
 
-        public IEnumerable<string> ContentTypes => _emptyStrings;
+        public string OptionName => string.Empty;
+
+        public IEnumerable<string> Replaces => _emptyStrings;
 
         public IEnumerable<string> TextViewRoles => _emptyStrings;
     }

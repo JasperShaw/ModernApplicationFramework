@@ -12,40 +12,24 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
 {
     internal class ContainerMargin : Grid, ITextViewMargin
     {
-        private bool _isDisposed;
-        private bool _ignoreChildVisibilityEvents;
-        internal List<Tuple<Lazy<ITextViewMarginProvider, ITextViewMarginMetadata>, ITextViewMargin>> CurrentMargins;
-        private int _nonMarginChildren;
-        private readonly string _marginName;
-        private readonly Orientation _orientation;
-        private readonly IReadOnlyList<Lazy<ITextViewMarginProvider, ITextViewMarginMetadata>> _marginProviders;
-        private readonly GuardedOperations _guardedOperations;
-        private Dictionary<string, int> _optionSubscriptions;
-        protected readonly ITextViewHost TextViewHost;
         private static Lazy<ITextViewMarginProvider, ITextViewMarginMetadata> _workaroundMarginProvider;
+        internal List<Tuple<Lazy<ITextViewMarginProvider, ITextViewMarginMetadata>, ITextViewMargin>> CurrentMargins;
+        protected readonly ITextViewHost TextViewHost;
+        private readonly GuardedOperations _guardedOperations;
+        private readonly string _marginName;
+        private readonly IReadOnlyList<Lazy<ITextViewMarginProvider, ITextViewMarginMetadata>> _marginProviders;
+        private readonly Orientation _orientation;
+        private bool _ignoreChildVisibilityEvents;
+        private bool _isDisposed;
+        private int _nonMarginChildren;
+        private Dictionary<string, int> _optionSubscriptions;
 
-        protected ContainerMargin(string name, Orientation orientation, ITextViewHost textViewHost, GuardedOperations guardedOperations, TextViewMarginState marginState)
-        {
-            _marginName = name;
-            _orientation = orientation;
-            _guardedOperations = guardedOperations;
-            TextViewHost = textViewHost;
-            _marginProviders = marginState.GetMarginProviders(_marginName);
-        }
-
-        public static ITextViewMargin Create(string name, Orientation orientation, ITextViewHost textViewHost, GuardedOperations guardedOperations, TextViewMarginState marginState)
-        {
-            var containerMargin = new ContainerMargin(name, orientation, textViewHost, guardedOperations, marginState);
-            containerMargin.Initialize();
-            return containerMargin;
-        }
-
-        public FrameworkElement VisualElement
+        public virtual bool Enabled
         {
             get
             {
                 ThrowIfDisposed();
-                return this;
+                return true;
             }
         }
 
@@ -60,13 +44,40 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             }
         }
 
-        public virtual bool Enabled
+        public FrameworkElement VisualElement
         {
             get
             {
                 ThrowIfDisposed();
-                return true;
+                return this;
             }
+        }
+
+        protected ContainerMargin(string name, Orientation orientation, ITextViewHost textViewHost,
+            GuardedOperations guardedOperations, TextViewMarginState marginState)
+        {
+            _marginName = name;
+            _orientation = orientation;
+            _guardedOperations = guardedOperations;
+            TextViewHost = textViewHost;
+            _marginProviders = marginState.GetMarginProviders(_marginName);
+        }
+
+        public static ITextViewMargin Create(string name, Orientation orientation, ITextViewHost textViewHost,
+            GuardedOperations guardedOperations, TextViewMarginState marginState)
+        {
+            var containerMargin = new ContainerMargin(name, orientation, textViewHost, guardedOperations, marginState);
+            containerMargin.Initialize();
+            return containerMargin;
+        }
+
+        public void Dispose()
+        {
+            if (_isDisposed)
+                return;
+            Close();
+            GC.SuppressFinalize(this);
+            _isDisposed = true;
         }
 
         public ITextViewMargin GetTextViewMargin(string marginName)
@@ -82,62 +93,32 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                     if (textViewMargin != null)
                         return textViewMargin;
                 }
-                else if (string.Compare(marginName, currentMargin.Item1.Metadata.Name, StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Compare(marginName, currentMargin.Item1.Metadata.Name,
+                             StringComparison.OrdinalIgnoreCase) == 0)
                 {
                     var collapse = false;
                     if (_optionSubscriptions != null)
                     {
                         var optionName = currentMargin.Item1.Metadata.OptionName;
                         int num;
-                        if (optionName != null && _optionSubscriptions.TryGetValue(optionName, out num) && !TextViewHost.TextView.Options.GetOptionValue<bool>(optionName))
+                        if (optionName != null && _optionSubscriptions.TryGetValue(optionName, out num) &&
+                            !TextViewHost.TextView.Options.GetOptionValue<bool>(optionName))
                             collapse = true;
                     }
+
                     return InsertDeferredMargin(marginIndex, collapse);
                 }
             }
+
             return null;
         }
 
-        public void Dispose()
+        protected virtual void AddMargins(IList<Lazy<ITextViewMarginProvider, ITextViewMarginMetadata>> providers,
+            List<Tuple<Lazy<ITextViewMarginProvider, ITextViewMarginMetadata>, ITextViewMargin>> oldMargins)
         {
-            if (_isDisposed)
-                return;
-            Close();
-            GC.SuppressFinalize(this);
-            _isDisposed = true;
-        }
-
-        protected void ThrowIfDisposed()
-        {
-            if (_isDisposed)
-                throw new ObjectDisposedException("ContainerMarginMargin");
-        }
-
-        protected virtual void Initialize()
-        {
-            TextViewHost.TextView.TextDataModel.ContentTypeChanged += OnContentTypeChanged;
-            IsVisibleChanged += (sender, e) =>
-            {
-                if ((bool)e.NewValue)
-                    RegisterEvents();
-                else
-                    UnregisterEvents();
-            };
-            _nonMarginChildren = Children.Count;
-            AddMargins(GetMarginProviders(), null);
-        }
-
-        protected virtual void RegisterEvents()
-        {
-        }
-
-        protected virtual void UnregisterEvents()
-        {
-        }
-
-        protected virtual void AddMargins(IList<Lazy<ITextViewMarginProvider, ITextViewMarginMetadata>> providers, List<Tuple<Lazy<ITextViewMarginProvider, ITextViewMarginMetadata>, ITextViewMargin>> oldMargins)
-        {
-            CurrentMargins = new List<Tuple<Lazy<ITextViewMarginProvider, ITextViewMarginMetadata>, ITextViewMargin>>(providers.Count);
+            CurrentMargins =
+                new List<Tuple<Lazy<ITextViewMarginProvider, ITextViewMarginMetadata>, ITextViewMargin>>(
+                    providers.Count);
             try
             {
                 _ignoreChildVisibilityEvents = true;
@@ -152,6 +133,7 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                         TextViewHost.TextView.Options.OptionChanged -= OnOptionChanged;
                     }
                 }
+
                 var marginIndex = 0;
                 foreach (var provider in providers)
                 {
@@ -174,26 +156,34 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                                 flag1 = !b;
                             }
                             else
+                            {
                                 flag1 = true;
+                            }
                         }
                     }
+
                     ITextViewMargin margin = null;
                     var tuple = oldMargins?.Find(a => marginProvider == a.Item1);
                     if (tuple?.Item2 != null)
+                    {
                         margin = tuple.Item2;
+                    }
                     else if (!flag1)
                     {
-                        margin = _guardedOperations.InstantiateExtension(marginProvider, marginProvider, mp => mp.CreateMargin(TextViewHost, this));
+                        margin = _guardedOperations.InstantiateExtension(marginProvider, marginProvider,
+                            mp => mp.CreateMargin(TextViewHost, this));
                         if (margin == null)
                             continue;
                     }
                     else if (marginIndex == 0)
                     {
                         if (_workaroundMarginProvider == null)
-                            _workaroundMarginProvider = new Lazy<ITextViewMarginProvider, ITextViewMarginMetadata>(new WorkaroundMetadata());
+                            _workaroundMarginProvider =
+                                new Lazy<ITextViewMarginProvider, ITextViewMarginMetadata>(new WorkaroundMetadata());
                         AddMargin(new WorkaroundMargin(), _workaroundMarginProvider, false);
                         ++marginIndex;
                     }
+
                     if (flag2)
                         SubscribeToOptionChange(optionName, marginIndex);
                     AddMargin(margin, marginProvider, tuple == null);
@@ -204,98 +194,8 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             {
                 _ignoreChildVisibilityEvents = false;
             }
+
             Visibility = HasVisibleChild() ? Visibility.Visible : Visibility.Collapsed;
-        }
-
-        private void AddMargin(ITextViewMargin margin, Lazy<ITextViewMarginProvider, ITextViewMarginMetadata> marginProvider, bool trackVisibility)
-        {
-            CurrentMargins.Add(new Tuple<Lazy<ITextViewMarginProvider, ITextViewMarginMetadata>, ITextViewMargin>(marginProvider, margin));
-            var gridLength = margin == null ? GridLength.Auto : new GridLength(marginProvider.Metadata.GridCellLength, marginProvider.Metadata.GridUnitType);
-            if (_orientation == Orientation.Horizontal)
-            {
-                RowDefinitions.Add(new RowDefinition()
-                {
-                    Height = gridLength
-                });
-                if (margin != null)
-                {
-                    SetColumn(margin.VisualElement, 0);
-                    SetRow(margin.VisualElement, RowDefinitions.Count - 1);
-                }
-            }
-            else
-            {
-                ColumnDefinitions.Add(new ColumnDefinition()
-                {
-                    Width = gridLength
-                });
-                if (margin != null)
-                {
-                    SetColumn(margin.VisualElement, ColumnDefinitions.Count - 1);
-                    SetRow(margin.VisualElement, 0);
-                }
-            }
-            if (margin == null)
-                return;
-            Children.Add(margin.VisualElement);
-            if (!trackVisibility)
-                return;
-            DependencyPropertyDescriptor.FromProperty(VisibilityProperty, typeof(UIElement))?.AddValueChanged(margin.VisualElement, OnChildMarginVisibilityChanged);
-        }
-
-        private ITextViewMargin InsertDeferredMargin(int marginIndex, bool collapse)
-        {
-            var currentMargin = CurrentMargins[marginIndex];
-            var wpfTextViewMargin = _guardedOperations.InstantiateExtension(currentMargin.Item1, currentMargin.Item1, mp => mp.CreateMargin(TextViewHost, this));
-            if (wpfTextViewMargin != null)
-            {
-                CurrentMargins[marginIndex] = Tuple.Create(currentMargin.Item1, wpfTextViewMargin);
-                var gridLength = new GridLength(currentMargin.Item1.Metadata.GridCellLength, currentMargin.Item1.Metadata.GridUnitType);
-                if (_orientation == Orientation.Horizontal)
-                {
-                    RowDefinitions[marginIndex].Height = gridLength;
-                    SetColumn(wpfTextViewMargin.VisualElement, 0);
-                    SetRow(wpfTextViewMargin.VisualElement, marginIndex);
-                }
-                else
-                {
-                    ColumnDefinitions[marginIndex].Width = gridLength;
-                    SetColumn(wpfTextViewMargin.VisualElement, marginIndex);
-                    SetRow(wpfTextViewMargin.VisualElement, 0);
-                }
-                if (collapse)
-                    wpfTextViewMargin.VisualElement.Visibility = Visibility.Collapsed;
-                Children.Add(wpfTextViewMargin.VisualElement);
-                DependencyPropertyDescriptor.FromProperty(VisibilityProperty, typeof(UIElement))?.AddValueChanged(wpfTextViewMargin.VisualElement, OnChildMarginVisibilityChanged);
-            }
-            return wpfTextViewMargin;
-        }
-
-        private void SubscribeToOptionChange(string optionName, int marginIndex)
-        {
-            if (_optionSubscriptions == null)
-            {
-                _optionSubscriptions = new Dictionary<string, int>();
-                TextViewHost.TextView.Options.OptionChanged += OnOptionChanged;
-            }
-            _optionSubscriptions.Add(optionName, marginIndex);
-        }
-
-        private void OnOptionChanged(object sender, EditorOptionChangedEventArgs e)
-        {
-            if (!_optionSubscriptions.TryGetValue(e.OptionId, out var marginIndex))
-                return;
-            var wpfTextViewMargin = CurrentMargins[marginIndex].Item2;
-            if (TextViewHost.TextView.Options.GetOptionValue<bool>(e.OptionId))
-            {
-                if (wpfTextViewMargin == null)
-                    InsertDeferredMargin(marginIndex, false);
-                if (wpfTextViewMargin == null)
-                    return;
-                wpfTextViewMargin.VisualElement.Visibility = Visibility.Visible;
-            }
-            else
-                wpfTextViewMargin.VisualElement.Visibility = Visibility.Collapsed;
         }
 
         protected virtual void Close()
@@ -308,38 +208,26 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             CurrentMargins.Clear();
         }
 
-        private IList<Lazy<ITextViewMarginProvider, ITextViewMarginMetadata>> GetMarginProviders()
+        protected virtual bool HasVisibleChild()
         {
-            var textView = TextViewHost.TextView;
-            var lazyList = UiExtensionSelector.SelectMatchingExtensions(_marginProviders, textView.TextDataModel.ContentType, null, textView.Roles);
-            var stringSet = new HashSet<string>();
-            foreach (var lazy in lazyList)
-            {
-                var replaces = lazy.Metadata.Replaces;
-                if (replaces != null)
-                {
-                    foreach (var str in replaces)
-                        stringSet.Add(str.ToLowerInvariant());
-                }
-            }
-            if (stringSet.Count > 0)
-            {
-                for (var index = lazyList.Count - 1; index >= 0; --index)
-                {
-                    var name = lazyList[index].Metadata.Name;
-                    if (!string.IsNullOrWhiteSpace(name) && stringSet.Contains(name.ToLowerInvariant()))
-                        lazyList.RemoveAt(index);
-                }
-            }
-            return lazyList;
+            foreach (var currentMargin in CurrentMargins)
+                if (currentMargin.Item2 != null && currentMargin.Item2.VisualElement.Visibility == Visibility.Visible)
+                    return true;
+            return false;
         }
 
-        private void DisposeMargin(ITextViewMargin margin)
+        protected virtual void Initialize()
         {
-            if (margin == null)
-                return;
-            DependencyPropertyDescriptor.FromProperty(VisibilityProperty, typeof(UIElement))?.RemoveValueChanged(margin.VisualElement, OnChildMarginVisibilityChanged);
-            margin.Dispose();
+            TextViewHost.TextView.TextDataModel.ContentTypeChanged += OnContentTypeChanged;
+            IsVisibleChanged += (sender, e) =>
+            {
+                if ((bool) e.NewValue)
+                    RegisterEvents();
+                else
+                    UnregisterEvents();
+            };
+            _nonMarginChildren = Children.Count;
+            AddMargins(GetMarginProviders(), null);
         }
 
         protected void OnChildMarginVisibilityChanged(object sender, EventArgs e)
@@ -360,14 +248,128 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             }
         }
 
-        protected virtual bool HasVisibleChild()
+        protected virtual void RegisterEvents()
         {
-            foreach (var currentMargin in CurrentMargins)
+        }
+
+        protected void ThrowIfDisposed()
+        {
+            if (_isDisposed)
+                throw new ObjectDisposedException("ContainerMarginMargin");
+        }
+
+        protected virtual void UnregisterEvents()
+        {
+        }
+
+        private void AddMargin(ITextViewMargin margin,
+            Lazy<ITextViewMarginProvider, ITextViewMarginMetadata> marginProvider, bool trackVisibility)
+        {
+            CurrentMargins.Add(
+                new Tuple<Lazy<ITextViewMarginProvider, ITextViewMarginMetadata>, ITextViewMargin>(marginProvider,
+                    margin));
+            var gridLength = margin == null
+                ? GridLength.Auto
+                : new GridLength(marginProvider.Metadata.GridCellLength, marginProvider.Metadata.GridUnitType);
+            if (_orientation == Orientation.Horizontal)
             {
-                if (currentMargin.Item2 != null && currentMargin.Item2.VisualElement.Visibility == Visibility.Visible)
-                    return true;
+                RowDefinitions.Add(new RowDefinition
+                {
+                    Height = gridLength
+                });
+                if (margin != null)
+                {
+                    SetColumn(margin.VisualElement, 0);
+                    SetRow(margin.VisualElement, RowDefinitions.Count - 1);
+                }
             }
-            return false;
+            else
+            {
+                ColumnDefinitions.Add(new ColumnDefinition
+                {
+                    Width = gridLength
+                });
+                if (margin != null)
+                {
+                    SetColumn(margin.VisualElement, ColumnDefinitions.Count - 1);
+                    SetRow(margin.VisualElement, 0);
+                }
+            }
+
+            if (margin == null)
+                return;
+            Children.Add(margin.VisualElement);
+            if (!trackVisibility)
+                return;
+            DependencyPropertyDescriptor.FromProperty(VisibilityProperty, typeof(UIElement))
+                ?.AddValueChanged(margin.VisualElement, OnChildMarginVisibilityChanged);
+        }
+
+        private void DisposeMargin(ITextViewMargin margin)
+        {
+            if (margin == null)
+                return;
+            DependencyPropertyDescriptor.FromProperty(VisibilityProperty, typeof(UIElement))
+                ?.RemoveValueChanged(margin.VisualElement, OnChildMarginVisibilityChanged);
+            margin.Dispose();
+        }
+
+        private IList<Lazy<ITextViewMarginProvider, ITextViewMarginMetadata>> GetMarginProviders()
+        {
+            var textView = TextViewHost.TextView;
+            var lazyList = UiExtensionSelector.SelectMatchingExtensions(_marginProviders,
+                textView.TextDataModel.ContentType, null, textView.Roles);
+            var stringSet = new HashSet<string>();
+            foreach (var lazy in lazyList)
+            {
+                var replaces = lazy.Metadata.Replaces;
+                if (replaces != null)
+                    foreach (var str in replaces)
+                        stringSet.Add(str.ToLowerInvariant());
+            }
+
+            if (stringSet.Count > 0)
+                for (var index = lazyList.Count - 1; index >= 0; --index)
+                {
+                    var name = lazyList[index].Metadata.Name;
+                    if (!string.IsNullOrWhiteSpace(name) && stringSet.Contains(name.ToLowerInvariant()))
+                        lazyList.RemoveAt(index);
+                }
+
+            return lazyList;
+        }
+
+        private ITextViewMargin InsertDeferredMargin(int marginIndex, bool collapse)
+        {
+            var currentMargin = CurrentMargins[marginIndex];
+            var wpfTextViewMargin = _guardedOperations.InstantiateExtension(currentMargin.Item1, currentMargin.Item1,
+                mp => mp.CreateMargin(TextViewHost, this));
+            if (wpfTextViewMargin != null)
+            {
+                CurrentMargins[marginIndex] = Tuple.Create(currentMargin.Item1, wpfTextViewMargin);
+                var gridLength = new GridLength(currentMargin.Item1.Metadata.GridCellLength,
+                    currentMargin.Item1.Metadata.GridUnitType);
+                if (_orientation == Orientation.Horizontal)
+                {
+                    RowDefinitions[marginIndex].Height = gridLength;
+                    SetColumn(wpfTextViewMargin.VisualElement, 0);
+                    SetRow(wpfTextViewMargin.VisualElement, marginIndex);
+                }
+                else
+                {
+                    ColumnDefinitions[marginIndex].Width = gridLength;
+                    SetColumn(wpfTextViewMargin.VisualElement, marginIndex);
+                    SetRow(wpfTextViewMargin.VisualElement, 0);
+                }
+
+                if (collapse)
+                    wpfTextViewMargin.VisualElement.Visibility = Visibility.Collapsed;
+                Children.Add(wpfTextViewMargin.VisualElement);
+                DependencyPropertyDescriptor.FromProperty(VisibilityProperty, typeof(UIElement))
+                    ?.AddValueChanged(wpfTextViewMargin.VisualElement, OnChildMarginVisibilityChanged);
+            }
+
+            return wpfTextViewMargin;
         }
 
         private void OnContentTypeChanged(object sender, TextDataModelContentTypeChangedEventArgs e)
@@ -382,7 +384,38 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                     CurrentMargins.RemoveAt(index);
                 }
             }
+
             AddMargins(marginProviders, CurrentMargins);
+        }
+
+        private void OnOptionChanged(object sender, EditorOptionChangedEventArgs e)
+        {
+            if (!_optionSubscriptions.TryGetValue(e.OptionId, out var marginIndex))
+                return;
+            var wpfTextViewMargin = CurrentMargins[marginIndex].Item2;
+            if (TextViewHost.TextView.Options.GetOptionValue<bool>(e.OptionId))
+            {
+                if (wpfTextViewMargin == null)
+                    InsertDeferredMargin(marginIndex, false);
+                if (wpfTextViewMargin == null)
+                    return;
+                wpfTextViewMargin.VisualElement.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                wpfTextViewMargin.VisualElement.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void SubscribeToOptionChange(string optionName, int marginIndex)
+        {
+            if (_optionSubscriptions == null)
+            {
+                _optionSubscriptions = new Dictionary<string, int>();
+                TextViewHost.TextView.Options.OptionChanged += OnOptionChanged;
+            }
+
+            _optionSubscriptions.Add(optionName, marginIndex);
         }
     }
 }

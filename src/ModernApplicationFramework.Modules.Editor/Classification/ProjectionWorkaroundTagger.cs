@@ -13,6 +13,8 @@ namespace ModernApplicationFramework.Modules.Editor.Classification
     {
         private readonly IDifferenceService _diffService;
 
+        public event EventHandler<SnapshotSpanEventArgs> TagsChanged;
+
         private IProjectionBuffer ProjectionBuffer { get; }
 
         internal ProjectionWorkaroundTagger(IProjectionBuffer projectionBuffer, IDifferenceService diffService)
@@ -27,7 +29,22 @@ namespace ModernApplicationFramework.Modules.Editor.Classification
             yield break;
         }
 
-        public event EventHandler<SnapshotSpanEventArgs> TagsChanged;
+        private static int GetMatchSize(ReadOnlyCollection<SnapshotSpan> spans, Match match)
+        {
+            var num = 0;
+            if (match == null)
+                return num;
+            var left = match.Left;
+            for (var start = left.Start; start < left.End; ++start)
+                num += spans[start].Length;
+            return num;
+        }
+
+        private void RaiseTagsChangedEvent(SnapshotSpan span)
+        {
+            var tagsChanged = TagsChanged;
+            tagsChanged?.Invoke(this, new SnapshotSpanEventArgs(span));
+        }
 
         private void SourceSpansChanged(object sender, ProjectionSourceSpansChangedEventArgs e)
         {
@@ -54,30 +71,17 @@ namespace ModernApplicationFramework.Modules.Editor.Classification
                         ++start;
                     }
                     else
+                    {
                         break;
+                    }
                 }
+
                 num2 = Math.Max(num2, val2);
             }
+
             if (num1 == int.MaxValue || num2 == int.MinValue)
                 return;
             RaiseTagsChangedEvent(new SnapshotSpan(e.After, Span.FromBounds(num1, num2)));
-        }
-
-        private static int GetMatchSize(ReadOnlyCollection<SnapshotSpan> spans, Match match)
-        {
-            var num = 0;
-            if (match == null)
-                return num;
-            var left = match.Left;
-            for (var start = left.Start; start < left.End; ++start)
-                num += spans[start].Length;
-            return num;
-        }
-
-        private void RaiseTagsChangedEvent(SnapshotSpan span)
-        {
-            var tagsChanged = TagsChanged;
-            tagsChanged?.Invoke(this, new SnapshotSpanEventArgs(span));
         }
     }
 }

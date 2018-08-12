@@ -10,9 +10,8 @@ namespace ModernApplicationFramework.Modules.Editor.OverviewMargin
     [Name("OverviewMargin/MarkMarginWidth")]
     public sealed class MarkMarginWidthOption : EditorOptionDefinition<double>
     {
-        public override EditorOptionKey<double> Key => DefaultTextViewHostOptions.MarkMarginWidthOptionId;
-
         public override double Default => 6.0;
+        public override EditorOptionKey<double> Key => DefaultTextViewHostOptions.MarkMarginWidthOptionId;
 
         public override bool IsValid(ref double proposedValue)
         {

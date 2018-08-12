@@ -10,11 +10,11 @@ namespace ModernApplicationFramework.Modules.Editor.Formatting
     internal class NormalizedSpan
     {
         public static int MaxTextLineLength = 9500;
-        public readonly ClassifiedRun ClassifiedRun;
-        public readonly TextRun GlyphOrFormattingRun;
         public readonly PositionAffinity Affinity;
-        public readonly IAdornmentElement Element;
         public readonly Span BufferSpan;
+        public readonly ClassifiedRun ClassifiedRun;
+        public readonly IAdornmentElement Element;
+        public readonly TextRun GlyphOrFormattingRun;
         public readonly Span TokenSpan;
 
         public NormalizedSpan(ClassifiedRun classifiedRun, ref int offset)
@@ -34,7 +34,8 @@ namespace ModernApplicationFramework.Modules.Editor.Formatting
             offset = TokenSpan.End;
         }
 
-        public NormalizedSpan(IAdornmentElement element, TextFormattingRunProperties defaultProperties, Span bufferSpan, ref int offset)
+        public NormalizedSpan(IAdornmentElement element, TextFormattingRunProperties defaultProperties, Span bufferSpan,
+            ref int offset)
         {
             GlyphOrFormattingRun = new TextEmbeddedSpace(element, defaultProperties);
             Element = element;
@@ -44,6 +45,17 @@ namespace ModernApplicationFramework.Modules.Editor.Formatting
             offset = TokenSpan.End;
         }
 
+        public TextRun GetTextRun(int tokenIndex, int textLineStartIndex, int forcedLineBreakTokenIndex)
+        {
+            if (GlyphOrFormattingRun != null)
+                return GlyphOrFormattingRun;
+            var num = tokenIndex - TokenSpan.Start;
+            var length = Math.Min(TokenSpan.Length - num, forcedLineBreakTokenIndex - tokenIndex);
+            if (tokenIndex + length - textLineStartIndex > MaxTextLineLength)
+                return NormalizedSpanTextSource.LineBreak;
+            return new TextCharacters(ClassifiedRun.Text, ClassifiedRun.Offset + num, length, ClassifiedRun.Properties);
+        }
+
         public bool IsTab(int tokenIndex)
         {
             if (ClassifiedRun != null)
@@ -51,21 +63,26 @@ namespace ModernApplicationFramework.Modules.Editor.Formatting
             return false;
         }
 
-        public TextRun GetTextRun(int tokenIndex, int textLineStartIndex, int forcedLineBreakTokenIndex)
-        {
-            if (GlyphOrFormattingRun != null)
-                return GlyphOrFormattingRun;
-            int num = tokenIndex - TokenSpan.Start;
-            int length = Math.Min(TokenSpan.Length - num, forcedLineBreakTokenIndex - tokenIndex);
-            if (tokenIndex + length - textLineStartIndex > MaxTextLineLength)
-                return NormalizedSpanTextSource.LineBreak;
-            return new TextCharacters(ClassifiedRun.Text, ClassifiedRun.Offset + num, length, ClassifiedRun.Properties);
-        }
-
         internal class TextEmbeddedSpace : TextEmbeddedObject
         {
             private readonly IAdornmentElement _element;
             private readonly Size _size;
+
+            public override LineBreakCondition BreakAfter => _element.Affinity != PositionAffinity.Predecessor
+                ? LineBreakCondition.BreakRestrained
+                : LineBreakCondition.BreakPossible;
+
+            public override LineBreakCondition BreakBefore => _element.Affinity != PositionAffinity.Successor
+                ? LineBreakCondition.BreakRestrained
+                : LineBreakCondition.BreakPossible;
+
+            public override CharacterBufferReference CharacterBufferReference => new CharacterBufferReference(" ", 1);
+
+            public override bool HasFixedSize => true;
+
+            public override int Length => 1;
+
+            public override TextRunProperties Properties { get; }
 
             public TextEmbeddedSpace(IAdornmentElement adornmentElement, TextFormattingRunProperties defaultProperties)
             {
@@ -73,10 +90,6 @@ namespace ModernApplicationFramework.Modules.Editor.Formatting
                 _size = new Size(adornmentElement.Width, adornmentElement.TextHeight);
                 Properties = defaultProperties;
             }
-
-            public override LineBreakCondition BreakAfter => _element.Affinity != PositionAffinity.Predecessor ? LineBreakCondition.BreakRestrained : LineBreakCondition.BreakPossible;
-
-            public override LineBreakCondition BreakBefore => _element.Affinity != PositionAffinity.Successor ? LineBreakCondition.BreakRestrained : LineBreakCondition.BreakPossible;
 
             public override Rect ComputeBoundingBox(bool rightToLeft, bool sideways)
             {
@@ -91,14 +104,6 @@ namespace ModernApplicationFramework.Modules.Editor.Formatting
             {
                 return new TextEmbeddedObjectMetrics(_size.Width, _size.Height, _element.Baseline);
             }
-
-            public override bool HasFixedSize => true;
-
-            public override CharacterBufferReference CharacterBufferReference => new CharacterBufferReference(" ", 1);
-
-            public override int Length => 1;
-
-            public override TextRunProperties Properties { get; }
         }
     }
 }

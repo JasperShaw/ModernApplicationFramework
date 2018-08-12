@@ -9,8 +9,7 @@ namespace ModernApplicationFramework.Modules.Editor.OverviewMargin
     [Name("OverviewMargin/ShowErrors")]
     public sealed class ErrorsEnabledOption : EditorOptionDefinition<bool>
     {
-        public override EditorOptionKey<bool> Key => DefaultTextViewHostOptions.ShowErrorsOptionId;
-
         public override bool Default => true;
+        public override EditorOptionKey<bool> Key => DefaultTextViewHostOptions.ShowErrorsOptionId;
     }
 }

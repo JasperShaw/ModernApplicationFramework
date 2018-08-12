@@ -4,8 +4,8 @@
     {
         int Length { get; }
 
-        int StartOfLineBreak(int index);
-
         int EndOfLineBreak(int index);
+
+        int StartOfLineBreak(int index);
     }
 }

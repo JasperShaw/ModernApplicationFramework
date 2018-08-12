@@ -8,12 +8,12 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
 {
     internal class VacuousTextViewModel : ITextViewModel
     {
-        public ITextDataModel DataModel { get; }
         public ITextBuffer DataBuffer => DataModel.DataBuffer;
+        public ITextDataModel DataModel { get; }
         public ITextBuffer EditBuffer { get; }
-        public ITextBuffer VisualBuffer => EditBuffer;
 
         public PropertyCollection Properties { get; }
+        public ITextBuffer VisualBuffer => EditBuffer;
 
         public VacuousTextViewModel(ITextDataModel dataModel) : this(dataModel, dataModel.DataBuffer)
         {
@@ -31,20 +31,21 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
             GC.SuppressFinalize(this);
         }
 
-        public bool IsPointInVisualBuffer(SnapshotPoint editBufferPoint, PositionAffinity affinity)
-        {
-            return true;
-        }
-
         public SnapshotPoint GetNearestPointInVisualBuffer(SnapshotPoint editBufferPoint)
         {
             return editBufferPoint;
         }
 
-        public SnapshotPoint GetNearestPointInVisualSnapshot(SnapshotPoint editBufferPoint, ITextSnapshot targetVisualSnapshot,
+        public SnapshotPoint GetNearestPointInVisualSnapshot(SnapshotPoint editBufferPoint,
+            ITextSnapshot targetVisualSnapshot,
             PointTrackingMode trackingMode)
         {
             return editBufferPoint.TranslateTo(targetVisualSnapshot, trackingMode);
+        }
+
+        public bool IsPointInVisualBuffer(SnapshotPoint editBufferPoint, PositionAffinity affinity)
+        {
+            return true;
         }
     }
 }

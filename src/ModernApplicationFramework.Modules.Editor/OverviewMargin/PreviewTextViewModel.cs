@@ -9,6 +9,16 @@ namespace ModernApplicationFramework.Modules.Editor.OverviewMargin
     {
         public readonly ITextView SourceView;
 
+        public ITextBuffer DataBuffer { get; }
+
+        public ITextDataModel DataModel { get; }
+
+        public ITextBuffer EditBuffer => SourceView.TextBuffer;
+
+        public PropertyCollection Properties { get; internal set; }
+
+        public ITextBuffer VisualBuffer => EditBuffer;
+
         public PreviewTextViewModel(ITextView sourceView)
         {
             SourceView = sourceView;
@@ -16,26 +26,17 @@ namespace ModernApplicationFramework.Modules.Editor.OverviewMargin
             DataBuffer = SourceView.TextViewModel.DataBuffer;
         }
 
-        public ITextDataModel DataModel { get; }
-
-        public ITextBuffer DataBuffer { get; }
-
-        public ITextBuffer EditBuffer => SourceView.TextBuffer;
-
-        public ITextBuffer VisualBuffer => EditBuffer;
-
         public void Dispose()
         {
         }
-
-        public PropertyCollection Properties { get; internal set; }
 
         public SnapshotPoint GetNearestPointInVisualBuffer(SnapshotPoint editBufferPoint)
         {
             return editBufferPoint;
         }
 
-        public SnapshotPoint GetNearestPointInVisualSnapshot(SnapshotPoint editBufferPoint, ITextSnapshot targetVisualSnapshot, PointTrackingMode trackingMode)
+        public SnapshotPoint GetNearestPointInVisualSnapshot(SnapshotPoint editBufferPoint,
+            ITextSnapshot targetVisualSnapshot, PointTrackingMode trackingMode)
         {
             return editBufferPoint.TranslateTo(targetVisualSnapshot, trackingMode);
         }

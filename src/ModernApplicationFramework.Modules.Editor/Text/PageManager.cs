@@ -7,13 +7,13 @@ namespace ModernApplicationFramework.Modules.Editor.Text
 {
     internal class PageManager
     {
-        private Tuple<Page, List<Tuple<Page, char[]>>> _mru;
         private readonly int _maxPages;
+        private Tuple<Page, List<Tuple<Page, char[]>>> _mru;
 
         public PageManager()
         {
             _maxPages = TextModelOptions.CompressedStorageMaxLoadedPages;
-            _mru = Tuple.Create((Page)null, new List<Tuple<Page, char[]>>(_maxPages));
+            _mru = Tuple.Create((Page) null, new List<Tuple<Page, char[]>>(_maxPages));
         }
 
         public void UpdateMRU(Page page, char[] contents)
@@ -24,8 +24,8 @@ namespace ModernApplicationFramework.Modules.Editor.Text
                 var index = comparand.Item2.Count - 1;
                 do
                 {
-                }
-                while (--index >= 0 && comparand.Item2[index].Item1 != page);
+                } while (--index >= 0 && comparand.Item2[index].Item1 != page);
+
                 var tupleList = new List<Tuple<Page, char[]>>(_maxPages);
                 tupleList.AddRange(comparand.Item2);
                 if (index >= 0)

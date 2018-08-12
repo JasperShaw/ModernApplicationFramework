@@ -8,8 +8,10 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
     [Name("UseAccurateClassificationForRtfCopy")]
     public sealed class UseAccurateClassificationForRtfCopy : EditorOptionDefinition<bool>
     {
-        public static readonly EditorOptionKey<bool> OptionKey = new EditorOptionKey<bool>(nameof(UseAccurateClassificationForRtfCopy));
         public const string OptionName = "UseAccurateClassificationForRtfCopy";
+
+        public static readonly EditorOptionKey<bool> OptionKey =
+            new EditorOptionKey<bool>(nameof(UseAccurateClassificationForRtfCopy));
 
         public override bool Default => false;
 

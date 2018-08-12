@@ -11,13 +11,10 @@ namespace ModernApplicationFramework.Modules.Editor.InterTextAdornmentSupport
     [TextViewRole("INTERACTIVE")]
     internal sealed class InterLineAdornmentManagerFactory : ILineTransformSourceProvider
     {
-        [Export]
-        [Name("Inter Line Adornment")]
-        [Order(After = "SelectionAndProvisionHighlight", Before = "Squiggle")]
+        [Export] [Name("Inter Line Adornment")] [Order(After = "SelectionAndProvisionHighlight", Before = "Squiggle")]
         internal AdornmentLayerDefinition AdornmentLayer;
 
-        [Import]
-        internal IViewTagAggregatorFactoryService TagAggregatorFactoryService { get; set; }
+        [Import] internal IViewTagAggregatorFactoryService TagAggregatorFactoryService { get; set; }
 
         public ILineTransformSource Create(ITextView textView)
         {

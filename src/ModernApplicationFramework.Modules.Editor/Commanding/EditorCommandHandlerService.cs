@@ -14,19 +14,22 @@ namespace ModernApplicationFramework.Modules.Editor.Commanding
     internal class EditorCommandHandlerService : IEditorCommandHandlerService
     {
         private static readonly Action EmptyAction = () => { };
-        private static readonly Func<CommandState> UnavalableCommandFunc = () => CommandState.Unavailable;
+
         private static readonly IReadOnlyList<Lazy<ICommandHandler, ICommandHandlerMetadata>> EmptyHandlerList =
             new List<Lazy<ICommandHandler, ICommandHandlerMetadata>>(0);
 
-        private readonly IEnumerable<Lazy<ICommandHandler, ICommandHandlerMetadata>> _commandHandlers;
-        private readonly ITextView _textView;
-        private readonly IUiThreadOperationExecutor _uiThreadOperationExecutor;
-        private readonly StableContentTypeComparer _contentTypesComparer;
-        private readonly IGuardedOperations _guardedOperations;
+        private static readonly Func<CommandState> UnavalableCommandFunc = () => CommandState.Unavailable;
         private readonly ICommandingTextBufferResolver _bufferResolver;
+
+        private readonly IEnumerable<Lazy<ICommandHandler, ICommandHandlerMetadata>> _commandHandlers;
 
         private readonly Dictionary<(Type, IContentType), IReadOnlyList<Lazy<ICommandHandler, ICommandHandlerMetadata>>>
             _commandHandlersByTypeAndContentType;
+
+        private readonly StableContentTypeComparer _contentTypesComparer;
+        private readonly IGuardedOperations _guardedOperations;
+        private readonly ITextView _textView;
+        private readonly IUiThreadOperationExecutor _uiThreadOperationExecutor;
 
         public EditorCommandHandlerService(ITextView textView,
             IEnumerable<Lazy<ICommandHandler, ICommandHandlerMetadata>> commandHandlers,
@@ -47,37 +50,6 @@ namespace ModernApplicationFramework.Modules.Editor.Commanding
             _guardedOperations = guardedOperations ?? throw new ArgumentNullException(nameof(guardedOperations));
         }
 
-        public CommandState GetCommandState<T>(Func<ITextView, ITextBuffer, T> argsFactory,
-            Func<CommandState> nextCommandHandler) where T : EditorCommandArgs
-        {
-            //if (!this._joinableTaskContext.IsOnMainThread)
-            //    throw new InvalidOperationException(
-            //        $"{nameof(GetCommandState)} method shoudl only be called on the UI thread.");
-            if (IsReentrantCall())
-            {
-                if (nextCommandHandler == null)
-                    return CommandState.Unavailable;
-                return nextCommandHandler();
-            }
-            using (new ReentrancyGuard(_textView))
-            {
-                var func = nextCommandHandler ?? UnavalableCommandFunc;
-                foreach (var valueTuple in GetOrderedBuffersAndCommandHandlers<T>().Reverse())
-                {
-                    T args = default;
-                    var nextHandler = func;
-                    var handler = valueTuple.Item2;
-                    var obj = args;
-                    obj = argsFactory(_textView, valueTuple.Item1);
-                    args = obj;
-                    if (args == null)
-                        return func();
-                    func = () => handler.GetCommandState(args, nextHandler);
-                }
-                return func();
-            }
-        }
-
         public void Execute<T>(Func<ITextView, ITextBuffer, T> argsFactory, Action nextCommandHandler)
             where T : EditorCommandArgs
         {
@@ -87,7 +59,6 @@ namespace ModernApplicationFramework.Modules.Editor.Commanding
             if (IsReentrantCall())
                 nextCommandHandler?.Invoke();
             else
-            {
                 using (new ReentrancyGuard(_textView))
                 {
                     CommandExecutionContext commandExecutionContext = null;
@@ -104,20 +75,104 @@ namespace ModernApplicationFramework.Modules.Editor.Commanding
                             handlerChain();
                         if (commandExecutionContext == null)
                             commandExecutionContext = CreateCommandExecutionContext();
-                        handlerChain = () => _guardedOperations.CallExtensionPoint(handler, () => handler.ExecuteCommand(args, nextHandler, commandExecutionContext));
+                        handlerChain = () => _guardedOperations.CallExtensionPoint(handler,
+                            () => handler.ExecuteCommand(args, nextHandler, commandExecutionContext));
                     }
 
                     ExecuteCommandHandlerChain(commandExecutionContext, handlerChain, nextCommandHandler);
                 }
+        }
+
+        public CommandState GetCommandState<T>(Func<ITextView, ITextBuffer, T> argsFactory,
+            Func<CommandState> nextCommandHandler) where T : EditorCommandArgs
+        {
+            //if (!this._joinableTaskContext.IsOnMainThread)
+            //    throw new InvalidOperationException(
+            //        $"{nameof(GetCommandState)} method shoudl only be called on the UI thread.");
+            if (IsReentrantCall())
+            {
+                if (nextCommandHandler == null)
+                    return CommandState.Unavailable;
+                return nextCommandHandler();
+            }
+
+            using (new ReentrancyGuard(_textView))
+            {
+                var func = nextCommandHandler ?? UnavalableCommandFunc;
+                foreach (var valueTuple in GetOrderedBuffersAndCommandHandlers<T>().Reverse())
+                {
+                    T args = default;
+                    var nextHandler = func;
+                    var handler = valueTuple.Item2;
+                    var obj = args;
+                    obj = argsFactory(_textView, valueTuple.Item1);
+                    args = obj;
+                    if (args == null)
+                        return func();
+                    func = () => handler.GetCommandState(args, nextHandler);
+                }
+
+                return func();
             }
         }
 
-        private CommandExecutionContext CreateCommandExecutionContext()
+        internal IEnumerable<ValueTuple<ITextBuffer, ICommandHandler>> GetOrderedBuffersAndCommandHandlers<T>()
+            where T : EditorCommandArgs
         {
-            return new CommandExecutionContext(_uiThreadOperationExecutor.BeginExecute(null, "Wait for Command Execution", true, true));
+            var buffers = (IReadOnlyList<ITextBuffer>) _bufferResolver.ResolveBuffersForCommand<T>().ToArray();
+            if (buffers.Count != 0)
+            {
+                var handlerBuckets = new CommandHandlerBucket[buffers.Count];
+                for (var index = 0; index < buffers.Count; ++index)
+                    handlerBuckets[index] =
+                        new CommandHandlerBucket(GetOrCreateOrderedHandlers<T>(buffers[index].ContentType,
+                            _textView.Roles));
+                while (true)
+                {
+                    var currentHandler = (Lazy<ICommandHandler, ICommandHandlerMetadata>) null;
+                    var currentHandlerBufferIndex = 0;
+
+                    for (var index = 0; index < handlerBuckets.Length; ++index)
+                        if (!handlerBuckets[index].IsEmpty)
+                        {
+                            currentHandler = handlerBuckets[index].Peek();
+                            currentHandlerBufferIndex = index;
+                            break;
+                        }
+
+                    if (currentHandler != null)
+                    {
+                        var foundBetterHandler = false;
+                        for (var i = 0; i < buffers.Count; ++i)
+                            if (i != currentHandlerBufferIndex && !handlerBuckets[i].IsEmpty)
+                            {
+                                var lazy = handlerBuckets[i].Peek();
+                                if (_contentTypesComparer.Compare(lazy.Metadata.ContentTypes,
+                                        currentHandler.Metadata.ContentTypes) < 0)
+                                {
+                                    foundBetterHandler = true;
+                                    handlerBuckets[i].Pop();
+                                    yield return new ValueTuple<ITextBuffer, ICommandHandler>(buffers[i], lazy.Value);
+                                    break;
+                                }
+                            }
+
+                        if (foundBetterHandler)
+                            continue;
+                        yield return new ValueTuple<ITextBuffer, ICommandHandler>(buffers[currentHandlerBufferIndex],
+                            currentHandler.Value);
+                        handlerBuckets[currentHandlerBufferIndex].Pop();
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
         }
 
-        private static void ExecuteCommandHandlerChain(CommandExecutionContext commandExecutionContext, Action handlerChain, Action nextCommandHandler)
+        private static void ExecuteCommandHandlerChain(CommandExecutionContext commandExecutionContext,
+            Action handlerChain, Action nextCommandHandler)
         {
             try
             {
@@ -141,59 +196,31 @@ namespace ModernApplicationFramework.Modules.Editor.Commanding
             }
         }
 
-        internal IEnumerable<ValueTuple<ITextBuffer, ICommandHandler>> GetOrderedBuffersAndCommandHandlers<T>()
-            where T : EditorCommandArgs
+        private static bool MatchesContentType(IContentTypeMetadata handlerMetadata, IContentType contentType)
         {
-            var buffers = (IReadOnlyList<ITextBuffer>) _bufferResolver.ResolveBuffersForCommand<T>().ToArray();
-            if (buffers.Count != 0)
-            {
-                var handlerBuckets = new CommandHandlerBucket[buffers.Count];
-                for (var index = 0; index < buffers.Count; ++index)
-                    handlerBuckets[index] =
-                        new CommandHandlerBucket(GetOrCreateOrderedHandlers<T>(buffers[index].ContentType,
-                            _textView.Roles));
-                while (true)
-                {
-                    var currentHandler = (Lazy<ICommandHandler, ICommandHandlerMetadata>) null;
-                    var currentHandlerBufferIndex = 0;
+            return handlerMetadata.ContentTypes.Any(contentType.IsOfType);
+        }
 
-                    for (var index = 0; index < handlerBuckets.Length; ++index)
-                    {
-                        if (!handlerBuckets[index].IsEmpty)
-                        {
-                            currentHandler = handlerBuckets[index].Peek();
-                            currentHandlerBufferIndex = index;
-                            break;
-                        }
-                    }
+        private static bool MatchesTextViewRoles(ICommandHandlerMetadata handlerMetadata, ITextViewRoleSet roles)
+        {
+            if (handlerMetadata.TextViewRoles == null)
+                return true;
+            return handlerMetadata.TextViewRoles.Any(roles.Contains);
+        }
 
-                    if (currentHandler != null)
-                    {
-                        var foundBetterHandler = false;
-                        for (var i = 0; i < buffers.Count; ++i)
-                        {
-                            if (i != currentHandlerBufferIndex && !handlerBuckets[i].IsEmpty)
-                            {
-                                var lazy = handlerBuckets[i].Peek();
-                                if (_contentTypesComparer.Compare(lazy.Metadata.ContentTypes, currentHandler.Metadata.ContentTypes) < 0)
-                                {
-                                    foundBetterHandler = true;
-                                    handlerBuckets[i].Pop();
-                                    yield return new ValueTuple<ITextBuffer, ICommandHandler>(buffers[i], lazy.Value);
-                                    break;
-                                }
-                            }
-                        }
+        private static IEnumerable<Lazy<ICommandHandler, ICommandHandlerMetadata>> SelectMatchingCommandHandlers(
+            IEnumerable<Lazy<ICommandHandler, ICommandHandlerMetadata>> commandHandlers, IContentType contentType,
+            ITextViewRoleSet textViewRoles)
+        {
+            return commandHandlers.Where(commandHandler =>
+                MatchesContentType(commandHandler.Metadata, contentType) &&
+                MatchesTextViewRoles(commandHandler.Metadata, textViewRoles));
+        }
 
-                        if (foundBetterHandler)
-                            continue;
-                        yield return new ValueTuple<ITextBuffer, ICommandHandler>(buffers[currentHandlerBufferIndex], currentHandler.Value);
-                        handlerBuckets[currentHandlerBufferIndex].Pop();
-                    }
-                    else
-                        break;
-                }
-            }
+        private CommandExecutionContext CreateCommandExecutionContext()
+        {
+            return new CommandExecutionContext(
+                _uiThreadOperationExecutor.BeginExecute(null, "Wait for Command Execution", true, true));
         }
 
         private IReadOnlyList<Lazy<ICommandHandler, ICommandHandlerMetadata>> GetOrCreateOrderedHandlers<T>(
@@ -222,27 +249,6 @@ namespace ModernApplicationFramework.Modules.Editor.Commanding
             }
 
             return lazyList;
-        }
-
-        private static IEnumerable<Lazy<ICommandHandler, ICommandHandlerMetadata>> SelectMatchingCommandHandlers(
-            IEnumerable<Lazy<ICommandHandler, ICommandHandlerMetadata>> commandHandlers, IContentType contentType,
-            ITextViewRoleSet textViewRoles)
-        {
-            return commandHandlers.Where(commandHandler =>
-                MatchesContentType(commandHandler.Metadata, contentType) &&
-                MatchesTextViewRoles(commandHandler.Metadata, textViewRoles));
-        }
-
-        private static bool MatchesContentType(IContentTypeMetadata handlerMetadata, IContentType contentType)
-        {
-            return handlerMetadata.ContentTypes.Any(contentType.IsOfType);
-        }
-
-        private static bool MatchesTextViewRoles(ICommandHandlerMetadata handlerMetadata, ITextViewRoleSet roles)
-        {
-            if (handlerMetadata.TextViewRoles == null)
-                return true;
-            return handlerMetadata.TextViewRoles.Any(roles.Contains);
         }
 
         private bool IsReentrantCall()

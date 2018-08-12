@@ -12,16 +12,16 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
         }
 
+        internal static int GetCaretBlinkTime()
+        {
+            return _blinkTime;
+        }
+
         private static void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
         {
             if (e.Category != UserPreferenceCategory.Keyboard)
                 return;
             _blinkTime = User32.GetCaretBlinkTime();
-        }
-
-        internal static int GetCaretBlinkTime()
-        {
-            return _blinkTime;
         }
     }
 }

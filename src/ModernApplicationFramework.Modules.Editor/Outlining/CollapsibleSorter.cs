@@ -20,9 +20,9 @@ namespace ModernApplicationFramework.Modules.Editor.Outlining
                 throw new ArgumentNullException(nameof(x));
             if (y == null)
                 throw new ArgumentNullException(nameof(y));
-            ITextSnapshot currentSnapshot = SourceBuffer.CurrentSnapshot;
-            SnapshotSpan span1 = x.Extent.GetSpan(currentSnapshot);
-            SnapshotSpan span2 = y.Extent.GetSpan(currentSnapshot);
+            var currentSnapshot = SourceBuffer.CurrentSnapshot;
+            var span1 = x.Extent.GetSpan(currentSnapshot);
+            var span2 = y.Extent.GetSpan(currentSnapshot);
             if (span1.Start != span2.Start)
                 return span1.Start.CompareTo(span2.Start);
             return -span1.Length.CompareTo(span2.Length);

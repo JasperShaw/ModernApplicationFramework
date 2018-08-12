@@ -9,45 +9,16 @@ namespace ModernApplicationFramework.Modules.Editor.Text
         public readonly StringRebuilder Builder;
         private Tuple<int, StringRebuilder> _cache;
 
-        public static ITextImage Create(StringRebuilder builder, ITextImageVersion version)
-        {
-            return new CachingTextImage(builder, version);
-        }
+        public int Length => Builder.Length;
+
+        public int LineCount => Builder.LineBreakCount + 1;
+
+        public ITextImageVersion Version { get; }
 
         private CachingTextImage(StringRebuilder builder, ITextImageVersion version)
         {
             Builder = builder ?? throw new ArgumentNullException(nameof(builder));
             Version = version;
-        }
-
-        public ITextImageVersion Version { get; }
-
-        public ITextImage GetSubText(Span span)
-        {
-            return Create(Builder.GetSubText(span), null);
-        }
-
-        public int Length => Builder.Length;
-
-        public int LineCount => Builder.LineBreakCount + 1;
-
-        public string GetText(Span span)
-        {
-            var tuple = UpdateCache(span.Start);
-            var start = span.Start - tuple.Item1;
-            if (start + span.Length < tuple.Item2.Length)
-                return tuple.Item2.GetText(new Span(start, span.Length));
-            return Builder.GetText(span);
-        }
-
-        public char[] ToCharArray(int startIndex, int length)
-        {
-            return Builder.ToCharArray(startIndex, length);
-        }
-
-        public void CopyTo(int sourceIndex, char[] destination, int destinationIndex, int count)
-        {
-            Builder.CopyTo(sourceIndex, destination, destinationIndex, count);
         }
 
         public char this[int position]
@@ -57,6 +28,16 @@ namespace ModernApplicationFramework.Modules.Editor.Text
                 var tuple = UpdateCache(position);
                 return tuple.Item2[position - tuple.Item1];
             }
+        }
+
+        public static ITextImage Create(StringRebuilder builder, ITextImageVersion version)
+        {
+            return new CachingTextImage(builder, version);
+        }
+
+        public void CopyTo(int sourceIndex, char[] destination, int destinationIndex, int count)
+        {
+            Builder.CopyTo(sourceIndex, destination, destinationIndex, count);
         }
 
         public TextImageLine GetLineFromLineNumber(int lineNumber)
@@ -75,6 +56,25 @@ namespace ModernApplicationFramework.Modules.Editor.Text
             return Builder.GetLineNumberFromPosition(position);
         }
 
+        public ITextImage GetSubText(Span span)
+        {
+            return Create(Builder.GetSubText(span), null);
+        }
+
+        public string GetText(Span span)
+        {
+            var tuple = UpdateCache(span.Start);
+            var start = span.Start - tuple.Item1;
+            if (start + span.Length < tuple.Item2.Length)
+                return tuple.Item2.GetText(new Span(start, span.Length));
+            return Builder.GetText(span);
+        }
+
+        public char[] ToCharArray(int startIndex, int length)
+        {
+            return Builder.ToCharArray(startIndex, length);
+        }
+
         public void Write(TextWriter writer, Span span)
         {
             Builder.Write(writer, span);
@@ -89,6 +89,7 @@ namespace ModernApplicationFramework.Modules.Editor.Text
                 tuple = new Tuple<int, StringRebuilder>(offset, leaf);
                 _cache = tuple;
             }
+
             return tuple;
         }
     }

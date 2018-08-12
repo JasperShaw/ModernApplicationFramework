@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.Composition;
 using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Text.Logic.Tagging;
 using ModernApplicationFramework.Text.Ui.Editor;
@@ -18,16 +13,16 @@ namespace ModernApplicationFramework.Modules.Editor.OverviewMargin
     [ContentType("any")]
     internal class PreviewTextMarkerTaggerProvider : IViewTaggerProvider
     {
-        [Import]
-        internal IViewTagAggregatorFactoryService TagAggregatorFactoryService { get; set; }
+        [Import] internal IViewTagAggregatorFactoryService TagAggregatorFactoryService { get; set; }
 
         public ITagger<T> CreateTagger<T>(ITextView textView, ITextBuffer buffer) where T : ITag
         {
             if (textView.TextBuffer == buffer)
-            {
                 if (textView.TextViewModel is PreviewTextViewModel textViewModel)
-                    return new PreviewTextMarkerTagger(textViewModel.SourceView, textView, TagAggregatorFactoryService.CreateTagAggregator<ITextMarkerTag>(textViewModel.SourceView)) as ITagger<T>;
-            }
+                    return new PreviewTextMarkerTagger(textViewModel.SourceView, textView,
+                            TagAggregatorFactoryService.CreateTagAggregator<ITextMarkerTag>(textViewModel.SourceView))
+                        as
+                        ITagger<T>;
             return null;
         }
     }

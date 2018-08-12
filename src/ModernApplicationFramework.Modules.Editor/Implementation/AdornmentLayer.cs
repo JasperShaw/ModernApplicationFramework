@@ -14,6 +14,25 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
         internal List<AdornmentAndData> _elements;
         private readonly bool _isOverlayLayer;
 
+        public ReadOnlyCollection<IAdornmentLayerElement> Elements
+        {
+            get
+            {
+                return new ReadOnlyCollection<IAdornmentLayerElement>(_elements.ConvertAll(d =>
+                    (IAdornmentLayerElement) d));
+            }
+        }
+
+        public bool IsEmpty => _elements.Count == 0;
+
+        public new double Opacity
+        {
+            get => base.Opacity;
+            set => base.Opacity = value;
+        }
+
+        public ITextView TextView { get; }
+
         public AdornmentLayer(ITextView view, bool isOverlayLayer = false)
         {
             TextView = view;
@@ -56,14 +75,6 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             return flag;
         }
 
-        public void RemoveAllAdornments()
-        {
-            foreach (var element in _elements)
-                RemoveTranslatableVisual(element);
-
-            _elements = new List<AdornmentAndData>();
-        }
-
         public void RemoveAdornment(UIElement element)
         {
             if (element == null)
@@ -80,16 +91,24 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             }
         }
 
-        public void RemoveAdornmentsByVisualSpan(SnapshotSpan visualSpan)
-        {
-            InternalRemoveMatchingAdornments(visualSpan, AlwaysTrue);
-        }
-
         public void RemoveAdornmentsByTag(object tag)
         {
             if (tag == null)
                 throw new ArgumentNullException(nameof(tag));
             InternalRemoveMatchingAdornments(new SnapshotSpan?(), adornment => Equals(adornment.Tag, tag));
+        }
+
+        public void RemoveAdornmentsByVisualSpan(SnapshotSpan visualSpan)
+        {
+            InternalRemoveMatchingAdornments(visualSpan, AlwaysTrue);
+        }
+
+        public void RemoveAllAdornments()
+        {
+            foreach (var element in _elements)
+                RemoveTranslatableVisual(element);
+
+            _elements = new List<AdornmentAndData>();
         }
 
         public void RemoveMatchingAdornments(Predicate<IAdornmentLayerElement> match)
@@ -102,42 +121,39 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             InternalRemoveMatchingAdornments(visualSpan, match);
         }
 
-        public ITextView TextView { get; }
-
-        public bool IsEmpty => _elements.Count == 0;
-
-        public new double Opacity
+        internal static ITextViewLine GetCrossingLine(IList<ITextViewLine> lines, SnapshotSpan span)
         {
-            get => base.Opacity;
-            set => base.Opacity = value;
-        }
-
-        public ReadOnlyCollection<IAdornmentLayerElement> Elements
-        {
-            get
+            if (lines.Count > 0)
             {
-                return new ReadOnlyCollection<IAdornmentLayerElement>(_elements.ConvertAll(d =>
-                    (IAdornmentLayerElement) d));
-            }
-        }
+                int start = span.Start;
+                var num1 = start + Math.Max(1, span.Length);
+                var num2 = 0;
+                var num3 = lines.Count;
+                while (num2 < num3)
+                {
+                    var index = (num2 + num3) / 2;
+                    var line = lines[index];
+                    if (num1 <= line.Start)
+                    {
+                        num3 = index;
+                    }
+                    else
+                    {
+                        if (start < line.EndIncludingLineBreak)
+                            return line;
+                        num2 = index + 1;
+                    }
+                }
 
-        private static bool AlwaysTrue(IAdornmentLayerElement adornment)
-        {
-            return true;
-        }
-
-        private void InternalRemoveMatchingAdornments(SnapshotSpan? visualSpan, Predicate<IAdornmentLayerElement> match)
-        {
-            var adornmentAndDataList = new List<AdornmentAndData>(_elements.Count);
-            foreach (var element in _elements)
-            {
-                if ((!visualSpan.HasValue || element.OverlapsWith(visualSpan.Value)) && match(element))
-                    RemoveTranslatableVisual(element);
-                else
-                    adornmentAndDataList.Add(element);
+                if (num1 > span.Snapshot.Length)
+                {
+                    var line = lines[lines.Count - 1];
+                    if (line.End == start)
+                        return line;
+                }
             }
 
-            _elements = adornmentAndDataList;
+            return null;
         }
 
         internal void SetSnapshotAndUpdate(ITextSnapshot snapshot, double deltaX, double deltaY,
@@ -182,10 +198,29 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                                 element.Translate(deltaX, 0.0);
                         }
                         else
+                        {
                             element.Translate(deltaX, deltaY);
+                        }
                     }
                 }
             }
+
+            _elements = adornmentAndDataList;
+        }
+
+        private static bool AlwaysTrue(IAdornmentLayerElement adornment)
+        {
+            return true;
+        }
+
+        private void InternalRemoveMatchingAdornments(SnapshotSpan? visualSpan, Predicate<IAdornmentLayerElement> match)
+        {
+            var adornmentAndDataList = new List<AdornmentAndData>(_elements.Count);
+            foreach (var element in _elements)
+                if ((!visualSpan.HasValue || element.OverlapsWith(visualSpan.Value)) && match(element))
+                    RemoveTranslatableVisual(element);
+                else
+                    adornmentAndDataList.Add(element);
 
             _elements = adornmentAndDataList;
         }
@@ -196,44 +231,19 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             data.RemovedCallback?.Invoke(data.Tag, data.Adornment);
         }
 
-        internal static ITextViewLine GetCrossingLine(IList<ITextViewLine> lines, SnapshotSpan span)
-        {
-            if (lines.Count > 0)
-            {
-                int start = span.Start;
-                var num1 = start + Math.Max(1, span.Length);
-                var num2 = 0;
-                var num3 = lines.Count;
-                while (num2 < num3)
-                {
-                    var index = (num2 + num3) / 2;
-                    var line = lines[index];
-                    if (num1 <= line.Start)
-                    {
-                        num3 = index;
-                    }
-                    else
-                    {
-                        if (start < line.EndIncludingLineBreak)
-                            return line;
-                        num2 = index + 1;
-                    }
-                }
-
-                if (num1 > span.Snapshot.Length)
-                {
-                    var line = lines[lines.Count - 1];
-                    if (line.End == start)
-                        return line;
-                }
-            }
-
-            return null;
-        }
-
         internal class AdornmentAndData : IAdornmentLayerElement
         {
             internal readonly UIElement Element;
+
+            public UIElement Adornment => Element;
+
+            public AdornmentPositioningBehavior Behavior { get; }
+
+            public AdornmentRemovedCallback RemovedCallback { get; }
+
+            public object Tag { get; }
+
+            public SnapshotSpan? VisualSpan { get; private set; }
 
             public AdornmentAndData(AdornmentPositioningBehavior behavior, SnapshotSpan? visualSpan, object tag,
                 UIElement element, AdornmentRemovedCallback removedCallback)
@@ -244,16 +254,6 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                 Element = element;
                 RemovedCallback = removedCallback;
             }
-
-            public AdornmentPositioningBehavior Behavior { get; }
-
-            public UIElement Adornment => Element;
-
-            public AdornmentRemovedCallback RemovedCallback { get; }
-
-            public object Tag { get; }
-
-            public SnapshotSpan? VisualSpan { get; private set; }
 
             public bool OverlapsWith(SnapshotSpan visualSpan)
             {
@@ -266,8 +266,8 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                 var length2 = Math.Max(1, length1);
                 var local = new Span(start, length2);
                 return visualSpan.Start < local.End && (visualSpan.End > local.Start ||
-                                                       visualSpan.End == local.Start &&
-                                                       local.Start == visualSpan.Snapshot.Length);
+                                                        visualSpan.End == local.Start &&
+                                                        local.Start == visualSpan.Snapshot.Length);
             }
 
             public void SetSnapshot(ITextSnapshot snapshot)

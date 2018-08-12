@@ -21,10 +21,10 @@ namespace ModernApplicationFramework.Modules.Editor.Text
 
         public override int GetChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex)
         {
-            int chars1 = _decoder.GetChars(bytes, byteIndex, byteCount, chars, charIndex);
+            var chars1 = _decoder.GetChars(bytes, byteIndex, byteCount, chars, charIndex);
             if (_response != null)
             {
-                int num = charIndex + chars1;
+                var num = charIndex + chars1;
                 for (var index = charIndex; index < num; ++index)
                 {
                     if (chars[index] <= '\x007F')
@@ -34,6 +34,7 @@ namespace ModernApplicationFramework.Modules.Editor.Text
                     break;
                 }
             }
+
             return chars1;
         }
     }

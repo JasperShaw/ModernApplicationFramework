@@ -11,19 +11,19 @@ namespace ModernApplicationFramework.Modules.Editor.Text
     internal class TextDocument : ITextDocument
     {
         private readonly bool _attemptUtf8Detection;
+        private readonly bool _explicitEncoding;
+        private readonly TextDocumentFactoryService _textDocumentFactoryService;
         private int _cleanReiteratedVersion;
         private Encoding _encoding;
-        private readonly bool _explicitEncoding;
+        private DateTime _lastModifiedTimeUtc;
+
         private bool _raisingDirtyStateChangedEvent;
         private bool _raisingFileActionChangedEvent;
-        private readonly TextDocumentFactoryService _textDocumentFactoryService;
         public event EventHandler DirtyStateChanged;
-
-        private DateTime _lastSavedTimeUtc;
-        private DateTime _lastModifiedTimeUtc;
 
         public event EventHandler<EncodingChangedEventArgs> EncodingChanged;
         public event EventHandler<TextDocumentFileActionEventArgs> FileActionOccurred;
+
         public Encoding Encoding
         {
             get => _encoding;
@@ -33,7 +33,8 @@ namespace ModernApplicationFramework.Modules.Editor.Text
                 _encoding = value ?? throw new ArgumentNullException(nameof(value));
                 if (_encoding.Equals(encoding))
                     return;
-                _textDocumentFactoryService.GuardedOperations.RaiseEvent(this, EncodingChanged, new EncodingChangedEventArgs(encoding, _encoding));
+                _textDocumentFactoryService.GuardedOperations.RaiseEvent(this, EncodingChanged,
+                    new EncodingChangedEventArgs(encoding, _encoding));
             }
         }
 
@@ -45,7 +46,7 @@ namespace ModernApplicationFramework.Modules.Editor.Text
 
         public DateTime LastContentModifiedTime { get; private set; }
 
-        public DateTime LastSavedTime => _lastSavedTimeUtc;
+        public DateTime LastSavedTime { get; private set; }
 
         public ITextBuffer TextBuffer { get; private set; }
 
@@ -110,16 +111,18 @@ namespace ModernApplicationFramework.Modules.Editor.Text
             try
             {
                 IsReloading = true;
-                using (var stream = TextDocumentFactoryService.OpenFileGuts(FilePath, out _lastModifiedTimeUtc, out var fileSize))
+                using (var stream =
+                    TextDocumentFactoryService.OpenFileGuts(FilePath, out _lastModifiedTimeUtc, out var fileSize))
                 {
                     var encodingDetectorExtensions =
                         ExtensionSelector.SelectMatchingExtensions(_textDocumentFactoryService.OrderedEncodingDetectors,
                             TextBuffer.ContentType);
-                    encoding1 = !_explicitEncoding ? EncodedStreamReader.DetectEncoding(stream, encodingDetectorExtensions, _textDocumentFactoryService.GuardedOperations) : Encoding;
+                    encoding1 = !_explicitEncoding
+                        ? EncodedStreamReader.DetectEncoding(stream, encodingDetectorExtensions,
+                            _textDocumentFactoryService.GuardedOperations)
+                        : Encoding;
                     if (encoding1 == null)
-                    {
                         if (_attemptUtf8Detection)
-                        {
                             try
                             {
                                 var characterDetector = new ExtendedCharacterDetector();
@@ -128,12 +131,11 @@ namespace ModernApplicationFramework.Modules.Editor.Text
                                     ? Encoding.Default
                                     : new UTF8Encoding(false);
                             }
-                            catch (DecoderFallbackException )
+                            catch (DecoderFallbackException)
                             {
                                 stream.Position = 0L;
                             }
-                        }
-                    }
+
                     if (encoding1 == null)
                         encoding1 = Encoding.Default;
                     if (currentSnapshot.Version.Next == null)
@@ -144,7 +146,6 @@ namespace ModernApplicationFramework.Modules.Editor.Text
                         ReloadBufferFromStream(stream, fileSize, options, encoding2);
                         if (fallback.FallbackOccurred)
                             flag = true;
-
                     }
                 }
             }
@@ -185,7 +186,6 @@ namespace ModernApplicationFramework.Modules.Editor.Text
 
             PerformSave(FileMode.Create, FilePath, false);
             UpdateSaveStatus(FilePath, false);
-
         }
 
         public void SaveAs(string filePath, bool overwrite)
@@ -256,12 +256,48 @@ namespace ModernApplicationFramework.Modules.Editor.Text
                 if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
                     Directory.CreateDirectory(dir);
             }
+
             FileUtilities.SaveSnapshot(TextBuffer.CurrentSnapshot, fileMode, _encoding, filePath);
+        }
+
+        private void RaiseDirtyStateChangedEvent(bool newDirtyState)
+        {
+            _raisingDirtyStateChangedEvent = true;
+            try
+            {
+                if (IsDirty == newDirtyState)
+                    return;
+                IsDirty = newDirtyState;
+                _textDocumentFactoryService.GuardedOperations.RaiseEvent(this, DirtyStateChanged);
+            }
+            finally
+            {
+                _raisingDirtyStateChangedEvent = false;
+            }
+        }
+
+        private void RaiseFileActionChangedEvent(DateTime actionTime, FileActionTypes actionType, string filePath)
+        {
+            _raisingFileActionChangedEvent = true;
+            try
+            {
+                if (((actionType & FileActionTypes.ContentLoadedFromDisk) == FileActionTypes.ContentLoadedFromDisk ||
+                     (actionType & FileActionTypes.ContentSavedToDisk) == FileActionTypes.ContentSavedToDisk) &&
+                    _cleanReiteratedVersion == TextBuffer.CurrentSnapshot.Version.ReiteratedVersionNumber)
+                    RaiseDirtyStateChangedEvent(false);
+                _textDocumentFactoryService.GuardedOperations.RaiseEvent(this, FileActionOccurred,
+                    new TextDocumentFileActionEventArgs(filePath, actionTime, actionType));
+            }
+            finally
+            {
+                _raisingFileActionChangedEvent = false;
+            }
         }
 
         private void ReloadBufferFromStream(Stream stream, long fileSize, EditOptions options, Encoding encoding)
         {
-            using (var closingStreamReader = new EncodedStreamReader.NonStreamClosingStreamReader(stream, encoding, false))
+            using (var closingStreamReader =
+                new EncodedStreamReader.NonStreamClosingStreamReader(stream, encoding, false))
             {
                 if (TextBuffer is TextBuffer buffer)
                 {
@@ -273,7 +309,6 @@ namespace ModernApplicationFramework.Modules.Editor.Text
                         buffer.Properties.RemoveProperty("InconsistentLineEndings");
                     buffer.Properties["LongestLineLength"] = longestLineLength;
                     buffer.ReloadContent(newContent, options, this);
-
                 }
                 else
                 {
@@ -298,46 +333,12 @@ namespace ModernApplicationFramework.Modules.Editor.Text
 
         private void UpdateSaveStatus(string filePath, bool renamed)
         {
-            _lastSavedTimeUtc = new FileInfo(filePath).LastWriteTimeUtc;
+            LastSavedTime = new FileInfo(filePath).LastWriteTimeUtc;
             _cleanReiteratedVersion = TextBuffer.CurrentSnapshot.Version.ReiteratedVersionNumber;
             var type = FileActionTypes.ContentSavedToDisk;
             if (renamed)
                 type |= FileActionTypes.DocumentRenamed;
-            RaiseFileActionChangedEvent(_lastSavedTimeUtc, type, filePath);
-        }
-
-        private void RaiseFileActionChangedEvent(DateTime actionTime, FileActionTypes actionType, string filePath)
-        {
-            _raisingFileActionChangedEvent = true;
-            try
-            {
-                if (((actionType & FileActionTypes.ContentLoadedFromDisk) == FileActionTypes.ContentLoadedFromDisk || 
-                     (actionType & FileActionTypes.ContentSavedToDisk) == FileActionTypes.ContentSavedToDisk) && 
-                    _cleanReiteratedVersion == TextBuffer.CurrentSnapshot.Version.ReiteratedVersionNumber)
-                    RaiseDirtyStateChangedEvent(false);
-                _textDocumentFactoryService.GuardedOperations.RaiseEvent(this, FileActionOccurred,
-                    new TextDocumentFileActionEventArgs(filePath, actionTime, actionType));
-            }
-            finally
-            {
-                _raisingFileActionChangedEvent = false;
-            }
-        }
-
-        private void RaiseDirtyStateChangedEvent(bool newDirtyState)
-        {
-            _raisingDirtyStateChangedEvent = true;
-            try
-            {
-                if (IsDirty == newDirtyState)
-                    return;
-                IsDirty = newDirtyState;
-                _textDocumentFactoryService.GuardedOperations.RaiseEvent(this, DirtyStateChanged);
-            }
-            finally
-            {
-                _raisingDirtyStateChangedEvent = false;
-            }
+            RaiseFileActionChangedEvent(LastSavedTime, type, filePath);
         }
     }
 }

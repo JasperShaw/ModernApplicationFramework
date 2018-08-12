@@ -4,20 +4,32 @@ using System.Collections.ObjectModel;
 using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Text.Data.Differencing;
 using ModernApplicationFramework.Text.Data.Projection;
-using ModernApplicationFramework.TextEditor;
 
 namespace ModernApplicationFramework.Modules.Editor.Utilities
 {
     internal class ProjectionSpanDiffer
     {
+        internal List<SnapshotSpan>[] DeletedSurrogates;
+        internal List<SnapshotSpan>[] InsertedSurrogates;
         private readonly IDifferenceService _diffService;
         private readonly ReadOnlyCollection<SnapshotSpan> _inputDeletedSnapSpans;
         private readonly ReadOnlyCollection<SnapshotSpan> _inputInsertedSnapSpans;
         private bool _computed;
-        internal List<SnapshotSpan>[] DeletedSurrogates;
-        internal List<SnapshotSpan>[] InsertedSurrogates;
 
-        public static ProjectionSpanDifference DiffSourceSpans(IDifferenceService diffService, IProjectionSnapshot left, IProjectionSnapshot right)
+        public ReadOnlyCollection<SnapshotSpan> DeletedSpans { get; private set; }
+
+        public ReadOnlyCollection<SnapshotSpan> InsertedSpans { get; private set; }
+
+        public ProjectionSpanDiffer(IDifferenceService diffService, ReadOnlyCollection<SnapshotSpan> deletedSnapSpans,
+            ReadOnlyCollection<SnapshotSpan> insertedSnapSpans)
+        {
+            _diffService = diffService;
+            _inputDeletedSnapSpans = deletedSnapSpans;
+            _inputInsertedSnapSpans = insertedSnapSpans;
+        }
+
+        public static ProjectionSpanDifference DiffSourceSpans(IDifferenceService diffService, IProjectionSnapshot left,
+            IProjectionSnapshot right)
         {
             if (left == null)
                 throw new ArgumentNullException(nameof(left));
@@ -25,20 +37,11 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
                 throw new ArgumentNullException(nameof(right));
             if (left.TextBuffer != right.TextBuffer)
                 throw new ArgumentException("left does not belong to the same text buffer as right");
-            var projectionSpanDiffer = new ProjectionSpanDiffer(diffService, left.GetSourceSpans(), right.GetSourceSpans());
-            return new ProjectionSpanDifference(projectionSpanDiffer.GetDifferences(), projectionSpanDiffer.InsertedSpans, projectionSpanDiffer.DeletedSpans);
+            var projectionSpanDiffer =
+                new ProjectionSpanDiffer(diffService, left.GetSourceSpans(), right.GetSourceSpans());
+            return new ProjectionSpanDifference(projectionSpanDiffer.GetDifferences(),
+                projectionSpanDiffer.InsertedSpans, projectionSpanDiffer.DeletedSpans);
         }
-
-        public ProjectionSpanDiffer(IDifferenceService diffService, ReadOnlyCollection<SnapshotSpan> deletedSnapSpans, ReadOnlyCollection<SnapshotSpan> insertedSnapSpans)
-        {
-            _diffService = diffService;
-            _inputDeletedSnapSpans = deletedSnapSpans;
-            _inputInsertedSnapSpans = insertedSnapSpans;
-        }
-
-        public ReadOnlyCollection<SnapshotSpan> DeletedSpans { get; private set; }
-
-        public ReadOnlyCollection<SnapshotSpan> InsertedSpans { get; private set; }
 
         public IDifferenceCollection<SnapshotSpan> GetDifferences()
         {
@@ -47,6 +50,7 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
                 DecomposeSpans();
                 _computed = true;
             }
+
             var snapshotSpanList1 = new List<SnapshotSpan>();
             var snapshotSpanList2 = new List<SnapshotSpan>();
             DeletedSpans = snapshotSpanList1.AsReadOnly();
@@ -73,9 +77,11 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
                     thingList = new List<Thing>();
                     dictionary1.Add(inputDeletedSnapSpan.Snapshot, thingList);
                 }
+
                 thingList.Add(new Thing(inputDeletedSnapSpan.Span, position));
                 DeletedSurrogates[position] = new List<SnapshotSpan>();
             }
+
             var dictionary2 = new Dictionary<ITextSnapshot, List<Thing>>();
             for (var position = 0; position < _inputInsertedSnapSpans.Count; ++position)
             {
@@ -85,9 +91,11 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
                     thingList = new List<Thing>();
                     dictionary2.Add(insertedSnapSpan.Snapshot, thingList);
                 }
+
                 thingList.Add(new Thing(insertedSnapSpan.Span, position));
                 InsertedSurrogates[position] = new List<SnapshotSpan>();
             }
+
             foreach (var keyValuePair in dictionary1)
             {
                 var key = keyValuePair.Key;
@@ -112,7 +120,8 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
                         }
                         else
                         {
-                            var normalizedSpanCollection1 = NormalizedSpanCollection.Difference(new NormalizedSpanCollection(span1), new NormalizedSpanCollection(nullable.Value));
+                            var normalizedSpanCollection1 = NormalizedSpanCollection.Difference(
+                                new NormalizedSpanCollection(span1), new NormalizedSpanCollection(nullable.Value));
                             Span span3;
                             if (normalizedSpanCollection1.Count > 0)
                             {
@@ -135,14 +144,18 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
                                             continue;
                                         }
                                     }
+
                                     thingList1.Insert(index1++, new Thing(span4, position));
                                     ++index3;
                                 }
+
                                 if (!flag)
                                     thingList1.Insert(index1++, new Thing(nullable.Value, position));
                                 --index1;
                             }
-                            var normalizedSpanCollection2 = NormalizedSpanCollection.Difference(new NormalizedSpanCollection(span2), new NormalizedSpanCollection(nullable.Value));
+
+                            var normalizedSpanCollection2 = NormalizedSpanCollection.Difference(
+                                new NormalizedSpanCollection(span2), new NormalizedSpanCollection(nullable.Value));
                             if (normalizedSpanCollection2.Count > 0)
                             {
                                 var position = thingList2[index2].Position;
@@ -164,32 +177,31 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
                                             continue;
                                         }
                                     }
+
                                     thingList2.Insert(index2++, new Thing(span4, position));
                                     ++index3;
                                 }
+
                                 if (!flag)
                                     thingList2.Insert(index2++, new Thing(nullable.Value, position));
                                 --index2;
                             }
                         }
+
                         if (span1.End <= span2.End)
                             ++index1;
                         if (span2.End <= span1.End)
                             ++index2;
-                    }
-                    while (index1 < thingList1.Count && index2 < thingList2.Count);
+                    } while (index1 < thingList1.Count && index2 < thingList2.Count);
                 }
             }
+
             foreach (var keyValuePair in dictionary1)
-            {
-                foreach (var thing in keyValuePair.Value)
-                    DeletedSurrogates[thing.Position].Add(new SnapshotSpan(keyValuePair.Key, thing.Span));
-            }
+            foreach (var thing in keyValuePair.Value)
+                DeletedSurrogates[thing.Position].Add(new SnapshotSpan(keyValuePair.Key, thing.Span));
             foreach (var keyValuePair in dictionary2)
-            {
-                foreach (var thing in keyValuePair.Value)
-                    InsertedSurrogates[thing.Position].Add(new SnapshotSpan(keyValuePair.Key, thing.Span));
-            }
+            foreach (var thing in keyValuePair.Value)
+                InsertedSurrogates[thing.Position].Add(new SnapshotSpan(keyValuePair.Key, thing.Span));
         }
 
         private int Comparison(Thing left, Thing right)
@@ -199,8 +211,8 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
 
         private class Thing
         {
-            public readonly Span Span;
             public readonly int Position;
+            public readonly Span Span;
 
             public Thing(Span span, int position)
             {

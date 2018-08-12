@@ -4,7 +4,12 @@ namespace ModernApplicationFramework.Modules.Editor.Text
 {
     internal class ReadOnlySpan : ForwardFidelityTrackingSpan
     {
-        internal ReadOnlySpan(ITextVersion version, Span span, SpanTrackingMode trackingMode, EdgeInsertionMode startEdgeInsertionMode, EdgeInsertionMode endEdgeInsertionMode)
+        public EdgeInsertionMode EndEdgeInsertionMode { get; }
+
+        public EdgeInsertionMode StartEdgeInsertionMode { get; }
+
+        internal ReadOnlySpan(ITextVersion version, Span span, SpanTrackingMode trackingMode,
+            EdgeInsertionMode startEdgeInsertionMode, EdgeInsertionMode endEdgeInsertionMode)
             : base(version, span, trackingMode)
         {
             StartEdgeInsertionMode = startEdgeInsertionMode;
@@ -18,9 +23,13 @@ namespace ModernApplicationFramework.Modules.Editor.Text
             EndEdgeInsertionMode = readOnlyRegion.EdgeInsertionMode;
         }
 
-        public EdgeInsertionMode StartEdgeInsertionMode { get; }
-
-        public EdgeInsertionMode EndEdgeInsertionMode { get; }
+        public bool IsInsertAllowed(int position, ITextSnapshot textSnapshot)
+        {
+            Span span = GetSpan(textSnapshot);
+            return (span.Start >= position || span.End <= position) &&
+                   (StartEdgeInsertionMode != EdgeInsertionMode.Deny || position != span.Start) &&
+                   (EndEdgeInsertionMode != EdgeInsertionMode.Deny || position != span.End);
+        }
 
         public bool IsReplaceAllowed(Span span, ITextSnapshot textSnapshot)
         {
@@ -28,12 +37,6 @@ namespace ModernApplicationFramework.Modules.Editor.Text
                 return IsInsertAllowed(span.Start, textSnapshot);
             Span span1 = GetSpan(textSnapshot);
             return span1.Length == 0 || !(span1 == span) && !span1.OverlapsWith(span);
-        }
-
-        public bool IsInsertAllowed(int position, ITextSnapshot textSnapshot)
-        {
-            Span span = GetSpan(textSnapshot);
-            return (span.Start >= position || span.End <= position) && (StartEdgeInsertionMode != EdgeInsertionMode.Deny || position != span.Start) && (EndEdgeInsertionMode != EdgeInsertionMode.Deny || position != span.End);
         }
     }
 }

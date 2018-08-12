@@ -9,45 +9,50 @@ namespace ModernApplicationFramework.Modules.Editor.Formatting
         public static TextEndOfLine LineBreak = new TextEndOfLine(1);
         private int _predictedNormalizedSpanIndex;
 
+        public int ForcedLineBreakIndex { get; set; }
+
+        public IList<NormalizedSpan> NormalizedSpans { get; }
+
+        public int TextLineStartIndex { get; set; }
+
         public NormalizedSpanTextSource(IList<NormalizedSpan> normalizedSpans)
         {
             NormalizedSpans = normalizedSpans;
         }
 
-        public IList<NormalizedSpan> NormalizedSpans { get; }
-
-        public int ForcedLineBreakIndex { get; set; }
-
-        public int TextLineStartIndex { get; set; }
-
         public NormalizedSpan FindNormalizedSpan(int tokenIndex)
         {
-            NormalizedSpan normalizedSpan = NormalizedSpans[_predictedNormalizedSpanIndex];
+            var normalizedSpan = NormalizedSpans[_predictedNormalizedSpanIndex];
             if (tokenIndex >= normalizedSpan.TokenSpan.End)
             {
                 if (_predictedNormalizedSpanIndex < NormalizedSpans.Count - 1)
-                {
                     do
                     {
                         normalizedSpan = NormalizedSpans[++_predictedNormalizedSpanIndex];
-                    }
-                    while (!normalizedSpan.TokenSpan.Contains(tokenIndex));
-                }
+                    } while (!normalizedSpan.TokenSpan.Contains(tokenIndex));
             }
             else if (tokenIndex < normalizedSpan.TokenSpan.Start)
             {
                 do
                 {
                     normalizedSpan = NormalizedSpans[--_predictedNormalizedSpanIndex];
-                }
-                while (!normalizedSpan.TokenSpan.Contains(tokenIndex));
+                } while (!normalizedSpan.TokenSpan.Contains(tokenIndex));
             }
+
             return normalizedSpan;
         }
 
-        public bool IsTab(int tokenIndex)
+        public override TextSpan<CultureSpecificCharacterBufferRange> GetPrecedingText(
+            int textSourceCharacterIndexLimit)
         {
-            return FindNormalizedSpan(tokenIndex).IsTab(tokenIndex);
+            return new TextSpan<CultureSpecificCharacterBufferRange>(0,
+                new CultureSpecificCharacterBufferRange(CultureInfo.CurrentUICulture,
+                    new CharacterBufferRange("", 0, 0)));
+        }
+
+        public override int GetTextEffectCharacterIndexFromTextSourceCharacterIndex(int textSourceCharacterIndex)
+        {
+            return textSourceCharacterIndex;
         }
 
         public override TextRun GetTextRun(int tokenIndex)
@@ -57,14 +62,9 @@ namespace ModernApplicationFramework.Modules.Editor.Formatting
             return FindNormalizedSpan(tokenIndex).GetTextRun(tokenIndex, TextLineStartIndex, ForcedLineBreakIndex);
         }
 
-        public override TextSpan<CultureSpecificCharacterBufferRange> GetPrecedingText(int textSourceCharacterIndexLimit)
+        public bool IsTab(int tokenIndex)
         {
-            return new TextSpan<CultureSpecificCharacterBufferRange>(0, new CultureSpecificCharacterBufferRange(CultureInfo.CurrentUICulture, new CharacterBufferRange("", 0, 0)));
-        }
-
-        public override int GetTextEffectCharacterIndexFromTextSourceCharacterIndex(int textSourceCharacterIndex)
-        {
-            return textSourceCharacterIndex;
+            return FindNormalizedSpan(tokenIndex).IsTab(tokenIndex);
         }
     }
 }

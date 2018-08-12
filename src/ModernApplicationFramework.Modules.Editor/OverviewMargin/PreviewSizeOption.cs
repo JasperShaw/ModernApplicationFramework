@@ -10,9 +10,8 @@ namespace ModernApplicationFramework.Modules.Editor.OverviewMargin
     [Name("OverviewMargin/PreviewSize")]
     public sealed class PreviewSizeOption : EditorOptionDefinition<int>
     {
-        public override EditorOptionKey<int> Key => DefaultTextViewHostOptions.PreviewSizeOptionId;
-
         public override int Default => 7;
+        public override EditorOptionKey<int> Key => DefaultTextViewHostOptions.PreviewSizeOptionId;
 
         public override bool IsValid(ref int proposedValue)
         {

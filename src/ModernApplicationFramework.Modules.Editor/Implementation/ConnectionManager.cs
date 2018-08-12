@@ -11,13 +11,13 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
 {
     internal class ConnectionManager
     {
+        private readonly GuardedOperations _guardedOperations;
         private readonly List<BaseListener> _listeners = new List<BaseListener>();
         private readonly ITextView _textView;
-        private readonly GuardedOperations _guardedOperations;
 
-        public ConnectionManager(ITextView textView, 
-            ICollection<Lazy<ITextViewConnectionListener, 
-            IContentTypeAndTextViewRoleMetadata>> textViewConnectionListeners, 
+        public ConnectionManager(ITextView textView,
+            ICollection<Lazy<ITextViewConnectionListener,
+                IContentTypeAndTextViewRoleMetadata>> textViewConnectionListeners,
             GuardedOperations guardedOperations)
         {
             if (textViewConnectionListeners == null)
@@ -26,21 +26,24 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             _guardedOperations = guardedOperations ?? throw new ArgumentNullException(nameof(guardedOperations));
             var lazyList1 = UiExtensionSelector.SelectMatchingExtensions(textViewConnectionListeners, _textView.Roles);
             if (lazyList1.Count > 0)
-            {
                 foreach (var lazy in lazyList1)
                 {
                     var listenerExport = lazy;
                     var listener = new Listener(listenerExport, guardedOperations);
                     _listeners.Add(listener);
-                    var subjectBuffers = textView.BufferGraph.GetTextBuffers(buffer => Match(listenerExport.Metadata, buffer.ContentType));
+                    var subjectBuffers =
+                        textView.BufferGraph.GetTextBuffers(
+                            buffer => Match(listenerExport.Metadata, buffer.ContentType));
                     if (subjectBuffers.Count > 0)
                     {
                         var errorSource = listener.ErrorSource;
                         if (errorSource != null)
-                            _guardedOperations.CallExtensionPoint(errorSource, () => listener.SubjectBuffersConnected(_textView, ConnectionReason.TextViewLifetime, subjectBuffers));
+                            _guardedOperations.CallExtensionPoint(errorSource,
+                                () => listener.SubjectBuffersConnected(_textView, ConnectionReason.TextViewLifetime,
+                                    subjectBuffers));
                     }
                 }
-            }
+
             if (_listeners.Count <= 0)
                 return;
             textView.BufferGraph.GraphBuffersChanged += OnGraphBuffersChanged;
@@ -54,14 +57,18 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             foreach (var listener1 in _listeners)
             {
                 var listener = listener1;
-                var subjectBuffers = _textView.BufferGraph.GetTextBuffers(buffer => Match(listener.Metadata, buffer.ContentType));
+                var subjectBuffers =
+                    _textView.BufferGraph.GetTextBuffers(buffer => Match(listener.Metadata, buffer.ContentType));
                 if (subjectBuffers.Count > 0)
                 {
                     var errorSource = listener.ErrorSource;
                     if (errorSource != null)
-                        _guardedOperations.CallExtensionPoint(errorSource, () => listener.SubjectBuffersDisconnected(_textView, ConnectionReason.TextViewLifetime, subjectBuffers));
+                        _guardedOperations.CallExtensionPoint(errorSource,
+                            () => listener.SubjectBuffersDisconnected(_textView, ConnectionReason.TextViewLifetime,
+                                subjectBuffers));
                 }
             }
+
             _textView.BufferGraph.GraphBuffersChanged -= OnGraphBuffersChanged;
             _textView.BufferGraph.GraphBufferContentTypeChanged -= OnGraphBufferContentTypeChanged;
         }
@@ -69,52 +76,9 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
         private static bool Match(IContentTypeMetadata metadata, IContentType bufferContentType)
         {
             foreach (var contentType in metadata.ContentTypes)
-            {
                 if (bufferContentType.IsOfType(contentType))
                     return true;
-            }
             return false;
-        }
-
-        private void OnGraphBuffersChanged(object sender, GraphBuffersChangedEventArgs args)
-        {
-            if (args.AddedBuffers.Count > 0)
-            {
-                foreach (var listener1 in _listeners)
-                {
-                    var listener = listener1;
-                    var subjectBuffers = new Collection<ITextBuffer>();
-                    foreach (var addedBuffer in args.AddedBuffers)
-                    {
-                        if (Match(listener.Metadata, addedBuffer.ContentType))
-                            subjectBuffers.Add(addedBuffer);
-                    }
-                    if (subjectBuffers.Count > 0)
-                    {
-                        var errorSource = listener.ErrorSource;
-                        if (errorSource != null)
-                            _guardedOperations.CallExtensionPoint(errorSource, () => listener.SubjectBuffersConnected(_textView, ConnectionReason.BufferGraphChange, subjectBuffers));
-                    }
-                }
-            }
-            if (args.RemovedBuffers.Count <= 0)
-                return;
-            foreach (var listener1 in _listeners)
-            {
-                var listener = listener1;
-                var subjectBuffers = new Collection<ITextBuffer>();
-                foreach (var removedBuffer in args.RemovedBuffers)
-                {
-                    if (Match(listener.Metadata, removedBuffer.ContentType))
-                        subjectBuffers.Add(removedBuffer);
-                }
-                if (subjectBuffers.Count > 0)
-                {
-                    var errorSource = listener.ErrorSource;
-                    if (errorSource != null)
-                        _guardedOperations.CallExtensionPoint(errorSource, () => listener.SubjectBuffersDisconnected(_textView, ConnectionReason.BufferGraphChange, subjectBuffers));
-                }
-            }
         }
 
         private void OnGraphBufferContentTypeChanged(object sender, GraphBufferContentTypeChangedEventArgs args)
@@ -133,6 +97,7 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                         baseListenerList1.Add(listener);
                 }
             }
+
             var subjectBuffers = new Collection<ITextBuffer>(new List<ITextBuffer>(1)
             {
                 args.TextBuffer
@@ -140,12 +105,57 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             foreach (var baseListener in baseListenerList2)
             {
                 var listener = baseListener;
-                _guardedOperations.CallExtensionPoint(listener.ErrorSource, () => listener.SubjectBuffersDisconnected(_textView, ConnectionReason.ContentTypeChange, subjectBuffers));
+                _guardedOperations.CallExtensionPoint(listener.ErrorSource,
+                    () => listener.SubjectBuffersDisconnected(_textView, ConnectionReason.ContentTypeChange,
+                        subjectBuffers));
             }
+
             foreach (var baseListener in baseListenerList1)
             {
                 var listener = baseListener;
-                _guardedOperations.CallExtensionPoint(listener.ErrorSource, () => listener.SubjectBuffersConnected(_textView, ConnectionReason.ContentTypeChange, subjectBuffers));
+                _guardedOperations.CallExtensionPoint(listener.ErrorSource,
+                    () => listener.SubjectBuffersConnected(_textView, ConnectionReason.ContentTypeChange,
+                        subjectBuffers));
+            }
+        }
+
+        private void OnGraphBuffersChanged(object sender, GraphBuffersChangedEventArgs args)
+        {
+            if (args.AddedBuffers.Count > 0)
+                foreach (var listener1 in _listeners)
+                {
+                    var listener = listener1;
+                    var subjectBuffers = new Collection<ITextBuffer>();
+                    foreach (var addedBuffer in args.AddedBuffers)
+                        if (Match(listener.Metadata, addedBuffer.ContentType))
+                            subjectBuffers.Add(addedBuffer);
+                    if (subjectBuffers.Count > 0)
+                    {
+                        var errorSource = listener.ErrorSource;
+                        if (errorSource != null)
+                            _guardedOperations.CallExtensionPoint(errorSource,
+                                () => listener.SubjectBuffersConnected(_textView, ConnectionReason.BufferGraphChange,
+                                    subjectBuffers));
+                    }
+                }
+
+            if (args.RemovedBuffers.Count <= 0)
+                return;
+            foreach (var listener1 in _listeners)
+            {
+                var listener = listener1;
+                var subjectBuffers = new Collection<ITextBuffer>();
+                foreach (var removedBuffer in args.RemovedBuffers)
+                    if (Match(listener.Metadata, removedBuffer.ContentType))
+                        subjectBuffers.Add(removedBuffer);
+                if (subjectBuffers.Count > 0)
+                {
+                    var errorSource = listener.ErrorSource;
+                    if (errorSource != null)
+                        _guardedOperations.CallExtensionPoint(errorSource,
+                            () => listener.SubjectBuffersDisconnected(_textView, ConnectionReason.BufferGraphChange,
+                                subjectBuffers));
+                }
             }
         }
 
@@ -155,22 +165,41 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
 
             public abstract IContentTypeAndTextViewRoleMetadata Metadata { get; }
 
-            public abstract void SubjectBuffersConnected(ITextView textView, ConnectionReason reason, Collection<ITextBuffer> subjectBuffers);
+            public abstract void SubjectBuffersConnected(ITextView textView, ConnectionReason reason,
+                Collection<ITextBuffer> subjectBuffers);
 
-            public abstract void SubjectBuffersDisconnected(ITextView textView, ConnectionReason reason, Collection<ITextBuffer> subjectBuffers);
+            public abstract void SubjectBuffersDisconnected(ITextView textView, ConnectionReason reason,
+                Collection<ITextBuffer> subjectBuffers);
+        }
+
+        private class Listener : ListenerCommon<ITextViewConnectionListener>
+        {
+            public Listener(Lazy<ITextViewConnectionListener, IContentTypeAndTextViewRoleMetadata> importInfo,
+                GuardedOperations guardedOperations)
+                : base(importInfo, guardedOperations)
+            {
+            }
+
+            public override void SubjectBuffersConnected(ITextView textView, ConnectionReason reason,
+                Collection<ITextBuffer> subjectBuffers)
+            {
+                Instance?.SubjectBuffersConnected(textView, reason, subjectBuffers);
+            }
+
+            public override void SubjectBuffersDisconnected(ITextView textView, ConnectionReason reason,
+                Collection<ITextBuffer> subjectBuffers)
+            {
+                Instance?.SubjectBuffersDisconnected(textView, reason, subjectBuffers);
+            }
         }
 
         private abstract class ListenerCommon<T> : BaseListener
         {
+            private readonly GuardedOperations _guardedOperations;
             private readonly Lazy<T, IContentTypeAndTextViewRoleMetadata> _importInfo;
             private T _listener;
-            private readonly GuardedOperations _guardedOperations;
 
-            protected ListenerCommon(Lazy<T, IContentTypeAndTextViewRoleMetadata> importInfo, GuardedOperations guardedOperations)
-            {
-                _importInfo = importInfo;
-                _guardedOperations = guardedOperations;
-            }
+            public override object ErrorSource => Instance;
 
             public override IContentTypeAndTextViewRoleMetadata Metadata => _importInfo.Metadata;
 
@@ -184,24 +213,11 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                 }
             }
 
-            public override object ErrorSource => Instance;
-        }
-
-        private class Listener : ListenerCommon<ITextViewConnectionListener>
-        {
-            public Listener(Lazy<ITextViewConnectionListener, IContentTypeAndTextViewRoleMetadata> importInfo, GuardedOperations guardedOperations)
-              : base(importInfo, guardedOperations)
+            protected ListenerCommon(Lazy<T, IContentTypeAndTextViewRoleMetadata> importInfo,
+                GuardedOperations guardedOperations)
             {
-            }
-
-            public override void SubjectBuffersConnected(ITextView textView, ConnectionReason reason, Collection<ITextBuffer> subjectBuffers)
-            {
-                Instance?.SubjectBuffersConnected(textView, reason, subjectBuffers);
-            }
-
-            public override void SubjectBuffersDisconnected(ITextView textView, ConnectionReason reason, Collection<ITextBuffer> subjectBuffers)
-            {
-                Instance?.SubjectBuffersDisconnected(textView, reason, subjectBuffers);
+                _importInfo = importInfo;
+                _guardedOperations = guardedOperations;
             }
         }
     }

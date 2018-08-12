@@ -47,7 +47,8 @@ namespace ModernApplicationFramework.Modules.Editor.UrlTagger
                                     var start2 = span.Start;
                                     span = urL.Url;
                                     var length1 = span.Length;
-                                    if (Uri.TryCreate(str2.Substring(start2, length1).Replace("\\\\", "\\"), UriKind.Absolute, out var result))
+                                    if (Uri.TryCreate(str2.Substring(start2, length1).Replace("\\\\", "\\"),
+                                        UriKind.Absolute, out var result))
                                     {
                                         var tag = new UrlTag(result);
                                         var start3 = line.Start;
@@ -58,6 +59,7 @@ namespace ModernApplicationFramework.Modules.Editor.UrlTagger
                                         var length2 = span.Length;
                                         yield return new TagSpan<UrlTag>(new SnapshotSpan(start5, length2), tag);
                                     }
+
                                     continue;
                             }
                         }
@@ -68,11 +70,10 @@ namespace ModernApplicationFramework.Modules.Editor.UrlTagger
 
         internal static FrugalList<ITextSnapshotLine> GetIntersectingLines(NormalizedSnapshotSpanCollection spans)
         {
-            var textSnapshotLine = (ITextSnapshotLine)null;
+            var textSnapshotLine = (ITextSnapshotLine) null;
             var frugalList = new FrugalList<ITextSnapshotLine>();
             foreach (var span in spans)
-            {
-                if (textSnapshotLine == null || textSnapshotLine.EndIncludingLineBreak < (int)span.End)
+                if (textSnapshotLine == null || textSnapshotLine.EndIncludingLineBreak < (int) span.End)
                 {
                     SnapshotPoint snapshotPoint;
                     if (textSnapshotLine == null || textSnapshotLine.EndIncludingLineBreak <= span.Start)
@@ -81,14 +82,16 @@ namespace ModernApplicationFramework.Modules.Editor.UrlTagger
                         textSnapshotLine = snapshotPoint.GetContainingLine();
                         frugalList.Add(textSnapshotLine);
                     }
-                    while (textSnapshotLine.EndIncludingLineBreak < span.End && textSnapshotLine.LineNumber < textSnapshotLine.Snapshot.LineCount)
+
+                    while (textSnapshotLine.EndIncludingLineBreak < span.End &&
+                           textSnapshotLine.LineNumber < textSnapshotLine.Snapshot.LineCount)
                     {
                         snapshotPoint = textSnapshotLine.EndIncludingLineBreak;
                         textSnapshotLine = snapshotPoint.GetContainingLine();
                         frugalList.Add(textSnapshotLine);
                     }
                 }
-            }
+
             return frugalList;
         }
     }

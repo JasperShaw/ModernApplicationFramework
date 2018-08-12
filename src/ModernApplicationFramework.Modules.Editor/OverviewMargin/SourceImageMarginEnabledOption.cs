@@ -9,8 +9,7 @@ namespace ModernApplicationFramework.Modules.Editor.OverviewMargin
     [Name("OverviewMargin/ShowSourceImageMargin")]
     public sealed class SourceImageMarginEnabledOption : EditorOptionDefinition<bool>
     {
-        public override EditorOptionKey<bool> Key => DefaultTextViewHostOptions.SourceImageMarginEnabledOptionId;
-
         public override bool Default => true;
+        public override EditorOptionKey<bool> Key => DefaultTextViewHostOptions.SourceImageMarginEnabledOptionId;
     }
 }

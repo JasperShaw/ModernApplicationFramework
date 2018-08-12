@@ -13,6 +13,8 @@ namespace ModernApplicationFramework.Modules.Editor.OverviewMargin
         private readonly ITextView _view;
         private ITagAggregator<ITextMarkerTag> _tagger;
 
+        public event EventHandler<SnapshotSpanEventArgs> TagsChanged;
+
         public PreviewTextMarkerTagger(ITextView sourceView, ITextView view, ITagAggregator<ITextMarkerTag> tagger)
         {
             _sourceView = sourceView;
@@ -21,13 +23,13 @@ namespace ModernApplicationFramework.Modules.Editor.OverviewMargin
             _tagger.TagsChanged += OnTagsChanged;
         }
 
-        private void OnTagsChanged(object sender, TagsChangedEventArgs e)
+        public void Dispose()
         {
-            var tagsChanged = TagsChanged;
-            if (tagsChanged == null)
+            if (_tagger == null)
                 return;
-            foreach (var span in e.Span.GetSpans(_view.TextSnapshot))
-                tagsChanged(this, new SnapshotSpanEventArgs(span));
+            _tagger.TagsChanged -= OnTagsChanged;
+            _tagger.Dispose();
+            _tagger = null;
         }
 
         public IEnumerable<ITagSpan<ITextMarkerTag>> GetTags(NormalizedSnapshotSpanCollection spans)
@@ -41,15 +43,13 @@ namespace ModernApplicationFramework.Modules.Editor.OverviewMargin
             }
         }
 
-        public event EventHandler<SnapshotSpanEventArgs> TagsChanged;
-
-        public void Dispose()
+        private void OnTagsChanged(object sender, TagsChangedEventArgs e)
         {
-            if (_tagger == null)
+            var tagsChanged = TagsChanged;
+            if (tagsChanged == null)
                 return;
-            _tagger.TagsChanged -= OnTagsChanged;
-            _tagger.Dispose();
-            _tagger = null;
+            foreach (var span in e.Span.GetSpans(_view.TextSnapshot))
+                tagsChanged(this, new SnapshotSpanEventArgs(span));
         }
     }
 }

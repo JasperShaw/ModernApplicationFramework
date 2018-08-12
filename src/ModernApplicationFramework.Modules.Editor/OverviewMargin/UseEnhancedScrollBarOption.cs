@@ -9,8 +9,7 @@ namespace ModernApplicationFramework.Modules.Editor.OverviewMargin
     [Name("OverviewMargin/ShowEnhancedScrollBar")]
     public sealed class UseEnhancedScrollBarOption : EditorOptionDefinition<bool>
     {
-        public override EditorOptionKey<bool> Key => DefaultTextViewHostOptions.ShowEnhancedScrollBarOptionId;
-
         public override bool Default => false;
+        public override EditorOptionKey<bool> Key => DefaultTextViewHostOptions.ShowEnhancedScrollBarOptionId;
     }
 }

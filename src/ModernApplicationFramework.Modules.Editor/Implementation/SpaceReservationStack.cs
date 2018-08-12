@@ -8,27 +8,30 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
     internal class SpaceReservationStack
     {
         internal readonly List<SpaceReservationManager> Managers = new List<SpaceReservationManager>();
-        internal Dictionary<string, int> OrderedManagerDefinitions;
         internal readonly TextView View;
+        internal Dictionary<string, int> OrderedManagerDefinitions;
         private bool _hasAggregateFocus;
 
-        private void OnManagerLostFocus(object sender, EventArgs e)
+        public bool HasAggregateFocus
         {
-            if (!_hasAggregateFocus)
-                return;
-            foreach (var manager in Managers)
+            get
             {
-                if (manager.HasAggregateFocus)
-                    return;
+                foreach (var manager in Managers)
+                    if (manager.HasAggregateFocus)
+                        return true;
+                return false;
             }
-            _hasAggregateFocus = false;
-            View.QueueAggregateFocusCheck();
         }
 
-        private void OnManagerGotFocus(object sender, EventArgs e)
+        public bool IsMouseOver
         {
-            _hasAggregateFocus = true;
-            View.QueueAggregateFocusCheck();
+            get
+            {
+                foreach (var manager in Managers)
+                    if (manager.IsMouseOver)
+                        return true;
+                return false;
+            }
         }
 
         public SpaceReservationStack(Dictionary<string, int> orderedManagerDefinitions, TextView view)
@@ -40,10 +43,8 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
         public ISpaceReservationManager GetOrCreateManager(string name)
         {
             foreach (var manager in Managers)
-            {
                 if (manager.Name == name)
                     return manager;
-            }
 
             if (!OrderedManagerDefinitions.TryGetValue(name, out var rank))
                 return null;
@@ -64,30 +65,21 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                 reservationManager.PositionAndDisplay(reservedGeometry);
         }
 
-        public bool IsMouseOver
+        private void OnManagerGotFocus(object sender, EventArgs e)
         {
-            get
-            {
-                foreach (var manager in Managers)
-                {
-                    if (manager.IsMouseOver)
-                        return true;
-                }
-                return false;
-            }
+            _hasAggregateFocus = true;
+            View.QueueAggregateFocusCheck();
         }
 
-        public bool HasAggregateFocus
+        private void OnManagerLostFocus(object sender, EventArgs e)
         {
-            get
-            {
-                foreach (var manager in Managers)
-                {
-                    if (manager.HasAggregateFocus)
-                        return true;
-                }
-                return false;
-            }
+            if (!_hasAggregateFocus)
+                return;
+            foreach (var manager in Managers)
+                if (manager.HasAggregateFocus)
+                    return;
+            _hasAggregateFocus = false;
+            View.QueueAggregateFocusCheck();
         }
     }
 }

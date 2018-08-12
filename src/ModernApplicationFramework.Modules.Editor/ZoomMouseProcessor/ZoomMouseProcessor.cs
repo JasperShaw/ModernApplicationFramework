@@ -2,17 +2,20 @@
 using System.Windows.Input;
 using ModernApplicationFramework.Text.Ui.Editor;
 using ModernApplicationFramework.Text.Ui.Operations;
-using ModernApplicationFramework.TextEditor;
 
 namespace ModernApplicationFramework.Modules.Editor.ZoomMouseProcessor
 {
     internal sealed class ZoomMouseProcessor : MouseProcessorBase
     {
-        private readonly ITextView _textView;
         private readonly ZoomMouseProcessorProvider _factory;
+        private readonly ITextView _textView;
+        private IEditorOperations _targetEditorOperations;
 
         private ITextView _targetTextView;
-        private IEditorOperations _targetEditorOperations;
+
+        private IEditorOperations TargetEditorOperations => _targetEditorOperations ?? (_targetEditorOperations =
+                                                                _factory.EditorOperationsFactoryService
+                                                                    .GetEditorOperations(TargetTextView));
 
         private ITextView TargetTextView
         {
@@ -21,15 +24,15 @@ namespace ModernApplicationFramework.Modules.Editor.ZoomMouseProcessor
                 if (_targetTextView == null)
                 {
                     _targetTextView = _textView;
-                    if (_textView.Roles.Contains("EMBEDDED_PEEK_TEXT_VIEW") && _textView.Properties.TryGetProperty<ITextView>("PeekContainingTextView", out var property) && property != null)
+                    if (_textView.Roles.Contains("EMBEDDED_PEEK_TEXT_VIEW") &&
+                        _textView.Properties.TryGetProperty<ITextView>("PeekContainingTextView", out var property) &&
+                        property != null)
                         _targetTextView = property;
                 }
+
                 return _targetTextView;
             }
         }
-
-        private IEditorOperations TargetEditorOperations => _targetEditorOperations ?? (_targetEditorOperations =
-                                                                _factory.EditorOperationsFactoryService.GetEditorOperations(TargetTextView));
 
 
         public ZoomMouseProcessor(ITextView textView, ZoomMouseProcessorProvider factory)

@@ -11,6 +11,24 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
     {
         private readonly ITextView _textView;
 
+        public override bool Enabled
+        {
+            get
+            {
+                ThrowIfDisposed();
+                return _textView.Options.IsHorizontalScrollBarEnabled();
+            }
+        }
+
+        private bool IsWordWrapEnabled
+        {
+            get
+            {
+                ThrowIfDisposed();
+                return (_textView.Options.WordWrapStyle() & WordWrapStyles.WordWrap) == WordWrapStyles.WordWrap;
+            }
+        }
+
         public HorizontalScrollBarMargin(ITextView textView)
             : base(Orientation.Horizontal, "HorizontalScrollBar")
         {
@@ -26,7 +44,7 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             _textView.Options.OptionChanged += OnOptionsChanged;
             IsVisibleChanged += (sender, e) =>
             {
-                if ((bool)e.NewValue)
+                if ((bool) e.NewValue)
                 {
                     if (_textView.IsClosed)
                         return;
@@ -47,10 +65,25 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             SetResourceReference(StyleProperty, typeof(ScrollBar));
         }
 
-        private void OnOptionsChanged(object sender, EventArgs e)
+        public override void OnDispose()
         {
-            Visibility = Enabled ? Visibility.Visible : Visibility.Collapsed;
-            IsEnabled = !IsWordWrapEnabled;
+            _textView.Options.OptionChanged -= OnOptionsChanged;
+        }
+
+        internal void EditorLayoutChanged(object sender, EventArgs e)
+        {
+            if (IsWordWrapEnabled)
+            {
+                Maximum = 0.0;
+            }
+            else
+            {
+                Maximum = Math.Max(_textView.MaxTextRightCoordinate + 200.0 - _textView.ViewportWidth,
+                    _textView.ViewportLeft);
+                SetValue(LargeChangeProperty, _textView.ViewportWidth);
+                ViewportSize = _textView.ViewportWidth;
+                Value = _textView.ViewportLeft;
+            }
         }
 
         internal void HorizontalScrollBarScrolled(object sender, ScrollEventArgs e)
@@ -63,42 +96,10 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             _textView.ViewportLeft = e.NewValue;
         }
 
-        internal void EditorLayoutChanged(object sender, EventArgs e)
+        private void OnOptionsChanged(object sender, EventArgs e)
         {
-            if (IsWordWrapEnabled)
-            {
-                Maximum = 0.0;
-            }
-            else
-            {
-                Maximum = Math.Max(_textView.MaxTextRightCoordinate + 200.0 - _textView.ViewportWidth, _textView.ViewportLeft);
-                SetValue(LargeChangeProperty, _textView.ViewportWidth);
-                ViewportSize = _textView.ViewportWidth;
-                Value = _textView.ViewportLeft;
-            }
-        }
-
-        public override void OnDispose()
-        {
-            _textView.Options.OptionChanged -= OnOptionsChanged;
-        }
-
-        public override bool Enabled
-        {
-            get
-            {
-                ThrowIfDisposed();
-                return _textView.Options.IsHorizontalScrollBarEnabled();
-            }
-        }
-
-        private bool IsWordWrapEnabled
-        {
-            get
-            {
-                ThrowIfDisposed();
-                return (_textView.Options.WordWrapStyle() & WordWrapStyles.WordWrap) == WordWrapStyles.WordWrap;
-            }
+            Visibility = Enabled ? Visibility.Visible : Visibility.Collapsed;
+            IsEnabled = !IsWordWrapEnabled;
         }
     }
 }

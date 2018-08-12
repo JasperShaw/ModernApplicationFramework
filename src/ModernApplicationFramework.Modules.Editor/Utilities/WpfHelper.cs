@@ -13,14 +13,12 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
 {
     public static class WpfHelper
     {
-
-        [ThreadStatic]
-        private static NativeMethods.NativeMethods.ITfThreadMgr _threadMgr;
-        [ThreadStatic]
-        private static bool _threadMgrFailed;
-
         public static readonly double DeviceScaleX;
         public static readonly double DeviceScaleY;
+
+        [ThreadStatic] private static NativeMethods.NativeMethods.ITfThreadMgr _threadMgr;
+
+        [ThreadStatic] private static bool _threadMgrFailed;
 
         static WpfHelper()
         {
@@ -38,6 +36,128 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
             }
         }
 
+        public static IntPtr AttachContext(HwndSource hwndSource, IntPtr imeContext)
+        {
+            if (hwndSource == null)
+                throw new ArgumentNullException(nameof(hwndSource));
+            return Imm32.ImmAssociateContext(hwndSource.Handle, imeContext);
+        }
+
+        public static bool BrushesEqual(Brush brush, Brush other)
+        {
+            if (brush == null || other == null)
+                return brush == other;
+            if (brush.Opacity == 0.0 && other.Opacity == 0.0)
+                return true;
+            if (!(brush is SolidColorBrush solidColorBrush1) || !(other is SolidColorBrush solidColorBrush2))
+                return brush.Equals(other);
+            var color = solidColorBrush1.Color;
+            if (color.A == 0)
+            {
+                color = solidColorBrush2.Color;
+                if (color.A == 0)
+                    return true;
+            }
+
+            if (solidColorBrush1.Color == solidColorBrush2.Color)
+                return Math.Abs(solidColorBrush1.Opacity - solidColorBrush2.Opacity) < 0.01;
+            return false;
+        }
+
+        public static void EnableImmComposition()
+        {
+            if (_threadMgrFailed)
+                return;
+            if (_threadMgr == null)
+            {
+                Msctf.TF_CreateThreadMgr(out _threadMgr);
+                if (_threadMgr == null)
+                {
+                    _threadMgrFailed = true;
+                    return;
+                }
+            }
+
+            _threadMgr.SetFocus(IntPtr.Zero);
+        }
+
+        public static IntPtr GetDefaultImeWnd()
+        {
+            return Imm32.ImmGetDefaultIMEWnd(IntPtr.Zero);
+        }
+
+        public static string GetImmCompositionString(IntPtr immContext, int dwIndex)
+        {
+            if (immContext == IntPtr.Zero)
+                return null;
+            var compositionStringW1 = Imm32.ImmGetCompositionStringW(immContext, dwIndex, null, 0);
+            if (compositionStringW1 <= 0)
+                return null;
+            var lpBuf = new StringBuilder(compositionStringW1 / 2);
+            var compositionStringW2 = Imm32.ImmGetCompositionStringW(immContext, dwIndex, lpBuf, compositionStringW1);
+            if (compositionStringW2 <= 0)
+                return null;
+            return lpBuf.ToString().Substring(0, compositionStringW2 / 2);
+        }
+
+        public static IntPtr GetImmContext(IntPtr hwnd)
+        {
+            return hwnd != IntPtr.Zero ? Imm32.ImmGetContext(hwnd) : IntPtr.Zero;
+        }
+
+        public static IntPtr GetKeyboardLayout()
+        {
+            return User32.GetKeyboardLayout(0);
+        }
+
+        public static Visual GetRootVisual(Visual visual)
+        {
+            if (visual == null)
+                throw new ArgumentNullException(nameof(visual));
+            DependencyObject reference = visual;
+            var visual1 = visual;
+            while ((reference = VisualTreeHelper.GetParent(reference)) != null)
+                if (reference is Visual visual2)
+                    visual1 = visual2;
+            return visual1;
+        }
+
+        public static Rect GetScreenRect(Point screenCoordinates)
+        {
+            var hMonitor = User32.MonitorFromPoint(new NativeMethods.NativeMethods.POINT
+            {
+                X = (int) screenCoordinates.X,
+                Y = (int) screenCoordinates.Y
+            }, 2);
+            var structure = new NativeMethods.NativeMethods.Monitorinfo();
+            structure.CbSize = Marshal.SizeOf(structure);
+            ref var local = ref structure;
+            if (User32.GetMonitorInfo(hMonitor, ref local))
+                return new Rect(new Point(structure.RcWork.Left, structure.RcWork.Top),
+                    new Point(structure.RcWork.Right, structure.RcWork.Bottom));
+            return SystemParameters.WorkArea;
+        }
+
+        public static bool HanjaConversion(IntPtr context, IntPtr keyboardLayout, char selection)
+        {
+            if (context != IntPtr.Zero)
+            {
+                var hglobalUni = Marshal.StringToHGlobalUni(new string(selection, 1));
+                var num = Imm32.ImmEscapeW(keyboardLayout, context, 4104, hglobalUni);
+                Marshal.FreeHGlobal(hglobalUni);
+                var zero = IntPtr.Zero;
+                if (num != zero)
+                    return true;
+            }
+
+            return false;
+        }
+
+        public static bool ImmNotifyIme(IntPtr immContext, int dwAction, int dwIndex, int dwValue)
+        {
+            return Imm32.ImmNotifyIME(immContext, dwAction, dwIndex, dwValue);
+        }
+
         public static Cursor LoadCursorDpiAware(Stream cursorStream)
         {
             var filePath = string.Empty;
@@ -46,7 +166,9 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
                 using (new BinaryReader(cursorStream))
                 {
                     using (var randomFileNameStream = GetRandomFileNameStream(Path.GetTempPath(), out filePath))
+                    {
                         cursorStream.CopyTo(randomFileNameStream);
+                    }
                 }
 
                 var safeCursor = new SafeCursor(User32.LoadImage(IntPtr.Zero, filePath,
@@ -66,73 +188,8 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
                 if (File.Exists(filePath))
                     File.Delete(filePath);
             }
+
             return null;
-        }
-
-        private static FileStream GetRandomFileNameStream(string fileDirectory, out string filePath)
-        {
-            var num = 0;
-            filePath = string.Empty;
-            while (num++ < 2)
-            {
-                var randomFileName = Path.GetRandomFileName();
-                filePath = Path.Combine(fileDirectory, randomFileName + "~");
-                if (!File.Exists(filePath))
-                {
-                    try
-                    {
-                        return new FileStream(filePath, FileMode.CreateNew, FileAccess.Write, FileShare.None);
-                    }
-                    catch
-                    {
-                        // ignored
-                    }
-                }
-            }
-            throw new IOException(filePath + " exists");
-        }
-
-        public static bool HanjaConversion(IntPtr context, IntPtr keyboardLayout, char selection)
-        {
-            if (context != IntPtr.Zero)
-            {
-                var hglobalUni = Marshal.StringToHGlobalUni(new string(selection, 1));
-                var num = Imm32.ImmEscapeW(keyboardLayout, context, 4104, hglobalUni);
-                Marshal.FreeHGlobal(hglobalUni);
-                var zero = IntPtr.Zero;
-                if (num != zero)
-                    return true;
-            }
-            return false;
-        }
-
-        public static IntPtr GetKeyboardLayout()
-        {
-            return User32.GetKeyboardLayout(0);
-        }
-
-        public static bool TypefacesEqual(Typeface typeface, Typeface other)
-        {
-            if (typeface == null)
-                return other == null;
-            return typeface.Equals(other);
-        }
-
-        public static IntPtr AttachContext(HwndSource hwndSource, IntPtr imeContext)
-        {
-            if (hwndSource == null)
-                throw new ArgumentNullException(nameof(hwndSource));
-            return Imm32.ImmAssociateContext(hwndSource.Handle, imeContext);
-        }
-
-        public static IntPtr GetDefaultImeWnd()
-        {
-            return Imm32.ImmGetDefaultIMEWnd(IntPtr.Zero);
-        }
-
-        public static IntPtr GetImmContext(IntPtr hwnd)
-        {
-            return hwnd != IntPtr.Zero ? Imm32.ImmGetContext(hwnd) : IntPtr.Zero;
         }
 
         public static bool ReleaseContext(IntPtr hwnd, IntPtr immContext)
@@ -142,100 +199,10 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
             return false;
         }
 
-        public static void EnableImmComposition()
-        {
-            if (_threadMgrFailed)
-                return;
-            if (_threadMgr == null)
-            {
-                Msctf.TF_CreateThreadMgr(out _threadMgr);
-                if (_threadMgr == null)
-                {
-                    _threadMgrFailed = true;
-                    return;
-                }
-            }
-            _threadMgr.SetFocus(IntPtr.Zero);
-        }
-
-        public static void SetNoTopmost(Visual visual)
-        {
-            if (visual == null)
-                return;
-            if (!(PresentationSource.FromVisual(visual) is HwndSource hwndSource))
-                return;
-            User32.SetWindowPos(hwndSource.Handle, new IntPtr(-2), 0, 0, 0, 0, 19);
-        }
-
-        public static Rect GetScreenRect(Point screenCoordinates)
-        {
-            var hMonitor = User32.MonitorFromPoint(new NativeMethods.NativeMethods.POINT()
-            {
-                X = (int)screenCoordinates.X,
-                Y = (int)screenCoordinates.Y
-            }, 2);
-            var structure = new NativeMethods.NativeMethods.Monitorinfo();
-            structure.CbSize = Marshal.SizeOf(structure);
-            ref var local = ref structure;
-            if (User32.GetMonitorInfo(hMonitor, ref local))
-                return new Rect(new Point(structure.RcWork.Left, structure.RcWork.Top), new Point(structure.RcWork.Right, structure.RcWork.Bottom));
-            return SystemParameters.WorkArea;
-        }
-
-        public static bool BrushesEqual(Brush brush, Brush other)
-        {
-            if (brush == null || other == null)
-                return brush == other;
-            if (brush.Opacity == 0.0 && other.Opacity == 0.0)
-                return true;
-            if (!(brush is SolidColorBrush solidColorBrush1) || !(other is SolidColorBrush solidColorBrush2))
-                return brush.Equals(other);
-            var color = solidColorBrush1.Color;
-            if (color.A == 0)
-            {
-                color = solidColorBrush2.Color;
-                if (color.A == 0)
-                    return true;
-            }
-            if (solidColorBrush1.Color == solidColorBrush2.Color)
-                return Math.Abs(solidColorBrush1.Opacity - solidColorBrush2.Opacity) < 0.01;
-            return false;
-        }
-
-        public static bool ImmNotifyIme(IntPtr immContext, int dwAction, int dwIndex, int dwValue)
-        {
-            return Imm32.ImmNotifyIME(immContext, dwAction, dwIndex, dwValue);
-        }
-
-        public static string GetImmCompositionString(IntPtr immContext, int dwIndex)
-        {
-            if (immContext == IntPtr.Zero)
-                return null;
-            var compositionStringW1 = Imm32.ImmGetCompositionStringW(immContext, dwIndex, null, 0);
-            if (compositionStringW1 <= 0)
-                return null;
-            var lpBuf = new StringBuilder(compositionStringW1 / 2);
-            var compositionStringW2 = Imm32.ImmGetCompositionStringW(immContext, dwIndex, lpBuf, compositionStringW1);
-            if (compositionStringW2 <= 0)
-                return null;
-            return lpBuf.ToString().Substring(0, compositionStringW2 / 2);
-        }
-
-        public static Visual GetRootVisual(Visual visual)
-        {
-            if (visual == null)
-                throw new ArgumentNullException(nameof(visual));
-            DependencyObject reference = visual;
-            var visual1 = visual;
-            while ((reference = VisualTreeHelper.GetParent(reference)) != null)
-            {
-                if (reference is Visual visual2)
-                    visual1 = visual2;
-            }
-            return visual1;
-        }
-
-        public static bool SetCompositionPositionAndHeight(HwndSource source, IntPtr immContext, string baseFont, string compositionFont, double topPaddingOverride, double bottomPaddingOverride, double heightPaddingOverride, Point compositionTopLeft, double textHeight, Visual relativeTo, Point viewTopLeft, Point viewBottomRight)
+        public static bool SetCompositionPositionAndHeight(HwndSource source, IntPtr immContext, string baseFont,
+            string compositionFont, double topPaddingOverride, double bottomPaddingOverride,
+            double heightPaddingOverride, Point compositionTopLeft, double textHeight, Visual relativeTo,
+            Point viewTopLeft, Point viewBottomRight)
         {
             if (immContext == IntPtr.Zero)
                 throw new ArgumentNullException(nameof(immContext));
@@ -247,11 +214,13 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
             var ancestor = relativeTo.TransformToAncestor(rootVisual);
             if (string.IsNullOrEmpty(compositionFont))
                 compositionFont = CompositionFontMapper.GetCompositionFont(baseFont);
-            CompositionFontMapper.GetSizeAdjustments(baseFont, compositionFont, out var topPadding, out var bottomPadding, out var heightPadding);
+            CompositionFontMapper.GetSizeAdjustments(baseFont, compositionFont, out var topPadding,
+                out var bottomPadding, out var heightPadding);
             var num1 = double.IsNaN(topPaddingOverride) ? topPadding : topPaddingOverride;
             bottomPadding = double.IsNaN(bottomPaddingOverride) ? bottomPadding : bottomPaddingOverride;
             var num2 = double.IsNaN(heightPaddingOverride) ? heightPadding : heightPaddingOverride;
-            var point = ancestor.Transform(new Point(compositionTopLeft.X, compositionTopLeft.Y + textHeight + bottomPadding));
+            var point = ancestor.Transform(new Point(compositionTopLeft.X,
+                compositionTopLeft.Y + textHeight + bottomPadding));
             compositionTopLeft = ancestor.Transform(new Point(compositionTopLeft.X, compositionTopLeft.Y - num1));
             viewTopLeft = ancestor.Transform(viewTopLeft);
             viewBottomRight = ancestor.Transform(viewBottomRight);
@@ -291,10 +260,10 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
                     Y = Math.Max(0, (int) compositionTopLeft.Y)
                 }
             };
-            structure2.RcArea.Left = Math.Min((int)viewTopLeft.X, structure2.PtCurrentPos.X);
-            structure2.RcArea.Top = Math.Min((int)viewTopLeft.Y, structure2.PtCurrentPos.Y);
-            structure2.RcArea.Right = Math.Max((int)viewBottomRight.X, structure2.PtCurrentPos.X);
-            structure2.RcArea.Bottom = Math.Max((int)viewBottomRight.Y, structure2.PtCurrentPos.Y);
+            structure2.RcArea.Left = Math.Min((int) viewTopLeft.X, structure2.PtCurrentPos.X);
+            structure2.RcArea.Top = Math.Min((int) viewTopLeft.Y, structure2.PtCurrentPos.Y);
+            structure2.RcArea.Right = Math.Max((int) viewBottomRight.X, structure2.PtCurrentPos.X);
+            structure2.RcArea.Bottom = Math.Max((int) viewBottomRight.Y, structure2.PtCurrentPos.Y);
             var num4 = Marshal.AllocHGlobal(Marshal.SizeOf(structure2));
             try
             {
@@ -307,20 +276,58 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
             }
         }
 
+        public static void SetNoTopmost(Visual visual)
+        {
+            if (visual == null)
+                return;
+            if (!(PresentationSource.FromVisual(visual) is HwndSource hwndSource))
+                return;
+            User32.SetWindowPos(hwndSource.Handle, new IntPtr(-2), 0, 0, 0, 0, 19);
+        }
+
+        public static bool TypefacesEqual(Typeface typeface, Typeface other)
+        {
+            if (typeface == null)
+                return other == null;
+            return typeface.Equals(other);
+        }
+
+        private static FileStream GetRandomFileNameStream(string fileDirectory, out string filePath)
+        {
+            var num = 0;
+            filePath = string.Empty;
+            while (num++ < 2)
+            {
+                var randomFileName = Path.GetRandomFileName();
+                filePath = Path.Combine(fileDirectory, randomFileName + "~");
+                if (!File.Exists(filePath))
+                    try
+                    {
+                        return new FileStream(filePath, FileMode.CreateNew, FileAccess.Write, FileShare.None);
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+            }
+
+            throw new IOException(filePath + " exists");
+        }
+
 
         private static class CompositionFontMapper
         {
-            private static readonly IDictionary<int, LanguageFontMapping> LanguageMap =
-                new Dictionary<int, LanguageFontMapping>(9);
-
-            private static readonly IDictionary<string, FontSizeMapping> FontMap =
-                new Dictionary<string, FontSizeMapping>(25);
-
             private static readonly IDictionary<string, FontSizeMapping> ConsolasFontMap =
                 new Dictionary<string, FontSizeMapping>(6);
 
             private static readonly IDictionary<string, FontSizeMapping> CourierNewFontMap =
                 new Dictionary<string, FontSizeMapping>(6);
+
+            private static readonly IDictionary<string, FontSizeMapping> FontMap =
+                new Dictionary<string, FontSizeMapping>(25);
+
+            private static readonly IDictionary<int, LanguageFontMapping> LanguageMap =
+                new Dictionary<int, LanguageFontMapping>(9);
 
             static CompositionFontMapper()
             {
@@ -452,9 +459,9 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
 
             private struct FontSizeMapping
             {
-                public readonly double TopPadding;
                 public readonly double BottomPadding;
                 public readonly double HeightPadding;
+                public readonly double TopPadding;
 
                 public FontSizeMapping(double topPadding, double bottomPadding, double unadjustedHeightPadding)
                 {
@@ -466,8 +473,8 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
 
             private class LanguageFontMapping
             {
-                private readonly string _oldFallbackFont;
                 private readonly string _newFallbackFont;
+                private readonly string _oldFallbackFont;
 
                 public LanguageFontMapping(string oldFallbackFont, string newFallbackFont)
                 {

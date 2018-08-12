@@ -12,8 +12,7 @@ namespace ModernApplicationFramework.Modules.Editor.Classification
     [TagType(typeof(ClassificationTag))]
     internal class ProjectionWorkaroundProvider : ITaggerProvider
     {
-        [Import]
-        internal IDifferenceService DiffService { get; set; }
+        [Import] internal IDifferenceService DiffService { get; set; }
 
         public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag
         {

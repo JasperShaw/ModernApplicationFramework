@@ -8,35 +8,42 @@ namespace ModernApplicationFramework.Modules.Editor.Differencing
 {
     internal class SnapshotLineList : ITokenizedStringListInternal
     {
-        private SnapshotSpan _snapshotSpan;
-        private readonly Span _lineSpan;
         private readonly Func<ITextSnapshotLine, string> _getLineTextCallback;
+        private readonly Span _lineSpan;
         private readonly StringDifferenceOptions _options;
+        private SnapshotSpan _snapshotSpan;
 
-        public SnapshotLineList(SnapshotSpan snapshotSpan, Func<ITextSnapshotLine, string> getLineTextCallback, StringDifferenceOptions options)
+        public int Count => _lineSpan.Length;
+
+        public bool IsReadOnly => true;
+
+        public string Original => _snapshotSpan.GetText();
+
+        public SnapshotLineList(SnapshotSpan snapshotSpan, Func<ITextSnapshotLine, string> getLineTextCallback,
+            StringDifferenceOptions options)
         {
             if ((options.DifferenceType & StringDifferenceTypes.Line) == 0)
                 throw new InvalidOperationException("This collection can only be used for line differencing");
             _snapshotSpan = snapshotSpan;
             _getLineTextCallback = getLineTextCallback ?? throw new ArgumentNullException(nameof(getLineTextCallback));
             _options = options;
-            ITextSnapshotLine containingLine = snapshotSpan.Start.GetContainingLine();
-            int lineNumber = snapshotSpan.Start.GetContainingLine().LineNumber;
-            SnapshotPoint end1 = snapshotSpan.End;
-            int end2 = (end1.Position < containingLine.EndIncludingLineBreak ? lineNumber : end1.GetContainingLine().LineNumber) + 1;
+            var containingLine = snapshotSpan.Start.GetContainingLine();
+            var lineNumber = snapshotSpan.Start.GetContainingLine().LineNumber;
+            var end1 = snapshotSpan.End;
+            var end2 = (end1.Position < containingLine.EndIncludingLineBreak
+                           ? lineNumber
+                           : end1.GetContainingLine().LineNumber) + 1;
             _lineSpan = Span.FromBounds(lineNumber, end2);
         }
-
-        public int Count => _lineSpan.Length;
 
         public string this[int index]
         {
             get
             {
-                SnapshotSpan spanOfIndex = GetSpanOfIndex(index);
-                ITextSnapshotLine lineFromLineNumber = _snapshotSpan.Snapshot.GetLineFromLineNumber(_lineSpan.Start + index);
-                bool flag = spanOfIndex.Length != lineFromLineNumber.LengthIncludingLineBreak;
-                string str = !flag ? _getLineTextCallback(lineFromLineNumber) : spanOfIndex.GetText();
+                var spanOfIndex = GetSpanOfIndex(index);
+                var lineFromLineNumber = _snapshotSpan.Snapshot.GetLineFromLineNumber(_lineSpan.Start + index);
+                var flag = spanOfIndex.Length != lineFromLineNumber.LengthIncludingLineBreak;
+                var str = !flag ? _getLineTextCallback(lineFromLineNumber) : spanOfIndex.GetText();
                 if (_options.IgnoreTrimWhiteSpace)
                 {
                     if (flag)
@@ -47,37 +54,14 @@ namespace ModernApplicationFramework.Modules.Editor.Differencing
                             str = str.TrimEnd(Array.Empty<char>());
                     }
                     else
+                    {
                         str = str.Trim();
+                    }
                 }
+
                 return str;
             }
             set => throw new NotSupportedException();
-        }
-
-        private SnapshotSpan GetSpanOfIndex(int index)
-        {
-            if (index < 0 || index >= _lineSpan.Length)
-                throw new ArgumentOutOfRangeException(nameof(index));
-            ITextSnapshotLine lineFromLineNumber = _snapshotSpan.Snapshot.GetLineFromLineNumber(_lineSpan.Start + index);
-            SnapshotSpan? nullable = lineFromLineNumber.ExtentIncludingLineBreak.Intersection(_snapshotSpan);
-            if (!nullable.HasValue)
-                return new SnapshotSpan(lineFromLineNumber.Start, 0);
-            return nullable.Value;
-        }
-
-        public int IndexOf(string item)
-        {
-            throw new NotSupportedException();
-        }
-
-        public void Insert(int index, string item)
-        {
-            throw new NotSupportedException();
-        }
-
-        public void RemoveAt(int index)
-        {
-            throw new NotSupportedException();
         }
 
         public void Add(string item)
@@ -100,17 +84,52 @@ namespace ModernApplicationFramework.Modules.Editor.Differencing
             throw new NotSupportedException();
         }
 
-        public bool IsReadOnly => true;
+        public Span GetElementInOriginal(int index)
+        {
+            if (index == _lineSpan.Length)
+                return new Span(_snapshotSpan.End, 0);
+            var spanOfIndex = GetSpanOfIndex(index);
+            return new Span(spanOfIndex.Start - _snapshotSpan.Start, spanOfIndex.Length);
+        }
+
+        public IEnumerator<string> GetEnumerator()
+        {
+            for (var i = 0; i < Count; ++i)
+                yield return this[i];
+        }
+
+        public Span GetSpanInOriginal(Span span)
+        {
+            var start = GetElementInOriginal(span.Start).Start;
+            if (span.IsEmpty)
+                return new Span(start, 0);
+            var end = GetElementInOriginal(span.End - 1).End;
+            return Span.FromBounds(start, end);
+        }
+
+        public int IndexOf(string item)
+        {
+            throw new NotSupportedException();
+        }
+
+        public void Insert(int index, string item)
+        {
+            throw new NotSupportedException();
+        }
+
+        public string OriginalSubstring(int startIndex, int length)
+        {
+            return _snapshotSpan.Snapshot.GetText(_snapshotSpan.Start + startIndex, length);
+        }
 
         public bool Remove(string item)
         {
             throw new NotSupportedException();
         }
 
-        public IEnumerator<string> GetEnumerator()
+        public void RemoveAt(int index)
         {
-            for (int i = 0; i < Count; ++i)
-                yield return this[i];
+            throw new NotSupportedException();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -118,28 +137,15 @@ namespace ModernApplicationFramework.Modules.Editor.Differencing
             return GetEnumerator();
         }
 
-        public string Original => _snapshotSpan.GetText();
-
-        public string OriginalSubstring(int startIndex, int length)
+        private SnapshotSpan GetSpanOfIndex(int index)
         {
-            return _snapshotSpan.Snapshot.GetText(_snapshotSpan.Start + startIndex, length);
-        }
-
-        public Span GetElementInOriginal(int index)
-        {
-            if (index == _lineSpan.Length)
-                return new Span(_snapshotSpan.End, 0);
-            SnapshotSpan spanOfIndex = GetSpanOfIndex(index);
-            return new Span(spanOfIndex.Start - _snapshotSpan.Start, spanOfIndex.Length);
-        }
-
-        public Span GetSpanInOriginal(Span span)
-        {
-            int start = GetElementInOriginal(span.Start).Start;
-            if (span.IsEmpty)
-                return new Span(start, 0);
-            int end = GetElementInOriginal(span.End - 1).End;
-            return Span.FromBounds(start, end);
+            if (index < 0 || index >= _lineSpan.Length)
+                throw new ArgumentOutOfRangeException(nameof(index));
+            var lineFromLineNumber = _snapshotSpan.Snapshot.GetLineFromLineNumber(_lineSpan.Start + index);
+            var nullable = lineFromLineNumber.ExtentIncludingLineBreak.Intersection(_snapshotSpan);
+            if (!nullable.HasValue)
+                return new SnapshotSpan(lineFromLineNumber.Start, 0);
+            return nullable.Value;
         }
     }
 }

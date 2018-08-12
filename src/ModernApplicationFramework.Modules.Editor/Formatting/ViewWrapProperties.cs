@@ -4,6 +4,10 @@ namespace ModernApplicationFramework.Modules.Editor.Formatting
 {
     internal class ViewWrapProperties
     {
+        public Brush ForegroundBrush { get; }
+
+        public double Width { get; }
+
         public ViewWrapProperties(double width, Brush foregroundBrush)
         {
             Width = width;
@@ -12,9 +16,5 @@ namespace ModernApplicationFramework.Modules.Editor.Formatting
                 return;
             ForegroundBrush.Freeze();
         }
-
-        public double Width { get; }
-
-        public Brush ForegroundBrush { get; }
     }
 }

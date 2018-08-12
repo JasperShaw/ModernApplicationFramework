@@ -12,13 +12,17 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
         private readonly ICollapsed _collapsed;
         private readonly IOutliningManager _outliningManager;
 
-        internal IViewPrimitives ViewPrimitives { get; }
-
         internal ITrackingSpan CollapsedSpan => _collapsed.Extent;
 
-        internal CollapsedAdornment(IViewPrimitives primitives, ICollapsed collapsed, IOutliningManager outliningManager)
+        internal bool IsToolTipSet =>
+            "(placeholder until ToolTipOpening event fires -- this should never be visible)" != ToolTip;
+
+        internal IViewPrimitives ViewPrimitives { get; }
+
+        internal CollapsedAdornment(IViewPrimitives primitives, ICollapsed collapsed,
+            IOutliningManager outliningManager)
         {
-            Style = (Style)FindResource(DefaultStyleKey);
+            Style = (Style) FindResource(DefaultStyleKey);
             _collapsed = collapsed;
             ViewPrimitives = primitives;
             Content = collapsed.CollapsedForm;
@@ -34,11 +38,6 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             Resources.Add(typeof(ToolTip), resource);
         }
 
-        private void HandleToolTipOpening(object sender, ToolTipEventArgs args)
-        {
-            EnsureToolTip();
-        }
-
         internal void EnsureToolTip()
         {
             if (IsToolTipSet)
@@ -46,7 +45,16 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             ToolTip = _collapsed.CollapsedHintForm;
         }
 
-        internal bool IsToolTipSet => "(placeholder until ToolTipOpening event fires -- this should never be visible)" != ToolTip;
+        private void HandleMouseDoubleClick(object sender, MouseButtonEventArgs args)
+        {
+            if (args.ChangedButton != MouseButton.Left || !_collapsed.IsCollapsed)
+                return;
+            var advancedTextView = ViewPrimitives.View.AdvancedTextView;
+            advancedTextView.Selection.Clear();
+            advancedTextView.Caret.MoveTo(_collapsed.Extent.GetStartPoint(advancedTextView.TextSnapshot));
+            _outliningManager.Expand(_collapsed);
+            args.Handled = true;
+        }
 
         private void HandleMouseLeftButtonUp(object sender, MouseButtonEventArgs args)
         {
@@ -68,15 +76,9 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             }
         }
 
-        private void HandleMouseDoubleClick(object sender, MouseButtonEventArgs args)
+        private void HandleToolTipOpening(object sender, ToolTipEventArgs args)
         {
-            if (args.ChangedButton != MouseButton.Left || !_collapsed.IsCollapsed)
-                return;
-            var advancedTextView = ViewPrimitives.View.AdvancedTextView;
-            advancedTextView.Selection.Clear();
-            advancedTextView.Caret.MoveTo(_collapsed.Extent.GetStartPoint(advancedTextView.TextSnapshot));
-            _outliningManager.Expand(_collapsed);
-            args.Handled = true;
+            EnsureToolTip();
         }
     }
 }

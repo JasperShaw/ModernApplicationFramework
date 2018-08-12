@@ -8,8 +8,10 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
     [Name("ImeCompositionWindowTopOffset")]
     public sealed class ImeCompositionWindowTopOffset : EditorOptionDefinition<double>
     {
-        public static readonly EditorOptionKey<double> KeyId = new EditorOptionKey<double>(nameof(ImeCompositionWindowTopOffset));
         public const string OptionName = "ImeCompositionWindowTopOffset";
+
+        public static readonly EditorOptionKey<double> KeyId =
+            new EditorOptionKey<double>(nameof(ImeCompositionWindowTopOffset));
 
         public override double Default => double.NaN;
 

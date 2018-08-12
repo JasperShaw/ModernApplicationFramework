@@ -16,15 +16,15 @@ namespace ModernApplicationFramework.Modules.Editor.Commanding
     [Export(typeof(IEditorCommandHandlerServiceFactory))]
     internal class EditorCommandHandlerServiceFactory : IEditorCommandHandlerServiceFactory
     {
-        private readonly IEnumerable<Lazy<ICommandHandler, ICommandHandlerMetadata>> _commandHandlers;
-
         private readonly IList<Lazy<ICommandingTextBufferResolverProvider, IContentTypeMetadata>>
             _bufferResolverProviders;
 
-        private readonly IUiThreadOperationExecutor _uiThreadOperationExecutor;
+        private readonly IEnumerable<Lazy<ICommandHandler, ICommandHandlerMetadata>> _commandHandlers;
+        private readonly StableContentTypeComparer _contentTypeComparer;
         private readonly IContentTypeRegistryService _contentTypeRegistryService;
         private readonly IGuardedOperations _guardedOperations;
-        private readonly StableContentTypeComparer _contentTypeComparer;
+
+        private readonly IUiThreadOperationExecutor _uiThreadOperationExecutor;
 
         [ImportingConstructor]
         public EditorCommandHandlerServiceFactory(
@@ -61,8 +61,8 @@ namespace ModernApplicationFramework.Modules.Editor.Commanding
         {
             if (subjectBuffer == null)
                 return GetService(textView);
-            return new EditorCommandHandlerService(textView, _commandHandlers, 
-                _uiThreadOperationExecutor, /*this._joinableTaskContext, */ _contentTypeComparer, 
+            return new EditorCommandHandlerService(textView, _commandHandlers,
+                _uiThreadOperationExecutor, /*this._joinableTaskContext, */ _contentTypeComparer,
                 new SingleBufferResolver(subjectBuffer), _guardedOperations);
         }
 

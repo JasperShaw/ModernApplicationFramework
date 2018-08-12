@@ -13,7 +13,8 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
         //protected ITextUndoHistory _undoHistory;
         //protected ITextUndoTransaction _undoTransaction;
 
-        public DefaultTextDropHandler(ITextView wpfTextView, /*ITextUndoHistory undoHistory,*/ IEditorOperations editorOperations)
+        public DefaultTextDropHandler(ITextView wpfTextView, /*ITextUndoHistory undoHistory,*/
+            IEditorOperations editorOperations)
             : base(wpfTextView, editorOperations)
         {
             if (wpfTextView == null)
@@ -31,23 +32,19 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
             return DataObjectManager.ExtractText(dragDropInfo.Data);
         }
 
-        protected override void PerformPreEditActions(DragDropInfo dragDropInfo)
-        {
-            //_undoTransaction = _undoHistory.CreateTransaction();
-            EditorOperations.AddBeforeTextBufferChangePrimitive();
-        }
-
         protected override void PerformPostEditActions(DragDropInfo dragDropInfo, bool successfulEdit)
         {
-            if (successfulEdit)
-            {
-                EditorOperations.AddAfterTextBufferChangePrimitive();
-                //_undoTransaction.Complete();
-            }
+            if (successfulEdit) EditorOperations.AddAfterTextBufferChangePrimitive();
             //else
             //    _undoTransaction.Cancel();
             //_undoTransaction.Dispose();
             //_undoTransaction = null;
+        }
+
+        protected override void PerformPreEditActions(DragDropInfo dragDropInfo)
+        {
+            //_undoTransaction = _undoHistory.CreateTransaction();
+            EditorOperations.AddBeforeTextBufferChangePrimitive();
         }
     }
 }

@@ -9,12 +9,34 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
 {
     internal abstract class ShiftClickScrollBarMargin : ScrollBar, ITextViewMargin
     {
-        private bool _inShiftLeftClick;
         private readonly string _marginName;
         private readonly Orientation _orientation;
+        private bool _inShiftLeftClick;
         private bool _isDisposed;
 
         public event EventHandler<RoutedPropertyChangedEventArgs<double>> LeftShiftClick;
+
+        public abstract bool Enabled { get; }
+
+        public double MarginSize
+        {
+            get
+            {
+                ThrowIfDisposed();
+                if (_orientation != Orientation.Vertical)
+                    return ActualWidth;
+                return ActualHeight;
+            }
+        }
+
+        public FrameworkElement VisualElement
+        {
+            get
+            {
+                ThrowIfDisposed();
+                return this;
+            }
+        }
 
         protected ShiftClickScrollBarMargin(Orientation orientation, string marginName)
         {
@@ -23,15 +45,21 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
             _orientation = orientation;
         }
 
-        protected override void OnValueChanged(double oldValue, double newValue)
+        public void Dispose()
         {
-            base.OnValueChanged(oldValue, newValue);
-            if (!_inShiftLeftClick)
-                return;
-            _inShiftLeftClick = false;
-            var leftShiftClick = LeftShiftClick;
-            leftShiftClick?.Invoke(this, new RoutedPropertyChangedEventArgs<double>(oldValue, newValue));
+            GC.SuppressFinalize(this);
+            _isDisposed = true;
+            OnDispose();
         }
+
+        public ITextViewMargin GetTextViewMargin(string marginName)
+        {
+            if (!_isDisposed && string.Compare(marginName, _marginName, StringComparison.OrdinalIgnoreCase) == 0)
+                return this;
+            return null;
+        }
+
+        public abstract void OnDispose();
 
         protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
         {
@@ -46,42 +74,14 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
             }
         }
 
-        public FrameworkElement VisualElement
+        protected override void OnValueChanged(double oldValue, double newValue)
         {
-            get
-            {
-                ThrowIfDisposed();
-                return this;
-            }
-        }
-
-        public double MarginSize
-        {
-            get
-            {
-                ThrowIfDisposed();
-                if (_orientation != Orientation.Vertical)
-                    return ActualWidth;
-                return ActualHeight;
-            }
-        }
-
-        public abstract bool Enabled { get; }
-
-        public ITextViewMargin GetTextViewMargin(string marginName)
-        {
-            if (!_isDisposed && string.Compare(marginName, _marginName, StringComparison.OrdinalIgnoreCase) == 0)
-                return this;
-            return null;
-        }
-
-        public abstract void OnDispose();
-
-        public void Dispose()
-        {
-            GC.SuppressFinalize(this);
-            _isDisposed = true;
-            OnDispose();
+            base.OnValueChanged(oldValue, newValue);
+            if (!_inShiftLeftClick)
+                return;
+            _inShiftLeftClick = false;
+            var leftShiftClick = LeftShiftClick;
+            leftShiftClick?.Invoke(this, new RoutedPropertyChangedEventArgs<double>(oldValue, newValue));
         }
 
         protected void ThrowIfDisposed()

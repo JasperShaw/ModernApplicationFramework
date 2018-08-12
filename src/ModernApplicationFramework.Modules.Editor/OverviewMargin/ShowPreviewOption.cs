@@ -9,8 +9,7 @@ namespace ModernApplicationFramework.Modules.Editor.OverviewMargin
     [Name("OverviewMargin/ShowPreview")]
     public sealed class ShowPreviewOption : EditorOptionDefinition<bool>
     {
-        public override EditorOptionKey<bool> Key => DefaultTextViewHostOptions.ShowPreviewOptionId;
-
         public override bool Default => true;
+        public override EditorOptionKey<bool> Key => DefaultTextViewHostOptions.ShowPreviewOptionId;
     }
 }

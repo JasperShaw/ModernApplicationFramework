@@ -4,10 +4,10 @@ namespace ModernApplicationFramework.Modules.Editor.Text
 {
     internal class Page
     {
-        private readonly WeakReference<char[]> _uncompressedContents;
-        private readonly byte[] _compressedContents;
         public readonly int Length;
         public readonly PageManager Manager;
+        private readonly byte[] _compressedContents;
+        private readonly WeakReference<char[]> _uncompressedContents;
 
         public Page(PageManager manager, char[] contents, int length)
         {
@@ -25,6 +25,7 @@ namespace ModernApplicationFramework.Modules.Editor.Text
                 Compressor.Decompress(_compressedContents, Length, target);
                 _uncompressedContents.SetTarget(target);
             }
+
             Manager.UpdateMRU(this, target);
             return target;
         }

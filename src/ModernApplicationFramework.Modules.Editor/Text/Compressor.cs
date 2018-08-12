@@ -12,7 +12,10 @@ namespace ModernApplicationFramework.Modules.Editor.Text
                 using (var memoryStream = new MemoryStream(length / 9))
                 {
                     using (var deflateStream = new DeflateStream(memoryStream, CompressionMode.Compress))
+                    {
                         charStream.CopyTo(deflateStream);
+                    }
+
                     return memoryStream.GetBuffer();
                 }
             }
@@ -25,7 +28,9 @@ namespace ModernApplicationFramework.Modules.Editor.Text
                 using (var charStream = new CharStream(decompressed, length))
                 {
                     using (var deflateStream = new DeflateStream(memoryStream, CompressionMode.Decompress))
+                    {
                         deflateStream.CopyTo(charStream);
+                    }
                 }
             }
         }

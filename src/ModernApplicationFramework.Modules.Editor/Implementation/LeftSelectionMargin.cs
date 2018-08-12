@@ -10,11 +10,31 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
 {
     internal class LeftSelectionMargin : ContainerMargin
     {
-        private readonly IEditorOperations _editorOperations;
         private static Cursor _rightArrowCursor;
+        private readonly IEditorOperations _editorOperations;
         private bool _isCapturingMouse;
 
-        private LeftSelectionMargin(ITextViewHost textViewHost, IEditorOperations editorOperations, GuardedOperations guardedOperations, TextViewMarginState marginState)
+        private static Cursor RightArrowCursor
+        {
+            get
+            {
+                if (_rightArrowCursor == null)
+                    using (var manifestResourceStream =
+                        typeof(LeftSelectionMargin).Module.Assembly.GetManifestResourceStream(
+                            "Microsoft.VisualStudio.UI.Text.Wpf.View.Implementation.Resources.RightArrow.cur"))
+                    {
+                        if (manifestResourceStream != null)
+                            _rightArrowCursor = WpfHelper.LoadCursorDpiAware(manifestResourceStream);
+                        if (_rightArrowCursor == null)
+                            _rightArrowCursor = Cursors.Arrow;
+                    }
+
+                return _rightArrowCursor;
+            }
+        }
+
+        private LeftSelectionMargin(ITextViewHost textViewHost, IEditorOperations editorOperations,
+            GuardedOperations guardedOperations, TextViewMarginState marginState)
             : base("LeftSelection", Orientation.Vertical, textViewHost, guardedOperations, marginState)
         {
             _editorOperations = editorOperations;
@@ -23,11 +43,25 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             Cursor = RightArrowCursor;
         }
 
-        public static ITextViewMargin Create(ITextViewHost textViewHost, IEditorOperations editorOperations, GuardedOperations guardedOperations, TextViewMarginState marginState)
+        public static ITextViewMargin Create(ITextViewHost textViewHost, IEditorOperations editorOperations,
+            GuardedOperations guardedOperations, TextViewMarginState marginState)
         {
-            var leftSelectionMargin = new LeftSelectionMargin(textViewHost, editorOperations, guardedOperations, marginState);
+            var leftSelectionMargin =
+                new LeftSelectionMargin(textViewHost, editorOperations, guardedOperations, marginState);
             leftSelectionMargin.Initialize();
             return leftSelectionMargin;
+        }
+
+        internal bool SelectLine(Point mouseLocation, bool extendSelection)
+        {
+            Keyboard.Focus(TextViewHost.TextView.VisualElement);
+            var containingYcoordinate =
+                TextViewHost.TextView.TextViewLines.GetTextViewLineContainingYCoordinate(
+                    mouseLocation.Y + TextViewHost.TextView.ViewportTop);
+            if (containingYcoordinate == null)
+                return false;
+            _editorOperations.SelectLine(containingYcoordinate, extendSelection);
+            return true;
         }
 
         protected override void RegisterEvents()
@@ -51,11 +85,6 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             TextViewHost.TextView.ZoomLevelChanged -= OnZoomLevelChanged;
         }
 
-        private void OnZoomLevelChanged(object sender, ZoomLevelChangedEventArgs e)
-        {
-            LayoutTransform = e.ZoomTransform;
-        }
-
         private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             try
@@ -73,6 +102,14 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             }
         }
 
+        private void OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (!IsMouseCaptured)
+                return;
+            ReleaseMouseCapture();
+            e.Handled = true;
+        }
+
         private void OnMouseMove(object sender, MouseEventArgs e)
         {
             if (_isCapturingMouse || e.LeftButton != MouseButtonState.Pressed || !IsMouseCaptured)
@@ -85,44 +122,13 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                 else if (position.Y > TextViewHost.TextView.ViewportHeight)
                     _editorOperations.MoveLineDown(true);
             }
+
             e.Handled = true;
         }
 
-        private void OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void OnZoomLevelChanged(object sender, ZoomLevelChangedEventArgs e)
         {
-            if (!IsMouseCaptured)
-                return;
-            ReleaseMouseCapture();
-            e.Handled = true;
-        }
-
-        private static Cursor RightArrowCursor
-        {
-            get
-            {
-                if (_rightArrowCursor == null)
-                {
-                    //TODO: Cursor
-                    using (var manifestResourceStream = typeof(LeftSelectionMargin).Module.Assembly.GetManifestResourceStream("Microsoft.VisualStudio.UI.Text.Wpf.View.Implementation.Resources.RightArrow.cur"))
-                    {
-                        if (manifestResourceStream != null)
-                            _rightArrowCursor = WpfHelper.LoadCursorDpiAware(manifestResourceStream);
-                        if (_rightArrowCursor == null)
-                            _rightArrowCursor = Cursors.Arrow;
-                    }
-                }
-                return _rightArrowCursor;
-            }
-        }
-
-        internal bool SelectLine(Point mouseLocation, bool extendSelection)
-        {
-            Keyboard.Focus(TextViewHost.TextView.VisualElement);
-            var containingYcoordinate = TextViewHost.TextView.TextViewLines.GetTextViewLineContainingYCoordinate(mouseLocation.Y + TextViewHost.TextView.ViewportTop);
-            if (containingYcoordinate == null)
-                return false;
-            _editorOperations.SelectLine(containingYcoordinate, extendSelection);
-            return true;
+            LayoutTransform = e.ZoomTransform;
         }
     }
 }

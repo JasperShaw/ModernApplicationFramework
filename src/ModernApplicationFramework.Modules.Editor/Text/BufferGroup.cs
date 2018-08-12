@@ -11,71 +11,22 @@ namespace ModernApplicationFramework.Modules.Editor.Text
 {
     internal class BufferGroup
     {
+        internal int Depth;
+        internal bool EventingInProgress;
+
         internal Queue<Tuple<BaseBuffer.ITextEventRaiser, BaseBuffer>> EventQueue =
             new Queue<Tuple<BaseBuffer.ITextEventRaiser, BaseBuffer>>();
 
-
-        internal int Depth;
-        internal bool EventingInProgress;
-        private BaseBuffer _masterBuffer;
-        private Dictionary<BaseBuffer, GraphEntry> _graph;
         private Dictionary<ITextBuffer, ISubordinateTextEdit> _buffer2EditMap;
-        private HashSet<BaseProjectionBuffer> _pendingIndependentBuffers;
-        private EditOptions _masterOptions;
+        private Dictionary<BaseBuffer, GraphEntry> _graph;
+        private BaseBuffer _masterBuffer;
         private object _masterEditTag;
-
-        public BufferGroup(ITextBuffer member)
-        {
-            Members.Add(new BufferWeakReference(member));
-        }
-
-        internal HashSet<BufferWeakReference> Members { get; } = new HashSet<BufferWeakReference>();
-
-        public bool MembersContains(ITextBuffer buffer)
-        {
-            return Members.Contains(new BufferWeakReference(buffer));
-        }
-
-        public void AddMember(ITextBuffer member)
-        {
-            Members.RemoveWhere(m => m.Buffer == null);
-            Members.Add(new BufferWeakReference(member));
-        }
-
-        public void RemoveMember(ITextBuffer member)
-        {
-            Members.Remove(new BufferWeakReference(member));
-        }
-
-        public void Swallow(BufferGroup victim)
-        {
-            if (victim == this)
-                return;
-            foreach (var member in victim.Members)
-            {
-                ITextBuffer buffer = member.Buffer;
-                if (buffer != null && Members.Add(member))
-                    ((BaseBuffer) buffer).Group = this;
-            }
-
-            if (victim.EventQueue.Count <= 0)
-                return;
-            var tupleQueue =
-                new Queue<Tuple<BaseBuffer.ITextEventRaiser, BaseBuffer>>(
-                    victim.EventQueue);
-            while (EventQueue.Count > 0)
-                tupleQueue.Enqueue(EventQueue.Dequeue());
-            EventQueue = tupleQueue;
-            victim.EventQueue.Clear();
-        }
-
-        public ITextBuffer MasterBuffer => _masterBuffer;
-
-        public bool MasterEditInProgress => _masterBuffer != null;
-
-        public static bool Tracing { get; set; }
+        private EditOptions _masterOptions;
+        private HashSet<BaseProjectionBuffer> _pendingIndependentBuffers;
 
         public static bool DetailedTracing { get; set; }
+
+        public static bool Tracing { get; set; }
 
         public Dictionary<ITextBuffer, ISubordinateTextEdit> BufferToEditMap
         {
@@ -85,6 +36,89 @@ namespace ModernApplicationFramework.Modules.Editor.Text
                     throw new InvalidOperationException();
                 return _buffer2EditMap;
             }
+        }
+
+        public ITextBuffer MasterBuffer => _masterBuffer;
+
+        public bool MasterEditInProgress => _masterBuffer != null;
+
+        internal HashSet<BufferWeakReference> Members { get; } = new HashSet<BufferWeakReference>();
+
+        public BufferGroup(ITextBuffer member)
+        {
+            Members.Add(new BufferWeakReference(member));
+        }
+
+        public void AddMember(ITextBuffer member)
+        {
+            Members.RemoveWhere(m => m.Buffer == null);
+            Members.Add(new BufferWeakReference(member));
+        }
+
+        public void BeginEdit()
+        {
+            if (Depth < 0)
+                throw new InvalidOperationException();
+            ++Depth;
+        }
+
+        public void CancelEdit()
+        {
+            FinishEdit();
+        }
+
+        public void CancelIndependentEdit(BaseProjectionBuffer projectionBuffer)
+        {
+            _pendingIndependentBuffers.Remove(projectionBuffer);
+        }
+
+        public string DumpGraph()
+        {
+            var stringBuilder = new StringBuilder("BufferGroup Graph");
+            if (_graph == null)
+            {
+                stringBuilder.AppendLine(" <null>");
+            }
+            else
+            {
+                stringBuilder.AppendLine("");
+                foreach (var keyValuePair in _graph)
+                {
+                    stringBuilder.Append(string.Format(CultureInfo.InvariantCulture, "{0,8} {1}: ",
+                        TextUtilities.GetTag(keyValuePair.Key),
+                        keyValuePair.Value.EditComplete ? "T" : "F"));
+                    foreach (var target in keyValuePair.Value.Targets)
+                        stringBuilder.Append(string.Format(CultureInfo.InvariantCulture, "{0,8},",
+                            TextUtilities.GetTag(target)));
+                    stringBuilder.Append("\r\n");
+                }
+            }
+
+            return stringBuilder.ToString();
+        }
+
+        public void EnqueueEvents(BaseBuffer.ITextEventRaiser raiser, BaseBuffer baseBuffer)
+        {
+            if (Depth <= 0)
+                throw new InvalidOperationException();
+            EventQueue.Enqueue(new Tuple<BaseBuffer.ITextEventRaiser, BaseBuffer>(raiser, baseBuffer));
+        }
+
+        public void EnqueueEvents(IEnumerable<BaseBuffer.ITextEventRaiser> raisers, BaseBuffer baseBuffer)
+        {
+            if (Depth <= 0)
+                throw new InvalidOperationException();
+            foreach (var raiser in raisers)
+                EventQueue.Enqueue(new Tuple<BaseBuffer.ITextEventRaiser, BaseBuffer>(raiser, baseBuffer));
+        }
+
+        public void FinishEdit()
+        {
+            if (Depth <= 0)
+                throw new InvalidOperationException();
+            if (--Depth != 0)
+                return;
+            RaiseEvents();
         }
 
         public ITextEdit GetEdit(BaseBuffer buffer)
@@ -101,6 +135,11 @@ namespace ModernApplicationFramework.Modules.Editor.Text
             }
 
             return (ITextEdit) subordinateEdit;
+        }
+
+        public bool MembersContains(ITextBuffer buffer)
+        {
+            return Members.Contains(new BufferWeakReference(buffer));
         }
 
         public void PerformMasterEdit(ITextBuffer buffer, ISubordinateTextEdit xedit, EditOptions options,
@@ -133,10 +172,8 @@ namespace ModernApplicationFramework.Modules.Editor.Text
             }
 
             foreach (var subordinateTextEdit in appliedSubordinateEdits)
-            {
                 if (!subordinateTextEdit.CheckForCancellation(CancelAction))
                     return;
-            }
 
             while (appliedSubordinateEdits.Count > 0)
                 appliedSubordinateEdits.Pop().FinalApply();
@@ -153,31 +190,104 @@ namespace ModernApplicationFramework.Modules.Editor.Text
             _pendingIndependentBuffers = null;
         }
 
+        public void RemoveMember(ITextBuffer member)
+        {
+            Members.Remove(new BufferWeakReference(member));
+        }
+
         public void ScheduleIndependentEdit(BaseProjectionBuffer projectionBuffer)
         {
             _pendingIndependentBuffers.Add(projectionBuffer);
         }
 
-        public void CancelIndependentEdit(BaseProjectionBuffer projectionBuffer)
+        public void Swallow(BufferGroup victim)
         {
-            _pendingIndependentBuffers.Remove(projectionBuffer);
+            if (victim == this)
+                return;
+            foreach (var member in victim.Members)
+            {
+                ITextBuffer buffer = member.Buffer;
+                if (buffer != null && Members.Add(member))
+                    ((BaseBuffer) buffer).Group = this;
+            }
+
+            if (victim.EventQueue.Count <= 0)
+                return;
+            var tupleQueue =
+                new Queue<Tuple<BaseBuffer.ITextEventRaiser, BaseBuffer>>(
+                    victim.EventQueue);
+            while (EventQueue.Count > 0)
+                tupleQueue.Enqueue(EventQueue.Dequeue());
+            EventQueue = tupleQueue;
+            victim.EventQueue.Clear();
         }
 
-        private void PopulateSourceEdits(ITextBuffer buffer)
+        private void BuildGraph()
         {
-            var projectionBufferBase = buffer as IProjectionBufferBase;
-            if (projectionBufferBase == null)
-                return;
-            foreach (var sourceBuffer in projectionBufferBase.SourceBuffers)
+            Members.RemoveWhere(member => member.Buffer == null);
+            _graph = new Dictionary<BaseBuffer, GraphEntry>(Members.Count);
+            foreach (var member in Members)
             {
-                if (sourceBuffer is IProjectionBufferBase)
+                var buffer = member.Buffer;
+                if (buffer != null)
+                    _graph.Add(buffer,
+                        new GraphEntry(new HashSet<IProjectionBufferBase>(), false, false));
+            }
+
+            foreach (var member in Members)
+                if (member.Buffer is IProjectionBufferBase buffer)
+                    foreach (BaseBuffer sourceBuffer in buffer.SourceBuffers)
+                        _graph[sourceBuffer].Targets.Add(buffer);
+
+            MarkMasterClosure(_masterBuffer);
+        }
+
+        private bool InTargetClosureOfBuffer(BaseBuffer candidateBuffer, BaseBuffer governingBuffer)
+        {
+            foreach (var target in _graph[governingBuffer].Targets)
+                if (target == candidateBuffer || InTargetClosureOfBuffer(candidateBuffer, (BaseBuffer) target))
+                    return true;
+
+            return false;
+        }
+
+        private bool InvulnerableToFutureEdits(GraphEntry graphEntry)
+        {
+            foreach (BaseBuffer target in graphEntry.Targets)
+            {
+                var graphEntry1 = _graph[target];
+                if (!graphEntry1.EditComplete)
                 {
-                    var baseBuffer = (BaseBuffer) sourceBuffer;
-                    if (!_buffer2EditMap.ContainsKey(baseBuffer))
-                        _buffer2EditMap.Add(sourceBuffer,
-                            baseBuffer.CreateSubordinateEdit(_masterOptions, new int?(), _masterEditTag));
+                    if (!InvulnerableToFutureEdits(graphEntry1) ||
+                        _buffer2EditMap.ContainsKey(target))
+                        return false;
+                    graphEntry1.EditComplete = true;
                 }
             }
+
+            return true;
+        }
+
+        private bool IsStableDuringIndependentPhase(BaseBuffer sourceBuffer)
+        {
+            if (sourceBuffer is BaseProjectionBuffer projectionBuffer &&
+                _pendingIndependentBuffers.Contains(projectionBuffer))
+                return false;
+            if (_graph.TryGetValue(sourceBuffer, out var graphEntry) && !graphEntry.Dependent)
+                return !InTargetClosureOfBuffer(sourceBuffer, _masterBuffer);
+            return true;
+        }
+
+        private void MarkMasterClosure(BaseBuffer buffer)
+        {
+            var graphEntry = _graph[buffer];
+            if (graphEntry.Dependent)
+                return;
+            graphEntry.Dependent = true;
+            if (!(buffer is IProjectionBufferBase projectionBufferBase))
+                return;
+            foreach (BaseBuffer sourceBuffer in projectionBufferBase.SourceBuffers)
+                MarkMasterClosure(sourceBuffer);
         }
 
         private ISubordinateTextEdit PickEdit()
@@ -202,36 +312,17 @@ namespace ModernApplicationFramework.Modules.Editor.Text
             throw new InvalidOperationException("Internal error in BufferGroup.PickEdit");
         }
 
-        private bool InvulnerableToFutureEdits(GraphEntry graphEntry)
-        {
-            foreach (BaseBuffer target in graphEntry.Targets)
-            {
-                var graphEntry1 = _graph[target];
-                if (!graphEntry1.EditComplete)
-                {
-                    if (!InvulnerableToFutureEdits(graphEntry1) ||
-                        _buffer2EditMap.ContainsKey(target))
-                        return false;
-                    graphEntry1.EditComplete = true;
-                }
-            }
-
-            return true;
-        }
-
         private BaseProjectionBuffer PickIndependentBuffer()
         {
             foreach (var independentBuffer in _pendingIndependentBuffers)
             {
                 var flag = true;
                 foreach (BaseBuffer sourceBuffer in independentBuffer.SourceBuffers)
-                {
                     if (!IsStableDuringIndependentPhase(sourceBuffer))
                     {
                         flag = false;
                         break;
                     }
-                }
 
                 if (flag)
                 {
@@ -244,121 +335,19 @@ namespace ModernApplicationFramework.Modules.Editor.Text
             throw new InvalidOperationException("Couldn't pick an independent buffer");
         }
 
-        private bool IsStableDuringIndependentPhase(BaseBuffer sourceBuffer)
+        private void PopulateSourceEdits(ITextBuffer buffer)
         {
-            if (sourceBuffer is BaseProjectionBuffer projectionBuffer && _pendingIndependentBuffers.Contains(projectionBuffer))
-                return false;
-            if (_graph.TryGetValue(sourceBuffer, out var graphEntry) && !graphEntry.Dependent)
-                return !InTargetClosureOfBuffer(sourceBuffer, _masterBuffer);
-            return true;
-        }
-
-        private bool InTargetClosureOfBuffer(BaseBuffer candidateBuffer, BaseBuffer governingBuffer)
-        {
-            foreach (var target in _graph[governingBuffer].Targets)
-            {
-                if (target == candidateBuffer || InTargetClosureOfBuffer(candidateBuffer, (BaseBuffer) target))
-                    return true;
-            }
-
-            return false;
-        }
-
-        private void BuildGraph()
-        {
-            Members.RemoveWhere(member => member.Buffer == null);
-            _graph = new Dictionary<BaseBuffer, GraphEntry>(Members.Count);
-            foreach (var member in Members)
-            {
-                var buffer = member.Buffer;
-                if (buffer != null)
-                    _graph.Add(buffer,
-                        new GraphEntry(new HashSet<IProjectionBufferBase>(), false, false));
-            }
-
-            foreach (var member in Members)
-            {
-                if (member.Buffer is IProjectionBufferBase buffer)
+            var projectionBufferBase = buffer as IProjectionBufferBase;
+            if (projectionBufferBase == null)
+                return;
+            foreach (var sourceBuffer in projectionBufferBase.SourceBuffers)
+                if (sourceBuffer is IProjectionBufferBase)
                 {
-                    foreach (BaseBuffer sourceBuffer in buffer.SourceBuffers)
-                        _graph[sourceBuffer].Targets.Add(buffer);
+                    var baseBuffer = (BaseBuffer) sourceBuffer;
+                    if (!_buffer2EditMap.ContainsKey(baseBuffer))
+                        _buffer2EditMap.Add(sourceBuffer,
+                            baseBuffer.CreateSubordinateEdit(_masterOptions, new int?(), _masterEditTag));
                 }
-            }
-
-            MarkMasterClosure(_masterBuffer);
-        }
-
-        private void MarkMasterClosure(BaseBuffer buffer)
-        {
-            var graphEntry = _graph[buffer];
-            if (graphEntry.Dependent)
-                return;
-            graphEntry.Dependent = true;
-            if (!(buffer is IProjectionBufferBase projectionBufferBase))
-                return;
-            foreach (BaseBuffer sourceBuffer in projectionBufferBase.SourceBuffers)
-                MarkMasterClosure(sourceBuffer);
-        }
-
-        public string DumpGraph()
-        {
-            var stringBuilder = new StringBuilder("BufferGroup Graph");
-            if (_graph == null)
-            {
-                stringBuilder.AppendLine(" <null>");
-            }
-            else
-            {
-                stringBuilder.AppendLine("");
-                foreach (var keyValuePair in _graph)
-                {
-                    stringBuilder.Append(string.Format(CultureInfo.InvariantCulture, "{0,8} {1}: ",
-                        TextUtilities.GetTag(keyValuePair.Key),
-                        keyValuePair.Value.EditComplete ? "T" : "F"));
-                    foreach (var target in keyValuePair.Value.Targets)
-                        stringBuilder.Append(string.Format(CultureInfo.InvariantCulture, "{0,8},",
-                            TextUtilities.GetTag(target)));
-                    stringBuilder.Append("\r\n");
-                }
-            }
-
-            return stringBuilder.ToString();
-        }
-
-        public void BeginEdit()
-        {
-            if (Depth < 0)
-                throw new InvalidOperationException();
-            ++Depth;
-        }
-
-        public void FinishEdit()
-        {
-            if (Depth <= 0)
-                throw new InvalidOperationException();
-            if (--Depth != 0)
-                return;
-            RaiseEvents();
-        }
-
-        public void CancelEdit()
-        {
-            FinishEdit();
-        }
-
-        public void EnqueueEvents(BaseBuffer.ITextEventRaiser raiser, BaseBuffer baseBuffer)
-        {
-            if (Depth <= 0)
-                throw new InvalidOperationException();
-            EventQueue.Enqueue(new Tuple<BaseBuffer.ITextEventRaiser, BaseBuffer>(raiser, baseBuffer));
-        }
-
-        public void EnqueueEvents(IEnumerable<BaseBuffer.ITextEventRaiser> raisers, BaseBuffer baseBuffer)
-        {
-            if (Depth <= 0)
-                throw new InvalidOperationException();
-            foreach (var raiser in raisers)
-                EventQueue.Enqueue(new Tuple<BaseBuffer.ITextEventRaiser, BaseBuffer>(raiser, baseBuffer));
         }
 
         private void RaiseEvents()
@@ -386,32 +375,10 @@ namespace ModernApplicationFramework.Modules.Editor.Text
                 baseBuffer.RaisePostChangedEvent();
         }
 
-        private class GraphEntry
-        {
-            public HashSet<IProjectionBufferBase> Targets { get; }
-
-            public bool EditComplete { get; set; }
-
-            public bool Dependent { get; set; }
-
-            public GraphEntry(HashSet<IProjectionBufferBase> targets, bool editComplete, bool dependent)
-            {
-                Targets = targets;
-                EditComplete = editComplete;
-                Dependent = dependent;
-            }
-        }
-
         internal class BufferWeakReference
         {
             private readonly WeakReference<BaseBuffer> _buffer;
             private readonly int _hashCode;
-
-            public BufferWeakReference(ITextBuffer buffer)
-            {
-                _buffer = new WeakReference<BaseBuffer>((BaseBuffer) buffer);
-                _hashCode = buffer.GetHashCode();
-            }
 
             public BaseBuffer Buffer
             {
@@ -421,6 +388,12 @@ namespace ModernApplicationFramework.Modules.Editor.Text
                         return target;
                     return null;
                 }
+            }
+
+            public BufferWeakReference(ITextBuffer buffer)
+            {
+                _buffer = new WeakReference<BaseBuffer>((BaseBuffer) buffer);
+                _hashCode = buffer.GetHashCode();
             }
 
             public override bool Equals(object obj)
@@ -438,6 +411,21 @@ namespace ModernApplicationFramework.Modules.Editor.Text
             public override int GetHashCode()
             {
                 return _hashCode;
+            }
+        }
+
+        private class GraphEntry
+        {
+            public bool Dependent { get; set; }
+
+            public bool EditComplete { get; set; }
+            public HashSet<IProjectionBufferBase> Targets { get; }
+
+            public GraphEntry(HashSet<IProjectionBufferBase> targets, bool editComplete, bool dependent)
+            {
+                Targets = targets;
+                EditComplete = editComplete;
+                Dependent = dependent;
             }
         }
     }

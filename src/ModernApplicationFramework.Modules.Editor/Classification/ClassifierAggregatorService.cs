@@ -12,14 +12,11 @@ namespace ModernApplicationFramework.Modules.Editor.Classification
     [Export(typeof(IViewClassifierAggregatorService))]
     internal sealed class ClassifierAggregatorService : IClassifierAggregatorService, IViewClassifierAggregatorService
     {
-        [Import]
-        internal IBufferTagAggregatorFactoryService BufferTagAggregatorFactory { get; set; }
+        [Import] internal IBufferTagAggregatorFactoryService BufferTagAggregatorFactory { get; set; }
 
-        [Import]
-        internal IViewTagAggregatorFactoryService ViewTagAggregatorFactory { get; set; }
+        [Import] internal IClassificationTypeRegistryService ClassificationTypeRegistry { get; set; }
 
-        [Import]
-        internal IClassificationTypeRegistryService ClassificationTypeRegistry { get; set; }
+        [Import] internal IViewTagAggregatorFactoryService ViewTagAggregatorFactory { get; set; }
 
         public IClassifier GetClassifier(ITextBuffer textBuffer)
         {

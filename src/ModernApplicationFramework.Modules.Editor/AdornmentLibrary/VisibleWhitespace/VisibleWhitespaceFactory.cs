@@ -2,7 +2,6 @@
 using ModernApplicationFramework.Text.Logic.Editor;
 using ModernApplicationFramework.Text.Ui.Classification;
 using ModernApplicationFramework.Text.Ui.Editor;
-using ModernApplicationFramework.TextEditor;
 using ModernApplicationFramework.Utilities.Attributes;
 
 namespace ModernApplicationFramework.Modules.Editor.AdornmentLibrary.VisibleWhitespace
@@ -16,14 +15,12 @@ namespace ModernApplicationFramework.Modules.Editor.AdornmentLibrary.VisibleWhit
     [TextViewRole("EMBEDDED_PEEK_TEXT_VIEW")]
     internal sealed class VisibleWhitespaceFactory : ITextViewCreationListener
     {
-        [Import]
-        private IEditorOptionsFactoryService _editorOptionsFactory;
-        [Import]
-        private IEditorFormatMapService _editorFormatMappingService;
-        [Export]
-        [Name("VisibleWhitespace")]
-        [Order(After = "Text", Before = "Caret")]
+        [Export] [Name("VisibleWhitespace")] [Order(After = "Text", Before = "Caret")]
         internal AdornmentLayerDefinition VisibleWhitespaceLayer;
+
+        [Import] private IEditorFormatMapService _editorFormatMappingService;
+
+        [Import] private IEditorOptionsFactoryService _editorOptionsFactory;
 
         public void TextViewCreated(ITextView textView)
         {
@@ -32,7 +29,8 @@ namespace ModernApplicationFramework.Modules.Editor.AdornmentLibrary.VisibleWhit
 
         internal VisibleWhitespaceVisualProvider CreateVisualProvider(ITextView textView, IEditorOptions options)
         {
-            return new VisibleWhitespaceVisualProvider(textView, options, _editorFormatMappingService.GetEditorFormatMap(textView));
+            return new VisibleWhitespaceVisualProvider(textView, options,
+                _editorFormatMappingService.GetEditorFormatMap(textView));
         }
     }
 }

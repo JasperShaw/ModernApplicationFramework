@@ -9,8 +9,11 @@ namespace ModernApplicationFramework.Modules.Editor.OverviewMargin
 {
     internal class ErrorMarginElement : BaseMarginElement<IErrorTag>
     {
-        public ErrorMarginElement(ITextView textView, IVerticalScrollBar scrollbar, MarginProvider provider, List<string> orderedErrorTypes)
-            : base(textView, scrollbar, DefaultTextViewHostOptions.ShowErrorsOptionId, DefaultTextViewHostOptions.ErrorMarginWidthOptionId, "OverviewErrorMargin", "Foreground", provider, orderedErrorTypes)
+        public ErrorMarginElement(ITextView textView, IVerticalScrollBar scrollbar, MarginProvider provider,
+            List<string> orderedErrorTypes)
+            : base(textView, scrollbar, DefaultTextViewHostOptions.ShowErrorsOptionId,
+                DefaultTextViewHostOptions.ErrorMarginWidthOptionId, "OverviewErrorMargin", "Foreground", provider,
+                orderedErrorTypes)
         {
         }
 

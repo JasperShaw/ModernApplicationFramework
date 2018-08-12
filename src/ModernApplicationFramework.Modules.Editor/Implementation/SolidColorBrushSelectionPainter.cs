@@ -11,8 +11,8 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
     internal sealed class SolidColorBrushSelectionPainter : BrushSelectionPainter, ISelectionPainter
     {
         internal Dictionary<object, SelectionData> LineSpans = new Dictionary<object, SelectionData>();
-        private VirtualSnapshotSpan _oldStreamSelection;
         private readonly bool _isInContrastMode;
+        private VirtualSnapshotSpan _oldStreamSelection;
 
         internal Brush Brush { get; }
 
@@ -23,12 +23,12 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             _isInContrastMode = selection.TextView.Options.GetOptionValue<bool>("TextViewHost/IsInContrastMode");
         }
 
-        public void Dispose()
+        public void Activate()
         {
-            if (LineSpans == null)
+            AdornmentLayer.Opacity = _isInContrastMode || SystemParameters.HighContrast ? 1.0 : 0.4;
+            if (TextSelection.TextView.InLayout || TextSelection.TextView.TextViewLines == null)
                 return;
-            Clear();
-            LineSpans = null;
+            Update(true);
         }
 
         public void Clear()
@@ -38,12 +38,17 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             AdornmentLayer.RemoveAllAdornments();
         }
 
-        public void Activate()
+        public void Dispose()
         {
-            AdornmentLayer.Opacity = _isInContrastMode || SystemParameters.HighContrast ? 1.0 : 0.4;
-            if (TextSelection.TextView.InLayout || TextSelection.TextView.TextViewLines == null)
+            if (LineSpans == null)
                 return;
-            Update(true);
+            Clear();
+            LineSpans = null;
+        }
+
+        public void RemovedCallback(object tag, UIElement element)
+        {
+            LineSpans.Remove(tag);
         }
 
         public void Update(bool selectionChanged)
@@ -61,16 +66,22 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                 if (_oldStreamSelection.Snapshot != streamSelectionSpan.Snapshot)
                 {
                     Clear();
-                    lines = TextSelection.TextView.TextViewLines.GetTextViewLinesIntersectingSpan(streamSelectionSpan.SnapshotSpan);
+                    lines = TextSelection.TextView.TextViewLines.GetTextViewLinesIntersectingSpan(streamSelectionSpan
+                        .SnapshotSpan);
                 }
                 else if (_oldStreamSelection.Length == 0)
                 {
-                    lines = TextSelection.TextView.TextViewLines.GetTextViewLinesIntersectingSpan(streamSelectionSpan.SnapshotSpan);
+                    lines = TextSelection.TextView.TextViewLines.GetTextViewLinesIntersectingSpan(streamSelectionSpan
+                        .SnapshotSpan);
                 }
                 else
                 {
-                    IList<ITextViewLine> intersectingSpan1 = TextSelection.TextView.TextViewLines.GetTextViewLinesIntersectingSpan(_oldStreamSelection.SnapshotSpan);
-                    IList<ITextViewLine> intersectingSpan2 = TextSelection.TextView.TextViewLines.GetTextViewLinesIntersectingSpan(streamSelectionSpan.SnapshotSpan);
+                    IList<ITextViewLine> intersectingSpan1 =
+                        TextSelection.TextView.TextViewLines.GetTextViewLinesIntersectingSpan(_oldStreamSelection
+                            .SnapshotSpan);
+                    IList<ITextViewLine> intersectingSpan2 =
+                        TextSelection.TextView.TextViewLines.GetTextViewLinesIntersectingSpan(streamSelectionSpan
+                            .SnapshotSpan);
                     lines = new List<ITextViewLine>(intersectingSpan1.Count + intersectingSpan2.Count);
                     var index1 = 0;
                     var index2 = 0;
@@ -101,15 +112,22 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                                 }
                             }
                             else
+                            {
                                 textViewLine = intersectingSpan1[index1++];
+                            }
                         }
                         else
+                        {
                             textViewLine = intersectingSpan2[index2++];
+                        }
+
                         lines.Add(textViewLine);
                     }
                 }
+
                 DrawSelectionOnLines(lines, streamSelectionSpan.SnapshotSpan);
             }
+
             _oldStreamSelection = streamSelectionSpan;
         }
 
@@ -129,14 +147,17 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                 var selectionOnTextViewLine = TextSelection.GetSelectionOnTextViewLine(line);
                 if (num != 0)
                 {
-                    if (!selectionOnTextViewLine.HasValue || selectionData.ShouldRedraw(selectionOnTextViewLine.Value, viewportLeft, viewportRight, lineTop == line.Top, lineBottom == line.Bottom))
+                    if (!selectionOnTextViewLine.HasValue || selectionData.ShouldRedraw(selectionOnTextViewLine.Value,
+                            viewportLeft, viewportRight, lineTop == line.Top, lineBottom == line.Bottom))
                         AdornmentLayer.RemoveAdornmentsByTag(line.IdentityTag);
                     else
                         continue;
                 }
+
                 if (selectionOnTextViewLine.HasValue)
                 {
-                    var visualOverlapsForLine = CalculateVisualOverlapsForLine(line, selectionOnTextViewLine.Value, position, isBoxSelection, isVirtualSpaceEnabled);
+                    var visualOverlapsForLine = CalculateVisualOverlapsForLine(line, selectionOnTextViewLine.Value,
+                        position, isBoxSelection, isVirtualSpaceEnabled);
                     if (visualOverlapsForLine.Count > 0)
                     {
                         var adornmentLeft = visualOverlapsForLine[0].Item1;
@@ -145,7 +166,8 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                         {
                             var path = new PathGeometry {FillRule = FillRule.Nonzero};
                             foreach (var tuple in visualOverlapsForLine)
-                                AddRectangleToPath(tuple.Item1, lineTop, tuple.Item2, lineBottom, leftClip, rightClip, path);
+                                AddRectangleToPath(tuple.Item1, lineTop, tuple.Item2, lineBottom, leftClip, rightClip,
+                                    path);
                             if (!path.IsEmpty())
                             {
                                 path.Freeze();
@@ -153,8 +175,11 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                                 if (outlinedPathGeometry.CanFreeze)
                                     outlinedPathGeometry.Freeze();
                                 var selectionAdornment = new SelectionAdornment(null, Brush, outlinedPathGeometry);
-                                LineSpans.Add(line.IdentityTag, new SelectionData(selectionOnTextViewLine.Value, adornmentLeft, adornmentRight, leftClip, rightClip, lineTop == line.Top, lineBottom == line.Bottom));
-                                AdornmentLayer.AddAdornment(AdornmentPositioningBehavior.TextRelative, line.Extent, line.IdentityTag, selectionAdornment, RemovedCallback);
+                                LineSpans.Add(line.IdentityTag,
+                                    new SelectionData(selectionOnTextViewLine.Value, adornmentLeft, adornmentRight,
+                                        leftClip, rightClip, lineTop == line.Top, lineBottom == line.Bottom));
+                                AdornmentLayer.AddAdornment(AdornmentPositioningBehavior.TextRelative, line.Extent,
+                                    line.IdentityTag, selectionAdornment, RemovedCallback);
                             }
                         }
                     }
@@ -162,20 +187,16 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             }
         }
 
-        public void RemovedCallback(object tag, UIElement element)
-        {
-            LineSpans.Remove(tag);
-        }
-
         internal class SelectionData
         {
-            public readonly VirtualSnapshotSpan Span;
+            public readonly bool AtBottom;
+            public readonly bool AtTop;
             public readonly double LeftEdgeOfCorrectlyRenderedAdornment;
             public readonly double RightEdgeOfCorrectlyRenderedAdornment;
-            public readonly bool AtTop;
-            public readonly bool AtBottom;
+            public readonly VirtualSnapshotSpan Span;
 
-            public SelectionData(VirtualSnapshotSpan span, double adornmentLeft, double adornmentRight, double leftClip, double rightClip, bool atTop, bool atBottom)
+            public SelectionData(VirtualSnapshotSpan span, double adornmentLeft, double adornmentRight, double leftClip,
+                double rightClip, bool atTop, bool atBottom)
             {
                 Span = span;
                 LeftEdgeOfCorrectlyRenderedAdornment = adornmentLeft < leftClip ? leftClip + 2.0 : double.MinValue;
@@ -184,9 +205,11 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                 AtBottom = atBottom;
             }
 
-            public bool ShouldRedraw(VirtualSnapshotSpan span, double viewportLeft, double viewportRight, bool atTop, bool atBottom)
+            public bool ShouldRedraw(VirtualSnapshotSpan span, double viewportLeft, double viewportRight, bool atTop,
+                bool atBottom)
             {
-                if (!(Span != span) && viewportLeft >= LeftEdgeOfCorrectlyRenderedAdornment && (viewportRight <= RightEdgeOfCorrectlyRenderedAdornment && AtTop == atTop))
+                if (!(Span != span) && viewportLeft >= LeftEdgeOfCorrectlyRenderedAdornment &&
+                    viewportRight <= RightEdgeOfCorrectlyRenderedAdornment && AtTop == atTop)
                     return AtBottom != atBottom;
                 return true;
             }

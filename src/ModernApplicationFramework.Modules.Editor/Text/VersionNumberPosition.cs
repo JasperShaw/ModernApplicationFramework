@@ -2,8 +2,8 @@
 {
     internal struct VersionNumberPosition
     {
-        public int VersionNumber;
         public int Position;
+        public int VersionNumber;
 
         public VersionNumberPosition(int versionNumber, int position)
         {

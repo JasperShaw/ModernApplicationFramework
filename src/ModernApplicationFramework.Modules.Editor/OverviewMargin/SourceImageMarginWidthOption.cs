@@ -10,9 +10,8 @@ namespace ModernApplicationFramework.Modules.Editor.OverviewMargin
     [Name("OverviewMargin/SourceImageMarginWidth")]
     public sealed class SourceImageMarginWidthOption : EditorOptionDefinition<double>
     {
-        public override EditorOptionKey<double> Key => DefaultTextViewHostOptions.SourceImageMarginWidthOptionId;
-
         public override double Default => 100.0;
+        public override EditorOptionKey<double> Key => DefaultTextViewHostOptions.SourceImageMarginWidthOptionId;
 
         public override bool IsValid(ref double proposedValue)
         {

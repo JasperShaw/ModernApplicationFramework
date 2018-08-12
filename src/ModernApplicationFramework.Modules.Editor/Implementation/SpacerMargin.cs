@@ -18,12 +18,12 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
         internal bool IsDisposed;
         internal SpacerMarginElement spacerMarginElement;
 
-        public FrameworkElement VisualElement
+        public bool Enabled
         {
             get
             {
                 ThrowIfDisposed();
-                return spacerMarginElement;
+                return spacerMarginElement.Enabled;
             }
         }
 
@@ -36,22 +36,32 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             }
         }
 
-        public bool Enabled
+        public FrameworkElement VisualElement
         {
             get
             {
                 ThrowIfDisposed();
-                return spacerMarginElement.Enabled;
+                return spacerMarginElement;
             }
         }
 
-        public SpacerMargin(ITextView textView, IViewTagAggregatorFactoryService tagAggregatorFactoryService, IEditorFormatMapService editorFormatMapService)
+        public SpacerMargin(ITextView textView, IViewTagAggregatorFactoryService tagAggregatorFactoryService,
+            IEditorFormatMapService editorFormatMapService)
         {
             if (textView == null)
                 throw new ArgumentNullException(nameof(textView));
             if (tagAggregatorFactoryService == null)
                 throw new ArgumentNullException(nameof(tagAggregatorFactoryService));
-            spacerMarginElement = new SpacerMarginElement(textView, tagAggregatorFactoryService, editorFormatMapService.GetEditorFormatMap(textView));
+            spacerMarginElement = new SpacerMarginElement(textView, tagAggregatorFactoryService,
+                editorFormatMapService.GetEditorFormatMap(textView));
+        }
+
+        public void Dispose()
+        {
+            if (IsDisposed)
+                return;
+            spacerMarginElement.Dispose();
+            IsDisposed = true;
         }
 
         public ITextViewMargin GetTextViewMargin(string marginName)
@@ -67,22 +77,15 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                 throw new ObjectDisposedException("Spacer");
         }
 
-        public void Dispose()
-        {
-            if (IsDisposed)
-                return;
-            spacerMarginElement.Dispose();
-            IsDisposed = true;
-        }
-
         internal class SpacerMarginElement : FrameworkElement
         {
-            private readonly ITextView _textView;
-            private readonly IViewTagAggregatorFactoryService _tagAggregatorFactoryService;
+            private readonly Brush[] _brushes = new Brush[4];
             private readonly IEditorFormatMap _editorFormatMap;
+            private readonly IViewTagAggregatorFactoryService _tagAggregatorFactoryService;
+            private readonly ITextView _textView;
             private ITagAggregator<ChangeTag> _changeTagAggregator;
 
-            private readonly Brush[] _brushes = new Brush[4];
+            public bool Enabled => _textView.Options.IsSelectionMarginEnabled();
 
             internal bool TrackChanges
             {
@@ -102,11 +105,10 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                         _changeTagAggregator.Dispose();
                         _changeTagAggregator = null;
                     }
+
                     InvalidateVisual();
                 }
             }
-
-            public bool Enabled => _textView.Options.IsSelectionMarginEnabled();
 
             public SpacerMarginElement(ITextView textView,
                 IViewTagAggregatorFactoryService tagAggregatorFactoryService, IEditorFormatMap editorFormatMap)
@@ -123,7 +125,7 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                 _textView.Options.OptionChanged += OnOptionsChanged;
                 IsVisibleChanged += (sender, e) =>
                 {
-                    if ((bool)e.NewValue)
+                    if ((bool) e.NewValue)
                         _textView.LayoutChanged += OnLayoutChanged;
                     else
                         _textView.LayoutChanged -= OnLayoutChanged;
@@ -153,6 +155,7 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                     else
                         index1 = index2 + 1;
                 }
+
                 if (index1 >= invalidSpans.Count)
                     return false;
                 if (line.EndIncludingLineBreak != line.Snapshot.Length || line.LineBreakLength != 0)
@@ -162,6 +165,7 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                     var start = invalidSpan.Start;
                     return includingLineBreak > start;
                 }
+
                 int includingLineBreak1 = line.EndIncludingLineBreak;
                 invalidSpan = invalidSpans[index1];
                 int start1 = invalidSpan.Start;
@@ -172,7 +176,8 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             {
                 if (!TrackChanges || _textView.InLayout || _textView.IsClosed)
                     return;
-                var unifiedChanges = ChangeBrushes.GetUnifiedChanges(_textView.TextSnapshot, _changeTagAggregator.GetTags(_textView.TextViewLines.FormattedSpan));
+                var unifiedChanges = ChangeBrushes.GetUnifiedChanges(_textView.TextSnapshot,
+                    _changeTagAggregator.GetTags(_textView.TextViewLines.FormattedSpan));
                 foreach (var textViewLine in _textView.TextViewLines)
                 {
                     var changeTypes = ChangeTypes.None;
@@ -187,28 +192,20 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                         if (ContainsChanges(textViewLine, unifiedChanges[2]))
                             changeTypes |= ChangeTypes.ChangedSinceSaved;
                     }
-                    if (changeTypes != ChangeTypes.None)
-                        drawingContext.DrawRectangle(_brushes[(int)changeTypes], null, new Rect(2.5, textViewLine.Top - _textView.ViewportTop, 5.0, textViewLine.Height));
-                }
-            }
 
-            private void OnTagsChanged(object sender, TagsChangedEventArgs e)
-            {
-                if (!IsVisible)
-                    return;
-                Dispatcher.BeginInvoke(DispatcherPriority.Render, (Action) InvalidateVisual, null);
+                    if (changeTypes != ChangeTypes.None)
+                        drawingContext.DrawRectangle(_brushes[(int) changeTypes], null,
+                            new Rect(2.5, textViewLine.Top - _textView.ViewportTop, 5.0, textViewLine.Height));
+                }
             }
 
             private void OnFormatMappingChanged(object sender, FormatItemsEventArgs e)
             {
-                if (!e.ChangedItems.Contains("Track Changes before save") && !e.ChangedItems.Contains("Track Changes after save") && !e.ChangedItems.Contains("Track reverted changes"))
+                if (!e.ChangedItems.Contains("Track Changes before save") &&
+                    !e.ChangedItems.Contains("Track Changes after save") &&
+                    !e.ChangedItems.Contains("Track reverted changes"))
                     return;
                 UpdateBrushes();
-            }
-
-            private void OnOptionsChanged(object sender, EventArgs e)
-            {
-                TrackChanges = _textView.Options.IsChangeTrackingEnabled() && !_textView.IsClosed;
             }
 
             private void OnLayoutChanged(object sender, TextViewLayoutChangedEventArgs e)
@@ -218,38 +215,52 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                 InvalidateVisual();
             }
 
+            private void OnOptionsChanged(object sender, EventArgs e)
+            {
+                TrackChanges = _textView.Options.IsChangeTrackingEnabled() && !_textView.IsClosed;
+            }
+
+            private void OnTagsChanged(object sender, TagsChangedEventArgs e)
+            {
+                if (!IsVisible)
+                    return;
+                Dispatcher.BeginInvoke(DispatcherPriority.Render, (Action) InvalidateVisual, null);
+            }
+
             private void UpdateBrushes()
             {
                 var properties1 = _editorFormatMap.GetProperties("Track Changes before save");
                 if (properties1.Contains("BackgroundColor"))
                 {
-                    _brushes[3] = new SolidColorBrush((Color)properties1["BackgroundColor"]);
+                    _brushes[3] = new SolidColorBrush((Color) properties1["BackgroundColor"]);
                     if (_brushes[3].CanFreeze)
                         _brushes[3].Freeze();
                 }
                 else if (properties1.Contains("Background"))
                 {
-                    _brushes[3] = (Brush)properties1["Background"];
+                    _brushes[3] = (Brush) properties1["Background"];
                     if (_brushes[3].CanFreeze)
                         _brushes[3].Freeze();
                 }
+
                 var properties2 = _editorFormatMap.GetProperties("Track Changes after save");
                 if (properties2.Contains("BackgroundColor"))
                 {
-                    _brushes[1] = new SolidColorBrush((Color)properties2["BackgroundColor"]);
+                    _brushes[1] = new SolidColorBrush((Color) properties2["BackgroundColor"]);
                     if (_brushes[1].CanFreeze)
                         _brushes[1].Freeze();
                 }
                 else if (properties2.Contains("Background"))
                 {
-                    _brushes[1] = (Brush)properties2["Background"];
+                    _brushes[1] = (Brush) properties2["Background"];
                     if (_brushes[1].CanFreeze)
                         _brushes[1].Freeze();
                 }
+
                 var properties3 = _editorFormatMap.GetProperties("Track reverted changes");
                 if (properties3.Contains("BackgroundColor"))
                 {
-                    _brushes[2] = new SolidColorBrush((Color)properties3["BackgroundColor"]);
+                    _brushes[2] = new SolidColorBrush((Color) properties3["BackgroundColor"]);
                     if (!_brushes[2].CanFreeze)
                         return;
                     _brushes[2].Freeze();
@@ -258,7 +269,7 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                 {
                     if (!properties3.Contains("Background"))
                         return;
-                    _brushes[2] = (Brush)properties3["Background"];
+                    _brushes[2] = (Brush) properties3["Background"];
                     if (!_brushes[2].CanFreeze)
                         return;
                     _brushes[2].Freeze();

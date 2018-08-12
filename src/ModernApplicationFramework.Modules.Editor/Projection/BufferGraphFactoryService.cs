@@ -9,14 +9,14 @@ namespace ModernApplicationFramework.Modules.Editor.Projection
     [Export(typeof(IBufferGraphFactoryService))]
     internal sealed class BufferGraphFactoryService : IBufferGraphFactoryService
     {
-        [Import]
-        internal GuardedOperations GuardedOperations;
+        [Import] internal GuardedOperations GuardedOperations;
 
         public IBufferGraph CreateBufferGraph(ITextBuffer textBuffer)
         {
             if (textBuffer == null)
                 throw new ArgumentNullException(nameof(textBuffer));
-            return textBuffer.Properties.GetOrCreateSingletonProperty(() => new BufferGraph(textBuffer, GuardedOperations));
+            return textBuffer.Properties.GetOrCreateSingletonProperty(() =>
+                new BufferGraph(textBuffer, GuardedOperations));
         }
     }
 }

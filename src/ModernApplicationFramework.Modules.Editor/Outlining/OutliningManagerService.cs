@@ -11,11 +11,9 @@ namespace ModernApplicationFramework.Modules.Editor.Outlining
     [Export(typeof(IOutliningManagerService))]
     internal class OutliningManagerService : IOutliningManagerService
     {
-        [Import]
-        internal IBufferTagAggregatorFactoryService TagAggregatorFactory { get; set; }
+        [Import] internal IEditorOptionsFactoryService EditorOptionsFactoryService { get; set; }
 
-        [Import]
-        internal IEditorOptionsFactoryService EditorOptionsFactoryService { get; set; }
+        [Import] internal IBufferTagAggregatorFactoryService TagAggregatorFactory { get; set; }
 
         public IOutliningManager GetOutliningManager(ITextView textView)
         {
@@ -26,7 +24,8 @@ namespace ModernApplicationFramework.Modules.Editor.Outlining
             return textView.Properties.GetOrCreateSingletonProperty(() =>
             {
                 var tagAggregator = TagAggregatorFactory.CreateTagAggregator<IOutliningRegionTag>(textView.TextBuffer);
-                var manager = new OutliningManager(textView.TextBuffer, tagAggregator, EditorOptionsFactoryService.GlobalOptions);
+                var manager = new OutliningManager(textView.TextBuffer, tagAggregator,
+                    EditorOptionsFactoryService.GlobalOptions);
                 textView.Closed += (_param1, _param2) => manager.Dispose();
                 return manager;
             });

@@ -4,7 +4,6 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
 {
     public interface IDeferrableContentTypeAndTextViewRoleMetadata : IContentTypeAndTextViewRoleMetadata
     {
-        [DefaultValue(null)]
-        string OptionName { get; }
+        [DefaultValue(null)] string OptionName { get; }
     }
 }

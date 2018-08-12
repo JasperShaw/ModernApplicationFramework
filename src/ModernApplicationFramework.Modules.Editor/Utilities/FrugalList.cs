@@ -25,7 +25,6 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
 
         public FrugalList()
         {
-            
         }
 
         public FrugalList(IList<T> elements)
@@ -49,35 +48,25 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
             }
         }
 
-        public int RemoveAll(Predicate<T> match)
+        public T this[int index]
         {
-            if (match == null)
-                throw new ArgumentNullException(nameof(match));
-            var num = 0;
-            for (var index = Count - 1; index >= 0; --index)
+            get
             {
-                if (match(this[index]))
-                {
-                    ++num;
-                    RemoveAt(index);
-                }
+                if (index < 0 || index >= Count)
+                    throw new ArgumentOutOfRangeException(nameof(index));
+                if (index == 0)
+                    return _head;
+                return _tail[index - 1];
             }
-            return num;
-        }
-
-        public IEnumerator<T> GetEnumerator()
-        {
-            return new FrugalEnumerator(this);
-        }
-
-        public ReadOnlyCollection<T> AsReadOnly()
-        {
-            return new ReadOnlyCollection<T>(this);
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return new FrugalEnumerator(this);
+            set
+            {
+                if (index < 0 || index >= Count)
+                    throw new ArgumentOutOfRangeException(nameof(index));
+                if (index == 0)
+                    _head = value;
+                else
+                    _tail[index - 1] = value;
+            }
         }
 
         public void Add(T item)
@@ -103,9 +92,14 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
                 Add(t);
         }
 
+        public ReadOnlyCollection<T> AsReadOnly()
+        {
+            return new ReadOnlyCollection<T>(this);
+        }
+
         public void Clear()
         {
-            _head = default(T);
+            _head = default;
             _tail = null;
         }
 
@@ -119,6 +113,7 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
                 if (count > 1)
                     return _tail.Contains(item);
             }
+
             return false;
         }
 
@@ -135,14 +130,9 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
             _tail.CopyTo(array, arrayIndex);
         }
 
-        public bool Remove(T item)
+        public IEnumerator<T> GetEnumerator()
         {
-            if (Count <= 0)
-                return false;
-            if (!EqualityComparer<T>.Default.Equals(_head, item))
-                return _tail.Remove(item);
-            RemoveAt(0);
-            return true;
+            return new FrugalEnumerator(this);
         }
 
         public int IndexOf(T item)
@@ -176,6 +166,7 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
                         _tail.Insert(0, _head);
                         break;
                 }
+
                 _head = item;
             }
             else
@@ -184,6 +175,31 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
                     _tail = new List<T>(2);
                 _tail.Insert(index - 1, item);
             }
+        }
+
+        public bool Remove(T item)
+        {
+            if (Count <= 0)
+                return false;
+            if (!EqualityComparer<T>.Default.Equals(_head, item))
+                return _tail.Remove(item);
+            RemoveAt(0);
+            return true;
+        }
+
+        public int RemoveAll(Predicate<T> match)
+        {
+            if (match == null)
+                throw new ArgumentNullException(nameof(match));
+            var num = 0;
+            for (var index = Count - 1; index >= 0; --index)
+                if (match(this[index]))
+                {
+                    ++num;
+                    RemoveAt(index);
+                }
+
+            return num;
         }
 
         public void RemoveAt(int index)
@@ -195,7 +211,7 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
             {
                 if (count == 1)
                 {
-                    _head = default(T);
+                    _head = default;
                     _tail = null;
                 }
                 else
@@ -208,30 +224,18 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
                 }
             }
             else if (count == 2)
+            {
                 _tail = UnitaryTail;
+            }
             else
+            {
                 _tail.RemoveAt(index - 1);
+            }
         }
 
-        public T this[int index]
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            get
-            {
-                if (index < 0 || index >= Count)
-                    throw new ArgumentOutOfRangeException(nameof(index));
-                if (index == 0)
-                    return _head;
-                return _tail[index - 1];
-            }
-            set
-            {
-                if (index < 0 || index >= Count)
-                    throw new ArgumentOutOfRangeException(nameof(index));
-                if (index == 0)
-                    _head = value;
-                else
-                    _tail[index - 1] = value;
-            }
+            return new FrugalEnumerator(this);
         }
 
         public struct FrugalEnumerator : IEnumerator<T>
@@ -239,15 +243,19 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
             private readonly FrugalList<T> _list;
             private int _position;
 
+            public T Current => _list[_position];
+
+            object IEnumerator.Current => _list[_position];
+
             public FrugalEnumerator(FrugalList<T> list)
             {
                 _list = list;
                 _position = -1;
             }
 
-            public T Current => _list[_position];
-
-            object IEnumerator.Current => _list[_position];
+            public void Dispose()
+            {
+            }
 
             public bool MoveNext()
             {
@@ -260,10 +268,6 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
             public void Reset()
             {
                 _position = -1;
-            }
-
-            public void Dispose()
-            {
             }
         }
     }

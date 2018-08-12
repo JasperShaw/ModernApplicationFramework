@@ -9,8 +9,7 @@ namespace ModernApplicationFramework.Modules.Editor.OverviewMargin
     [Name("OverviewMargin/ShowScrollBarAnnotationsOption")]
     public sealed class ShowScrollBarAnnotationsOption : EditorOptionDefinition<bool>
     {
-        public override EditorOptionKey<bool> Key => DefaultTextViewHostOptions.ShowScrollBarAnnotationsOptionId;
-
         public override bool Default => false;
+        public override EditorOptionKey<bool> Key => DefaultTextViewHostOptions.ShowScrollBarAnnotationsOptionId;
     }
 }

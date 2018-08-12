@@ -11,12 +11,12 @@ namespace ModernApplicationFramework.Modules.Editor.IntraTextAdornmentSupport
     [TextViewRole("STRUCTURED")]
     internal sealed class HiddenRegionManagerFactory : ITextViewCreationListener
     {
-        [Import]
-        public IViewTagAggregatorFactoryService ViewTagAggregatorFactoryService { get; set; }
+        [Import] public IViewTagAggregatorFactoryService ViewTagAggregatorFactoryService { get; set; }
 
         public void TextViewCreated(ITextView textView)
         {
-            if (!textView.TextViewModel.Properties.TryGetProperty("IntraTextAdornmentBuffer", out IElisionBuffer property))
+            if (!textView.TextViewModel.Properties.TryGetProperty("IntraTextAdornmentBuffer",
+                out IElisionBuffer property))
                 return;
             var tagAggregator = ViewTagAggregatorFactoryService.CreateTagAggregator<IElisionTag>(textView);
             var hiddenRegionManager = new HiddenRegionManager(property, tagAggregator);

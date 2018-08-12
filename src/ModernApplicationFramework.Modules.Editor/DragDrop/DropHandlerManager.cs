@@ -15,10 +15,11 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
     internal class DropHandlerManager
     {
         internal static Dictionary<string, IList<Lazy<IDropHandlerProvider, IDropHandlerMetadata>>> DropHandlers;
-        private readonly ITextView _textView;
         private readonly GuardedOperations _guardedOperations;
+        private readonly ITextView _textView;
 
-        public DropHandlerManager(IList<Lazy<IDropHandlerProvider, IDropHandlerMetadata>> dropHandlers, ITextView textView, GuardedOperations guardedOperations)
+        public DropHandlerManager(IList<Lazy<IDropHandlerProvider, IDropHandlerMetadata>> dropHandlers,
+            ITextView textView, GuardedOperations guardedOperations)
         {
             if (dropHandlers == null)
                 throw new ArgumentNullException(nameof(dropHandlers));
@@ -31,7 +32,8 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
 
         public virtual IDropHandler GetSupportingHandler(DragDropInfo dragDropInfo)
         {
-            return GetPrioritizedDropHandlers(dragDropInfo).FirstOrDefault(handler => handler.IsDropEnabled(dragDropInfo));
+            return GetPrioritizedDropHandlers(dragDropInfo)
+                .FirstOrDefault(handler => handler.IsDropEnabled(dragDropInfo));
         }
 
         internal ICollection<IDropHandler> GetPrioritizedDropHandlers(DragDropInfo dragDropInfo)
@@ -42,33 +44,29 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
             var dropHandlerList = new List<IDropHandler>();
             var dropHandlerSet = new HashSet<IDropHandler>();
             foreach (var key in prioritizedFormatList)
-            {
                 if (DropHandlers.ContainsKey(key))
-                {
                     foreach (var provider in DropHandlers[key])
-                    {
-                        if (provider.Metadata.ContentTypes == null || ContentTypeMatch(contentTypesAtPoint, provider.Metadata.ContentTypes))
+                        if (provider.Metadata.ContentTypes == null ||
+                            ContentTypeMatch(contentTypesAtPoint, provider.Metadata.ContentTypes))
                         {
-                            var dropHandler = _guardedOperations.InstantiateExtension(provider, provider, dropHandlerProvider => dropHandlerProvider.GetAssociatedDropHandler(_textView));
+                            var dropHandler = _guardedOperations.InstantiateExtension(provider, provider,
+                                dropHandlerProvider => dropHandlerProvider.GetAssociatedDropHandler(_textView));
                             if (dropHandler != null && !dropHandlerSet.Contains(dropHandler))
                             {
                                 dropHandlerList.Add(dropHandler);
                                 dropHandlerSet.Add(dropHandler);
                             }
                         }
-                    }
-                }
-            }
+
             return dropHandlerList;
         }
 
-        private static bool ContentTypeMatch(List<IContentType> targetContentTypes, IEnumerable<string> extensionContentTypes)
+        private static bool ContentTypeMatch(List<IContentType> targetContentTypes,
+            IEnumerable<string> extensionContentTypes)
         {
             foreach (var targetContentType in targetContentTypes)
-            {
                 if (ExtensionSelector.ContentTypeMatch(targetContentType, extensionContentTypes))
                     return true;
-            }
             return false;
         }
 
@@ -96,22 +94,19 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
             return stringList;
         }
 
-        private static Dictionary<string, IList<Lazy<IDropHandlerProvider, IDropHandlerMetadata>>> PopulateDropHandlers(IList<Lazy<IDropHandlerProvider, IDropHandlerMetadata>> dropHandlers)
+        private static Dictionary<string, IList<Lazy<IDropHandlerProvider, IDropHandlerMetadata>>> PopulateDropHandlers(
+            IList<Lazy<IDropHandlerProvider, IDropHandlerMetadata>> dropHandlers)
         {
             var dictionary = new Dictionary<string, IList<Lazy<IDropHandlerProvider, IDropHandlerMetadata>>>();
             foreach (var lazy in Orderer.Order(dropHandlers))
-            {
-                foreach (var dropFormat in lazy.Metadata.DropFormats)
-                {
-                    if (dictionary.ContainsKey(dropFormat))
-                        dictionary[dropFormat].Add(lazy);
-                    else
-                        dictionary.Add(dropFormat, new List<Lazy<IDropHandlerProvider, IDropHandlerMetadata>>(1)
-                        {
-                            lazy
-                        });
-                }
-            }
+            foreach (var dropFormat in lazy.Metadata.DropFormats)
+                if (dictionary.ContainsKey(dropFormat))
+                    dictionary[dropFormat].Add(lazy);
+                else
+                    dictionary.Add(dropFormat, new List<Lazy<IDropHandlerProvider, IDropHandlerMetadata>>(1)
+                    {
+                        lazy
+                    });
             return dictionary;
         }
 

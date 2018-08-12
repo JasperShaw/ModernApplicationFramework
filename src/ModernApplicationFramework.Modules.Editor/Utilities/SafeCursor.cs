@@ -6,6 +6,8 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
 {
     internal sealed class SafeCursor : SafeHandle
     {
+        public override bool IsInvalid => handle == IntPtr.Zero;
+
         public SafeCursor()
             : base(IntPtr.Zero, true)
         {
@@ -15,8 +17,6 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
             : base(hCursor, true)
         {
         }
-
-        public override bool IsInvalid => handle == IntPtr.Zero;
 
         protected override bool ReleaseHandle()
         {

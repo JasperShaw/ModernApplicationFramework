@@ -8,8 +8,10 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
 {
     internal class DefaultTextNavigator : ITextStructureNavigator
     {
-        private readonly ITextBuffer _textBuffer;
         private readonly IContentTypeRegistryService _contentTypeRegistry;
+        private readonly ITextBuffer _textBuffer;
+
+        public IContentType ContentType => _contentTypeRegistry.UnknownContentType;
 
         internal DefaultTextNavigator(ITextBuffer textBuffer, IContentTypeRegistryService contentTypeRegistry)
         {
@@ -22,7 +24,8 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
             if (currentPosition.Snapshot.TextBuffer != _textBuffer)
                 throw new ArgumentException("currentPosition TextBuffer does not match to the current TextBuffer");
             if (currentPosition.Position >= currentPosition.Snapshot.Length - 1)
-                return new TextExtent(new SnapshotSpan(currentPosition, currentPosition.Snapshot.Length - currentPosition), true);
+                return new TextExtent(
+                    new SnapshotSpan(currentPosition, currentPosition.Snapshot.Length - currentPosition), true);
             return new TextExtent(new SnapshotSpan(currentPosition, 1), true);
         }
 
@@ -59,7 +62,5 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
                 return new SnapshotSpan(activeSpan.Snapshot, 0, activeSpan.Snapshot.Length);
             return new SnapshotSpan(activeSpan.Start - 1, 1);
         }
-
-        public IContentType ContentType => _contentTypeRegistry.UnknownContentType;
     }
 }

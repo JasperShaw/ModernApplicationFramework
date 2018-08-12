@@ -8,6 +8,8 @@ namespace ModernApplicationFramework.Modules.Editor.Projection
     {
         private readonly WeakReference<BaseProjectionBuffer> _targetBuffer;
 
+        public BaseBuffer SourceBuffer { get; private set; }
+
         public WeakEventHook(BaseProjectionBuffer targetBuffer, BaseBuffer sourceBuffer)
         {
             _targetBuffer = new WeakReference<BaseProjectionBuffer>(targetBuffer);
@@ -17,8 +19,6 @@ namespace ModernApplicationFramework.Modules.Editor.Projection
             sourceBuffer.ReadOnlyRegionsChanged += OnSourceBufferReadOnlyRegionsChanged;
         }
 
-        public BaseBuffer SourceBuffer { get; private set; }
-
         public BaseProjectionBuffer GetTargetBuffer()
         {
             if (_targetBuffer.TryGetTarget(out var target))
@@ -27,9 +27,14 @@ namespace ModernApplicationFramework.Modules.Editor.Projection
             return null;
         }
 
-        private void OnSourceTextChanged(object sender, TextContentChangedEventArgs e)
+        public void UnsubscribeFromSourceBuffer()
         {
-            GetTargetBuffer()?.OnSourceTextChanged(sender, e);
+            if (SourceBuffer == null)
+                return;
+            SourceBuffer.ChangedImmediate -= OnSourceTextChanged;
+            SourceBuffer.ContentTypeChangedImmediate -= OnSourceBufferContentTypeChanged;
+            SourceBuffer.ReadOnlyRegionsChanged -= OnSourceBufferReadOnlyRegionsChanged;
+            SourceBuffer = null;
         }
 
         private void OnSourceBufferContentTypeChanged(object sender, ContentTypeChangedEventArgs e)
@@ -42,14 +47,9 @@ namespace ModernApplicationFramework.Modules.Editor.Projection
             GetTargetBuffer()?.OnSourceBufferReadOnlyRegionsChanged(sender, e);
         }
 
-        public void UnsubscribeFromSourceBuffer()
+        private void OnSourceTextChanged(object sender, TextContentChangedEventArgs e)
         {
-            if (SourceBuffer == null)
-                return;
-            SourceBuffer.ChangedImmediate -= OnSourceTextChanged;
-            SourceBuffer.ContentTypeChangedImmediate -= OnSourceBufferContentTypeChanged;
-            SourceBuffer.ReadOnlyRegionsChanged -= OnSourceBufferReadOnlyRegionsChanged;
-            SourceBuffer = null;
+            GetTargetBuffer()?.OnSourceTextChanged(sender, e);
         }
     }
 }

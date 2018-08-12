@@ -13,14 +13,14 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
     [TextViewRole("INTERACTIVE")]
     internal sealed class RightControlMarginProvider : ITextViewMarginProvider
     {
-        [Import]
-        private TextViewMarginState _marginState;
-        [Import]
-        private GuardedOperations _guardedOperations;
+        [Import] private GuardedOperations _guardedOperations;
+
+        [Import] private TextViewMarginState _marginState;
 
         public ITextViewMargin CreateMargin(ITextViewHost wpfTextViewHost, ITextViewMargin marginContainer)
         {
-            return ContainerMargin.Create("RightControl", Orientation.Horizontal, wpfTextViewHost, _guardedOperations, _marginState);
+            return ContainerMargin.Create("RightControl", Orientation.Horizontal, wpfTextViewHost, _guardedOperations,
+                _marginState);
         }
     }
 }

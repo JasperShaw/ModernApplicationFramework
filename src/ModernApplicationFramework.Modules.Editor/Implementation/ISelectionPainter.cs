@@ -4,9 +4,8 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
 {
     public interface ISelectionPainter : IDisposable
     {
-        void Clear();
-
         void Activate();
+        void Clear();
 
         void Update(bool selectionChanged);
     }

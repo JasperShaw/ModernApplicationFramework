@@ -16,11 +16,9 @@ namespace ModernApplicationFramework.Modules.Editor.OverviewMargin
     [TextViewRole("INTERACTIVE")]
     internal sealed class OverviewChangeTrackingMarginProvider : ITextViewMarginProvider
     {
-        [Import]
-        internal IViewTagAggregatorFactoryService TagAggregatorFactoryService { get; private set; }
+        [Import] internal IEditorFormatMapService EditorFormatMapService { get; private set; }
 
-        [Import]
-        internal IEditorFormatMapService EditorFormatMapService { get; private set; }
+        [Import] internal IViewTagAggregatorFactoryService TagAggregatorFactoryService { get; private set; }
 
         public ITextViewMargin CreateMargin(ITextViewHost textViewHost, ITextViewMargin parentMargin)
         {

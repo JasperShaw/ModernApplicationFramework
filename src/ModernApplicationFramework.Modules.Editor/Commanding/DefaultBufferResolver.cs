@@ -18,8 +18,10 @@ namespace ModernApplicationFramework.Modules.Editor.Commanding
 
         public IEnumerable<ITextBuffer> ResolveBuffersForCommand<TArgs>() where TArgs : EditorCommandArgs
         {
-            var mappingPoint = _textView.BufferGraph.CreateMappingPoint(_textView.Caret.Position.BufferPosition, PointTrackingMode.Negative);
-            return _textView.BufferGraph.GetTextBuffers(b => mappingPoint.GetPoint(b, PositionAffinity.Successor).HasValue);
+            var mappingPoint = _textView.BufferGraph.CreateMappingPoint(_textView.Caret.Position.BufferPosition,
+                PointTrackingMode.Negative);
+            return _textView.BufferGraph.GetTextBuffers(b =>
+                mappingPoint.GetPoint(b, PositionAffinity.Successor).HasValue);
         }
     }
 }

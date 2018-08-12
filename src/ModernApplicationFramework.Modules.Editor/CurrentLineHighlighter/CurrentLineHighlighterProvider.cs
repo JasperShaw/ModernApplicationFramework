@@ -22,12 +22,13 @@ namespace ModernApplicationFramework.Modules.Editor.CurrentLineHighlighter
         [Order(After = "Outlining")]
         [Order(Before = "TextMarker")]
         internal AdornmentLayerDefinition CurrentLineHighlighterLayer;
-        [Import]
-        internal IEditorFormatMapService EditorFormatMapService;
+
+        [Import] internal IEditorFormatMapService EditorFormatMapService;
 
         public void TextViewCreated(ITextView textView)
         {
-            textView.Properties.GetOrCreateSingletonProperty(() => new CurrentLineHighlighter(textView, EditorFormatMapService.GetEditorFormatMap(textView)));
+            textView.Properties.GetOrCreateSingletonProperty(() =>
+                new CurrentLineHighlighter(textView, EditorFormatMapService.GetEditorFormatMap(textView)));
         }
 
         [Export(typeof(EditorFormatDefinition))]

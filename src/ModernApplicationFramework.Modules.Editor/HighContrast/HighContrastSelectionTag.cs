@@ -32,7 +32,8 @@ namespace ModernApplicationFramework.Modules.Editor.HighContrast
                 return;
             if (classificationRegistry == null)
                 throw new ArgumentNullException(nameof(classificationRegistry));
-            _instance = new HighContrastSelectionTag(classificationRegistry.GetClassificationType("HighContrastSelection"));
+            _instance = new HighContrastSelectionTag(
+                classificationRegistry.GetClassificationType("HighContrastSelection"));
         }
     }
 }

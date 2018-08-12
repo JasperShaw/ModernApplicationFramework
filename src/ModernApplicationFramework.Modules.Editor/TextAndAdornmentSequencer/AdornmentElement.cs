@@ -9,40 +9,13 @@ namespace ModernApplicationFramework.Modules.Editor.TextAndAdornmentSequencer
 {
     internal class AdornmentElement : IAdornmentElement
     {
-        public readonly IMappingTagSpan<SpaceNegotiatingAdornmentTag> MappingTag;
         public readonly IMappingSpan MappingSpan;
+        public readonly IMappingTagSpan<SpaceNegotiatingAdornmentTag> MappingTag;
         public readonly SnapshotSpan SourceLocation;
 
-        public static AdornmentElement Create(ITextSnapshot topSnapshot, ITextSnapshot sourceSnapshot, IMappingTagSpan<SpaceNegotiatingAdornmentTag> tag, NormalizedSnapshotSpanCollection lineSpans)
-        {
-            var spans1 = tag.Span.GetSpans(topSnapshot);
-            if (spans1.Count > 0)
-            {
-                var source = spans1;
-                bool Func(SnapshotSpan s) => s.Length > 0;
-                if (source.Any(Func))
-                    return null;
-            }
-            var spans2 = tag.Span.GetSpans(sourceSnapshot);
-            if (spans2.Count == 1 && lineSpans.IntersectsWith(spans2))
-                return new AdornmentElement(spans2, tag);
-            return null;
-        }
-
-        private AdornmentElement(NormalizedSnapshotSpanCollection tagSourceSpans, IMappingTagSpan<SpaceNegotiatingAdornmentTag> tag)
-        {
-            MappingTag = tag;
-            SourceLocation = tagSourceSpans[0];
-            MappingSpan = tag.Span;
-        }
-
-        public double Width => MappingTag.Tag.Width;
-
-        public double TopSpace => MappingTag.Tag.TopSpace;
+        public PositionAffinity Affinity => MappingTag.Tag.Affinity;
 
         public double Baseline => MappingTag.Tag.Baseline;
-
-        public double TextHeight => MappingTag.Tag.TextHeight;
 
         public double BottomSpace => MappingTag.Tag.BottomSpace;
 
@@ -50,27 +23,51 @@ namespace ModernApplicationFramework.Modules.Editor.TextAndAdornmentSequencer
 
         public object ProviderTag => MappingTag.Tag.ProviderTag;
 
-        public PositionAffinity Affinity => MappingTag.Tag.Affinity;
+        public bool ShouldRenderText => false;
 
         public IMappingSpan Span => MappingSpan;
 
-        public bool ShouldRenderText => false;
+        public double TextHeight => MappingTag.Tag.TextHeight;
 
-        internal AdornmentElement Grow(SnapshotPoint newEnd)
+        public double TopSpace => MappingTag.Tag.TopSpace;
+
+        public double Width => MappingTag.Tag.Width;
+
+        private AdornmentElement(NormalizedSnapshotSpanCollection tagSourceSpans,
+            IMappingTagSpan<SpaceNegotiatingAdornmentTag> tag)
         {
-            return SetSourceSpan(SourceLocation.Start, newEnd, MappingTag.Tag.Affinity);
+            MappingTag = tag;
+            SourceLocation = tagSourceSpans[0];
+            MappingSpan = tag.Span;
         }
 
-        internal AdornmentElement Shrink(SnapshotPoint newEnd)
+        public static AdornmentElement Create(ITextSnapshot topSnapshot, ITextSnapshot sourceSnapshot,
+            IMappingTagSpan<SpaceNegotiatingAdornmentTag> tag, NormalizedSnapshotSpanCollection lineSpans)
         {
-            return SetSourceSpan(newEnd, newEnd, PositionAffinity.Predecessor);
+            var spans1 = tag.Span.GetSpans(topSnapshot);
+            if (spans1.Count > 0)
+            {
+                var source = spans1;
+
+                bool Func(SnapshotSpan s)
+                {
+                    return s.Length > 0;
+                }
+
+                if (source.Any(Func))
+                    return null;
+            }
+
+            var spans2 = tag.Span.GetSpans(sourceSnapshot);
+            if (spans2.Count == 1 && lineSpans.IntersectsWith(spans2))
+                return new AdornmentElement(spans2, tag);
+            return null;
         }
 
-        private AdornmentElement SetSourceSpan(SnapshotPoint start, SnapshotPoint end, PositionAffinity newPositionAffinity)
+        public override string ToString()
         {
-            var tag = MappingTag.Tag;
-            var span = new SnapshotSpan(start, end);
-            return new AdornmentElement(new NormalizedSnapshotSpanCollection(span), new MappingTagSpan<SpaceNegotiatingAdornmentTag>(MappingSpan.BufferGraph.CreateMappingSpan(span, SpanTrackingMode.EdgeExclusive), new SpaceNegotiatingAdornmentTag(tag.Width, tag.TopSpace, tag.Baseline, tag.TextHeight, tag.BottomSpace, newPositionAffinity, tag.IdentityTag, tag.ProviderTag)));
+            return string.Format(CultureInfo.CurrentCulture, "at {0} adornment {1}", SourceLocation,
+                MappingTag.Tag.IdentityTag);
         }
 
         internal static int Compare(AdornmentElement left, AdornmentElement right)
@@ -88,9 +85,26 @@ namespace ModernApplicationFramework.Modules.Editor.TextAndAdornmentSequencer
             return left.Affinity.CompareTo(right.Affinity);
         }
 
-        public override string ToString()
+        internal AdornmentElement Grow(SnapshotPoint newEnd)
         {
-            return string.Format(CultureInfo.CurrentCulture, "at {0} adornment {1}", SourceLocation, MappingTag.Tag.IdentityTag);
+            return SetSourceSpan(SourceLocation.Start, newEnd, MappingTag.Tag.Affinity);
+        }
+
+        internal AdornmentElement Shrink(SnapshotPoint newEnd)
+        {
+            return SetSourceSpan(newEnd, newEnd, PositionAffinity.Predecessor);
+        }
+
+        private AdornmentElement SetSourceSpan(SnapshotPoint start, SnapshotPoint end,
+            PositionAffinity newPositionAffinity)
+        {
+            var tag = MappingTag.Tag;
+            var span = new SnapshotSpan(start, end);
+            return new AdornmentElement(new NormalizedSnapshotSpanCollection(span),
+                new MappingTagSpan<SpaceNegotiatingAdornmentTag>(
+                    MappingSpan.BufferGraph.CreateMappingSpan(span, SpanTrackingMode.EdgeExclusive),
+                    new SpaceNegotiatingAdornmentTag(tag.Width, tag.TopSpace, tag.Baseline, tag.TextHeight,
+                        tag.BottomSpace, newPositionAffinity, tag.IdentityTag, tag.ProviderTag)));
         }
     }
 }

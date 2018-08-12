@@ -6,17 +6,18 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
 {
     public class ProjectionSpanDifference
     {
-        public ProjectionSpanDifference(IDifferenceCollection<SnapshotSpan> differenceCollection, ReadOnlyCollection<SnapshotSpan> insertedSpans, ReadOnlyCollection<SnapshotSpan> deletedSpans)
-        {
-            DifferenceCollection = differenceCollection;
-            InsertedSpans = insertedSpans;
-            DeletedSpans = deletedSpans;
-        }
+        public ReadOnlyCollection<SnapshotSpan> DeletedSpans { get; }
 
         public IDifferenceCollection<SnapshotSpan> DifferenceCollection { get; }
 
         public ReadOnlyCollection<SnapshotSpan> InsertedSpans { get; }
 
-        public ReadOnlyCollection<SnapshotSpan> DeletedSpans { get; }
+        public ProjectionSpanDifference(IDifferenceCollection<SnapshotSpan> differenceCollection,
+            ReadOnlyCollection<SnapshotSpan> insertedSpans, ReadOnlyCollection<SnapshotSpan> deletedSpans)
+        {
+            DifferenceCollection = differenceCollection;
+            InsertedSpans = insertedSpans;
+            DeletedSpans = deletedSpans;
+        }
     }
 }

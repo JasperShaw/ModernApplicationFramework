@@ -5,15 +5,6 @@ namespace ModernApplicationFramework.Modules.Editor.Text
 {
     internal class TextSnapshotLine : ITextSnapshotLine
     {
-        public ITextSnapshot Snapshot => Extent.Snapshot;
-        public SnapshotSpan Extent { get; }
-
-        public SnapshotSpan ExtentIncludingLineBreak => new SnapshotSpan(Extent.Start, LengthIncludingLineBreak);
-        public int LineNumber { get; }
-
-        public SnapshotPoint Start => Extent.Start;
-        public int Length => Extent.Length;
-        public int LengthIncludingLineBreak => Extent.Length + LineBreakLength;
         public SnapshotPoint End => Extent.End;
 
         public SnapshotPoint EndIncludingLineBreak
@@ -26,7 +17,17 @@ namespace ModernApplicationFramework.Modules.Editor.Text
                 return new SnapshotPoint(snapshot, position);
             }
         }
+
+        public SnapshotSpan Extent { get; }
+
+        public SnapshotSpan ExtentIncludingLineBreak => new SnapshotSpan(Extent.Start, LengthIncludingLineBreak);
+        public int Length => Extent.Length;
+        public int LengthIncludingLineBreak => Extent.Length + LineBreakLength;
         public int LineBreakLength { get; }
+        public int LineNumber { get; }
+        public ITextSnapshot Snapshot => Extent.Snapshot;
+
+        public SnapshotPoint Start => Extent.Start;
 
         public TextSnapshotLine(ITextSnapshot snapshot, int lineNumber, Span extent, int lineBreakLength)
         {
@@ -45,6 +46,15 @@ namespace ModernApplicationFramework.Modules.Editor.Text
         {
         }
 
+        public string GetLineBreakText()
+        {
+            var local = Extent;
+            var snapshot = local.Snapshot;
+            local = Extent;
+            var span = new Span(local.Span.End, LineBreakLength);
+            return snapshot.GetText(span);
+        }
+
 
         public string GetText()
         {
@@ -54,15 +64,6 @@ namespace ModernApplicationFramework.Modules.Editor.Text
         public string GetTextIncludingLineBreak()
         {
             return ExtentIncludingLineBreak.GetText();
-        }
-
-        public string GetLineBreakText()
-        {
-            var local = Extent;
-            var snapshot = local.Snapshot;
-            local = Extent;
-            var span = new Span(local.Span.End, LineBreakLength);
-            return snapshot.GetText(span);
         }
     }
 }

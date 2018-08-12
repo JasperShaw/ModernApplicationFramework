@@ -12,25 +12,15 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
     [Export(typeof(ITextStructureNavigatorSelectorService))]
     internal sealed class TextStructureNavigatorSelectorService : ITextStructureNavigatorSelectorService
     {
-        [Import]
-        internal IContentTypeRegistryService ContentTypeRegistryService { get; set; }
+        [Import] internal IContentTypeRegistryService ContentTypeRegistryService { get; set; }
 
-        [Import]
-        internal GuardedOperations GuardedOperations { get; set; }
+        [Import] internal GuardedOperations GuardedOperations { get; set; }
 
         [ImportMany(typeof(ITextStructureNavigatorProvider))]
-        internal List<Lazy<ITextStructureNavigatorProvider, IContentTypeMetadata>> TextStructureNavigatorProviders { get; set; }
-
-        public ITextStructureNavigator GetTextStructureNavigator(ITextBuffer textBuffer)
+        internal List<Lazy<ITextStructureNavigatorProvider, IContentTypeMetadata>> TextStructureNavigatorProviders
         {
-            if (textBuffer == null)
-                throw new ArgumentNullException(nameof(textBuffer));
-            if (textBuffer.Properties.TryGetProperty(typeof(ITextStructureNavigator), out ITextStructureNavigator property))
-                return property;
-            property = CreateNavigator(textBuffer, textBuffer.ContentType);
-            textBuffer.Properties[typeof(ITextStructureNavigator)] = property;
-            textBuffer.ContentTypeChanged += OnContentTypeChanged;
-            return property;
+            get;
+            set;
         }
 
         public ITextStructureNavigator CreateTextStructureNavigator(ITextBuffer textBuffer, IContentType contentType)
@@ -40,6 +30,19 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
             if (contentType == null)
                 throw new ArgumentNullException(nameof(contentType));
             return CreateNavigator(textBuffer, contentType);
+        }
+
+        public ITextStructureNavigator GetTextStructureNavigator(ITextBuffer textBuffer)
+        {
+            if (textBuffer == null)
+                throw new ArgumentNullException(nameof(textBuffer));
+            if (textBuffer.Properties.TryGetProperty(typeof(ITextStructureNavigator),
+                out ITextStructureNavigator property))
+                return property;
+            property = CreateNavigator(textBuffer, textBuffer.ContentType);
+            textBuffer.Properties[typeof(ITextStructureNavigator)] = property;
+            textBuffer.ContentTypeChanged += OnContentTypeChanged;
+            return property;
         }
 
         private ITextStructureNavigator CreateNavigator(ITextBuffer textBuffer, IContentType contentType)
@@ -55,7 +58,7 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
 
         private void OnContentTypeChanged(object sender, ContentTypeChangedEventArgs e)
         {
-            ITextBuffer textBuffer = e.Before.TextBuffer;
+            var textBuffer = e.Before.TextBuffer;
             textBuffer.Properties.RemoveProperty(typeof(ITextStructureNavigator));
             textBuffer.ContentTypeChanged -= OnContentTypeChanged;
         }

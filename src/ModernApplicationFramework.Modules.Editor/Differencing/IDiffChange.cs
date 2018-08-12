@@ -4,17 +4,17 @@
     {
         DiffChangeType ChangeType { get; }
 
-        int OriginalStart { get; }
-
-        int OriginalLength { get; }
-
-        int OriginalEnd { get; }
-
-        int ModifiedStart { get; }
+        int ModifiedEnd { get; }
 
         int ModifiedLength { get; }
 
-        int ModifiedEnd { get; }
+        int ModifiedStart { get; }
+
+        int OriginalEnd { get; }
+
+        int OriginalLength { get; }
+
+        int OriginalStart { get; }
 
         IDiffChange Add(IDiffChange diffChange);
     }

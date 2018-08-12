@@ -40,9 +40,11 @@ namespace ModernApplicationFramework.Modules.Editor.Differencing
                                 start1 = index;
                             num1 = index;
                         }
+
                         ++index;
                     }
                 }
+
                 if (ignoreTrimWhiteSpace)
                     Tokens.Add(start1 == -1 ? new Span(original.Length, 0) : Span.FromBounds(start1, num1 + 1));
                 else

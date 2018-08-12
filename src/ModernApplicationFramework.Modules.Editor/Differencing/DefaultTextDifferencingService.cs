@@ -77,26 +77,21 @@ namespace ModernApplicationFramework.Modules.Editor.Differencing
             return DiffText(left, right, type, differenceOptions);
         }
 
-        private IHierarchicalDifferenceCollection DiffText(ITokenizedStringListInternal left,
-            ITokenizedStringListInternal right, StringDifferenceTypes type, StringDifferenceOptions differenceOptions)
+        internal static string DefaultGetLineTextCallback(ITextSnapshotLine line)
         {
-            StringDifferenceOptions options = new StringDifferenceOptions(differenceOptions);
-            options.DifferenceType &= ~type;
-            return new HierarchicalDifferenceCollection(
-                ComputeMatches(differenceOptions, left, right), left, right,
-                this, options);
+            return line.GetTextIncludingLineBreak();
         }
 
         internal static List<Span> GetContiguousSpans(Span span, ITokenizedStringListInternal tokens)
         {
-            List<Span> spanList = new List<Span>();
-            int start1 = span.Start;
-            for (int index = span.Start + 1; index < span.End; ++index)
+            var spanList = new List<Span>();
+            var start1 = span.Start;
+            for (var index = span.Start + 1; index < span.End; ++index)
             {
-                Span elementInOriginal = tokens.GetElementInOriginal(index - 1);
-                int end = elementInOriginal.End;
+                var elementInOriginal = tokens.GetElementInOriginal(index - 1);
+                var end = elementInOriginal.End;
                 elementInOriginal = tokens.GetElementInOriginal(index);
-                int start2 = elementInOriginal.Start;
+                var start2 = elementInOriginal.Start;
                 if (end != start2)
                 {
                     spanList.Add(Span.FromBounds(start1, index));
@@ -109,25 +104,30 @@ namespace ModernApplicationFramework.Modules.Editor.Differencing
             return spanList;
         }
 
-        internal static string DefaultGetLineTextCallback(ITextSnapshotLine line)
-        {
-            return line.GetTextIncludingLineBreak();
-        }
-
-        private static IDifferenceCollection<string> ComputeMatches(StringDifferenceOptions differenceOptions, IList<string> leftSequence, IList<string> rightSequence)
+        private static IDifferenceCollection<string> ComputeMatches(StringDifferenceOptions differenceOptions,
+            IList<string> leftSequence, IList<string> rightSequence)
         {
             return ComputeMatches(differenceOptions, leftSequence,
                 rightSequence, leftSequence, rightSequence);
         }
 
-        private static IDifferenceCollection<string> ComputeMatches(StringDifferenceOptions differenceOptions, IList<string> leftSequence, IList<string> rightSequence,
+        private static IDifferenceCollection<string> ComputeMatches(StringDifferenceOptions differenceOptions,
+            IList<string> leftSequence, IList<string> rightSequence,
             IList<string> originalLeftSequence, IList<string> originalRightSequence)
         {
-            return (IDifferenceCollection<string>) MaximalSubsequenceAlgorithm.DifferenceSequences(leftSequence,
+            return MaximalSubsequenceAlgorithm.DifferenceSequences(leftSequence,
                 rightSequence, originalLeftSequence, originalRightSequence,
                 differenceOptions.ContinueProcessingPredicate);
         }
+
+        private IHierarchicalDifferenceCollection DiffText(ITokenizedStringListInternal left,
+            ITokenizedStringListInternal right, StringDifferenceTypes type, StringDifferenceOptions differenceOptions)
+        {
+            var options = new StringDifferenceOptions(differenceOptions);
+            options.DifferenceType &= ~type;
+            return new HierarchicalDifferenceCollection(
+                ComputeMatches(differenceOptions, left, right), left, right,
+                this, options);
+        }
     }
 }
-
-    

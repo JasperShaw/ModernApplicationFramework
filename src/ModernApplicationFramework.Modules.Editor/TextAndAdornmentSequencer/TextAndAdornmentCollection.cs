@@ -6,12 +6,12 @@ namespace ModernApplicationFramework.Modules.Editor.TextAndAdornmentSequencer
 {
     internal sealed class TextAndAdornmentCollection : ReadOnlyCollection<ISequenceElement>, ITextAndAdornmentCollection
     {
+        public ITextAndAdornmentSequencer Sequencer { get; }
+
         public TextAndAdornmentCollection(ITextAndAdornmentSequencer sequencer, IList<ISequenceElement> elements)
             : base(elements)
         {
             Sequencer = sequencer;
         }
-
-        public ITextAndAdornmentSequencer Sequencer { get; }
     }
 }

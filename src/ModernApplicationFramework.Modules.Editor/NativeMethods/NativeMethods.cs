@@ -16,17 +16,17 @@ namespace ModernApplicationFramework.Modules.Editor.NativeMethods
         public struct Monitorinfo
         {
             public int CbSize;
+            public int DwFlags;
             public RECT RcMonitor;
             public RECT RcWork;
-            public int DwFlags;
         }
 
         public struct RECT
         {
-            public int Left;
-            public int Top;
-            public int Right;
             public int Bottom;
+            public int Left;
+            public int Right;
+            public int Top;
         }
 
         public enum ImageType
@@ -34,7 +34,7 @@ namespace ModernApplicationFramework.Modules.Editor.NativeMethods
             ImageBitmap,
             ImageIcon,
             ImageCursor,
-            ImageEnhmetafile,
+            ImageEnhmetafile
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
@@ -53,6 +53,7 @@ namespace ModernApplicationFramework.Modules.Editor.NativeMethods
             public byte lfClipPrecision;
             public byte lfQuality;
             public byte lfPitchAndFamily;
+
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
             public string lfFaceName;
         }

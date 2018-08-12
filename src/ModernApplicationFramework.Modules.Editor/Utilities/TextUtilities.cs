@@ -7,6 +7,48 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
 {
     internal static class TextUtilities
     {
+        public static string Escape(string text, int truncateLength)
+        {
+            var result = new StringBuilder();
+            if (text.Length <= truncateLength)
+                return Escape(text);
+            for (var index = 0; index < truncateLength / 2; ++index)
+            {
+                var ch = text[index];
+                AppendChar(result, ch);
+            }
+
+            result.Append(" � ");
+            for (var index = text.Length - truncateLength / 2; index < text.Length; ++index)
+            {
+                var ch = text[index];
+                AppendChar(result, ch);
+            }
+
+            return result.ToString();
+        }
+
+        public static string Escape(string text)
+        {
+            var result = new StringBuilder();
+            foreach (var ch in text) AppendChar(result, ch);
+            return result.ToString();
+        }
+
+        public static string GetTag(ITextBuffer buffer)
+        {
+            if (buffer == null)
+                throw new ArgumentNullException(nameof(buffer));
+            var property = "";
+            buffer.Properties.TryGetProperty("tag", out property);
+            return property;
+        }
+
+        public static string GetTagOrContentType(ITextBuffer buffer)
+        {
+            return GetTag(buffer) ?? buffer.ContentType.TypeName;
+        }
+
         public static int LengthOfLineBreak(string source, int start, int end)
         {
             switch (source[start])
@@ -39,6 +81,11 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
             }
         }
 
+        public static Span? Overlap(this Span span, Span? otherSpan)
+        {
+            return !otherSpan.HasValue ? new Span?() : span.Overlap(otherSpan.Value);
+        }
+
         public static int ScanForLineCount(string text)
         {
             if (text == null)
@@ -54,28 +101,12 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
                     start += num2;
                 }
                 else
+                {
                     ++start;
+                }
             }
+
             return num1;
-        }
-
-        public static Span? Overlap(this Span span, Span? otherSpan)
-        {
-            return !otherSpan.HasValue ? new Span?() : span.Overlap(otherSpan.Value);
-        }
-
-        public static string GetTagOrContentType(ITextBuffer buffer)
-        {
-            return GetTag(buffer) ?? buffer.ContentType.TypeName;
-        }
-
-        public static string GetTag(ITextBuffer buffer)
-        {
-            if (buffer == null)
-                throw new ArgumentNullException(nameof(buffer));
-            var property = "";
-            buffer.Properties.TryGetProperty("tag", out property);
-            return property;
         }
 
         public static T[] StableSort<T>(IReadOnlyList<T> elements, Comparison<T> comparer)
@@ -93,6 +124,7 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
                         flag = false;
                 }
             }
+
             if (flag)
                 return target;
             var source = new T[count];
@@ -105,74 +137,8 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
                 MergePass(source, target, subcount, comparer);
                 subcount *= 2;
             }
+
             return target;
-        }
-
-        private static void MergePass<T>(T[] source, T[] target, int subcount, Comparison<T> comparer)
-        {
-            var left = 0;
-            while (left <= source.Length - 2 * subcount)
-            {
-                Merge(source, target, left, left + subcount, left + 2 * subcount, comparer);
-                left += 2 * subcount;
-            }
-            if (left + subcount < source.Length)
-            {
-                Merge(source, target, left, left + subcount, source.Length, comparer);
-            }
-            else
-            {
-                for (var index = left; index < source.Length; ++index)
-                    target[index] = source[index];
-            }
-        }
-
-        private static void Merge<T>(T[] source, T[] target, int left, int right, int end, Comparison<T> comparer)
-        {
-            var index1 = left;
-            var index2 = right;
-            var num = left;
-            while (index1 < right && index2 < end)
-                target[num++] = comparer(source[index1], source[index2]) <= 0 ? source[index1++] : source[index2++];
-            if (index1 == right)
-            {
-                for (var index3 = num; index3 < end; ++index3)
-                    target[index3] = source[index2++];
-            }
-            else
-            {
-                for (var index3 = num; index3 < end; ++index3)
-                    target[index3] = source[index1++];
-            }
-        }
-
-        public static string Escape(string text, int truncateLength)
-        {
-            var result = new StringBuilder();
-            if (text.Length <= truncateLength)
-                return Escape(text);
-            for (var index = 0; index < truncateLength / 2; ++index)
-            {
-                var ch = text[index];
-                AppendChar(result, ch);
-            }
-            result.Append(" � ");
-            for (var index = text.Length - truncateLength / 2; index < text.Length; ++index)
-            {
-                var ch = text[index];
-                AppendChar(result, ch);
-            }
-            return result.ToString();
-        }
-
-        public static string Escape(string text)
-        {
-            var result = new StringBuilder();
-            foreach (var ch in text)
-            {
-                AppendChar(result, ch);
-            }
-            return result.ToString();
         }
 
         private static void AppendChar(StringBuilder result, char ch)
@@ -198,6 +164,37 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
                     result.Append(ch);
                     break;
             }
+        }
+
+        private static void Merge<T>(T[] source, T[] target, int left, int right, int end, Comparison<T> comparer)
+        {
+            var index1 = left;
+            var index2 = right;
+            var num = left;
+            while (index1 < right && index2 < end)
+                target[num++] = comparer(source[index1], source[index2]) <= 0 ? source[index1++] : source[index2++];
+            if (index1 == right)
+                for (var index3 = num; index3 < end; ++index3)
+                    target[index3] = source[index2++];
+            else
+                for (var index3 = num; index3 < end; ++index3)
+                    target[index3] = source[index1++];
+        }
+
+        private static void MergePass<T>(T[] source, T[] target, int subcount, Comparison<T> comparer)
+        {
+            var left = 0;
+            while (left <= source.Length - 2 * subcount)
+            {
+                Merge(source, target, left, left + subcount, left + 2 * subcount, comparer);
+                left += 2 * subcount;
+            }
+
+            if (left + subcount < source.Length)
+                Merge(source, target, left, left + subcount, source.Length, comparer);
+            else
+                for (var index = left; index < source.Length; ++index)
+                    target[index] = source[index];
         }
     }
 }

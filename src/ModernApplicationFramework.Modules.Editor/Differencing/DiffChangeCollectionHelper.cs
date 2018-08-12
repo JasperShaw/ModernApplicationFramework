@@ -5,12 +5,15 @@ namespace ModernApplicationFramework.Modules.Editor.Differencing
 {
     internal static class DiffChangeCollectionHelper<T>
     {
-        public static DifferenceCollection<T> Create(IDiffChange[] changes, IList<T> originalLeft, IList<T> originalRight)
+        public static DifferenceCollection<T> Create(IDiffChange[] changes, IList<T> originalLeft,
+            IList<T> originalRight)
         {
-            return new DifferenceCollection<T>(CreateDiffs(changes, originalLeft, originalRight), originalLeft, originalRight);
+            return new DifferenceCollection<T>(CreateDiffs(changes, originalLeft, originalRight), originalLeft,
+                originalRight);
         }
 
-        private static IList<Difference> CreateDiffs(IDiffChange[] changes, IList<T> originalLeft, IList<T> originalRight)
+        private static IList<Difference> CreateDiffs(IDiffChange[] changes, IList<T> originalLeft,
+            IList<T> originalRight)
         {
             IList<Difference> diffs = new List<Difference>(changes.Length);
             if (changes.Length != 0)
@@ -20,11 +23,17 @@ namespace ModernApplicationFramework.Modules.Editor.Differencing
                 for (var index = 1; index < changes.Length; ++index)
                 {
                     var change = changes[index];
-                    DifferenceCollection<T>.AddDifference(diffChange.OriginalStart, diffChange.OriginalEnd, change.OriginalStart, diffChange.ModifiedStart, diffChange.ModifiedEnd, change.ModifiedStart, diffs, ref initialMatch);
+                    DifferenceCollection<T>.AddDifference(diffChange.OriginalStart, diffChange.OriginalEnd,
+                        change.OriginalStart, diffChange.ModifiedStart, diffChange.ModifiedEnd, change.ModifiedStart,
+                        diffs, ref initialMatch);
                     diffChange = change;
                 }
-                DifferenceCollection<T>.AddDifference(diffChange.OriginalStart, diffChange.OriginalEnd, originalLeft.Count, diffChange.ModifiedStart, diffChange.ModifiedEnd, originalRight.Count, diffs, ref initialMatch);
+
+                DifferenceCollection<T>.AddDifference(diffChange.OriginalStart, diffChange.OriginalEnd,
+                    originalLeft.Count, diffChange.ModifiedStart, diffChange.ModifiedEnd, originalRight.Count, diffs,
+                    ref initialMatch);
             }
+
             return diffs;
         }
     }

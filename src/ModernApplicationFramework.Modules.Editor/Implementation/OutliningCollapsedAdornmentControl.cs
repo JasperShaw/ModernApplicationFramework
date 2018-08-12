@@ -7,9 +7,9 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
     {
         static OutliningCollapsedAdornmentControl()
         {
-
             //TODO: Style
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(OutliningCollapsedAdornmentControl), new FrameworkPropertyMetadata(typeof(OutliningCollapsedAdornmentControl)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(OutliningCollapsedAdornmentControl),
+                new FrameworkPropertyMetadata(typeof(OutliningCollapsedAdornmentControl)));
         }
     }
 }

@@ -13,18 +13,32 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
     [Export(typeof(ISmartIndentationService))]
     internal sealed class SmartIndentationService : ISmartIndentationService, ISmartIndent
     {
-        [ImportMany]
-        internal List<Lazy<ISmartIndentProvider, IContentTypeMetadata>> SmartIndentProviders { get; set; }
+        [Import] internal IContentTypeRegistryService ContentTypeRegistryService { get; set; }
 
-        [Import]
-        internal GuardedOperations GuardedOperations { get; set; }
+        [Import] internal GuardedOperations GuardedOperations { get; set; }
 
-        [Import]
-        internal IContentTypeRegistryService ContentTypeRegistryService { get; set; }
+        [ImportMany] internal List<Lazy<ISmartIndentProvider, IContentTypeMetadata>> SmartIndentProviders { get; set; }
+
+        public void Dispose()
+        {
+        }
 
         public int? GetDesiredIndentation(ITextView textView, ITextSnapshotLine line)
         {
             return GetSmartIndent(textView).GetDesiredIndentation(line);
+        }
+
+        public int? GetDesiredIndentation(ITextSnapshotLine line)
+        {
+            return new int?();
+        }
+
+        private ISmartIndent CreateSmartIndent(ITextView textView)
+        {
+            if (textView.IsClosed)
+                return this;
+            return GuardedOperations.InvokeBestMatchingFactory(SmartIndentProviders, textView.TextDataModel.ContentType,
+                       provider => provider.CreateSmartIndent(textView), ContentTypeRegistryService, this) ?? this;
         }
 
         private ISmartIndent GetSmartIndent(ITextView textView)
@@ -49,22 +63,6 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                 textView.Closed += onClosed;
                 return CreateSmartIndent(textView);
             });
-        }
-
-        private ISmartIndent CreateSmartIndent(ITextView textView)
-        {
-            if (textView.IsClosed)
-                return this;
-            return GuardedOperations.InvokeBestMatchingFactory(SmartIndentProviders, textView.TextDataModel.ContentType, provider => provider.CreateSmartIndent(textView), ContentTypeRegistryService, this) ?? this;
-        }
-
-        public int? GetDesiredIndentation(ITextSnapshotLine line)
-        {
-            return new int?();
-        }
-
-        public void Dispose()
-        {
         }
     }
 }

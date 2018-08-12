@@ -12,7 +12,6 @@ using ModernApplicationFramework.Text.Logic.Operations;
 using ModernApplicationFramework.Text.Ui.Editor;
 using ModernApplicationFramework.Text.Ui.Formatting;
 using ModernApplicationFramework.Text.Ui.Operations;
-using ModernApplicationFramework.TextEditor;
 
 namespace ModernApplicationFramework.Modules.Editor.Operations
 {
@@ -20,7 +19,7 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
     {
         private readonly IViewPrimitives _editorPrimitives;
         private readonly EditorOperationsFactoryService _factory;
-        private ITextDocument _textDocument;
+        private readonly ITextDocument _textDocument;
         private ITextStructureNavigator _textStructureNavigator;
 
         public bool CanCut
@@ -85,16 +84,6 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
             }
         }
 
-        public bool MoveSelectedLinesUp()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool MoveSelectedLinesDown()
-        {
-            throw new NotImplementedException();
-        }
-
         public ITextView TextView { get; }
 
         //TODO: Add Undo Stuff
@@ -111,6 +100,15 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
             Options = factory.EditorOptionsProvider.GetOptions(textView);
             _factory.TextDocumentFactoryService.TryGetTextDocument(TextView.TextDataModel.DocumentBuffer,
                 out _textDocument);
+        }
+
+        private enum SelectionUpdate
+        {
+            Preserve,
+            Reset,
+            ResetUnlessEmptyBox,
+            Ignore,
+            ClearVirtualSpace
         }
 
         public void AddAfterTextBufferChangePrimitive()
@@ -171,13 +169,15 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
                         TextView.Caret.EnsureVisible();
                         return true;
                     }
+
                     boxDeletions = new NormalizedSnapshotSpanCollection(snapshotSpanList);
                 }
             }
+
             //TODO Text
             return ExecuteAction("Delete Left", () =>
             {
-               if (TextView.Selection.IsEmpty)
+                if (TextView.Selection.IsEmpty)
                     return _editorPrimitives.Caret.DeletePrevious();
                 var nullable1 = new VirtualSnapshotPoint?();
                 var nullable2 = new VirtualSnapshotPoint?();
@@ -194,6 +194,7 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
                         var virtualSnapshotPoint2 = new VirtualSnapshotPoint(position, virtualSpaces);
                         nullable1 = virtualSnapshotPoint2;
                     }
+
                     virtualSnapshotPoint1 = TextView.Selection.ActivePoint;
                     if (virtualSnapshotPoint1.IsInVirtualSpace)
                     {
@@ -205,6 +206,7 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
                         nullable2 = virtualSnapshotPoint2;
                     }
                 }
+
                 var snapshotCollection1 = boxDeletions;
                 if (snapshotCollection1 == null)
                     snapshotCollection1 = TextView.Selection.SelectedSpans;
@@ -225,6 +227,7 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
                         virtualSnapshotPoint1 = nullable1.Value;
                         anchorPoint1 = virtualSnapshotPoint1.TranslateTo(TextView.TextSnapshot);
                     }
+
                     var anchorPoint2 = anchorPoint1;
                     VirtualSnapshotPoint activePoint1;
                     if (!nullable2.HasValue)
@@ -236,6 +239,7 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
                         virtualSnapshotPoint1 = nullable2.Value;
                         activePoint1 = virtualSnapshotPoint1.TranslateTo(TextView.TextSnapshot);
                     }
+
                     var activePoint2 = activePoint1;
                     TextView.Caret.MoveTo(TextView.Selection.ActivePoint);
                     TextView.Selection.Select(anchorPoint2, activePoint2);
@@ -248,9 +252,9 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
                     caret.MoveTo(bufferPosition);
                     TextView.Selection.Clear();
                 }
+
                 TextView.Caret.EnsureVisible();
                 return true;
-
             }, SelectionUpdate.ResetUnlessEmptyBox, true);
         }
 
@@ -405,13 +409,16 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
                                     var position4 = snapshotPoint.Position;
                                     startIndex = position3 - position4;
                                 }
+
                                 if (!edit.Delete(selectedSpan))
                                     flag3 = false;
                             }
+
                             if (!flag3)
                                 return false;
                             edit.Replace(new SnapshotSpan(TextView.Caret.Position.BufferPosition, 0), charToInsert);
                         }
+
                         if (Options.GetOptionValue(DefaultOptions.TrimTrailingWhiteSpaceOptionId))
                         {
                             var num = line.IndexOfPreviousNonWhiteSpaceCharacter(startIndex);
@@ -442,8 +449,10 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
                                 TextView.Caret.MoveTo(virtualBufferPosition2.Position);
                         }
                     }
+
                     ResetSelection();
                 }
+
                 return flag1;
             }, SelectionUpdate.Ignore, true);
         }
@@ -514,6 +523,16 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
             throw new NotImplementedException();
         }
 
+        public bool MoveSelectedLinesDown()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool MoveSelectedLinesUp()
+        {
+            throw new NotImplementedException();
+        }
+
         public void MoveToBottomOfView(bool extendSelection)
         {
             throw new NotImplementedException();
@@ -551,7 +570,11 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
 
         public void MoveToPreviousCharacter(bool extendSelection)
         {
-            if ((TextView.Caret.InVirtualSpace ? 0 : (TextView.Caret.Position.BufferPosition == TextView.Caret.ContainingTextViewLine.Start ? 1 : 0)) != 0 && (Options.IsVirtualSpaceEnabled() || extendSelection && TextView.Selection.Mode == TextSelectionMode.Box))
+            if ((TextView.Caret.InVirtualSpace
+                    ? 0
+                    : (TextView.Caret.Position.BufferPosition == TextView.Caret.ContainingTextViewLine.Start ? 1 : 0)
+                ) != 0 && (Options.IsVirtualSpaceEnabled() ||
+                           extendSelection && TextView.Selection.Mode == TextSelectionMode.Box))
                 return;
             _editorPrimitives.Caret.MoveToPreviousCharacter(extendSelection);
         }
@@ -716,11 +739,16 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
             {
                 TextView.Selection.Select(anchorPoint, activePoint);
                 TextView.Selection.Mode = selectionMode;
-                TextView.Caret.MoveTo(TextView.Selection.IsEmpty ? activePoint.TranslateTo(TextView.TextSnapshot) : TextView.Selection.ActivePoint);
+                TextView.Caret.MoveTo(TextView.Selection.IsEmpty
+                    ? activePoint.TranslateTo(TextView.TextSnapshot)
+                    : TextView.Selection.ActivePoint);
             }
+
             if (!scrollOptions.HasValue)
                 return;
-            scrollOptions = !TextView.Selection.IsReversed ? scrollOptions.Value & ~EnsureSpanVisibleOptions.ShowStart : scrollOptions.Value | EnsureSpanVisibleOptions.ShowStart;
+            scrollOptions = !TextView.Selection.IsReversed
+                ? scrollOptions.Value & ~EnsureSpanVisibleOptions.ShowStart
+                : scrollOptions.Value | EnsureSpanVisibleOptions.ShowStart;
             TextView.ViewScroller.EnsureSpanVisible(TextView.Selection.StreamSelectionSpan, scrollOptions.Value);
         }
 
@@ -730,8 +758,15 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
             var previousWord1 = _editorPrimitives.Caret.GetPreviousWord();
             var textRange2 = _editorPrimitives.Selection.Clone();
 
-            if (!_editorPrimitives.Selection.IsEmpty && (textRange2.GetStartPoint().CurrentPosition == textRange1.GetStartPoint().CurrentPosition && textRange2.GetEndPoint().CurrentPosition == textRange1.GetEndPoint().CurrentPosition || textRange2.GetStartPoint().CurrentPosition == previousWord1.GetStartPoint().CurrentPosition && textRange2.GetEndPoint().CurrentPosition == previousWord1.GetEndPoint().CurrentPosition))
-                TextView.ViewScroller.EnsureSpanVisible(TextView.Selection.StreamSelectionSpan.SnapshotSpan, EnsureSpanVisibleOptions.MinimumScroll);
+            if (!_editorPrimitives.Selection.IsEmpty &&
+                (textRange2.GetStartPoint().CurrentPosition == textRange1.GetStartPoint().CurrentPosition &&
+                 textRange2.GetEndPoint().CurrentPosition == textRange1.GetEndPoint().CurrentPosition ||
+                 textRange2.GetStartPoint().CurrentPosition == previousWord1.GetStartPoint().CurrentPosition &&
+                 textRange2.GetEndPoint().CurrentPosition == previousWord1.GetEndPoint().CurrentPosition))
+            {
+                TextView.ViewScroller.EnsureSpanVisible(TextView.Selection.StreamSelectionSpan.SnapshotSpan,
+                    EnsureSpanVisibleOptions.MinimumScroll);
+            }
             else
             {
                 if (textRange1.IsEmpty)
@@ -740,6 +775,7 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
                     if (previousWord2.GetStartPoint().LineNumber == textRange1.GetStartPoint().LineNumber)
                         textRange1 = previousWord2;
                 }
+
                 _editorPrimitives.Selection.SelectRange(textRange1);
             }
         }
@@ -767,9 +803,13 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
             }
             else
             {
-                var containingBufferPosition = TextView.GetTextViewLineContainingBufferPosition(TextView.Selection.AnchorPoint.Position);
-                if (TextView.Selection.IsReversed && !TextView.Selection.AnchorPoint.IsInVirtualSpace && (TextView.Selection.AnchorPoint.Position == containingBufferPosition.Start && containingBufferPosition.Start.Position > 0))
-                    containingBufferPosition = TextView.GetTextViewLineContainingBufferPosition(containingBufferPosition.Start - 1);
+                var containingBufferPosition =
+                    TextView.GetTextViewLineContainingBufferPosition(TextView.Selection.AnchorPoint.Position);
+                if (TextView.Selection.IsReversed && !TextView.Selection.AnchorPoint.IsInVirtualSpace &&
+                    TextView.Selection.AnchorPoint.Position == containingBufferPosition.Start &&
+                    containingBufferPosition.Start.Position > 0)
+                    containingBufferPosition =
+                        TextView.GetTextViewLineContainingBufferPosition(containingBufferPosition.Start - 1);
                 if (viewLine.Start < containingBufferPosition.Start)
                 {
                     position1 = containingBufferPosition.EndIncludingLineBreak;
@@ -781,7 +821,9 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
                     position2 = viewLine.EndIncludingLineBreak;
                 }
             }
-            SelectAndMoveCaret(new VirtualSnapshotPoint(position1), new VirtualSnapshotPoint(position2), TextSelectionMode.Stream, new EnsureSpanVisibleOptions?());
+
+            SelectAndMoveCaret(new VirtualSnapshotPoint(position1), new VirtualSnapshotPoint(position2),
+                TextSelectionMode.Stream, new EnsureSpanVisibleOptions?());
             TextView.Caret.EnsureVisible();
         }
 
@@ -862,22 +904,13 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
             TextView.ZoomLevel = zoomLevel;
         }
 
-        internal bool IsEmptyBoxSelection()
-        {
-            if (!TextView.Selection.IsEmpty)
-                return TextView.Selection.VirtualSelectedSpans.All(s => s.IsEmpty);
-            return false;
-        }
-
         internal bool DeleteHelper(NormalizedSpanCollection spans)
         {
             return EditHelper(e =>
             {
                 foreach (var span in spans)
-                {
                     if (!e.Delete(span) || e.Canceled)
                         return false;
-                }
                 return true;
             });
         }
@@ -893,36 +926,51 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
             }
         }
 
-        internal string GetWhiteSpaceForPositionAndVirtualSpace(SnapshotPoint position, int virtualSpaces, bool useBufferPrimitives)
+        internal string GetWhiteSpaceForPositionAndVirtualSpace(SnapshotPoint position, int virtualSpaces,
+            bool useBufferPrimitives)
         {
-            return GetWhiteSpaceForPositionAndVirtualSpace(position, virtualSpaces, useBufferPrimitives, TextView.Options.IsConvertTabsToSpacesEnabled());
+            return GetWhiteSpaceForPositionAndVirtualSpace(position, virtualSpaces, useBufferPrimitives,
+                TextView.Options.IsConvertTabsToSpacesEnabled());
         }
 
-        internal string GetWhiteSpaceForPositionAndVirtualSpace(SnapshotPoint position, int virtualSpaces, bool useBufferPrimitives, bool convertTabsToSpaces)
+        internal string GetWhiteSpaceForPositionAndVirtualSpace(SnapshotPoint position, int virtualSpaces,
+            bool useBufferPrimitives, bool convertTabsToSpaces)
         {
             string str;
             if (!convertTabsToSpaces)
             {
                 var tabSize = TextView.Options.GetTabSize();
-                var num1 = !useBufferPrimitives ? _editorPrimitives.View.GetTextPoint(position).DisplayColumn : _editorPrimitives.Buffer.GetTextPoint(position).Column;
+                var num1 = !useBufferPrimitives
+                    ? _editorPrimitives.View.GetTextPoint(position).DisplayColumn
+                    : _editorPrimitives.Buffer.GetTextPoint(position).Column;
                 var num2 = num1 + virtualSpaces;
                 var count1 = num2 % tabSize;
                 var count2 = (num2 - count1 - num1 + tabSize - 1) / tabSize;
                 str = count2 <= 0 ? new string(' ', virtualSpaces) : new string('\t', count2) + new string(' ', count1);
             }
             else
+            {
                 str = new string(' ', virtualSpaces);
-            return str;
-        }
+            }
 
-        internal bool ReplaceHelper(Span span, string text)
-        {
-            return EditHelper(e => e.Replace(span, text));
+            return str;
         }
 
         internal string GetWhiteSpaceForPositionAndVirtualSpace(SnapshotPoint position, int virtualSpaces)
         {
             return GetWhiteSpaceForPositionAndVirtualSpace(position, virtualSpaces, false);
+        }
+
+        internal bool IsEmptyBoxSelection()
+        {
+            if (!TextView.Selection.IsEmpty)
+                return TextView.Selection.VirtualSelectedSpans.All(s => s.IsEmpty);
+            return false;
+        }
+
+        internal bool ReplaceHelper(Span span, string text)
+        {
+            return EditHelper(e => e.Replace(span, text));
         }
 
         private static bool IsPointOnBlankViewLine(DisplayTextPoint displayTextPoint)
@@ -931,218 +979,11 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
                    displayTextPoint.EndOfViewLine;
         }
 
-        //TODO: Localize Undo string "Insert Text"
-        private bool InsertText(string text, bool final)
+        private static bool IsSpaceCharacter(char c)
         {
-            return InsertText(text, final, "Insert Text", TextView.Caret.OverwriteMode);
-        }
-
-        private bool InsertText(string text, bool final, string undoText, bool isOverwriteModeEnabled)
-        {
-            if (text == null)
-                throw new ArgumentNullException(nameof(text));
-            if (text.Length == 0 && !final)
-                throw new ArgumentException("Provisional TextInput cannot be zero-length");
-            //using (ITextUndoTransaction transaction = this._undoHistory.CreateTransaction(undoText))
-            //{
-                var allowableMergeDirections = TextTransactionMergeDirections.Forward | TextTransactionMergeDirections.Backward;
-                if (!TextView.Selection.IsEmpty && !IsEmptyBoxSelection() || _textDocument != null && !_textDocument.IsDirty)
-                    allowableMergeDirections = TextTransactionMergeDirections.Forward;
-                //transaction.MergePolicy = (IMergeTextUndoTransactionPolicy)new TextTransactionMergePolicy(allowableMergeDirections);
-                AddBeforeTextBufferChangePrimitive();
-                var textEditAction = TextEditAction.Type;
-                IEnumerable<VirtualSnapshotSpan> source;
-                if (!TextView.Selection.IsEmpty && ProvisionalCompositionSpan == null)
-                {
-                    if (TextView.Options.IsOverwriteModeEnabled() && IsEmptyBoxSelection())
-                    {
-                        var virtualSnapshotSpanList = new List<VirtualSnapshotSpan>();
-                        foreach (var virtualSelectedSpan in TextView.Selection.VirtualSelectedSpans)
-                        {
-                            var start = virtualSelectedSpan.Start;
-                            var position = start.Position;
-                            start = virtualSelectedSpan.Start;
-                            if (start.IsInVirtualSpace || position.GetContainingLine().End == position)
-                                virtualSnapshotSpanList.Add(virtualSelectedSpan);
-                            else
-                                virtualSnapshotSpanList.Add(new VirtualSnapshotSpan(new SnapshotSpan(position, TextView.GetTextElementSpan(position).End)));
-                        }
-                        source = virtualSnapshotSpanList;
-                    }
-                    else
-                        source = TextView.Selection.VirtualSelectedSpans;
-                }
-                else if (ProvisionalCompositionSpan != null)
-                {
-                    var span = ProvisionalCompositionSpan.GetSpan(TextView.TextSnapshot);
-                    if (IsEmptyBoxSelection() & final)
-                    {
-                        var virtualSnapshotSpanList = (IList<VirtualSnapshotSpan>)new List<VirtualSnapshotSpan>();
-                        foreach (var end in TextView.Selection.VirtualSelectedSpans.Select(s => s.Start.Position))
-                        {
-                            if (end.Position - span.Length >= 0)
-                                virtualSnapshotSpanList.Add(new VirtualSnapshotSpan(new SnapshotSpan(end - span.Length, end)));
-                        }
-                        source = virtualSnapshotSpanList;
-                    }
-                    else
-                        source = new VirtualSnapshotSpan[1]
-                        {
-                            new VirtualSnapshotSpan(span)
-                        };
-                    textEditAction = TextEditAction.ProvisionalOverwrite;
-                }
-                else
-                {
-                    var virtualBufferPosition = TextView.Caret.Position.VirtualBufferPosition;
-                    if (isOverwriteModeEnabled && !virtualBufferPosition.IsInVirtualSpace)
-                    {
-                        var position = virtualBufferPosition.Position;
-                        source = new[]
-                        {
-                            new VirtualSnapshotSpan(new SnapshotSpan(position, TextView.GetTextElementSpan(position).End))
-                        };
-                    }
-                    else
-                        source = new[]
-                        {
-                            new VirtualSnapshotSpan(virtualBufferPosition, virtualBufferPosition)
-                        };
-                }
-                var version = TextView.TextSnapshot.Version;
-                var trackingSpan = (ITrackingSpan)null;
-                var flag1 = true;
-                var nullable = new int?();
-                var num1 = 0;
-                var trackingPoint = (ITrackingPoint)null;
-                using (var edit = TextView.TextBuffer.CreateEdit(EditOptions.None, new int?(), textEditAction))
-                {
-                    var flag2 = true;
-                    foreach (var virtualSnapshotSpan in source)
-                    {
-                        var replaceWith = text;
-                        var textSnapshot = TextView.TextSnapshot;
-                        var start = virtualSnapshotSpan.Start;
-                        var position = (int)start.Position;
-                        trackingPoint = textSnapshot.CreateTrackingPoint(position, (PointTrackingMode) 1);
-                        start = virtualSnapshotSpan.Start;
-                        if (start.IsInVirtualSpace)
-                        {
-                            var whitespaceForVirtualSpace = GetWhitespaceForVirtualSpace(virtualSnapshotSpan.Start);
-                            if (flag2)
-                                TextView.TextBuffer.Properties["WhitespaceInserted"] = whitespaceForVirtualSpace.Length;
-                            replaceWith = whitespaceForVirtualSpace + text;
-                        }
-                        if (!nullable.HasValue)
-                            nullable = replaceWith.Length - text.Length;
-                        num1 = replaceWith.Length - text.Length;
-                        if (!edit.Replace(virtualSnapshotSpan.SnapshotSpan, replaceWith) || edit.Canceled)
-                        {
-                            flag1 = false;
-                            break;
-                        }
-                        flag2 = false;
-                    }
-                    if (flag1)
-                    {
-                        edit.Apply();
-                        flag1 = !edit.Canceled;
-                    }
-                }
-                if (flag1)
-                {
-                    TextView.Caret.MoveTo(TextView.Caret.Position.BufferPosition);
-                    TextView.Selection.Select(new VirtualSnapshotPoint(TextView.Selection.AnchorPoint.Position), new VirtualSnapshotPoint(TextView.Selection.ActivePoint.Position));
-                    var virtualSelectedSpans = TextView.Selection.VirtualSelectedSpans;
-                    var func = (Func<VirtualSnapshotSpan, bool>)(s => !s.IsEmpty);
-                    if (virtualSelectedSpans.Any(func))
-                        TextView.Selection.Clear();
-                    TextView.Caret.EnsureVisible();
-                    AddAfterTextBufferChangePrimitive();
-                    //transaction.Complete();
-                    if (final)
-                        trackingSpan = null;
-                    else if (TextView.Selection.IsReversed)
-                    {
-                        var num2 = nullable ?? 0;
-                        trackingSpan = version.Next.CreateTrackingSpan(new Span((source.First().Start.Position + num2), text.Length), SpanTrackingMode.EdgeExclusive);
-                    }
-                    else
-                    {
-                        var position = trackingPoint.GetPoint(TextView.TextSnapshot).Position;
-                        trackingSpan = version.Next.CreateTrackingSpan(new Span(position + num1, text.Length), SpanTrackingMode.EdgeExclusive);
-                    }
-                }
-                if (ProvisionalCompositionSpan != trackingSpan)
-                {
-                    ProvisionalCompositionSpan = trackingSpan;
-                    TextView.ProvisionalTextHighlight = ProvisionalCompositionSpan;
-                }
-                return flag1;
-            //}
-        }
-
-        private void MoveCaretToPreviousIndentStopInVirtualSpace()
-        {
-            TextView.Caret.MoveTo(GetPreviousIndentStopInVirtualSpace(TextView.Caret.Position.VirtualBufferPosition));
-        }
-
-        private VirtualSnapshotPoint GetPreviousIndentStopInVirtualSpace(VirtualSnapshotPoint point)
-        {
-            var column = _editorPrimitives.Buffer.GetTextPoint(point.Position).Column;
-            var num1 = column + point.VirtualSpaces;
-            var indentSize = Options.GetIndentSize();
-            var num2 = 1;
-            var num3 = (num1 - num2) / indentSize * indentSize;
-            if (num3 > column)
-                return new VirtualSnapshotPoint(point.Position, num3 - column);
-            return new VirtualSnapshotPoint(point.Position);
-        }
-
-        private void ResetVirtualSelection()
-        {
-            var start = TextView.Selection.Start;
-            var containingBufferPosition1 = TextView.GetTextViewLineContainingBufferPosition(start.Position);
-            var end = TextView.Selection.End;
-            var containingBufferPosition2 = TextView.GetTextViewLineContainingBufferPosition(end.Position);
-            var extendedCharacterBounds = containingBufferPosition1.GetExtendedCharacterBounds(start);
-            var left1 = extendedCharacterBounds.Left;
-            extendedCharacterBounds = containingBufferPosition2.GetExtendedCharacterBounds(end);
-            var left2 = extendedCharacterBounds.Left;
-            var xCoordinate = Math.Min(left1, left2);
-            TextView.Caret.MoveTo((TextView.Selection.IsReversed ? containingBufferPosition1 : containingBufferPosition2).GetInsertionBufferPositionFromXCoordinate(xCoordinate));
-            TextView.Selection.Clear();
-        }
-
-        private bool PositionCaretWithSmartIndent(bool useOnlyVirtualSpace = true, bool extendSelection = false)
-        {
-            var virtualBufferPosition = TextView.Caret.Position.VirtualBufferPosition;
-            var containingLine = virtualBufferPosition.Position.GetContainingLine();
-            var desiredIndentation = _factory.SmartIndentationService.GetDesiredIndentation(TextView, containingLine);
-            if (desiredIndentation.HasValue)
-            {
-                if (virtualBufferPosition.Position == containingLine.End)
-                {
-                    var activePoint = new VirtualSnapshotPoint(virtualBufferPosition.Position, Math.Max(0, desiredIndentation.Value - containingLine.Length));
-                    SelectAndMoveCaret(extendSelection ? TextView.Selection.AnchorPoint : activePoint, activePoint, TextSelectionMode.Stream, new EnsureSpanVisibleOptions?());
-                    return true;
-                }
-                if (!useOnlyVirtualSpace)
-                {
-                    var leadingWhitespaceChars = GetLeadingWhitespaceChars(containingLine, virtualBufferPosition.Position);
-                    var positionAndVirtualSpace = GetWhiteSpaceForPositionAndVirtualSpace(virtualBufferPosition.Position, desiredIndentation.Value);
-                    return ReplaceHelper(new SnapshotSpan(virtualBufferPosition.Position, leadingWhitespaceChars), positionAndVirtualSpace);
-                }
-            }
-            return false;
-        }
-
-        private int GetLeadingWhitespaceChars(ITextSnapshotLine line, SnapshotPoint startPosition)
-        {
-            var num = 0;
-            for (var position = startPosition.Position; position < line.End && IsSpaceCharacter(line.Snapshot[position]); ++position)
-                ++num;
-            return num;
+            if (c != ' ' && c != '\t' && c != '\x200B')
+                return char.GetUnicodeCategory(c) == UnicodeCategory.SpaceSeparator;
+            return true;
         }
 
         private bool ExecuteAction(string undoText, Func<bool> action,
@@ -1162,8 +1003,15 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
             switch (preserveCaretAndSelection)
             {
                 case SelectionUpdate.Preserve:
-                    TextView.Caret.MoveTo(new VirtualSnapshotPoint(new SnapshotPoint(TextView.TextSnapshot, position.BufferPosition.Position), position.VirtualSpaces), position.Affinity);
-                    TextView.Selection.Select(new VirtualSnapshotPoint(new SnapshotPoint(TextView.TextSnapshot, anchorPoint1.Position), anchorPoint1.VirtualSpaces), new VirtualSnapshotPoint(new SnapshotPoint(TextView.TextSnapshot, activePoint1.Position), activePoint1.VirtualSpaces));
+                    TextView.Caret.MoveTo(
+                        new VirtualSnapshotPoint(
+                            new SnapshotPoint(TextView.TextSnapshot, position.BufferPosition.Position),
+                            position.VirtualSpaces), position.Affinity);
+                    TextView.Selection.Select(
+                        new VirtualSnapshotPoint(new SnapshotPoint(TextView.TextSnapshot, anchorPoint1.Position),
+                            anchorPoint1.VirtualSpaces),
+                        new VirtualSnapshotPoint(new SnapshotPoint(TextView.TextSnapshot, activePoint1.Position),
+                            activePoint1.VirtualSpaces));
                     break;
                 case SelectionUpdate.Reset:
                     ResetSelection();
@@ -1182,6 +1030,7 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
                     selection.Select(anchorPoint2, activePoint2);
                     break;
             }
+
             if (ensureVisible)
                 TextView.Caret.EnsureVisible();
             AddAfterTextBufferChangePrimitive();
@@ -1192,20 +1041,252 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
             return true;
         }
 
-        private static bool IsSpaceCharacter(char c)
+        private int GetLeadingWhitespaceChars(ITextSnapshotLine line, SnapshotPoint startPosition)
         {
-            if (c != ' ' && c != '\t' && c != '\x200B')
-                return char.GetUnicodeCategory(c) == UnicodeCategory.SpaceSeparator;
-            return true;
+            var num = 0;
+            for (var position = startPosition.Position;
+                position < line.End && IsSpaceCharacter(line.Snapshot[position]);
+                ++position)
+                ++num;
+            return num;
         }
 
-        private enum SelectionUpdate
+        private VirtualSnapshotPoint GetPreviousIndentStopInVirtualSpace(VirtualSnapshotPoint point)
         {
-            Preserve,
-            Reset,
-            ResetUnlessEmptyBox,
-            Ignore,
-            ClearVirtualSpace,
+            var column = _editorPrimitives.Buffer.GetTextPoint(point.Position).Column;
+            var num1 = column + point.VirtualSpaces;
+            var indentSize = Options.GetIndentSize();
+            var num2 = 1;
+            var num3 = (num1 - num2) / indentSize * indentSize;
+            if (num3 > column)
+                return new VirtualSnapshotPoint(point.Position, num3 - column);
+            return new VirtualSnapshotPoint(point.Position);
+        }
+
+        //TODO: Localize Undo string "Insert Text"
+        private bool InsertText(string text, bool final)
+        {
+            return InsertText(text, final, "Insert Text", TextView.Caret.OverwriteMode);
+        }
+
+        private bool InsertText(string text, bool final, string undoText, bool isOverwriteModeEnabled)
+        {
+            if (text == null)
+                throw new ArgumentNullException(nameof(text));
+            if (text.Length == 0 && !final)
+                throw new ArgumentException("Provisional TextInput cannot be zero-length");
+            //using (ITextUndoTransaction transaction = this._undoHistory.CreateTransaction(undoText))
+            //{
+            var allowableMergeDirections =
+                TextTransactionMergeDirections.Forward | TextTransactionMergeDirections.Backward;
+            if (!TextView.Selection.IsEmpty && !IsEmptyBoxSelection() ||
+                _textDocument != null && !_textDocument.IsDirty)
+                allowableMergeDirections = TextTransactionMergeDirections.Forward;
+            //transaction.MergePolicy = (IMergeTextUndoTransactionPolicy)new TextTransactionMergePolicy(allowableMergeDirections);
+            AddBeforeTextBufferChangePrimitive();
+            var textEditAction = TextEditAction.Type;
+            IEnumerable<VirtualSnapshotSpan> source;
+            if (!TextView.Selection.IsEmpty && ProvisionalCompositionSpan == null)
+            {
+                if (TextView.Options.IsOverwriteModeEnabled() && IsEmptyBoxSelection())
+                {
+                    var virtualSnapshotSpanList = new List<VirtualSnapshotSpan>();
+                    foreach (var virtualSelectedSpan in TextView.Selection.VirtualSelectedSpans)
+                    {
+                        var start = virtualSelectedSpan.Start;
+                        var position = start.Position;
+                        start = virtualSelectedSpan.Start;
+                        if (start.IsInVirtualSpace || position.GetContainingLine().End == position)
+                            virtualSnapshotSpanList.Add(virtualSelectedSpan);
+                        else
+                            virtualSnapshotSpanList.Add(new VirtualSnapshotSpan(new SnapshotSpan(position,
+                                TextView.GetTextElementSpan(position).End)));
+                    }
+
+                    source = virtualSnapshotSpanList;
+                }
+                else
+                {
+                    source = TextView.Selection.VirtualSelectedSpans;
+                }
+            }
+            else if (ProvisionalCompositionSpan != null)
+            {
+                var span = ProvisionalCompositionSpan.GetSpan(TextView.TextSnapshot);
+                if (IsEmptyBoxSelection() & final)
+                {
+                    var virtualSnapshotSpanList = (IList<VirtualSnapshotSpan>) new List<VirtualSnapshotSpan>();
+                    foreach (var end in TextView.Selection.VirtualSelectedSpans.Select(s => s.Start.Position))
+                        if (end.Position - span.Length >= 0)
+                            virtualSnapshotSpanList.Add(
+                                new VirtualSnapshotSpan(new SnapshotSpan(end - span.Length, end)));
+                    source = virtualSnapshotSpanList;
+                }
+                else
+                {
+                    source = new VirtualSnapshotSpan[1]
+                    {
+                        new VirtualSnapshotSpan(span)
+                    };
+                }
+
+                textEditAction = TextEditAction.ProvisionalOverwrite;
+            }
+            else
+            {
+                var virtualBufferPosition = TextView.Caret.Position.VirtualBufferPosition;
+                if (isOverwriteModeEnabled && !virtualBufferPosition.IsInVirtualSpace)
+                {
+                    var position = virtualBufferPosition.Position;
+                    source = new[]
+                    {
+                        new VirtualSnapshotSpan(new SnapshotSpan(position, TextView.GetTextElementSpan(position).End))
+                    };
+                }
+                else
+                {
+                    source = new[]
+                    {
+                        new VirtualSnapshotSpan(virtualBufferPosition, virtualBufferPosition)
+                    };
+                }
+            }
+
+            var version = TextView.TextSnapshot.Version;
+            var trackingSpan = (ITrackingSpan) null;
+            var flag1 = true;
+            var nullable = new int?();
+            var num1 = 0;
+            var trackingPoint = (ITrackingPoint) null;
+            using (var edit = TextView.TextBuffer.CreateEdit(EditOptions.None, new int?(), textEditAction))
+            {
+                var flag2 = true;
+                foreach (var virtualSnapshotSpan in source)
+                {
+                    var replaceWith = text;
+                    var textSnapshot = TextView.TextSnapshot;
+                    var start = virtualSnapshotSpan.Start;
+                    var position = (int) start.Position;
+                    trackingPoint = textSnapshot.CreateTrackingPoint(position, (PointTrackingMode) 1);
+                    start = virtualSnapshotSpan.Start;
+                    if (start.IsInVirtualSpace)
+                    {
+                        var whitespaceForVirtualSpace = GetWhitespaceForVirtualSpace(virtualSnapshotSpan.Start);
+                        if (flag2)
+                            TextView.TextBuffer.Properties["WhitespaceInserted"] = whitespaceForVirtualSpace.Length;
+                        replaceWith = whitespaceForVirtualSpace + text;
+                    }
+
+                    if (!nullable.HasValue)
+                        nullable = replaceWith.Length - text.Length;
+                    num1 = replaceWith.Length - text.Length;
+                    if (!edit.Replace(virtualSnapshotSpan.SnapshotSpan, replaceWith) || edit.Canceled)
+                    {
+                        flag1 = false;
+                        break;
+                    }
+
+                    flag2 = false;
+                }
+
+                if (flag1)
+                {
+                    edit.Apply();
+                    flag1 = !edit.Canceled;
+                }
+            }
+
+            if (flag1)
+            {
+                TextView.Caret.MoveTo(TextView.Caret.Position.BufferPosition);
+                TextView.Selection.Select(new VirtualSnapshotPoint(TextView.Selection.AnchorPoint.Position),
+                    new VirtualSnapshotPoint(TextView.Selection.ActivePoint.Position));
+                var virtualSelectedSpans = TextView.Selection.VirtualSelectedSpans;
+                var func = (Func<VirtualSnapshotSpan, bool>) (s => !s.IsEmpty);
+                if (virtualSelectedSpans.Any(func))
+                    TextView.Selection.Clear();
+                TextView.Caret.EnsureVisible();
+                AddAfterTextBufferChangePrimitive();
+                //transaction.Complete();
+                if (final)
+                {
+                    trackingSpan = null;
+                }
+                else if (TextView.Selection.IsReversed)
+                {
+                    var num2 = nullable ?? 0;
+                    trackingSpan = version.Next.CreateTrackingSpan(
+                        new Span(source.First().Start.Position + num2, text.Length), SpanTrackingMode.EdgeExclusive);
+                }
+                else
+                {
+                    var position = trackingPoint.GetPoint(TextView.TextSnapshot).Position;
+                    trackingSpan = version.Next.CreateTrackingSpan(new Span(position + num1, text.Length),
+                        SpanTrackingMode.EdgeExclusive);
+                }
+            }
+
+            if (ProvisionalCompositionSpan != trackingSpan)
+            {
+                ProvisionalCompositionSpan = trackingSpan;
+                TextView.ProvisionalTextHighlight = ProvisionalCompositionSpan;
+            }
+
+            return flag1;
+            //}
+        }
+
+        private void MoveCaretToPreviousIndentStopInVirtualSpace()
+        {
+            TextView.Caret.MoveTo(GetPreviousIndentStopInVirtualSpace(TextView.Caret.Position.VirtualBufferPosition));
+        }
+
+        private bool PositionCaretWithSmartIndent(bool useOnlyVirtualSpace = true, bool extendSelection = false)
+        {
+            var virtualBufferPosition = TextView.Caret.Position.VirtualBufferPosition;
+            var containingLine = virtualBufferPosition.Position.GetContainingLine();
+            var desiredIndentation = _factory.SmartIndentationService.GetDesiredIndentation(TextView, containingLine);
+            if (desiredIndentation.HasValue)
+            {
+                if (virtualBufferPosition.Position == containingLine.End)
+                {
+                    var activePoint = new VirtualSnapshotPoint(virtualBufferPosition.Position,
+                        Math.Max(0, desiredIndentation.Value - containingLine.Length));
+                    SelectAndMoveCaret(extendSelection ? TextView.Selection.AnchorPoint : activePoint, activePoint,
+                        TextSelectionMode.Stream, new EnsureSpanVisibleOptions?());
+                    return true;
+                }
+
+                if (!useOnlyVirtualSpace)
+                {
+                    var leadingWhitespaceChars =
+                        GetLeadingWhitespaceChars(containingLine, virtualBufferPosition.Position);
+                    var positionAndVirtualSpace =
+                        GetWhiteSpaceForPositionAndVirtualSpace(virtualBufferPosition.Position,
+                            desiredIndentation.Value);
+                    return ReplaceHelper(new SnapshotSpan(virtualBufferPosition.Position, leadingWhitespaceChars),
+                        positionAndVirtualSpace);
+                }
+            }
+
+            return false;
+        }
+
+        private void ResetVirtualSelection()
+        {
+            var start = TextView.Selection.Start;
+            var containingBufferPosition1 = TextView.GetTextViewLineContainingBufferPosition(start.Position);
+            var end = TextView.Selection.End;
+            var containingBufferPosition2 = TextView.GetTextViewLineContainingBufferPosition(end.Position);
+            var extendedCharacterBounds = containingBufferPosition1.GetExtendedCharacterBounds(start);
+            var left1 = extendedCharacterBounds.Left;
+            extendedCharacterBounds = containingBufferPosition2.GetExtendedCharacterBounds(end);
+            var left2 = extendedCharacterBounds.Left;
+            var xCoordinate = Math.Min(left1, left2);
+            TextView.Caret.MoveTo(
+                (TextView.Selection.IsReversed ? containingBufferPosition1 : containingBufferPosition2)
+                .GetInsertionBufferPositionFromXCoordinate(xCoordinate));
+            TextView.Selection.Clear();
         }
     }
 }

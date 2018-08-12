@@ -10,12 +10,11 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
     [TextViewRole("INTERACTIVE")]
     internal sealed class InputControllerViewCreationListener : ITextViewCreationListener
     {
-        [Import]
-        internal InputControllerState State;
-        [Import]
-        internal GuardedOperations GuardedOperations;
-        [Import]
-        internal PerformanceBlockMarker PerformanceBlockMarker;
+        [Import] internal GuardedOperations GuardedOperations;
+
+        [Import] internal PerformanceBlockMarker PerformanceBlockMarker;
+
+        [Import] internal InputControllerState State;
 
         public void TextViewCreated(ITextView textView)
         {

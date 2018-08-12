@@ -12,42 +12,33 @@ namespace ModernApplicationFramework.Modules.Editor.Classification
     [Export(typeof(IClassificationFormatMapService))]
     internal sealed class ClassificationFormatMapService : IClassificationFormatMapService
     {
-        private readonly Dictionary<string, IClassificationFormatMap> _classificationFormatMaps = new Dictionary<string, IClassificationFormatMap>();
+        private readonly Dictionary<string, IClassificationFormatMap> _classificationFormatMaps =
+            new Dictionary<string, IClassificationFormatMap>();
 
-        [ImportMany]
-        internal List<Lazy<EditorFormatDefinition, IClassificationFormatMetadata>> Formats { get; set; }
+        [Import] internal IClassificationTypeRegistryService ClassificationTypeRegistry { get; set; }
 
-        [Import]
-        internal IClassificationTypeRegistryService ClassificationTypeRegistry { get; set; }
+        [Import] internal IEditorFormatMapService EditorFormatMapService { get; set; }
 
-        [Import]
-        internal IEditorFormatMapService EditorFormatMapService { get; set; }
+        [Import] internal IEditorOptionsFactoryService EditorOptionsService { get; set; }
 
-        [Import]
-        internal IEditorOptionsFactoryService EditorOptionsService { get; set; }
+        [ImportMany] internal List<Lazy<EditorFormatDefinition, IClassificationFormatMetadata>> Formats { get; set; }
 
         public IClassificationFormatMap GetClassificationFormatMap(string category)
         {
             if (!_classificationFormatMaps.TryGetValue(category, out var classificationFormatMap))
             {
-                classificationFormatMap = new ClassificationFormatMap(Formats, ClassificationTypeRegistry, EditorFormatMapService.GetEditorFormatMap(category), EditorOptionsService);
+                classificationFormatMap = new ClassificationFormatMap(Formats, ClassificationTypeRegistry,
+                    EditorFormatMapService.GetEditorFormatMap(category), EditorOptionsService);
                 _classificationFormatMaps[category] = classificationFormatMap;
             }
+
             return classificationFormatMap;
         }
 
         public IClassificationFormatMap GetClassificationFormatMap(ITextView textView)
         {
-            return textView.Properties.GetOrCreateSingletonProperty(() => new ViewSpecificFormatMap(this, EditorFormatMapService, textView));
-        }
-
-        [Export(typeof(EditorFormatDefinition))]
-        [Name("High Priority")]
-        [UserVisible(false)]
-        [Order(After = "Default Priority")]
-        [ClassificationType(ClassificationTypeNames = "dummyClassificationType")]
-        internal class HighPriorityClassificationFormatDefinition : ClassificationFormatDefinition
-        {
+            return textView.Properties.GetOrCreateSingletonProperty(() =>
+                new ViewSpecificFormatMap(this, EditorFormatMapService, textView));
         }
 
         [Export(typeof(EditorFormatDefinition))]
@@ -56,6 +47,15 @@ namespace ModernApplicationFramework.Modules.Editor.Classification
         [Order(After = "Low Priority", Before = "High Priority")]
         [ClassificationType(ClassificationTypeNames = "dummyClassificationType")]
         internal class DefaultPriorityClassificationFormatDefinition : ClassificationFormatDefinition
+        {
+        }
+
+        [Export(typeof(EditorFormatDefinition))]
+        [Name("High Priority")]
+        [UserVisible(false)]
+        [Order(After = "Default Priority")]
+        [ClassificationType(ClassificationTypeNames = "dummyClassificationType")]
+        internal class HighPriorityClassificationFormatDefinition : ClassificationFormatDefinition
         {
         }
 

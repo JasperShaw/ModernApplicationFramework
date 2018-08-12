@@ -5,7 +5,7 @@ namespace ModernApplicationFramework.Modules.Editor.Differencing
 {
     internal sealed class WordDecompositionList : TokenizedStringList
     {
-        public WordDecompositionList(string original, StringDifferenceOptions options): base(original)
+        public WordDecompositionList(string original, StringDifferenceOptions options) : base(original)
         {
             CreateTokens(options, false);
         }
@@ -16,57 +16,14 @@ namespace ModernApplicationFramework.Modules.Editor.Differencing
             CreateTokens(options, options.IgnoreTrimWhiteSpace);
         }
 
-        private void CreateTokens(StringDifferenceOptions options, bool ignoreTrimWhiteSpace)
+        private enum TokenType
         {
-            int originalLength = OriginalLength;
-            int num1 = 0;
-            int start = 0;
-            TokenType tokenType1 = TokenType.WhiteSpace;
-            bool flag1 = ignoreTrimWhiteSpace;
-            while (num1 < originalLength)
-            {
-                int num2 = LengthOfLineBreak(num1, originalLength);
-                TokenType tokenType2;
-                bool flag2;
-                if (num2 != 0)
-                {
-                    tokenType2 = ignoreTrimWhiteSpace ? TokenType.WhiteSpace : TokenType.LineBreak;
-                    flag2 = ignoreTrimWhiteSpace;
-                }
-                else
-                {
-                    tokenType2 = GetTokenType(CharacterAt(num1), options.WordSplitBehavior);
-                    flag2 = tokenType2 == TokenType.WhiteSpace && flag1;
-                    num2 = 1;
-                }
-                if (tokenType2 != tokenType1 || tokenType2 == TokenType.Symbol)
-                {
-                    if (start < num1 && !flag1)
-                        Tokens.Add(new Span(start, num1 - start));
-                    tokenType1 = tokenType2;
-                    start = num1;
-                }
-                flag1 = flag2;
-                num1 += num2;
-            }
-            if (originalLength != 0 && ignoreTrimWhiteSpace && tokenType1 == TokenType.WhiteSpace)
-                return;
-            Tokens.Add(new Span(start, originalLength - start));
-        }
-
-        private static TokenType GetTokenType(char c, WordSplitBehavior splitBehavior)
-        {
-            if (char.IsWhiteSpace(c))
-                return TokenType.WhiteSpace;
-            if (splitBehavior == WordSplitBehavior.WhiteSpace)
-                return TokenType.Other;
-            if (char.IsPunctuation(c) || char.IsSymbol(c))
-                return TokenType.Symbol;
-            if (splitBehavior == WordSplitBehavior.WhiteSpaceAndPunctuation)
-                return TokenType.Other;
-            if (char.IsDigit(c) || char.IsNumber(c))
-                return TokenType.Digit;
-            return char.IsLetter(c) ? TokenType.Letter : TokenType.Other;
+            LineBreak,
+            WhiteSpace,
+            Symbol,
+            Digit,
+            Letter,
+            Other
         }
 
         public int LengthOfLineBreak(int start, int end)
@@ -85,14 +42,60 @@ namespace ModernApplicationFramework.Modules.Editor.Differencing
             }
         }
 
-        private enum TokenType
+        private static TokenType GetTokenType(char c, WordSplitBehavior splitBehavior)
         {
-            LineBreak,
-            WhiteSpace,
-            Symbol,
-            Digit,
-            Letter,
-            Other,
+            if (char.IsWhiteSpace(c))
+                return TokenType.WhiteSpace;
+            if (splitBehavior == WordSplitBehavior.WhiteSpace)
+                return TokenType.Other;
+            if (char.IsPunctuation(c) || char.IsSymbol(c))
+                return TokenType.Symbol;
+            if (splitBehavior == WordSplitBehavior.WhiteSpaceAndPunctuation)
+                return TokenType.Other;
+            if (char.IsDigit(c) || char.IsNumber(c))
+                return TokenType.Digit;
+            return char.IsLetter(c) ? TokenType.Letter : TokenType.Other;
+        }
+
+        private void CreateTokens(StringDifferenceOptions options, bool ignoreTrimWhiteSpace)
+        {
+            var originalLength = OriginalLength;
+            var num1 = 0;
+            var start = 0;
+            var tokenType1 = TokenType.WhiteSpace;
+            var flag1 = ignoreTrimWhiteSpace;
+            while (num1 < originalLength)
+            {
+                var num2 = LengthOfLineBreak(num1, originalLength);
+                TokenType tokenType2;
+                bool flag2;
+                if (num2 != 0)
+                {
+                    tokenType2 = ignoreTrimWhiteSpace ? TokenType.WhiteSpace : TokenType.LineBreak;
+                    flag2 = ignoreTrimWhiteSpace;
+                }
+                else
+                {
+                    tokenType2 = GetTokenType(CharacterAt(num1), options.WordSplitBehavior);
+                    flag2 = tokenType2 == TokenType.WhiteSpace && flag1;
+                    num2 = 1;
+                }
+
+                if (tokenType2 != tokenType1 || tokenType2 == TokenType.Symbol)
+                {
+                    if (start < num1 && !flag1)
+                        Tokens.Add(new Span(start, num1 - start));
+                    tokenType1 = tokenType2;
+                    start = num1;
+                }
+
+                flag1 = flag2;
+                num1 += num2;
+            }
+
+            if (originalLength != 0 && ignoreTrimWhiteSpace && tokenType1 == TokenType.WhiteSpace)
+                return;
+            Tokens.Add(new Span(start, originalLength - start));
         }
     }
 }

@@ -6,6 +6,6 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
     internal enum TextTransactionMergeDirections
     {
         Forward = 1,
-        Backward = 2,
+        Backward = 2
     }
 }

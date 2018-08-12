@@ -10,6 +10,7 @@ namespace ModernApplicationFramework.Modules.Editor
     {
         public override bool Default => true;
 
-        public override EditorOptionKey<bool> Key => TextModelEditorOptions.CompressedStorageRetainWeakReferencesOptionId;
+        public override EditorOptionKey<bool> Key =>
+            TextModelEditorOptions.CompressedStorageRetainWeakReferencesOptionId;
     }
 }

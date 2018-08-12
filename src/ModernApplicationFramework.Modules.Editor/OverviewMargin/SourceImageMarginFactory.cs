@@ -18,17 +18,13 @@ namespace ModernApplicationFramework.Modules.Editor.OverviewMargin
     [TextViewRole("INTERACTIVE")]
     internal sealed class SourceImageMarginFactory : ITextViewMarginProvider
     {
-        [Import]
-        internal IFormattedTextSourceFactoryService FormattedTextSourceFactoryService { get; private set; }
+        [Import] internal IBufferGraphFactoryService BufferGraphFactoryService { get; private set; }
 
-        [Import]
-        internal IClassifierAggregatorService ClassifierAggregatorService { get; private set; }
+        [Import] internal IClassificationFormatMapService ClassificationFormatMappingService { get; private set; }
 
-        [Import]
-        internal IClassificationFormatMapService ClassificationFormatMappingService { get; private set; }
+        [Import] internal IClassifierAggregatorService ClassifierAggregatorService { get; private set; }
 
-        [Import]
-        internal IBufferGraphFactoryService BufferGraphFactoryService { get; private set; }
+        [Import] internal IFormattedTextSourceFactoryService FormattedTextSourceFactoryService { get; private set; }
 
         public ITextViewMargin CreateMargin(ITextViewHost textViewHost, ITextViewMargin containerMargin)
         {

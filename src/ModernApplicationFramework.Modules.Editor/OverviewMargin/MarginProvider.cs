@@ -15,16 +15,11 @@ namespace ModernApplicationFramework.Modules.Editor.OverviewMargin
     {
         private List<string> _orderedErrorTypes;
 
-        [Import]
-        internal IEditorFormatMapService EditorFormatMapService { get; private set; }
+        [Import] internal IEditorFormatMapService EditorFormatMapService { get; private set; }
 
-        [Import]
-        internal IViewTagAggregatorFactoryService ViewTagAggregatorFactoryService { get; private set; }
+        [ImportMany] internal IEnumerable<Lazy<ErrorTypeDefinition, IOrderable>> ErrorTypes { get; private set; }
 
-        [ImportMany]
-        internal IEnumerable<Lazy<ErrorTypeDefinition, IOrderable>> ErrorTypes { get; private set; }
-
-        protected abstract BaseMarginElement CreateMarginElement(ITextView textView, IVerticalScrollBar scrollbar, MarginProvider provider, List<string> orderedErrorTypes);
+        [Import] internal IViewTagAggregatorFactoryService ViewTagAggregatorFactoryService { get; private set; }
 
         public ITextViewMargin CreateMargin(ITextViewHost textViewHost, ITextViewMargin parentMargin)
         {
@@ -42,5 +37,8 @@ namespace ModernApplicationFramework.Modules.Editor.OverviewMargin
             return OverviewMarkMargin.Create(CreateMarginElement(textViewHost.TextView,
                 scrollbar, this, _orderedErrorTypes));
         }
+
+        protected abstract BaseMarginElement CreateMarginElement(ITextView textView, IVerticalScrollBar scrollbar,
+            MarginProvider provider, List<string> orderedErrorTypes);
     }
 }

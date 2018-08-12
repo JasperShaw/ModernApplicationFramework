@@ -11,16 +11,17 @@ namespace ModernApplicationFramework.Modules.Editor.Differencing
     [Export(typeof(ITextDifferencingSelectorService))]
     internal class TextDifferencingSelectorService : ITextDifferencingSelectorService
     {
-        private static readonly DefaultTextDifferencingService _defaultTextDifferencingService = new DefaultTextDifferencingService();
+        private static readonly DefaultTextDifferencingService _defaultTextDifferencingService =
+            new DefaultTextDifferencingService();
+
+        public ITextDifferencingService DefaultTextDifferencingService => _defaultTextDifferencingService;
+
+        [Import] internal IContentTypeRegistryService ContentTypeRegistryService { get; set; }
+
+        [Import] internal GuardedOperations GuardedOperations { get; set; }
 
         [ImportMany(typeof(ITextDifferencingService))]
         internal List<Lazy<ITextDifferencingService, IContentTypeMetadata>> TextDifferencingServices { get; set; }
-
-        [Import]
-        internal IContentTypeRegistryService ContentTypeRegistryService { get; set; }
-
-        [Import]
-        internal GuardedOperations GuardedOperations { get; set; }
 
         public ITextDifferencingService GetTextDifferencingService(IContentType contentType)
         {
@@ -30,9 +31,7 @@ namespace ModernApplicationFramework.Modules.Editor.Differencing
             var typeRegistryService = ContentTypeRegistryService;
             return guardedOperations
                        .InvokeBestMatchingFactory(differencingServices, dataContentType, differencingService =>
-                               differencingService, typeRegistryService, this) ??  DefaultTextDifferencingService;
+                           differencingService, typeRegistryService, this) ?? DefaultTextDifferencingService;
         }
-
-        public ITextDifferencingService DefaultTextDifferencingService => _defaultTextDifferencingService;
     }
 }

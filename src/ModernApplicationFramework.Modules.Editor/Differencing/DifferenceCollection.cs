@@ -8,12 +8,32 @@ namespace ModernApplicationFramework.Modules.Editor.Differencing
 {
     internal class DifferenceCollection<T> : IDifferenceCollection<T>
     {
+        public IList<Difference> Differences { get; }
+
+        public IList<T> LeftSequence { get; }
+
+        public IEnumerable<Tuple<int, int>> MatchSequence { get; }
+
+        public IList<T> RightSequence { get; }
+
         public DifferenceCollection(IList<Difference> diffs, IList<T> originalLeft, IList<T> originalRight)
         {
             LeftSequence = originalLeft;
             RightSequence = originalRight;
             Differences = diffs;
             MatchSequence = new MatchEnumerator(diffs, originalLeft.Count);
+        }
+
+        public static void AddDifference(int originalStart, int originalEnd, int nextOriginalEnd, int modifiedStart,
+            int modifiedEnd, int nextModifiedEnd, IList<Difference> diffs, ref Match before)
+        {
+            var after = originalEnd != nextOriginalEnd
+                ? new Match(Span.FromBounds(originalEnd, nextOriginalEnd),
+                    Span.FromBounds(modifiedEnd, nextModifiedEnd))
+                : null;
+            diffs.Add(new Difference(Span.FromBounds(originalStart, originalEnd),
+                Span.FromBounds(modifiedStart, modifiedEnd), before, after));
+            before = after;
         }
 
         public static Match CreateInitialMatch(int originalStart)
@@ -23,20 +43,15 @@ namespace ModernApplicationFramework.Modules.Editor.Differencing
             return new Match(new Span(0, originalStart), new Span(0, originalStart));
         }
 
-        public static void AddDifference(int originalStart, int originalEnd, int nextOriginalEnd, int modifiedStart, int modifiedEnd, int nextModifiedEnd, IList<Difference> diffs, ref Match before)
+        public IEnumerator<Difference> GetEnumerator()
         {
-            var after = originalEnd != nextOriginalEnd ? new Match(Span.FromBounds(originalEnd, nextOriginalEnd), Span.FromBounds(modifiedEnd, nextModifiedEnd)) : null;
-            diffs.Add(new Difference(Span.FromBounds(originalStart, originalEnd), Span.FromBounds(modifiedStart, modifiedEnd), before, after));
-            before = after;
+            return Differences.GetEnumerator();
         }
 
-        public IEnumerable<Tuple<int, int>> MatchSequence { get; }
-
-        public IList<T> LeftSequence { get; }
-
-        public IList<T> RightSequence { get; }
-
-        public IList<Difference> Differences { get; }
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
 
         internal static IList<Match> MatchesFromPairs(IList<Tuple<int, int>> matches)
         {
@@ -65,18 +80,9 @@ namespace ModernApplicationFramework.Modules.Editor.Differencing
                     end2 = start2 + 1;
                 }
             }
+
             matchList.Add(new Match(Span.FromBounds(start1, end1), Span.FromBounds(start2, end2)));
             return matchList;
-        }
-
-        public IEnumerator<Difference> GetEnumerator()
-        {
-            return Differences.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
     }
 
@@ -97,14 +103,12 @@ namespace ModernApplicationFramework.Modules.Editor.Differencing
             var rightStart = 0;
             int i;
             if (_differences.Count != 0)
-            {
                 foreach (var difference1 in _differences)
                 {
                     var difference = difference1;
                     var m = difference.Before;
                     Span span;
                     if (m != null)
-                    {
                         for (i = 0; i < m.Length; ++i)
                         {
                             span = m.Left;
@@ -113,13 +117,13 @@ namespace ModernApplicationFramework.Modules.Editor.Differencing
                             var num2 = span.Start + i;
                             yield return new Tuple<int, int>(num1, num2);
                         }
-                    }
+
                     span = difference.Left;
                     leftStart = span.End;
                     span = difference.Right;
                     rightStart = span.End;
                 }
-            }
+
             for (i = leftStart; i < _leftCount; ++i)
                 yield return new Tuple<int, int>(i, i + rightStart - leftStart);
         }

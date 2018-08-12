@@ -7,17 +7,47 @@ using System.Windows.Media;
 using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Text.Ui.Adornments;
 using ModernApplicationFramework.Text.Ui.Editor;
-using ModernApplicationFramework.TextEditor;
 
 namespace ModernApplicationFramework.Modules.Editor.Implementation
 {
     internal class SpaceReservationManager : ISpaceReservationManager
     {
-        internal IList<ISpaceReservationAgent> _agents = new List<ISpaceReservationAgent>();
         public readonly string Name;
         public readonly int Rank;
+        internal IList<ISpaceReservationAgent> _agents = new List<ISpaceReservationAgent>();
         private readonly TextView _view;
         private bool _hasAggregateFocus;
+
+        public event EventHandler<SpaceReservationAgentChangedEventArgs> AgentChanged;
+
+        public event EventHandler GotAggregateFocus;
+
+        public event EventHandler LostAggregateFocus;
+
+        public ReadOnlyCollection<ISpaceReservationAgent> Agents =>
+            new ReadOnlyCollection<ISpaceReservationAgent>(_agents);
+
+        public bool HasAggregateFocus
+        {
+            get
+            {
+                foreach (var agent in _agents)
+                    if (agent.HasFocus)
+                        return true;
+                return false;
+            }
+        }
+
+        public bool IsMouseOver
+        {
+            get
+            {
+                foreach (var agent in _agents)
+                    if (agent.IsMouseOver)
+                        return true;
+                return false;
+            }
+        }
 
         public SpaceReservationManager(string name, int rank, TextView view)
         {
@@ -27,28 +57,6 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             _view.Closed += OnViewClosed;
         }
 
-        public ISpaceReservationAgent CreatePopupAgent(ITrackingSpan visualSpan, PopupStyles styles, UIElement content)
-        {
-            return new PopupAgent(_view, this, visualSpan, styles, content);
-        }
-
-        public void UpdatePopupAgent(ISpaceReservationAgent agent, ITrackingSpan visualSpan, PopupStyles styles)
-        {
-            if (agent == null)
-                throw new ArgumentNullException(nameof(agent));
-            if (visualSpan == null)
-                throw new ArgumentNullException(nameof(visualSpan));
-            PopupAgent popupAgent = agent as PopupAgent;
-            if (popupAgent == null)
-                throw new ArgumentException("The agent is not a PopupAgent", nameof(agent));
-            popupAgent.SetVisualSpan(visualSpan);
-            popupAgent.Style = styles;
-            CheckFocusChange();
-            _view.QueueSpaceReservationStackRefresh();
-        }
-
-        public ReadOnlyCollection<ISpaceReservationAgent> Agents => new ReadOnlyCollection<ISpaceReservationAgent>(_agents);
-
         public void AddAgent(ISpaceReservationAgent agent)
         {
             if (agent == null)
@@ -57,6 +65,11 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             ChangeAgents(null, agent);
             CheckFocusChange();
             _view.QueueSpaceReservationStackRefresh();
+        }
+
+        public ISpaceReservationAgent CreatePopupAgent(ITrackingSpan visualSpan, PopupStyles styles, UIElement content)
+        {
+            return new PopupAgent(_view, this, visualSpan, styles, content);
         }
 
         public bool RemoveAgent(ISpaceReservationAgent agent)
@@ -71,37 +84,20 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             return true;
         }
 
-        public event EventHandler<SpaceReservationAgentChangedEventArgs> AgentChanged;
-
-        public bool IsMouseOver
+        public void UpdatePopupAgent(ISpaceReservationAgent agent, ITrackingSpan visualSpan, PopupStyles styles)
         {
-            get
-            {
-                foreach (var agent in _agents)
-                {
-                    if (agent.IsMouseOver)
-                        return true;
-                }
-                return false;
-            }
+            if (agent == null)
+                throw new ArgumentNullException(nameof(agent));
+            if (visualSpan == null)
+                throw new ArgumentNullException(nameof(visualSpan));
+            var popupAgent = agent as PopupAgent;
+            if (popupAgent == null)
+                throw new ArgumentException("The agent is not a PopupAgent", nameof(agent));
+            popupAgent.SetVisualSpan(visualSpan);
+            popupAgent.Style = styles;
+            CheckFocusChange();
+            _view.QueueSpaceReservationStackRefresh();
         }
-
-        public bool HasAggregateFocus
-        {
-            get
-            {
-                foreach (var agent in _agents)
-                {
-                    if (agent.HasFocus)
-                        return true;
-                }
-                return false;
-            }
-        }
-
-        public event EventHandler LostAggregateFocus;
-
-        public event EventHandler GotAggregateFocus;
 
         internal void ChangeAgents(ISpaceReservationAgent oldAgent, ISpaceReservationAgent newAgent)
         {
@@ -111,6 +107,7 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                 oldAgent.GotFocus -= OnAgentGotFocus;
                 oldAgent.Hide();
             }
+
             // ISSUE: reference to a compiler-generated field
             var agentChanged = AgentChanged;
             agentChanged?.Invoke(this, new SpaceReservationAgentChangedEventArgs(oldAgent, newAgent));
@@ -119,38 +116,8 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                 newAgent.LostFocus += OnAgentLostFocus;
                 newAgent.GotFocus += OnAgentGotFocus;
             }
+
             _view.QueueSpaceReservationStackRefresh();
-        }
-
-        private void OnAgentLostFocus(object sender, EventArgs e)
-        {
-            if (!_hasAggregateFocus)
-                return;
-            if (_agents.Any(agent => agent.HasFocus))
-            {
-                return;
-            }
-            _hasAggregateFocus = false;
-            var lostAggregateFocus = LostAggregateFocus;
-            lostAggregateFocus?.Invoke(sender, e);
-        }
-
-        private void OnAgentGotFocus(object sender, EventArgs e)
-        {
-            if (_hasAggregateFocus)
-                return;
-            _hasAggregateFocus = true;
-            var gotAggregateFocus = GotAggregateFocus;
-            gotAggregateFocus?.Invoke(sender, e);
-        }
-
-        private void OnViewClosed(object sender, EventArgs e)
-        {
-            var reservationAgentList = new List<ISpaceReservationAgent>();
-            reservationAgentList.AddRange(_agents);
-            foreach (var agent in reservationAgentList)
-                RemoveAgent(agent);
-            _view.Closed -= OnViewClosed;
         }
 
         internal void PositionAndDisplay(GeometryGroup reservedGeometry)
@@ -160,7 +127,6 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                 if (_agents.Count == 0)
                     return;
                 if (_view.VisualElement.IsVisible)
-                {
                     for (var index = _agents.Count - 1; index >= 0; --index)
                     {
                         var agent = _agents[index];
@@ -171,18 +137,18 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                             ChangeAgents(agent, null);
                         }
                         else if (!geometry.IsEmpty())
+                        {
                             reservedGeometry.Children.Add(geometry);
+                        }
                     }
-                }
                 else
-                {
                     for (var index = _agents.Count - 1; index >= 0; --index)
                     {
                         var agent = _agents[index];
                         _agents.RemoveAt(index);
                         ChangeAgents(agent, null);
                     }
-                }
+
                 CheckFocusChange();
             });
         }
@@ -195,6 +161,34 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             _hasAggregateFocus = hasAggregateFocus;
             var eventHandler = _hasAggregateFocus ? GotAggregateFocus : LostAggregateFocus;
             eventHandler?.Invoke(this, new EventArgs());
+        }
+
+        private void OnAgentGotFocus(object sender, EventArgs e)
+        {
+            if (_hasAggregateFocus)
+                return;
+            _hasAggregateFocus = true;
+            var gotAggregateFocus = GotAggregateFocus;
+            gotAggregateFocus?.Invoke(sender, e);
+        }
+
+        private void OnAgentLostFocus(object sender, EventArgs e)
+        {
+            if (!_hasAggregateFocus)
+                return;
+            if (_agents.Any(agent => agent.HasFocus)) return;
+            _hasAggregateFocus = false;
+            var lostAggregateFocus = LostAggregateFocus;
+            lostAggregateFocus?.Invoke(sender, e);
+        }
+
+        private void OnViewClosed(object sender, EventArgs e)
+        {
+            var reservationAgentList = new List<ISpaceReservationAgent>();
+            reservationAgentList.AddRange(_agents);
+            foreach (var agent in reservationAgentList)
+                RemoveAgent(agent);
+            _view.Closed -= OnViewClosed;
         }
     }
 }

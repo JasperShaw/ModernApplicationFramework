@@ -12,18 +12,27 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
     [Export]
     internal sealed class InputControllerState : IPartImportsSatisfiedNotification
     {
-        [Import]
-        public IEditorOperationsFactoryService EditorOperationsFactoryService { get; set; }
+        [Import] public IEditorOperationsFactoryService EditorOperationsFactoryService { get; set; }
 
         [ImportMany]
-        public List<Lazy<IMouseProcessorProvider, IOrderableContentTypeAndTextViewRoleMetadata>> MouseProcessorProviders { get; set; }
+        public List<Lazy<IKeyProcessorProvider, IOrderableContentTypeAndTextViewRoleMetadata>> KeyProcessorProviders
+        {
+            get;
+            set;
+        }
 
         [ImportMany]
-        public List<Lazy<IKeyProcessorProvider, IOrderableContentTypeAndTextViewRoleMetadata>> KeyProcessorProviders { get; set; } 
+        public List<Lazy<IMouseProcessorProvider, IOrderableContentTypeAndTextViewRoleMetadata>> MouseProcessorProviders
+        {
+            get;
+            set;
+        }
 
-        public IList<Lazy<IMouseProcessorProvider, IOrderableContentTypeAndTextViewRoleMetadata>> OrderedMouseProcessorProviders { get; private set; }
+        public IList<Lazy<IKeyProcessorProvider, IOrderableContentTypeAndTextViewRoleMetadata>>
+            OrderedKeyProcessorProviders { get; private set; }
 
-        public IList<Lazy<IKeyProcessorProvider, IOrderableContentTypeAndTextViewRoleMetadata>> OrderedKeyProcessorProviders { get; private set; }
+        public IList<Lazy<IMouseProcessorProvider, IOrderableContentTypeAndTextViewRoleMetadata>>
+            OrderedMouseProcessorProviders { get; private set; }
 
         public void OnImportsSatisfied()
         {

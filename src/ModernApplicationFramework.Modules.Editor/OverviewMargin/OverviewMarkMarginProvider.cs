@@ -15,7 +15,8 @@ namespace ModernApplicationFramework.Modules.Editor.OverviewMargin
     [TextViewRole("INTERACTIVE")]
     internal sealed class OverviewMarkMarginProvider : MarginProvider
     {
-        protected override BaseMarginElement CreateMarginElement(ITextView textView, IVerticalScrollBar scrollbar, MarginProvider provider, List<string> orderedErrorTypes)
+        protected override BaseMarginElement CreateMarginElement(ITextView textView, IVerticalScrollBar scrollbar,
+            MarginProvider provider, List<string> orderedErrorTypes)
         {
             return new MarkMarginElement(textView, scrollbar, provider, orderedErrorTypes);
         }

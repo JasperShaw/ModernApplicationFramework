@@ -17,8 +17,7 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
         //[Import]
         //internal ITextUndoHistoryRegistry UndoHistoryRegistry { get; set; }
 
-        [Import]
-        internal IEditorOperationsFactoryService EditorOperationsFactoryService { get; set; }
+        [Import] internal IEditorOperationsFactoryService EditorOperationsFactoryService { get; set; }
 
         public IDropHandler GetAssociatedDropHandler(ITextView wpfTextView)
         {

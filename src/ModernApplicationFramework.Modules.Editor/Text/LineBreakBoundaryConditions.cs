@@ -7,6 +7,6 @@ namespace ModernApplicationFramework.Modules.Editor.Text
     {
         None = 0,
         PrecedingReturn = 1,
-        SucceedingNewline = 2,
+        SucceedingNewline = 2
     }
 }

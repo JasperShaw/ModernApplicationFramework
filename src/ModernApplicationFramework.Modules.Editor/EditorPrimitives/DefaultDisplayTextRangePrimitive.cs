@@ -11,6 +11,43 @@ namespace ModernApplicationFramework.Modules.Editor.EditorPrimitives
     {
         private readonly TextRange _bufferRange;
 
+        public override SnapshotSpan AdvancedTextRange => _bufferRange.AdvancedTextRange;
+
+        public override bool IsEmpty => _bufferRange.IsEmpty;
+
+        public override PrimitiveTextBuffer TextBuffer => TextView.TextBuffer;
+
+        public override PrimitiveTextView TextView { get; }
+
+        public override VisibilityState Visibility
+        {
+            get
+            {
+                var textViewLines = TextView.AdvancedTextView.TextViewLines;
+                var snapshotSpan = new SnapshotSpan(GetStartPoint().AdvancedTextPoint, GetEndPoint().AdvancedTextPoint);
+                var nullable = textViewLines.FormattedSpan.Overlap(snapshotSpan);
+                if (nullable.HasValue)
+                {
+                    var containingBufferPosition1 =
+                        textViewLines.GetTextViewLineContainingBufferPosition(nullable.Value.Start);
+                    var containingBufferPosition2 =
+                        textViewLines.GetTextViewLineContainingBufferPosition(nullable.Value.End);
+                    var visibilityState1 = containingBufferPosition1.VisibilityState;
+                    if (containingBufferPosition1 == containingBufferPosition2)
+                        return visibilityState1;
+                    var visibilityState2 = containingBufferPosition2.VisibilityState;
+                    if (visibilityState1 == VisibilityState.FullyVisible &&
+                        visibilityState2 == VisibilityState.FullyVisible)
+                        return VisibilityState.FullyVisible;
+                    if (visibilityState1 != VisibilityState.Hidden || visibilityState2 != VisibilityState.Hidden ||
+                        containingBufferPosition1.EndIncludingLineBreak != containingBufferPosition2.Start)
+                        return VisibilityState.PartiallyVisible;
+                }
+
+                return VisibilityState.Hidden;
+            }
+        }
+
         internal DefaultDisplayTextRangePrimitive(PrimitiveTextView textView, TextRange bufferRange)
         {
             TextView = textView;
@@ -18,110 +55,14 @@ namespace ModernApplicationFramework.Modules.Editor.EditorPrimitives
             MoveTo(bufferRange);
         }
 
-        public override PrimitiveTextView TextView { get; }
-
-        public override DisplayTextPoint GetDisplayStartPoint()
-        {
-            return TextView.GetTextPoint(_bufferRange.GetStartPoint());
-        }
-
-        public override DisplayTextPoint GetDisplayEndPoint()
-        {
-            return TextView.GetTextPoint(_bufferRange.GetEndPoint());
-        }
-
-        public override VisibilityState Visibility
-        {
-            get
-            {
-                ITextViewLineCollection textViewLines = TextView.AdvancedTextView.TextViewLines;
-                SnapshotSpan snapshotSpan = new SnapshotSpan(GetStartPoint().AdvancedTextPoint, GetEndPoint().AdvancedTextPoint);
-                SnapshotSpan? nullable = textViewLines.FormattedSpan.Overlap(snapshotSpan);
-                if (nullable.HasValue)
-                {
-                    ITextViewLine containingBufferPosition1 = textViewLines.GetTextViewLineContainingBufferPosition(nullable.Value.Start);
-                    ITextViewLine containingBufferPosition2 = textViewLines.GetTextViewLineContainingBufferPosition(nullable.Value.End);
-                    VisibilityState visibilityState1 = containingBufferPosition1.VisibilityState;
-                    if (containingBufferPosition1 == containingBufferPosition2)
-                        return visibilityState1;
-                    VisibilityState visibilityState2 = containingBufferPosition2.VisibilityState;
-                    if (visibilityState1 == VisibilityState.FullyVisible && visibilityState2 == VisibilityState.FullyVisible)
-                        return VisibilityState.FullyVisible;
-                    if (visibilityState1 != VisibilityState.Hidden || visibilityState2 != VisibilityState.Hidden || containingBufferPosition1.EndIncludingLineBreak != containingBufferPosition2.Start)
-                        return VisibilityState.PartiallyVisible;
-                }
-                return VisibilityState.Hidden;
-            }
-        }
-
-        public override bool IsEmpty => _bufferRange.IsEmpty;
-
-        protected override DisplayTextRange CloneDisplayTextRangeInternal()
-        {
-            return new DefaultDisplayTextRangePrimitive(TextView, _bufferRange);
-        }
-
-        protected override IEnumerator<DisplayTextPoint> GetDisplayPointEnumeratorInternal()
-        {
-            DisplayTextPoint displayTextPoint = GetDisplayStartPoint();
-            DisplayTextPoint endPoint = GetDisplayEndPoint();
-            while (displayTextPoint.CurrentPosition <= endPoint.CurrentPosition)
-            {
-                yield return displayTextPoint;
-                if (displayTextPoint.CurrentPosition == displayTextPoint.AdvancedTextPoint.Snapshot.Length)
-                    break;
-                displayTextPoint = displayTextPoint.Clone();
-                displayTextPoint.MoveToNextCharacter();
-            }
-        }
-
-        public override TextPoint GetStartPoint()
-        {
-            return _bufferRange.GetStartPoint();
-        }
-
-        public override TextPoint GetEndPoint()
-        {
-            return _bufferRange.GetEndPoint();
-        }
-
-        public override PrimitiveTextBuffer TextBuffer => TextView.TextBuffer;
-
-        public override SnapshotSpan AdvancedTextRange => _bufferRange.AdvancedTextRange;
-
-        public override bool MakeUppercase()
-        {
-            return _bufferRange.MakeUppercase();
-        }
-
-        public override bool MakeLowercase()
-        {
-            return _bufferRange.MakeLowercase();
-        }
-
         public override bool Capitalize()
         {
             return _bufferRange.Capitalize();
         }
 
-        public override bool ToggleCase()
-        {
-            return _bufferRange.ToggleCase();
-        }
-
         public override bool Delete()
         {
             return _bufferRange.Delete();
-        }
-
-        public override bool Indent()
-        {
-            return _bufferRange.Indent();
-        }
-
-        public override bool Unindent()
-        {
-            return _bufferRange.Unindent();
         }
 
         public override TextRange Find(string pattern)
@@ -144,9 +85,24 @@ namespace ModernApplicationFramework.Modules.Editor.EditorPrimitives
             return _bufferRange.FindAll(pattern, findOptions);
         }
 
-        public override bool ReplaceText(string newText)
+        public override DisplayTextPoint GetDisplayEndPoint()
         {
-            return _bufferRange.ReplaceText(newText);
+            return TextView.GetTextPoint(_bufferRange.GetEndPoint());
+        }
+
+        public override DisplayTextPoint GetDisplayStartPoint()
+        {
+            return TextView.GetTextPoint(_bufferRange.GetStartPoint());
+        }
+
+        public override TextPoint GetEndPoint()
+        {
+            return _bufferRange.GetEndPoint();
+        }
+
+        public override TextPoint GetStartPoint()
+        {
+            return _bufferRange.GetStartPoint();
         }
 
         public override string GetText()
@@ -154,9 +110,30 @@ namespace ModernApplicationFramework.Modules.Editor.EditorPrimitives
             return _bufferRange.GetText();
         }
 
-        public override void SetStart(TextPoint startPoint)
+        public override bool Indent()
         {
-            _bufferRange.SetStart(TextView.GetTextPoint(startPoint));
+            return _bufferRange.Indent();
+        }
+
+        public override bool MakeLowercase()
+        {
+            return _bufferRange.MakeLowercase();
+        }
+
+        public override bool MakeUppercase()
+        {
+            return _bufferRange.MakeUppercase();
+        }
+
+        public override void MoveTo(TextRange newRange)
+        {
+            SetStart(newRange.GetStartPoint());
+            SetEnd(newRange.GetEndPoint());
+        }
+
+        public override bool ReplaceText(string newText)
+        {
+            return _bufferRange.ReplaceText(newText);
         }
 
         public override void SetEnd(TextPoint endPoint)
@@ -164,10 +141,38 @@ namespace ModernApplicationFramework.Modules.Editor.EditorPrimitives
             _bufferRange.SetEnd(TextView.GetTextPoint(endPoint));
         }
 
-        public override void MoveTo(TextRange newRange)
+        public override void SetStart(TextPoint startPoint)
         {
-            SetStart(newRange.GetStartPoint());
-            SetEnd(newRange.GetEndPoint());
+            _bufferRange.SetStart(TextView.GetTextPoint(startPoint));
+        }
+
+        public override bool ToggleCase()
+        {
+            return _bufferRange.ToggleCase();
+        }
+
+        public override bool Unindent()
+        {
+            return _bufferRange.Unindent();
+        }
+
+        protected override DisplayTextRange CloneDisplayTextRangeInternal()
+        {
+            return new DefaultDisplayTextRangePrimitive(TextView, _bufferRange);
+        }
+
+        protected override IEnumerator<DisplayTextPoint> GetDisplayPointEnumeratorInternal()
+        {
+            var displayTextPoint = GetDisplayStartPoint();
+            var endPoint = GetDisplayEndPoint();
+            while (displayTextPoint.CurrentPosition <= endPoint.CurrentPosition)
+            {
+                yield return displayTextPoint;
+                if (displayTextPoint.CurrentPosition == displayTextPoint.AdvancedTextPoint.Snapshot.Length)
+                    break;
+                displayTextPoint = displayTextPoint.Clone();
+                displayTextPoint.MoveToNextCharacter();
+            }
         }
 
         protected override IEnumerator<TextPoint> GetEnumeratorInternal()

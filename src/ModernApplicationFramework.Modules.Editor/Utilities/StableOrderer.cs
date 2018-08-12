@@ -7,7 +7,14 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
 {
     internal static class StableOrderer
     {
-        private static bool OrderDependencyFunction<TValue, TMetadata>(Lazy<TValue, TMetadata> x, Lazy<TValue, TMetadata> y) where TValue : class where TMetadata : IOrderable
+        public static IEnumerable<Lazy<TValue, TMetadata>> Order<TValue, TMetadata>(
+            IEnumerable<Lazy<TValue, TMetadata>> itemsToOrder) where TValue : class where TMetadata : IOrderable
+        {
+            return StableTopologicalSort.Order(itemsToOrder, OrderDependencyFunction);
+        }
+
+        private static bool OrderDependencyFunction<TValue, TMetadata>(Lazy<TValue, TMetadata> x,
+            Lazy<TValue, TMetadata> y) where TValue : class where TMetadata : IOrderable
         {
             var metadata = y.Metadata;
             var before = metadata.Before;
@@ -21,6 +28,7 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
                 metadata = x.Metadata;
                 num1 = before.Contains(metadata.Name) ? 1 : 0;
             }
+
             if (num1 != 0)
                 return true;
             metadata = x.Metadata;
@@ -35,12 +43,8 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
                 metadata = y.Metadata;
                 num2 = after.Contains(metadata.Name) ? 1 : 0;
             }
-            return num2 != 0;
-        }
 
-        public static IEnumerable<Lazy<TValue, TMetadata>> Order<TValue, TMetadata>(IEnumerable<Lazy<TValue, TMetadata>> itemsToOrder) where TValue : class where TMetadata : IOrderable
-        {
-            return StableTopologicalSort.Order(itemsToOrder, OrderDependencyFunction);
+            return num2 != 0;
         }
     }
 }

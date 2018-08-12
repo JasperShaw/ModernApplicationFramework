@@ -6,8 +6,12 @@ namespace ModernApplicationFramework.Modules.Editor.Text
 {
     internal class MappingPoint : IMappingPoint
     {
-        private SnapshotPoint _anchorPoint;
         private readonly PointTrackingMode _trackingMode;
+        private SnapshotPoint _anchorPoint;
+
+        public ITextBuffer AnchorBuffer => _anchorPoint.Snapshot.TextBuffer;
+
+        public IBufferGraph BufferGraph { get; }
 
         public MappingPoint(SnapshotPoint anchorPoint, PointTrackingMode trackingMode, IBufferGraph bufferGraph)
         {
@@ -26,29 +30,35 @@ namespace ModernApplicationFramework.Modules.Editor.Text
             }
         }
 
-        public ITextBuffer AnchorBuffer => _anchorPoint.Snapshot.TextBuffer;
-
-        public IBufferGraph BufferGraph { get; }
+        public SnapshotPoint? GetInsertionPoint(Predicate<ITextBuffer> match)
+        {
+            if (match == null)
+                throw new ArgumentNullException(nameof(match));
+            return BufferGraph.MapDownToInsertionPoint(
+                _anchorPoint.TranslateTo(AnchorBuffer.CurrentSnapshot, _trackingMode), _trackingMode,
+                snapshot => match(snapshot.TextBuffer));
+        }
 
         public SnapshotPoint? GetPoint(ITextBuffer targetBuffer, PositionAffinity affinity)
         {
             if (targetBuffer == null)
                 throw new ArgumentNullException(nameof(targetBuffer));
-            ITextBuffer anchorBuffer = AnchorBuffer;
-            SnapshotPoint snapshotPoint = _anchorPoint.TranslateTo(anchorBuffer.CurrentSnapshot, _trackingMode);
+            var anchorBuffer = AnchorBuffer;
+            var snapshotPoint = _anchorPoint.TranslateTo(anchorBuffer.CurrentSnapshot, _trackingMode);
             if (anchorBuffer == targetBuffer)
                 return snapshotPoint;
-            ITextBuffer topBuffer = BufferGraph.TopBuffer;
+            var topBuffer = BufferGraph.TopBuffer;
             if (targetBuffer == topBuffer)
                 return BufferGraph.MapUpToBuffer(snapshotPoint, _trackingMode, affinity, topBuffer);
             if (anchorBuffer == topBuffer)
                 return BufferGraph.MapDownToBuffer(snapshotPoint, _trackingMode, targetBuffer, affinity);
             if (anchorBuffer is IProjectionBufferBase)
             {
-                SnapshotPoint? buffer = BufferGraph.MapDownToBuffer(snapshotPoint, _trackingMode, targetBuffer, affinity);
+                var buffer = BufferGraph.MapDownToBuffer(snapshotPoint, _trackingMode, targetBuffer, affinity);
                 if (buffer.HasValue)
                     return buffer;
             }
+
             return BufferGraph.MapUpToBuffer(snapshotPoint, _trackingMode, affinity, targetBuffer);
         }
 
@@ -56,7 +66,7 @@ namespace ModernApplicationFramework.Modules.Editor.Text
         {
             if (targetSnapshot == null)
                 throw new ArgumentNullException(nameof(targetSnapshot));
-            SnapshotPoint? nullable = GetPoint(targetSnapshot.TextBuffer, affinity);
+            var nullable = GetPoint(targetSnapshot.TextBuffer, affinity);
             if (nullable.HasValue && nullable.Value.Snapshot != targetSnapshot)
                 nullable = nullable.Value.TranslateTo(targetSnapshot, _trackingMode);
             return nullable;
@@ -66,28 +76,25 @@ namespace ModernApplicationFramework.Modules.Editor.Text
         {
             if (match == null)
                 throw new ArgumentNullException(nameof(match));
-            ITextBuffer anchorBuffer = AnchorBuffer;
-            SnapshotPoint snapshotPoint = _anchorPoint.TranslateTo(anchorBuffer.CurrentSnapshot, _trackingMode);
+            var anchorBuffer = AnchorBuffer;
+            var snapshotPoint = _anchorPoint.TranslateTo(anchorBuffer.CurrentSnapshot, _trackingMode);
             if (match(anchorBuffer))
                 return snapshotPoint;
             if (anchorBuffer == BufferGraph.TopBuffer)
-                return BufferGraph.MapDownToFirstMatch(snapshotPoint, _trackingMode, snapshot => match(snapshot.TextBuffer), affinity);
+                return BufferGraph.MapDownToFirstMatch(snapshotPoint, _trackingMode,
+                    snapshot => match(snapshot.TextBuffer), affinity);
             if (anchorBuffer is IProjectionBufferBase)
             {
-                SnapshotPoint? firstMatch = BufferGraph.MapDownToFirstMatch(snapshotPoint, _trackingMode, snapshot => match(snapshot.TextBuffer), affinity);
+                var firstMatch = BufferGraph.MapDownToFirstMatch(snapshotPoint, _trackingMode,
+                    snapshot => match(snapshot.TextBuffer), affinity);
                 if (firstMatch.HasValue)
                     return firstMatch;
             }
+
             if (match(BufferGraph.TopBuffer))
                 return BufferGraph.MapUpToBuffer(snapshotPoint, _trackingMode, affinity, BufferGraph.TopBuffer);
-            return BufferGraph.MapUpToFirstMatch(snapshotPoint, _trackingMode, snapshot => match(snapshot.TextBuffer), affinity);
-        }
-
-        public SnapshotPoint? GetInsertionPoint(Predicate<ITextBuffer> match)
-        {
-            if (match == null)
-                throw new ArgumentNullException(nameof(match));
-            return BufferGraph.MapDownToInsertionPoint(_anchorPoint.TranslateTo(AnchorBuffer.CurrentSnapshot, _trackingMode), _trackingMode, snapshot => match(snapshot.TextBuffer));
+            return BufferGraph.MapUpToFirstMatch(snapshotPoint, _trackingMode, snapshot => match(snapshot.TextBuffer),
+                affinity);
         }
     }
 }

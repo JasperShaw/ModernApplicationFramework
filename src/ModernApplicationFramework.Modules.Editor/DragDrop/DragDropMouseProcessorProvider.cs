@@ -18,23 +18,19 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
     [TextViewRole("INTERACTIVE")]
     internal sealed class DragDropMouseProcessorProvider : IMouseProcessorProvider
     {
+        [Import] internal IClassificationFormatMapService ClassificationFormatMapService { get; set; }
+
         [ImportMany(typeof(IDropHandlerProvider))]
         internal List<Lazy<IDropHandlerProvider, IDropHandlerMetadata>> DropHandlerFactories { get; set; }
 
-        [Import]
-        internal IEditorOperationsFactoryService EditorOperationsFactoryService { get; set; }
-
-        [Import]
-        internal IRtfBuilderService RtfBuilderService { get; set; }
-
-        [Import]
-        internal IClassificationFormatMapService ClassificationFormatMapService { get; set; }
+        [Import] internal IEditorOperationsFactoryService EditorOperationsFactoryService { get; set; }
 
         //[Import]
         //internal ITextUndoHistoryRegistry UndoHistoryRegistry { get; set; }
 
-        [Import]
-        internal GuardedOperations GuardedOperations { get; set; }
+        [Import] internal GuardedOperations GuardedOperations { get; set; }
+
+        [Import] internal IRtfBuilderService RtfBuilderService { get; set; }
 
         public IMouseProcessor GetAssociatedProcessor(ITextView wpfTextView)
         {

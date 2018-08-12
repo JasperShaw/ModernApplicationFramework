@@ -16,8 +16,9 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
     [Export(typeof(IEditorOperationsFactoryService))]
     internal sealed class EditorOperationsFactoryService : IEditorOperationsFactoryService
     {
-        [Import]
-        internal ITextStructureNavigatorSelectorService TextStructureNavigatorFactory { get; set; }
+        [Import] internal IContentTypeRegistryService ContentTypeRegistryService { get; set; }
+
+        [Import] internal IEditorOptionsFactoryService EditorOptionsProvider { get; set; }
 
         //[Import(AllowDefault = true)]
         //internal IWaitIndicator WaitIndicator { get; set; }
@@ -35,26 +36,17 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
         //[Import]
         //internal ITextBufferUndoManagerProvider TextBufferUndoManagerProvider { get; set; }
 
-        [Import]
-        internal IEditorPrimitivesFactoryService EditorPrimitivesProvider { get; set; }
+        [Import] internal IEditorPrimitivesFactoryService EditorPrimitivesProvider { get; set; }
 
-        [Import]
-        internal IEditorOptionsFactoryService EditorOptionsProvider { get; set; }
+        [Import(AllowDefault = true)] internal IOutliningManagerService OutliningManagerService { get; set; }
 
-        [Import]
-        internal IRtfBuilderService RtfBuilderService { get; set; }
+        [Import] internal IRtfBuilderService RtfBuilderService { get; set; }
 
-        [Import]
-        internal ISmartIndentationService SmartIndentationService { get; set; }
+        [Import] internal ISmartIndentationService SmartIndentationService { get; set; }
 
-        [Import]
-        internal ITextDocumentFactoryService TextDocumentFactoryService { get; set; }
+        [Import] internal ITextDocumentFactoryService TextDocumentFactoryService { get; set; }
 
-        [Import]
-        internal IContentTypeRegistryService ContentTypeRegistryService { get; set; }
-
-        [Import(AllowDefault = true)]
-        internal IOutliningManagerService OutliningManagerService { get; set; }
+        [Import] internal ITextStructureNavigatorSelectorService TextStructureNavigatorFactory { get; set; }
 
         public IEditorOperations GetEditorOperations(ITextView textView)
         {

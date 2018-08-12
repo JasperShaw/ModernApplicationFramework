@@ -7,11 +7,10 @@ namespace ModernApplicationFramework.Modules.Editor
 {
     internal class VacuousTextDataModel : ITextDataModel
     {
-        public IContentType ContentType => DocumentBuffer.ContentType;
-
         public event EventHandler<TextDataModelContentTypeChangedEventArgs> ContentTypeChanged;
-        public ITextBuffer DocumentBuffer { get; }
+        public IContentType ContentType => DocumentBuffer.ContentType;
         public ITextBuffer DataBuffer => DocumentBuffer;
+        public ITextBuffer DocumentBuffer { get; }
 
         public VacuousTextDataModel(ITextBuffer documentBuffer)
         {

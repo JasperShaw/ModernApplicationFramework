@@ -6,34 +6,16 @@ namespace ModernApplicationFramework.Modules.Editor.OverviewMargin
 {
     internal sealed class OverviewChangeTrackingMargin : ITextViewMargin
     {
+        public const double MarginWidth = 5.0;
         internal ChangeTrackingMarginElement ChangeTrackingMarginElement;
         internal bool IsDisposed;
-        public const double MarginWidth = 5.0;
 
-        private OverviewChangeTrackingMargin(ITextViewHost textViewHost, IVerticalScrollBar scrollBar, OverviewChangeTrackingMarginProvider provider)
-        {
-            ChangeTrackingMarginElement = new ChangeTrackingMarginElement(textViewHost.TextView, scrollBar, provider);
-        }
-
-        private void ThrowIfDisposed()
-        {
-            if (IsDisposed)
-                throw new ObjectDisposedException(nameof(OverviewChangeTrackingMargin));
-        }
-
-        public static OverviewChangeTrackingMargin Create(ITextViewHost textViewHost, IVerticalScrollBar scrollBar, OverviewChangeTrackingMarginProvider provider)
-        {
-            if (textViewHost == null)
-                throw new ArgumentNullException(nameof(textViewHost));
-            return new OverviewChangeTrackingMargin(textViewHost, scrollBar, provider);
-        }
-
-        public FrameworkElement VisualElement
+        public bool Enabled
         {
             get
             {
                 ThrowIfDisposed();
-                return ChangeTrackingMarginElement;
+                return ChangeTrackingMarginElement.Enabled;
             }
         }
 
@@ -46,20 +28,27 @@ namespace ModernApplicationFramework.Modules.Editor.OverviewMargin
             }
         }
 
-        public bool Enabled
+        public FrameworkElement VisualElement
         {
             get
             {
                 ThrowIfDisposed();
-                return ChangeTrackingMarginElement.Enabled;
+                return ChangeTrackingMarginElement;
             }
         }
 
-        public ITextViewMargin GetTextViewMargin(string marginName)
+        private OverviewChangeTrackingMargin(ITextViewHost textViewHost, IVerticalScrollBar scrollBar,
+            OverviewChangeTrackingMarginProvider provider)
         {
-            if (string.Compare(marginName, nameof(OverviewChangeTrackingMargin), StringComparison.OrdinalIgnoreCase) != 0)
-                return null;
-            return this;
+            ChangeTrackingMarginElement = new ChangeTrackingMarginElement(textViewHost.TextView, scrollBar, provider);
+        }
+
+        public static OverviewChangeTrackingMargin Create(ITextViewHost textViewHost, IVerticalScrollBar scrollBar,
+            OverviewChangeTrackingMarginProvider provider)
+        {
+            if (textViewHost == null)
+                throw new ArgumentNullException(nameof(textViewHost));
+            return new OverviewChangeTrackingMargin(textViewHost, scrollBar, provider);
         }
 
         public void Dispose()
@@ -69,6 +58,20 @@ namespace ModernApplicationFramework.Modules.Editor.OverviewMargin
             ChangeTrackingMarginElement.Dispose();
             GC.SuppressFinalize(this);
             IsDisposed = true;
+        }
+
+        public ITextViewMargin GetTextViewMargin(string marginName)
+        {
+            if (string.Compare(marginName, nameof(OverviewChangeTrackingMargin), StringComparison.OrdinalIgnoreCase) !=
+                0)
+                return null;
+            return this;
+        }
+
+        private void ThrowIfDisposed()
+        {
+            if (IsDisposed)
+                throw new ObjectDisposedException(nameof(OverviewChangeTrackingMargin));
         }
     }
 }

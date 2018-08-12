@@ -5,14 +5,14 @@ namespace ModernApplicationFramework.Modules.Editor.TextAndAdornmentSequencer
 {
     internal sealed class TextSpanElement : ISequenceElement
     {
+        public bool ShouldRenderText => true;
+
+        public IMappingSpan Span { get; }
+
         public TextSpanElement(IMappingSpan span)
         {
             Span = span;
         }
-
-        public IMappingSpan Span { get; }
-
-        public bool ShouldRenderText => true;
 
         public override string ToString()
         {

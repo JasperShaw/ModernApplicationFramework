@@ -6,6 +6,6 @@
         MouseDown,
         Dragging,
         Canceled,
-        Dropped,
+        Dropped
     }
 }

@@ -9,10 +9,12 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
     {
         private WpfMouseProcessor _dragDropProcessor;
 
-        private LeftMargin(ITextViewHost textViewHost, GuardedOperations guardedOperations, TextViewMarginState marginState)
+        private LeftMargin(ITextViewHost textViewHost, GuardedOperations guardedOperations,
+            TextViewMarginState marginState)
             : base("Left", Orientation.Vertical, textViewHost, guardedOperations, marginState)
         {
-            if (!textViewHost.TextView.Properties.TryGetProperty(typeof(IDragDropMouseProcessor), out IDragDropMouseProcessor property))
+            if (!textViewHost.TextView.Properties.TryGetProperty(typeof(IDragDropMouseProcessor),
+                out IDragDropMouseProcessor property))
                 return;
             _dragDropProcessor = new WpfMouseProcessor(this, new FrugalList<IMouseProcessor>
             {
@@ -21,7 +23,8 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             Background = Brushes.Transparent;
         }
 
-        public static ITextViewMargin Create(ITextViewHost textViewHost, GuardedOperations guardedOperations, TextViewMarginState marginState)
+        public static ITextViewMargin Create(ITextViewHost textViewHost, GuardedOperations guardedOperations,
+            TextViewMarginState marginState)
         {
             var leftMargin = new LeftMargin(textViewHost, guardedOperations, marginState);
             leftMargin.Initialize();
@@ -35,6 +38,7 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                 _dragDropProcessor.Dispose();
                 _dragDropProcessor = null;
             }
+
             base.Close();
         }
     }

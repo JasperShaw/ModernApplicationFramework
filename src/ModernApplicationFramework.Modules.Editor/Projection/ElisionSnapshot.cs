@@ -9,11 +9,24 @@ namespace ModernApplicationFramework.Modules.Editor.Projection
 {
     internal class ElisionSnapshot : BaseProjectionSnapshot, IElisionSnapshot
     {
-        private readonly ElisionBuffer _elisionBuffer;
         private readonly ElisionMap _content;
+        private readonly ElisionBuffer _elisionBuffer;
         private readonly bool _fillInMappingMode;
 
-        public ElisionSnapshot(ElisionBuffer elisionBuffer, ITextSnapshot sourceSnapshot, ITextVersion version, StringRebuilder builder, ElisionMap content, bool fillInMappingMode)
+        public ITextSnapshot SourceSnapshot { get; }
+
+        public override ReadOnlyCollection<ITextSnapshot> SourceSnapshots { get; }
+
+        public override int SpanCount => _content.SpanCount;
+
+        public override IProjectionBufferBase TextBuffer => _elisionBuffer;
+
+        IElisionBuffer IElisionSnapshot.TextBuffer => _elisionBuffer;
+
+        protected override ITextBuffer TextBufferHelper => _elisionBuffer;
+
+        public ElisionSnapshot(ElisionBuffer elisionBuffer, ITextSnapshot sourceSnapshot, ITextVersion version,
+            StringRebuilder builder, ElisionMap content, bool fillInMappingMode)
             : base(version, builder)
         {
             _elisionBuffer = elisionBuffer;
@@ -28,23 +41,6 @@ namespace ModernApplicationFramework.Modules.Editor.Projection
             _fillInMappingMode = fillInMappingMode;
             if (TotalLength != version.Length)
                 throw new InvalidOperationException();
-        }
-
-        public override IProjectionBufferBase TextBuffer => _elisionBuffer;
-
-        IElisionBuffer IElisionSnapshot.TextBuffer => _elisionBuffer;
-
-        protected override ITextBuffer TextBufferHelper => _elisionBuffer;
-
-        public override int SpanCount => _content.SpanCount;
-
-        public override ReadOnlyCollection<ITextSnapshot> SourceSnapshots { get; }
-
-        public ITextSnapshot SourceSnapshot { get; }
-
-        public SnapshotPoint MapFromSourceSnapshotToNearest(SnapshotPoint point)
-        {
-            return _content.MapFromSourceSnapshotToNearest(this, point.Position);
         }
 
         public override ITextSnapshot GetMatchingSnapshot(ITextBuffer textBuffer)
@@ -88,6 +84,35 @@ namespace ModernApplicationFramework.Modules.Editor.Projection
             return GetSourceSpans(0, _content.SpanCount);
         }
 
+        public override SnapshotPoint? MapFromSourceSnapshot(SnapshotPoint point, PositionAffinity affinity)
+        {
+            if (point.Snapshot != SourceSnapshot)
+                throw new ArgumentException(
+                    "The point does not belong to a source snapshot of the projection snapshot");
+            switch (affinity)
+            {
+                case PositionAffinity.Predecessor:
+                case PositionAffinity.Successor:
+                    return _content.MapFromSourceSnapshot(this, point.Position);
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(affinity));
+            }
+        }
+
+        public override ReadOnlyCollection<Span> MapFromSourceSnapshot(SnapshotSpan span)
+        {
+            if (span.Snapshot != SourceSnapshot)
+                throw new ArgumentException("The span does not belong to a source snapshot of the projection snapshot");
+            var result = new FrugalList<Span>();
+            _content.MapFromSourceSnapshot(span, result);
+            return new ReadOnlyCollection<Span>(result);
+        }
+
+        public SnapshotPoint MapFromSourceSnapshotToNearest(SnapshotPoint point)
+        {
+            return _content.MapFromSourceSnapshotToNearest(this, point.Position);
+        }
+
         public override SnapshotPoint MapToSourceSnapshot(int position)
         {
             if (position < 0 || position > TotalLength)
@@ -97,7 +122,9 @@ namespace ModernApplicationFramework.Modules.Editor.Projection
                 return sourceSnapshots[0];
             if (_elisionBuffer.Resolver == null)
                 return sourceSnapshots[sourceSnapshots.Count - 1];
-            return sourceSnapshots[_elisionBuffer.Resolver.GetTypicalInsertionPosition(new SnapshotPoint(this, position), new ReadOnlyCollection<SnapshotPoint>(sourceSnapshots))];
+            return sourceSnapshots[
+                _elisionBuffer.Resolver.GetTypicalInsertionPosition(new SnapshotPoint(this, position),
+                    new ReadOnlyCollection<SnapshotPoint>(sourceSnapshots))];
         }
 
         public override SnapshotPoint MapToSourceSnapshot(int position, PositionAffinity affinity)
@@ -114,18 +141,26 @@ namespace ModernApplicationFramework.Modules.Editor.Projection
             }
         }
 
-        public override SnapshotPoint? MapFromSourceSnapshot(SnapshotPoint point, PositionAffinity affinity)
+        public override ReadOnlyCollection<SnapshotSpan> MapToSourceSnapshots(Span span)
         {
-            if (point.Snapshot != SourceSnapshot)
-                throw new ArgumentException("The point does not belong to a source snapshot of the projection snapshot");
-            switch (affinity)
-            {
-                case PositionAffinity.Predecessor:
-                case PositionAffinity.Successor:
-                    return _content.MapFromSourceSnapshot(this, point.Position);
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(affinity));
-            }
+            return MapToSourceSnapshots(span, _fillInMappingMode);
+        }
+
+        public override ReadOnlyCollection<SnapshotSpan> MapToSourceSnapshotsForRead(Span span)
+        {
+            return MapToSourceSnapshots(span, false);
+        }
+
+        internal override ReadOnlyCollection<SnapshotPoint> MapInsertionPointToSourceSnapshots(int position,
+            ITextBuffer excludedBuffer)
+        {
+            return new ReadOnlyCollection<SnapshotPoint>(_content.MapInsertionPointToSourceSnapshots(this, position));
+        }
+
+        internal override ReadOnlyCollection<SnapshotSpan> MapReplacementSpanToSourceSnapshots(Span replacementSpan,
+            ITextBuffer excludedBuffer)
+        {
+            return MapToSourceSnapshots(replacementSpan, false);
         }
 
         private ReadOnlyCollection<SnapshotSpan> MapToSourceSnapshots(Span span, bool fillIn)
@@ -138,35 +173,6 @@ namespace ModernApplicationFramework.Modules.Editor.Projection
             else
                 _content.MapToSourceSnapshots(this, span, result);
             return new ReadOnlyCollection<SnapshotSpan>(result);
-        }
-
-        public override ReadOnlyCollection<SnapshotSpan> MapToSourceSnapshots(Span span)
-        {
-            return MapToSourceSnapshots(span, _fillInMappingMode);
-        }
-
-        public override ReadOnlyCollection<SnapshotSpan> MapToSourceSnapshotsForRead(Span span)
-        {
-            return MapToSourceSnapshots(span, false);
-        }
-
-        public override ReadOnlyCollection<Span> MapFromSourceSnapshot(SnapshotSpan span)
-        {
-            if (span.Snapshot != SourceSnapshot)
-                throw new ArgumentException("The span does not belong to a source snapshot of the projection snapshot");
-            var result = new FrugalList<Span>();
-            _content.MapFromSourceSnapshot(span, result);
-            return new ReadOnlyCollection<Span>(result);
-        }
-
-        internal override ReadOnlyCollection<SnapshotPoint> MapInsertionPointToSourceSnapshots(int position, ITextBuffer excludedBuffer)
-        {
-            return new ReadOnlyCollection<SnapshotPoint>(_content.MapInsertionPointToSourceSnapshots(this, position));
-        }
-
-        internal override ReadOnlyCollection<SnapshotSpan> MapReplacementSpanToSourceSnapshots(Span replacementSpan, ITextBuffer excludedBuffer)
-        {
-            return MapToSourceSnapshots(replacementSpan, false);
         }
     }
 }

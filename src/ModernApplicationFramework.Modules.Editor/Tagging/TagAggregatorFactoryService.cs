@@ -16,32 +16,37 @@ namespace ModernApplicationFramework.Modules.Editor.Tagging
 {
     [Export(typeof(IBufferTagAggregatorFactoryService))]
     [Export(typeof(IViewTagAggregatorFactoryService))]
-    internal sealed class TagAggregatorFactoryService : IBufferTagAggregatorFactoryService, IViewTagAggregatorFactoryService
+    internal sealed class TagAggregatorFactoryService : IBufferTagAggregatorFactoryService,
+        IViewTagAggregatorFactoryService
     {
-        internal ImmutableDictionary<ContentAndTypeData, IEnumerable<Lazy<ITaggerProvider, INamedTaggerMetadata>>> BufferTaggerProviderMap = ImmutableDictionary<ContentAndTypeData, IEnumerable<Lazy<ITaggerProvider, INamedTaggerMetadata>>>.Empty;
-        internal ImmutableDictionary<ContentAndTypeData, IEnumerable<Lazy<IViewTaggerProvider, IViewTaggerMetadata>>> ViewTaggerProviderMap = ImmutableDictionary<ContentAndTypeData, IEnumerable<Lazy<IViewTaggerProvider, IViewTaggerMetadata>>>.Empty;
+        internal ImmutableDictionary<ContentAndTypeData, IEnumerable<Lazy<ITaggerProvider, INamedTaggerMetadata>>>
+            BufferTaggerProviderMap =
+                ImmutableDictionary<ContentAndTypeData, IEnumerable<Lazy<ITaggerProvider, INamedTaggerMetadata>>>.Empty;
+
+        internal ImmutableDictionary<ContentAndTypeData, IEnumerable<Lazy<IViewTaggerProvider, IViewTaggerMetadata>>>
+            ViewTaggerProviderMap =
+                ImmutableDictionary<ContentAndTypeData, IEnumerable<Lazy<IViewTaggerProvider, IViewTaggerMetadata>>>
+                    .Empty;
+
+        [Import] internal IBufferGraphFactoryService BufferGraphFactoryService { get; set; }
 
         [ImportMany(typeof(ITaggerProvider))]
         internal List<Lazy<ITaggerProvider, INamedTaggerMetadata>> BufferTaggerProviders { get; set; }
 
+        [Import] internal IContentTypeRegistryService ContentTypeRegistryService { get; set; }
+
+        [Import] internal GuardedOperations GuardedOperations { get; set; }
+
         [ImportMany(typeof(IViewTaggerProvider))]
         internal List<Lazy<IViewTaggerProvider, IViewTaggerMetadata>> ViewTaggerProviders { get; set; }
-
-        [Import]
-        internal IBufferGraphFactoryService BufferGraphFactoryService { get; set; }
-
-        [Import]
-        internal IContentTypeRegistryService ContentTypeRegistryService { get; set; }
-
-        [Import]
-        internal GuardedOperations GuardedOperations { get; set; }
 
         public ITagAggregator<T> CreateTagAggregator<T>(ITextBuffer textBuffer) where T : ITag
         {
             return CreateTagAggregator<T>(textBuffer, TagAggregatorOptions.None);
         }
 
-        public ITagAggregator<T> CreateTagAggregator<T>(ITextBuffer textBuffer, TagAggregatorOptions options) where T : ITag
+        public ITagAggregator<T> CreateTagAggregator<T>(ITextBuffer textBuffer, TagAggregatorOptions options)
+            where T : ITag
         {
             if (textBuffer == null)
                 throw new ArgumentNullException(nameof(textBuffer));
@@ -60,23 +65,28 @@ namespace ModernApplicationFramework.Modules.Editor.Tagging
             return new TagAggregator<T>(this, textView, textView.BufferGraph, options);
         }
 
-        internal IEnumerable<Lazy<ITaggerProvider, INamedTaggerMetadata>> GetBufferTaggersForType(IContentType type, Type taggerType)
+        internal IEnumerable<Lazy<ITaggerProvider, INamedTaggerMetadata>> GetBufferTaggersForType(IContentType type,
+            Type taggerType)
         {
             var key = new ContentAndTypeData(type, taggerType);
             if (!BufferTaggerProviderMap.TryGetValue(key, out var taggers))
             {
-                taggers = new List<Lazy<ITaggerProvider, INamedTaggerMetadata>>(BufferTaggerProviders.Where(f => Match(type, taggerType, f.Metadata)));
+                taggers = new List<Lazy<ITaggerProvider, INamedTaggerMetadata>>(
+                    BufferTaggerProviders.Where(f => Match(type, taggerType, f.Metadata)));
                 ImmutableInterlocked.Update(ref BufferTaggerProviderMap, s => s.Add(key, taggers));
             }
+
             return taggers;
         }
 
-        internal IEnumerable<Lazy<IViewTaggerProvider, IViewTaggerMetadata>> GetViewTaggersForType(IContentType type, Type taggerType)
+        internal IEnumerable<Lazy<IViewTaggerProvider, IViewTaggerMetadata>> GetViewTaggersForType(IContentType type,
+            Type taggerType)
         {
             var key = new ContentAndTypeData(type, taggerType);
             if (ViewTaggerProviderMap.TryGetValue(key, out var taggers))
                 return taggers;
-            taggers = new List<Lazy<IViewTaggerProvider, IViewTaggerMetadata>>(ViewTaggerProviders.Where(f => Match(type, taggerType, f.Metadata)));
+            taggers = new List<Lazy<IViewTaggerProvider, IViewTaggerMetadata>>(
+                ViewTaggerProviders.Where(f => Match(type, taggerType, f.Metadata)));
             ImmutableInterlocked.Update(ref ViewTaggerProviderMap, s => s.Add(key, taggers));
             return taggers;
         }

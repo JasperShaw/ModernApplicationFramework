@@ -10,10 +10,11 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
 {
     internal class DefaultBoxTextDropHandler : DefaultTextDropHandler
     {
-        private VirtualSnapshotPoint _boxStart;
         private VirtualSnapshotPoint _boxEnd;
+        private VirtualSnapshotPoint _boxStart;
 
-        public DefaultBoxTextDropHandler(ITextView wpfTextView, /*ITextUndoHistory undoHistory,*/ IEditorOperations editorOperations)
+        public DefaultBoxTextDropHandler(ITextView wpfTextView, /*ITextUndoHistory undoHistory,*/
+            IEditorOperations editorOperations)
             : base(wpfTextView, /* undoHistory,*/ editorOperations)
         {
         }
@@ -23,27 +24,31 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
             return DataObjectManager.ExtractText(dragDropInfo.Data);
         }
 
-        protected override void SelectText(SnapshotPoint insertionPoint, int dataLength, DragDropInfo dragDropInfo, bool reverse)
+        protected override bool InsertText(VirtualSnapshotPoint position, string data)
+        {
+            TextView.Caret.MoveTo(position.TranslateTo(TextView.TextSnapshot));
+            return EditorOperations.InsertTextAsBox(data, out _boxStart, out _boxEnd);
+        }
+
+        protected override bool MoveText(VirtualSnapshotPoint position, IList<ITrackingSpan> selectionSpans,
+            string data)
+        {
+            var trackingPoint =
+                TextView.TextSnapshot.CreateTrackingPoint(position.Position, PointTrackingMode.Negative);
+            if (!DeleteSpans(selectionSpans))
+                return false;
+            TextView.Caret.MoveTo(new VirtualSnapshotPoint(trackingPoint.GetPoint(TextView.TextSnapshot),
+                position.VirtualSpaces));
+            return EditorOperations.InsertTextAsBox(data, out _boxStart, out _boxEnd);
+        }
+
+        protected override void SelectText(SnapshotPoint insertionPoint, int dataLength, DragDropInfo dragDropInfo,
+            bool reverse)
         {
             if (reverse)
                 EditorOperations.SelectAndMoveCaret(_boxEnd, _boxStart, TextSelectionMode.Box);
             else
                 EditorOperations.SelectAndMoveCaret(_boxStart, _boxEnd, TextSelectionMode.Box);
-        }
-
-        protected override bool MoveText(VirtualSnapshotPoint position, IList<ITrackingSpan> selectionSpans, string data)
-        {
-            ITrackingPoint trackingPoint = TextView.TextSnapshot.CreateTrackingPoint((int)position.Position, PointTrackingMode.Negative);
-            if (!DeleteSpans(selectionSpans))
-                return false;
-            TextView.Caret.MoveTo(new VirtualSnapshotPoint(trackingPoint.GetPoint(TextView.TextSnapshot), position.VirtualSpaces));
-            return EditorOperations.InsertTextAsBox(data, out _boxStart, out _boxEnd);
-        }
-
-        protected override bool InsertText(VirtualSnapshotPoint position, string data)
-        {
-            TextView.Caret.MoveTo(position.TranslateTo(TextView.TextSnapshot));
-            return EditorOperations.InsertTextAsBox(data, out _boxStart, out _boxEnd);
         }
     }
 }

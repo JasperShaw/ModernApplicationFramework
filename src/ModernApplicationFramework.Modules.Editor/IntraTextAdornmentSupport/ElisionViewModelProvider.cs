@@ -12,8 +12,7 @@ namespace ModernApplicationFramework.Modules.Editor.IntraTextAdornmentSupport
     [ContentType("text")]
     internal class ElisionViewModelProvider : ITextViewModelProvider
     {
-        [Import]
-        internal IProjectionBufferFactoryService ProjectionBufferFactory { get; set; }
+        [Import] internal IProjectionBufferFactoryService ProjectionBufferFactory { get; set; }
 
         public ITextViewModel CreateTextViewModel(ITextDataModel dataModel, ITextViewRoleSet roles)
         {

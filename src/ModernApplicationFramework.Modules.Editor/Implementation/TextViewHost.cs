@@ -14,33 +14,30 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
 {
     internal class TextViewHost : ContentControl, ITextViewHost
     {
-        private bool _isClosed;
-        private readonly bool _setFocus;
-        private readonly TextEditorFactoryService _factory;
-        private bool _hasInitializeBeenCalled;
-        private Grid _outerGrid;
-        private readonly ITextView _textView;
         private static ResourceDictionary _editorResources;
         private readonly IList<ITextViewMargin> _edges = new List<ITextViewMargin>(5);
+        private readonly TextEditorFactoryService _factory;
+        private readonly bool _setFocus;
         private readonly MouseWheelHelper _wheelHelper = new MouseWheelHelper();
+        private Grid _outerGrid;
 
         public event EventHandler Closed;
 
-        public bool IsClosed => _isClosed;
-
         public Control HostControl => this;
 
-        public ITextView TextView => _textView;
+        public bool IsClosed { get; private set; }
 
         public bool IsReadOnly { get; set; }
 
-        internal bool IsTextViewHostInitialized => _hasInitializeBeenCalled;
+        public ITextView TextView { get; }
+
+        internal bool IsTextViewHostInitialized { get; private set; }
 
         public TextViewHost(ITextView textView, bool setFocus, TextEditorFactoryService factory, bool initialize = true)
         {
             InputMethod.SetIsInputMethodSuspended(this, true);
             Name = nameof(TextViewHost);
-            _textView = textView;
+            TextView = textView;
             _setFocus = setFocus;
             _factory = factory;
             if (!initialize)
@@ -50,15 +47,15 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
 
         public void Close()
         {
-            if (_isClosed)
+            if (IsClosed)
                 throw new InvalidOperationException();
             Resources.MergedDictionaries.Clear();
             MouseWheel -= OnMouseWheel;
-            _textView.BackgroundBrushChanged -= OnBackgroundBrushChanged;
+            TextView.BackgroundBrushChanged -= OnBackgroundBrushChanged;
             foreach (var edge in _edges)
                 edge.Dispose();
-            _textView.Close();
-            _isClosed = true;
+            TextView.Close();
+            IsClosed = true;
             _factory.GuardedOperations.RaiseEvent(this, Closed);
         }
 
@@ -66,22 +63,32 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
         {
             if (marginName == null)
                 throw new ArgumentNullException(nameof(marginName));
-            if (!_hasInitializeBeenCalled)
-                throw new InvalidOperationException("The margnins of the text view host have bot been initialized yet.");
-            return _edges.Select(edge => edge.GetTextViewMargin(marginName)).FirstOrDefault(textViewMargin => textViewMargin != null);
+            if (!IsTextViewHostInitialized)
+                throw new InvalidOperationException(
+                    "The margnins of the text view host have bot been initialized yet.");
+            return _edges.Select(edge => edge.GetTextViewMargin(marginName))
+                .FirstOrDefault(textViewMargin => textViewMargin != null);
         }
 
         public void OnMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (_textView.InLayout)
+            if (TextView.InLayout)
                 return;
             using (_factory.PerformanceBlockMarker.CreateBlock("TextEditor.Scroll.MouseWheel"))
-                _wheelHelper.HandleMouseWheelEvent(_textView, sender, e);
+            {
+                _wheelHelper.HandleMouseWheelEvent(TextView, sender, e);
+            }
+        }
+
+        internal static T LoadResourceValue<T>(string xamlName)
+        {
+            return (T) Application.LoadComponent(new Uri(
+                "/" + Assembly.GetExecutingAssembly().GetName().Name + ";component/" + xamlName, UriKind.Relative));
         }
 
         internal void Initialize()
         {
-            if(_hasInitializeBeenCalled)
+            if (IsTextViewHostInitialized)
                 throw new InvalidOperationException();
             MouseWheel += OnMouseWheel;
             Focusable = false;
@@ -98,29 +105,54 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             _outerGrid.RowDefinitions.Add(rowDefinition1);
             _outerGrid.RowDefinitions.Add(rowDefinition2);
             _outerGrid.RowDefinitions.Add(rowDefinition3);
-            _outerGrid.Background = _textView.Background;
+            _outerGrid.Background = TextView.Background;
             _outerGrid.ShowGridLines = false;
-            _textView.BackgroundBrushChanged += OnBackgroundBrushChanged;
+            TextView.BackgroundBrushChanged += OnBackgroundBrushChanged;
             Content = _outerGrid;
             PlaceEdge(0, 1, 1, LeftMargin.Create(this, _factory.GuardedOperations, _factory.MarginState));
-            PlaceEdge(2, 1, 1, ContainerMargin.Create("Right", Orientation.Vertical, this, _factory.GuardedOperations, _factory.MarginState));
-            PlaceEdge(0, 0, 3, ContainerMargin.Create("Top", Orientation.Horizontal, this, _factory.GuardedOperations, _factory.MarginState));
-            PlaceEdge(0, 2, 2, ContainerMargin.Create("Bottom", Orientation.Horizontal, this, _factory.GuardedOperations, _factory.MarginState));
-            PlaceEdge(2, 2, 1, ContainerMargin.Create("BottomRightCorner", Orientation.Horizontal, this, _factory.GuardedOperations, _factory.MarginState));
-            Grid.SetRow(_textView.VisualElement, 1);
-            Grid.SetColumn(_textView.VisualElement, 1);
-            _outerGrid.Children.Add(_textView.VisualElement);
+            PlaceEdge(2, 1, 1,
+                ContainerMargin.Create("Right", Orientation.Vertical, this, _factory.GuardedOperations,
+                    _factory.MarginState));
+            PlaceEdge(0, 0, 3,
+                ContainerMargin.Create("Top", Orientation.Horizontal, this, _factory.GuardedOperations,
+                    _factory.MarginState));
+            PlaceEdge(0, 2, 2,
+                ContainerMargin.Create("Bottom", Orientation.Horizontal, this, _factory.GuardedOperations,
+                    _factory.MarginState));
+            PlaceEdge(2, 2, 1,
+                ContainerMargin.Create("BottomRightCorner", Orientation.Horizontal, this, _factory.GuardedOperations,
+                    _factory.MarginState));
+            Grid.SetRow(TextView.VisualElement, 1);
+            Grid.SetColumn(TextView.VisualElement, 1);
+            _outerGrid.Children.Add(TextView.VisualElement);
             if (_editorResources == null)
                 _editorResources = LoadResourceValue<ResourceDictionary>("Themes/Generic/EditorResources.xaml");
-            _hasInitializeBeenCalled = true;
+            IsTextViewHostInitialized = true;
             if (!_setFocus)
                 return;
             SetFocusToViewLater();
         }
 
+        private static bool IsFocusedElementBetween(object parent, DependencyObject descendant)
+        {
+            for (;
+                parent != descendant && descendant != null;
+                descendant = LogicalTreeHelper.GetParent(descendant) ?? VisualTreeHelper.GetParent(descendant))
+                if (descendant is UIElement uiElement && uiElement.Focusable)
+                    return true;
+            return false;
+        }
+
         private void OnBackgroundBrushChanged(object sender, BackgroundBrushChangedEventArgs e)
         {
             _outerGrid.Background = e.NewBackgroundBrush;
+        }
+
+        private void OnMarginPreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (TextView.IsClosed || IsFocusedElementBetween(sender, e.OriginalSource as DependencyObject))
+                return;
+            SetFocusToViewLater();
         }
 
         private void PlaceEdge(int column, int row, int colSpan, ITextViewMargin margin)
@@ -133,37 +165,14 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             margin.VisualElement.PreviewMouseDown += OnMarginPreviewMouseDown;
         }
 
-        private void OnMarginPreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (_textView.IsClosed || IsFocusedElementBetween(sender, e.OriginalSource as DependencyObject))
-                return;
-            SetFocusToViewLater();
-        }
-
-        private static bool IsFocusedElementBetween(object parent, DependencyObject descendant)
-        {
-            for (; parent != descendant && descendant != null; descendant = LogicalTreeHelper.GetParent(descendant) ?? VisualTreeHelper.GetParent(descendant))
-            {
-                if (descendant is UIElement uiElement && uiElement.Focusable)
-                    return true;
-            }
-            return false;
-        }
-
         private void SetFocusToViewLater()
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Render, (Action)(() =>
+            Dispatcher.BeginInvoke(DispatcherPriority.Render, (Action) (() =>
             {
-                if (_textView.IsClosed)
+                if (TextView.IsClosed)
                     return;
-                _textView.VisualElement.Focus();
+                TextView.VisualElement.Focus();
             }));
-        }
-
-        internal static T LoadResourceValue<T>(string xamlName)
-        {
-            return (T) Application.LoadComponent(new Uri(
-                "/" + Assembly.GetExecutingAssembly().GetName().Name + ";component/" + xamlName, UriKind.Relative));
         }
     }
 }

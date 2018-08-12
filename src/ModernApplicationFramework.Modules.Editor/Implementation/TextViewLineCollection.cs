@@ -14,8 +14,8 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
     public sealed class TextViewLineCollection : ITextViewLineCollection
     {
         private readonly SnapshotSpan _formattedSpan;
-        private ITextView _textView;
         private readonly ReadOnlyCollection<ITextViewLine> _textLines;
+        private ITextView _textView;
 
         public int Count => _textLines.Count;
 
@@ -30,12 +30,6 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                     line = _textLines[1];
                 return line;
             }
-        }
-
-        private void ThrowIfInvalid()
-        {
-            if (!IsValid)
-                throw new ObjectDisposedException(nameof(TextViewLineCollection));
         }
 
         public SnapshotSpan FormattedSpan
@@ -106,7 +100,7 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
         {
             ThrowIfInvalid();
             ValidateBufferPosition(bufferPosition);
-            if (bufferPosition < (int)_formattedSpan.Start)
+            if (bufferPosition < (int) _formattedSpan.Start)
                 return false;
             var snapshotPoint1 = bufferPosition;
             var formattedSpan = _formattedSpan;
@@ -192,10 +186,14 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             {
                 textBoundsList.AddRange(intersectingSpan[0].GetNormalizedTextBounds(bufferSpan));
                 for (var index = 1; index < intersectingSpan.Count - 1; ++index)
-                    textBoundsList.Add(new TextBounds(intersectingSpan[index].Left, intersectingSpan[index].Top, intersectingSpan[index].Width, intersectingSpan[index].Height, intersectingSpan[index].TextTop, intersectingSpan[index].TextHeight));
+                    textBoundsList.Add(new TextBounds(intersectingSpan[index].Left, intersectingSpan[index].Top,
+                        intersectingSpan[index].Width, intersectingSpan[index].Height, intersectingSpan[index].TextTop,
+                        intersectingSpan[index].TextHeight));
                 if (intersectingSpan.Count > 1)
-                    textBoundsList.AddRange(intersectingSpan[intersectingSpan.Count - 1].GetNormalizedTextBounds(bufferSpan));
+                    textBoundsList.AddRange(intersectingSpan[intersectingSpan.Count - 1]
+                        .GetNormalizedTextBounds(bufferSpan));
             }
+
             return new Collection<TextBounds>(textBoundsList);
         }
 
@@ -275,7 +273,7 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
         {
             ThrowIfInvalid();
             ValidateBufferSpan(bufferSpan);
-            if (bufferSpan.End < (int)FormattedSpan.Start)
+            if (bufferSpan.End < (int) FormattedSpan.Start)
                 return false;
             var start1 = bufferSpan.Start;
             var formattedSpan = _formattedSpan;
@@ -288,6 +286,11 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             if (start2 == end2 && bufferSpan.Start == _textView.TextSnapshot.Length)
                 return _textLines[_textLines.Count - 1].LineBreakLength == 0;
             return false;
+        }
+
+        public void Invalidate()
+        {
+            _textView = null;
         }
 
         public bool Remove(ITextViewLine item)
@@ -306,10 +309,14 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
         }
 
 
-        internal Geometry GetMarkerGeometry(SnapshotSpan bufferSpan, bool clipToBounds, Thickness padding, bool useTextBounds)
+        internal Geometry GetMarkerGeometry(SnapshotSpan bufferSpan, bool clipToBounds, Thickness padding,
+            bool useTextBounds)
         {
             ValidateBufferSpan(bufferSpan);
-            return Markers.GetMarkerGeometryFromRectangles(Markers.GetRectanglesFromBounds(GetNormalizedTextBounds(bufferSpan), padding, clipToBounds ? _textView.ViewportLeft - 2.0 : double.MinValue, clipToBounds ? _textView.ViewportRight + 2.0 : double.MaxValue, useTextBounds));
+            return Markers.GetMarkerGeometryFromRectangles(Markers.GetRectanglesFromBounds(
+                GetNormalizedTextBounds(bufferSpan), padding,
+                clipToBounds ? _textView.ViewportLeft - 2.0 : double.MinValue,
+                clipToBounds ? _textView.ViewportRight + 2.0 : double.MaxValue, useTextBounds));
         }
 
         private static IList<ITextViewLine> CreateOffsetTextLines(IList<IFormattedLine> textLines)
@@ -321,18 +328,6 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             var wpfTextViewLineList = new List<ITextViewLine>(textLines.Count);
             wpfTextViewLineList.AddRange(textLines);
             return wpfTextViewLineList;
-        }
-
-        private void ValidateBufferPosition(SnapshotPoint bufferPosition)
-        {
-            if (bufferPosition.Snapshot != _formattedSpan.Snapshot)
-                throw new ArgumentException();
-        }
-
-        private void ValidateBufferSpan(SnapshotSpan bufferSpan)
-        {
-            if (bufferSpan.Snapshot != _formattedSpan.Snapshot)
-                throw new ArgumentException();
         }
 
         private int FindTextViewLineIndexContainingBufferPosition(SnapshotPoint position)
@@ -349,6 +344,7 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                     return -1;
                 return _textLines.Count - 1;
             }
+
             var num1 = 0;
             var num2 = _textLines.Count;
             while (num1 < num2)
@@ -363,6 +359,7 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                 else
                     num1 = index + 1;
             }
+
             return num1 - 1;
         }
 
@@ -381,6 +378,7 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                 else
                     num1 = index + 1;
             }
+
             var index1 = num1 - 1;
             var textTop = _textLines[index1].TextTop;
             var num3 = _textLines[index1].TextBottom + 1.0;
@@ -394,13 +392,29 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                 }
             }
             else if (y > num3 && index1 < _textLines.Count - 1 && _textLines[index1 + 1].TextTop - y < y - num3)
+            {
                 ++index1;
+            }
+
             return index1;
         }
 
-        public void Invalidate()
+        private void ThrowIfInvalid()
         {
-            _textView = null;
+            if (!IsValid)
+                throw new ObjectDisposedException(nameof(TextViewLineCollection));
+        }
+
+        private void ValidateBufferPosition(SnapshotPoint bufferPosition)
+        {
+            if (bufferPosition.Snapshot != _formattedSpan.Snapshot)
+                throw new ArgumentException();
+        }
+
+        private void ValidateBufferSpan(SnapshotSpan bufferSpan)
+        {
+            if (bufferSpan.Snapshot != _formattedSpan.Snapshot)
+                throw new ArgumentException();
         }
     }
 }

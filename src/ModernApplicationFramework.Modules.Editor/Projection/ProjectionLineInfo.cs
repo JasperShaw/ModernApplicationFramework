@@ -2,11 +2,11 @@
 {
     internal struct ProjectionLineInfo
     {
+        public int End;
+        public bool EndComplete;
+        public int LineBreakLength;
         public int LineNumber;
         public int Start;
-        public int End;
-        public int LineBreakLength;
         public bool StartComplete;
-        public bool EndComplete;
     }
 }

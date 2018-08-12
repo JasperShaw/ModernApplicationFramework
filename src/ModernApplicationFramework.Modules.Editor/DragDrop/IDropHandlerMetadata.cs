@@ -6,9 +6,8 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
 {
     public interface IDropHandlerMetadata : IOrderable
     {
-        IEnumerable<string> DropFormats { get; }
+        [DefaultValue(null)] IEnumerable<string> ContentTypes { get; }
 
-        [DefaultValue(null)]
-        IEnumerable<string> ContentTypes { get; }
+        IEnumerable<string> DropFormats { get; }
     }
 }

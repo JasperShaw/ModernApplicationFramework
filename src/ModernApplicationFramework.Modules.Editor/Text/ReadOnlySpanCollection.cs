@@ -10,17 +10,6 @@ namespace ModernApplicationFramework.Modules.Editor.Text
     {
         private readonly List<IReadOnlyRegion> _regionsWithActions;
 
-        internal IEnumerable<ReadOnlySpan> QueryAllEffectiveReadOnlySpans(ITextVersion version)
-        {
-            foreach (var readOnlySpan in this)
-                yield return readOnlySpan;
-            foreach (var regionsWithAction in _regionsWithActions)
-            {
-                if (regionsWithAction.QueryCallback(false))
-                    yield return new ReadOnlySpan(version, regionsWithAction);
-            }
-        }
-
         internal ReadOnlySpanCollection(TextVersion version, IEnumerable<IReadOnlyRegion> regions)
             : base(NormalizeSpans(version, regions))
         {
@@ -30,16 +19,33 @@ namespace ModernApplicationFramework.Modules.Editor.Text
         internal bool IsReadOnly(int position, ITextSnapshot textSnapshot, bool notify)
         {
             foreach (var regionsWithAction in _regionsWithActions)
-            {
-                if (!IsEditAllowed(regionsWithAction, position, textSnapshot) && regionsWithAction.QueryCallback(notify))
+                if (!IsEditAllowed(regionsWithAction, position, textSnapshot) &&
+                    regionsWithAction.QueryCallback(notify))
                     return true;
-            }
             for (var index = 0; index < Count; ++index)
-            {
                 if (!this[index].IsInsertAllowed(position, textSnapshot))
                     return true;
-            }
             return false;
+        }
+
+        internal bool IsReadOnly(Span span, ITextSnapshot textSnapshot, bool notify)
+        {
+            foreach (var regionsWithAction in _regionsWithActions)
+                if (!IsEditAllowed(regionsWithAction, span, textSnapshot) && regionsWithAction.QueryCallback(notify))
+                    return true;
+            for (var index = 0; index < Count; ++index)
+                if (!this[index].IsReplaceAllowed(span, textSnapshot))
+                    return true;
+            return false;
+        }
+
+        internal IEnumerable<ReadOnlySpan> QueryAllEffectiveReadOnlySpans(ITextVersion version)
+        {
+            foreach (var readOnlySpan in this)
+                yield return readOnlySpan;
+            foreach (var regionsWithAction in _regionsWithActions)
+                if (regionsWithAction.QueryCallback(false))
+                    yield return new ReadOnlySpan(version, regionsWithAction);
         }
 
         private static bool IsEditAllowed(IReadOnlyRegion region, int position, ITextSnapshot textSnapshot)
@@ -52,32 +58,18 @@ namespace ModernApplicationFramework.Modules.Editor.Text
             return new ReadOnlySpan(textSnapshot.Version, region).IsReplaceAllowed(span, textSnapshot);
         }
 
-        internal bool IsReadOnly(Span span, ITextSnapshot textSnapshot, bool notify)
-        {
-            foreach (var regionsWithAction in _regionsWithActions)
-            {
-                if (!IsEditAllowed(regionsWithAction, span, textSnapshot) && regionsWithAction.QueryCallback(notify))
-                    return true;
-            }
-            for (var index = 0; index < Count; ++index)
-            {
-                if (!this[index].IsReplaceAllowed(span, textSnapshot))
-                    return true;
-            }
-            return false;
-        }
-
         private static IList<ReadOnlySpan> NormalizeSpans(TextVersion version, IEnumerable<IReadOnlyRegion> regions)
         {
             var readOnlyRegionList = new List<IReadOnlyRegion>(regions.Where(region => region.QueryCallback == null));
             if (readOnlyRegionList.Count == 0)
                 return new FrugalList<ReadOnlySpan>();
             if (readOnlyRegionList.Count == 1)
-                return new FrugalList<ReadOnlySpan>()
+                return new FrugalList<ReadOnlySpan>
                 {
                     new ReadOnlySpan(version, readOnlyRegionList[0])
                 };
-            readOnlyRegionList.Sort((s1, s2) => s1.Span.GetSpan(version).Start.CompareTo(s2.Span.GetSpan(version).Start));
+            readOnlyRegionList.Sort(
+                (s1, s2) => s1.Span.GetSpan(version).Start.CompareTo(s2.Span.GetSpan(version).Start));
             var readOnlySpanList = new List<ReadOnlySpan>(readOnlyRegionList.Count);
             var start1 = readOnlyRegionList[0].Span.GetSpan(version).Start;
             var num = readOnlyRegionList[0].Span.GetSpan(version).End;
@@ -90,7 +82,8 @@ namespace ModernApplicationFramework.Modules.Editor.Text
                 var end = readOnlyRegionList[index].Span.GetSpan(version).End;
                 if (num < start2)
                 {
-                    readOnlySpanList.Add(new ReadOnlySpan(version, new Span(start1, num - start1), trackingMode, startEdgeInsertionMode, endEdgeInsertionMode));
+                    readOnlySpanList.Add(new ReadOnlySpan(version, new Span(start1, num - start1), trackingMode,
+                        startEdgeInsertionMode, endEdgeInsertionMode));
                     start1 = start2;
                     num = end;
                     startEdgeInsertionMode = readOnlyRegionList[index].EdgeInsertionMode;
@@ -106,10 +99,13 @@ namespace ModernApplicationFramework.Modules.Editor.Text
                         if (trackingMode != readOnlyRegionList[index].Span.TrackingMode)
                         {
                             if (num == end)
+                            {
                                 trackingMode = SpanTrackingMode.EdgeInclusive;
+                            }
                             else if (num < end)
                             {
-                                readOnlySpanList.Add(new ReadOnlySpan(version, new Span(start1, num - start1), SpanTrackingMode.EdgeInclusive, startEdgeInsertionMode, EdgeInsertionMode.Deny));
+                                readOnlySpanList.Add(new ReadOnlySpan(version, new Span(start1, num - start1),
+                                    SpanTrackingMode.EdgeInclusive, startEdgeInsertionMode, EdgeInsertionMode.Deny));
                                 start1 = num;
                                 num = end;
                                 startEdgeInsertionMode = readOnlyRegionList[index].EdgeInsertionMode;
@@ -118,19 +114,26 @@ namespace ModernApplicationFramework.Modules.Editor.Text
                             }
                             else
                             {
-                                readOnlySpanList.Add(new ReadOnlySpan(version, new Span(start2, end - start2), SpanTrackingMode.EdgeInclusive, startEdgeInsertionMode, EdgeInsertionMode.Deny));
+                                readOnlySpanList.Add(new ReadOnlySpan(version, new Span(start2, end - start2),
+                                    SpanTrackingMode.EdgeInclusive, startEdgeInsertionMode, EdgeInsertionMode.Deny));
                                 start1 = end;
                             }
                         }
                     }
+
                     if (num < end)
                     {
-                        if (num == start2 && endEdgeInsertionMode == EdgeInsertionMode.Allow && readOnlyRegionList[index].EdgeInsertionMode == EdgeInsertionMode.Allow || trackingMode != readOnlyRegionList[index].Span.TrackingMode)
+                        if (num == start2 && endEdgeInsertionMode == EdgeInsertionMode.Allow &&
+                            readOnlyRegionList[index].EdgeInsertionMode == EdgeInsertionMode.Allow ||
+                            trackingMode != readOnlyRegionList[index].Span.TrackingMode)
                         {
-                            readOnlySpanList.Add(new ReadOnlySpan(version, new Span(start1, num - start1), trackingMode, startEdgeInsertionMode, endEdgeInsertionMode));
+                            readOnlySpanList.Add(new ReadOnlySpan(version, new Span(start1, num - start1), trackingMode,
+                                startEdgeInsertionMode, endEdgeInsertionMode));
                             start1 = num;
                             num = end;
-                            startEdgeInsertionMode = trackingMode == readOnlyRegionList[index].Span.TrackingMode ? EdgeInsertionMode.Allow : EdgeInsertionMode.Deny;
+                            startEdgeInsertionMode = trackingMode == readOnlyRegionList[index].Span.TrackingMode
+                                ? EdgeInsertionMode.Allow
+                                : EdgeInsertionMode.Deny;
                             endEdgeInsertionMode = readOnlyRegionList[index].EdgeInsertionMode;
                             trackingMode = readOnlyRegionList[index].Span.TrackingMode;
                         }
@@ -146,7 +149,8 @@ namespace ModernApplicationFramework.Modules.Editor.Text
                             endEdgeInsertionMode = EdgeInsertionMode.Deny;
                         if (trackingMode != readOnlyRegionList[index].Span.TrackingMode)
                         {
-                            readOnlySpanList.Add(new ReadOnlySpan(version, new Span(start1, num - start1), trackingMode, startEdgeInsertionMode, endEdgeInsertionMode));
+                            readOnlySpanList.Add(new ReadOnlySpan(version, new Span(start1, num - start1), trackingMode,
+                                startEdgeInsertionMode, endEdgeInsertionMode));
                             start1 = end;
                             num = end;
                             startEdgeInsertionMode = readOnlyRegionList[index].EdgeInsertionMode;
@@ -156,7 +160,9 @@ namespace ModernApplicationFramework.Modules.Editor.Text
                     }
                 }
             }
-            readOnlySpanList.Add(new ReadOnlySpan(version, new Span(start1, num - start1), trackingMode, startEdgeInsertionMode, endEdgeInsertionMode));
+
+            readOnlySpanList.Add(new ReadOnlySpan(version, new Span(start1, num - start1), trackingMode,
+                startEdgeInsertionMode, endEdgeInsertionMode));
             return readOnlySpanList;
         }
     }

@@ -12,12 +12,12 @@ namespace ModernApplicationFramework.Modules.Editor.UrlTagger
     [Name("UrlTagger")]
     internal sealed class UrlTaggerProvider : ITaggerProvider
     {
-        [Import]
-        internal IEditorOptionsFactoryService EditorOptionsFactory;
+        [Import] internal IEditorOptionsFactoryService EditorOptionsFactory;
 
         public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag
         {
-            return new UrlTagger(EditorOptionsFactory.GetOptions(buffer).GetOptionValue(DefaultOptions.LongBufferLineThresholdId)) as ITagger<T>;
+            return new UrlTagger(EditorOptionsFactory.GetOptions(buffer)
+                .GetOptionValue(DefaultOptions.LongBufferLineThresholdId)) as ITagger<T>;
         }
     }
 }
