@@ -120,7 +120,7 @@ namespace ModernApplicationFramework.Basics.Services
         /// </summary>
         /// <param name="position">The absolte position.</param>
         /// <exception cref="NotImplementedException"></exception>
-        public void ShowContextMenu(Point position)
+        public void ShowContextMenu(Point position, Guid contextMenu)
         {
             var cm = new ContextMenu();
             cm.Placement = PlacementMode.Absolute;
