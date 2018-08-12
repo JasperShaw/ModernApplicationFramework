@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Text.Logic.Operations;
+using ModernApplicationFramework.Text.Utilities;
 
 namespace ModernApplicationFramework.TextEditor
 {
