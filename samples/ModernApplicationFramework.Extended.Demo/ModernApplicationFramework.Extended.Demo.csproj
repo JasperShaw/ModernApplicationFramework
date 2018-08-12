@@ -352,7 +352,7 @@
       <Project>{240cc7db-f3a0-48e7-a8eb-5785a90128be}</Project>
       <Name>ModernApplicationFramework.Settings</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\ModernApplicationFramework.TextEditor\ModernApplicationFramework.Editor.csproj">
+    <ProjectReference Include="..\..\src\ModernApplicationFramework.Editor\ModernApplicationFramework.Editor.csproj">
       <Project>{02E01928-3C7B-4428-9F68-7DB8B932C24E}</Project>
       <Name>ModernApplicationFramework.Editor</Name>
     </ProjectReference>

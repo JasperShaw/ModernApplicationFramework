@@ -119,7 +119,7 @@
       <Project>{8eb8c0dc-55f0-4c32-b4a5-e45850c42f2f}</Project>
       <Name>ModernApplicationFramework.Modules.Editor</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ModernApplicationFramework.TextEditor\ModernApplicationFramework.Editor.csproj">
+    <ProjectReference Include="..\ModernApplicationFramework.Editor\ModernApplicationFramework.Editor.csproj">
       <Project>{02E01928-3C7B-4428-9F68-7DB8B932C24E}</Project>
       <Name>ModernApplicationFramework.Editor</Name>
     </ProjectReference>
