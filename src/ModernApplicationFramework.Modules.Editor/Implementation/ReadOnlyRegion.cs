@@ -1,5 +1,5 @@
 ﻿using System.Globalization;
-using ModernApplicationFramework.Modules.Editor.Text.Implementation;
+using ModernApplicationFramework.Modules.Editor.Text;
 using ModernApplicationFramework.Text.Data;
 
 namespace ModernApplicationFramework.Modules.Editor.Implementation

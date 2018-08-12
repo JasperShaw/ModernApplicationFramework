@@ -8,7 +8,6 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using ModernApplicationFramework.Modules.Editor.NativeMethods;
-using ModernApplicationFramework.TextEditor.NativeMethods;
 
 namespace ModernApplicationFramework.Modules.Editor.Utilities
 {

@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace ModernApplicationFramework.TextEditor.NativeMethods
+namespace ModernApplicationFramework.Modules.Editor.NativeMethods
 {
     internal static class Imm32
     {
