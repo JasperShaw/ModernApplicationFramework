@@ -165,7 +165,7 @@ namespace ModernApplicationFramework.Extended.Input.KeyBindingScheme
             if (scope == null)
                 return null;
             return new GestureScopeMapping(scope,
-                (MultiKeyGesture) new MultiKeyGestureConverter().ConvertFrom(null, CultureInfo.CurrentCulture,
+                (MultiKeyGesture) new MultiKeyGestureConverter().ConvertFrom(null, CultureInfo.InvariantCulture,
                     shortcut.Value));
         }
 
