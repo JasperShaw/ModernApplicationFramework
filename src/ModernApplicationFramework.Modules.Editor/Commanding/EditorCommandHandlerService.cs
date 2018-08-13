@@ -15,15 +15,15 @@ namespace ModernApplicationFramework.Modules.Editor.Commanding
     {
         private static readonly Action EmptyAction = () => { };
 
-        private static readonly IReadOnlyList<Lazy<ICommandHandler, ICommandHandlerMetadata>> EmptyHandlerList =
-            new List<Lazy<ICommandHandler, ICommandHandlerMetadata>>(0);
+        private static readonly IReadOnlyList<Lazy<ITextEditCommand, ICommandHandlerMetadata>> EmptyHandlerList =
+            new List<Lazy<ITextEditCommand, ICommandHandlerMetadata>>(0);
 
         private static readonly Func<CommandState> UnavalableCommandFunc = () => CommandState.Unavailable;
         private readonly ICommandingTextBufferResolver _bufferResolver;
 
-        private readonly IEnumerable<Lazy<ICommandHandler, ICommandHandlerMetadata>> _commandHandlers;
+        private readonly IEnumerable<Lazy<ITextEditCommand, ICommandHandlerMetadata>> _commandHandlers;
 
-        private readonly Dictionary<(Type, IContentType), IReadOnlyList<Lazy<ICommandHandler, ICommandHandlerMetadata>>>
+        private readonly Dictionary<(Type, IContentType), IReadOnlyList<Lazy<ITextEditCommand, ICommandHandlerMetadata>>>
             _commandHandlersByTypeAndContentType;
 
         private readonly StableContentTypeComparer _contentTypesComparer;
@@ -32,7 +32,7 @@ namespace ModernApplicationFramework.Modules.Editor.Commanding
         private readonly IUiThreadOperationExecutor _uiThreadOperationExecutor;
 
         public EditorCommandHandlerService(ITextView textView,
-            IEnumerable<Lazy<ICommandHandler, ICommandHandlerMetadata>> commandHandlers,
+            IEnumerable<Lazy<ITextEditCommand, ICommandHandlerMetadata>> commandHandlers,
             IUiThreadOperationExecutor operationExecutor, StableContentTypeComparer contentTypesComparer,
             ICommandingTextBufferResolver bufferResolver, IGuardedOperations guardedOperations)
         {
@@ -45,7 +45,7 @@ namespace ModernApplicationFramework.Modules.Editor.Commanding
                 contentTypesComparer ?? throw new ArgumentNullException(nameof(contentTypesComparer));
             _commandHandlersByTypeAndContentType =
                 new Dictionary<ValueTuple<Type, IContentType>,
-                    IReadOnlyList<Lazy<ICommandHandler, ICommandHandlerMetadata>>>();
+                    IReadOnlyList<Lazy<ITextEditCommand, ICommandHandlerMetadata>>>();
             _bufferResolver = bufferResolver ?? throw new ArgumentNullException(nameof(bufferResolver));
             _guardedOperations = guardedOperations ?? throw new ArgumentNullException(nameof(guardedOperations));
         }
@@ -116,7 +116,7 @@ namespace ModernApplicationFramework.Modules.Editor.Commanding
             }
         }
 
-        internal IEnumerable<ValueTuple<ITextBuffer, ICommandHandler>> GetOrderedBuffersAndCommandHandlers<T>()
+        internal IEnumerable<ValueTuple<ITextBuffer, ITextEditCommand>> GetOrderedBuffersAndCommandHandlers<T>()
             where T : EditorCommandArgs
         {
             var buffers = (IReadOnlyList<ITextBuffer>) _bufferResolver.ResolveBuffersForCommand<T>().ToArray();
@@ -129,7 +129,7 @@ namespace ModernApplicationFramework.Modules.Editor.Commanding
                             _textView.Roles));
                 while (true)
                 {
-                    var currentHandler = (Lazy<ICommandHandler, ICommandHandlerMetadata>) null;
+                    var currentHandler = (Lazy<ITextEditCommand, ICommandHandlerMetadata>) null;
                     var currentHandlerBufferIndex = 0;
 
                     for (var index = 0; index < handlerBuckets.Length; ++index)
@@ -152,14 +152,14 @@ namespace ModernApplicationFramework.Modules.Editor.Commanding
                                 {
                                     foundBetterHandler = true;
                                     handlerBuckets[i].Pop();
-                                    yield return new ValueTuple<ITextBuffer, ICommandHandler>(buffers[i], lazy.Value);
+                                    yield return new ValueTuple<ITextBuffer, ITextEditCommand>(buffers[i], lazy.Value);
                                     break;
                                 }
                             }
 
                         if (foundBetterHandler)
                             continue;
-                        yield return new ValueTuple<ITextBuffer, ICommandHandler>(buffers[currentHandlerBufferIndex],
+                        yield return new ValueTuple<ITextBuffer, ITextEditCommand>(buffers[currentHandlerBufferIndex],
                             currentHandler.Value);
                         handlerBuckets[currentHandlerBufferIndex].Pop();
                     }
@@ -208,8 +208,8 @@ namespace ModernApplicationFramework.Modules.Editor.Commanding
             return handlerMetadata.TextViewRoles.Any(roles.Contains);
         }
 
-        private static IEnumerable<Lazy<ICommandHandler, ICommandHandlerMetadata>> SelectMatchingCommandHandlers(
-            IEnumerable<Lazy<ICommandHandler, ICommandHandlerMetadata>> commandHandlers, IContentType contentType,
+        private static IEnumerable<Lazy<ITextEditCommand, ICommandHandlerMetadata>> SelectMatchingCommandHandlers(
+            IEnumerable<Lazy<ITextEditCommand, ICommandHandlerMetadata>> commandHandlers, IContentType contentType,
             ITextViewRoleSet textViewRoles)
         {
             return commandHandlers.Where(commandHandler =>
@@ -223,21 +223,21 @@ namespace ModernApplicationFramework.Modules.Editor.Commanding
                 _uiThreadOperationExecutor.BeginExecute(null, "Wait for Command Execution", true, true));
         }
 
-        private IReadOnlyList<Lazy<ICommandHandler, ICommandHandlerMetadata>> GetOrCreateOrderedHandlers<T>(
+        private IReadOnlyList<Lazy<ITextEditCommand, ICommandHandlerMetadata>> GetOrCreateOrderedHandlers<T>(
             IContentType contentType, ITextViewRoleSet textViewRoles) where T : EditorCommandArgs
         {
             var key = new ValueTuple<Type, IContentType>(typeof(T), contentType);
             if (!_commandHandlersByTypeAndContentType.TryGetValue(key, out var lazyList))
             {
-                var source = (IList<Lazy<ICommandHandler, ICommandHandlerMetadata>>) null;
+                var source = (IList<Lazy<ITextEditCommand, ICommandHandlerMetadata>>) null;
                 foreach (var matchingCommandHandler in SelectMatchingCommandHandlers(_commandHandlers, contentType,
                     textViewRoles))
                 {
                     var commandHandler = _guardedOperations.InstantiateExtension(this, matchingCommandHandler);
-                    if (commandHandler is ICommandHandler<T> || commandHandler is IChainedCommandHandler<T>)
+                    if (commandHandler is ITextEditCommand<T> || commandHandler is IChainedTextEditCommand<T>)
                     {
                         if (source == null)
-                            source = new FrugalList<Lazy<ICommandHandler, ICommandHandlerMetadata>>();
+                            source = new FrugalList<Lazy<ITextEditCommand, ICommandHandlerMetadata>>();
                         source.Add(matchingCommandHandler);
                     }
                 }

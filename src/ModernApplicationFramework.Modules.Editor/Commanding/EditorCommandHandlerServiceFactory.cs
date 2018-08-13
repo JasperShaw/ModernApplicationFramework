@@ -19,7 +19,7 @@ namespace ModernApplicationFramework.Modules.Editor.Commanding
         private readonly IList<Lazy<ICommandingTextBufferResolverProvider, IContentTypeMetadata>>
             _bufferResolverProviders;
 
-        private readonly IEnumerable<Lazy<ICommandHandler, ICommandHandlerMetadata>> _commandHandlers;
+        private readonly IEnumerable<Lazy<ITextEditCommand, ICommandHandlerMetadata>> _commandHandlers;
         private readonly StableContentTypeComparer _contentTypeComparer;
         private readonly IContentTypeRegistryService _contentTypeRegistryService;
         private readonly IGuardedOperations _guardedOperations;
@@ -28,7 +28,7 @@ namespace ModernApplicationFramework.Modules.Editor.Commanding
 
         [ImportingConstructor]
         public EditorCommandHandlerServiceFactory(
-            [ImportMany] IEnumerable<Lazy<ICommandHandler, ICommandHandlerMetadata>> commandHandlers,
+            [ImportMany] IEnumerable<Lazy<ITextEditCommand, ICommandHandlerMetadata>> commandHandlers,
             [ImportMany] IEnumerable<Lazy<ICommandingTextBufferResolverProvider, IContentTypeMetadata>> bufferResolvers,
             IUiThreadOperationExecutor uiThreadOperationExecutor,
             //JoinableTaskContext joinableTaskContext, 
@@ -66,8 +66,8 @@ namespace ModernApplicationFramework.Modules.Editor.Commanding
                 new SingleBufferResolver(subjectBuffer), _guardedOperations);
         }
 
-        private IEnumerable<Lazy<ICommandHandler, ICommandHandlerMetadata>> OrderCommandHandlers(
-            IEnumerable<Lazy<ICommandHandler, ICommandHandlerMetadata>> commandHandlers)
+        private IEnumerable<Lazy<ITextEditCommand, ICommandHandlerMetadata>> OrderCommandHandlers(
+            IEnumerable<Lazy<ITextEditCommand, ICommandHandlerMetadata>> commandHandlers)
         {
             var source = commandHandlers;
             var contentTypeComparer = _contentTypeComparer;
