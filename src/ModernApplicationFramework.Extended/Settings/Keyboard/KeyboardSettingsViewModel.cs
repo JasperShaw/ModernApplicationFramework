@@ -292,6 +292,8 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
 
         private bool CanAssignGesture()
         {
+            if (SelectedCommand == null)
+                return false;
             if (SelectedCommand.AllowGestureMapping)
                 return !string.IsNullOrEmpty(GestureInput);
             return false;
