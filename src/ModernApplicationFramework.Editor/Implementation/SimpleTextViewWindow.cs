@@ -496,7 +496,6 @@ namespace ModernApplicationFramework.Editor.Implementation
 
             if (pos != null)
             {
-                //TODO:
                 if (GetData(MafUserDataFormat.ContextMenuId, out var data) == 0 && data is Guid contextMenuId)
                     IoC.Get<IMafUIShell>().ShowContextMenu(pos[0], contextMenuId, TextView.VisualElement);
             }

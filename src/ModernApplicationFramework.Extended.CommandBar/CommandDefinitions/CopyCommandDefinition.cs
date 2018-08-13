@@ -6,7 +6,7 @@ using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Extended.CommandBar.Resources;
-using ModernApplicationFramework.Extended.Commands;
+using ModernApplicationFramework.Extended.Interfaces.Commands;
 using ModernApplicationFramework.ImageCatalog;
 using ModernApplicationFramework.Imaging.Interop;
 using ModernApplicationFramework.Input;

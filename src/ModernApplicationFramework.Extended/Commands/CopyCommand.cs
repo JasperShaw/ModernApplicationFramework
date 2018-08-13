@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using System.Windows.Input;
 using ModernApplicationFramework.Extended.Clipboard;
+using ModernApplicationFramework.Extended.Interfaces.Commands;
 using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.Extended.Commands

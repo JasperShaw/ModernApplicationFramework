@@ -114,6 +114,7 @@
     <Compile Include="Modules\CustomToolboxItems\DescriptionDataSource.cs" />
     <Compile Include="Modules\CustomToolboxItems\DescriptionItemDataFactory.cs" />
     <Compile Include="Modules\DefaultWindowLayout\DefaultWindowProfileProvider.cs" />
+    <Compile Include="Modules\EditorOverrideCommand\CustomCopyCommandDefinition.cs" />
     <Compile Include="Modules\EditorTheme\ThemeWatcher.cs" />
     <Compile Include="Modules\FilterDesigner\Design\DesignTimeGraphViewModel.cs" />
     <Compile Include="Modules\FilterDesigner\Design\DesignTimeImages.cs" />

@@ -1,8 +1,6 @@
 ﻿using ModernApplicationFramework.Text.Data;
-using ModernApplicationFramework.Text.Ui.Editor;
-using ModernApplicationFramework.Text.Ui.Editor.Commanding;
 
-namespace ModernApplicationFramework.Text.Ui.Commanding
+namespace ModernApplicationFramework.Text.Ui.Editor.Commanding.Commands
 {
     public sealed class CopyCommandArgs : EditorCommandArgs
     {
