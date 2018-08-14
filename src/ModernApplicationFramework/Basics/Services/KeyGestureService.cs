@@ -64,13 +64,13 @@ namespace ModernApplicationFramework.Basics.Services
         }
 
         [ImportingConstructor]
-        public KeyGestureService([ImportMany] CommandDefinitionBase[] keyboardShortcuts,[ImportMany] GestureScope[] gestureScopes,
+        public KeyGestureService([ImportMany] CommandDefinitionBase[] keyboardShortcuts, [ImportMany] GestureScope[] gestureScopes,
             IKeyboardInputService keyboardInputService, IStatusBarDataModelService statusBarDataModelService)
         {
             _gestureScopes = gestureScopes;
             _keyboardInputService = keyboardInputService;
             _statusBarDataModelService = statusBarDataModelService;
-            
+
             _keyboardShortcuts = keyboardShortcuts.OfType<CommandDefinition>().ToArray();
 
             _elementMapping = new Dictionary<GestureScope, HashSet<UIElement>>();
@@ -151,7 +151,7 @@ namespace ModernApplicationFramework.Basics.Services
                 return;
             if (commandKeyGestureScope?.CommandDefinition == null || commandKeyGestureScope.GestureScopeMapping == null)
                 return;
-            
+
             IEnumerable<UIElement> possibleElements;
             lock (_lockObj)
             {
@@ -205,7 +205,7 @@ namespace ModernApplicationFramework.Basics.Services
                 foreach (var gesture in cd.DefaultKeyGestures)
                 {
                     cd.Gestures.Add(new GestureScopeMapping(cd.DefaultGestureScope, gesture));
-                }     
+                }
             }
         }
 
@@ -228,7 +228,7 @@ namespace ModernApplicationFramework.Basics.Services
         }
 
         public IEnumerable<CommandGestureScopeMapping> FindKeyGestures(IList<KeySequence> sequences, FindKeyGestureOption option)
-        {    
+        {
             var list = new List<CommandGestureScopeMapping>();
             foreach (var commandDefinition in _keyboardShortcuts)
             {
@@ -252,6 +252,9 @@ namespace ModernApplicationFramework.Basics.Services
                 CheckMultiStateKeyInput(e);
             else
             {
+                if (IgnoreKey(e.Key))
+                    return;
+
                 _possibleMultiGestures.Clear();
 
                 // Get the current pressed Keys
@@ -261,6 +264,34 @@ namespace ModernApplicationFramework.Basics.Services
                     if (ks.Modifiers == gesture.GestureCollection[0].Modifiers &&
                         ks.Key == gesture.GestureCollection[0].Key)
                         _possibleMultiGestures.Add(gesture);
+
+
+                var i = Keyboard.FocusedElement;
+                var currentScope = GestureHelper.GetScopeFromElement(i as UIElement);
+
+                // If we are in a different scope than Gloabl we need to manually invoke the command in order to override global-scope commands
+                if (currentScope.Equals(GestureScopes.GlobalGestureScope) && _possibleMultiGestures.Count == 0)
+                    return;
+
+                if (TryCreateKeyGesture(_oldKeySequence, out var inputGesture))
+                {
+                    foreach (var shortcut in _keyboardShortcuts)
+                    {
+                        if (shortcut.KeyGestures.Contains(inputGesture))
+                        {
+                            var t = shortcut.Gestures;
+                            if (t.Contains(new GestureScopeMapping(currentScope, inputGesture)))
+                            {
+                                shortcut.Command.Execute(null);
+
+                                // Prevents other commands beeing invoked
+                                e.Handled = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+
                 if (_possibleMultiGestures.Count == 0)
                     return;
 
@@ -295,18 +326,37 @@ namespace ModernApplicationFramework.Basics.Services
                 return;
             }
             gesture.WasFoundDuringMulti = true;
-            
+
             //Prevents other KeyGestures being triggered
             e.Handled = true;
-            
-            //The correct Key gesture  was found. Now get the currently selected UIElement and apply the input
-            var i = Keyboard.FocusedElement;
-            if (!(i is UIElement element))
+
+            //The correct Key gesture was found. Now get the currently selected UIElement and apply the input
+            var element = Keyboard.FocusedElement as UIElement;
+            if (element == null)
+            {
+                ResetMultiState(false, ks, null);
+                e.Handled = true;
                 return;
+            }
+            var currentScope = GestureHelper.GetScopeFromElement(element);
+
+
+            if (currentScope != GestureScopes.GlobalGestureScope)
+            {
+                IEnumerable<UIElement> elements;
+                lock (_lockObj)
+                    elements = _elementMapping[currentScope];
+
+                element = GestureHelper.FindParentElementFromList(element, elements.ToList());
+                if (element == null)
+                    return;
+            }
+
+           
             var op = element.Dispatcher.BeginInvoke(
                 DispatcherPriority.Input, CreateElementKeyDownAction(element, e)
             );
-            op.Completed += (_, __) => ResetMultiState(true, ks, gesture);         
+            op.Completed += (_, __) => ResetMultiState(true, ks, gesture);
         }
 
         /// <summary>
@@ -338,9 +388,9 @@ namespace ModernApplicationFramework.Basics.Services
                     MultiKeyGesture.KeyGestureConverter.ConvertTo(null, CultureInfo.CurrentCulture, mkg,
                         typeof(string));
                 var message = string.Format(CommonUI_Resources.KeyGestureService_MultiKeyNotFound, gm);
-                _statusBarDataModelService.SetText(message);       
+                _statusBarDataModelService.SetText(message);
                 SystemSounds.Asterisk.Play();
-                
+
                 if (gesture != null)
                     gesture.WasFoundDuringMulti = false;
                 return;
@@ -395,6 +445,22 @@ namespace ModernApplicationFramework.Basics.Services
                         e.Timestamp,
                         Key.None)
                 { RoutedEvent = Keyboard.KeyDownEvent });
+        }
+
+        private static bool TryCreateKeyGesture(KeySequence sequence, out MultiKeyGesture gesture)
+        {
+            gesture = default;
+            if (!GestureHelper.IsKeyGestureValid(sequence.Key, sequence.Modifiers))
+                return false;
+            try
+            {
+                gesture = new MultiKeyGesture(sequence.Key, sequence.Modifiers);
+                return true;
+            }
+            catch (NotSupportedException)
+            {
+                return false;
+            }
         }
     }
 }

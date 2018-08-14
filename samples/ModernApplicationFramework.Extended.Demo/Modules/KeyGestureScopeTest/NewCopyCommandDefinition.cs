@@ -44,7 +44,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.KeyGestureScopeTest
 
         protected override void OnExecute(object parameter)
         {
-            MessageBox.Show("Executed");
+            MessageBox.Show("Overwritten Ctrl+C Executed");
         }
     }
 }

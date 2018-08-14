@@ -263,6 +263,7 @@
     <Compile Include="Docking\Commands\DockWindowCommand.cs" />
     <Compile Include="Docking\Commands\FloatDockedWindowCommand.cs" />
     <Compile Include="Docking\Commands\HideDockedWindowCommand.cs" />
+    <Compile Include="Input\GestureHelper.cs" />
     <Compile Include="Interfaces\Commands\IAutoHideAllWindowsCommand.cs" />
     <Compile Include="Interfaces\Commands\IAutoHideWindowCommand.cs" />
     <Compile Include="Interfaces\Commands\ICloseAllButThisDockedWindowCommand.cs" />

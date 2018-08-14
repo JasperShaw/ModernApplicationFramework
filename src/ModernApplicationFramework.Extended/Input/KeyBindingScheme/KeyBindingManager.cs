@@ -164,9 +164,19 @@ namespace ModernApplicationFramework.Extended.Input.KeyBindingScheme
             var scope = allScopes.FirstOrDefault(x => x.Id.Equals(new Guid(scopeId)));
             if (scope == null)
                 return null;
-            return new GestureScopeMapping(scope,
-                (MultiKeyGesture) new MultiKeyGestureConverter().ConvertFrom(null, CultureInfo.InvariantCulture,
-                    shortcut.Value));
+
+            MultiKeyGesture gesture;
+            try
+            {
+                gesture = (MultiKeyGesture) new MultiKeyGestureConverter().ConvertFrom(null, CultureInfo.CurrentCulture,
+                    shortcut.Value);
+            }
+            catch (NotSupportedException e)
+            {
+                gesture = (MultiKeyGesture)new MultiKeyGestureConverter().ConvertFrom(null, CultureInfo.InvariantCulture,
+                    shortcut.Value);
+            }
+            return new GestureScopeMapping(scope, gesture);
         }
 
         private CommandGestureScopeMapping GetCommandMapping(KeyboardShortcutsUserShortcutsData shortcut,
