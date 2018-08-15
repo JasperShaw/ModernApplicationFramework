@@ -16,6 +16,7 @@ using ModernApplicationFramework.Editor.Interop;
 using ModernApplicationFramework.Editor.NativeMethods;
 using ModernApplicationFramework.Editor.Outlining;
 using ModernApplicationFramework.Editor.TextManager;
+using ModernApplicationFramework.Imaging;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Text.Data;
@@ -857,7 +858,7 @@ namespace ModernApplicationFramework.Editor.Implementation
                 throw;
             }
             ViewLoadedHandler.OnViewCreated(_textViewHostPrivate);
-            //TODO: Theme scrollbars
+            ThemeTextViewHostScrollBars(_textViewHostPrivate);
             CommandRouting.SetInterceptsCommandRouting(textView.VisualElement, false);
             _outliningManager = EditorParts.OutliningManagerService.GetOutliningManager(textView) as IAccurateOutliningManager;
             if (_outliningManager != null)
@@ -912,6 +913,14 @@ namespace ModernApplicationFramework.Editor.Implementation
 
             //StatusBar Stuff
             Initialized?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void ThemeTextViewHostScrollBars(ITextViewHost textViewHost)
+        {
+            var hostControl = textViewHost?.HostControl;
+            if (hostControl == null)
+                return;
+            ImageThemingUtilities.SetThemeScrollBars(hostControl, true);
         }
 
         private void RegisterApplicationCommands()

@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using ModernApplicationFramework.Utilities;
@@ -15,17 +16,39 @@ namespace ModernApplicationFramework.Imaging
 {
     public static class ImageThemingUtilities
     {
-        public static readonly DependencyProperty ImageBackgroundColorProperty;
+        private static readonly ReusableArray<byte> ConversionBuffer = new ReusableArray<byte>(false);
+
+        public static event EventHandler<DependencyPropertyChangedEventArgs> ThemeScrollBarsChanged;
 
         private static readonly
             ConcurrentDictionary<WeakImageCacheKey, ConditionalWeakTable<BitmapSource, BitmapSource>> WeakImageCache =
                 new ConcurrentDictionary<WeakImageCacheKey, ConditionalWeakTable<BitmapSource, BitmapSource>>();
 
+        public static readonly DependencyProperty ImageBackgroundColorProperty = DependencyProperty.RegisterAttached(
+            "ImageBackgroundColor", typeof(Color), typeof(ImageThemingUtilities),
+            new FrameworkPropertyMetadata(Colors.Transparent,
+                FrameworkPropertyMetadataOptions.Inherits));
+
+        public static readonly DependencyProperty ThemeScrollBarsProperty = DependencyProperty.RegisterAttached(
+            "ThemeScrollBars", typeof(bool?), typeof(ImageThemingUtilities),
+            new FrameworkPropertyMetadata(null, OnThemeScrollBarsChanged));
+
+
         static ImageThemingUtilities()
         {
-            ImageBackgroundColorProperty = DependencyProperty.RegisterAttached("ImageBackgroundColor", typeof(Color), typeof(ImageThemingUtilities), new FrameworkPropertyMetadata(Colors.Transparent, FrameworkPropertyMetadataOptions.Inherits));
             IsImageThemingEnabled = true;
-            conversionBuffer = new ReusableArray<byte>(false);
+        }
+
+        public static void SetThemeScrollBars(Control element, bool? value)
+        {
+            Validate.IsNotNull(element, nameof(element));
+            element.SetValue(ThemeScrollBarsProperty, value);
+        }
+
+        public static bool? GetThemeScrollBars(DependencyObject element)
+        {
+            Validate.IsNotNull(element, nameof(element));
+            return (bool?)element.GetValue(ThemeScrollBarsProperty);
         }
 
         public static Color GetImageBackgroundColor(DependencyObject obj)
@@ -226,6 +249,11 @@ namespace ModernApplicationFramework.Imaging
             return (1.0 - backgroundLuminosity) * (luminosity - 1.0) / (3.0 / 85.0) + 1.0;
         }
 
+        private static void OnThemeScrollBarsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ThemeScrollBarsChanged?.Invoke(d, e);
+        }
+
 
         public static BitmapSource CreateThemedBitmapSource(BitmapSource inputImage, Color backgroundColor, bool isEnabled, Color grayscaleBiasColor, bool isHighContrast)
         {
@@ -247,11 +275,9 @@ namespace ModernApplicationFramework.Imaging
             }
         }
 
-        private static readonly ReusableArray<byte> conversionBuffer;
-
         internal static ReusableResourceHolder<byte[]> AcquireConversionBuffer(int size)
         {
-            return conversionBuffer.Acquire(size);
+            return ConversionBuffer.Acquire(size);
         }
 
         public static void GrayscaleDIBits(byte[] pixels, int pixelLength, Color biasColor)
@@ -274,8 +300,8 @@ namespace ModernApplicationFramework.Imaging
 
         private struct WeakImageCacheKey : IEquatable<WeakImageCacheKey>
         {
-            private Color _background;
-            private Color _grayscaleBias;
+            private readonly Color _background;
+            private readonly Color _grayscaleBias;
             private readonly bool _isEnabled;
 
             public WeakImageCacheKey(Color background, Color grayscaleBias, bool isEnabled)
@@ -314,6 +340,11 @@ namespace ModernApplicationFramework.Imaging
         public static bool IsLight(this Color color)
         {
             return !color.IsDark();
+        }
+
+        public static void ClearWeakImageCache()
+        {
+            WeakImageCache.Clear();
         }
     }
 }

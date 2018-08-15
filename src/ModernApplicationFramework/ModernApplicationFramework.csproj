@@ -254,6 +254,8 @@
       <DependentUpon>WaitDialogWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core\Converters\General\BooleanToHiddenVisibilityConverter.cs" />
+    <Compile Include="Core\Themes\ResourceKeys.cs" />
+    <Compile Include="Core\Utilities\ScrollBarThemingUtilities.cs" />
     <Compile Include="Docking\Commands\AutoHideAllWindowsCommand.cs" />
     <Compile Include="Docking\Commands\AutoHideWindowCommand.cs" />
     <Compile Include="Docking\Commands\CloseAllButThisDockedWindowCommand.cs" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using System.Security.AccessControl;
 using System.Threading;
 using System.Windows;
@@ -40,6 +41,7 @@ namespace ModernApplicationFramework.Controls.Windows
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MainWindow),
                 new FrameworkPropertyMetadata(typeof(MainWindow)));
             ImageThemingUtilities.IsImageThemingEnabled = !GetIsImageThemingSuppressed();
+            RuntimeHelpers.RunClassConstructor(typeof(ScrollBarThemingUtilities).TypeHandle);
         }
 
         protected virtual bool ShouldAutoSize { get; set; } = true;

@@ -279,6 +279,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ModernApplicationFramework.Imaging\ModernApplicationFramework.Imaging.csproj">
+      <Project>{D8B696A7-BA7D-4762-8C34-13B7F212074F}</Project>
+      <Name>ModernApplicationFramework.Imaging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework.Text\ModernApplicationFramework.Text.csproj">
       <Project>{27e9b710-9584-4fad-93ff-ebf2a9600da7}</Project>
       <Name>ModernApplicationFramework.Text</Name>
