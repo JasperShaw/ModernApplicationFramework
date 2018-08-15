@@ -14,6 +14,7 @@ namespace ModernApplicationFramework.Text.Ui.Classification
         void BeginBatchUpdate();
 
         void EndBatchUpdate();
+
         ResourceDictionary GetProperties(string key);
 
         void SetProperties(string key, ResourceDictionary properties);

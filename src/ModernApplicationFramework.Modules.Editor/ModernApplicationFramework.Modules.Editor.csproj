@@ -213,6 +213,17 @@
     <Compile Include="Outlining\CollapsibleSorter.cs" />
     <Compile Include="Outlining\OutliningManager.cs" />
     <Compile Include="Outlining\OutliningManagerService.cs" />
+    <Compile Include="OverviewMargin\ActionCommand.cs" />
+    <Compile Include="OverviewMargin\ElisionElement.cs" />
+    <Compile Include="OverviewMargin\OverviewElement.cs" />
+    <Compile Include="OverviewMargin\OverviewElementFactory.cs" />
+    <Compile Include="OverviewMargin\OverviewExtensions.cs" />
+    <Compile Include="OverviewMargin\OverviewScrollBarMargin.cs" />
+    <Compile Include="OverviewMargin\OverviewScrollBarMarginControl.xaml.cs">
+      <DependentUpon>OverviewScrollBarMarginControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OverviewMargin\OverviewScrollBarMarginProvider.cs" />
+    <Compile Include="OverviewMargin\OverviewScrollBarViewModel.cs" />
     <Compile Include="Structure\EditorFormat.cs" />
     <Compile Include="TextAndAdornmentSequencer\AdornmentElement.cs" />
     <Compile Include="TextAndAdornmentSequencer\TextAndAdornmentCollection.cs" />
@@ -451,6 +462,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="OverviewMargin\OverviewScrollBarMarginControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Generic\EditorResources.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
