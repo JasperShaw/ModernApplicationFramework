@@ -235,6 +235,7 @@
     <Compile Include="Ui\Commanding\CommandHandlerExtensions.cs" />
     <Compile Include="Ui\Commanding\CommandState.cs" />
     <Compile Include="Ui\Commanding\ITextEditCommand.cs" />
+    <Compile Include="Ui\Editor\CollapseHintAdornmentControl.cs" />
     <Compile Include="Ui\Editor\Commanding\Commands\CopyCommandArgs.cs" />
     <Compile Include="Ui\Commanding\IChainedTextEditCommand.cs" />
     <Compile Include="Ui\Commanding\ICommandHandler.cs" />
@@ -291,6 +292,7 @@
     <Compile Include="Ui\Editor\IMouseProcessorProvider.cs" />
     <Compile Include="Ui\Editor\InterLineAdornmentFactory.cs" />
     <Compile Include="Ui\Editor\InterLineAdornmentTag.cs" />
+    <Compile Include="Ui\Editor\IntraTextAdornment.cs" />
     <Compile Include="Ui\Editor\IntraTextAdornmentTag.cs" />
     <Compile Include="Ui\Editor\IScrollMap.cs" />
     <Compile Include="Ui\Editor\IScrollMapFactoryService.cs" />
@@ -325,7 +327,11 @@
     <Compile Include="Ui\Editor\MouseHoverEventArgs.cs" />
     <Compile Include="Ui\Editor\MouseProcessorBase.cs" />
     <Compile Include="Ui\Editor\MouseWheelZoomEnabled.cs" />
+    <Compile Include="Ui\Editor\OutliningCollapsedAdornmentControl.cs" />
+    <Compile Include="Ui\Editor\OutliningMarginBracketControl.cs" />
+    <Compile Include="Ui\Editor\OutliningMarginControl.cs" />
     <Compile Include="Ui\Editor\OutliningMarginEnabled.cs" />
+    <Compile Include="Ui\Editor\OutliningMarginHeaderControl.cs" />
     <Compile Include="Ui\Editor\OverwriteMode.cs" />
     <Compile Include="Ui\Editor\PredefinedTextViewRoles.cs" />
     <Compile Include="Ui\Editor\PrimitiveTextBuffer.cs" />
@@ -439,6 +445,11 @@
       <Name>ModernApplicationFramework.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Page Include="Themes\generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

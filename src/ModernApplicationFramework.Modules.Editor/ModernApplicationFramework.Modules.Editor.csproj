@@ -183,7 +183,6 @@
     <Compile Include="Implementation\LeftSelectionMarginProvider.cs" />
     <Compile Include="Implementation\MasterMouseProcessor.cs" />
     <Compile Include="Implementation\OutliningAdornmentManagerFactory.cs" />
-    <Compile Include="Implementation\OutliningCollapsedAdornmentControl.cs" />
     <Compile Include="Implementation\PopupAgent.cs" />
     <Compile Include="Implementation\ProvisionalTextHighlight.cs" />
     <Compile Include="Implementation\ReadOnlyRegion.cs" />

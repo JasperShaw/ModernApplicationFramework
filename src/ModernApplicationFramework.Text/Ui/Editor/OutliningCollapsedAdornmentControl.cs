@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace ModernApplicationFramework.Modules.Editor.Implementation
+namespace ModernApplicationFramework.Text.Ui.Editor
 {
     public abstract class OutliningCollapsedAdornmentControl : ContentControl
     {

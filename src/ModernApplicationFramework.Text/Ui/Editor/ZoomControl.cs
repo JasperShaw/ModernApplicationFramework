@@ -9,7 +9,6 @@ namespace ModernApplicationFramework.Text.Ui.Editor
 
         static ZoomControl()
         {
-            //TODO: Style
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ZoomControl), new FrameworkPropertyMetadata(typeof(ZoomControl)));
         }
 

@@ -9,19 +9,20 @@ namespace ModernApplicationFramework.Text.Ui.Editor
     {
         public UIElement Adornment { get; }
 
-        public AdornmentRemovedCallback RemovalCallback { get; }
-
-        public double? TopSpace { get; }
+        public PositionAffinity? Affinity { get; }
 
         public double? Baseline { get; }
 
-        public double? TextHeight { get; }
-        
         public double? BottomSpace { get; }
 
-        public PositionAffinity? Affinity { get; }
+        public AdornmentRemovedCallback RemovalCallback { get; }
 
-        public IntraTextAdornmentTag(UIElement adornment, AdornmentRemovedCallback removalCallback, double? topSpace, double? baseline, double? textHeight, double? bottomSpace, PositionAffinity? affinity)
+        public double? TextHeight { get; }
+
+        public double? TopSpace { get; }
+
+        public IntraTextAdornmentTag(UIElement adornment, AdornmentRemovedCallback removalCallback, double? topSpace,
+            double? baseline, double? textHeight, double? bottomSpace, PositionAffinity? affinity)
         {
             Adornment = adornment ?? throw new ArgumentNullException(nameof(adornment));
             RemovalCallback = removalCallback;
@@ -32,13 +33,15 @@ namespace ModernApplicationFramework.Text.Ui.Editor
             Affinity = affinity;
         }
 
-        public IntraTextAdornmentTag(UIElement adornment, AdornmentRemovedCallback removalCallback, PositionAffinity? affinity)
+        public IntraTextAdornmentTag(UIElement adornment, AdornmentRemovedCallback removalCallback,
+            PositionAffinity? affinity)
             : this(adornment, removalCallback, new double?(), new double?(), new double?(), new double?(), affinity)
         {
         }
 
         public IntraTextAdornmentTag(UIElement adornment, AdornmentRemovedCallback removalCallback)
-            : this(adornment, removalCallback, new double?(), new double?(), new double?(), new double?(), new PositionAffinity?())
+            : this(adornment, removalCallback, new double?(), new double?(), new double?(), new double?(),
+                new PositionAffinity?())
         {
         }
     }
