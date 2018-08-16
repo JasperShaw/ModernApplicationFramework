@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using ModernApplicationFramework.Modules.Editor.NativeMethods;
 using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Text.Ui.Editor;
 
@@ -56,7 +57,7 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             _highlightAdornment = null;
             _adornmentLayer = _wpfTextView.GetAdornmentLayer("SelectionAndProvisionHighlight");
             _wpfTextView.LayoutChanged += OnLayoutChanged;
-            var caretBlinkTime = CaretBlinkTimeManager.GetCaretBlinkTime();
+            var caretBlinkTime = User32.GetCaretBlinkTime();
             if (caretBlinkTime <= 0)
                 return;
             _blinkTimer = new DispatcherTimer(new TimeSpan(0, 0, 0, 0, caretBlinkTime), DispatcherPriority.Normal,

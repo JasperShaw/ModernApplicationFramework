@@ -8,7 +8,7 @@ namespace ModernApplicationFramework.Modules.Editor.EditorPrimitives
 
         public Caret Caret { get; }
 
-        public Selection Selection { get; }
+        public LegacySelection Selection { get; }
 
         public PrimitiveTextView View { get; }
 

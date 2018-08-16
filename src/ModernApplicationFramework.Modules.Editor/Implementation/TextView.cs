@@ -20,6 +20,7 @@ using ModernApplicationFramework.Text.Logic.Editor;
 using ModernApplicationFramework.Text.Ui.Classification;
 using ModernApplicationFramework.Text.Ui.Editor;
 using ModernApplicationFramework.Text.Ui.Formatting;
+using ModernApplicationFramework.Text.Ui.Text;
 using ModernApplicationFramework.Utilities.Attributes;
 using ModernApplicationFramework.Utilities.Core;
 
@@ -30,8 +31,8 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
         private static readonly IList<ITextViewLine> _emptyLines =
             new ReadOnlyCollection<ITextViewLine>(new List<ITextViewLine>(0));
 
-        [Export] [Name("Caret")] [Order(After = "Text")]
-        private static readonly AdornmentLayerDefinition CaretAdornmentLayer = new AdornmentLayerDefinition();
+        //[Export] [Name("Caret")] [Order(After = "Text")]
+        //private static readonly AdornmentLayerDefinition CaretAdornmentLayer = new AdornmentLayerDefinition();
 
         private static readonly XmlLanguage EnUsLanguage = XmlLanguage.GetLanguage("en-US");
 
@@ -112,7 +113,7 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
         private int _queuedFocusSettersCount;
         private bool _queuedLayout;
         private int _queuedSpaceReservationStackRefresh;
-        private TextSelection _selection;
+        private WpfTextSelection _selection;
         private ITextAndAdornmentSequencer _sequencer;
 
         private TextViewLineCollection _textViewLinesCollection;
@@ -122,6 +123,7 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
         private double _viewportLeft;
 
         private IViewScroller _viewScroller;
+        private IMultiSelectionBroker _multiSelectionBroker;
 
         public event EventHandler<BackgroundBrushChangedEventArgs> BackgroundBrushChanged;
         public event EventHandler Closed;
@@ -186,6 +188,9 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                 BackgroundBrushChanged?.Invoke(this, new BackgroundBrushChangedEventArgs(value));
             }
         }
+
+        public IMultiSelectionBroker MultiSelectionBroker => _multiSelectionBroker ?? (_multiSelectionBroker =
+                                                                 ComponentContext.MultiSelectionBrokerFactory.CreateBroker(this));
 
         public IBufferGraph BufferGraph { get; private set; }
 
@@ -499,9 +504,8 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
         {
             if (name == null)
                 throw new ArgumentNullException(nameof(name));
-            if (name == "Text" || name == "Caret")
-                throw new ArgumentOutOfRangeException(nameof(name),
-                    "The Text and Caret adornment layers cannot be retrieved with this method.");
+            if (string.Equals(name, "Text", StringComparison.Ordinal))
+                throw new ArgumentOutOfRangeException(nameof(name), "The Text adornment layer cannot be retrieved with this method.");
             var isOverlayLayer = ComponentContext.OrderedOverlayLayerDefinitions.ContainsKey(name);
             var viewStack = isOverlayLayer ? _overlayLayer : _baseLayer;
             var element = viewStack.GetElement(name);
@@ -664,9 +668,12 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             _manipulationLayer = new Canvas();
             _baseLayer = new ViewStack(ComponentContext.OrderedViewLayerDefinitions, this);
             _overlayLayer = new ViewStack(ComponentContext.OrderedOverlayLayerDefinitions, this, true);
-            _selection = new TextSelection(this, _editorFormatMap, ComponentContext.GuardedOperations);
-            _caretElement = new CaretElement(this, _selection, ComponentContext.SmartIndentationService,
-                _editorFormatMap, ClassificationFormatMap, ComponentContext.GuardedOperations);
+            //_selection = new WpfTextSelection(this, _editorFormatMap, ComponentContext.GuardedOperations);
+            //_caretElement = new CaretElement(this, _selection, ComponentContext.SmartIndentationService,
+            //    _editorFormatMap, ClassificationFormatMap, ComponentContext.GuardedOperations);
+            _selection = new WpfTextSelection(this, ComponentContext.GuardedOperations, MultiSelectionBroker);
+            _caretElement = new CaretElement(this, ComponentContext.SmartIndentationService,
+                ComponentContext.GuardedOperations, MultiSelectionBroker);
             InitializeLayers();
             Loaded += OnLoaded;
             _caretElement.Visibility = Visibility.Hidden;
@@ -1219,7 +1226,7 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             _provisionalTextHighlight = new ProvisionalTextHighlight(this);
             _manipulationLayer.Background = Brushes.Transparent;
             _baseLayer.TryAddElement("Text", _contentLayer);
-            _baseLayer.TryAddElement("Caret", _caretElement);
+            //_baseLayer.TryAddElement("Caret", _caretElement);
             _controlHostLayer = new Canvas
             {
                 Background = GetBackgroundColorFromFormatMap()
@@ -1908,8 +1915,8 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             var newState = new ViewState(this, effectiveViewportWidth, effectiveViewportHeight);
             using (ComponentContext.PerformanceBlockMarker.CreateBlock("TextEditor.LayoutChangedEvent"))
             {
-                _caretElement.LayoutChanged(_oldState.EditSnapshot, TextSnapshot);
-                _selection.LayoutChanged(_oldState.VisualSnapshot != VisualSnapshot, TextSnapshot);
+                //_caretElement.LayoutChanged(_oldState.EditSnapshot, TextSnapshot);
+                //_selection.LayoutChanged(_oldState.VisualSnapshot != VisualSnapshot, TextSnapshot);
                 if (!_inConstructor)
                 {
                     var layoutChanged = LayoutChanged;

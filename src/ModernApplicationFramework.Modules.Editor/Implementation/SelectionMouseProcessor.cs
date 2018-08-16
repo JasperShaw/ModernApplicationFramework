@@ -7,6 +7,8 @@ using ModernApplicationFramework.Text.Logic;
 using ModernApplicationFramework.Text.Ui.Editor;
 using ModernApplicationFramework.Text.Ui.Formatting;
 using ModernApplicationFramework.Text.Ui.Operations;
+using ModernApplicationFramework.Text.Ui.Text;
+using Selection = ModernApplicationFramework.Text.Ui.Text.Selection;
 
 namespace ModernApplicationFramework.Modules.Editor.Implementation
 {
@@ -49,16 +51,17 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                 throw new ArgumentNullException(nameof(e));
             var shift = (Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift;
             var control = (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
+            var alt = (Keyboard.Modifiers & ModifierKeys.Alt) == ModifierKeys.Alt;
             switch (GetClickCount(e))
             {
                 case 1:
-                    e.Handled = HandleSingleClick(e, shift, control);
+                    e.Handled = HandleSingleClick(e, shift, control, alt);
                     break;
                 case 2:
-                    e.Handled = HandleDoubleClick(e, shift, control);
+                    e.Handled = HandleDoubleClick(e, shift, control, alt);
                     break;
                 case 3:
-                    e.Handled = HandleTripleClick(e, shift, control);
+                    e.Handled = HandleTripleClick(e, shift, control, alt);
                     break;
                 default:
                     e.Handled = false;
@@ -175,18 +178,18 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             return num;
         }
 
-        internal bool HandleDoubleClick(InputEventArgs e, bool shift, bool control)
+        internal bool HandleDoubleClick(InputEventArgs e, bool shift, bool control, bool alt = false)
         {
-            if (shift | control)
-                return HandleSingleClick(e, shift, control);
+            if (shift | control | alt)
+                return HandleSingleClick(e, shift, control, alt);
             SelectWordUnderCaret();
             _doingWordSelection = true;
             return true;
         }
 
-        internal bool HandleSingleClick(InputEventArgs e, bool shift, bool control)
+        internal bool HandleSingleClick(InputEventArgs e, bool shift, bool control, bool alt = false)
         {
-            if (control)
+            if (control && !alt)
                 return HandleSingleControlClick(GetAdjustedPosition(e, _textView), shift);
             return false;
         }
@@ -208,10 +211,10 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             return true;
         }
 
-        internal bool HandleTripleClick(InputEventArgs e, bool shift, bool control)
+        internal bool HandleTripleClick(InputEventArgs e, bool shift, bool control, bool alt = false)
         {
-            if (shift | control)
-                return HandleSingleClick(e, shift, control);
+            if (shift | control | alt)
+                return HandleSingleClick(e, shift, control, alt);
             var viewLineUnderPoint = GetTextViewLineUnderPoint(GetAdjustedPosition(e, _textView));
             if (viewLineUnderPoint == null)
                 return false;
@@ -261,15 +264,12 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                     _doingLineSelection = false;
                     return false;
                 }
-
                 var viewLineUnderPoint = GetTextViewLineUnderPoint(ptMousePosition);
                 if (viewLineUnderPoint == null)
                     return false;
                 var includingLineBreak = viewLineUnderPoint.ExtentIncludingLineBreak;
-                var position1 = Math.Min(includingLineBreak.Start,
-                    _originalSelectedLine.GetStartPoint(_textView.TextSnapshot));
-                var position2 = Math.Max(includingLineBreak.End,
-                    _originalSelectedLine.GetEndPoint(_textView.TextSnapshot));
+                var position1 = Math.Min(includingLineBreak.Start, _originalSelectedLine.GetStartPoint(_textView.TextSnapshot));
+                var position2 = Math.Max(includingLineBreak.End, _originalSelectedLine.GetEndPoint(_textView.TextSnapshot));
                 TextPoint textPoint1 = _editorPrimitives.View.GetTextPoint(position1);
                 TextPoint textPoint2 = _editorPrimitives.View.GetTextPoint(position2);
                 _textView.Selection.Mode = TextSelectionMode.Stream;
@@ -295,34 +295,21 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                 var span = _originalSelectedWord.GetSpan(_textView.TextSnapshot);
                 var position1 = Math.Min(span.Start.Position, clickPosition.Position);
                 var position2 = Math.Max(span.End.Position, clickPosition.Position);
-                var num1 = clickPosition.Position == position1 ? 1 : 0;
-                var flag1 = clickPosition.Position < span.Start.Position;
-                var flag2 = clickPosition.Position > span.End.Position;
+                var flag1 = clickPosition.Position == position1;
+                var flag2 = clickPosition.Position < span.Start.Position;
+                var flag3 = clickPosition.Position > span.End.Position;
                 TextPoint textPoint1 = _editorPrimitives.View.GetTextPoint(position1);
                 TextPoint textPoint2 = _editorPrimitives.View.GetTextPoint(position2);
                 var currentWord1 = textPoint1.GetCurrentWord();
                 var currentWord2 = textPoint2.GetCurrentWord();
-                var flag3 = currentWord1.GetEndPoint().CurrentPosition != textPoint1.EndOfLine &&
-                            (textPoint1.CurrentPosition == currentWord1.GetStartPoint().CurrentPosition ||
-                             textPoint1.CurrentPosition == textPoint1.GetNextWord().GetStartPoint().CurrentPosition);
-                var num2 = currentWord2.GetStartPoint().CurrentPosition == textPoint2.StartOfLine
-                    ? 0
-                    : (textPoint2.CurrentPosition == currentWord2.GetEndPoint().CurrentPosition
-                        ? 1
-                        : (textPoint2.CurrentPosition == textPoint2.GetPreviousWord().GetEndPoint().CurrentPosition
-                            ? 1
-                            : 0));
-                if (((textPoint1.CurrentPosition == textPoint1.EndOfLine ? 0 : (!flag3 ? 1 : 0)) & (flag1 ? 1 : 0)) !=
-                    0)
+                var flag4 = currentWord1.GetEndPoint().CurrentPosition != textPoint1.EndOfLine && (textPoint1.CurrentPosition == currentWord1.GetStartPoint().CurrentPosition || textPoint1.CurrentPosition == textPoint1.GetNextWord().GetStartPoint().CurrentPosition);
+                var num1 = currentWord2.GetStartPoint().CurrentPosition == textPoint2.StartOfLine ? 0 : (textPoint2.CurrentPosition == currentWord2.GetEndPoint().CurrentPosition ? 1 : (textPoint2.CurrentPosition == textPoint2.GetPreviousWord().GetEndPoint().CurrentPosition ? 1 : 0));
+                if (((textPoint1.CurrentPosition == textPoint1.EndOfLine ? 0 : (!flag4 ? 1 : 0)) & (flag2 ? 1 : 0)) != 0)
                     textPoint1 = currentWord1.GetStartPoint();
-                var num3 = 0;
-                if ((num2 == num3) & flag2)
+                var num2 = 0;
+                if (num1 == num2 & flag3)
                     textPoint2 = currentWord2.GetEndPoint();
-                _textView.Selection.Mode = TextSelectionMode.Stream;
-                if (num1 == 0)
-                    _editorPrimitives.Selection.SelectRange(textPoint1, textPoint2);
-                else
-                    _editorPrimitives.Selection.SelectRange(textPoint2, textPoint1);
+                _textView.GetMultiSelectionBroker().SetSelection(new Selection(new VirtualSnapshotPoint(_textView.TextSnapshot, (flag1 ? textPoint2 : textPoint1).CurrentPosition), new VirtualSnapshotPoint(_textView.TextSnapshot, (flag1 ? textPoint1 : textPoint2).CurrentPosition)));
             }
             finally
             {
@@ -357,8 +344,7 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                 ++_ignoreSelectionChangedEvents;
                 _textView.Selection.Mode = TextSelectionMode.Stream;
                 _editorOperations.SelectLine(line, false);
-                _originalSelectedLine = _textView.TextSnapshot.CreateTrackingSpan(
-                    _textView.Selection.StreamSelectionSpan.SnapshotSpan, SpanTrackingMode.EdgeExclusive);
+                _originalSelectedLine = _textView.TextSnapshot.CreateTrackingSpan(_textView.Selection.StreamSelectionSpan.SnapshotSpan, SpanTrackingMode.EdgeExclusive);
             }
             finally
             {
@@ -371,9 +357,10 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             try
             {
                 ++_ignoreSelectionChangedEvents;
-                var virtualSnapshotPoint = new VirtualSnapshotPoint(clickPosition);
-                _editorOperations.SelectAndMoveCaret(virtualSnapshotPoint, virtualSnapshotPoint);
-                SelectWordUnderCaret();
+                var multiSelectionBroker = _textView.GetMultiSelectionBroker();
+                var selection = multiSelectionBroker.TransformSelection(new Selection(new VirtualSnapshotPoint(clickPosition)), PredefinedSelectionTransformations.SelectCurrentWord);
+                multiSelectionBroker.SetSelection(selection);
+                _originalSelectedWord = _textView.TextSnapshot.CreateTrackingSpan(selection.Extent.SnapshotSpan, SpanTrackingMode.EdgeExclusive);
             }
             finally
             {

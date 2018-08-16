@@ -129,7 +129,6 @@
     <Compile Include="TextManager\IHiddenTextClient.cs" />
     <Compile Include="TextManager\IHiddenTextManager.cs" />
     <Compile Include="Implementation\ImplGuidList.cs" />
-    <Compile Include="Implementation\InactiveSelectionProperties.cs" />
     <Compile Include="Implementation\INewHiddenRegion.cs" />
     <Compile Include="Implementation\InteropHelper.cs" />
     <Compile Include="TextManager\IProvideColorableItems.cs" />

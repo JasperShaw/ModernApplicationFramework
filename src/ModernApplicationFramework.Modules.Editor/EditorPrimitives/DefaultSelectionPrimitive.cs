@@ -9,7 +9,7 @@ using ModernApplicationFramework.Text.Ui.Formatting;
 
 namespace ModernApplicationFramework.Modules.Editor.EditorPrimitives
 {
-    internal sealed class DefaultSelectionPrimitive : Selection
+    internal sealed class DefaultSelectionPrimitive : LegacySelection
     {
         private readonly IEditorOptions _editorOptions;
 

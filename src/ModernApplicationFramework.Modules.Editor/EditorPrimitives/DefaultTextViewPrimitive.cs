@@ -12,7 +12,7 @@ namespace ModernApplicationFramework.Modules.Editor.EditorPrimitives
 
         public override Caret Caret { get; }
 
-        public override Selection Selection { get; }
+        public override LegacySelection Selection { get; }
 
         public override PrimitiveTextBuffer TextBuffer { get; }
 

@@ -30,7 +30,7 @@ namespace ModernApplicationFramework.Modules.Editor.EditorPrimitives
             return new DefaultDisplayTextRangePrimitive(textView, textRange);
         }
 
-        public Selection CreateSelection(PrimitiveTextView textView)
+        public LegacySelection CreateSelection(PrimitiveTextView textView)
         {
             if (textView.Selection == null)
                 return new DefaultSelectionPrimitive(textView,

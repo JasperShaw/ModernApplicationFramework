@@ -1,0 +1,34 @@
+﻿namespace ModernApplicationFramework.Text.Ui.Text
+{
+    public enum PredefinedSelectionTransformations
+    {
+        ClearSelection,
+        MoveToNextCaretPosition,
+        SelectToNextCaretPosition,
+        MoveToPreviousCaretPosition,
+        SelectToPreviousCaretPosition,
+        MoveToNextWord,
+        SelectToNextWord,
+        MoveToPreviousWord,
+        SelectToPreviousWord,
+        MoveToBeginningOfLine,
+        SelectToBeginningOfLine,
+        MoveToHome,
+        SelectToHome,
+        MoveToEndOfLine,
+        SelectToEndOfLine,
+        MoveToNextLine,
+        SelectToNextLine,
+        MoveToPreviousLine,
+        SelectToPreviousLine,
+        MovePageUp,
+        SelectPageUp,
+        MovePageDown,
+        SelectPageDown,
+        MoveToStartOfDocument,
+        SelectToStartOfDocument,
+        MoveToEndOfDocument,
+        SelectToEndOfDocument,
+        SelectCurrentWord,
+    }
+}

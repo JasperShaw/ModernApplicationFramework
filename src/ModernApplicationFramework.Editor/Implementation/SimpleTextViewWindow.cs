@@ -44,6 +44,13 @@ namespace ModernApplicationFramework.Editor.Implementation
 
         public delegate void ChangeScrollInfoEventHandler(IMafTextView pView, int iBar, int iMinUnit, int iMaxUnits, int iVisibleUnits, int iFirstVisibleUnit);
 
+        public delegate void SetFocusEventHandler(IMafTextView pView);
+        public delegate void KillFocusEventHandler(IMafTextView pView);
+
+        public event KillFocusEventHandler OnKillFocus;
+
+        public event SetFocusEventHandler OnSetFocus;
+
         private static Exception LastCreatedButNotInitializedException = null;
         private static string LastCreatedButNotInitializedExceptionStackTrace = null;
 
@@ -722,32 +729,40 @@ namespace ModernApplicationFramework.Editor.Implementation
 
         private void CleanUpEvents()
         {
-            //if (_eventsInitialized)
-            //{
-            //    var textView = _textViewHostPrivate.TextView;
-            //    textView.Caret.PositionChanged -= Caret_PositionChanged;
-            //    textView.Selection.SelectionChanged -= Selection_SelectionChanged;
-            //    textView.LayoutChanged -= View_LayoutChanged;
-            //    Keyboard.RemoveKeyDownHandler(textView.VisualElement, OnTextView_KeyDown);
-            //    Keyboard.RemoveKeyUpHandler(textView.VisualElement, OnTextView_KeyUp);
-            //    textView.ViewportLeftChanged -= View_ViewportLeftChanged;
-            //    textView.ViewportWidthChanged -= View_ViewportWidthChanged;
-            //    _editorOptions.OptionChanged -= EditorOptions_OptionChanged;
-            _classificationFormatMap.ClassificationFormatMappingChanged -= ClassificationFormatMap_ClassificationFormatMappingChanged;
-            //    textView.TextBuffer.Changed -= DocData_OnChangeLineText;
-            //    //TODO: Add textDocData stuff
-            //    _editorAndMenuFocusTracker.GotFocus -= OnEditorOrMenuGotFocus;
-            //    _editorAndMenuFocusTracker.LostFocus -= OnEditorOrMenuLostFocus;
-            //    _editorAndMenuFocusTracker = null;
-            //    if (_zoomControl != null)
-            //    {
-            //        _zoomControl.IsKeyboardFocusWithinChanged -= OnZoomIsKeyboardFocusWithinChanged;
-            //        _zoomControl = null;
-            //    }
-            //    EditorParts.EditorFormatMapService.GetEditorFormatMap(textView).FormatMappingChanged -= OnFormatMapChanged;
-            //}
+            if (_eventsInitialized)
+            {
+                //    var textView = _textViewHostPrivate.TextView;
+                //    textView.Caret.PositionChanged -= Caret_PositionChanged;
+                //    textView.Selection.SelectionChanged -= Selection_SelectionChanged;
+                //    textView.LayoutChanged -= View_LayoutChanged;
+                //    Keyboard.RemoveKeyDownHandler(textView.VisualElement, OnTextView_KeyDown);
+                //    Keyboard.RemoveKeyUpHandler(textView.VisualElement, OnTextView_KeyUp);
+                //    textView.ViewportLeftChanged -= View_ViewportLeftChanged;
+                //    textView.ViewportWidthChanged -= View_ViewportWidthChanged;
+                //    _editorOptions.OptionChanged -= EditorOptions_OptionChanged;
+
+                //    textView.TextBuffer.Changed -= DocData_OnChangeLineText;
+                //    //TODO: Add textDocData stuff
+                _editorAndMenuFocusTracker.GotFocus -= OnEditorOrMenuGotFocus;
+                _editorAndMenuFocusTracker.LostFocus -= OnEditorOrMenuLostFocus;
+                _editorAndMenuFocusTracker = null;
+                if (_zoomControl != null)
+                {
+                    _zoomControl.IsKeyboardFocusWithinChanged -= OnZoomIsKeyboardFocusWithinChanged;
+                    _zoomControl = null;
+                }
+                EditorParts.EditorFormatMapService.GetEditorFormatMap(TextView).FormatMappingChanged -= OnFormatMapChanged;
+                _classificationFormatMap.ClassificationFormatMappingChanged -= ClassificationFormatMap_ClassificationFormatMappingChanged;
+            }
             _eventsInitialized = false;
             _scrollMap = null;
+        }
+
+        private void OnFormatMapChanged(object sender, FormatItemsEventArgs e)
+        {
+            if (!e.ChangedItems.Contains("TextView Background"))
+                return;
+            this.ApplyBackgroundColor();
         }
 
         private void CloseBufferRelatedResources()
@@ -944,7 +959,7 @@ namespace ModernApplicationFramework.Editor.Implementation
         private void OnCopy(object sender, ExecutedRoutedEventArgs e)
         {
             var guid = MafConstants.EditorCommandGroup;
-            Exec(ref guid, (uint) MafConstants.EditorCommands.Copy, 0, IntPtr.Zero, IntPtr.Zero);
+            Exec(ref guid, (uint)MafConstants.EditorCommands.Copy, 0, IntPtr.Zero, IntPtr.Zero);
         }
 
         private void SendTextViewCreated()
@@ -1134,8 +1149,8 @@ namespace ModernApplicationFramework.Editor.Implementation
                 textView.TextBuffer.Changed += DocData_OnChangeLineText;
 
                 _editorAndMenuFocusTracker = new EditorAndMenuFocusTracker(textView);
-                //_editorAndMenuFocusTracker.GotFocus += this.OnEditorOrMenuGotFocus;
-                //_editorAndMenuFocusTracker.LostFocus += this.OnEditorOrMenuLostFocus;
+                _editorAndMenuFocusTracker.GotFocus += OnEditorOrMenuGotFocus;
+                _editorAndMenuFocusTracker.LostFocus += OnEditorOrMenuLostFocus;
 
                 var zoomControl = TextViewHost.GetTextViewMargin("ZoomControl");
                 if (zoomControl != null)
@@ -1151,6 +1166,19 @@ namespace ModernApplicationFramework.Editor.Implementation
             {
                 _eventsInitialized = true;
             }
+        }
+
+        private void OnEditorOrMenuLostFocus(object sender, EventArgs e)
+        {
+            var onKillFocus = OnKillFocus;
+            onKillFocus?.Invoke(this);
+        }
+
+        private void OnEditorOrMenuGotFocus(object sender, EventArgs e)
+        {
+            var onSetFocus = OnSetFocus;
+            onSetFocus?.Invoke(this);
+
         }
 
         internal void ClassificationFormatMap_ClassificationFormatMappingChanged(object sender, EventArgs e)

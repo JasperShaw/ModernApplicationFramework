@@ -1,154 +1,148 @@
 ﻿using System;
-using System.ComponentModel.Composition;
-using System.Runtime.InteropServices;
-using System.Security;
-using System.Security.Permissions;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Threading;
-using Accessibility;
+using ModernApplicationFramework.Modules.Editor.MultiSelection;
 using ModernApplicationFramework.Modules.Editor.Utilities;
 using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Text.Logic;
 using ModernApplicationFramework.Text.Logic.Editor;
-using ModernApplicationFramework.Text.Ui.Classification;
 using ModernApplicationFramework.Text.Ui.Editor;
 using ModernApplicationFramework.Text.Ui.Formatting;
-using ModernApplicationFramework.Utilities.Attributes;
+using ModernApplicationFramework.Text.Ui.Text;
+using Selection = ModernApplicationFramework.Text.Ui.Text.Selection;
 
 namespace ModernApplicationFramework.Modules.Editor.Implementation
 {
     internal class CaretElement : UIElement, ITextCaret
     {
-        public const double CaretHorizontalPadding = 2.0;
-        public const double HorizontalScrollbarPadding = 200.0;
-        internal Win32Caret _win32Caret;
-        internal Rect Bounds;
-        internal Brush CaretBrush;
-        internal Geometry CaretGeometry;
-        internal bool CaretGeometryNeedsToBeUpdated = true;
-        internal Brush DefaultOverwriteBrush;
-        internal Brush DefaultRegularBrush;
-        internal bool IsContainedByView;
-        internal Brush OverwriteBrush;
-        internal double PreferredXCoordinate;
-        internal Brush RegularBrush;
-        internal ISmartIndentationService SmartIndentationService;
-        private readonly DispatcherTimer _blinkTimer;
-        private readonly IClassificationFormatMap _classificationFormatMap;
-        private readonly IEditorFormatMap _editorFormatMap;
-        private readonly GuardedOperations _guardedOperations;
-        private readonly TextSelection _selection;
         private readonly TextView _textView;
-        private AccessibleCaret _accessibleCaret;
-        private int _blinkInterval;
-        private PositionAffinity _caretAffinity;
-        private double _displayedHeight;
-        private double _displayedWidth;
-        private bool _emptySelection;
+        private readonly ISmartIndentationService _smartIndentationService;
+        private readonly GuardedOperations _guardedOperations;
+        private readonly IMultiSelectionBroker _multiSelectionBroker;
+        private CaretPosition _oldPosition;
+        private bool _caretGeometryNeedsToBeUpdated = true;
         private bool _forceVirtualSpace;
-        private VirtualSnapshotPoint _insertionPoint;
+        private bool _emptySelection;
         private bool _isClosed;
-        private bool _isHidden;
-        private double _newOpacity = 1.0;
-        private bool _overwriteMode;
-        private double _preferredYOffset;
-        private bool _updateNeeded = true;
 
         public event EventHandler<CaretPositionChangedEventArgs> PositionChanged;
-
-        public IAccessible AccessibleCaret =>
-            _accessibleCaret ?? (_accessibleCaret = new AccessibleCaret(this, _win32Caret));
-
-        public double Bottom
-        {
+        public double Bottom {
             get
             {
-                if (!IsContainedByView)
-                    throw new InvalidOperationException();
-                return Bounds.Bottom;
+                var uiProperties = UiProperties;
+                if (uiProperties == null)
+                    return 0.0;
+                return uiProperties.CaretBounds.TextBottom;
             }
         }
-
-        public ITextViewLine ContainingTextViewLine
-        {
-            get
-            {
-                var position = Position;
-                return GetContainingTextViewLine(position.BufferPosition, position.Affinity);
-            }
-        }
+        public ITextViewLine ContainingTextViewLine => UiProperties.ContainingTextViewLine;
 
         public double Height
         {
             get
             {
-                if (!IsContainedByView)
-                    throw new InvalidOperationException();
-                return Bounds.Height;
+                var uiProperties = UiProperties;
+                if (uiProperties == null)
+                    return 0.0;
+                return uiProperties.CaretBounds.TextHeight;
             }
         }
-
-        public bool InVirtualSpace => _insertionPoint.IsInVirtualSpace;
-
+        public bool InVirtualSpace => _multiSelectionBroker.PrimarySelection.InsertionPoint.IsInVirtualSpace;
         public bool IsHidden
         {
-            get => _isHidden;
-            set
+            get => !_textView.Options.GetOptionValue(DefaultTextViewOptions.ShouldCaretsBeRenderedId);
+            set => _textView.Options.SetOptionValue(DefaultTextViewOptions.ShouldCaretsBeRenderedId, !value);
+        }
+        public double Left
+        {
+            get
             {
-                _isHidden = value;
-                if (_isHidden)
-                    return;
-                InvalidateVisual();
+                var uiProperties = UiProperties;
+                if (uiProperties == null)
+                    return 0.0;
+                return uiProperties.CaretBounds.Left;
             }
         }
+        public bool OverwriteMode => UiProperties.IsOverwriteMode;
+
+        public CaretPosition Position
+        {
+            get
+            {
+                var primarySelection = _multiSelectionBroker.PrimarySelection;
+                var insertionPoint = primarySelection.InsertionPoint;
+                var bufferGraph = _textView.BufferGraph;
+                primarySelection = _multiSelectionBroker.PrimarySelection;
+                var position = primarySelection.InsertionPoint.Position;
+                var num = 0;
+                var mappingPoint = bufferGraph.CreateMappingPoint(position, (PointTrackingMode)num);
+                primarySelection = _multiSelectionBroker.PrimarySelection;
+                var insertionPointAffinity = (int)primarySelection.InsertionPointAffinity;
+                return new CaretPosition(insertionPoint, mappingPoint, (PositionAffinity)insertionPointAffinity);
+            }
+        }
+        public double Right
+        {
+            get
+            {
+                var uiProperties = UiProperties;
+                if (uiProperties == null)
+                    return 0.0;
+                return uiProperties.CaretBounds.Right;
+            }
+        }
+        public double Top
+        {
+            get
+            {
+                var uiProperties = UiProperties;
+                if (uiProperties == null)
+                    return 0.0;
+                return uiProperties.CaretBounds.TextTop;
+            }
+        }
+        public double Width
+        {
+            get
+            {
+                var uiProperties = UiProperties;
+                if (uiProperties == null)
+                    return 0.0;
+                return uiProperties.CaretBounds.Width;
+            }
+        }
+
+        public double PreferredYCoordinate => UiProperties.PreferredYCoordinate;
 
         public bool IsShownOnScreen
         {
             get
             {
-                if (IsContainedByView && Visibility == Visibility.Visible)
-                    return !_isHidden;
-                return false;
+                var uiProperties = UiProperties;
+                return uiProperties != null && uiProperties.IsWithinViewport;
             }
         }
 
-        public double Left => Bounds.Left;
-
-        public bool OverwriteMode
-        {
-            get => _overwriteMode;
-            private set
-            {
-                if (_overwriteMode == value)
-                    return;
-                _overwriteMode = value;
-                UpdateCaretBrush();
-            }
-        }
-
-        public CaretPosition Position => new CaretPosition(_insertionPoint,
-            _textView.BufferGraph.CreateMappingPoint(_insertionPoint.Position, PointTrackingMode.Positive),
-            _caretAffinity);
-
-        public double PreferredYCoordinate => Math.Max(_textView.ViewportTop,
-            Math.Min(_textView.ViewportBottom, _preferredYOffset + _textView.ViewportTop));
-
-        public double Right => Bounds.Right;
-
-        public double Top
+        internal double PreferredXCoordinate
         {
             get
             {
-                if (!IsContainedByView)
-                    throw new InvalidOperationException();
-                return Bounds.Top;
+                var uiProperties = UiProperties;
+                if (uiProperties == null)
+                    return 0.0;
+                return uiProperties.PreferredXCoordinate;
             }
         }
 
-        public double Width => Bounds.Width;
+        private AbstractSelectionPresentationProperties UiProperties
+        {
+            get
+            {
+                if (_multiSelectionBroker.TryGetSelectionPresentationProperties(_multiSelectionBroker.PrimarySelection, out var properties))
+                    return properties;
+                return null;
+            }
+        }
 
         private bool IsVirtualSpaceOrBoxSelectionEnabled
         {
@@ -160,56 +154,22 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             }
         }
 
-        public CaretElement(TextView textView, TextSelection selection,
-            ISmartIndentationService smartIndentationService,
-            IEditorFormatMap editorFormatMap, IClassificationFormatMap classificationFormatMap,
-            GuardedOperations guardedOperations)
+        public CaretElement(TextView textView, ISmartIndentationService smartIndentationService, GuardedOperations guardedOperations, IMultiSelectionBroker multiSelectionBroker)
         {
             _textView = textView;
-            _selection = selection;
+            _smartIndentationService = smartIndentationService;
             _guardedOperations = guardedOperations;
-            SmartIndentationService = smartIndentationService;
-            _caretAffinity = PositionAffinity.Successor;
-            _insertionPoint = new VirtualSnapshotPoint(new SnapshotPoint(_textView.TextSnapshot, 0));
-            _editorFormatMap = editorFormatMap;
-            _classificationFormatMap = classificationFormatMap;
+            _multiSelectionBroker = multiSelectionBroker;
             SubscribeEvents();
-            UpdateDefaultBrushes();
-            UpdateRegularCaretBrush();
-            UpdateOverwriteCaretBrush();
-            CaretBrush = RegularBrush;
+            _oldPosition = Position;
             IsHitTestVisible = false;
-            _blinkInterval = CaretBlinkTimeManager.GetCaretBlinkTime();
-            if (_blinkInterval > 0)
-                _blinkTimer = new DispatcherTimer(new TimeSpan(0, 0, 0, 0, _blinkInterval), DispatcherPriority.Normal,
-                    OnTimerElapsed, Dispatcher);
-            UpdateBlinkTimer();
-            _win32Caret = new Win32Caret(this, _textView);
-        }
-
-        public void Close()
-        {
-            if (_isClosed)
-                return;
-            _isClosed = true;
-            UnsubscribeEvents();
-            DisableBlinkTimer();
-            _win32Caret.Destroy();
-            _win32Caret.Dispose();
+            _multiSelectionBroker.MultiSelectionSessionChanged += OnMultiSelectionSessionChanged;
         }
 
         public void EnsureVisible()
         {
-            _textView.DoActionThatShouldOnlyBeDoneAfterViewIsLoaded(InnerEnsureVisible);
-        }
-
-        public CaretPosition MoveTo(ITextViewLine textLine)
-        {
-            if (textLine == null)
-                throw new ArgumentNullException(nameof(textLine));
-            var xCoordinate = MapXCoordinate(textLine, PreferredXCoordinate, false);
-            InternalMoveCaretToTextViewLine(textLine, xCoordinate, true, false, true, true);
-            return Position;
+            var primarySelection = _multiSelectionBroker.PrimarySelection;
+            _textView.ViewScroller.EnsureSpanVisible(new VirtualSnapshotSpan(primarySelection.InsertionPoint, primarySelection.InsertionPoint), EnsureSpanVisibleOptions.MinimumScroll);
         }
 
         public CaretPosition MoveTo(ITextViewLine textLine, double xCoordinate)
@@ -223,47 +183,55 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                 throw new ArgumentNullException(nameof(textLine));
             if (double.IsNaN(xCoordinate))
                 throw new ArgumentOutOfRangeException(nameof(xCoordinate));
-            xCoordinate = MapXCoordinate(textLine, xCoordinate, true);
-            InternalMoveCaretToTextViewLine(textLine, xCoordinate, true, captureHorizontalPosition, true, true);
+            xCoordinate = textLine.MapXCoordinate(_textView, xCoordinate, _smartIndentationService, true);
+            InternalMoveCaretToTextViewLine(textLine, xCoordinate, true, captureHorizontalPosition, true);
             return Position;
         }
 
-        public CaretPosition MoveTo(VirtualSnapshotPoint bufferPosition)
+        public CaretPosition MoveTo(ITextViewLine textLine)
         {
-            InternalMoveTo(bufferPosition, PositionAffinity.Successor, true, true, true);
-            return Position;
-        }
-
-        public CaretPosition MoveTo(VirtualSnapshotPoint bufferPosition, PositionAffinity caretAffinity)
-        {
-            InternalMoveTo(bufferPosition, caretAffinity, true, true, true);
-            return Position;
-        }
-
-        public CaretPosition MoveTo(VirtualSnapshotPoint bufferPosition, PositionAffinity caretAffinity,
-            bool captureHorizontalPosition)
-        {
-            InternalMoveTo(bufferPosition, caretAffinity, captureHorizontalPosition, true, true);
+            if (textLine == null)
+                throw new ArgumentNullException(nameof(textLine));
+            var xCoordinate = textLine.MapXCoordinate(_textView, PreferredXCoordinate, _smartIndentationService, false);
+            InternalMoveCaretToTextViewLine(textLine, xCoordinate, true, false, true);
             return Position;
         }
 
         public CaretPosition MoveTo(SnapshotPoint bufferPosition)
         {
-            InternalMoveTo(new VirtualSnapshotPoint(bufferPosition), PositionAffinity.Successor, true, true, true);
+            InternalMoveTo(new VirtualSnapshotPoint(bufferPosition), PositionAffinity.Successor, true, true);
             return Position;
         }
 
         public CaretPosition MoveTo(SnapshotPoint bufferPosition, PositionAffinity caretAffinity)
         {
-            InternalMoveTo(new VirtualSnapshotPoint(bufferPosition), caretAffinity, true, true, true);
+            InternalMoveTo(new VirtualSnapshotPoint(bufferPosition), caretAffinity, true, true);
             return Position;
         }
 
         public CaretPosition MoveTo(SnapshotPoint bufferPosition, PositionAffinity caretAffinity,
             bool captureHorizontalPosition)
         {
-            InternalMoveTo(new VirtualSnapshotPoint(bufferPosition), caretAffinity, captureHorizontalPosition, true,
-                true);
+            InternalMoveTo(new VirtualSnapshotPoint(bufferPosition), caretAffinity, captureHorizontalPosition, true);
+            return Position;
+        }
+
+        public CaretPosition MoveTo(VirtualSnapshotPoint bufferPosition)
+        {
+            InternalMoveTo(bufferPosition, PositionAffinity.Successor, true, true);
+            return Position;
+        }
+
+        public CaretPosition MoveTo(VirtualSnapshotPoint bufferPosition, PositionAffinity caretAffinity)
+        {
+            InternalMoveTo(bufferPosition, caretAffinity, true, true);
+            return Position;
+        }
+
+        public CaretPosition MoveTo(VirtualSnapshotPoint bufferPosition, PositionAffinity caretAffinity,
+            bool captureHorizontalPosition)
+        {
+            InternalMoveTo(bufferPosition, caretAffinity, captureHorizontalPosition, true);
             return Position;
         }
 
@@ -271,10 +239,8 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
         {
             var position = Position;
             var containingBufferPosition = _textView.GetTextViewLineContainingBufferPosition(position.BufferPosition);
-            if (!(position.BufferPosition == containingBufferPosition.End) ||
-                !containingBufferPosition.IsLastTextViewLineForSnapshotLine)
-                return MoveTo(_textView.GetTextElementSpan(position.BufferPosition).End, PositionAffinity.Successor,
-                    true);
+            if (!(position.BufferPosition == containingBufferPosition.End) || !containingBufferPosition.IsLastTextViewLineForSnapshotLine)
+                return MoveTo(_textView.GetTextElementSpan(position.BufferPosition).End, PositionAffinity.Successor, true);
             if (IsVirtualSpaceOrBoxSelectionEnabled)
                 return MoveTo(new VirtualSnapshotPoint(containingBufferPosition.End, position.VirtualSpaces + 1));
             if (position.BufferPosition == _textView.TextSnapshot.Length)
@@ -284,390 +250,44 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
 
         public CaretPosition MoveToPreferredCoordinates()
         {
-            var textLine = _textView.TextViewLines.GetTextViewLineContainingYCoordinate(PreferredYCoordinate) ??
-                           _textView.TextViewLines.LastVisibleLine;
-            var xCoordinate = MapXCoordinate(textLine, PreferredXCoordinate, false);
-            InternalMoveCaretToTextViewLine(textLine, xCoordinate, IsVirtualSpaceOrBoxSelectionEnabled, false, false,
-                true);
+            var textLine = _textView.TextViewLines.GetTextViewLineContainingYCoordinate(PreferredYCoordinate) ?? _textView.TextViewLines.LastVisibleLine;
+            var xCoordinate = textLine.MapXCoordinate(_textView, PreferredXCoordinate, _smartIndentationService, false);
+            InternalMoveCaretToTextViewLine(textLine, xCoordinate, IsVirtualSpaceOrBoxSelectionEnabled, false, false);
             return Position;
+        }
+
+        public void Close()
+        {
+            if (_isClosed)
+                return;
+            _isClosed = true;
+            UnsubscribeEvents();
         }
 
         public CaretPosition MoveToPreviousCaretPosition()
         {
             var position = Position;
             if (position.VirtualSpaces > 0)
-                return MoveTo(new VirtualSnapshotPoint(
-                    _textView.TextSnapshot.GetLineFromPosition(position.BufferPosition).End,
-                    IsVirtualSpaceOrBoxSelectionEnabled ? position.VirtualSpaces - 1 : 0));
+                return MoveTo(new VirtualSnapshotPoint(_textView.TextSnapshot.GetLineFromPosition(position.BufferPosition).End, IsVirtualSpaceOrBoxSelectionEnabled ? position.VirtualSpaces - 1 : 0));
             if (position.BufferPosition == 0)
                 return position;
-            return MoveTo(_textView.GetTextElementSpan(position.BufferPosition - 1).Start, PositionAffinity.Successor,
-                true);
+            return MoveTo(_textView.GetTextElementSpan(position.BufferPosition - 1).Start, PositionAffinity.Successor, true);
         }
 
-        internal static double GetXCoordinateFromVirtualBufferPosition(ITextViewLine textLine,
-            VirtualSnapshotPoint bufferPosition)
+        internal static VirtualSnapshotPoint NormalizePosition(VirtualSnapshotPoint bufferPosition, ITextViewLine textLine)
         {
-            if (!bufferPosition.IsInVirtualSpace && !(bufferPosition.Position == textLine.Start))
-                return textLine.GetExtendedCharacterBounds(bufferPosition.Position - 1).Trailing;
-            return textLine.GetExtendedCharacterBounds(bufferPosition).Leading;
-        }
-
-        internal static VirtualSnapshotPoint NormalizePosition(VirtualSnapshotPoint bufferPosition,
-            ITextViewLine textLine)
-        {
-            if ((bufferPosition.IsInVirtualSpace
-                    ? (!textLine.IsLastTextViewLineForSnapshotLine
-                        ? 1
-                        : (bufferPosition.Position != textLine.End ? 1 : 0))
-                    : (bufferPosition.Position != textLine.Start ? 1 : 0)) != 0)
-                bufferPosition = new VirtualSnapshotPoint(bufferPosition.Position < textLine.End
-                    ? textLine.GetTextElementSpan(bufferPosition.Position).Start
-                    : textLine.End);
+            if ((bufferPosition.IsInVirtualSpace ? (!textLine.IsLastTextViewLineForSnapshotLine ? 1 : (bufferPosition.Position != textLine.End ? 1 : 0)) : (bufferPosition.Position != textLine.Start ? 1 : 0)) != 0)
+                bufferPosition = new VirtualSnapshotPoint(bufferPosition.Position < textLine.End ? textLine.GetTextElementSpan(bufferPosition.Position).Start : textLine.End);
             return bufferPosition;
         }
 
-        internal void LayoutChanged(ITextSnapshot oldSnapshot, ITextSnapshot newSnapshot)
-        {
-            if (oldSnapshot != newSnapshot)
-                _insertionPoint = _insertionPoint.TranslateTo(newSnapshot);
-            UpdateBlinkTimer();
-            var preserveCoordinates = AnyTextChanges(oldSnapshot.Version, newSnapshot.Version);
-            RefreshCaret(preserveCoordinates);
-            if (!preserveCoordinates || !_textView.Options.IsAutoScrollEnabled() ||
-                _insertionPoint.Position.GetContainingLine().LineNumber != newSnapshot.LineCount - 1)
-                return;
-            _textView.VisualElement.Dispatcher.BeginInvoke(DispatcherPriority.Render, (Action) EnsureVisible);
-        }
-
-        internal void UpdateCaret()
-        {
-            _updateNeeded = false;
-            if (!IsContainedByView)
-                return;
-            if (CaretGeometryNeedsToBeUpdated || _displayedWidth != Bounds.Width || _displayedHeight != Bounds.Height)
-                ConstructCaretGeometry();
-            CaretGeometry.Transform = new TranslateTransform(Bounds.Left, Bounds.Top);
-            CaretGeometry.Transform.Freeze();
-        }
-
-        protected override void OnRender(DrawingContext drawingContext)
-        {
-            if (_updateNeeded)
-                UpdateCaret();
-            Opacity = _newOpacity;
-            base.OnRender(drawingContext);
-            if (IsShownOnScreen)
-            {
-                if (_blinkTimer != null && !_blinkTimer.IsEnabled)
-                    UpdateBlinkTimer();
-                drawingContext.DrawGeometry(CaretBrush, null, CaretGeometry);
-                if (_win32Caret.IsVisible)
-                    _win32Caret.Update();
-                else
-                    _win32Caret.Show();
-            }
-            else
-            {
-                DisableBlinkTimer();
-            }
-        }
-
-        private static bool AnyTextChanges(ITextVersion oldVersion, ITextVersion currentVersion)
-        {
-            for (; oldVersion != currentVersion; oldVersion = oldVersion.Next)
-                if (oldVersion.Changes.Count > 0)
-                    return true;
-            return false;
-        }
-
-        private void CapturePreferredPositions(bool captureHorizontalPosition, bool captureVerticalPosition)
-        {
-            if (captureHorizontalPosition)
-                PreferredXCoordinate = Bounds.Left;
-            if (!captureVerticalPosition)
-                return;
-            CapturePreferredYCoordinate();
-        }
-
-        private void CapturePreferredYCoordinate()
-        {
-            var textViewLine = ContainingTextViewLine;
-            if (textViewLine.VisibilityState == VisibilityState.Unattached ||
-                textViewLine.VisibilityState == VisibilityState.Hidden)
-            {
-                textViewLine = _textView.TextViewLines.LastVisibleLine;
-                var snapshotPoint = _insertionPoint.Position;
-                var position1 = snapshotPoint.Position;
-                snapshotPoint = textViewLine.Start;
-                var position2 = snapshotPoint.Position;
-                if (position1 < position2)
-                    textViewLine = _textView.TextViewLines.FirstVisibleLine;
-            }
-
-            _preferredYOffset = textViewLine.Top + textViewLine.Height * 0.5 - _textView.ViewportTop;
-        }
-
-        private void ConstructCaretGeometry()
-        {
-            _displayedWidth = Bounds.Width;
-            _displayedHeight = Bounds.Height;
-            CaretGeometryNeedsToBeUpdated = false;
-            var pathGeometry = new PathGeometry();
-            pathGeometry.AddGeometry(new RectangleGeometry(new Rect(0.0, 0.0, _displayedWidth, _displayedHeight)));
-            if (InputLanguageManager.Current.CurrentInputLanguage.TextInfo.IsRightToLeft)
-                pathGeometry.Figures.Add(new PathFigure
-                {
-                    StartPoint = new Point(0.0, 0.0),
-                    Segments =
-                    {
-                        new LineSegment(new Point(-2.0, 0.0), true),
-                        new LineSegment(new Point(0.0, _displayedHeight / 10.0), true)
-                    },
-                    IsClosed = true
-                });
-            CaretGeometry = pathGeometry;
-        }
-
-        private void DisableBlinkTimer()
-        {
-            _blinkTimer?.Stop();
-        }
-
-        private ITextViewLine GetContainingTextViewLine(SnapshotPoint bufferPosition, PositionAffinity caretAffinity)
-        {
-            var containingBufferPosition = _textView.GetTextViewLineContainingBufferPosition(bufferPosition);
-            if (caretAffinity == PositionAffinity.Predecessor && containingBufferPosition.Start == bufferPosition &&
-                _textView.TextSnapshot.GetLineFromPosition(bufferPosition).Start != bufferPosition)
-                containingBufferPosition = _textView.GetTextViewLineContainingBufferPosition(bufferPosition - 1);
-            return containingBufferPosition;
-        }
-
-        private void InnerEnsureVisible()
-        {
-            if (_textView.IsClosed)
-                return;
-            var containingTextViewLine1 = GetContainingTextViewLine(_insertionPoint.Position, _caretAffinity);
-            if (containingTextViewLine1.VisibilityState != VisibilityState.FullyVisible)
-            {
-                var start = containingTextViewLine1.Start;
-                var nullable = new ViewRelativePosition?();
-                if (containingTextViewLine1.VisibilityState != VisibilityState.Unattached)
-                {
-                    if (containingTextViewLine1.Height <= _textView.ViewportHeight + 0.01)
-                        nullable = containingTextViewLine1.Top >= _textView.ViewportTop
-                            ? ViewRelativePosition.Bottom
-                            : ViewRelativePosition.Top;
-                    else if (containingTextViewLine1.Bottom < _textView.ViewportBottom)
-                        nullable = ViewRelativePosition.Bottom;
-                    else if (containingTextViewLine1.Top > _textView.ViewportTop)
-                        nullable = ViewRelativePosition.Top;
-                }
-                else
-                {
-                    nullable = start < _textView.TextViewLines.FormattedSpan.Start ==
-                               containingTextViewLine1.Height <= _textView.ViewportHeight + 0.01
-                        ? ViewRelativePosition.Top
-                        : ViewRelativePosition.Bottom;
-                }
-
-                if (nullable.HasValue) _textView.DisplayTextLineContainingBufferPosition(start, 0.0, nullable.Value);
-            }
-
-            var num = Math.Max(2.0, Math.Min(200.0, _textView.ViewportWidth / 4.0));
-            if (_textView.ViewportWidth == 0.0)
-            {
-                _textView.ViewportLeft = 0.0;
-            }
-            else if (Bounds.Left - 2.0 < _textView.ViewportLeft)
-            {
-                _textView.ViewportLeft = Bounds.Left - num;
-            }
-            else
-            {
-                if (Bounds.Right + 2.0 <= _textView.ViewportRight)
-                    return;
-                _textView.ViewportLeft = Bounds.Right + num - _textView.ViewportWidth;
-            }
-        }
-
-        private void InternalMoveCaret(VirtualSnapshotPoint bufferPosition, PositionAffinity caretAffinity,
-            ITextViewLine textLine, bool captureHorizontalPosition, bool captureVerticalPosition, bool raiseEvent)
-        {
-            var position1 = Position;
-            _caretAffinity = caretAffinity;
-            _insertionPoint = bufferPosition;
-            _forceVirtualSpace = _insertionPoint.IsInVirtualSpace && !IsVirtualSpaceOrBoxSelectionEnabled;
-            _emptySelection = _textView.Selection.IsEmpty;
-            IsContainedByView = (uint) textLine.VisibilityState > 0U;
-            OverwriteMode = !bufferPosition.IsInVirtualSpace && !(textLine.End == bufferPosition.Position) &&
-                            _textView.Options.IsOverwriteModeEnabled() && _emptySelection;
-            double x;
-            double width;
-            if (_overwriteMode)
-            {
-                var extendedCharacterBounds = textLine.GetExtendedCharacterBounds(bufferPosition);
-                x = extendedCharacterBounds.Left;
-                width = extendedCharacterBounds.Width;
-            }
-            else
-            {
-                x = GetXCoordinateFromVirtualBufferPosition(textLine, bufferPosition);
-                width = SystemParameters.CaretWidth;
-            }
-
-            Bounds = new Rect(x, textLine.TextTop, width, textLine.TextHeight);
-            CapturePreferredPositions(captureHorizontalPosition, captureVerticalPosition);
-            var position2 = Position;
-            if (position2 != position1)
-            {
-                UpdateBlinkTimer();
-                if (raiseEvent)
-                {
-                    if (_selection.IsEmpty)
-                        _selection.RaiseChangedEvent(true, true, true);
-                    // ISSUE: reference to a compiler-generated field
-                    var positionChanged = PositionChanged;
-                    if (positionChanged != null)
-                        _guardedOperations.RaiseEvent(this, positionChanged,
-                            new CaretPositionChangedEventArgs(_textView, position1, position2));
-                }
-            }
-
-            InvalidateVisual();
-            _updateNeeded = true;
-        }
-
-        private void InternalMoveCaretToTextViewLine(ITextViewLine textLine, double xCoordinate,
-            bool allowPlacementInVirtualSpace, bool captureHorizontalPosition, bool captureVerticalPosition,
-            bool raiseEvent)
+        private void InternalMoveCaretToTextViewLine(ITextViewLine textLine, double xCoordinate, bool allowPlacementInVirtualSpace, bool captureHorizontalPosition, bool captureVerticalPosition)
         {
             var bufferPosition = textLine.GetInsertionBufferPositionFromXCoordinate(xCoordinate);
             if (!allowPlacementInVirtualSpace)
                 bufferPosition = new VirtualSnapshotPoint(bufferPosition.Position);
-            var caretAffinity = textLine.IsLastTextViewLineForSnapshotLine || !(bufferPosition.Position == textLine.End)
-                ? PositionAffinity.Successor
-                : PositionAffinity.Predecessor;
-            InternalMoveCaret(bufferPosition, caretAffinity, textLine, captureHorizontalPosition,
-                captureVerticalPosition, raiseEvent);
-        }
-
-        private void InternalMoveTo(VirtualSnapshotPoint bufferPosition, PositionAffinity caretAffinity,
-            bool captureHorizontalPosition, bool captureVerticalPosition, bool raiseEvent)
-        {
-            if (bufferPosition.Position.Snapshot != _textView.TextSnapshot)
-                throw new ArgumentException();
-            var containingTextViewLine = GetContainingTextViewLine(bufferPosition.Position, caretAffinity);
-            var bufferPosition1 = NormalizePosition(bufferPosition, containingTextViewLine);
-            if (bufferPosition1 != bufferPosition)
-                raiseEvent = true;
-            InternalMoveCaret(bufferPosition1, caretAffinity, containingTextViewLine, captureHorizontalPosition,
-                captureVerticalPosition, raiseEvent);
-        }
-
-        private double MapXCoordinate(ITextViewLine textLine, double xCoordinate, bool userSpecifiedXCoordinate)
-        {
-            if (xCoordinate > textLine.TextRight && !IsVirtualSpaceOrBoxSelectionEnabled)
-            {
-                var num = 0.0;
-                if (textLine.End == textLine.Start)
-                {
-                    var desiredIndentation =
-                        SmartIndentationService.GetDesiredIndentation(_textView, textLine.Start.GetContainingLine());
-                    if (desiredIndentation.HasValue)
-                    {
-                        num = Math.Max(0.0,
-                            desiredIndentation.Value * _textView.FormattedLineSource.ColumnWidth - textLine.TextWidth);
-                        if (userSpecifiedXCoordinate && xCoordinate < textLine.TextRight + num)
-                            num = 0.0;
-                    }
-                }
-
-                xCoordinate = textLine.TextRight + num;
-            }
-
-            return xCoordinate;
-        }
-
-        private void OnClassificationFormatMappingChanged(object sender, EventArgs e)
-        {
-            if (!UpdateDefaultBrushes())
-                return;
-            UpdateRegularCaretBrush();
-            UpdateOverwriteCaretBrush();
-            UpdateCaretBrush();
-        }
-
-        private void OnFormatMappingChanged(object sender, FormatItemsEventArgs e)
-        {
-            var flag = false;
-            if (e.ChangedItems.Contains("Caret"))
-            {
-                UpdateRegularCaretBrush();
-                flag = true;
-            }
-
-            if (e.ChangedItems.Contains("Overwrite Caret"))
-            {
-                UpdateOverwriteCaretBrush();
-                flag = true;
-            }
-
-            if (!flag)
-                return;
-            UpdateCaretBrush();
-        }
-
-        private void OnInputLanguageChanged(object sender, InputLanguageEventArgs e)
-        {
-            InvalidateVisual();
-            _updateNeeded = true;
-            CaretGeometryNeedsToBeUpdated = true;
-        }
-
-        private void OnOptionsChanged(object sender, EditorOptionChangedEventArgs e)
-        {
-            if (e.OptionId == DefaultTextViewOptions.OverwriteModeId.Name)
-            {
-                RefreshCaret(false);
-            }
-            else
-            {
-                if (e.OptionId != DefaultTextViewOptions.UseVirtualSpaceId.Name || IsVirtualSpaceOrBoxSelectionEnabled)
-                    return;
-                RefreshCaret(false, true);
-            }
-        }
-
-        private void OnSelectionChanged(object sender, EventArgs e)
-        {
-            if (!_textView.Options.IsOverwriteModeEnabled() || _textView.Selection.IsEmpty == _emptySelection)
-                return;
-            RefreshCaret(false);
-        }
-
-        private void OnTimerElapsed(object sender, EventArgs e)
-        {
-            InvalidateVisual();
-            _newOpacity = _newOpacity == 0.0 ? 1.0 : 0.0;
-        }
-
-        private void OnVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            if ((bool) e.NewValue)
-            {
-                InputLanguageManager.Current.InputLanguageChanged += OnInputLanguageChanged;
-                InvalidateVisual();
-                CaretGeometryNeedsToBeUpdated = true;
-                UpdateBlinkTimer();
-            }
-            else
-            {
-                InputLanguageManager.Current.InputLanguageChanged -= OnInputLanguageChanged;
-                if (_win32Caret.IsVisible)
-                    _win32Caret.Hide();
-                DisableBlinkTimer();
-            }
+            var caretAffinity = textLine.IsLastTextViewLineForSnapshotLine || !(bufferPosition.Position == textLine.End) ? PositionAffinity.Successor : PositionAffinity.Predecessor;
+            InternalMoveCaret(bufferPosition, caretAffinity, captureHorizontalPosition, captureVerticalPosition);
         }
 
         private void RefreshCaret(bool preserveCoordinates, bool clearVirtualSpace = false)
@@ -678,13 +298,56 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             InternalMoveTo(bufferPosition, Position.Affinity, preserveCoordinates, preserveCoordinates, false);
         }
 
-        private void SubscribeEvents()
+        private void InternalMoveTo(VirtualSnapshotPoint bufferPosition, PositionAffinity caretAffinity, bool captureHorizontalPosition, bool captureVerticalPosition, bool clearSecondaryCarets = true)
         {
-            IsVisibleChanged += OnVisibleChanged;
-            _textView.Options.OptionChanged += OnOptionsChanged;
-            _textView.Selection.SelectionChanged += OnSelectionChanged;
-            _editorFormatMap.FormatMappingChanged += OnFormatMappingChanged;
-            _classificationFormatMap.ClassificationFormatMappingChanged += OnClassificationFormatMappingChanged;
+            if (bufferPosition.Position.Snapshot != _textView.TextSnapshot)
+                throw new ArgumentException();
+            var containingTextViewLine = GetContainingTextViewLine(bufferPosition.Position, caretAffinity);
+            InternalMoveCaret(NormalizePosition(bufferPosition, containingTextViewLine), caretAffinity, captureHorizontalPosition, captureVerticalPosition, clearSecondaryCarets);
+        }
+
+        private ITextViewLine GetContainingTextViewLine(SnapshotPoint bufferPosition, PositionAffinity caretAffinity)
+        {
+            var containingBufferPosition = _textView.GetTextViewLineContainingBufferPosition(bufferPosition);
+            if (caretAffinity == PositionAffinity.Predecessor && containingBufferPosition.Start == bufferPosition && _textView.TextSnapshot.GetLineFromPosition(bufferPosition).Start != bufferPosition)
+                containingBufferPosition = _textView.GetTextViewLineContainingBufferPosition(bufferPosition - 1);
+            return containingBufferPosition;
+        }
+
+        private void InternalMoveCaret(VirtualSnapshotPoint bufferPosition, PositionAffinity caretAffinity, bool captureHorizontalPosition, bool captureVerticalPosition, bool clearSecondaryCarets = true)
+        {
+            using (_multiSelectionBroker.BeginBatchOperation())
+            {
+                Selection before;
+                if (_multiSelectionBroker.IsBoxSelection)
+                {
+                    before = _multiSelectionBroker.BoxSelection;
+                }
+                else
+                {
+                    if (clearSecondaryCarets)
+                        _multiSelectionBroker.ClearSecondarySelections();
+                    before = _multiSelectionBroker.PrimarySelection;
+                }
+                _multiSelectionBroker.TryPerformActionOnSelection(before, transformer =>
+                {
+                    var activePoint = bufferPosition;
+                    var anchorPoint = bufferPosition;
+                    if (!transformer.Selection.IsEmpty)
+                    {
+                        activePoint = transformer.Selection.ActivePoint;
+                        anchorPoint = transformer.Selection.AnchorPoint;
+                    }
+                    transformer.MoveTo(anchorPoint, activePoint, bufferPosition, caretAffinity);
+                    if (captureHorizontalPosition)
+                        transformer.CapturePreferredXReferencePoint();
+                    if (!captureVerticalPosition)
+                        return;
+                    transformer.CapturePreferredYReferencePoint();
+                }, out _);
+                _forceVirtualSpace = _multiSelectionBroker.PrimarySelection.InsertionPoint.IsInVirtualSpace && !IsVirtualSpaceOrBoxSelectionEnabled;
+                _emptySelection = _textView.Selection.IsEmpty;
+            }
         }
 
         private void UnsubscribeEvents()
@@ -692,274 +355,67 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
             IsVisibleChanged -= OnVisibleChanged;
             _textView.Options.OptionChanged -= OnOptionsChanged;
             _textView.Selection.SelectionChanged -= OnSelectionChanged;
-            _editorFormatMap.FormatMappingChanged -= OnFormatMappingChanged;
-            _classificationFormatMap.ClassificationFormatMappingChanged -= OnClassificationFormatMappingChanged;
-            if (InputLanguageManager.Current == null)
-                return;
             InputLanguageManager.Current.InputLanguageChanged -= OnInputLanguageChanged;
         }
 
-        private void UpdateBlinkTimer()
+        private void SubscribeEvents()
         {
-            Opacity = 1.0;
-            if (_blinkTimer == null)
-                return;
-            var caretBlinkTime = CaretBlinkTimeManager.GetCaretBlinkTime();
-            if (_textView.VisualElement.IsVisible && caretBlinkTime > 0)
-            {
-                if (_blinkInterval != caretBlinkTime)
-                {
-                    _blinkTimer.Interval = new TimeSpan(0, 0, 0, 0, caretBlinkTime);
-                    _blinkInterval = caretBlinkTime;
-                }
+            IsVisibleChanged += OnVisibleChanged;
+            _textView.Options.OptionChanged += OnOptionsChanged;
+            _textView.Selection.SelectionChanged += OnSelectionChanged;
+        }
 
-                _blinkTimer.Start();
+        private void OnVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if ((bool)e.NewValue)
+            {
+                InputLanguageManager.Current.InputLanguageChanged += OnInputLanguageChanged;
+                InvalidateVisual();
+                _caretGeometryNeedsToBeUpdated = true;
+            }
+            else
+                InputLanguageManager.Current.InputLanguageChanged -= OnInputLanguageChanged;
+        }
+
+        private void OnOptionsChanged(object sender, EditorOptionChangedEventArgs e)
+        {
+            if (string.Equals(e.OptionId, DefaultTextViewOptions.OverwriteModeId.Name, StringComparison.Ordinal))
+            {
+                RefreshCaret(false);
             }
             else
             {
-                DisableBlinkTimer();
+                if (!string.Equals(e.OptionId, DefaultTextViewOptions.UseVirtualSpaceId.Name, StringComparison.Ordinal) || IsVirtualSpaceOrBoxSelectionEnabled)
+                    return;
+                RefreshCaret(false, true);
             }
-
-            _newOpacity = 1.0;
         }
 
-        private void UpdateCaretBrush()
+        private void OnInputLanguageChanged(object sender, InputLanguageEventArgs e)
         {
-            CaretBrush = !_overwriteMode ? RegularBrush : OverwriteBrush;
-            if (!IsShownOnScreen)
-                return;
             InvalidateVisual();
+            _caretGeometryNeedsToBeUpdated = true;
         }
 
-        private bool UpdateDefaultBrushes()
+        private void OnSelectionChanged(object sender, EventArgs e)
         {
-            var defaultTextProperties = _classificationFormatMap.DefaultTextProperties;
-            if (defaultTextProperties.ForegroundBrushEmpty)
-            {
-                DefaultRegularBrush = SystemColors.WindowTextBrush;
-                DefaultOverwriteBrush = SystemColors.WindowTextBrush.Clone();
-                DefaultOverwriteBrush.Opacity = 0.5;
-                return true;
-            }
-
-            if (defaultTextProperties.ForegroundBrushSame(DefaultRegularBrush))
-                return false;
-            DefaultRegularBrush = defaultTextProperties.ForegroundBrush;
-            DefaultOverwriteBrush = DefaultRegularBrush.Clone();
-            DefaultOverwriteBrush.Opacity = 0.5;
-            return true;
-        }
-
-        private void UpdateOverwriteCaretBrush()
-        {
-            var properties = _editorFormatMap.GetProperties("Overwrite Caret");
-            if (properties.Contains("ForegroundColor"))
-                OverwriteBrush = new SolidColorBrush((Color) properties["ForegroundColor"]) {Opacity = 0.5};
-            else
-                OverwriteBrush = !properties.Contains("Foreground")
-                    ? DefaultOverwriteBrush
-                    : (Brush) properties["Foreground"];
-            if (!OverwriteBrush.CanFreeze)
+            if (!_textView.Options.IsOverwriteModeEnabled() || _textView.Selection.IsEmpty == _emptySelection)
                 return;
-            OverwriteBrush.Freeze();
+            RefreshCaret(false);
         }
 
-        private void UpdateRegularCaretBrush()
+        private void OnMultiSelectionSessionChanged(object sender, EventArgs e)
         {
-            var properties = _editorFormatMap.GetProperties("Caret");
-            RegularBrush = !properties.Contains("ForegroundColor")
-                ? (!properties.Contains("Foreground") ? DefaultRegularBrush : (Brush) properties["Foreground"])
-                : new SolidColorBrush((Color) properties["ForegroundColor"]);
-            if (!RegularBrush.CanFreeze)
+            var position = Position;
+            var oldPosition = _oldPosition;
+            _oldPosition = position;
+            if (!(oldPosition.VirtualBufferPosition.TranslateTo(position.VirtualBufferPosition.Position.Snapshot) != position.VirtualBufferPosition))
                 return;
-            RegularBrush.Freeze();
-        }
-
-        [SuppressUnmanagedCodeSecurity]
-        internal static class NativeMethods
-        {
-            [DllImport("user32.dll", CharSet = CharSet.Auto)]
-            public static extern void NotifyWinEvent(int winEvent, IntPtr hwnd, int objType, int objID);
-
-            [DllImport("oleacc.dll", CharSet = CharSet.Auto)]
-            public static extern IntPtr LresultFromObject(ref Guid refiid, IntPtr wParam, IntPtr pAcc);
-        }
-
-        [Export(typeof(EditorFormatDefinition))]
-        [Name("Caret")]
-        [UserVisible(false)]
-        internal sealed class CaretProperties : EditorFormatDefinition
-        {
-            public CaretProperties()
-            {
-                BackgroundCustomizable = false;
-            }
-        }
-
-        [Export(typeof(EditorFormatDefinition))]
-        [Name("Overwrite Caret")]
-        [UserVisible(false)]
-        internal sealed class OverwriteCaretProperties : EditorFormatDefinition
-        {
-            public OverwriteCaretProperties()
-            {
-                BackgroundCustomizable = false;
-            }
-        }
-
-        internal class Win32Caret
-        {
-            private readonly CaretElement _wpfCaret;
-            private readonly ITextView _wpfTextView;
-            private bool _isCreated;
-            private Win32CaretLocation _lastPosition;
-            private IntPtr _windowHandle;
-
-            public Point BottomRight { get; private set; }
-
-            public bool IsVisible { get; private set; }
-
-            public Point TopLeft { get; private set; }
-
-            public Win32Caret(CaretElement wpfCaret, ITextView wpfTextView)
-            {
-                _wpfCaret = wpfCaret;
-                _wpfTextView = wpfTextView;
-                _windowHandle = IntPtr.Zero;
-                _isCreated = false;
-                PresentationSource.AddSourceChangedHandler(_wpfCaret, OnPresentationSourceChanged);
-                var presentationSource = GetPresentationSource();
-                if (presentationSource != null)
-                    GetWindowHandle(presentationSource);
-                Create();
-            }
-
-            public void Create()
-            {
-                if (!(_windowHandle != IntPtr.Zero))
-                    return;
-                NativeMethods.NotifyWinEvent(32768, _windowHandle, -8, 0);
-                _isCreated = true;
-            }
-
-            public void Destroy()
-            {
-                if (!_isCreated || !(_windowHandle != IntPtr.Zero))
-                    return;
-                NativeMethods.NotifyWinEvent(32769, _windowHandle, -8, 0);
-                _isCreated = false;
-            }
-
-            public void Dispose()
-            {
-                PresentationSource.RemoveSourceChangedHandler(_wpfCaret, OnPresentationSourceChanged);
-            }
-
-            public void Hide()
-            {
-                if (!IsVisible)
-                    return;
-                if (_windowHandle != IntPtr.Zero)
-                    NativeMethods.NotifyWinEvent(32771, _windowHandle, -8, 0);
-                IsVisible = false;
-            }
-
-            public void Show()
-            {
-                if (IsVisible)
-                    return;
-                if (_windowHandle != IntPtr.Zero)
-                {
-                    NativeMethods.NotifyWinEvent(32770, _windowHandle, -8, 0);
-                    IsVisible = true;
-                }
-
-                if (!IsVisible)
-                    return;
-                SetPosition(_windowHandle);
-            }
-
-            public void Update()
-            {
-                if (!(_windowHandle != IntPtr.Zero))
-                    return;
-                SetPosition(_windowHandle);
-            }
-
-            private PresentationSource GetPresentationSource()
-            {
-                new UIPermission(UIPermissionWindow.AllWindows).Assert();
-                try
-                {
-                    return PresentationSource.FromVisual(_wpfTextView.VisualElement);
-                }
-                finally
-                {
-                    CodeAccessPermission.RevertAssert();
-                }
-            }
-
-            private void GetWindowHandle(PresentationSource pSource)
-            {
-                _windowHandle = pSource is IWin32Window win32Window ? win32Window.Handle : IntPtr.Zero;
-            }
-
-            private void OnPresentationSourceChanged(object sender, SourceChangedEventArgs e)
-            {
-                Destroy();
-                GetWindowHandle(e.NewSource);
-                Create();
-            }
-
-            private void SetPosition(IntPtr hWnd)
-            {
-                var win32CaretLocation = new Win32CaretLocation(_wpfCaret);
-                if (!(_lastPosition != win32CaretLocation))
-                    return;
-                _lastPosition = win32CaretLocation;
-                var rect = _wpfCaret.RenderTransform.TransformBounds(_wpfCaret.Bounds);
-                TopLeft = _wpfCaret.PointToScreen(rect.TopLeft);
-                BottomRight = _wpfCaret.PointToScreen(rect.BottomRight);
-                NativeMethods.NotifyWinEvent(32779, hWnd, -8, 0);
-            }
-
-            private struct Win32CaretLocation
-            {
-                private readonly int _bufferPosition;
-                private readonly int _snapshotVersion;
-                private readonly int _virtualSpaces;
-
-                public Win32CaretLocation(CaretElement wpfCaret)
-                {
-                    _bufferPosition = wpfCaret._insertionPoint.Position.Position;
-                    _snapshotVersion = wpfCaret._insertionPoint.Position.Snapshot.Version.VersionNumber;
-                    _virtualSpaces = wpfCaret._insertionPoint.VirtualSpaces;
-                }
-
-                public static bool operator ==(Win32CaretLocation a, Win32CaretLocation b)
-                {
-                    if (a._bufferPosition == b._bufferPosition && a._snapshotVersion == b._snapshotVersion)
-                        return a._virtualSpaces == b._virtualSpaces;
-                    return false;
-                }
-
-                public static bool operator !=(Win32CaretLocation a, Win32CaretLocation b)
-                {
-                    return !(a == b);
-                }
-
-                public override bool Equals(object obj)
-                {
-                    if (obj is Win32CaretLocation nullable)
-                        return nullable == this;
-                    return false;
-                }
-
-                public override int GetHashCode()
-                {
-                    throw new InvalidOperationException("W32CaretLocation is never meant to be hashed");
-                }
-            }
+            var positionChanged = PositionChanged;
+            if (positionChanged == null)
+                return;
+            _textView.BufferGraph.CreateMappingPoint(oldPosition.VirtualBufferPosition.Position, PointTrackingMode.Positive);
+            _guardedOperations.RaiseEvent(this, positionChanged, new CaretPositionChangedEventArgs(_textView, oldPosition, Position));
         }
     }
 }

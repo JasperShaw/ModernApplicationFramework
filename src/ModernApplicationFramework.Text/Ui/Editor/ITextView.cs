@@ -6,6 +6,7 @@ using ModernApplicationFramework.Text.Data.Projection;
 using ModernApplicationFramework.Text.Logic;
 using ModernApplicationFramework.Text.Logic.Editor;
 using ModernApplicationFramework.Text.Ui.Formatting;
+using ModernApplicationFramework.Text.Ui.Text;
 using ModernApplicationFramework.Utilities.Core;
 
 namespace ModernApplicationFramework.Text.Ui.Editor
@@ -33,6 +34,8 @@ namespace ModernApplicationFramework.Text.Ui.Editor
         event EventHandler ViewportWidthChanged;
 
         event EventHandler<ZoomLevelChangedEventArgs> ZoomLevelChanged;
+
+        IMultiSelectionBroker MultiSelectionBroker { get; }
 
         Brush Background { get; set; }
 

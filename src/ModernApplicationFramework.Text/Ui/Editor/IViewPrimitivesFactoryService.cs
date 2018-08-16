@@ -8,7 +8,7 @@
 
         DisplayTextRange CreateDisplayTextRange(PrimitiveTextView textView, TextRange textRange);
 
-        Selection CreateSelection(PrimitiveTextView textView);
+        LegacySelection CreateSelection(PrimitiveTextView textView);
 
         Caret CreateCaret(PrimitiveTextView textView);
     }

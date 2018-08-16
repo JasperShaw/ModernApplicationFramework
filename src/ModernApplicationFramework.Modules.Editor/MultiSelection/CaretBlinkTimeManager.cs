@@ -1,7 +1,7 @@
 ﻿using Microsoft.Win32;
 using ModernApplicationFramework.Modules.Editor.NativeMethods;
 
-namespace ModernApplicationFramework.Modules.Editor.Implementation
+namespace ModernApplicationFramework.Modules.Editor.MultiSelection
 {
     internal static class CaretBlinkTimeManager
     {

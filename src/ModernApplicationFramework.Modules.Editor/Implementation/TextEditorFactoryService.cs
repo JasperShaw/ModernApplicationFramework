@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using ModernApplicationFramework.Modules.Editor.Text;
 using ModernApplicationFramework.Modules.Editor.Utilities;
 using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Text.Data.Projection;
@@ -72,6 +73,9 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
         [Import] internal ITextAndAdornmentSequencerFactoryService TextAndAdornmentSequencerFactoryService { get; set; }
 
         [Import] internal ITextBufferFactoryService TextBufferFactoryService { get; set; }
+
+        [Import]
+        internal IMultiSelectionBrokerFactory MultiSelectionBrokerFactory { get; set; }
 
         [ImportMany(typeof(ITextViewConnectionListener))]
         internal List<Lazy<ITextViewConnectionListener, IContentTypeAndTextViewRoleMetadata>>

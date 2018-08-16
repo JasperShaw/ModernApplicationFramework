@@ -9,6 +9,7 @@ using ModernApplicationFramework.Text.Ui.Editor;
 using ModernApplicationFramework.Text.Ui.Editor.DragDrop;
 using ModernApplicationFramework.Text.Ui.Formatting;
 using ModernApplicationFramework.Text.Ui.Operations;
+using ModernApplicationFramework.Text.Ui.Text;
 
 namespace ModernApplicationFramework.Modules.Editor.DragDrop
 {
@@ -20,7 +21,7 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
         internal DragDropStateManager StateManager;
         private readonly GuardedOperations _guardedOperations;
         private readonly DragDropVisualManager _visualManager;
-        private readonly ITextView _wpfTextView;
+        private readonly ITextView _textView;
         private Point? _mouseDownAnchorPoint;
 
         public DragDropMouseProcessor(ITextView wpfTextView,
@@ -37,19 +38,19 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
             //    throw new ArgumentNullException(nameof(undoHistory));
             if (guardedOperations == null)
                 throw new ArgumentNullException(nameof(guardedOperations));
-            _wpfTextView = wpfTextView ?? throw new ArgumentNullException(nameof(wpfTextView));
+            _textView = wpfTextView ?? throw new ArgumentNullException(nameof(wpfTextView));
             _visualManager = new DragDropVisualManager(wpfTextView, classificationFormatMapService);
             StateManager = new DragDropStateManager(wpfTextView, rtfBuilderService,
                 new DropHandlerManager(dropHandlers, wpfTextView, guardedOperations), _visualManager, /*undoHistory,*/
                 guardedOperations);
-            IsDragDropEnabled = _wpfTextView.Options.IsDragDropEditingEnabled();
+            IsDragDropEnabled = _textView.Options.IsDragDropEditingEnabled();
             _mouseDownAnchorPoint = new Point?();
             _guardedOperations = guardedOperations;
-            _wpfTextView.Options.OptionChanged += (sender, eventArgs) =>
+            _textView.Options.OptionChanged += (sender, eventArgs) =>
             {
                 if (eventArgs.OptionId != DefaultTextViewOptions.DragDropEditingId.Name)
                     return;
-                IsDragDropEnabled = _wpfTextView.Options.IsDragDropEditingEnabled();
+                IsDragDropEnabled = _textView.Options.IsDragDropEditingEnabled();
             };
         }
 
@@ -103,8 +104,7 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
 
         public void DoPreprocessMouseLeftButtonDown(MouseButtonEventArgs e, Point position)
         {
-            if (e.ClickCount != 1 || (Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift ||
-                !HandleMouseLeftButtonDown(e.ButtonState == MouseButtonState.Pressed, position))
+            if (e.ClickCount != 1 || !HandleMouseLeftButtonDown(e.ButtonState == MouseButtonState.Pressed, position, Keyboard.Modifiers))
                 return;
             e.Handled = true;
         }
@@ -236,32 +236,36 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
             if (!dragDropInfo.IsInternal)
                 StateManager.SetToStart();
             resultingDragEffects = ConvertToDragDropEffect(dropped);
-            if (!_wpfTextView.VisualElement.IsKeyboardFocused)
-                Keyboard.Focus(_wpfTextView.VisualElement);
+            if (!_textView.VisualElement.IsKeyboardFocused)
+                Keyboard.Focus(_textView.VisualElement);
             return true;
         }
 
-        internal bool HandleMouseLeftButtonDown(bool buttonPressed, Point viewRelativeMousePosition)
+        internal bool HandleMouseLeftButtonDown(bool buttonPressed, Point viewRelativeMousePosition, ModifierKeys modifierKeys = ModifierKeys.None)
         {
-            if (!IsDragDropEnabled || !buttonPressed || _wpfTextView.Selection.IsEmpty)
+            if ((modifierKeys & (ModifierKeys.Alt | ModifierKeys.Shift)) != ModifierKeys.None)
                 return false;
-            var containingYcoordinate =
-                _wpfTextView.TextViewLines.GetTextViewLineContainingYCoordinate(viewRelativeMousePosition.Y);
+            IMultiSelectionBroker multiSelectionBroker = _textView.GetMultiSelectionBroker();
+            bool flag = false;
+            for (int index = 0; !flag && index < multiSelectionBroker.AllSelections.Count; ++index)
+                flag = !multiSelectionBroker.AllSelections[index].IsEmpty;
+            if (!flag || !IsDragDropEnabled || !buttonPressed)
+                return false;
+            ITextViewLine containingYcoordinate = _textView.TextViewLines.GetTextViewLineContainingYCoordinate(viewRelativeMousePosition.Y);
             if (containingYcoordinate == null)
                 return false;
-            var selectionOnTextViewLine = _wpfTextView.Selection.GetSelectionOnTextViewLine(containingYcoordinate);
+            VirtualSnapshotSpan? selectionOnTextViewLine = _textView.Selection.GetSelectionOnTextViewLine(containingYcoordinate);
             if (!selectionOnTextViewLine.HasValue)
                 return false;
-            var positionFromXcoordinate =
-                containingYcoordinate.GetVirtualBufferPositionFromXCoordinate(viewRelativeMousePosition.X);
-            var virtualSnapshotPoint1 = positionFromXcoordinate;
-            var virtualSnapshotSpan = selectionOnTextViewLine.Value;
-            var start = virtualSnapshotSpan.Start;
+            VirtualSnapshotPoint positionFromXcoordinate = containingYcoordinate.GetVirtualBufferPositionFromXCoordinate(viewRelativeMousePosition.X);
+            VirtualSnapshotPoint virtualSnapshotPoint1 = positionFromXcoordinate;
+            VirtualSnapshotSpan virtualSnapshotSpan = selectionOnTextViewLine.Value;
+            VirtualSnapshotPoint start = virtualSnapshotSpan.Start;
             if (!(virtualSnapshotPoint1 < start))
             {
-                var virtualSnapshotPoint2 = positionFromXcoordinate;
+                VirtualSnapshotPoint virtualSnapshotPoint2 = positionFromXcoordinate;
                 virtualSnapshotSpan = selectionOnTextViewLine.Value;
-                var end = virtualSnapshotSpan.End;
+                VirtualSnapshotPoint end = virtualSnapshotSpan.End;
                 if (!(virtualSnapshotPoint2 >= end))
                 {
                     _mouseDownAnchorPoint = viewRelativeMousePosition;
@@ -269,7 +273,6 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
                     return true;
                 }
             }
-
             return false;
         }
 
@@ -277,7 +280,7 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
         {
             if (!IsDragDropEnabled || StateManager.State != DragDropState.MouseDown)
                 return false;
-            var textViewLines = _wpfTextView.TextViewLines;
+            var textViewLines = _textView.TextViewLines;
             var y = clickedPoint.Y;
             var textLine = y > textViewLines.FirstVisibleLine.Top
                 ? (y < textViewLines.LastVisibleLine.Bottom
@@ -286,8 +289,8 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
                 : textViewLines.FirstVisibleLine;
             if (textLine != null)
             {
-                _wpfTextView.Selection.Clear();
-                _wpfTextView.Caret.MoveTo(textLine, clickedPoint.X);
+                _textView.Selection.Clear();
+                _textView.Caret.MoveTo(textLine, clickedPoint.X);
             }
 
             _mouseDownAnchorPoint = new Point?();
@@ -302,7 +305,7 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
             if (StateManager.State == DragDropState.Dragging)
                 return true;
             if (!((StateManager.State == DragDropState.MouseDown) & leftButtonPressed) ||
-                _wpfTextView.Selection.IsEmpty)
+                _textView.Selection.IsEmpty)
                 return false;
             if (_mouseDownAnchorPoint.HasValue)
             {
@@ -354,13 +357,13 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
 
         private VirtualSnapshotPoint CalculateInsertionPoint(Point location)
         {
-            var textViewLines = _wpfTextView.TextViewLines;
+            var textViewLines = _textView.TextViewLines;
             var virtualSnapshotPoint =
                 (textViewLines.GetTextViewLineContainingYCoordinate(location.Y) ??
                  (location.Y < textViewLines.FirstVisibleLine.Top
                      ? textViewLines.FirstVisibleLine
                      : textViewLines.LastVisibleLine)).GetInsertionBufferPositionFromXCoordinate(location.X);
-            if (!_wpfTextView.Options.IsVirtualSpaceEnabled())
+            if (!_textView.Options.IsVirtualSpaceEnabled())
                 virtualSnapshotPoint = new VirtualSnapshotPoint(virtualSnapshotPoint.Position);
             return virtualSnapshotPoint;
         }
@@ -376,7 +379,7 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
         {
             var virtualBufferPosition = dragDropInfo.VirtualBufferPosition;
             var containingBufferPosition =
-                _wpfTextView.GetTextViewLineContainingBufferPosition(virtualBufferPosition.Position);
+                _textView.GetTextViewLineContainingBufferPosition(virtualBufferPosition.Position);
             var extendedCharacterBounds = containingBufferPosition.GetExtendedCharacterBounds(virtualBufferPosition);
             if ((dropHandlerFeedback & DragDropPointerEffects.Track) == DragDropPointerEffects.Track)
                 _visualManager.DrawTracker(extendedCharacterBounds);
@@ -392,17 +395,17 @@ namespace ModernApplicationFramework.Modules.Editor.DragDrop
 
         private Point GetClickedPoint(MouseEventArgs e)
         {
-            var position = e.GetPosition(_wpfTextView.VisualElement);
-            position.X += _wpfTextView.ViewportLeft;
-            position.Y += _wpfTextView.ViewportTop;
+            var position = e.GetPosition(_textView.VisualElement);
+            position.X += _textView.ViewportLeft;
+            position.Y += _textView.ViewportTop;
             return position;
         }
 
         private Point GetClickedPoint(DragEventArgs e)
         {
-            var position = e.GetPosition(_wpfTextView.VisualElement);
-            position.X += _wpfTextView.ViewportLeft;
-            position.Y += _wpfTextView.ViewportTop;
+            var position = e.GetPosition(_textView.VisualElement);
+            position.X += _textView.ViewportLeft;
+            position.Y += _textView.ViewportTop;
             return position;
         }
     }

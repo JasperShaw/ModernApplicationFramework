@@ -8,39 +8,40 @@ namespace ModernApplicationFramework.Text.Ui.Editor
 {
     public interface ITextSelection
     {
-        event EventHandler SelectionChanged;
+        ITextView TextView { get; }
+
+        void Select(SnapshotSpan selectionSpan, bool isReversed);
+
+        void Select(VirtualSnapshotPoint anchorPoint, VirtualSnapshotPoint activePoint);
+
+        NormalizedSnapshotSpanCollection SelectedSpans { get; }
+
+        ReadOnlyCollection<VirtualSnapshotSpan> VirtualSelectedSpans { get; }
+
+        VirtualSnapshotSpan? GetSelectionOnTextViewLine(ITextViewLine line);
+
+        VirtualSnapshotSpan StreamSelectionSpan { get; }
+
+        TextSelectionMode Mode { get; set; }
+
+        bool IsReversed { get; }
+
+        void Clear();
+
+        bool IsEmpty { get; }
+
+        bool IsActive { get; set; }
 
         bool ActivationTracksFocus { get; set; }
+
+        event EventHandler SelectionChanged;
 
         VirtualSnapshotPoint ActivePoint { get; }
 
         VirtualSnapshotPoint AnchorPoint { get; }
 
-        VirtualSnapshotPoint End { get; }
-
-        bool IsActive { get; set; }
-
-        bool IsEmpty { get; }
-
-        bool IsReversed { get; }
-
-        TextSelectionMode Mode { get; set; }
-
-        NormalizedSnapshotSpanCollection SelectedSpans { get; }
-
         VirtualSnapshotPoint Start { get; }
 
-        VirtualSnapshotSpan StreamSelectionSpan { get; }
-        ITextView TextView { get; }
-
-        ReadOnlyCollection<VirtualSnapshotSpan> VirtualSelectedSpans { get; }
-
-        void Clear();
-
-        VirtualSnapshotSpan? GetSelectionOnTextViewLine(ITextViewLine line);
-
-        void Select(SnapshotSpan selectionSpan, bool isReversed);
-
-        void Select(VirtualSnapshotPoint anchorPoint, VirtualSnapshotPoint activePoint);
+        VirtualSnapshotPoint End { get; }
     }
 }

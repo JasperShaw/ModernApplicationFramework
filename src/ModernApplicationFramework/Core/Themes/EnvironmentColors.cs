@@ -123,6 +123,8 @@ namespace ModernApplicationFramework.Core.Themes
         private static ComponentResourceKey _scrollBarThumbMouseOverBorder;
         private static ComponentResourceKey _scrollBarThumbPressedBackground;
         private static ComponentResourceKey _scrollBarThumbPressedBorder;
+        private static ComponentResourceKey _autoHideResizeGrip;
+
 
         //TextBox
         private static ComponentResourceKey _textBoxBorder;
@@ -1337,6 +1339,10 @@ namespace ModernApplicationFramework.Core.Themes
         public static ComponentResourceKey ScrollBarThumbPressedBorder => _scrollBarThumbPressedBorder ??
                                                                           (_scrollBarThumbPressedBorder =
                                                                               new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarThumbPressedBorder"));
+
+        public static ComponentResourceKey AutoHideResizeGrip => _autoHideResizeGrip ??
+                                                                          (_autoHideResizeGrip =
+                                                                              new ComponentResourceKey(typeof(EnvironmentColors), "AutoHideResizeGrip"));
 
         #endregion
 

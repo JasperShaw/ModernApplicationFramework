@@ -2,7 +2,7 @@
 
 namespace ModernApplicationFramework.Text.Ui.Editor
 {
-    public abstract class Selection : DisplayTextRange
+    public abstract class LegacySelection : DisplayTextRange
     {
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public abstract ITextSelection AdvancedSelection { get; }

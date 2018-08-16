@@ -48,5 +48,8 @@ namespace ModernApplicationFramework.Modules.Editor.NativeMethods
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool ReleaseDC(IntPtr hWnd, IntPtr hdc);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern void NotifyWinEvent(int winEvent, IntPtr hwnd, int objType, int objID);
     }
 }

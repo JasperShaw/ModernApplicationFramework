@@ -10,7 +10,7 @@ namespace ModernApplicationFramework.Text.Ui.Editor
 
         public abstract Caret Caret { get; }
 
-        public abstract Selection Selection { get; }
+        public abstract LegacySelection Selection { get; }
 
         public abstract PrimitiveTextBuffer TextBuffer { get; }
 

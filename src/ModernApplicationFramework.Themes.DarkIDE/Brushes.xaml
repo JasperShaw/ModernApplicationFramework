@@ -429,7 +429,10 @@
 
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
                      ResourceId=ScrollBarThumbPressedBorder}" Color="#FFEFEBEF"/>
-    
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=AutoHideResizeGrip}" Color="#FF2D2D30"/>
+
     <!--TextBox-->
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
                      ResourceId=TextBoxBorder}" Color="#434346"/>

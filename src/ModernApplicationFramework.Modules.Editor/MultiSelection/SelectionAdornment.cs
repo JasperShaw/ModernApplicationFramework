@@ -2,16 +2,15 @@
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace ModernApplicationFramework.Modules.Editor.Implementation
+namespace ModernApplicationFramework.Modules.Editor.MultiSelection
 {
     public class SelectionAdornment : FrameworkElement
     {
         internal DrawingVisual Child;
 
-        protected override int VisualChildrenCount => 1;
-
         public SelectionAdornment(Pen borderPen, Brush fillBrush, Geometry drawingPath)
         {
+            Opacity = 0.4;
             Child = new DrawingVisual();
             var drawingContext = Child.RenderOpen();
             drawingContext.DrawGeometry(fillBrush, borderPen, drawingPath);
@@ -25,5 +24,7 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
         {
             return Child;
         }
+
+        protected override int VisualChildrenCount => 1;
     }
 }

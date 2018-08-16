@@ -4,7 +4,7 @@
     {
         PrimitiveTextView View { get; }
 
-        Selection Selection { get; }
+        LegacySelection Selection { get; }
 
         Caret Caret { get; }
     }
