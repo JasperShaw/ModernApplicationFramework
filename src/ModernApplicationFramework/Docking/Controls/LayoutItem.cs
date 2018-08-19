@@ -30,6 +30,7 @@ using ModernApplicationFramework.Basics.Search;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Controls.InfoBar;
 using ModernApplicationFramework.Controls.SearchControl;
+using ModernApplicationFramework.Core.CommandFocus;
 using ModernApplicationFramework.Core.MenuModeHelper;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking.Layout;
@@ -907,13 +908,11 @@ namespace ModernApplicationFramework.Docking.Controls
         {
             LayoutElement = model;
             Model = model.Content;
-
             InitDefaultCommands();
-
             LayoutElement.IsSelectedChanged += LayoutElement_IsSelectedChanged;
             LayoutElement.IsActiveChanged += LayoutElement_IsActiveChanged;
-
             DataContext = this;
+            InputManager.Current.LeaveMenuMode += CurrentOnLeaveMenuMode;
             Trace.WriteLine($"Attach({LayoutElement.Title})");
         }
 
@@ -1248,7 +1247,7 @@ namespace ModernApplicationFramework.Docking.Controls
             var layoutElement = LayoutElement;
             var parentDocumentGroup = layoutElement.FindParent<LayoutDocumentPaneGroup>();
             var parentDocumentPane = layoutElement.Parent as LayoutDocumentPane;
-            int indexOfParentPane = parentDocumentGroup.IndexOfChild(parentDocumentPane);
+            var indexOfParentPane = parentDocumentGroup.IndexOfChild(parentDocumentPane);
             var nextDocumentPane = parentDocumentGroup.Children[indexOfParentPane + 1] as LayoutDocumentPane;
             nextDocumentPane?.InsertChildAt(0, layoutElement);
             layoutElement.IsActive = true;
@@ -1260,7 +1259,7 @@ namespace ModernApplicationFramework.Docking.Controls
             var layoutElement = LayoutElement;
             var parentDocumentGroup = layoutElement.FindParent<LayoutDocumentPaneGroup>();
             var parentDocumentPane = layoutElement.Parent as LayoutDocumentPane;
-            int indexOfParentPane = parentDocumentGroup.IndexOfChild(parentDocumentPane);
+            var indexOfParentPane = parentDocumentGroup.IndexOfChild(parentDocumentPane);
             var nextDocumentPane = parentDocumentGroup.Children[indexOfParentPane - 1] as LayoutDocumentPane;
             nextDocumentPane?.InsertChildAt(0, layoutElement);
             layoutElement.IsActive = true;
@@ -1286,7 +1285,7 @@ namespace ModernApplicationFramework.Docking.Controls
             if (parentDocumentGroup != null)
             {
                 parentDocumentGroup.Orientation = Orientation.Vertical;
-                int indexOfParentPane = parentDocumentGroup.IndexOfChild(parentDocumentPane);
+                var indexOfParentPane = parentDocumentGroup.IndexOfChild(parentDocumentPane);
                 parentDocumentGroup.InsertChildAt(indexOfParentPane + 1, new LayoutDocumentPane(layoutElement));
             }
             layoutElement.IsActive = true;
@@ -1312,7 +1311,7 @@ namespace ModernApplicationFramework.Docking.Controls
             if (parentDocumentGroup != null)
             {
                 parentDocumentGroup.Orientation = Orientation.Horizontal;
-                int indexOfParentPane = parentDocumentGroup.IndexOfChild(parentDocumentPane);
+                var indexOfParentPane = parentDocumentGroup.IndexOfChild(parentDocumentPane);
                 parentDocumentGroup.InsertChildAt(indexOfParentPane + 1, new LayoutDocumentPane(layoutElement));
             }
             layoutElement.IsActive = true;
@@ -1328,7 +1327,30 @@ namespace ModernApplicationFramework.Docking.Controls
                 BindingOperations.GetBinding(this, IsActiveProperty);
                 IsActive = LayoutElement.IsActive;
                 BindingOperations.GetBinding(this, IsActiveProperty);
+
+                // Additional focus changing required when activating a layout.
+                // Makes sure when clicking the Search Control of a other LayoutItem the old layout item
+                // does not get reactivated when leaving the menu mode
+                if (IsActive)
+                {
+                    // This line prevents some odd things on app startup that might relate to the GC. 
+                    if (HostingPanel.Content == null)
+                        return;
+                    if (InputManager.Current.IsInMenuMode)
+                    {
+                        CommandFocusManager.CancelRestoreFocus();
+                        PendingFocusHelper.SetFocusOnLoad(HostingPanel.Content);
+                    }
+                    var presentationSource = PresentationSource.FromVisual(HostingPanel.Content);
+                    var rootVisual = presentationSource.RootVisual as IInputElement;
+                    Keyboard.Focus(rootVisual);
+                    FocusManager.SetFocusedElement(presentationSource.RootVisual, null);
+                }
             }
+        }
+
+        private void CurrentOnLeaveMenuMode(object sender, EventArgs e)
+        {
         }
 
         private void LayoutElement_IsSelectedChanged(object sender, EventArgs e)
