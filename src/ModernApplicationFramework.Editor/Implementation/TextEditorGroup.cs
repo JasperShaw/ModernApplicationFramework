@@ -1,12 +1,14 @@
 ﻿using System;
-using System.Runtime.InteropServices;
+using System.ComponentModel.Composition;
 using ModernApplicationFramework.Editor.Interop;
 
 namespace ModernApplicationFramework.Editor.Implementation
 {
-    [Guid(CategoryGuids.TextEditorGroup)]
+    [Export(typeof(IFontAndColorGroup))]
     internal class TextEditorGroup : IFontAndColorGroup
     {
+        public Guid GroupGuid => CategoryGuids.GuidTextEditorGroup;
+
         public Guid GetCategory(int category)
         {
             var pguidCategory = Guid.Empty;
@@ -15,13 +17,13 @@ namespace ModernApplicationFramework.Editor.Implementation
                 //case 0:
                 //    pguidCategory = CategoryGuids.GuidEditorLanguageService;
                 //    break;
-                case 1:
+                case 0:
                     pguidCategory = CategoryGuids.GuidEditorMef;
                     break;
-                case 2:
+                case 1:
                     pguidCategory = CategoryGuids.GuidEditorTextManager;
                     break;
-                case 3:
+                case 2:
                     pguidCategory = CategoryGuids.GuidEditorTextMarker;
                     break;
             }
@@ -40,9 +42,9 @@ namespace ModernApplicationFramework.Editor.Implementation
             //return ResourceStrings.GetShellString(13983);
         }
 
-        public FcPriority GetPriority()
+        public ushort GetPriority()
         {
-            return FcPriority.Editor;
+            return 0;
         }
     }
 }

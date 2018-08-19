@@ -10,7 +10,7 @@ namespace ModernApplicationFramework.Editor.Implementation
         private IClassificationFormatMap _classificationFormatMap;
         private IEditorFormatMap _editorFormatMap;
 
-        protected virtual Guid CategoryGuid { set; get; }
+        public virtual Guid CategoryGuid { get; protected set; }
 
         private Guid FontAndColorCategory
         {
@@ -88,7 +88,7 @@ namespace ModernApplicationFramework.Editor.Implementation
             {
                 Typeface typefaceFromFont = FontsAndColorsHelper.GetTypefaceFromFont(pInfo[0].Typeface);
                 formattingRunProperties = formattingRunProperties.SetTypeface(typefaceFromFont);
-                double renderingSize = DataStorage.FontSizeFromPointSize((int)pInfo[0].PointSize);
+                double renderingSize = DataStorage.FontSizeFromPointSize(pInfo[0].PointSize);
                 formattingRunProperties = formattingRunProperties.SetFontRenderingEmSize(renderingSize);
             }
 
@@ -125,6 +125,8 @@ namespace ModernApplicationFramework.Editor.Implementation
 
     public interface IFontAndColorDefaults
     {
+        Guid CategoryGuid { get; }
+
         void GetFlags(out FontColorFlags flags);
 
         int GetFont(FontInfo[] pInfo);

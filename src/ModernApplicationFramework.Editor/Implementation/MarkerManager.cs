@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Windows;
 using ModernApplicationFramework.Editor.TextManager;
 using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Text.Logic;
@@ -925,7 +926,7 @@ namespace ModernApplicationFramework.Editor.Implementation
 
     public interface IVsTextMarkerType
     {
-        int DrawGlyph(IntPtr hdc, NativeMethods.NativeMethods.RECT[] pRect);
+        int DrawGlyph(IntPtr hdc, Rect pRect);
     }
 
     [Flags]

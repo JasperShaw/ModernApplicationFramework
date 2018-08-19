@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.InteropServices;
+using System.ComponentModel.Composition;
 using System.Windows.Media;
 using ModernApplicationFramework.Editor.Interop;
 
 namespace ModernApplicationFramework.Editor.Implementation
 {
-    [Guid(CategoryGuids.OutputWindow)]
+    [Export((typeof(IFontAndColorDefaults)))]
     internal sealed class OutputWindowFontAndColorCategory : ToolWindowFontAndColorCategoryBase
     {
         private List<AllColorableItemInfo> _items;

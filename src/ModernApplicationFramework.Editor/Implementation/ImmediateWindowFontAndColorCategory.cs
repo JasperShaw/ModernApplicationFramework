@@ -1,8 +1,8 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.ComponentModel.Composition;
 
 namespace ModernApplicationFramework.Editor.Implementation
 {
-    [Guid(CategoryGuids.ImmediateWindow)]
+    [Export(typeof(IFontAndColorDefaults))]
     internal sealed class ImmediateWindowFontAndColorCategory : ToolWindowFontAndColorCategoryBase
     {
         public ImmediateWindowFontAndColorCategory()

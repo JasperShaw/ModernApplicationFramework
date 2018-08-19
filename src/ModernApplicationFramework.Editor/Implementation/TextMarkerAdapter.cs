@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using ModernApplicationFramework.Editor.TextManager;
 using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Text.Logic.Classification;
@@ -256,7 +257,7 @@ namespace ModernApplicationFramework.Editor.Implementation
             ClientAdvanced?.OnMarkerTextChanged(this);
         }
 
-        public int DrawGlyph(IntPtr hdc, NativeMethods.NativeMethods.RECT[] pRect)
+        public int DrawGlyph(IntPtr hdc, Rect pRect)
         {
             return MarkerType.VsMarkerType.DrawGlyph(hdc, pRect);
         }

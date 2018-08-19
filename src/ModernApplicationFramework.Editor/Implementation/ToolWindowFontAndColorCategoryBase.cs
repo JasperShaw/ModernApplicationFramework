@@ -18,7 +18,7 @@ namespace ModernApplicationFramework.Editor.Implementation
         private readonly Color _fore = Color.FromRgb(30, 30, 30);
         private readonly Color _back = Colors.White;
 
-        protected override Guid CategoryGuid { set; get; }
+        public override Guid CategoryGuid { get; protected set; }
 
         protected IFontAndColorDefaultsProvider DefaultsProvider => _defaultsProvider ?? (_defaultsProvider = IoC.Get<IFontAndColorDefaultsProvider>());
 
@@ -150,8 +150,7 @@ namespace ModernApplicationFramework.Editor.Implementation
         protected AllColorableItemInfo GetItemForMefName(string name)
         {
             var defaultsProvider = DefaultsProvider;
-            var guidEditorMef = CategoryGuids.GuidEditorMef;
-            var obj = defaultsProvider.GetObject(ref guidEditorMef);
+            var obj = defaultsProvider.GetObject(CategoryGuids.GuidEditorMef);
             ((FontAndColorCategoryBase)obj).GetItemByName(name, out var pInfo);
             return pInfo;
         }
@@ -159,9 +158,12 @@ namespace ModernApplicationFramework.Editor.Implementation
         public override int GetFont(FontInfo[] pInfo)
         {
             //TODO: Text manager stuff
-            return base.GetFont(pInfo);
             //GetDefaultFontName();
-            //return 0;
+            var defaultFontFamily = FontsAndColorsHelper.GetWPFDefaultFontFamily();
+            pInfo[0].Typeface = FontsAndColorsHelper.GetLocalizedFaceName(defaultFontFamily);
+            pInfo[0].CharSet = 1;
+            pInfo[0].PointSize = 9;
+            return 0;
         }
 
         //private string GetDefaultFontName()

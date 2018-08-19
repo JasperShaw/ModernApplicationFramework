@@ -1,26 +1,28 @@
 ﻿using System;
-using System.Runtime.InteropServices;
+using System.ComponentModel.Composition;
 using ModernApplicationFramework.Editor.Interop;
 
 namespace ModernApplicationFramework.Editor.Implementation
 {
-    [Guid(CategoryGuids.ToolWindowGroup)]
+    [Export(typeof(IFontAndColorGroup))]
     internal class ToolWindowGroup : IFontAndColorGroup
     {
+        public Guid GroupGuid => CategoryGuids.GuidToolWindowGroup;
+
         public int GetCount()
         {
             return 4;
         }
 
-        public FcPriority GetPriority()
+        public ushort GetPriority()
         {
-            return FcPriority.Clients;
+            return 3;
         }
 
         public string GetGroupName()
         {
             //TODO: Text
-            return "All Tool Windows";
+            return "[All Tool Windows]";
         }
 
         public Guid GetCategory(int category)

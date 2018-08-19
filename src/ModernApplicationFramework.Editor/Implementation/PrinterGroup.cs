@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using ModernApplicationFramework.Editor.Interop;
 
 namespace ModernApplicationFramework.Editor.Implementation
 {
-    [Guid("47724E70-AF55-48fb-A928-BB161C1D0C05")]
     internal class PrinterGroup : IFontAndColorGroup
     {
+        public Guid GroupGuid => CategoryGuids.GuidPrinterGroup;
+
         public Guid GetCategory(int iCategory)
         {
             if (iCategory == 0)
@@ -31,9 +31,9 @@ namespace ModernApplicationFramework.Editor.Implementation
             return "Printer Group";
         }
 
-        public FcPriority GetPriority()
+        public ushort GetPriority()
         {
-            return FcPriority.Environment;
+            return 1;
         }
     }
 }

@@ -109,8 +109,7 @@ namespace ModernApplicationFramework.Editor.Implementation
             else
             {
                 var storage = Storage;
-                var guid = categoryGuid;
-                storage.OpenCategory(ref guid, StorageFlags.Loaddefaults);
+                storage.OpenCategory(categoryGuid, StorageFlags.Loaddefaults);
                 try
                 {
                     flag = storage.GetItem(str, itemInfo);
@@ -176,7 +175,7 @@ namespace ModernApplicationFramework.Editor.Implementation
                 return;
             var storage = Storage;
             var textEditorCategory = MostOftenUsedItems.TextEditorCategories[textEditorCategoryIndex];
-            storage.OpenCategory(ref textEditorCategory, StorageFlags.Loaddefaults);
+            storage.OpenCategory(textEditorCategory, StorageFlags.Loaddefaults);
             PrefetchedCategories[textEditorCategoryIndex] = new Dictionary<string, ColorableItemInfo>();
             try
             {
@@ -208,9 +207,8 @@ namespace ModernApplicationFramework.Editor.Implementation
             try
             {
                 var storage = Storage;
-                var guid = categoryGuid;
 
-                storage.OpenCategory(ref guid, StorageFlags.Loaddefaults);
+                storage.OpenCategory(categoryGuid, StorageFlags.Loaddefaults);
 
                 if (!storage.GetItem("Plain Text", itemInfo))
                     return false;
@@ -312,8 +310,7 @@ namespace ModernApplicationFramework.Editor.Implementation
             try
             {
                 var storage = Storage;
-                var categoryGuid = guid;
-                storage.OpenCategory(ref categoryGuid, StorageFlags.Loaddefaults);
+                storage.OpenCategory(guid, StorageFlags.Loaddefaults);
 
                 var pInfo = new[]
                 {

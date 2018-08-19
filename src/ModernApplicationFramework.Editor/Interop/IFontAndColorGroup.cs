@@ -4,9 +4,11 @@ namespace ModernApplicationFramework.Editor.Interop
 {
     public interface IFontAndColorGroup
     {
+        Guid GroupGuid { get; }
+
         int GetCount();
 
-        FcPriority GetPriority();
+        ushort GetPriority();
 
         string GetGroupName();
 

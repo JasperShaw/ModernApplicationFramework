@@ -74,6 +74,9 @@
   <ItemGroup>
     <Compile Include="Interop\AllColorableItemInfo.cs" />
     <Compile Include="Implementation\AllOtherWindowFontAndColorCategory.cs" />
+    <Compile Include="Interop\FontAndColorStorage.cs" />
+    <Compile Include="Interop\InstalledFontHelper.cs" />
+    <Compile Include="NativeMethods\Gdi32.cs" />
     <Compile Include="TextManager\ChangeInput.cs" />
     <Compile Include="Interop\ColorableItemInfo.cs" />
     <Compile Include="Commanding\CommandBindingAttribute.cs" />
@@ -91,7 +94,6 @@
     <Compile Include="Implementation\FontsAndColorsHelper.cs" />
     <Compile Include="Implementation\ImmediateWindowFontAndColorCategory.cs" />
     <Compile Include="Implementation\EditorMEFFontAndColorCategory.cs" />
-    <Compile Include="Interop\Fcpriority.cs" />
     <Compile Include="Implementation\FontAndColorDefaultsProvider.cs" />
     <Compile Include="Interop\IFontAndColorDefaultsProvider.cs" />
     <Compile Include="Interop\IFontAndColorGroup.cs" />

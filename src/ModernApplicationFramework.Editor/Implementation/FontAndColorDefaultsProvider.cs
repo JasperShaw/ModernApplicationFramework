@@ -59,7 +59,7 @@ namespace ModernApplicationFramework.Editor.Implementation
 
         private PrinterGroup PrinterGroupDefaults => _printerGroupDefaults ?? (_printerGroupDefaults = new PrinterGroup());
 
-        public object GetObject(ref Guid guidCategory)
+        public object GetObject(Guid guidCategory)
         {
             if (guidCategory == CategoryGuids.GuidTextEditorGroup)
                 return TextEditorGroupDefaults;
@@ -91,7 +91,8 @@ namespace ModernApplicationFramework.Editor.Implementation
                 return FindResultsWindowDefaults;
             if (guidCategory == CategoryGuids.GuidToolTip)
                 return ToolTipDefaults;
-            return new AllOtherWindowFontAndColorCategory("Other Category", guidCategory);
+            return null;
+            //return new AllOtherWindowFontAndColorCategory("Other Category", guidCategory);
         }
     }
 }

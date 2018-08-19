@@ -205,7 +205,7 @@ namespace ModernApplicationFramework.Editor.Implementation
                         : (windowsLanguageName == "CHS"
                             ? "NSimSun"
                             : (windowsLanguageName == "CHT" ? "MingLiU" : "Consolas"))));
-            return !IsSystemFontAvailable(str)
+            return !InstalledFontHelper.IsSystemFontAvailable(str)
                 ? new System.Windows.Media.FontFamily("Courier New")
                 : new System.Windows.Media.FontFamily(str);
         }
@@ -259,12 +259,6 @@ namespace ModernApplicationFramework.Editor.Implementation
         {
             //TODO: ???
             result.Info.Foreground = foreground;
-        }
-
-        private static bool IsSystemFontAvailable(string str)
-        {
-            var fontsCollection = new InstalledFontCollection();
-            return fontsCollection.Families.Any(fontFamiliy => fontFamiliy.Name == str);
         }
     }
 }
