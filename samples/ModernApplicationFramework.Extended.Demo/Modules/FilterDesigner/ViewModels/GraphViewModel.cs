@@ -29,7 +29,8 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.ViewMo
 
         public IObservableCollection<ConnectionViewModel> Connections => _connections;
 
-        public override GestureScope GestureScope => GestureScopes.GlobalGestureScope;
+        public override IEnumerable<GestureScope> GestureScopes => new[]
+            {ModernApplicationFramework.Input.Command.GestureScopes.GlobalGestureScope};
 
         public IEnumerable<ElementViewModel> SelectedElements
         {

@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Text;
-using ModernApplicationFramework.Core;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.Input.Command;
@@ -38,7 +38,8 @@ namespace ModernApplicationFramework.Modules.Editors.MyEditor
             }
         }
 
-        public override GestureScope GestureScope => GestureScopes.GlobalGestureScope;
+        public override IEnumerable<GestureScope> GestureScopes => new[]
+            {Input.Command.GestureScopes.GlobalGestureScope};
 
         protected override string FallbackSaveExtension => ".xml";
 

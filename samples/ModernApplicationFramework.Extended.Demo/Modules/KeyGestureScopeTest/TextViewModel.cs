@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
 using Caliburn.Micro;
 using ModernApplicationFramework.Extended.Layout;
@@ -12,7 +13,9 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.KeyGestureScopeTest
     public sealed class TextViewModel : KeyBindingLayoutItem
     {
         private object _content;
-        public override GestureScope GestureScope => TextEditorScope.TextEditor;
+
+        public override IEnumerable<GestureScope> GestureScopes => new[]
+            {TextEditorScope.TextEditor, TextEditorScope.LesserPriority, ModernApplicationFramework.Input.Command.GestureScopes.GlobalGestureScope};
 
         public object Content
         {

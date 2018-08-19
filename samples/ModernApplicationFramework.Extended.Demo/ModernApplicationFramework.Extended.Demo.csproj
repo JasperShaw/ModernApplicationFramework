@@ -151,6 +151,8 @@
       <DependentUpon>InfoBarDemoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\InfoBarDemo\InfoBarDemoViewModel.cs" />
+    <Compile Include="Modules\KeyGestureScopeTest\SecondScopeCommandDefinition.cs" />
+    <Compile Include="Modules\KeyGestureScopeTest\LessPriorityCommandDefinition.cs" />
     <Compile Include="Modules\KeyGestureScopeTest\NewCopyCommandDefinition.cs" />
     <Compile Include="Modules\KeyGestureScopeTest\PrimitiveTextView.cs" />
     <Compile Include="Modules\KeyGestureScopeTest\Sample.cs" />
@@ -207,7 +209,6 @@
     <Compile Include="Modules\StatusBar\ExtendedStatusBar.cs" />
     <Compile Include="Modules\StatusBar\ExtendedStatusBarService.cs" />
     <Compile Include="Modules\StatusBar\IStatusBarDataModel2.cs" />
-    <Compile Include="Modules\UndoRedoTest\UndoRedoTextBox.cs" />
     <Compile Include="Modules\UndoRedoTest\UndoRedoView.xaml.cs">
       <DependentUpon>UndoRedoView.xaml</DependentUpon>
     </Compile>

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -39,16 +40,16 @@ namespace ModernApplicationFramework.Input
             return true;
         }
 
-        public static GestureScope GetScopeFromElement(DependencyObject element)
+        public static IEnumerable<GestureScope> GetScopesFromElement(DependencyObject element)
         {
             if (element == null)
-                return GestureScopes.GlobalGestureScope;
+                return new List<GestureScope>();
             if (element is ICanHaveInputBindings gestureScopeElement)
-                return gestureScopeElement.GestureScope;
+                return gestureScopeElement.GestureScopes.ToList();
             if (element is FrameworkElement frameworkElement &&
                 frameworkElement.DataContext is ICanHaveInputBindings dataContext)
-                return dataContext.GestureScope;
-            return GetScopeFromElement(element.GetVisualOrLogicalParent());
+                return dataContext.GestureScopes;
+            return GetScopesFromElement(element.GetVisualOrLogicalParent());
         }
 
 

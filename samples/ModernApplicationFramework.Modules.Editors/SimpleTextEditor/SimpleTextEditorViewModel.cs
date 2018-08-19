@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Text;
 using Caliburn.Micro;
-using ModernApplicationFramework.Core;
 using ModernApplicationFramework.EditorBase;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
@@ -36,7 +36,7 @@ namespace ModernApplicationFramework.Modules.Editors.SimpleTextEditor
             }
         }
 
-        public override GestureScope GestureScope => GestureScopes.GlobalGestureScope;
+        public override IEnumerable<GestureScope> GestureScopes => new[] {Input.Command.GestureScopes.GlobalGestureScope};
 
         protected override string FallbackSaveExtension => IoC.Get<IFileDefinitionManager>()
             .GetDefinitionByFilePath(Document.FileName).FileExtension;

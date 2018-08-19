@@ -102,17 +102,20 @@ namespace ModernApplicationFramework.Basics.Services
         {
             hostingModel.BindableElement.InputBindings.Clear();
             foreach (var commandDefinition in _keyboardShortcuts.Where(x => x.Gestures.Count > 0))
+            {
                 foreach (var gesture in commandDefinition.Gestures)
-                    if (gesture.Scope.Equals(hostingModel.GestureScope))
+                {
+                    if (hostingModel.GestureScopes.Contains(gesture.Scope))
                     {
                         var inputBinding = new MultiKeyBinding(commandDefinition.Command, gesture.KeyGesture);
                         hostingModel.BindableElement.InputBindings.Add(inputBinding);
                         lock (_lockObj)
                         {
-                            _elementMapping[hostingModel.GestureScope]
+                            _elementMapping[gesture.Scope]
                                 .Add(hostingModel.BindableElement);
                         }
                     }
+
                     else if (gesture.Scope.Equals(GestureScopes.GlobalGestureScope))
                     {
                         var inputBinding = new MultiKeyBinding(commandDefinition.Command, gesture.KeyGesture);
@@ -123,6 +126,8 @@ namespace ModernApplicationFramework.Basics.Services
                                 .Add(hostingModel.BindableElement);
                         }
                     }
+                }
+            }
         }
 
 
@@ -135,12 +140,11 @@ namespace ModernApplicationFramework.Basics.Services
         {
             lock (_lockObj)
             {
-                if (!_elementMapping.ContainsKey(hostingModel.GestureScope))
-                    return;
-                _elementMapping[hostingModel.GestureScope].Remove(hostingModel.BindableElement);
-                if (!_elementMapping.ContainsKey(GestureScopes.GlobalGestureScope))
-                    return;
-                _elementMapping[GestureScopes.GlobalGestureScope].Remove(hostingModel.BindableElement);
+                foreach (var scope in hostingModel.GestureScopes)
+                {
+                    if (_elementMapping.ContainsKey(scope))
+                        _elementMapping[scope].Remove(hostingModel.BindableElement);
+                }
             }
             hostingModel.BindableElement?.InputBindings.Clear();
         }
@@ -267,30 +271,39 @@ namespace ModernApplicationFramework.Basics.Services
 
 
                 var i = Keyboard.FocusedElement;
-                var currentScope = GestureHelper.GetScopeFromElement(i as UIElement);
+                var currentScopes = GestureHelper.GetScopesFromElement(i as UIElement);
 
-                // If we are in a different scope than Gloabl we need to manually invoke the command in order to override global-scope commands
-                if (currentScope.Equals(GestureScopes.GlobalGestureScope) && _possibleMultiGestures.Count == 0)
-                    return;
-
-                if (TryCreateKeyGesture(_oldKeySequence, out var inputGesture))
+                var breakflag = false;
+                foreach (var currentScope in currentScopes)
                 {
-                    foreach (var shortcut in _keyboardShortcuts)
-                    {
-                        if (shortcut.KeyGestures.Contains(inputGesture))
-                        {
-                            var t = shortcut.Gestures;
-                            if (t.Contains(new GestureScopeMapping(currentScope, inputGesture)))
-                            {
-                                shortcut.Command.Execute(null);
+                    if (breakflag)
+                        break;
+                    if (currentScope.Equals(GestureScopes.GlobalGestureScope) && _possibleMultiGestures.Count == 0)
+                        return;
 
-                                // Prevents other commands beeing invoked
-                                e.Handled = true;
-                                break;
+
+                    if (TryCreateKeyGesture(_oldKeySequence, out var inputGesture))
+                    {
+                        foreach (var shortcut in _keyboardShortcuts)
+                        {
+                            if (shortcut.KeyGestures.Contains(inputGesture))
+                            {
+                                var t = shortcut.Gestures;
+                                if (t.Contains(new GestureScopeMapping(currentScope, inputGesture)))
+                                {
+                                    shortcut.Command.Execute(null);
+
+                                    // Prevents other commands beeing invoked
+                                    e.Handled = true;
+                                    breakflag = true;
+                                    break;
+                                }
                             }
                         }
                     }
+
                 }
+
 
                 if (_possibleMultiGestures.Count == 0)
                     return;
@@ -338,21 +351,22 @@ namespace ModernApplicationFramework.Basics.Services
                 e.Handled = true;
                 return;
             }
-            var currentScope = GestureHelper.GetScopeFromElement(element);
+            var currentScopes = GestureHelper.GetScopesFromElement(element);
 
-
-            if (currentScope != GestureScopes.GlobalGestureScope)
+            foreach (var currentScope in currentScopes)
             {
-                IEnumerable<UIElement> elements;
-                lock (_lockObj)
-                    elements = _elementMapping[currentScope];
+                if (currentScope != GestureScopes.GlobalGestureScope)
+                {
+                    IEnumerable<UIElement> elements;
+                    lock (_lockObj)
+                        elements = _elementMapping[currentScope];
 
-                element = GestureHelper.FindParentElementFromList(element, elements.ToList());
-                if (element == null)
-                    return;
+                    element = GestureHelper.FindParentElementFromList(element, elements.ToList());
+                    if (element == null)
+                        return;
+                }
             }
 
-           
             var op = element.Dispatcher.BeginInvoke(
                 DispatcherPriority.Input, CreateElementKeyDownAction(element, e)
             );

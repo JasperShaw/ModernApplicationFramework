@@ -1,7 +1,9 @@
 using System;
+using System.Diagnostics;
 
 namespace ModernApplicationFramework.Input.Command
 {
+    [DebuggerDisplay("Name = {Text}")]
     public class GestureScope
     {
         public string Text { get; }

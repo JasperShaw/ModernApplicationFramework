@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Linq;
@@ -267,7 +268,10 @@ namespace ModernApplicationFramework.Extended.Controls.DockingMainWindow.ViewMod
         [Import] private IThemeManager _themeManager;
         private IInfoBarHost _infoBarHost;
 #pragma warning restore 649
-        public GestureScope GestureScope => GestureScopes.GlobalGestureScope;
+
+        public IEnumerable<GestureScope> GestureScopes => new[]
+            {ModernApplicationFramework.Input.Command.GestureScopes.GlobalGestureScope};
+
         public UIElement BindableElement => Window;
 
         protected virtual void OnWindowClosing(CancelEventArgs e)

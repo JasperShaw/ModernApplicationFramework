@@ -20,7 +20,7 @@ namespace ModernApplicationFramework.Editor
             OpenUrl = 113,
             DoubleClick = 134,
             LeftClick = 150,
-
+            
             // #12557 is the last used "original 2k command id"
             // Anything above this number is a merge of the newer additions 
 

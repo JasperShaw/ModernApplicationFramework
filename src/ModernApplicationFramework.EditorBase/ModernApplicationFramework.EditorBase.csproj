@@ -378,8 +378,6 @@
     <Resource Include="Resources\Images\List.png" />
     <Resource Include="Resources\Images\Medium.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="CommandBarDefinitions\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
 using Caliburn.Micro;
@@ -61,8 +62,9 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.UndoRedoTest
             IoC.Get<IOutput>().OutputString("Test");
         }
 
-        public override GestureScope GestureScope => UndoRedoScope;
-        
+        public override IEnumerable<GestureScope> GestureScopes => new[]
+            {UndoRedoScope, ModernApplicationFramework.Input.Command.GestureScopes.GlobalGestureScope};
+
         [Export] public static GestureScope UndoRedoScope = new GestureScope("{C9D94614-906F-4960-BA79-58DED45722F0}", "UndoRedo");
     }
 }
