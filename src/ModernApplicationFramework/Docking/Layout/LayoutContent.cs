@@ -20,6 +20,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Xml;
@@ -516,6 +517,10 @@ namespace ModernApplicationFramework.Docking.Layout
             else
                 InternalDock();
             ShowMainWindow();
+
+            var layoutItem = Root.Manager.GetLayoutItemFromModel(this);
+            layoutItem.EnsureFocused();
+
             Root.CollectGarbage();
         }
 

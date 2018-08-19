@@ -912,7 +912,6 @@ namespace ModernApplicationFramework.Docking.Controls
             LayoutElement.IsSelectedChanged += LayoutElement_IsSelectedChanged;
             LayoutElement.IsActiveChanged += LayoutElement_IsActiveChanged;
             DataContext = this;
-            InputManager.Current.LeaveMenuMode += CurrentOnLeaveMenuMode;
             Trace.WriteLine($"Attach({LayoutElement.Title})");
         }
 
@@ -1333,25 +1332,30 @@ namespace ModernApplicationFramework.Docking.Controls
                 // does not get reactivated when leaving the menu mode
                 if (IsActive)
                 {
-                    // This line prevents some odd things on app startup that might relate to the GC. 
-                    if (HostingPanel.Content == null)
-                        return;
-                    if (InputManager.Current.IsInMenuMode)
-                    {
-                        CommandFocusManager.CancelRestoreFocus();
-                        PendingFocusHelper.SetFocusOnLoad(HostingPanel.Content);
-                    }
-                    var presentationSource = PresentationSource.FromVisual(HostingPanel.Content);
-                    var rootVisual = presentationSource.RootVisual as IInputElement;
-                    Keyboard.Focus(rootVisual);
-                    FocusManager.SetFocusedElement(presentationSource.RootVisual, null);
+                    EnsureFocused();
                 }
             }
         }
 
-        private void CurrentOnLeaveMenuMode(object sender, EventArgs e)
+        internal void EnsureFocused()
         {
+            //// This line prevents some odd things on app startup that might relate to the GC. 
+            if (HostingPanel.Content == null)
+                return;
+            if (InputManager.Current.IsInMenuMode)
+            {
+                CommandFocusManager.CancelRestoreFocus();
+                PendingFocusHelper.SetFocusOnLoad(HostingPanel.Content);
+            }
+            FocusHelper.MoveFocusInto(HostingPanel.Content);
+            var presentationSource = PresentationSource.FromVisual(HostingPanel.Content);
+            if (presentationSource == null)
+                return;
+            var rootVisual = presentationSource.RootVisual as IInputElement;
+            Keyboard.Focus(rootVisual);
+            FocusManager.SetFocusedElement(presentationSource.RootVisual, null);
         }
+
 
         private void LayoutElement_IsSelectedChanged(object sender, EventArgs e)
         {
