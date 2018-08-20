@@ -29,20 +29,6 @@ namespace ModernApplicationFramework.Modules.Output
             }
         }
 
-        private FrameworkElement PendingFocusPane
-        {
-            get => _pendingFocusPane;
-            set
-            {
-                if (_pendingFocusPane != null)
-                    _pendingFocusPane.Loaded -= PendingFocusPane_Loaded;
-                _pendingFocusPane = value;
-                if (_pendingFocusPane == null)
-                    return;
-                _pendingFocusPane.Loaded += PendingFocusPane_Loaded;
-            }
-        }
-
         public OutputViewModel()
         {
             DisplayName = "Output";
@@ -50,30 +36,6 @@ namespace ModernApplicationFramework.Modules.Output
             var output = IoC.Get<IOutput>();
             if (output is IOutputPrivate privateOutput)
                 ActivePane = privateOutput.Content as FrameworkElement;
-            if (ActivePane != null)
-                PendingMoveFocus(ActivePane);
-        }
-
-        private void PendingMoveFocus(FrameworkElement consolePane)
-        {
-            if (consolePane.IsLoaded && PresentationSource.FromDependencyObject(consolePane) != null)
-            {
-                PendingFocusPane = null;
-                MoveFocus(consolePane);
-            }
-            else
-                PendingFocusPane = consolePane;
-        }
-
-        private void PendingFocusPane_Loaded(object sender, RoutedEventArgs e)
-        {
-            MoveFocus(PendingFocusPane);
-            PendingFocusPane = null;
-        }
-
-        private static void MoveFocus(UIElement consolePane)
-        {
-            consolePane.MoveFocus(new TraversalRequest(FocusNavigationDirection.First));
         }
     }
 }
