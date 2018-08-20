@@ -6,8 +6,8 @@ namespace ModernApplicationFramework.Editor.Interop
     //TODO: move to other project
     public interface ICommandTarget
     {
-        int QueryStatus(ref Guid commandGroup, uint cCmds, Olecmd[] prgCmds, IntPtr pCmdText);
+        int QueryStatus(Guid commandGroup, uint commandCount, Olecmd[] commands, IntPtr pCmdText);
 
-        int Exec(ref Guid commandGroup, uint commandId, uint nCmdexecopt, IntPtr input, IntPtr output);
+        int Exec(Guid commandGroup, uint commandId, uint nCmdexecopt, IntPtr input, IntPtr output);
     }
 }

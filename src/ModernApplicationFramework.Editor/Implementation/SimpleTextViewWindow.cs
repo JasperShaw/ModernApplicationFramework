@@ -206,9 +206,9 @@ namespace ModernApplicationFramework.Editor.Implementation
             throw new NotImplementedException();
         }
 
-        public int Exec(ref Guid commandGroup, uint commandId, uint nCmdexecopt, IntPtr input, IntPtr output)
+        public int Exec(Guid commandGroup, uint commandId, uint nCmdexecopt, IntPtr input, IntPtr output)
         {
-            var hr1 = PreOuterQueryStatus(ref commandGroup, 1, new[]
+            var hr1 = PreOuterQueryStatus(commandGroup, 1, new[]
             {
                 new Olecmd {cmdf = 0, cmdID = commandId}
             });
@@ -228,7 +228,7 @@ namespace ModernApplicationFramework.Editor.Implementation
                 var currentSnapshot1 = TextView.TextBuffer.CurrentSnapshot;
                 if (Fire_KeyPressEvent(true, commandGroup, commandId, input))
                 {
-                    hr2 = _commandChain.InnerExec(ref commandGroup, commandId, nCmdexecopt, input, output);
+                    hr2 = _commandChain.InnerExec(commandGroup, commandId, nCmdexecopt, input, output);
                     Fire_KeyPressEvent(false, commandGroup, commandId, input);
                 }
 
@@ -340,7 +340,7 @@ namespace ModernApplicationFramework.Editor.Implementation
             public readonly char ch;
         }
 
-        private int PreOuterQueryStatus(ref Guid commandGroup, uint cCmds, Olecmd[] prgCmds)
+        private int PreOuterQueryStatus(Guid commandGroup, uint cCmds, Olecmd[] prgCmds)
         {
             if (IsCommandExecutionProhibited())
                 return int.MinValue;
@@ -353,7 +353,7 @@ namespace ModernApplicationFramework.Editor.Implementation
                     var flag = false;
                     for (var index = 0; index < cCmds; ++index)
                     {
-                        if (TextDocData.IsCommandSupported(ref commandGroup, prgCmds[index].cmdID))
+                        if (TextDocData.IsCommandSupported(commandGroup, prgCmds[index].cmdID))
                         {
                             flag = true;
                             prgCmds[index].cmdf = Olecmdf.Supported;
@@ -392,7 +392,7 @@ namespace ModernApplicationFramework.Editor.Implementation
             return -2147467259;
         }
 
-        public int InnerExec(ref Guid commandGroup, uint commandId, uint nCmdexecopt, IntPtr input, IntPtr output)
+        public int InnerExec(Guid commandGroup, uint commandId, uint nCmdexecopt, IntPtr input, IntPtr output)
         {
             try
             {
@@ -403,7 +403,7 @@ namespace ModernApplicationFramework.Editor.Implementation
 
                 if (IsViewOrBufferReadOnly() && IsEditingCommand(commandGroup, commandId) &&
                     !IsSearchingCommand(commandGroup, commandId))
-                    return OnDisabledEditingCommand(ref commandGroup, commandId);
+                    return OnDisabledEditingCommand(commandGroup, commandId);
 
                 var newClipboardCycle = _startNewClipboardCycle;
                 //Should always be true: if (commandGroup != VSConstants.GUID_VSStandardCommandSet97 || commandId != 655U)
@@ -564,12 +564,12 @@ namespace ModernApplicationFramework.Editor.Implementation
             return report;
         }
 
-        public int OnDisabledEditingCommand(ref Guid pguidCmdGuid, uint dwCmdId)
+        public int OnDisabledEditingCommand(Guid pguidCmdGuid, uint dwCmdId)
         {
             var num1 = 0;
             foreach (var onlyNotification in _readOnlyNotifications)
             {
-                var num2 = onlyNotification.OnDisabledEditingCommand(ref pguidCmdGuid, dwCmdId);
+                var num2 = onlyNotification.OnDisabledEditingCommand(pguidCmdGuid, dwCmdId);
                 if (num2 < 0)
                     num1 = num2;
             }
@@ -624,7 +624,7 @@ namespace ModernApplicationFramework.Editor.Implementation
             return _editorOptions.GetOptionValue(DefaultTextViewOptions.ViewProhibitUserInputId) ? 0 : 1;
         }
 
-        public int InnerQueryStatus(ref Guid commandGroup, uint cCmds, Olecmd[] prgCmds, IntPtr pCmdText)
+        public int InnerQueryStatus(Guid commandGroup, uint cCmds, Olecmd[] prgCmds, IntPtr pCmdText)
         {
             if (IsCommandExecutionProhibited())
                 return -2147221248;
@@ -648,12 +648,12 @@ namespace ModernApplicationFramework.Editor.Implementation
             return 0;
         }
 
-        public int QueryStatus(ref Guid commandGroup, uint cCmds, Olecmd[] prgCmds, IntPtr pCmdText)
+        public int QueryStatus(Guid commandGroup, uint cCmds, Olecmd[] prgCmds, IntPtr pCmdText)
         {
-            var hr = PreOuterQueryStatus(ref commandGroup, cCmds, prgCmds);
+            var hr = PreOuterQueryStatus(commandGroup, cCmds, prgCmds);
             if (hr < 0)
                 return hr;
-            return _commandChain.QueryStatus(ref commandGroup, cCmds, prgCmds, pCmdText);
+            return _commandChain.QueryStatus(commandGroup, cCmds, prgCmds, pCmdText);
         }
 
         public int SetBuffer(IMafTextLines pBuffer)
@@ -952,14 +952,14 @@ namespace ModernApplicationFramework.Editor.Implementation
             {
                 new Olecmd { cmdID = (uint) MafConstants.EditorCommands.Copy }
             };
-            QueryStatus(ref guid, (uint)prgCmds.Length, prgCmds, IntPtr.Zero);
+            QueryStatus(guid, (uint)prgCmds.Length, prgCmds, IntPtr.Zero);
             e.CanExecute = prgCmds[0].cmdf.HasFlag(Olecmdf.Supported) && prgCmds[0].cmdf.HasFlag(Olecmdf.Enabled);
         }
 
         private void OnCopy(object sender, ExecutedRoutedEventArgs e)
         {
             var guid = MafConstants.EditorCommandGroup;
-            Exec(ref guid, (uint)MafConstants.EditorCommands.Copy, 0, IntPtr.Zero, IntPtr.Zero);
+            Exec(guid, (uint)MafConstants.EditorCommands.Copy, 0, IntPtr.Zero, IntPtr.Zero);
         }
 
         private void SendTextViewCreated()
@@ -1170,8 +1170,18 @@ namespace ModernApplicationFramework.Editor.Implementation
 
         private void OnEditorOrMenuLostFocus(object sender, EventArgs e)
         {
-            var onKillFocus = OnKillFocus;
-            onKillFocus?.Invoke(this);
+            var raiseGoBackEvents = RaiseGoBackEvents;
+            try
+            {
+                RaiseGoBackEvents = false;
+                var onKillFocus = OnKillFocus;
+                onKillFocus?.Invoke(this);
+            }
+            finally
+            {
+                RaiseGoBackEvents = raiseGoBackEvents;
+            }
+
         }
 
         private void OnEditorOrMenuGotFocus(object sender, EventArgs e)
@@ -1228,6 +1238,7 @@ namespace ModernApplicationFramework.Editor.Implementation
         {
             if (_zoomControl.IsKeyboardFocusWithin)
                 return;
+            Keyboard.Focus(TextView.VisualElement);
             //TODO:
         }
 
@@ -1377,7 +1388,7 @@ namespace ModernApplicationFramework.Editor.Implementation
             return new Point(0.0, 0.0);
         }
 
-        public int GetPropertyCategory(ref Guid rguidCategory, out ITextEditorPropertyContainer ppProp)
+        public int GetPropertyCategory(Guid rguidCategory, out ITextEditorPropertyContainer ppProp)
         {
             if (rguidCategory == DefGuidList.GuidEditPropCategoryViewMasterSettings)
             {
@@ -1685,7 +1696,7 @@ namespace ModernApplicationFramework.Editor.Implementation
 
     public interface ITextEditorPropertyCategoryContainer
     {
-        int GetPropertyCategory(ref Guid rguidCategory, out ITextEditorPropertyContainer ppProp);
+        int GetPropertyCategory(Guid rguidCategory, out ITextEditorPropertyContainer ppProp);
     }
 
     public interface ITextEditorPropertyContainer

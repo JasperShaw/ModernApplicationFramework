@@ -29,16 +29,16 @@ namespace ModernApplicationFramework.Editor.Implementation
             _nextCommandTarget = nextCommandTarget;
         }
 
-        public int QueryStatus(ref Guid pguidCmdGroup, uint cCmds, Olecmd[] prgCmds, IntPtr pCmdText)
+        public int QueryStatus(Guid pguidCmdGroup, uint cCmds, Olecmd[] prgCmds, IntPtr pCmdText)
         {
             EnsureCommandHandlerServiceAdapter();
-            return _commandHandlerServiceAdapter.QueryStatus(ref pguidCmdGroup, cCmds, prgCmds, pCmdText);
+            return _commandHandlerServiceAdapter.QueryStatus(pguidCmdGroup, cCmds, prgCmds, pCmdText);
         }
 
-        public int Exec(ref Guid pguidCmdGroup, uint nCmdID, uint nCmdexecopt, IntPtr pvaIn, IntPtr pvaOut)
+        public int Exec(Guid pguidCmdGroup, uint nCmdID, uint nCmdexecopt, IntPtr pvaIn, IntPtr pvaOut)
         {
             EnsureCommandHandlerServiceAdapter();
-            return _commandHandlerServiceAdapter.Exec(ref pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);
+            return _commandHandlerServiceAdapter.Exec(pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);
         }
     }
 }

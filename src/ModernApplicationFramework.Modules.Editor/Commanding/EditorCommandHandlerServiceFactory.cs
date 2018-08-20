@@ -38,8 +38,8 @@ namespace ModernApplicationFramework.Modules.Editor.Commanding
             _uiThreadOperationExecutor = uiThreadOperationExecutor;
             _contentTypeRegistryService = contentTypeRegistryService;
             _guardedOperations = guardedOperations;
-            _commandHandlers = OrderCommandHandlers(commandHandlers);
             _contentTypeComparer = new StableContentTypeComparer(_contentTypeRegistryService);
+            _commandHandlers = OrderCommandHandlers(commandHandlers);  
             if (!bufferResolvers.Any())
                 throw new ImportCardinalityMismatchException();
             _bufferResolverProviders = bufferResolvers.ToList();

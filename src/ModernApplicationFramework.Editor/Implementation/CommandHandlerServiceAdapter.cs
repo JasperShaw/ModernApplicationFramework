@@ -63,7 +63,7 @@ namespace ModernApplicationFramework.Editor.Implementation
 
         public ICommandTarget NextCommandTarget { get; }
 
-        public int QueryStatus(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
+        public int QueryStatus(Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
         {
             var num = !(pguidCmdGroup == MafConstants.EditorCommandGroup)
                 ? QueryCustomCommandStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText)
@@ -72,17 +72,17 @@ namespace ModernApplicationFramework.Editor.Implementation
                 return num;
             if (NextCommandTarget == null)
                 return -2147467259;
-            return NextCommandTarget.QueryStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
+            return NextCommandTarget.QueryStatus(pguidCmdGroup, commandCount, prgCmds, commandText);
         }
 
-        public int Exec(ref Guid pguidCmdGroup, uint nCmdId, uint nCmdexecopt, IntPtr pvaIn, IntPtr pvaOut)
+        public int Exec(Guid pguidCmdGroup, uint nCmdId, uint nCmdexecopt, IntPtr pvaIn, IntPtr pvaOut)
         {
             if (nCmdexecopt == 65539U)
             {
                 var nextCommandTarget = NextCommandTarget;
                 if (nextCommandTarget == null)
                     return -2147467259;
-                return nextCommandTarget.Exec(ref pguidCmdGroup, nCmdId, nCmdexecopt, pvaIn, pvaOut);
+                return nextCommandTarget.Exec(pguidCmdGroup, nCmdId, nCmdexecopt, pvaIn, pvaOut);
             }
 
             var nextTargetResult = new int?();
@@ -92,19 +92,19 @@ namespace ModernApplicationFramework.Editor.Implementation
                 {
                     var nextCommandTarget = NextCommandTarget;
                     nextTargetResult =
-                        nextCommandTarget?.Exec(ref guidCmdGroup, nCmdId, nCmdexecopt, pvaIn, pvaOut) ??
+                        nextCommandTarget?.Exec(guidCmdGroup, nCmdId, nCmdexecopt, pvaIn, pvaOut) ??
                         -2147467259;
                 })
                 : ExecuteVisualStudio2000(ref guidCmdGroup, nCmdId, pvaIn, pvaOut, () =>
                 {
                     var nextCommandTarget = NextCommandTarget;
-                    nextTargetResult = nextCommandTarget?.Exec(ref guidCmdGroup, nCmdId, nCmdexecopt, pvaIn, pvaOut) ??
+                    nextTargetResult = nextCommandTarget?.Exec(guidCmdGroup, nCmdId, nCmdexecopt, pvaIn, pvaOut) ??
                                        -2147467259;
                 });
             if (num2 == -2147221244)
             {
                 var nextCommandTarget = NextCommandTarget;
-                return nextCommandTarget?.Exec(ref guidCmdGroup, nCmdId, nCmdexecopt, pvaIn, pvaOut) ?? -2147467259;
+                return nextCommandTarget?.Exec(guidCmdGroup, nCmdId, nCmdexecopt, pvaIn, pvaOut) ?? -2147467259;
             }
 
             if (nextTargetResult.HasValue)
@@ -486,7 +486,7 @@ namespace ModernApplicationFramework.Editor.Implementation
             var guidCmdGroup = pguidCmdGroup;
             var commandState = _commandHandlerService.GetCommandState(argsFactory, () =>
             {
-                NextCommandTarget.QueryStatus(ref guidCmdGroup, commandCount, prgCmds, commandText);
+                NextCommandTarget.QueryStatus(guidCmdGroup, commandCount, prgCmds, commandText);
                 return new CommandState(((int) prgCmds[0].cmdf & 2) == 2, ((int) prgCmds[0].cmdf & 4) == 4,
                     Utilities.Utilities.GetCmdText(commandText));
             });

@@ -91,12 +91,12 @@ namespace ModernApplicationFramework.Editor.Implementation
 
         private void RaiseGotFocus()
         {
-            GotFocus?.Invoke(this, EventArgs.Empty);
+            GotFocus?.Invoke(_textView, EventArgs.Empty);
         }
 
         private void RaiseLostFocus()
         {
-            LostFocus?.Invoke(this, EventArgs.Empty);
+            LostFocus?.Invoke(_textView, EventArgs.Empty);
         }
 
 

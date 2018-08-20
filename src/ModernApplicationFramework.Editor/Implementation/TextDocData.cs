@@ -127,7 +127,7 @@ namespace ModernApplicationFramework.Editor.Implementation
             return 0;
         }
 
-        internal static bool IsCommandSupported(ref Guid commandGroup, uint commandId)
+        internal static bool IsCommandSupported(Guid commandGroup, uint commandId)
         {
             return false;
         }
@@ -492,12 +492,12 @@ namespace ModernApplicationFramework.Editor.Implementation
             return num;
         }
 
-        public int QueryStatus(ref Guid commandGroup, uint cCmds, Olecmd[] prgCmds, IntPtr pCmdText)
+        public int QueryStatus(Guid commandGroup, uint cCmds, Olecmd[] prgCmds, IntPtr pCmdText)
         {
             return 0;
         }
 
-        public int Exec(ref Guid commandGroup, uint commandId, uint nCmdexecopt, IntPtr input, IntPtr output)
+        public int Exec(Guid commandGroup, uint commandId, uint nCmdexecopt, IntPtr input, IntPtr output)
         {
             return 0;
         }

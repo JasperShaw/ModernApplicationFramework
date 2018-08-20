@@ -72,7 +72,10 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commanding\ActiveTextViewState.cs" />
+    <Compile Include="Commanding\IActiveTextViewState.cs" />
     <Compile Include="Commands\LeftCommandDefinition.cs" />
+    <Compile Include="Commanding\TextEditCommand.cs" />
     <Compile Include="Interop\AllColorableItemInfo.cs" />
     <Compile Include="Implementation\AllOtherWindowFontAndColorCategory.cs" />
     <Compile Include="Interop\FontAndColorStorage.cs" />

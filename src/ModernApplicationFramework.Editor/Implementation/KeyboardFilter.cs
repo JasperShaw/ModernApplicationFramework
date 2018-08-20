@@ -122,7 +122,7 @@ namespace ModernApplicationFramework.Editor.Implementation
             }
 
             var zero = IntPtr.Zero;
-            CommandTarget.Exec(ref cmdGroup, cmdID, 0, num, zero);
+            CommandTarget.Exec(cmdGroup, cmdID, 0, num, zero);
             if (zero != IntPtr.Zero)
                 obj = Marshal.GetObjectForNativeVariant(zero);
             if (inParam != null)
@@ -136,7 +136,7 @@ namespace ModernApplicationFramework.Editor.Implementation
             var num = Marshal.AllocCoTaskMem(32);
             Marshal.GetNativeVariantForObject((object)(short)screen.X, num);
             Marshal.GetNativeVariantForObject((object)(short)screen.Y, new IntPtr(num.ToInt32() + 16));
-            CommandTarget.Exec(ref _editorCommandGroup, (uint) MafConstants.EditorCommands.ShowContextMenu, 0U, num, IntPtr.Zero);
+            CommandTarget.Exec(_editorCommandGroup, (uint) MafConstants.EditorCommands.ShowContextMenu, 0U, num, IntPtr.Zero);
             Marshal.FreeCoTaskMem(num);
         }
     }

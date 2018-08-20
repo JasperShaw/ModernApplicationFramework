@@ -42,9 +42,9 @@ namespace ModernApplicationFramework.Editor.Implementation
                 case Key.Back:
                     SendCommand(MafConstants.EditorCommands.Backspace);
                     break;
-                case Key.Left:
-                    SendCommand(MafConstants.EditorCommands.Left);
-                    break;
+                //case Key.Left:
+                //    SendCommand(MafConstants.EditorCommands.Left);
+                //    break;
                 case Key.Return:
                     SendCommand(MafConstants.EditorCommands.Return);
                     break;
@@ -61,7 +61,7 @@ namespace ModernApplicationFramework.Editor.Implementation
         {
             var num = IntPtr.Zero;
             var zero = IntPtr.Zero;
-            CommandTarget.Exec(ref editorCommandGroup, commandId, 0, num, zero);
+            CommandTarget.Exec(editorCommandGroup, commandId, 0, num, zero);
             if (zero != IntPtr.Zero)
                 Marshal.GetObjectForNativeVariant(zero);
         }

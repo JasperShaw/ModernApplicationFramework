@@ -23,28 +23,28 @@ namespace ModernApplicationFramework.Editor.Implementation
             }
         }
 
-        public int QueryStatus(ref Guid commandGroup, uint cCmds, Olecmd[] prgCmds, IntPtr pCmdText)
+        public int QueryStatus(Guid commandGroup, uint cCmds, Olecmd[] prgCmds, IntPtr pCmdText)
         {
-            return Next.InnerQueryStatus(ref commandGroup, cCmds, prgCmds, pCmdText);
+            return Next.InnerQueryStatus(commandGroup, cCmds, prgCmds, pCmdText);
         }
 
-        public int Exec(ref Guid commandGroup, uint commandId, uint nCmdexecopt, IntPtr input, IntPtr output)
+        public int Exec(Guid commandGroup, uint commandId, uint nCmdexecopt, IntPtr input, IntPtr output)
         {
-            return Next.InnerExec(ref commandGroup, commandId, nCmdexecopt, input, output);
+            return Next.InnerExec(commandGroup, commandId, nCmdexecopt, input, output);
         }
 
-        public int InnerExec(ref Guid commandGroup, uint commandId, uint nCmdexecopt, IntPtr input, IntPtr output)
+        public int InnerExec(Guid commandGroup, uint commandId, uint nCmdexecopt, IntPtr input, IntPtr output)
         {
             if (!CallFilterObject)
-                return Next.InnerExec(ref commandGroup, commandId, nCmdexecopt, input, output);
-            return FilterObject.Exec(ref commandGroup, commandId, nCmdexecopt, input, output);
+                return Next.InnerExec(commandGroup, commandId, nCmdexecopt, input, output);
+            return FilterObject.Exec(commandGroup, commandId, nCmdexecopt, input, output);
         }
 
-        public int InnerQueryStatus(ref Guid commandGroup, uint cCmds, Olecmd[] prgCmds, IntPtr pCmdText)
+        public int InnerQueryStatus(Guid commandGroup, uint cCmds, Olecmd[] prgCmds, IntPtr pCmdText)
         {
             if (!CallFilterObject)
-                return Next.InnerQueryStatus(ref commandGroup, cCmds, prgCmds, pCmdText);
-            return FilterObject.QueryStatus(ref commandGroup, cCmds, prgCmds, pCmdText);
+                return Next.InnerQueryStatus(commandGroup, cCmds, prgCmds, pCmdText);
+            return FilterObject.QueryStatus(commandGroup, cCmds, prgCmds, pCmdText);
         }
 
         public void Dispose()

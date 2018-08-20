@@ -4,6 +4,6 @@ namespace ModernApplicationFramework.Editor.TextManager
 {
     internal interface IReadOnlyViewNotification
     {
-        int OnDisabledEditingCommand(ref Guid commandGroup, uint commandId);
+        int OnDisabledEditingCommand(Guid commandGroup, uint commandId);
     }
 }

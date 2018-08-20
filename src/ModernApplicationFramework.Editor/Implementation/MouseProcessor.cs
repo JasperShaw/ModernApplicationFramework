@@ -170,7 +170,7 @@ namespace ModernApplicationFramework.Editor.Implementation
 
             var guid = MafConstants.EditorCommandGroup;
 
-            if (SimpleTextViewWindow.Exec(ref guid, (uint) MafConstants.EditorCommands.ShowContextMenu, 0, num, IntPtr.Zero) != 0)
+            if (SimpleTextViewWindow.Exec(guid, (uint) MafConstants.EditorCommands.ShowContextMenu, 0, num, IntPtr.Zero) != 0)
             {
                 //TODO
             }
@@ -234,12 +234,12 @@ namespace ModernApplicationFramework.Editor.Implementation
                 new Olecmd{cmdID = id}
             };
 
-            if (SimpleTextViewWindow.QueryStatus(ref guid, 1, prgCmds, IntPtr.Zero) >= 0 && ((int) prgCmds[0].cmdf & 2) != 0)
+            if (SimpleTextViewWindow.QueryStatus(guid, (uint)prgCmds.Length, prgCmds, IntPtr.Zero) >= 0 && ((int) prgCmds[0].cmdf & 2) != 0)
             {
                 var num3 = Marshal.AllocCoTaskMem(32);
                 Marshal.GetNativeVariantForObject(lineNumber, num3);
                 Marshal.GetNativeVariantForObject(num2, new IntPtr(num3.ToInt32() + 16));
-                num = SimpleTextViewWindow.Exec(ref guid, id, 0, num3, IntPtr.Zero);
+                num = SimpleTextViewWindow.Exec(guid, id, 0, num3, IntPtr.Zero);
                 Marshal.FreeCoTaskMem(num3);
             }
             return num;

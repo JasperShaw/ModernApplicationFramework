@@ -93,7 +93,7 @@ namespace ModernApplicationFramework.Modules.Output
                 if (_view is ITextEditorPropertyCategoryContainer view)
                 {
                     var guid = DefGuidList.GuidEditPropCategoryViewMasterSettings;
-                    if (view.GetPropertyCategory(ref guid, out var prop) == 0)
+                    if (view.GetPropertyCategory(guid, out var prop) == 0)
                     {
                         prop.SetProperty(EditPropId.ViewGeneralFontCategory,
                             DefGuidList.OutputWindowCategory);

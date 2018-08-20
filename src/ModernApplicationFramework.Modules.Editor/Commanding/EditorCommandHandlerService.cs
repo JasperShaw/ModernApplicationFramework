@@ -212,9 +212,11 @@ namespace ModernApplicationFramework.Modules.Editor.Commanding
             IEnumerable<Lazy<ITextEditCommand, ICommandHandlerMetadata>> commandHandlers, IContentType contentType,
             ITextViewRoleSet textViewRoles)
         {
-            return commandHandlers.Where(commandHandler =>
-                MatchesContentType(commandHandler.Metadata, contentType) &&
-                MatchesTextViewRoles(commandHandler.Metadata, textViewRoles));
+            foreach (var commandHandler in commandHandlers)
+            {
+                if (MatchesContentType(commandHandler.Metadata, contentType) && MatchesTextViewRoles(commandHandler.Metadata, textViewRoles))
+                    yield return commandHandler;
+            }
         }
 
         private CommandExecutionContext CreateCommandExecutionContext()
@@ -230,6 +232,12 @@ namespace ModernApplicationFramework.Modules.Editor.Commanding
             if (!_commandHandlersByTypeAndContentType.TryGetValue(key, out var lazyList))
             {
                 var source = (IList<Lazy<ITextEditCommand, ICommandHandlerMetadata>>) null;
+
+
+                var l = SelectMatchingCommandHandlers(_commandHandlers, contentType,
+                        textViewRoles);
+
+
                 foreach (var matchingCommandHandler in SelectMatchingCommandHandlers(_commandHandlers, contentType,
                     textViewRoles))
                 {

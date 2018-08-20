@@ -239,7 +239,6 @@
     <Compile Include="Ui\Editor\CollapseHintAdornmentControl.cs" />
     <Compile Include="Ui\Editor\Commanding\Commands\CopyCommandArgs.cs" />
     <Compile Include="Ui\Commanding\IChainedTextEditCommand.cs" />
-    <Compile Include="Ui\Commanding\ICommandHandler.cs" />
     <Compile Include="Ui\Editor\AdornmentLayerDefinition.cs" />
     <Compile Include="Ui\Editor\AdornmentPositioningBehavior.cs" />
     <Compile Include="Ui\Editor\AdornmentRemovedCallback.cs" />

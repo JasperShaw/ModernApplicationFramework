@@ -12,6 +12,7 @@ using ModernApplicationFramework.Utilities.Core;
 namespace ModernApplicationFramework.Extended.Demo.Modules.KeyGestureScopeTest
 {
     [Export(typeof(PrimitiveTextView))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     internal class PrimitiveTextView
     {
         private IContentType _contentType;
@@ -89,7 +90,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.KeyGestureScopeTest
                 if (_view is ITextEditorPropertyCategoryContainer view)
                 {
                     var guid = DefGuidList.GuidEditPropCategoryViewMasterSettings;
-                    if (view.GetPropertyCategory(ref guid, out var prop) == 0)
+                    if (view.GetPropertyCategory(guid, out var prop) == 0)
                     {
                         prop.SetProperty(EditPropId.ViewGeneralFontCategory,
                             DefGuidList.TextEditorCategory);
@@ -105,5 +106,10 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.KeyGestureScopeTest
         }
 
         public object Content => TextViewHost.HostControl;
+
+        public void Close()
+        {
+            Execute.OnUIThread(TextView.Close);
+        }
     }
 }

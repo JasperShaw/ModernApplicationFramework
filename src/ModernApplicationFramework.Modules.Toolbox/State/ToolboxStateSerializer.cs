@@ -64,16 +64,17 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
             var state = DeserializeNode(in xmlRootNode, CreateNode<IToolboxCategory>,
                 node =>
                 {
-                    node.TryGetValueResult<string>("Name", out var name);
-                    return string.IsNullOrEmpty(name) ? null : new ToolboxCategory(name);
+                    if (node.TryGetValueResult<string>("Name", out var name) != GetValueResult.Success ||
+                        string.IsNullOrEmpty(name))
+                        return null;
+                    return new ToolboxCategory(name);
                 },
                 (category, node) =>
                 {
                     var items = DeserializeNode(in node, CreateNode<IToolboxItem>, itemNode =>
                     {
-                        itemNode.TryGetValueResult<string>("Name", out var name);
-
-                        if (string.IsNullOrEmpty(name))
+                        if (itemNode.TryGetValueResult<string>("Name", out var name) != GetValueResult.Success ||
+                            string.IsNullOrEmpty(name))
                             return null;
 
                         var data = ParseData(in itemNode);

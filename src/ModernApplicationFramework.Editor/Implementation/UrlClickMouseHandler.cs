@@ -79,7 +79,7 @@ namespace ModernApplicationFramework.Editor.Implementation
                     var pDstNativeVariant = new IntPtr(num1.ToInt32() + 16);
                     Marshal.GetNativeVariantForObject(num2, pDstNativeVariant); 
                     var guid = MafConstants.EditorCommandGroup;
-                    e.Handled = commandTarget.Exec(ref guid, (uint) MafConstants.EditorCommands.OpenUrl, 0, num1, IntPtr.Zero) != 0;
+                    e.Handled = commandTarget.Exec(guid, (uint) MafConstants.EditorCommands.OpenUrl, 0, num1, IntPtr.Zero) != 0;
                 }
                 finally
                 {
