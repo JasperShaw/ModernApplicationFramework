@@ -1342,11 +1342,9 @@ namespace ModernApplicationFramework.Docking.Controls
             //// This line prevents some odd things on app startup that might relate to the GC. 
             if (HostingPanel.Content == null)
                 return;
-            if (InputManager.Current.IsInMenuMode)
-            {
-                CommandFocusManager.CancelRestoreFocus();
-                PendingFocusHelper.SetFocusOnLoad(HostingPanel.Content);
-            }
+            CommandFocusManager.CancelRestoreFocus();
+            PendingFocusHelper.SetFocusOnLoad(HostingPanel.Content);
+
             FocusHelper.MoveFocusInto(HostingPanel.Content);
             var presentationSource = PresentationSource.FromVisual(HostingPanel.Content);
             if (presentationSource == null)

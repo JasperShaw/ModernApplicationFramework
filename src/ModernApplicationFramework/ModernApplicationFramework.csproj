@@ -794,7 +794,6 @@
     <Compile Include="Native\TrinetCoreNtfs\SafeHGlobalHandle.cs" />
     <Compile Include="Native\TrinetCoreNtfs\StreamName.cs" />
     <Compile Include="Core\Utilities\CommonUtilities.cs" />
-    <Compile Include="Controls\Extensions\FocusBehavior.cs" />
     <Compile Include="Controls\Utilities\PropertyBoundFilteringCollectionViewSource.cs" />
     <Compile Include="Controls\Utilities\ToolbarsCollectionViewSource.cs" />
     <Compile Include="Core\Utilities\WindowsFileNameHelper.cs" />

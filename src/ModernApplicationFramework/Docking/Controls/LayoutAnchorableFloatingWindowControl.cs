@@ -32,8 +32,8 @@ namespace ModernApplicationFramework.Docking.Controls
     public class LayoutAnchorableFloatingWindowControl : LayoutFloatingWindowControl, IOverlayWindowHost
     {
         public static readonly DependencyProperty SingleContentLayoutItemProperty =
-            DependencyProperty.Register("SingleContentLayoutItem", typeof (LayoutItem),
-                typeof (LayoutAnchorableFloatingWindowControl),
+            DependencyProperty.Register("SingleContentLayoutItem", typeof(LayoutItem),
+                typeof(LayoutAnchorableFloatingWindowControl),
                 new FrameworkPropertyMetadata(null, OnSingleContentLayoutItemChanged));
 
         private readonly LayoutAnchorableFloatingWindow _model;
@@ -50,8 +50,8 @@ namespace ModernApplicationFramework.Docking.Controls
 
         static LayoutAnchorableFloatingWindowControl()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof (LayoutAnchorableFloatingWindowControl),
-                new FrameworkPropertyMetadata(typeof (LayoutAnchorableFloatingWindowControl)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(LayoutAnchorableFloatingWindowControl),
+                new FrameworkPropertyMetadata(typeof(LayoutAnchorableFloatingWindowControl)));
         }
 
         IEnumerable<IDropArea> IOverlayWindowHost.GetDropAreas(LayoutFloatingWindowControl draggingWindow)
@@ -116,13 +116,13 @@ namespace ModernApplicationFramework.Docking.Controls
 
         public LayoutItem SingleContentLayoutItem
         {
-            get => (LayoutItem) GetValue(SingleContentLayoutItemProperty);
+            get => (LayoutItem)GetValue(SingleContentLayoutItemProperty);
             set => SetValue(SingleContentLayoutItemProperty, value);
         }
 
         protected override void RedockWindow()
         {
-           var list = _model.Descendents().OfType<LayoutAnchorablePane>().ToList();
+            var list = _model.Descendents().OfType<LayoutAnchorablePane>().ToList();
             foreach (var layoutAnchorablePane in list)
                 layoutAnchorablePane?.SelectedContent.Dock();
         }
@@ -216,7 +216,7 @@ namespace ModernApplicationFramework.Docking.Controls
 
         private static void OnSingleContentLayoutItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((LayoutAnchorableFloatingWindowControl) d).OnSingleContentLayoutItemChanged(e);
+            ((LayoutAnchorableFloatingWindowControl)d).OnSingleContentLayoutItemChanged(e);
         }
 
         private void _model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

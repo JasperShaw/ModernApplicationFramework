@@ -26,12 +26,14 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Threading;
 using ModernApplicationFramework.Controls.Windows;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Native;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Native.Platform.Enums;
+using ModernApplicationFramework.Utilities;
 using SystemCommands = System.Windows.SystemCommands;
 
 namespace ModernApplicationFramework.Docking.Controls
@@ -111,8 +113,8 @@ namespace ModernApplicationFramework.Docking.Controls
 
         internal static bool ModifyStyle(IntPtr hWnd, int styleToRemove, int styleToAdd)
         {
-            int windowLong = User32.GetWindowLong(hWnd, -16);
-            int dwNewLong = windowLong & ~styleToRemove | styleToAdd;
+            var windowLong = User32.GetWindowLong(hWnd, -16);
+            var dwNewLong = windowLong & ~styleToRemove | styleToAdd;
             if (dwNewLong == windowLong)
                 return false;
             User32.SetWindowLong(hWnd, -16, dwNewLong);
@@ -135,6 +137,20 @@ namespace ModernApplicationFramework.Docking.Controls
                         //	handled = true;
                         //}
                     }
+
+                    if (((int) wParam & 0xFFF) == 2)
+                    {
+                        var firstModel = Model.Descendents().OfType<LayoutContent>().FirstOrDefault();
+                        if (firstModel == null)
+                            break;
+                        firstModel.IsActive = true;
+                        firstModel.IsSelected = true;
+                        var item = Model.Root.Manager.GetLayoutItemFromModel(firstModel);
+                        item.EnsureFocused();
+                    }
+                    break;
+                case (int)WindowsMessage.WmShowwindow:
+                    WmShowWindow(hwnd, lParam);
                     break;
                 case (int)WindowsMessage.WmExitsizemove:
                     UpdatePositionAndSizeOfPanes();
@@ -166,8 +182,8 @@ namespace ModernApplicationFramework.Docking.Controls
                     }
                     break;
                 case (int)WindowsMessage.WmSyscommand:
-                    IntPtr wMaximize = new IntPtr((int)Native.Platform.Enums.SystemCommands.ScMaximize);
-                    IntPtr wRestore = new IntPtr((int)Native.Platform.Enums.SystemCommands.ScRestore);
+                    var wMaximize = new IntPtr((int)Native.Platform.Enums.SystemCommands.ScMaximize);
+                    var wRestore = new IntPtr((int)Native.Platform.Enums.SystemCommands.ScRestore);
                     if (wParam == wMaximize || wParam == wRestore)
                     {
                         UpdateMaximizedState(wParam == wMaximize);
@@ -188,6 +204,8 @@ namespace ModernApplicationFramework.Docking.Controls
                         return IntPtr.Zero;
                     }
                     break;
+                default:
+                    return HwndSourceHook(hwnd, msg, wParam, lParam, ref handled);
             }
             return IntPtr.Zero;
         }
@@ -233,10 +251,10 @@ namespace ModernApplicationFramework.Docking.Controls
 
         private void TryActivateOwner()
         {
-            WindowInteropHelper windowInteropHelper = new WindowInteropHelper(this);
+            var windowInteropHelper = new WindowInteropHelper(this);
             if (!(windowInteropHelper.Owner != IntPtr.Zero))
                 return;
-            Window window = GetWindow(windowInteropHelper.Owner);
+            var window = GetWindow(windowInteropHelper.Owner);
             if (window != null)
                 window.Focus();
             else
@@ -270,13 +288,22 @@ namespace ModernApplicationFramework.Docking.Controls
 
         protected override void OnInitialized(EventArgs e)
         {
+            base.OnInitialized(e);
             CommandBindings.Add(new CommandBinding(SystemCommands.MinimizeWindowCommand,
                 (sender, args) => SystemCommands.MinimizeWindow((Window)args.Parameter)));
             CommandBindings.Add(new CommandBinding(SystemCommands.RestoreWindowCommand,
                 (sender, args) => SystemCommands.RestoreWindow((Window)args.Parameter)));
             CommandBindings.Add(new CommandBinding(SystemCommands.MaximizeWindowCommand,
                 (sender, args) => SystemCommands.MaximizeWindow((Window)args.Parameter)));
-            base.OnInitialized(e);
+
+            Dispatcher.BeginInvoke(DispatcherPriority.Send, (Action)(() =>
+           {
+               var handle = new WindowInteropHelper(this).Handle;
+               var pos = User32.GetMessagePos();
+               var p = new Point(NativeMethods.LoWord(pos), NativeMethods.HiWord(pos));
+               User32.SendMessage(handle, 161, new IntPtr(2), NativeMethods.MakeParam((int)p.X, (int)p.Y));
+           }));
+
         }
 
         protected virtual void OnIsDraggingChanged(DependencyPropertyChangedEventArgs e)
@@ -320,8 +347,8 @@ namespace ModernApplicationFramework.Docking.Controls
             }
             else
             {
-                IntPtr windowHandle = new WindowInteropHelper(this).EnsureHandle();
-                IntPtr lParam = new IntPtr(((int) Left & 0xFFFF) | (((int) Top) << 16));
+                var windowHandle = new WindowInteropHelper(this).EnsureHandle();
+                var lParam = new IntPtr(((int) Left & 0xFFFF) | (((int) Top) << 16));
                 User32.SendMessage(windowHandle, (int)WindowsMessage.WmNclbuttondown, new IntPtr((int)HitTestValues.Htcaption),
                     lParam);
             }
@@ -355,7 +382,7 @@ namespace ModernApplicationFramework.Docking.Controls
 
             if (!_attachDrag || Mouse.LeftButton != MouseButtonState.Pressed)
                 return;
-            IntPtr windowHandle = new WindowInteropHelper(this).EnsureHandle();
+            var windowHandle = new WindowInteropHelper(this).EnsureHandle();
             var mousePosition = this.PointToScreenDpi(Mouse.GetPosition(this));
             var clientArea = NativeMethods.GetClientRect(windowHandle);
             var windowArea = NativeMethods.GetWindowRect(windowHandle);
@@ -364,7 +391,7 @@ namespace ModernApplicationFramework.Docking.Controls
             Top = mousePosition.Y - (windowArea.Height - clientArea.Height)/2.0;
             _attachDrag = false;
 
-            IntPtr lParam = new IntPtr(((int) mousePosition.X & 0xFFFF) | (((int) mousePosition.Y) << 16));
+            var lParam = new IntPtr(((int) mousePosition.X & 0xFFFF) | (((int) mousePosition.Y) << 16));
             User32.SendMessage(windowHandle, (int)WindowsMessage.WmNclbuttondown, new IntPtr((int)HitTestValues.Htcaption), lParam);
         }
 
@@ -376,6 +403,14 @@ namespace ModernApplicationFramework.Docking.Controls
             _hwndSrc = PresentationSource.FromDependencyObject(this) as HwndSource;
             _hwndSrcHook = FilterMessage;
             _hwndSrc?.AddHook(_hwndSrcHook);
+
+            //Restore focued element after Floating is completed. Do no use any Priority faster than Input 
+            Dispatcher.BeginInvoke(DispatcherPriority.Input, (Action)(() =>
+            {
+                var i = Model.Root.Manager.GetLayoutItemFromModel(Model.Root.ActiveContent);
+                i.EnsureFocused();
+            }));
+
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
@@ -451,19 +486,18 @@ namespace ModernApplicationFramework.Docking.Controls
                 {
                     ParentWindow = hwndParent.Handle,
                     WindowStyle =
-                        (int) (WindowStyles.WsChild | WindowStyles.WsVisible | WindowStyles.WsClipsiblings |
+                        (int)(WindowStyles.WsChild | WindowStyles.WsVisible | WindowStyles.WsClipsiblings |
                                WindowStyles.WsClipchildren),
                     Width = 1,
                     Height = 1
                 });
 
-                _rootPresenter = new Border {Child = new AdornerDecorator {Child = Content}, Focusable = true};
+                _rootPresenter = new Border {Child = new AdornerDecorator {Child = Content}, Focusable = false};
                 _rootPresenter.SetBinding(Border.BackgroundProperty, new Binding("Background") {Source = _owner});
                 _wpfContentHost.RootVisual = _rootPresenter;
                 _wpfContentHost.SizeToContent = SizeToContent.Manual;
                 _manager = _owner.Model.Root.Manager;
                 _manager.InternalAddLogicalChild(_rootPresenter);
-
                 return new HandleRef(this, _wpfContentHost.Handle);
             }
 
@@ -557,10 +591,10 @@ namespace ModernApplicationFramework.Docking.Controls
                     case 260:
                     case 262:
                     case 263:
-                        string key = new string((char) (int) msg.wParam, 1);
+                        var key = new string((char) (int) msg.wParam, 1);
                         if (key.Length > 0)
                         {
-                            IntPtr hwnd = new WindowInteropHelper(Window).Owner;
+                            var hwnd = new WindowInteropHelper(Window).Owner;
                             if (hwnd == IntPtr.Zero)
                             {
                                 var fromVisual = (HwndSource)PresentationSource.FromVisual(Application.Current.MainWindow);
@@ -569,7 +603,7 @@ namespace ModernApplicationFramework.Docking.Controls
                             }
                             if (hwnd != IntPtr.Zero)
                             {
-                                HwndSource hwndSource = HwndSource.FromHwnd(hwnd);
+                                var hwndSource = HwndSource.FromHwnd(hwnd);
                                 if (hwndSource != null && AccessKeyManager.IsKeyRegistered(hwndSource, key))
                                 {
                                     AccessKeyManager.ProcessKey(hwndSource, key, false);

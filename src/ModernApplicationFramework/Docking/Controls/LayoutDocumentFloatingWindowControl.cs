@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Native.Platform.Enums;
@@ -120,8 +121,7 @@ namespace ModernApplicationFramework.Docking.Controls
 
         public override void OnApplyTemplate()
         {
-            var minimizeButton = GetTemplateChild("MaximizeRestoreButton") as System.Windows.Controls.Button;
-            if (minimizeButton != null)
+            if (GetTemplateChild("MaximizeRestoreButton") is Button minimizeButton)
                 minimizeButton.Click += MaximizeRestoreButtonClick;
             base.OnApplyTemplate();
         }
@@ -134,7 +134,10 @@ namespace ModernApplicationFramework.Docking.Controls
                     if (wParam.ToInt32() == (int)HitTestValues.Htcaption)
                     {
                         if (_model.RootDocument != null)
+                        {
                             _model.RootDocument.IsActive = true;
+                            _model.RootDocument.IsSelected = true;
+                        }
                     }
                     break;
             }
