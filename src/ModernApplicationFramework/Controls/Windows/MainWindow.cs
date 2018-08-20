@@ -184,7 +184,7 @@ namespace ModernApplicationFramework.Controls.Windows
 #if DEBUG
             if (System.Windows.Forms.Screen.AllScreens.Length <= 1)
                 return;
-            var s2 = System.Windows.Forms.Screen.AllScreens[1];
+            var s2 = System.Windows.Forms.Screen.AllScreens[0];
             var workingArea = s2.WorkingArea;
             Top = workingArea.Top + 50;
             Left = workingArea.Left +100;
