@@ -17,7 +17,7 @@
             <RowDefinition Height="58*"/>
         </Grid.RowDefinitions>
 
-        <TextBox Text="{Binding Text, Mode=TwoWay}" extensions:FocusBehavior.FocusFirst="true" IsUndoEnabled="False"/>
+        <TextBox Text="{Binding Text, Mode=TwoWay}" IsUndoEnabled="False"/>
         <TextBox Grid.Row="1" Margin="0,5,0,0" Text="{Binding Text2, Mode=TwoWay}"/>
         <buttons:Button Margin="0,22.345,0,0" Grid.Row="2" Command="{Binding SetValueCommand}">SetValue</buttons:Button>
         <buttons:Button Margin="0,50,0,0" Grid.Row="3" Command="{Binding UndoCommand}">Undo</buttons:Button>

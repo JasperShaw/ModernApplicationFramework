@@ -41,7 +41,7 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <textBoxes:ModernTextBox extensions:FocusBehavior.FocusFirst="true"/>
+            <textBoxes:ModernTextBox/>
             <comboBox:ComboBox DataSource="{Binding DataSource}" Margin="0,10,0,0">
                 <ComboBox.ItemsSource>
                     <Binding Path="Items"/>
