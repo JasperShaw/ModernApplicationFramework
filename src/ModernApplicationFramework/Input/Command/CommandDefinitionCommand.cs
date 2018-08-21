@@ -40,13 +40,13 @@ namespace ModernApplicationFramework.Input.Command
 
         protected CommandDefinitionCommand()
         {
-            WrappedCommand = new Command(OnExecuteInternal, OnCanExecute);
+            WrappedCommand = new Command(OnExecuteInternal, OnCanExecuteInternal);
             _status = CommandStatus.Enabled | CommandStatus.Supported;
         }
 
         protected CommandDefinitionCommand(object args)
         {
-            WrappedCommand = new Command(o => OnExecuteInternal(args), o => OnCanExecute(args));
+            WrappedCommand = new Command(o => OnExecuteInternal(args), o => OnCanExecuteInternal(args));
         }
 
         protected abstract bool OnCanExecute(object parameter);
@@ -57,6 +57,12 @@ namespace ModernApplicationFramework.Input.Command
         {
             OnExecute(parameter);
             OnExecuted();
+        }
+
+        private bool OnCanExecuteInternal(object parameter)
+        {
+            Enabled = OnCanExecute(parameter);
+            return Enabled;
         }
 
         private void SetStatus(CommandStatus mask, bool value)
