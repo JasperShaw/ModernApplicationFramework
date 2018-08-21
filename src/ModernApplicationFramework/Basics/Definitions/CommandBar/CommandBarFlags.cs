@@ -14,6 +14,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         CommandFlagText = 2,
         CommandFlagPictAndText = CommandFlagPict | CommandFlagText,
         CommandFlagTextIsAnchor = 4,
-        CommandStretchHorizontally = 8
+        CommandStretchHorizontally = 8,
+        CommandFlagFixMenuController = 16,
     }
 }

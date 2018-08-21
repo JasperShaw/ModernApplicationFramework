@@ -18,6 +18,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         private uint _allFlags;
         private bool _stretchHorizontally;
         private bool _textIsAnchor;
+        private bool _fixMenuController;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -109,6 +110,18 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             {
                 if (value == _textIsAnchor) return;
                 _textIsAnchor = value;
+                SetFlag(CommandBarFlags.CommandFlagTextIsAnchor, value);
+                OnPropertyChanged();
+            }
+        }
+
+        public bool FixMenuController
+        {
+            get => _fixMenuController;
+            set
+            {
+                if (value == _fixMenuController) return;
+                _fixMenuController = value;
                 SetFlag(CommandBarFlags.CommandFlagTextIsAnchor, value);
                 OnPropertyChanged();
             }
