@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
 using Caliburn.Micro;
@@ -11,8 +10,6 @@ using ModernApplicationFramework.Extended.Commands;
 using ModernApplicationFramework.Extended.UndoRedoManager;
 using ModernApplicationFramework.ImageCatalog;
 using ModernApplicationFramework.Imaging.Interop;
-using ModernApplicationFramework.Input;
-using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Utilities;
 
@@ -22,9 +19,6 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
     [Export(typeof(MultiRedoCommandDefinition))]
     public sealed class MultiRedoCommandDefinition : CommandSplitButtonDefinition<IMultiRedoCommand>
     {
-        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
-        public override GestureScope DefaultGestureScope => null;
-
         public override ImageMoniker ImageMonikerSource => Monikers.Redo;
 
         public override string Name => Commands_Resources.MultiRedoCommandDefinition_Name;

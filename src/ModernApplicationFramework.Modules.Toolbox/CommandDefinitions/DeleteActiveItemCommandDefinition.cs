@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.Input;
-using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces.Commands;
 
 namespace ModernApplicationFramework.Modules.Toolbox.CommandDefinitions
@@ -15,8 +12,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandDefinitions
         public override string ToolTip => Text;
         public override CommandCategory Category => null;
         public override Guid Id => Guid.Empty;
-        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
-        public override GestureScope DefaultGestureScope => null;
         internal static CommandDefinition Instance => _instance ?? (_instance = new DeleteActiveItemCommandDefinition());
     }
 }

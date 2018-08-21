@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Windows.Input;
@@ -18,8 +18,10 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
     [Export(typeof(FullScreenCommandDefinition))]
     public sealed class FullScreenCommandDefinition : CommandDefinition<IFullScreenCommand>
     {
-        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
-        public override GestureScope DefaultGestureScope { get; }
+        public override ReadOnlyCollection<GestureScopeMapping> DefaultGestureScopes => new ReadOnlyCollection<GestureScopeMapping>(new[]
+        {
+            new GestureScopeMapping(GestureScopes.GlobalGestureScope, new MultiKeyGesture(Key.Enter, ModifierKeys.Shift | ModifierKeys.Alt))
+        });
 
         public override ImageMoniker ImageMonikerSource => Monikers.FitToScreen;
 
@@ -34,11 +36,5 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
         public override Guid Id => new Guid("{9EE995EC-45C6-40B9-A3D6-8A9F486D59C9}");
 
         public override bool IsChecked { get; set; }
-
-        public FullScreenCommandDefinition()
-        {
-            DefaultKeyGestures = new[] {new MultiKeyGesture(Key.Enter, ModifierKeys.Shift | ModifierKeys.Alt)};
-            DefaultGestureScope = GestureScopes.GlobalGestureScope;
-        }
     }
 }

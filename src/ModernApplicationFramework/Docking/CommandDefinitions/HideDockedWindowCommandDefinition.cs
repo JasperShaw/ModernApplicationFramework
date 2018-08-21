@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.ImageCatalog;
 using ModernApplicationFramework.Imaging.Interop;
-using ModernApplicationFramework.Input;
-using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Commands;
 
 namespace ModernApplicationFramework.Docking.CommandDefinitions
@@ -16,9 +13,6 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
     [Export(typeof(HideDockedWindowCommandDefinition))]
     public sealed class HideDockedWindowCommandDefinition : CommandDefinition<IHideDockedWindowCommand>
     {
-        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
-        public override GestureScope DefaultGestureScope => null;
-
         public override string Name => Text;
 
         public override string NameUnlocalized =>

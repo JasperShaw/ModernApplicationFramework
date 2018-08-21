@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Windows.Input;
@@ -17,8 +18,10 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
     [Export(typeof(UndoCommandDefinition))]
     public sealed class UndoCommandDefinition : CommandDefinition<IUndoCommand>
     {
-        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
-        public override GestureScope DefaultGestureScope { get; }
+        public override ReadOnlyCollection<GestureScopeMapping> DefaultGestureScopes => new ReadOnlyCollection<GestureScopeMapping>(new[]
+        {
+            new GestureScopeMapping(GestureScopes.GlobalGestureScope, new MultiKeyGesture(Key.Z, ModifierKeys.Control))
+        });
 
         public override Imaging.Interop.ImageMoniker ImageMonikerSource => ImageCatalog.Monikers.Undo;
 
@@ -30,11 +33,5 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
 
         public override CommandCategory Category => CommandCategories.EditCommandCategory;
         public override Guid Id => new Guid("{1A236C59-DA8D-424F-804B-22D80CFA15D6}");
-
-        public UndoCommandDefinition()
-        {
-            DefaultKeyGestures = new []{ new MultiKeyGesture(Key.Z, ModifierKeys.Control)};
-            DefaultGestureScope = GestureScopes.GlobalGestureScope;
-        }
     }
 }

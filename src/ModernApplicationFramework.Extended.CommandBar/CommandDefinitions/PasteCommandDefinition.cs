@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Windows.Input;
@@ -25,12 +25,10 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
         public override CommandCategory Category => CommandCategories.EditCommandCategory;
         public override Guid Id => new Guid("{7820A125-F085-4338-81B3-22985BE24B55}");
 
-        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures =>
-            new[]
-            {
-                new MultiKeyGesture(Key.V, ModifierKeys.Control),
-                new MultiKeyGesture(Key.Insert, ModifierKeys.Shift)
-            };
-        public override GestureScope DefaultGestureScope => GestureScopes.GlobalGestureScope;
+        public override ReadOnlyCollection<GestureScopeMapping> DefaultGestureScopes => new ReadOnlyCollection<GestureScopeMapping>(new[]
+        {
+            new GestureScopeMapping(GestureScopes.GlobalGestureScope, new MultiKeyGesture(Key.V, ModifierKeys.Control)),
+            new GestureScopeMapping(GestureScopes.GlobalGestureScope, new MultiKeyGesture(Key.Insert, ModifierKeys.Shift))
+        });
     }
 }

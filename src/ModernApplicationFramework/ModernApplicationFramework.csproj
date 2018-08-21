@@ -236,6 +236,8 @@
   <ItemGroup>
     <Compile Include="Basics\ApplicationEnvironment\AbstractEnvironmentVariables.cs" />
     <Compile Include="Basics\ApplicationEnvironment\FallbackEnvironmentVariables.cs" />
+    <Compile Include="Basics\CommandBar\Commands\CustomizeMenuCommand.cs" />
+    <Compile Include="Interfaces\Commands\ICustomizeMenuCommand.cs" />
     <Compile Include="Basics\Search\Search.Resources.Designer.cs">
       <DependentUpon>Search.Resources.resx</DependentUpon>
       <AutoGen>True</AutoGen>

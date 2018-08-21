@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.EditorBase.CommandBar.Resources;
 using ModernApplicationFramework.EditorBase.Interfaces.Commands;
-using ModernApplicationFramework.Input;
-using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.EditorBase.CommandBar.CommandDefinitions
 {
@@ -18,7 +15,5 @@ namespace ModernApplicationFramework.EditorBase.CommandBar.CommandDefinitions
         public override string ToolTip => Text;
         public override CommandCategory Category => CommandCategories.FileCommandCategory;
         public override Guid Id => new Guid("{1E11050B-F441-4C18-8A0E-B6C46D4265DE}");
-        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
-        public override GestureScope DefaultGestureScope => null;
     }
 }

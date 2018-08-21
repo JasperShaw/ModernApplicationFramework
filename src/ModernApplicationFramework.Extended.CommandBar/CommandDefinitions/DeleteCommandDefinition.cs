@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Globalization;
-using System.Resources;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
@@ -27,13 +26,10 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
         public override ImageMoniker ImageMonikerSource => Monikers.Delete;
         public override CommandCategory Category => CommandCategories.EditCommandCategory;
         public override Guid Id => new Guid("{667CA2DA-8DBD-4D93-8167-007A38A82A2B}");
-        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
-        public override GestureScope DefaultGestureScope { get; }
 
-        public DeleteCommandDefinition()
+        public override ReadOnlyCollection<GestureScopeMapping> DefaultGestureScopes => new ReadOnlyCollection<GestureScopeMapping>(new[]
         {
-            DefaultKeyGestures = new []{new MultiKeyGesture(Key.Delete)};
-            DefaultGestureScope = GestureScopes.GlobalGestureScope;
-        }
+            new GestureScopeMapping(GestureScopes.GlobalGestureScope, new MultiKeyGesture(Key.Delete))
+        });
     }
 }

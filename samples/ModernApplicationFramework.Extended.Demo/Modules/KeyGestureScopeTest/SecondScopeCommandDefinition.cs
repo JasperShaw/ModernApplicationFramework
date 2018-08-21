@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Input;
@@ -15,13 +15,6 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.KeyGestureScopeTest
         public SecondScopeCommandDefinition()
         {
             Command = new SecondScopeCommand();
-
-            DefaultKeyGestures = new[]
-            {
-                new MultiKeyGesture(Key.M, ModifierKeys.Control)
-            };
-
-            DefaultGestureScope = TextEditorScope.LesserPriority;
         }
 
         public override CommandCategory Category => new CommandCategory("Test");
@@ -31,8 +24,10 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.KeyGestureScopeTest
         public override string Text => Name;
         public override string ToolTip => Name;
 
-        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
-        public override GestureScope DefaultGestureScope { get; }
+        public override ReadOnlyCollection<GestureScopeMapping> DefaultGestureScopes => new ReadOnlyCollection<GestureScopeMapping>(new[]
+        {
+            new GestureScopeMapping(TextEditorScope.LesserPriority, new MultiKeyGesture(Key.M, ModifierKeys.Control))
+        });
     }
 
     internal class SecondScopeCommand : CommandDefinitionCommand

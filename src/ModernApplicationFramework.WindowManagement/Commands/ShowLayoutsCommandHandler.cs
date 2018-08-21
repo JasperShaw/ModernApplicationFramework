@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.WindowManagement.CommandDefinitions;
@@ -117,8 +116,6 @@ namespace ModernApplicationFramework.WindowManagement.Commands
 
         private class ShowLayoutCommandDefinition : CommandDefinition
         {
-            public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
-            public override GestureScope DefaultGestureScope => null;
             public override string Name => string.Empty;
             public override string NameUnlocalized => string.Empty;
             public override string Text { get; }

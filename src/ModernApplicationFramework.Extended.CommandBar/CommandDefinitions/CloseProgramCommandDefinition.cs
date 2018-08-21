@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Windows.Input;
@@ -18,9 +18,6 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
     [Export(typeof(CloseProgramCommandDefinition))]
     public sealed class CloseProgramCommandDefinition : CommandDefinition<ICloseProgramCommand>
     {
-        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
-        public override GestureScope DefaultGestureScope { get; }
-
         public override ImageMoniker ImageMonikerSource => Monikers.CloseProgram;
 
         public override string Text => Commands_Resources.CloseProgramCommandDefinition_Text;
@@ -34,10 +31,9 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
         public override CommandCategory Category => CommandCategories.FileCommandCategory;
         public override Guid Id => new Guid("{78CD7FA8-147F-4464-814B-DB36438145CB}");
 
-        public CloseProgramCommandDefinition()
+        public override ReadOnlyCollection<GestureScopeMapping> DefaultGestureScopes => new ReadOnlyCollection<GestureScopeMapping>(new[]
         {
-            DefaultKeyGestures = new[] {new MultiKeyGesture(Key.F4, ModifierKeys.Alt)};
-            DefaultGestureScope = GestureScopes.GlobalGestureScope;
-        }
+            new GestureScopeMapping(GestureScopes.GlobalGestureScope, new MultiKeyGesture(Key.F4, ModifierKeys.Alt))
+        });
     }
 }

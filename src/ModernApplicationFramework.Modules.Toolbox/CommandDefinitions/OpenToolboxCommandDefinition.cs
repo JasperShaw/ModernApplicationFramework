@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
@@ -24,20 +24,14 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandDefinitions
         public override ImageMoniker ImageMonikerSource => Monikers.Toolbox;
 
         public override Guid Id => new Guid("{D3CD6E1A-D2E9-4EDF-A83E-FB0B110BCA7F}");
-        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
-        public override GestureScope DefaultGestureScope { get; }
 
-        public OpenToolboxCommandDefinition()
+        public override ReadOnlyCollection<GestureScopeMapping> DefaultGestureScopes => new ReadOnlyCollection<GestureScopeMapping>(new[]
         {
-            DefaultKeyGestures = new[]
+            new GestureScopeMapping(GestureScopes.GlobalGestureScope, new MultiKeyGesture(new[]
             {
-                new MultiKeyGesture(new List<KeySequence>
-                {
-                    new KeySequence(ModifierKeys.Control, Key.W),
-                    new KeySequence(Key.X)
-                })
-            };
-            DefaultGestureScope = GestureScopes.GlobalGestureScope;
-        }
+                new KeySequence(ModifierKeys.Control, Key.W),
+                new KeySequence(Key.X)
+            }))
+        });
     }
 }

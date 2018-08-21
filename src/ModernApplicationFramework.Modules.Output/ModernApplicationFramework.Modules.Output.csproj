@@ -56,10 +56,12 @@
     <Compile Include="Controls\OutputWindow.xaml.cs">
       <DependentUpon>OutputWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="IOpenOutputToolCommand.cs" />
     <Compile Include="IOutputPane.cs" />
     <Compile Include="IOutputPrivate.cs" />
     <Compile Include="IOutputWindowDataSource.cs" />
     <Compile Include="MenuDefinitions.cs" />
+    <Compile Include="OpenOutputToolCommand.cs" />
     <Compile Include="OpenOutputToolCommandDefinition.cs" />
     <Compile Include="Output.cs" />
     <Compile Include="OutputView.xaml.cs">

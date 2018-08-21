@@ -4,7 +4,6 @@ using System.Linq;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Extended.Interfaces;
-using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.Extended.Input.KeyBindingScheme
@@ -55,28 +54,25 @@ namespace ModernApplicationFramework.Extended.Input.KeyBindingScheme
             public override KeyBindingScheme Load()
             {
                 var commands = IoC.GetAll<CommandDefinitionBase>().OfType<CommandDefinition>();
+            
 
-
-                var possibleCommads = commands.Where(x => x.DefaultKeyGestures != null || x.DefaultGestureScope != null);
+                //var possibleCommads = commands.Where(x => x.DefaultKeyGestures != null || x.DefaultGestureScope != null);
+                var possibleCommads = commands.Where(x => x.DefaultGestureScopes.Count >= 1);
 
                 var list = GetMappings(possibleCommads);
-
-
-                //var list = commands.Where(x => x.DefaultKeyGesture != null || x.DefaultGestureScope != null)
-                //    .Select(command =>
-                //    {
-                //        return new CommandGestureScopeMapping(command,
-                //            new GestureScopeMapping(command.DefaultGestureScope, command.DefaultKeyGesture));
-                //    });
                 return new KeyBindingScheme(Name, list);
             }
 
             private IEnumerable<CommandGestureScopeMapping> GetMappings(IEnumerable<CommandDefinition> commands)
             {
+                //return from command in commands
+                //    from gesture in command.DefaultKeyGestures
+                //    select new CommandGestureScopeMapping(command,
+                //        new GestureScopeMapping(command.DefaultGestureScope, gesture));
+
                 return from command in commands
-                    from gesture in command.DefaultKeyGestures
-                    select new CommandGestureScopeMapping(command,
-                        new GestureScopeMapping(command.DefaultGestureScope, gesture));
+                       from mapping in command.DefaultGestureScopes
+                       select new CommandGestureScopeMapping(command, mapping);
             }
         }
     }

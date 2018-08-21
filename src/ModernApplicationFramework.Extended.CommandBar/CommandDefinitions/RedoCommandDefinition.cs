@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Windows.Input;
@@ -18,8 +18,10 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
     [Export(typeof(RedoCommandDefinition))]
     public sealed class RedoCommandDefinition : CommandDefinition<IRedoCommand>
     {
-        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
-        public override GestureScope DefaultGestureScope { get; }
+        public override ReadOnlyCollection<GestureScopeMapping> DefaultGestureScopes => new ReadOnlyCollection<GestureScopeMapping>(new[]
+        {
+            new GestureScopeMapping(GestureScopes.GlobalGestureScope, new MultiKeyGesture(Key.Y, ModifierKeys.Control))
+        });
 
         public override ImageMoniker ImageMonikerSource => Monikers.Redo;
 
@@ -31,11 +33,5 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
 
         public override CommandCategory Category => CommandCategories.EditCommandCategory;
         public override Guid Id => new Guid("{6B8097A9-50BE-4966-83ED-CC3EA25CF5B7}");
-
-        public RedoCommandDefinition()
-        {
-            DefaultKeyGestures = new []{ new MultiKeyGesture(Key.Y, ModifierKeys.Control)};
-            DefaultGestureScope = GestureScopes.GlobalGestureScope;
-        }
     }
 }

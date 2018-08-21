@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Drawing;
 using System.Windows;
@@ -21,18 +22,16 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.Commands
         public TestCommandDefinition()
         {
             Command = new TestCommand();
-
-            DefaultKeyGestures = new[]
-            {
-                new MultiKeyGesture(new List<KeySequence>
-                {
-                    new KeySequence(ModifierKeys.Control, Key.W),
-                    new KeySequence(Key.K)
-                })
-            };
-
-            DefaultGestureScope = UndoRedoViewModel.UndoRedoScope;
         }
+
+        public override ReadOnlyCollection<GestureScopeMapping> DefaultGestureScopes => new ReadOnlyCollection<GestureScopeMapping>(new[]
+        {
+            new GestureScopeMapping(UndoRedoViewModel.UndoRedoScope, new MultiKeyGesture(new List<KeySequence>
+            {
+                new KeySequence(ModifierKeys.Control, Key.W),
+                new KeySequence(Key.K)
+            }))
+        });
 
         public override CommandCategory Category => new CommandCategory("Test");
         public override Guid Id => new Guid("{837D016F-1B20-45AC-B86F-BEE2555406B0}");
@@ -40,9 +39,6 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.Commands
         public override string NameUnlocalized => Name;
         public override string Text => Name;
         public override string ToolTip => Name;
-
-        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
-        public override GestureScope DefaultGestureScope { get; }
     }
 
     internal class TestCommand : CommandDefinitionCommand

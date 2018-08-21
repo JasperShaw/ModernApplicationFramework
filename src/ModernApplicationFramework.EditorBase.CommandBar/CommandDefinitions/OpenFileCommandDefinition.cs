@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
@@ -24,13 +25,10 @@ namespace ModernApplicationFramework.EditorBase.CommandBar.CommandDefinitions
         public override ImageMoniker ImageMonikerSource => Monikers.OpenFolder;
         public override CommandCategory Category => CommandCategories.FileCommandCategory;
         public override Guid Id => new Guid("{47E7AF89-3733-4FBF-A3FA-E8AD5D5C693E}");
-        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
-        public override GestureScope DefaultGestureScope { get; }
 
-        public OpenFileCommandDefinition()
+        public override ReadOnlyCollection<GestureScopeMapping> DefaultGestureScopes => new ReadOnlyCollection<GestureScopeMapping>(new[]
         {
-            DefaultKeyGestures = new []{new MultiKeyGesture(Key.O, ModifierKeys.Control)};
-            DefaultGestureScope = GestureScopes.GlobalGestureScope;
-        }
+            new GestureScopeMapping(GestureScopes.GlobalGestureScope, new MultiKeyGesture(Key.O, ModifierKeys.Control))
+        });
     }
 }

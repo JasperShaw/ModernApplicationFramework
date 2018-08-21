@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Input;
@@ -15,13 +16,6 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.KeyGestureScopeTest
         public NewCopyCommandDefinition()
         {
             Command = new NewCopyCommand();
-
-            DefaultKeyGestures = new[]
-            {
-                new MultiKeyGesture(Key.C, ModifierKeys.Control)
-            };
-
-            DefaultGestureScope = TextEditorScope.TextEditor;
         }
 
         public override CommandCategory Category => new CommandCategory("Test");
@@ -31,8 +25,10 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.KeyGestureScopeTest
         public override string Text => Name;
         public override string ToolTip => Name;
 
-        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
-        public override GestureScope DefaultGestureScope { get; }
+        public override ReadOnlyCollection<GestureScopeMapping> DefaultGestureScopes => new ReadOnlyCollection<GestureScopeMapping>(new[]
+        {
+            new GestureScopeMapping(TextEditorScope.TextEditor, new MultiKeyGesture(Key.C, ModifierKeys.Control))
+        });
     }
 
     internal class NewCopyCommand : CommandDefinitionCommand

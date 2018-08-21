@@ -6,7 +6,6 @@ using System.Globalization;
 using System.Linq;
 using Caliburn.Micro;
 using ModernApplicationFramework.Input;
-using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Commands;
 using ModernApplicationFramework.Interfaces.Services;
@@ -70,15 +69,8 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
             }
         }
 
-        /// <summary>
-        /// The default key gesture.
-        /// </summary>
-        public abstract IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
-
-        /// <summary>
-        /// The <see cref="GestureScope"/> of the <see cref="DefaultKeyGestures"/>.
-        /// </summary>
-        public abstract GestureScope DefaultGestureScope { get; }
+        public virtual ReadOnlyCollection<GestureScopeMapping> DefaultGestureScopes =>
+            new ReadOnlyCollection<GestureScopeMapping>(new List<GestureScopeMapping>());
 
         /// <summary>
         /// The collection of all gestures.

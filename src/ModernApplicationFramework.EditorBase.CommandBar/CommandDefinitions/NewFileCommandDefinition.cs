@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
@@ -17,10 +17,6 @@ namespace ModernApplicationFramework.EditorBase.CommandBar.CommandDefinitions
     [Export(typeof(NewFileCommandDefinition))]
     public sealed class NewFileCommandDefinition : CommandDefinition<INewFileCommand>
     {
-        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
-
-        public override GestureScope DefaultGestureScope { get; }
-
         public override ImageMoniker ImageMonikerSource => Monikers.NewFile;
 
         public override CommandCategory Category => CommandCategories.FileCommandCategory;
@@ -33,10 +29,9 @@ namespace ModernApplicationFramework.EditorBase.CommandBar.CommandDefinitions
         public override string Text => CommandsResources.NewFileCommandText;
         public override string ToolTip => Text;
 
-        public NewFileCommandDefinition()
+        public override ReadOnlyCollection<GestureScopeMapping> DefaultGestureScopes => new ReadOnlyCollection<GestureScopeMapping>(new[]
         {
-            DefaultKeyGestures = new []{ new MultiKeyGesture(Key.N, ModifierKeys.Control)};
-            DefaultGestureScope = GestureScopes.GlobalGestureScope;
-        }
+            new GestureScopeMapping(GestureScopes.GlobalGestureScope, new MultiKeyGesture(Key.N, ModifierKeys.Control))
+        });
     }
 }

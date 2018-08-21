@@ -11,6 +11,6 @@ namespace ModernApplicationFramework.Editor.Interop
         Latched = 4,
         Ninched = 8,
         Invisible = 16,
-        HideNnCtxtMenu = 32,
+        HideOnCtxtMenu = 32,
     }
 }
