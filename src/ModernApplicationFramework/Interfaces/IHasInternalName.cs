@@ -5,7 +5,7 @@ namespace ModernApplicationFramework.Interfaces
     /// <summary>
     /// Extendes an object to support internal, unlocalized names
     /// </summary>
-    public interface IHasInternalName : INotifyPropertyChanged
+    internal interface IHasInternalName : INotifyPropertyChanged
     {
         /// <summary>
         /// The unlocalized internal name of the object

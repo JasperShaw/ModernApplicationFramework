@@ -37,9 +37,11 @@ namespace ModernApplicationFramework.Interfaces.Utilities
             CommandBarCreationOptions options = CommandBarCreationOptions.DisplaySeparatorsOnlyIfGroupNotEmpty);
     }
 
+    [Flags]
     public enum CommandBarCreationOptions
     {
-        DisplaySeparatorsInAnyCase,
-        DisplaySeparatorsOnlyIfGroupNotEmpty
+        DisplaySeparatorsInAnyCase = 1,
+        DisplaySeparatorsOnlyIfGroupNotEmpty = 2,
+        DisplayInvisibleItems = 4,
     }
 }

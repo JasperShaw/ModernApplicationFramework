@@ -28,7 +28,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
 
         public override Guid Id { get; }
 
-        public MenuBarDefinition(Guid id, string text, uint sortOrder) : base(text, sortOrder, null, false, false, false)
+        public MenuBarDefinition(Guid id, string text, uint sortOrder) : base(text, sortOrder, null, true, false, false, false)
         {
             Id = id;
             _internalName = text;

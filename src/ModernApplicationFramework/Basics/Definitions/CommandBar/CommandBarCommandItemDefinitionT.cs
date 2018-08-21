@@ -71,10 +71,13 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             : base(null, sortOrder, group, isVisible, isChecked, isCustom, isCustomizable, flags)
         {
             Id = id;
-            RegisterVisibilityToCommand = registerVisibilityToCommand;
+            //RegisterVisibilityToCommand = registerVisibilityToCommand;
+
+            //this.OnCommandChanged();
+
         }
 
-        private void CommandWrapper_CanExecuteChanged(object sender, EventArgs e)
+	    private void CommandWrapper_CanExecuteChanged(object sender, EventArgs e)
         {
             if (!(CommandDefinition is CommandDefinition cd))
                 return;

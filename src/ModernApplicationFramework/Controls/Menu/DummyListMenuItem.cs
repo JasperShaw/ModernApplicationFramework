@@ -51,7 +51,7 @@ namespace ModernApplicationFramework.Controls.Menu
             {
                 var id = new CommandBarCommandItemDefinition(Guid.Empty, (uint) startIndex ,command);
                 var newMenuItem = new MenuItem(id);
-                if (command is CommandDefinition commandDefinition && commandDefinition.IsChecked)
+                if (command is CommandDefinition commandDefinition && commandDefinition.Command.Checked)
                     id.IsChecked = true;
                 _parent.Items.Insert(startIndex++, newMenuItem);
                 _listItems.Add(newMenuItem);

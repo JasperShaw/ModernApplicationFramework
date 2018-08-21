@@ -16,7 +16,6 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     /// <seealso cref="T:ModernApplicationFramework.Interfaces.IHasInternalName" />
     public abstract class CommandBarItemDefinition : CommandBarDefinitionBase, IHasInternalName
     {
-        private bool _isVisible;
         private bool _precededBySeparator;
         private CommandBarGroupDefinition _group;
         private string _internalName;
@@ -25,23 +24,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         private uint _sortOrder;
 
         /// <summary>
-        /// Indicates whether this item is visible
-        /// </summary>
-        public virtual bool IsVisible
-        {
-            get => _isVisible;
-            set
-            {
-                if (value == _isVisible) return;
-                _isVisible = value;
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
         /// Indicates whether this preceded by a separator item
         /// </summary>
-        public virtual bool PrecededBySeparator
+        internal virtual bool PrecededBySeparator
         {
             get => _precededBySeparator;
             set
@@ -56,7 +41,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         /// <summary>
         /// Indicates whether this item is first of any other in this sub-tree
         /// </summary>
-        public virtual bool IsVeryFirst
+        internal virtual bool IsVeryFirst
         {
             get => _isVeryFirst;
             set
@@ -141,9 +126,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         protected CommandBarItemDefinition(string text, uint sortOrder, CommandBarGroupDefinition group,
             CommandDefinitionBase definition, bool visible,
             bool isChecked, bool isCustom, bool isCustomizable, CommandBarFlags flags = CommandBarFlags.CommandFlagNone)
-            : base(text, sortOrder, definition, isCustom, isCustomizable, isChecked, flags)
+            : base(text, sortOrder, definition, visible, isCustom, isCustomizable, isChecked, flags)
         {
-            _isVisible = visible;
             _group = group;
             _sortOrder = sortOrder;
             _text = text ?? definition?.Text;

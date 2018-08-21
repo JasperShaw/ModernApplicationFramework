@@ -97,11 +97,17 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
             Func<CommandBarGroupDefinition ,IReadOnlyList<CommandBarItemDefinition>> items,
             CommandBarCreationOptions options = CommandBarCreationOptions.DisplaySeparatorsOnlyIfGroupNotEmpty)
         {
+            if (options.HasFlag(CommandBarCreationOptions.DisplaySeparatorsInAnyCase) && 
+                options.HasFlag(CommandBarCreationOptions.DisplaySeparatorsOnlyIfGroupNotEmpty))
+                throw new InvalidOperationException("Invalid flags");
+
             var list = new List<CommandBarItemDefinition>();
 
-            groups = groups.Where(x => x.Items.Any(y => y.IsVisible))
-                .OrderBy(x => x.SortOrder)
-                .ToList();
+            if (!options.HasFlag(CommandBarCreationOptions.DisplayInvisibleItems))
+                groups = groups.Where(x => x.Items.Any(y => y.IsVisible)).ToList();
+
+            groups = groups.OrderBy(x => x.SortOrder).ToList();
+
             for (var i = 0; i < groups.Count; i++)
             {
                 var itemList =  items.Invoke(groups[i]).ToList();

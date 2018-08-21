@@ -18,15 +18,5 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandDefinitions
         public override string ToolTip => Text;
         public override CommandCategory Category => CommandCategories.ToolsCommandCategory;
         public override Guid Id => new Guid("{BB1C5EAB-A114-4A06-995C-E311F9DA8C11}");
-
-        public ToggleShowAllItemsCommandDefinition()
-        {
-            Command.Executed += Command_Executed;
-        }
-
-        private void Command_Executed(object sender, EventArgs e)
-        {
-            IsChecked = !IsChecked;
-        }
     }
 }

@@ -38,15 +38,11 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         public override CommandControlTypes ControlType => CommandControlTypes.Button;
 
         /// <summary>
-        ///     Indicated whether the command is checked or not.
-        /// </summary>
-        public virtual bool IsChecked { get; set; }
-
-        /// <summary>
         ///     Option to suppress the <see cref="Command" /> from execution. Default is <see langword="true" />.
         ///     Gets automatically disabled when the command was added to the exclusion list of the
         ///     <see cref="ICommandBarDefinitionHost" />
         /// </summary>
+        /// TODO: Integrate into current code
         public bool AllowExecution { get; set; } = true;
 
         public virtual bool AllowGestureMapping => true;

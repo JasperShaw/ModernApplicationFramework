@@ -68,9 +68,13 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
         public Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDefinition>> GetItemsOfGroup => group =>
         {
-            return ItemDefinitions.Where(x => x.Group == group)
+            var list = ItemDefinitions.Where(x => x.Group == group)
                 .Where(x => !ExcludedItemDefinitions.Contains(x))
                 .OrderBy(x => x.SortOrder).ToList();
+
+            //list.RemoveAll(x => x.CommandDefinition is CommandDefinition cd && cd.Command.Status == 16);
+
+            return list;
         };
 
         private void ExcludedCommandDefinitions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

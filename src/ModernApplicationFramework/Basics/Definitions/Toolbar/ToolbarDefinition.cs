@@ -14,10 +14,9 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarDefinitionBase" />
     /// <seealso cref="T:ModernApplicationFramework.Interfaces.IHasInternalName" />
-    public class ToolbarDefinition : CommandBarDefinitionBase, IHasInternalName
+    public sealed class ToolbarDefinition : CommandBarDefinitionBase, IHasInternalName
     {
         private Dock _position;
-        private bool _isVisible;
         private string _internalName;
         private int _placementSlot;
 
@@ -55,20 +54,6 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
         /// </summary>
         public Dock LastPosition { get; private set; }
 
-        /// <summary>
-        /// Sets or gets the visibility of the tool bar
-        /// </summary>
-        public bool IsVisible
-        {
-            get => _isVisible;
-            set
-            {
-                if (value == _isVisible) return;
-                _isVisible = value;
-                OnPropertyChanged();
-            }
-        }
-
         /// <inheritdoc />
         /// <summary>
         /// The unlocalized internal name of the object
@@ -89,12 +74,12 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
         public override Guid Id { get; }
 
         public ToolbarDefinition(Guid id, string text, uint sortOrder, bool visible, Dock position, ToolbarScope scope = ToolbarScope.MainWindow, bool isCustomizable = true,
-            bool isCustom = false) : base(text, sortOrder, new ToolbarCommandDefinition(), isCustom, isCustomizable,
+            bool isCustom = false) : base(text, sortOrder, new ToolbarCommandDefinition(), visible, isCustom, isCustomizable,
             false)
         {
             Id = id;
             _position = position;
-            _isVisible = visible;
+            IsVisible = visible;
             ToolbarScope = scope;
             _internalName = new AccessKeyRemovingConverter()
                 .Convert(text, typeof(string), null, CultureInfo.CurrentCulture)

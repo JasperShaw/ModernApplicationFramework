@@ -11,6 +11,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
     {
         protected override bool OnCanExecute(object parameter)
         {
+            Checked = true;
             return parameter is IToolboxItem;
         }
 

@@ -28,6 +28,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
         protected string OriginalText { get; set; }
         private FlagStorage _originalFlagStore;
+        private bool _isVisible;
 
         protected internal FlagStorage OriginalFlagStore =>
             _originalFlagStore ?? (_originalFlagStore = new FlagStorage());
@@ -132,6 +133,17 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
+        public virtual bool IsVisible
+        {
+            get => _isVisible;
+            set
+            {
+                if (value == _isVisible) return;
+                _isVisible = value;
+                OnPropertyChanged();
+            }
+        }
+
         public virtual bool AcquireFocus
         {
             get => _acquireFocus;
@@ -148,7 +160,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
         public abstract Guid Id { get; }
 
-        protected CommandBarDefinitionBase(string text, uint sortOrder, CommandDefinitionBase definition, bool isCustom,
+        protected CommandBarDefinitionBase(string text, uint sortOrder, CommandDefinitionBase definition, bool isVisible, bool isCustom,
             bool isCustomizable, bool isChecked, CommandBarFlags flags = CommandBarFlags.CommandFlagNone)
         {
             _sortOrder = sortOrder;
@@ -158,13 +170,22 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             CommandDefinition = definition;
             IsCustom = isCustom;
             _isChecked = isChecked;
+            _isVisible = isVisible;
             IsCustomizable = isCustomizable;
             ContainedGroups = new List<CommandBarGroupDefinition>();
             Flags.EnableStyleFlags(flags);
             OriginalFlagStore.EnableStyleFlags(flags);
             if (definition != null)
                 definition.PropertyChanged += Definition_PropertyChanged;
+
+            if (definition is CommandDefinition commandDefinition)
+            {
+                InternalCommandDefinition = commandDefinition;
+                commandDefinition.Command.CommandChanged += OnCommandChanged;
+            }
         }
+
+        internal CommandDefinition InternalCommandDefinition { get; set; }
 
         public virtual void Reset()
         {
@@ -183,6 +204,13 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected virtual void OnCommandChanged(object sender, EventArgs e)
+        {
+            IsVisible = InternalCommandDefinition.Command.Visible;
+            IsEnabled = InternalCommandDefinition.Command.Enabled;
+            IsChecked = InternalCommandDefinition.Command.Enabled;
         }
 
         private void Definition_PropertyChanged(object sender, PropertyChangedEventArgs e)

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using Caliburn.Micro;
@@ -7,6 +8,8 @@ using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Core.Exception;
 using ModernApplicationFramework.Interfaces.Controls;
 using ModernApplicationFramework.Interfaces.Services;
+using ModernApplicationFramework.Interfaces.Utilities;
+using ModernApplicationFramework.Interfaces.ViewModels;
 using MenuItem = ModernApplicationFramework.Controls.Menu.MenuItem;
 
 namespace ModernApplicationFramework.Controls.Extensions
@@ -40,7 +43,7 @@ namespace ModernApplicationFramework.Controls.Extensions
                 if (menuItem.IsSubmenuOpen)
                     OnSubmenuOpened(menuItem, new RoutedEventArgs());
             }
-            else if (d is System.Windows.Controls.ContextMenu contextMenu)
+            else if (d is ContextMenu contextMenu)
             {
                 contextMenu.Opened += ContextMenuOpened;
                 if (contextMenu.IsOpen)
@@ -71,9 +74,12 @@ namespace ModernApplicationFramework.Controls.Extensions
 
         private static void OnSubmenuOpened(object sender, RoutedEventArgs e)
         {
-            var menuItem = (MenuItem)sender;
+            var menuItem = (System.Windows.Controls.MenuItem)sender;
             if (sender == null)
                 return;
+
+            UpdateDefinition(in menuItem);
+
             UpdateChekcedStatus(menuItem);
             var menuItems = menuItem.Items.OfType<IDummyListMenuItem>().ToList();
             if (menuItems.Count == 0)
@@ -84,6 +90,33 @@ namespace ModernApplicationFramework.Controls.Extensions
                 item.Update(commandRouter.GetCommandHandler(item.CommandBarItemDefinition.CommandDefinition));
         }
 
+        private static void UpdateDefinition(in System.Windows.Controls.MenuItem control)
+        {
+            for (var i = 0; i < control.Items.Count; ++i)
+            {
+                var item = control.Items[i];
+
+                if (item is FrameworkElement fe && fe.DataContext is CommandBarItemDefinition x && x.PrecededBySeparator && i - 1 > 0)
+                {
+                    if (!x.IsVisible)
+                    {
+                        var separatorItem = control.Items[i - 1] as FrameworkElement;
+                        if (separatorItem?.DataContext is CommandBarSeparatorDefinition separator)
+                            separator.IsVisible = false;
+                    }
+                    else if (x.IsVisible)
+                    {
+                        if (x.PrecededBySeparator && i - 1 > 0)
+                        {
+                            var separatorItem = control.Items[i - 1] as FrameworkElement;
+                            if (separatorItem?.DataContext is CommandBarSeparatorDefinition separator)
+                                separator.IsVisible = true;
+                        }
+
+                    }                   
+                }
+            }
+        }
 
 
         private static void UpdateChekcedStatus(ItemsControl menuItem)
@@ -95,7 +128,7 @@ namespace ModernApplicationFramework.Controls.Extensions
             {
                 if (item.DataContext is CommandBarDefinitionBase definition &&
                     definition.CommandDefinition is CommandDefinition command)
-                    definition.IsChecked = command.IsChecked;
+                    definition.IsChecked = command.Command.Checked;
             }
 
         }

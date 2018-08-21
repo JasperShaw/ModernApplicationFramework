@@ -283,7 +283,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         {
             var groups = _definitionHost.ItemGroupDefinitions.Where(x => x.Parent == definition)
                 .Where(x => !_definitionHost.ExcludedItemDefinitions.Contains(x))
-                .Where(x => x.Items.Any(y => y.IsVisible))
+                //.Where(x => x.Items.Any(y => y.IsVisible))
                 .OrderBy(x => x.SortOrder)
                 .ToList();
             return creator.GetSingleSubDefinitions(definition, groups, group =>
@@ -292,7 +292,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
                         .Where(x => !_definitionHost.ExcludedItemDefinitions.Contains(x))
                         .OrderBy(x => x.SortOrder).ToList();
                 },
-                CommandBarCreationOptions.DisplaySeparatorsInAnyCase);
+                CommandBarCreationOptions.DisplaySeparatorsInAnyCase | CommandBarCreationOptions.DisplayInvisibleItems);
         }
 
         private string ChooseResetFormatString()

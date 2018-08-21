@@ -33,10 +33,6 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
                 var definition =
                     new CommandListHandlerDefinition($"&{i + 1} {document.DisplayName}",
                         new ShowSelectedDocumentCommand(document));
-
-                if (document.IsActive)
-                    definition.IsChecked = true;
-
                 commands.Add(definition);
             }
         }
@@ -45,6 +41,10 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
         {
             public ShowSelectedDocumentCommand(object args) : base(args)
             {
+                if (args is ILayoutItem layoutItem && layoutItem.IsActive)
+                    Checked = true;
+                else
+                    Checked = false;
             }
 
             protected override bool OnCanExecute(object parameter)

@@ -24,6 +24,10 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
         protected override void OnExecute(object parameter)
         {
             _toolbox.ShowAllItems = !_toolbox.ShowAllItems;
+            if (_toolbox.ShowAllItems)
+                Checked = true;
+            else
+                Checked = false;
         }
     }
 }

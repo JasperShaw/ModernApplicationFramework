@@ -10,6 +10,10 @@ namespace ModernApplicationFramework.Docking.Commands
         protected override bool OnCanExecute(object parameter)
         {
             var dm = DockingManager.Instance?.Layout.ActiveContent;
+            //TODO
+            Visible = dm != null;
+            Enabled = dm != null;
+
             return dm != null;
         }
 

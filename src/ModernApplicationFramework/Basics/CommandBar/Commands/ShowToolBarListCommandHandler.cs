@@ -30,9 +30,6 @@ namespace ModernApplicationFramework.Basics.CommandBar.Commands
                 var definition =
                     new CommandListHandlerDefinition(toolbarDefinition.Text,
                         new ShowSelectedToolBarCommand(toolbarDefinition));
-
-                if (((ToolbarDefinition) toolbarDefinition).IsVisible)
-                    definition.IsChecked = true;
                 commands.Add(definition);
             }
         }
@@ -40,7 +37,11 @@ namespace ModernApplicationFramework.Basics.CommandBar.Commands
         private class ShowSelectedToolBarCommand : CommandDefinitionCommand
         {
             public ShowSelectedToolBarCommand(object args) : base(args)
-            {    
+            {
+                if (args is ToolbarDefinition toolbarDefinition && toolbarDefinition.IsVisible)
+                    Checked = true;
+                else
+                    Checked = false;
             }
 
             protected override bool OnCanExecute(object parameter)
