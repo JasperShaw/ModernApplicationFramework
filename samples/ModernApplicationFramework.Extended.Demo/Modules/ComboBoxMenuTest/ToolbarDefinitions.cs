@@ -13,7 +13,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest
 {
     public static class ToolbarDefinitions
     {
-        [Export] public static ToolbarDefinition ComboBox = new ToolbarDefinition(new Guid("{9DC799F9-7997-4DC0-87B0-A12D6FE26AF2}"), "ComboBoxTest", 1, true, Dock.Top);
+        [Export] public static ToolBarDataSource ComboBox = new ToolBarDataSource(new Guid("{9DC799F9-7997-4DC0-87B0-A12D6FE26AF2}"), "ComboBoxTest", 1, true, Dock.Top);
 
         [Export] public static CommandBarGroupDefinition Group1 = new CommandBarGroupDefinition(ComboBox, 0);
 

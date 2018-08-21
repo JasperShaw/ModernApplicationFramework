@@ -2,7 +2,7 @@
 
 namespace ModernApplicationFramework.Interfaces.Services
 {
-    public interface ICommandBarSerializer : ILayoutSerializer<CommandBarDefinitionBase>
+    public interface ICommandBarSerializer : ILayoutSerializer<CommandBarDataSource>
     {
     }
 }

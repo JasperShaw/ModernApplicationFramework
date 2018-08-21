@@ -23,6 +23,6 @@ namespace ModernApplicationFramework.Interfaces.Utilities
         /// </summary>
         /// <param name="contextMenuDefinition">The data model of the new menu item</param>
         /// <returns>Returns the menu item</returns>
-        MenuItem CreateMenuItem(CommandBarDefinitionBase contextMenuDefinition, IReadOnlyList<CommandBarGroupDefinition> groups, Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDefinition>> itemsFunc);
+        MenuItem CreateMenuItem(CommandBarDataSource contextMenuDefinition, IReadOnlyList<CommandBarGroupDefinition> groups, Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDefinition>> itemsFunc);
     }
 }

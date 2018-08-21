@@ -5,9 +5,9 @@ using ModernApplicationFramework.Utilities.Converters;
 
 namespace ModernApplicationFramework.Core.Converters.Customize
 {
-    internal sealed class CanMoveDownMultiValueConverter : MultiValueConverter<int, int, CommandBarDefinitionBase, bool>
+    internal sealed class CanMoveDownMultiValueConverter : MultiValueConverter<int, int, CommandBarDataSource, bool>
     {
-        protected override bool Convert(int count, int index, CommandBarDefinitionBase item, object parameter, CultureInfo culture)
+        protected override bool Convert(int count, int index, CommandBarDataSource item, object parameter, CultureInfo culture)
         {
             if (index < 0 || item == null)
                 return false;

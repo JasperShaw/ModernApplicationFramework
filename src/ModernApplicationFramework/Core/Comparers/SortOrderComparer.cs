@@ -6,12 +6,12 @@ namespace ModernApplicationFramework.Core.Comparers
 {
     /// <inheritdoc />
     /// <summary>
-    /// An <see cref="IComparer{T}"/> that compared two <see cref="CommandBarDefinitionBase"/> by name
+    /// An <see cref="IComparer{T}"/> that compared two <see cref="CommandBarDataSource"/> by name
     /// </summary>
     /// <seealso cref="T:System.Collections.IComparer" />s
-    public class SortOrderComparer<TCommandBarDefinitionBase> : IComparer<CommandBarDefinitionBase>
+    public class SortOrderComparer<TCommandBarDefinitionBase> : IComparer<CommandBarDataSource>
     {
-        public int Compare(CommandBarDefinitionBase x, CommandBarDefinitionBase y)
+        public int Compare(CommandBarDataSource x, CommandBarDataSource y)
         {
             if (!(x is TCommandBarDefinitionBase) || !(y is TCommandBarDefinitionBase))
                 throw new ArgumentException("This converter does not support the provided objects");

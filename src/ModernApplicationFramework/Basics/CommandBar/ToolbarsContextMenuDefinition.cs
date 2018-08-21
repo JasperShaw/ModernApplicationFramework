@@ -11,8 +11,8 @@ namespace ModernApplicationFramework.Basics.CommandBar
     /// </summary>
     public static class ToolbarsContextMenuDefinition
     {
-        [Export] public static ContextMenuDefinition ToolbarsContextMenu =
-            new ContextMenuDefinition(new Guid("{5D9AB983-9755-41A4-89C3-B057572696DC}"), ContextMenuCategory.OtherContextMenusCategory,
+        [Export] public static ContextMenuDataSource ToolbarsContextMenu =
+            new ContextMenuDataSource(new Guid("{5D9AB983-9755-41A4-89C3-B057572696DC}"), ContextMenuCategory.OtherContextMenusCategory,
                 CommandBarResources.ToolbarsContextMenu_Name);
 
         [Export] public static CommandBarGroupDefinition ToolBarListGroup =

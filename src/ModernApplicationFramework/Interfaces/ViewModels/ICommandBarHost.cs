@@ -17,9 +17,9 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         ICommandBarDefinitionHost DefinitionHost { get; }
 
         /// <summary>
-        /// A list of all top-level <see cref="CommandBarDefinitionBase"/>
+        /// A list of all top-level <see cref="CommandBarDataSource"/>
         /// </summary>
-        ObservableCollection<CommandBarDefinitionBase> TopLevelDefinitions { get; }
+        ObservableCollection<CommandBarDataSource> TopLevelDefinitions { get; }
 
         /// <summary>
         /// Builds all hosted command bar items and updates the UI
@@ -30,25 +30,25 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         /// Builds a specific command bar item and updates the UI
         /// </summary>
         /// <param name="definition">The item to build</param>
-        void Build(CommandBarDefinitionBase definition);
+        void Build(CommandBarDataSource definition);
 
         /// <summary>
         /// Builds a specific command bar item logically
         /// </summary>
         /// <param name="definition"></param>
-        void BuildLogical(CommandBarDefinitionBase definition);
+        void BuildLogical(CommandBarDataSource definition);
 
 
-        void BuildLogical(CommandBarDefinitionBase definition, IReadOnlyList<CommandBarGroupDefinition> groups,
+        void BuildLogical(CommandBarDataSource definition, IReadOnlyList<CommandBarGroupDefinition> groups,
             Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDefinition>> itemFunc);
 
         /// <summary>
-        /// Adds a <see cref="CommandBarDefinitionBase"/> to the parent's sub-tree
+        /// Adds a <see cref="CommandBarDataSource"/> to the parent's sub-tree
         /// </summary>
         /// <param name="definition">The definition to add</param>
         /// <param name="parent">The parent definition</param>
         /// <param name="addAboveSeparator">Indicates whether the new definition is right above a separator<see langword="true"/> if <see cref="parent"/> is a separator; <see langword="false"/> if not</param>
-        void AddItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent,
+        void AddItemDefinition(CommandBarItemDefinition definition, CommandBarDataSource parent,
             bool addAboveSeparator);
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         /// Gets all top-level definitions
         /// </summary>
         /// <returns>Returns a list of all definitions</returns>
-        IEnumerable<CommandBarDefinitionBase> GetMenuHeaderItemDefinitions();
+        IEnumerable<CommandBarDataSource> GetMenuHeaderItemDefinitions();
 
         /// <summary>
         /// Adds a new group above a given element and inserts all following items of the old group into the new one.
@@ -109,8 +109,8 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         /// </summary>
         /// <param name="selectedListBoxDefinition">The definition to move</param>
         /// <param name="offset">The number of steps to move the item. A negative number means moving upwards.</param>
-        /// <param name="parent">The parent <see cref="CommandBarDefinitionBase"/></param>
-        void MoveItem(CommandBarItemDefinition selectedListBoxDefinition, int offset, CommandBarDefinitionBase parent);
+        /// <param name="parent">The parent <see cref="CommandBarDataSource"/></param>
+        void MoveItem(CommandBarItemDefinition selectedListBoxDefinition, int offset, CommandBarDataSource parent);
 
         /// <summary>
         /// Gets the successor group
@@ -132,6 +132,6 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         /// Resets the specified definition.
         /// </summary>
         /// <param name="definition">The definition.</param>
-        void Reset(CommandBarDefinitionBase definition);
+        void Reset(CommandBarDataSource definition);
     }
 }

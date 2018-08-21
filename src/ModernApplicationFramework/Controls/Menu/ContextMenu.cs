@@ -97,9 +97,9 @@ namespace ModernApplicationFramework.Controls.Menu
             CustomPopupPlacementCallback = GetPopupPlacements;
         }
 
-        public ContextMenu(CommandBarDefinitionBase definitionBase) :this()
+        public ContextMenu(CommandBarDataSource dataSource) :this()
         {
-            DataContext = definitionBase;
+            DataContext = dataSource;
         }
 
         private Border _iconBorder;

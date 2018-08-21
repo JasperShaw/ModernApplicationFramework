@@ -5,9 +5,9 @@ using ModernApplicationFramework.Core.Converters.General;
 
 namespace ModernApplicationFramework.Core.Converters.Customize
 {
-    internal sealed class IsCustomizableModelConverter : ToBooleanValueConverter<CommandBarDefinitionBase>
+    internal sealed class IsCustomizableModelConverter : ToBooleanValueConverter<CommandBarDataSource>
     {
-        protected override bool Convert(CommandBarDefinitionBase selectedItem, object parameter, CultureInfo culture)
+        protected override bool Convert(CommandBarDataSource selectedItem, object parameter, CultureInfo culture)
         {
             if (selectedItem != null && selectedItem.CommandDefinition.ControlType != CommandControlTypes.Separator)
                 return selectedItem.IsCustomizable;

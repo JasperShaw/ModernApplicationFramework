@@ -5,7 +5,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
     /// <inheritdoc />
     /// <summary>
-    /// Simple command bar item definition that contains a <see cref="CommandBarDefinitionBase" />
+    /// Simple command bar item definition that contains a <see cref="CommandBarDataSource" />
     /// </summary>
     /// <typeparam name="T">The type of the command definition this item should have</typeparam>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarItemDefinition`1" />

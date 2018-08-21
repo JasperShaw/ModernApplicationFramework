@@ -17,7 +17,7 @@ namespace ModernApplicationFramework.Core.Utilities
         public static void SelectStyleForItem(FrameworkElement element, object item, IExposeStyleKeys styleKeySource)
         {
             var control = element as Control;
-            var context = control?.DataContext as CommandBarDefinitionBase;
+            var context = control?.DataContext as CommandBarDataSource;
             if (context == null)
                 return;
             ResourceKey key = null;

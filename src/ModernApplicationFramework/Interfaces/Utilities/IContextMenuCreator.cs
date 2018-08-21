@@ -15,6 +15,6 @@ namespace ModernApplicationFramework.Interfaces.Utilities
         /// </summary>
         /// <param name="contextMenuDefinition">The data model of the context menu</param>
         /// <returns>Returns the context menu</returns>
-        ContextMenu CreateContextMenu(CommandBarDefinitionBase contextMenuDefinition, IReadOnlyList<CommandBarGroupDefinition> groups, Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDefinition>> itemsFunc);
+        ContextMenu CreateContextMenu(CommandBarDataSource contextMenuDefinition, IReadOnlyList<CommandBarGroupDefinition> groups, Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDefinition>> itemsFunc);
     }
 }

@@ -20,7 +20,7 @@ namespace ModernApplicationFramework.Controls.Menu
         private readonly ItemsControl _parent;
         private readonly List<ItemsControl> _listItems;
 
-        public DummyListMenuItem(CommandBarDefinitionBase commandDefinition, ItemsControl parent) : base(commandDefinition)
+        public DummyListMenuItem(CommandBarDataSource commandDefinition, ItemsControl parent) : base(commandDefinition)
         {
             _parent = parent;
             CommandBarItemDefinition = commandDefinition;
@@ -32,7 +32,7 @@ namespace ModernApplicationFramework.Controls.Menu
         /// <summary>
         /// Contains the CommandBarDefinition of the MenuItem
         /// </summary>
-        public CommandBarDefinitionBase CommandBarItemDefinition { get; }
+        public CommandBarDataSource CommandBarItemDefinition { get; }
 
         /// <inheritdoc />
         /// <summary>

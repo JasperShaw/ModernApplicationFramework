@@ -26,7 +26,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ToolSearch
 
         public override bool HasToolbar => true;
 
-        public override ToolbarDefinition Toolbar => TestToolbar.TestToolbarDefinition;
+        public override ToolBarDataSource Toolbar => TestToolbar.TestToolBar;
 
         public override IEnumWindowSearchOptions SearchOptionsEnum
         {

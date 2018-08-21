@@ -7,11 +7,11 @@ namespace ModernApplicationFramework.Core.Converters
 {
     /// <inheritdoc />
     /// <summary>
-    /// A <see cref="ToBooleanValueConverter{TSource}"/> that checks if a <see cref="CommandBarDefinitionBase"/> is a split button data model
+    /// A <see cref="ToBooleanValueConverter{TSource}"/> that checks if a <see cref="CommandBarDataSource"/> is a split button data model
     /// </summary>
-    public class IsSplitButtonModelConverter : ToBooleanValueConverter<CommandBarDefinitionBase>
+    public class IsSplitButtonModelConverter : ToBooleanValueConverter<CommandBarDataSource>
     {
-        protected override bool Convert(CommandBarDefinitionBase value, object parameter, CultureInfo culture)
+        protected override bool Convert(CommandBarDataSource value, object parameter, CultureInfo culture)
         {
             return value?.CommandDefinition.ControlType == CommandControlTypes.SplitDropDown;
         }

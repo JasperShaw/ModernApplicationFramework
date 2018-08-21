@@ -8,13 +8,13 @@ using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
-    /// <inheritdoc cref="CommandBarDefinitionBase" />
+    /// <inheritdoc cref="CommandBarDataSource" />
     /// <summary>
     /// Fundamental command bar item definition
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarDefinitionBase" />
     /// <seealso cref="T:ModernApplicationFramework.Interfaces.IHasInternalName" />
-    public abstract class CommandBarItemDefinition : CommandBarDefinitionBase, IHasInternalName
+    public abstract class CommandBarItemDefinition : CommandBarDataSource, IHasInternalName
     {
         private bool _precededBySeparator;
         private CommandBarGroupDefinition _group;
@@ -169,7 +169,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             if (CommandDefinition.ControlType == CommandControlTypes.Separator)
                 return;
             if (!value.Items.Contains(this))
-                value.Items.AddSorted(this, new SortOrderComparer<CommandBarDefinitionBase>());
+                value.Items.AddSorted(this, new SortOrderComparer<CommandBarDataSource>());
             oldGroup?.Items.Remove(this);
         }
 
@@ -178,7 +178,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         /// </summary>
         protected void ReSortGroupItems()
         {
-            Group.Items.Sort(new SortOrderComparer<CommandBarDefinitionBase>());
+            Group.Items.Sort(new SortOrderComparer<CommandBarDataSource>());
         }
 
         /// <summary>

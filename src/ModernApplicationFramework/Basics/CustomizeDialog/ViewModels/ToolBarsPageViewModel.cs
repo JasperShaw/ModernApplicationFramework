@@ -24,26 +24,26 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
     [Export(typeof(ICustomizeDialogScreen))]
     internal sealed class ToolBarsPageViewModel : Screen, IToolBarsPageViewModel
     {
-        private ToolbarDefinition _selectedToolbarDefinition;
+        private ToolBarDataSource _selectedToolBarDataSource;
 
         private IToolBarsPageView _control;
 
-        public ObservableCollection<CommandBarDefinitionBase> Toolbars { get; }
+        public ObservableCollection<CommandBarDataSource> Toolbars { get; }
 
         public Command DropDownClickCommand => new Command(ExecuteDropDownClick);
         public Command DeleteSelectedToolbarCommand => new Command(ExecuteDeleteSelectedToolbar);
         public Command CreateNewToolbarCommand => new Command(ExecuteCreateNewToolbar);
 
-        public ToolbarDefinition SelectedToolbarDefinition
+        public ToolBarDataSource SelectedToolBar
         {
-            get => _selectedToolbarDefinition;
+            get => _selectedToolBarDataSource;
             set
             {
-                if (_selectedToolbarDefinition == value)
+                if (_selectedToolBarDataSource == value)
                     return;
                 if (value == null)
                     return;
-                _selectedToolbarDefinition = value;
+                _selectedToolBarDataSource = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -71,29 +71,29 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             var result = windowManager.ShowDialog(customizeDialog);
             if (!result.HasValue || !result.Value)
                 return;
-            var def = new ToolbarDefinition(Guid.Empty, customizeDialog.ToolbarName, int.MaxValue, true, Dock.Top,
+            var def = new ToolBarDataSource(Guid.Empty, customizeDialog.ToolbarName, int.MaxValue, true, Dock.Top,
                 ToolbarScope.MainWindow, true, true);
             IoC.Get<IToolBarHostViewModel>().AddToolbarDefinition(def);
-            SelectedToolbarDefinition = def;
+            SelectedToolBar = def;
             _control.ToolBarListBox.ScrollIntoView(def);
             _control.ToolBarListBox.Focus();
         }
 
         private void ExecuteDeleteSelectedToolbar()
         {
-            if (!SelectedToolbarDefinition.IsCustom)
+            if (!SelectedToolBar.IsCustom)
                 return;
-            var result = MessageBox.Show(string.Format(CultureInfo.CurrentCulture, Customize_Resources.Prompt_ToolbarDeleteConfirmation, SelectedToolbarDefinition.Text),
+            var result = MessageBox.Show(string.Format(CultureInfo.CurrentCulture, Customize_Resources.Prompt_ToolbarDeleteConfirmation, SelectedToolBar.Text),
                 Application.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.No)
                 return;
-            IoC.Get<IToolBarHostViewModel>().RemoveToolbarDefinition(SelectedToolbarDefinition);
+            IoC.Get<IToolBarHostViewModel>().RemoveToolbarDefinition(SelectedToolBar);
         }
 
         private void ExecuteDropDownClick()
         {
             var dropDownMenu = _control.ModifySelectionButton.DropDownMenu;
-            dropDownMenu.DataContext = SelectedToolbarDefinition;
+            dropDownMenu.DataContext = SelectedToolBar;
             dropDownMenu.IsOpen = true;
         }
     }

@@ -95,9 +95,9 @@ namespace ModernApplicationFramework.Controls.Internals
             {
                 if (!(data is CommandDefinitionButton item))
                     continue;
-                if (item.DataContext is CommandBarDefinitionBase definition && definition.CommandDefinition.ControlType == CommandControlTypes.Separator)
+                if (item.DataContext is CommandBarDataSource definition && definition.CommandDefinition.ControlType == CommandControlTypes.Separator)
                     continue;
-                var mi = new MenuItem(item.DataContext as CommandBarDefinitionBase);
+                var mi = new MenuItem(item.DataContext as CommandBarDataSource);
                 compositeCollection.Add(mi);
             }
 
@@ -111,7 +111,7 @@ namespace ModernApplicationFramework.Controls.Internals
 
         private void ResetToolbarMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (!(DataContext is CommandBarDefinitionBase item))
+            if (!(DataContext is CommandBarDataSource item))
                 return;
             var message = string.Format(CultureInfo.CurrentCulture, Customize_Resources.Prompt_ResetToolBarConfirmation,
                 AccessKeyRemovingConverter.Convert(item.Text, typeof(string), null,
@@ -134,7 +134,7 @@ namespace ModernApplicationFramework.Controls.Internals
             if (!(customizeDialog.ActiveItem is ICommandsPageViewModel commandsPage))
                 return;  
             commandsPage.SelectedOption = CustomizeRadioButtonOptions.Toolbar;
-            commandsPage.SelectedToolBarItem = DataContext as CommandBarDefinitionBase;
+            commandsPage.SelectedToolBarItem = DataContext as CommandBarDataSource;
             windowManager.ShowDialog(customizeDialog);
             
             
@@ -160,7 +160,7 @@ namespace ModernApplicationFramework.Controls.Internals
                 frameworkElement.SetResourceReference(StyleProperty, SeparatorStyleKey);
             else
             {
-                if (item is Control c && c.DataContext is CommandBarDefinitionBase)
+                if (item is Control c && c.DataContext is CommandBarDataSource)
                     frameworkElement.SetResourceReference(StyleProperty, BoundMenuItemStyleKey);
             }
             base.PrepareContainerForItemOverride(element, item);

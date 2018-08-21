@@ -50,19 +50,19 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         private readonly IToolbarCreator _toolbarCreator;
         private readonly IToolBarHostViewModel _toolbarHost;
         private ICommandsPageView _control;
-        private IEnumerable<CommandBarDefinitionBase> _customizableContextMenus;
-        private IEnumerable<CommandBarDefinitionBase> _customizableMenuBars;
-        private IEnumerable<CommandBarDefinitionBase> _customizableToolBars;
+        private IEnumerable<CommandBarDataSource> _customizableContextMenus;
+        private IEnumerable<CommandBarDataSource> _customizableMenuBars;
+        private IEnumerable<CommandBarDataSource> _customizableToolBars;
         private IEnumerable<CommandBarItemDefinition> _items;
-        private CommandBarDefinitionBase _selectedContextMenuItem;
+        private CommandBarDataSource _selectedContextMenuItem;
         private CommandBarItemDefinition _selectedListBoxDefinition;
 
-        private CommandBarDefinitionBase _selectedMenuItem;
+        private CommandBarDataSource _selectedMenuItem;
         private CustomizeRadioButtonOptions _selectedOption;
-        private CommandBarDefinitionBase _selectedToolBarItem;
+        private CommandBarDataSource _selectedToolBarItem;
         private ICommandBarDefinitionHost _definitionHost;
 
-        public IEnumerable<CommandBarDefinitionBase> CustomizableContextMenus
+        public IEnumerable<CommandBarDataSource> CustomizableContextMenus
         {
             get => _customizableContextMenus;
             set
@@ -73,7 +73,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             }
         }
 
-        public IEnumerable<CommandBarDefinitionBase> CustomizableMenuBars
+        public IEnumerable<CommandBarDataSource> CustomizableMenuBars
         {
             get => _customizableMenuBars;
             set
@@ -84,7 +84,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             }
         }
 
-        public IEnumerable<CommandBarDefinitionBase> CustomizableToolBars
+        public IEnumerable<CommandBarDataSource> CustomizableToolBars
         {
             get => _customizableToolBars;
             set
@@ -121,7 +121,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 
         public ICommand ResetAllCommand => new Command(HandleResetAll, () => LayoutBackupProvider.Backup != null);
 
-        public CommandBarDefinitionBase SelectedContextMenuItem
+        public CommandBarDataSource SelectedContextMenuItem
         {
             get => _selectedContextMenuItem;
             set
@@ -146,7 +146,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             }
         }
 
-        public CommandBarDefinitionBase SelectedMenuItem
+        public CommandBarDataSource SelectedMenuItem
         {
             get => _selectedMenuItem;
             set
@@ -172,7 +172,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             }
         }
 
-        public CommandBarDefinitionBase SelectedToolBarItem
+        public CommandBarDataSource SelectedToolBarItem
         {
             get => _selectedToolBarItem;
             set
@@ -227,42 +227,42 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 
         private void BuildCheckBoxItems(CustomizeRadioButtonOptions value)
         {
-            CommandBarDefinitionBase selected;
+            CommandBarDataSource selected;
             if ((value & CustomizeRadioButtonOptions.Menu) != 0)
             {
                 selected = SelectedMenuItem;
                 CustomizableMenuBars =
-                    new ObservableCollection<CommandBarDefinitionBase>(_menuHost.GetMenuHeaderItemDefinitions());
+                    new ObservableCollection<CommandBarDataSource>(_menuHost.GetMenuHeaderItemDefinitions());
                 SelectedMenuItem = selected;
             }
             if ((value & CustomizeRadioButtonOptions.Toolbar) != 0)
             {
                 selected = SelectedToolBarItem;
                 CustomizableToolBars =
-                    new ObservableCollection<CommandBarDefinitionBase>(Sort(_toolbarHost.GetMenuHeaderItemDefinitions().ToList()));
+                    new ObservableCollection<CommandBarDataSource>(Sort(_toolbarHost.GetMenuHeaderItemDefinitions().ToList()));
                 SelectedToolBarItem = selected;
             }
             if ((value & CustomizeRadioButtonOptions.ContextMenu) != 0)
             {
                 selected = SelectedContextMenuItem;
                 CustomizableContextMenus =
-                    new ObservableCollection<CommandBarDefinitionBase>(Sort(_contextMenuHost.GetMenuHeaderItemDefinitions().ToList()));
+                    new ObservableCollection<CommandBarDataSource>(Sort(_contextMenuHost.GetMenuHeaderItemDefinitions().ToList()));
                 SelectedContextMenuItem = selected;
             }
         }
 
-        private static IEnumerable<CommandBarDefinitionBase> Sort(IReadOnlyCollection<CommandBarDefinitionBase> list)
+        private static IEnumerable<CommandBarDataSource> Sort(IReadOnlyCollection<CommandBarDataSource> list)
         {
-            var dict = new List<KeyValuePair<CommandBarDefinitionBase, string>>();
+            var dict = new List<KeyValuePair<CommandBarDataSource, string>>();
             var internalNames = list.Where(x => x is IHasInternalName).ToList();
             var remaining = list.Except(internalNames);
             foreach (var definition in internalNames)
             {
                 if (definition is IHasInternalName internalNameDef)
-                    dict.Add(new KeyValuePair<CommandBarDefinitionBase, string>(definition,
+                    dict.Add(new KeyValuePair<CommandBarDataSource, string>(definition,
                         internalNameDef.InternalName));
             }
-            remaining.ForEach(x => dict.Add(new KeyValuePair<CommandBarDefinitionBase, string>(x, x.Name)));
+            remaining.ForEach(x => dict.Add(new KeyValuePair<CommandBarDataSource, string>(x, x.Name)));
             var sorted = dict.OrderBy(x => x.Value).Select(x => x.Key);
             return sorted;
         }
@@ -279,7 +279,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
                 Items = BuildItemSourcesCore(_contextMenuCreator, SelectedContextMenuItem);
         }
 
-        private IEnumerable<CommandBarItemDefinition> BuildItemSourcesCore(ICreatorBase creator, CommandBarDefinitionBase definition)
+        private IEnumerable<CommandBarItemDefinition> BuildItemSourcesCore(ICreatorBase creator, CommandBarDataSource definition)
         {
             var groups = _definitionHost.ItemGroupDefinitions.Where(x => x.Parent == definition)
                 .Where(x => !_definitionHost.ExcludedItemDefinitions.Contains(x))
@@ -331,7 +331,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             dropDownMenu.IsOpen = true;
         }
 
-        private CommandBarDefinitionBase GetActiveItem()
+        private CommandBarDataSource GetActiveItem()
         {
             if (SelectedOption.HasFlag(CustomizeRadioButtonOptions.Menu))
                 return SelectedMenuItem;
@@ -340,7 +340,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             return SelectedContextMenuItem;
         }
 
-        private void GetModelAndParent(out ICommandBarHost host, out CommandBarDefinitionBase parent)
+        private void GetModelAndParent(out ICommandBarHost host, out CommandBarDataSource parent)
         {
             switch (SelectedOption)
             {
@@ -409,7 +409,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         {
             if (SelectedListBoxDefinition == null)
                 return;
-            GetModelAndParent(out var model, out CommandBarDefinitionBase _);
+            GetModelAndParent(out var model, out CommandBarDataSource _);
 
             var nextSelectedItem = model.GetNextItemInGroup(SelectedListBoxDefinition) ??
                                    model.GetPreviousItem(SelectedListBoxDefinition) ??

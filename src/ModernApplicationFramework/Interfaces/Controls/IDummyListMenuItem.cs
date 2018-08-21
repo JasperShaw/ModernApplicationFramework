@@ -11,7 +11,7 @@ namespace ModernApplicationFramework.Interfaces.Controls
         /// <summary>
         /// Containes the CommandBarDefinition of the MenuItem
         /// </summary>
-        CommandBarDefinitionBase CommandBarItemDefinition { get; }
+        CommandBarDataSource CommandBarItemDefinition { get; }
 
         /// <summary>
         /// Updates Menu

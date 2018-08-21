@@ -38,7 +38,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Commands
         {
             public ShowSelectedToolBarCommand(object args) : base(args)
             {
-                if (args is ToolbarDefinition toolbarDefinition && toolbarDefinition.IsVisible)
+                if (args is ToolBarDataSource toolbarDefinition && toolbarDefinition.IsVisible)
                     Checked = true;
                 else
                     Checked = false;
@@ -46,12 +46,12 @@ namespace ModernApplicationFramework.Basics.CommandBar.Commands
 
             protected override bool OnCanExecute(object parameter)
             {
-                return parameter is ToolbarDefinition;
+                return parameter is ToolBarDataSource;
             }
 
             protected override void OnExecute(object parameter)
             {
-                if (!(parameter is ToolbarDefinition toolBarDef))
+                if (!(parameter is ToolBarDataSource toolBarDef))
                     return;
                 toolBarDef.IsVisible = !toolBarDef.IsVisible;
             }

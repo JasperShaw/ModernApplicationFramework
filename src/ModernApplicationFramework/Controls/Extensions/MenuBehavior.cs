@@ -101,7 +101,7 @@ namespace ModernApplicationFramework.Controls.Extensions
                     if (!x.IsVisible)
                     {
                         var separatorItem = control.Items[i - 1] as FrameworkElement;
-                        if (separatorItem?.DataContext is CommandBarSeparatorDefinition separator)
+                        if (separatorItem?.DataContext is SeparatorDataSource separator)
                             separator.IsVisible = false;
                     }
                     else if (x.IsVisible)
@@ -109,7 +109,7 @@ namespace ModernApplicationFramework.Controls.Extensions
                         if (x.PrecededBySeparator && i - 1 > 0)
                         {
                             var separatorItem = control.Items[i - 1] as FrameworkElement;
-                            if (separatorItem?.DataContext is CommandBarSeparatorDefinition separator)
+                            if (separatorItem?.DataContext is SeparatorDataSource separator)
                                 separator.IsVisible = true;
                         }
 
@@ -126,7 +126,7 @@ namespace ModernApplicationFramework.Controls.Extensions
                 return;
             foreach (var item in menuItems)
             {
-                if (item.DataContext is CommandBarDefinitionBase definition &&
+                if (item.DataContext is CommandBarDataSource definition &&
                     definition.CommandDefinition is CommandDefinition command)
                     definition.IsChecked = command.Command.Checked;
             }

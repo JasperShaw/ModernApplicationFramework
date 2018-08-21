@@ -8,8 +8,8 @@ namespace ModernApplicationFramework.Docking.ContextMenuDefinitions
 {
     public class AnchorableContextMenuDefinition
     {
-        [Export] public static ContextMenuDefinition AnchorableContextMenu =
-            new ContextMenuDefinition(new Guid("{B8615A48-C325-46ED-9F3D-135A1DF2E6D6}"), ContextMenuCategory.OtherContextMenusCategory, DockingResources.AnchorableContextMenu_Name);
+        [Export] public static ContextMenuDataSource AnchorableContextMenu =
+            new ContextMenuDataSource(new Guid("{B8615A48-C325-46ED-9F3D-135A1DF2E6D6}"), ContextMenuCategory.OtherContextMenusCategory, DockingResources.AnchorableContextMenu_Name);
 
         [Export] public static CommandBarGroupDefinition AnchorableContextMenuGroup =
             new CommandBarGroupDefinition(AnchorableContextMenu, uint.MinValue);

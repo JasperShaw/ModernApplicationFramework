@@ -8,7 +8,7 @@ namespace ModernApplicationFramework.Core.Comparers
 {
     /// <inheritdoc />
     /// <summary>
-    /// An <see cref="IComparer"/> that compared two <see cref="CommandBarDefinitionBase"/> by name
+    /// An <see cref="IComparer"/> that compared two <see cref="CommandBarDataSource"/> by name
     /// </summary>
     /// <seealso cref="T:System.Collections.IComparer" />
     public class CommandTextComparer : IComparer
@@ -22,7 +22,7 @@ namespace ModernApplicationFramework.Core.Comparers
 
         public int Compare(object x, object y)
         {
-            if (!(x is CommandBarDefinitionBase command1) || !(y is CommandBarDefinitionBase command2))
+            if (!(x is CommandBarDataSource command1) || !(y is CommandBarDataSource command2))
                 throw new ArgumentException("This converter does not support the provided objects");
             var text1 = command1.Name;
             var text2 = command2.Name;

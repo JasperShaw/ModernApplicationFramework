@@ -23,16 +23,16 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
     [Export(typeof(IToolbarCreator))]
     public class ToolbarCreator : CreatorBase, IToolbarCreator
     {
-        public override void CreateRecursive<T>(ref T itemsControl, CommandBarDefinitionBase itemDefinition)
+        public override void CreateRecursive<T>(ref T itemsControl, CommandBarDataSource itemDefinition)
         {
             
         }
 
-        public override void CreateRecursive<T>(ref T itemsControl, CommandBarDefinitionBase itemDefinition, IReadOnlyList<CommandBarGroupDefinition> groups,
+        public override void CreateRecursive<T>(ref T itemsControl, CommandBarDataSource itemDefinition, IReadOnlyList<CommandBarGroupDefinition> groups,
             Func<CommandBarGroupDefinition,IReadOnlyList<CommandBarItemDefinition>> itemFunc)
         {
             var topItem = GetSingleSubDefinitions(itemDefinition, groups, itemFunc);
-            if (!(itemDefinition is ToolbarDefinition))
+            if (!(itemDefinition is ToolBarDataSource))
                 return;
 
             foreach (var item in topItem)
@@ -92,7 +92,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
         //    }
         //}
 
-        private void Fill(ref ObservableCollection<CommandBarItemDefinition> list, CommandBarDefinitionBase item,
+        private void Fill(ref ObservableCollection<CommandBarItemDefinition> list, CommandBarDataSource item,
             Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDefinition>> itemFunc)
         {
             var host = IoC.Get<ICommandBarDefinitionHost>();

@@ -8,7 +8,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
     /// A command bar definition that specifies a menu bar
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarDefinitionBase" />
-    public sealed class MenuBarDefinition : CommandBarDefinitionBase
+    public sealed class MenuBarDataSource : CommandBarDataSource
     {
         private string _internalName;
 
@@ -28,7 +28,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
 
         public override Guid Id { get; }
 
-        public MenuBarDefinition(Guid id, string text, uint sortOrder) : base(text, sortOrder, null, true, false, false, false)
+        public MenuBarDataSource(Guid id, string text, uint sortOrder) : base(text, sortOrder, null, true, false, false, false)
         {
             Id = id;
             _internalName = text;

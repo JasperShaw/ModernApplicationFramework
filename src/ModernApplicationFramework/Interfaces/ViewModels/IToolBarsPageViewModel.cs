@@ -12,12 +12,12 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         /// <summary>
         /// A collection of all available toolbar data models
         /// </summary>
-        ObservableCollection<CommandBarDefinitionBase> Toolbars { get; }
+        ObservableCollection<CommandBarDataSource> Toolbars { get; }
 
         /// <summary>
         /// The selected toolbar data model
         /// </summary>
-        ToolbarDefinition SelectedToolbarDefinition { get; }
+        ToolBarDataSource SelectedToolBar { get; }
 
         /// <summary>
         /// The command to open a drop-down button

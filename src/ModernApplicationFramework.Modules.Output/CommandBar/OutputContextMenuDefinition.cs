@@ -9,8 +9,8 @@ namespace ModernApplicationFramework.Modules.Output.CommandBar
     public static class OutputContextMenuDefinition
     {
         [Export]
-        public static Basics.Definitions.ContextMenu.ContextMenuDefinition ToolboxContextMenu =
-            new Basics.Definitions.ContextMenu.ContextMenuDefinition(new Guid("{18E35741-10B1-47C0-87F0-83058900B907}"), ContextMenuCategory.OtherContextMenusCategory, "Output Window");
+        public static Basics.Definitions.ContextMenu.ContextMenuDataSource ToolboxContextMenu =
+            new Basics.Definitions.ContextMenu.ContextMenuDataSource(new Guid("{18E35741-10B1-47C0-87F0-83058900B907}"), ContextMenuCategory.OtherContextMenusCategory, "Output Window");
 
         [Export]
         public static CommandBarGroupDefinition CopyGroup =

@@ -6,6 +6,6 @@ namespace ModernApplicationFramework.Interfaces
     {
         bool HasToolbar { get; }
 
-        ToolbarDefinition Toolbar { get; }
+        ToolBarDataSource Toolbar { get; }
     }
 }

@@ -24,7 +24,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
         /// <param name="itemsControl">The <see cref="T:System.Windows.Controls.ItemsControl" /> that should be filled</param>
         /// <param name="itemDefinition">The data model of the current item</param>
         /// <inheritdoc />
-        public override void CreateRecursive<T>(ref T itemsControl, CommandBarDefinitionBase itemDefinition)
+        public override void CreateRecursive<T>(ref T itemsControl, CommandBarDataSource itemDefinition)
         {
             var topItem = GetSingleSubDefinitions(itemDefinition);
             foreach (var item in topItem)
@@ -42,7 +42,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
             }
         }
 
-        public override void CreateRecursive<T>(ref T itemsControl, CommandBarDefinitionBase itemDefinition, IReadOnlyList<CommandBarGroupDefinition> groups,
+        public override void CreateRecursive<T>(ref T itemsControl, CommandBarDataSource itemDefinition, IReadOnlyList<CommandBarGroupDefinition> groups,
             Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDefinition>> itemFunc)
         {
 

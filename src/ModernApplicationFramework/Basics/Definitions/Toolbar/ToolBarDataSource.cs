@@ -8,13 +8,13 @@ using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Basics.Definitions.Toolbar
 {
-    /// <inheritdoc cref="CommandBarDefinitionBase" />
+    /// <inheritdoc cref="CommandBarDataSource" />
     /// <summary>
     /// A command bar definition that specifies a tool bar
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarDefinitionBase" />
     /// <seealso cref="T:ModernApplicationFramework.Interfaces.IHasInternalName" />
-    public sealed class ToolbarDefinition : CommandBarDefinitionBase, IHasInternalName
+    public sealed class ToolBarDataSource : CommandBarDataSource, IHasInternalName
     {
         private Dock _position;
         private string _internalName;
@@ -73,7 +73,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
 
         public override Guid Id { get; }
 
-        public ToolbarDefinition(Guid id, string text, uint sortOrder, bool visible, Dock position, ToolbarScope scope = ToolbarScope.MainWindow, bool isCustomizable = true,
+        public ToolBarDataSource(Guid id, string text, uint sortOrder, bool visible, Dock position, ToolbarScope scope = ToolbarScope.MainWindow, bool isCustomizable = true,
             bool isCustom = false) : base(text, sortOrder, new ToolbarCommandDefinition(), visible, isCustom, isCustomizable,
             false)
         {

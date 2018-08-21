@@ -17,21 +17,21 @@ namespace ModernApplicationFramework.Interfaces.Utilities
         /// <param name="itemsControl">The <see cref="ItemsControl"/> that should be filled</param>
         /// <param name="itemDefinition">The datamodel of the current item</param>
         //void CreateRecursive<T>(ref T itemsControl, CommandBarDefinitionBase itemDefinition) where T : ItemsControl;
-        void CreateRecursive<T>(ref T itemsControl, CommandBarDefinitionBase itemDefinition,
+        void CreateRecursive<T>(ref T itemsControl, CommandBarDataSource itemDefinition,
             IReadOnlyList<CommandBarGroupDefinition> groups, Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDefinition>> itemFunc)
             where T : ItemsControl;
 
         /// <summary>
-        /// Gets all single level sub-definitions of a given <see cref="CommandBarDefinitionBase"/>
+        /// Gets all single level sub-definitions of a given <see cref="CommandBarDataSource"/>
         /// </summary>
-        /// <param name="definitionBase">The <see cref="CommandBarDefinitionBase"/> to find its sub-definitions</param>
+        /// <param name="dataSource">The <see cref="CommandBarDataSource"/> to find its sub-definitions</param>
         /// <param name="options">An option to include separators to the result.</param>
         /// <returns>Returns a list with all found definitions</returns>
-        IEnumerable<CommandBarItemDefinition> GetSingleSubDefinitions(CommandBarDefinitionBase definitionBase, CommandBarCreationOptions options);
+        IEnumerable<CommandBarItemDefinition> GetSingleSubDefinitions(CommandBarDataSource dataSource, CommandBarCreationOptions options);
 
 
 
-        IEnumerable<CommandBarItemDefinition> GetSingleSubDefinitions(CommandBarDefinitionBase menuDefinition,
+        IEnumerable<CommandBarItemDefinition> GetSingleSubDefinitions(CommandBarDataSource menuDefinition,
             IReadOnlyList<CommandBarGroupDefinition> groups,
             Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDefinition>> items,
             CommandBarCreationOptions options = CommandBarCreationOptions.DisplaySeparatorsOnlyIfGroupNotEmpty);

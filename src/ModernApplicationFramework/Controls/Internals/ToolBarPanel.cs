@@ -168,7 +168,7 @@ namespace ModernApplicationFramework.Controls.Internals
         {
             if (!(uiElement is FrameworkElement frameworkElement))
                 return false;
-            if (!(frameworkElement.DataContext is CommandBarDefinitionBase definitionBase))
+            if (!(frameworkElement.DataContext is CommandBarDataSource definitionBase))
                 return false;
             if ((definitionBase.CommandDefinition.ControlType & CommandControlTypes.Combobox) == CommandControlTypes.Separator)
                 return false;

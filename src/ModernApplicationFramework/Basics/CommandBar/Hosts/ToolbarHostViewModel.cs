@@ -33,13 +33,13 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
     [Export(typeof(IToolBarHostViewModel))]
     public sealed class ToolbarHostViewModel : CommandBarHost, IToolBarHostViewModel
     {
-        private readonly Dictionary<ToolbarDefinition, ToolBar> _toolbars;
+        private readonly Dictionary<ToolBarDataSource, ToolBar> _toolbars;
         private ToolBarTray _bottomToolBarTay;
         private ToolBarTray _leftToolBarTay;
         private ToolBarTray _rightToolBarTay;
         private ToolBarTray _topToolBarTay;
 
-        public override ObservableCollection<CommandBarDefinitionBase> TopLevelDefinitions { get; }
+        public override ObservableCollection<CommandBarDataSource> TopLevelDefinitions { get; }
 
         public ContextMenu ContextMenu { get; }
 
@@ -94,17 +94,17 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         }
 
         [ImportingConstructor]
-        public ToolbarHostViewModel([ImportMany] ToolbarDefinition[] toolbarDefinitions)
+        public ToolbarHostViewModel([ImportMany] ToolBarDataSource[] toolBar)
         {
-            _toolbars = new Dictionary<ToolbarDefinition, ToolBar>();
+            _toolbars = new Dictionary<ToolBarDataSource, ToolBar>();
 
-            TopLevelDefinitions = new ObservableCollectionEx<CommandBarDefinitionBase>();
-            foreach (var definition in toolbarDefinitions.Where(x => x.ToolbarScope == ToolbarScope))
+            TopLevelDefinitions = new ObservableCollectionEx<CommandBarDataSource>();
+            foreach (var definition in toolBar.Where(x => x.ToolbarScope == ToolbarScope))
                 TopLevelDefinitions.Add(definition);
 
-            ((ObservableCollectionEx<CommandBarDefinitionBase>) TopLevelDefinitions).CollectionChanged +=
+            ((ObservableCollectionEx<CommandBarDataSource>) TopLevelDefinitions).CollectionChanged +=
                 _toolbarDefinitions_CollectionChanged;
-            ((ObservableCollectionEx<CommandBarDefinitionBase>) TopLevelDefinitions).ItemPropertyChanged +=
+            ((ObservableCollectionEx<CommandBarDataSource>) TopLevelDefinitions).ItemPropertyChanged +=
                 _toolbarDefinitions_ItemPropertyChanged;
             ContextMenu = IoC.Get<IContextMenuHost>().GetContextMenu(ToolbarsContextMenuDefinition.ToolbarsContextMenu);
         }
@@ -113,14 +113,14 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         {
             _toolbars.Clear();
             InternalHideAllToolbars();
-            var definitions = TopLevelDefinitions.OrderBy(x => x.SortOrder).Cast<ToolbarDefinition>().Where(x => x.ToolbarScope == ToolbarScope.MainWindow);
+            var definitions = TopLevelDefinitions.OrderBy(x => x.SortOrder).Cast<ToolBarDataSource>().Where(x => x.ToolbarScope == ToolbarScope.MainWindow);
             foreach (var definition in definitions)
                 Build(definition);
         }
 
-        public override void Build(CommandBarDefinitionBase definition)
+        public override void Build(CommandBarDataSource definition)
         {
-            if (!(definition is ToolbarDefinition toolbarDefinition))
+            if (!(definition is ToolBarDataSource toolbarDefinition))
                 return;
            
             if (!_toolbars.ContainsKey(toolbarDefinition))
@@ -137,7 +137,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             ChangeToolBarVisibility(toolbarDefinition);
         }
 
-        private void BuildToolbarCore(CommandBarDefinitionBase toolbarDefinition, out ToolBar toolBar)
+        private void BuildToolbarCore(CommandBarDataSource toolbarDefinition, out ToolBar toolBar)
         {
             
             var host = IoC.Get<ICommandBarDefinitionHost>();
@@ -159,7 +159,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             });
         }
 
-        public override void AddItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent,
+        public override void AddItemDefinition(CommandBarItemDefinition definition, CommandBarDataSource parent,
             bool addAboveSeparator)
         {
             base.AddItemDefinition(definition, parent, addAboveSeparator);        
@@ -180,7 +180,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         }
 
 
-        public void AddToolbarDefinition(ToolbarDefinition definition)
+        public void AddToolbarDefinition(ToolBarDataSource definition)
         {
             if (definition == null)
                 throw new ArgumentNullException();
@@ -193,7 +193,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             TopLevelDefinitions.Add(definition);
         }
 
-        public void RemoveToolbarDefinition(ToolbarDefinition definition)
+        public void RemoveToolbarDefinition(ToolBarDataSource definition)
         {
             if (definition == null)
                 throw new ArgumentNullException();
@@ -202,15 +202,15 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             TopLevelDefinitions.Remove(definition);
         }
 
-        public ToolbarDefinition GetToolbarDefinitionByName(string name)
+        public ToolBarDataSource GetToolbarDefinitionByName(string name)
         {
             foreach (var definition in TopLevelDefinitions)
                 if (definition.Text == name)
-                    return definition as ToolbarDefinition;
+                    return definition as ToolBarDataSource;
             throw new ToolBarNotFoundException();
         }
 
-        public void ChangeToolBarVisibility(ToolbarDefinition definition, bool visible)
+        public void ChangeToolBarVisibility(ToolBarDataSource definition, bool visible)
         {
             if (definition == null)
                 throw new ArgumentNullException();
@@ -266,16 +266,16 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
         private void _toolbarDefinitions_ItemPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (!(sender is ToolbarDefinition definition))
+            if (!(sender is ToolBarDataSource definition))
                 return;
 
-            if (e.PropertyName == nameof(ToolbarDefinition.IsVisible))
+            if (e.PropertyName == nameof(ToolBarDataSource.IsVisible))
                 ChangeToolBarVisibility(definition);
-            if (e.PropertyName == nameof(ToolbarDefinition.Position))
+            if (e.PropertyName == nameof(ToolBarDataSource.Position))
                 ChangeToolBarPosition(definition);
         }
 
-        private void ChangeToolBarVisibility(ToolbarDefinition definition)
+        private void ChangeToolBarVisibility(ToolBarDataSource definition)
         {
             if (TopToolBarTray == null || LeftToolBarTray == null || RightToolBarTray == null ||
                 BottomToolBarTray == null)
@@ -290,7 +290,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
                 InternalHideToolBar(definition);
         }
 
-        private void ChangeToolBarPosition(ToolbarDefinition definition)
+        private void ChangeToolBarPosition(ToolBarDataSource definition)
         {
             if (TopToolBarTray == null || LeftToolBarTray == null || RightToolBarTray == null ||
                 BottomToolBarTray == null)
@@ -302,7 +302,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             InternalChangePosition(definition);
         }
 
-        private void InternalHideToolBar(ToolbarDefinition definition)
+        private void InternalHideToolBar(ToolBarDataSource definition)
         {
             if (TopToolBarTray == null || LeftToolBarTray == null || RightToolBarTray == null ||
                 BottomToolBarTray == null)
@@ -326,7 +326,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             }
         }
 
-        private void InternalShowToolBar(ToolbarDefinition definition)
+        private void InternalShowToolBar(ToolBarDataSource definition)
         {
             if (TopToolBarTray == null || LeftToolBarTray == null || RightToolBarTray == null ||
                 BottomToolBarTray == null)
@@ -352,7 +352,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             }
         }
 
-        private void InternalChangePosition(ToolbarDefinition definition)
+        private void InternalChangePosition(ToolBarDataSource definition)
         {
             if (TopToolBarTray == null || LeftToolBarTray == null || RightToolBarTray == null ||
                 BottomToolBarTray == null)

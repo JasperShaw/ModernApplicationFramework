@@ -10,7 +10,7 @@ namespace ModernApplicationFramework.Extended.CommandBar.ToolbarDefinitions
 {
 	public static class StandardToolbarDefinition
 	{
-		[Export] public static ToolbarDefinition Standard = new ToolbarDefinition(new Guid("{3E4FEEB6-F0D4-4FCD-B1B9-17BB5384CB0A}"), CommandBar_Resources.ToolBarStandard_Name, uint.MinValue, true, Dock.Top);
+		[Export] public static ToolBarDataSource Standard = new ToolBarDataSource(new Guid("{3E4FEEB6-F0D4-4FCD-B1B9-17BB5384CB0A}"), CommandBar_Resources.ToolBarStandard_Name, uint.MinValue, true, Dock.Top);
 
 		[Export] public static CommandBarGroupDefinition StandardUndoRedoGroup = new CommandBarGroupDefinition(Standard, 2);
 

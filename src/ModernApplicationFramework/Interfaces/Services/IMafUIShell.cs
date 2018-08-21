@@ -44,7 +44,7 @@ namespace ModernApplicationFramework.Interfaces.Services
         /// Shows a context menu at specified position.
         /// </summary>
         /// <param name="position">The absolte position.</param>
-        /// <param name="contextMenu">The Id of the <see cref="ContextMenuDefinition"/></param>
+        /// <param name="contextMenu">The Id of the <see cref="ContextMenuDataSource"/></param>
         /// <param name="element">Placement Target</param>
         void ShowContextMenu(System.Windows.Point position, Guid contextMenu, UIElement element);
     }

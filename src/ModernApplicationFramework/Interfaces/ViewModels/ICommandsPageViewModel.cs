@@ -53,32 +53,32 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         /// <summary>
         /// A list of all tool bars that are customizable
         /// </summary>
-        IEnumerable<CommandBarDefinitionBase> CustomizableToolBars { get; set; }
+        IEnumerable<CommandBarDataSource> CustomizableToolBars { get; set; }
 
         /// <summary>
         /// A list of all menus that are customizable
         /// </summary>
-        IEnumerable<CommandBarDefinitionBase> CustomizableMenuBars { get; set; }
+        IEnumerable<CommandBarDataSource> CustomizableMenuBars { get; set; }
 
         /// <summary>
         /// A list of all context menus that are customizable
         /// </summary>
-        IEnumerable<CommandBarDefinitionBase> CustomizableContextMenus { get; set; }
+        IEnumerable<CommandBarDataSource> CustomizableContextMenus { get; set; }
 
         /// <summary>
         /// The currently selected menu item
         /// </summary>
-        CommandBarDefinitionBase SelectedMenuItem { get; set; }
+        CommandBarDataSource SelectedMenuItem { get; set; }
 
         /// <summary>
         /// The currently selected tool bar item
         /// </summary>
-        CommandBarDefinitionBase SelectedToolBarItem { get; set; }
+        CommandBarDataSource SelectedToolBarItem { get; set; }
 
         /// <summary>
         /// he currently selected context menu item
         /// </summary>
-        CommandBarDefinitionBase SelectedContextMenuItem { get; set; }
+        CommandBarDataSource SelectedContextMenuItem { get; set; }
 
         /// <summary>
         /// The currently selected option

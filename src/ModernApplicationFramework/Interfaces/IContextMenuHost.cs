@@ -13,15 +13,15 @@ namespace ModernApplicationFramework.Interfaces
     public interface IContextMenuHost : ICommandBarHost
     {
         /// <summary>
-        /// Gets a <see cref="ContextMenu"/> by a given <see cref="ContextMenuDefinition"/>
+        /// Gets a <see cref="ContextMenu"/> by a given <see cref="ContextMenuDataSource"/>
         /// </summary>
-        /// <param name="contextMenuDefinition">The definition to search</param>
+        /// <param name="contextMenuDataSource">The definition to search</param>
         /// <returns>Returns the context menu</returns>
         /// <exception cref="KeyNotFoundException"></exception>
-        ContextMenu GetContextMenu(ContextMenuDefinition contextMenuDefinition);
+        ContextMenu GetContextMenu(ContextMenuDataSource contextMenuDataSource);
 
         /// <summary>
-        /// Gets a <see cref="ContextMenu"/> by a given <see cref="ContextMenuDefinition"/>
+        /// Gets a <see cref="ContextMenu"/> by a given <see cref="ContextMenuDataSource"/>
         /// </summary>
         /// <param name="contextMenuDefinition">The id of the definition</param>
         /// <returns>Returns the context menu</returns>

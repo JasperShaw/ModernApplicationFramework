@@ -10,8 +10,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
     public static class ToolboxContextMenuDefinition
     {
         [Export]
-        public static ContextMenuDefinition ToolboxContextMenu =
-            new ContextMenuDefinition(new Guid("{70967216-21B8-454D-8361-201F127A6D32}"), ContextMenuCategory.OtherContextMenusCategory, "Toolbox");
+        public static ContextMenuDataSource ToolboxContextMenu =
+            new ContextMenuDataSource(new Guid("{70967216-21B8-454D-8361-201F127A6D32}"), ContextMenuCategory.OtherContextMenusCategory, "Toolbox");
 
         [Export]
         public static CommandBarGroupDefinition BasicEditGroup =

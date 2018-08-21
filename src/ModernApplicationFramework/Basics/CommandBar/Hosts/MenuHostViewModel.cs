@@ -27,7 +27,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         private IMainWindowViewModel _mainWindowViewModel;
         private MenuHostControl _menuHostControl;
 
-        public override ObservableCollection<CommandBarDefinitionBase> TopLevelDefinitions { get; }
+        public override ObservableCollection<CommandBarDataSource> TopLevelDefinitions { get; }
 
         public ObservableCollection<MenuItem> Items { get; }
 
@@ -59,11 +59,11 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
 
         [ImportingConstructor]
-        public MenuHostViewModel([ImportMany] MenuBarDefinition[] menubars)
+        public MenuHostViewModel([ImportMany] MenuBarDataSource[] menubars)
         {
             Items = new BindableCollection<MenuItem>();
             _toolBarHost = IoC.Get<IToolBarHostViewModel>();
-            TopLevelDefinitions = new ObservableCollection<CommandBarDefinitionBase>(menubars);
+            TopLevelDefinitions = new ObservableCollection<CommandBarDataSource>(menubars);
             Build();
         }
 
@@ -73,10 +73,10 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             IoC.Get<IMainMenuCreator>().CreateMenuBar(this);
         }
 
-        public override void Build(CommandBarDefinitionBase definition)
+        public override void Build(CommandBarDataSource definition)
         {
             BuildLogical(definition);
-            if (definition is MenuBarDefinition)
+            if (definition is MenuBarDataSource)
                 Build();
             else
             {
@@ -87,7 +87,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             }
         }
 
-        public override void AddItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent, bool addAboveSeparator)
+        public override void AddItemDefinition(CommandBarItemDefinition definition, CommandBarDataSource parent, bool addAboveSeparator)
         {
             base.AddItemDefinition(definition, parent, addAboveSeparator);
             Build(parent);

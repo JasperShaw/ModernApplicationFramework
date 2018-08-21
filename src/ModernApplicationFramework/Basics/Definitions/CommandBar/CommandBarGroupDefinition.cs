@@ -11,9 +11,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     /// A <see cref="CommandBarGroupDefinition"/> is a container that contains command bar items 
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarDefinitionBase" />
-    public class CommandBarGroupDefinition : CommandBarDefinitionBase
+    public class CommandBarGroupDefinition : CommandBarDataSource
     {
-        private CommandBarDefinitionBase _parent;
+        private CommandBarDataSource _parent;
 
         /// <summary>
         /// Gets the last item of the group.
@@ -28,7 +28,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         /// <summary>
         /// The parent command bar element of the group
         /// </summary>
-        public CommandBarDefinitionBase Parent
+        public CommandBarDataSource Parent
         {
             get => _parent;
             set
@@ -46,7 +46,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
         public override Guid Id => Guid.Empty;
 
-        public CommandBarGroupDefinition(CommandBarDefinitionBase parent, uint sortOrder)
+        public CommandBarGroupDefinition(CommandBarDataSource parent, uint sortOrder)
             : base(null, sortOrder, null, true, false, false, false)
         {
             _parent = parent;

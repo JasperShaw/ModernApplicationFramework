@@ -604,7 +604,7 @@
     </Compile>
     <Compile Include="Basics\Definitions\CommandBar\CommandBarCommandItemDefinition.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarCommandItemDefinitionT.cs" />
-    <Compile Include="Basics\Definitions\CommandBar\CommandBarDefinitionBase.cs" />
+    <Compile Include="Basics\Definitions\CommandBar\CommandBarDataSource.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarFlags.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarGroupDefinition.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarItemDefinition.cs" />
@@ -613,12 +613,12 @@
     <Compile Include="Core\Comparers\SortOrderComparer.cs" />
     <Compile Include="Basics\Definitions\Command\CommandCategory.cs" />
     <Compile Include="Basics\Definitions\Command\CommandControlTypes.cs" />
-    <Compile Include="Basics\Definitions\CommandBar\CommandBarSeparatorDefinition.cs" />
+    <Compile Include="Basics\Definitions\CommandBar\SeparatorDataSource.cs" />
     <Compile Include="Basics\Definitions\ContextMenu\ContextMenuCategory.cs" />
-    <Compile Include="Basics\Definitions\ContextMenu\ContextMenuDefinition.cs" />
-    <Compile Include="Basics\Definitions\Menu\MenuBarDefinition.cs" />
+    <Compile Include="Basics\Definitions\ContextMenu\ContextMenuDataSource.cs" />
+    <Compile Include="Basics\Definitions\Menu\MenuBarDataSource.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuDefinition.cs" />
-    <Compile Include="Basics\Definitions\Toolbar\ToolbarDefinition.cs" />
+    <Compile Include="Basics\Definitions\Toolbar\ToolBarDataSource.cs" />
     <Compile Include="Basics\CommandBar\ToolbarsContextMenuDefinition.cs" />
     <Compile Include="Basics\CommandBar\Commands\CustomizeMenuCommandDefinition.cs" />
     <Compile Include="Basics\CommandBar\Commands\ListToolBarsCommandListDefinition.cs" />

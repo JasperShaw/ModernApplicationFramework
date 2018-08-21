@@ -7,14 +7,14 @@ namespace ModernApplicationFramework.Core.Converters.Customize
 {
     /// <inheritdoc />
     /// <summary>
-    /// An <see cref="IValueConverter" /> that checks whether a <see cref="CommandBarDefinitionBase" /> is <see cref="P:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarDefinitionBase.IsCustom" />
+    /// An <see cref="IValueConverter" /> that checks whether a <see cref="CommandBarDataSource" /> is <see cref="P:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarDefinitionBase.IsCustom" />
     /// </summary>
     /// <seealso cref="IValueConverter" />
     public class IsCustomMenuConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is CommandBarDefinitionBase definition)
+            if (value is CommandBarDataSource definition)
                 return definition.IsCustom;
             return false;
         }

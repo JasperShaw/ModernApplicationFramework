@@ -24,14 +24,14 @@ namespace ModernApplicationFramework.Interfaces
         /// <summary>
         /// Collection of excluded commandbar item definitions
         /// </summary>
-        ObservableCollection<CommandBarDefinitionBase> ExcludedItemDefinitions { get; }
+        ObservableCollection<CommandBarDataSource> ExcludedItemDefinitions { get; }
 
         /// <summary>
         /// Collection of excluded command definitions
         /// </summary>
         ObservableCollection<CommandDefinitionBase> ExcludedCommandDefinitions { get; }
 
-        IReadOnlyList<CommandBarGroupDefinition> GetSortedGroupsOfDefinition(CommandBarDefinitionBase definition, bool onlyGroupsWithVisibleItems = true);
+        IReadOnlyList<CommandBarGroupDefinition> GetSortedGroupsOfDefinition(CommandBarDataSource definition, bool onlyGroupsWithVisibleItems = true);
 
         Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDefinition>> GetItemsOfGroup { get; }
     }

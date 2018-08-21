@@ -24,7 +24,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
     /// <seealso cref="T:ModernApplicationFramework.Interfaces.ViewModels.ICommandBarHost" />
     public abstract class CommandBarHost : ViewModelBase, ICommandBarHost
     {
-        public abstract ObservableCollection<CommandBarDefinitionBase> TopLevelDefinitions { get; }
+        public abstract ObservableCollection<CommandBarDataSource> TopLevelDefinitions { get; }
         
         public ICommandBarDefinitionHost DefinitionHost { get; }
 
@@ -34,7 +34,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             DefinitionHost = IoC.Get<ICommandBarDefinitionHost>();
         }
 
-        public virtual void AddItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent,
+        public virtual void AddItemDefinition(CommandBarItemDefinition definition, CommandBarDataSource parent,
             bool addAboveSeparator)
         {
             //Apparently the current parent is empty so we need to add a group first
@@ -42,12 +42,12 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             {
                 var group = new CommandBarGroupDefinition(parent, uint.MinValue);
                 definition.Group = group;
-                DefinitionHost.ItemGroupDefinitions.AddSorted(group, new SortOrderComparer<CommandBarDefinitionBase>());
+                DefinitionHost.ItemGroupDefinitions.AddSorted(group, new SortOrderComparer<CommandBarDataSource>());
             }
 
             if (!addAboveSeparator)
                 AdjustItemsAfterItemInsertedInGroup(definition);
-            DefinitionHost.ItemDefinitions.AddSorted(definition, new SortOrderComparer<CommandBarDefinitionBase>());
+            DefinitionHost.ItemDefinitions.AddSorted(definition, new SortOrderComparer<CommandBarDataSource>());
             RemoveGapsInGroupSortOrder(definition.Group.Parent);
             BuildLogical(definition);
         }
@@ -87,11 +87,11 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             }
         }
 
-        public abstract void Build(CommandBarDefinitionBase definition);
+        public abstract void Build(CommandBarDataSource definition);
 
         public abstract void Build();
 
-        public void BuildLogical(CommandBarDefinitionBase definition)
+        public void BuildLogical(CommandBarDataSource definition)
         {           
             var groups = DefinitionHost.ItemGroupDefinitions.Where(x => x.Parent == definition)
                 .Where(x => !DefinitionHost.ExcludedItemDefinitions.Contains(x))
@@ -133,7 +133,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         }
 
 
-        public void BuildLogical(CommandBarDefinitionBase definition, IReadOnlyList<CommandBarGroupDefinition> groups, Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDefinition>> itemFunc)
+        public void BuildLogical(CommandBarDataSource definition, IReadOnlyList<CommandBarGroupDefinition> groups, Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDefinition>> itemFunc)
         {
             var topGroups = groups.Where(x => x.Parent == definition)
                 .OrderBy(x => x.SortOrder)
@@ -209,10 +209,10 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             BuildLogical(parent);
         }
 
-        public IEnumerable<CommandBarDefinitionBase> GetMenuHeaderItemDefinitions()
+        public IEnumerable<CommandBarDataSource> GetMenuHeaderItemDefinitions()
         {
-            var list = new List<CommandBarDefinitionBase>();
-            IEnumerable<CommandBarDefinitionBase> topDefinitions =
+            var list = new List<CommandBarDataSource>();
+            IEnumerable<CommandBarDataSource> topDefinitions =
                 TopLevelDefinitions.OrderBy(x => x.SortOrder).ToList();
 
             foreach (var barDefinition in topDefinitions)
@@ -260,7 +260,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             BuildLogical(parent);
         }
 
-        public void MoveItem(CommandBarItemDefinition item, int offset, CommandBarDefinitionBase parent)
+        public void MoveItem(CommandBarItemDefinition item, int offset, CommandBarDataSource parent)
         {
             var sepcounter = Math.Abs(offset);
             if (offset == 0)
@@ -349,13 +349,13 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         private static readonly ICommandBarLayoutBackupProvider LayoutBackupProvider =
             IoC.Get<ICommandBarLayoutBackupProvider>();
 
-        public void Reset(CommandBarDefinitionBase definition)
+        public void Reset(CommandBarDataSource definition)
         {
             IoC.Get<ICommandBarSerializer>().ResetFromBackup(LayoutBackupProvider.Backup, definition);
             Build();
         }
 
-        protected void StepwiseMoveUp(CommandBarItemDefinition item, CommandBarDefinitionBase parent)
+        protected void StepwiseMoveUp(CommandBarItemDefinition item, CommandBarDataSource parent)
         {
             if (item.IsVeryFirst)
                 return;
@@ -391,7 +391,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             }
         }
 
-        protected void StepwiseMoveDown(CommandBarItemDefinition item, CommandBarDefinitionBase parent)
+        protected void StepwiseMoveDown(CommandBarItemDefinition item, CommandBarDataSource parent)
         {
             var veryLastGroup = GetLastGroupDefinitionInParent(parent);
             var veryLastItem = veryLastGroup.LastItem;
@@ -431,9 +431,9 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             }
         }
 
-        protected IEnumerable<CommandBarDefinitionBase> GetSubHeaderMenus(CommandBarDefinitionBase definition)
+        protected IEnumerable<CommandBarDataSource> GetSubHeaderMenus(CommandBarDataSource definition)
         {
-            var list = new List<CommandBarDefinitionBase>();
+            var list = new List<CommandBarDataSource>();
 
             var groups = DefinitionHost.ItemGroupDefinitions.Where(x => x.Parent == definition);
 
@@ -452,7 +452,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             return list;
         }
 
-        protected void RemoveGapsInGroupSortOrder(CommandBarDefinitionBase parent)
+        protected void RemoveGapsInGroupSortOrder(CommandBarDataSource parent)
         {
             var groupsToChange = GetAllGroupsInParent(parent);
 
@@ -461,7 +461,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
                 groupDefinition.SortOrder = newSortOrder++;
         }
 
-        public static CommandBarDefinitionBase FindRoot(CommandBarDefinitionBase definition)
+        public static CommandBarDataSource FindRoot(CommandBarDataSource definition)
         {
             if (!(definition is CommandBarItemDefinition) && !(definition is CommandBarGroupDefinition))
                 return definition;
@@ -485,12 +485,12 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             }
         }
 
-        private IEnumerable<CommandBarGroupDefinition> GetAllGroupsInParent(CommandBarDefinitionBase parent)
+        private IEnumerable<CommandBarGroupDefinition> GetAllGroupsInParent(CommandBarDataSource parent)
         {
             return parent.ContainedGroups.OrderBy(x => x.SortOrder);
         }
 
-        private CommandBarGroupDefinition GetLastGroupDefinitionInParent(CommandBarDefinitionBase parent)
+        private CommandBarGroupDefinition GetLastGroupDefinitionInParent(CommandBarDataSource parent)
         {
             return GetAllGroupsInParent(parent).LastOrDefault();
         }

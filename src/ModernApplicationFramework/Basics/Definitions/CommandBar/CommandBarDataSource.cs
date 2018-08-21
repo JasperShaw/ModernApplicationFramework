@@ -16,7 +16,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Interfaces.IHasTextProperty" />
     [DebuggerDisplay("Name = {" + nameof(Name) + "}")]
-    public abstract class CommandBarDefinitionBase : IHasTextProperty
+    public abstract class CommandBarDataSource : IHasTextProperty
     {
         private uint _sortOrder;
         private string _text;
@@ -160,7 +160,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
         public abstract Guid Id { get; }
 
-        protected CommandBarDefinitionBase(string text, uint sortOrder, CommandDefinitionBase definition, bool isVisible, bool isCustom,
+        protected CommandBarDataSource(string text, uint sortOrder, CommandDefinitionBase definition, bool isVisible, bool isCustom,
             bool isCustomizable, bool isChecked, CommandBarFlags flags = CommandBarFlags.CommandFlagNone)
         {
             _sortOrder = sortOrder;

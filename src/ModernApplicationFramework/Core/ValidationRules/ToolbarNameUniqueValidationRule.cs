@@ -23,10 +23,10 @@ namespace ModernApplicationFramework.Core.ValidationRules
             var str = s.Trim();
             var toolbars = (CollectionView)DataContext.Toolbars;
 
-            if (((ToolbarDefinition)toolbars.CurrentItem).Text.Equals(str, StringComparison.CurrentCultureIgnoreCase))
+            if (((ToolBarDataSource)toolbars.CurrentItem).Text.Equals(str, StringComparison.CurrentCultureIgnoreCase))
                 return ValidationResult.ValidResult;
 
-            foreach (ToolbarDefinition definition in toolbars)
+            foreach (ToolBarDataSource definition in toolbars)
                 if (definition.Text.Equals(str, StringComparison.CurrentCultureIgnoreCase))
                     return new ValidationResult(false, $"A toolbar named '{definition.Text}' already exists. Type another name.");
             return ValidationResult.ValidResult;

@@ -6,13 +6,13 @@ using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Basics.Definitions.ContextMenu
 {
-    /// <inheritdoc cref="CommandBarDefinitionBase" />
+    /// <inheritdoc cref="CommandBarDataSource" />
     /// <summary>
     /// A command bar definition that specifies a context menu
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarDefinitionBase" />
     /// <seealso cref="T:ModernApplicationFramework.Interfaces.IHasInternalName" />
-    public class ContextMenuDefinition : CommandBarDefinitionBase, IHasInternalName
+    public class ContextMenuDataSource : CommandBarDataSource, IHasInternalName
     {
         private string _text;
         private string _internalName;
@@ -54,7 +54,7 @@ namespace ModernApplicationFramework.Basics.Definitions.ContextMenu
             }
         }
 
-        public ContextMenuDefinition(Guid id, ContextMenuCategory category, string text, bool isCustomizable = true) : base(text,
+        public ContextMenuDataSource(Guid id, ContextMenuCategory category, string text, bool isCustomizable = true) : base(text,
             uint.MinValue, null, true, false, isCustomizable, false)
         {
             Id = id;

@@ -16,14 +16,14 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
     [Export(typeof(IContextMenuCreator))]
     public class ContextMenuCreator : MenuCreatorBase, IContextMenuCreator
     {
-        public ContextMenu CreateContextMenu(CommandBarDefinitionBase contextMenuDefinition)
+        public ContextMenu CreateContextMenu(CommandBarDataSource contextMenuDefinition)
         {
             var contextMenu = new ContextMenu(contextMenuDefinition);
             CreateRecursive(ref contextMenu, contextMenuDefinition);
             return contextMenu;
         }
 
-        public ContextMenu CreateContextMenu(CommandBarDefinitionBase contextMenuDefinition, IReadOnlyList<CommandBarGroupDefinition> groups, Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDefinition>> itemsFunc)
+        public ContextMenu CreateContextMenu(CommandBarDataSource contextMenuDefinition, IReadOnlyList<CommandBarGroupDefinition> groups, Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDefinition>> itemsFunc)
         {
             var contextMenu = new ContextMenu(contextMenuDefinition);
             CreateRecursive(ref contextMenu, contextMenuDefinition, groups, itemsFunc);

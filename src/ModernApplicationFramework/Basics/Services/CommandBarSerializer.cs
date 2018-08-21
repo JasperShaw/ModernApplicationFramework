@@ -21,9 +21,9 @@ using static System.Globalization.CultureInfo;
 namespace ModernApplicationFramework.Basics.Services
 {
     [Export(typeof(ICommandBarSerializer))]
-    public class CommandBarSerializer: LayoutSerializer<CommandBarDefinitionBase>, ICommandBarSerializer
+    public class CommandBarSerializer: LayoutSerializer<CommandBarDataSource>, ICommandBarSerializer
     {
-        private readonly List<CommandBarDefinitionBase> _allDefinitions = new List<CommandBarDefinitionBase>();
+        private readonly List<CommandBarDataSource> _allDefinitions = new List<CommandBarDataSource>();
         private ICommandBarDefinitionHost _definitionHost;
         private IEnumerable<CommandBarItemDefinition> _allCommandBarItems;
         private IEnumerable<CommandDefinitionBase> _allCommandDefintions;
@@ -32,38 +32,38 @@ namespace ModernApplicationFramework.Basics.Services
 
         protected override Stream ValidationScheme => Properties.Resources.validation.ToStream();
 
-        protected override void HandleBackupNodeNull(CommandBarDefinitionBase item)
+        protected override void HandleBackupNodeNull(CommandBarDataSource item)
         {
             foreach (var group in item.ContainedGroups.ToList())
                 _definitionHost.ItemGroupDefinitions.Remove(group);
             item.ContainedGroups.Clear();
         }
 
-        protected override XmlNode GetBackupNode(in XmlDocument backup, CommandBarDefinitionBase item)
+        protected override XmlNode GetBackupNode(in XmlDocument backup, CommandBarDataSource item)
         {
             return backup.SelectSingleNode($"//*[@Id='{item.Id:B}']");
         }
 
-        protected override XmlNode GetCurrentNode(in XmlDocument currentLayout, CommandBarDefinitionBase item)
+        protected override XmlNode GetCurrentNode(in XmlDocument currentLayout, CommandBarDataSource item)
         {
             return currentLayout.SelectSingleNode($"//*[@Id='{item.Id:B}']");
         }
 
         protected override void Deserialize(ref XmlNode xmlRootNode)
         {
-            DeserializeCommandBar<MenuBarDefinition, IMenuHostViewModel>(xmlRootNode,
+            DeserializeCommandBar<MenuBarDataSource, IMenuHostViewModel>(xmlRootNode,
                 "//MenuBars");
-            DeserializeCommandBar<ToolbarDefinition, IToolBarHostViewModel>(xmlRootNode,
+            DeserializeCommandBar<ToolBarDataSource, IToolBarHostViewModel>(xmlRootNode,
                 "//Toolbars", delegate (XmlNode node)
                 {
                     node.TryGetValueResult<string>("Text", out var text);
                     node.TryGetValueResult<uint>("SortOrder", out var sortOrder);
                     node.TryGetValueResult<bool>("IsVisible", out var visible);
                     node.TryGetValueResult<int>("Position", out var position);
-                    return new ToolbarDefinition(Guid.Empty, text, sortOrder, visible, (Dock)position, ToolbarScope.MainWindow,true, true);
+                    return new ToolBarDataSource(Guid.Empty, text, sortOrder, visible, (Dock)position, ToolbarScope.MainWindow,true, true);
                 }, (definition, node) =>
                 {
-                    if (!(definition is ToolbarDefinition toolbar))
+                    if (!(definition is ToolBarDataSource toolbar))
                         return;
                     node.TryGetValueResult<bool>("IsVisible", out var visible);
                     node.TryGetValueResult<int>("Position", out var position);
@@ -72,18 +72,18 @@ namespace ModernApplicationFramework.Basics.Services
                     toolbar.IsVisible = visible;
                     toolbar.PlacementSlot = placementSlot;
                 });
-            DeserializeCommandBar<ContextMenuDefinition, IContextMenuHost>(xmlRootNode,
+            DeserializeCommandBar<ContextMenuDataSource, IContextMenuHost>(xmlRootNode,
                 "//ContextMenus");
         }
 
         protected override void Serialize(ref XmlDocument xmlDocument)
         {
-            SerializeCommandBarRoot<IMenuHostViewModel, MenuBarDefinition>(xmlDocument.LastChild, "MenuBars",
+            SerializeCommandBarRoot<IMenuHostViewModel, MenuBarDataSource>(xmlDocument.LastChild, "MenuBars",
                 (document, definition) => document.CreateElement("MenuBar", string.Empty,
                     new KeyValuePair<string, string>("Id", definition.Id.ToString("B")),
                     new KeyValuePair<string, string>("SortOrder", definition.SortOrder.ToString())));
 
-            SerializeCommandBarRoot<IToolBarHostViewModel, ToolbarDefinition>(xmlDocument.LastChild, "Toolbars",
+            SerializeCommandBarRoot<IToolBarHostViewModel, ToolBarDataSource>(xmlDocument.LastChild, "Toolbars",
                 (document, definition) =>
                 {
                     var toolBarElement = document.CreateElement("ToolBar", string.Empty,
@@ -97,7 +97,7 @@ namespace ModernApplicationFramework.Basics.Services
                     return toolBarElement;
                 });
 
-            SerializeCommandBarRoot<IContextMenuHost, ContextMenuDefinition>(xmlDocument.LastChild, "ContextMenus",
+            SerializeCommandBarRoot<IContextMenuHost, ContextMenuDataSource>(xmlDocument.LastChild, "ContextMenus",
                 (document, definition) => document.CreateElement("ContextMenu", string.Empty,
                     new KeyValuePair<string, string>("Id", definition.Id.ToString("B"))));
         }
@@ -109,9 +109,9 @@ namespace ModernApplicationFramework.Basics.Services
 
         protected override void PrepareDeserialize()
         {
-            var allMenuBars = IoC.GetAll<MenuBarDefinition>();
-            var allToolBars = IoC.GetAll<ToolbarDefinition>();
-            var allcontextMenus = IoC.GetAll<ContextMenuDefinition>();
+            var allMenuBars = IoC.GetAll<MenuBarDataSource>();
+            var allToolBars = IoC.GetAll<ToolBarDataSource>();
+            var allcontextMenus = IoC.GetAll<ContextMenuDataSource>();
             _allCommandBarItems = IoC.GetAll<CommandBarItemDefinition>();
             _allCommandDefintions = IoC.GetAll<CommandDefinitionBase>();
 
@@ -131,8 +131,8 @@ namespace ModernApplicationFramework.Basics.Services
         #region Deserialize
 
         private void DeserializeCommandBar<T, TV>(XmlNode rootXmlElement, string path,
-            Func<XmlNode, CommandBarDefinitionBase> guidEmptyFunc = null, Action<T, XmlNode> prefillFunc = null)
-            where T : CommandBarDefinitionBase
+            Func<XmlNode, CommandBarDataSource> guidEmptyFunc = null, Action<T, XmlNode> prefillFunc = null)
+            where T : CommandBarDataSource
             where TV : ICommandBarHost
         {
             var commandBarHost = IoC.Get<TV>();
@@ -157,7 +157,7 @@ namespace ModernApplicationFramework.Basics.Services
             commandBarHost.Build();
         }
 
-        private void BuildCommandBar(XmlNode parentNode, CommandBarDefinitionBase parentDefinition)
+        private void BuildCommandBar(XmlNode parentNode, CommandBarDataSource parentDefinition)
         {
             parentDefinition.ContainedGroups.Clear();
             foreach (XmlNode childNode in parentNode.ChildNodes)
@@ -177,7 +177,7 @@ namespace ModernApplicationFramework.Basics.Services
             }
         }
 
-        private void CreateCommandSplitButtonItem(CommandBarDefinitionBase parentDefinition, XmlNode childNode)
+        private void CreateCommandSplitButtonItem(CommandBarDataSource parentDefinition, XmlNode childNode)
         {
             var guid = childNode.GetAttributeValue<Guid>("Id");
             var sortOrder = childNode.GetAttributeValue<uint>("SortOrder");
@@ -210,7 +210,7 @@ namespace ModernApplicationFramework.Basics.Services
             _definitionHost.ItemDefinitions.Add(item);
         }
 
-        private void CreateCommandBarGroup(CommandBarDefinitionBase parentDefinition, XmlNode childNode)
+        private void CreateCommandBarGroup(CommandBarDataSource parentDefinition, XmlNode childNode)
         {
             var sortOrder = childNode.GetAttributeValue<uint>("SortOrder");
             var group = CreateGroup(parentDefinition, sortOrder);
@@ -220,7 +220,7 @@ namespace ModernApplicationFramework.Basics.Services
             _definitionHost.ItemGroupDefinitions.Add(group);
         }
 
-        private void CreateCommandBarMenu(CommandBarDefinitionBase parentDefinition, XmlNode childNode)
+        private void CreateCommandBarMenu(CommandBarDataSource parentDefinition, XmlNode childNode)
         {
             var guid = childNode.GetAttributeValue<Guid>("Id");
             var sortOrder = childNode.GetAttributeValue<uint>("SortOrder");
@@ -250,7 +250,7 @@ namespace ModernApplicationFramework.Basics.Services
             _definitionHost.ItemDefinitions.Add(menu);
         }
 
-        private void CreateCommandBarItem(CommandBarDefinitionBase parentDefinition, XmlNode childNode)
+        private void CreateCommandBarItem(CommandBarDataSource parentDefinition, XmlNode childNode)
         {
             var guid = childNode.GetAttributeValue<Guid>("Id");
             var sortOrder = childNode.GetAttributeValue<uint>("SortOrder");
@@ -283,7 +283,7 @@ namespace ModernApplicationFramework.Basics.Services
             _definitionHost.ItemDefinitions.Add(item);
         }
 
-        private void CreateCommandBarMenuControllerItem(CommandBarDefinitionBase parentDefinition, XmlNode childNode)
+        private void CreateCommandBarMenuControllerItem(CommandBarDataSource parentDefinition, XmlNode childNode)
         {
             var guid = childNode.GetAttributeValue<Guid>("Id");
             var sortOrder = childNode.GetAttributeValue<uint>("SortOrder");
@@ -303,7 +303,7 @@ namespace ModernApplicationFramework.Basics.Services
             _definitionHost.ItemDefinitions.Add(menuController);
         }
 
-        private void CreateCommandBarComboBoxItem(CommandBarDefinitionBase parentDefinition, XmlNode childNode)
+        private void CreateCommandBarComboBoxItem(CommandBarDataSource parentDefinition, XmlNode childNode)
         {
             var guid = childNode.GetAttributeValue<Guid>("Id");
             var sortOrder = childNode.GetAttributeValue<uint>("SortOrder");
@@ -349,7 +349,7 @@ namespace ModernApplicationFramework.Basics.Services
 
         private static void SerializeCommandBarRoot<T, TV>(XmlNode parentElement, string path, Func<XmlDocument, TV, XmlElement> createElementFunc)
             where T : ICommandBarHost
-            where TV : CommandBarDefinitionBase
+            where TV : CommandBarDataSource
         {
             if (parentElement.OwnerDocument == null)
                 throw new InvalidOperationException();
@@ -370,7 +370,7 @@ namespace ModernApplicationFramework.Basics.Services
             parentElement.AppendChild(rootElement);
         }
 
-        private static void ExplodeGroups(CommandBarDefinitionBase definition, XmlNode parentXmlElement, XmlDocument document)
+        private static void ExplodeGroups(CommandBarDataSource definition, XmlNode parentXmlElement, XmlDocument document)
         {
             if (definition.ContainedGroups == null || definition.ContainedGroups.Count == 0)
                 return;
@@ -461,7 +461,7 @@ namespace ModernApplicationFramework.Basics.Services
             }
         }
 
-        private static XmlElement CreateElement(XmlDocument document, string name, CommandBarDefinitionBase commandBarDefinition,
+        private static XmlElement CreateElement(XmlDocument document, string name, CommandBarDataSource commandBarDefinition,
             Action<XmlElement> fillElementFunc = null)
         {
             var element = document.CreateElement(name);
@@ -480,25 +480,25 @@ namespace ModernApplicationFramework.Basics.Services
 
         #endregion
 
-        private T FindCommandBarDefinitionById<T>(Guid guid) where T : CommandBarDefinitionBase
+        private T FindCommandBarDefinitionById<T>(Guid guid) where T : CommandBarDataSource
         {
             var definition = _allDefinitions.FirstOrDefault(x => x.Id.Equals(guid));
             return (T)definition;
         }
 
-        private static CommandBarGroupDefinition CreateGroup(CommandBarDefinitionBase parent, uint sortOrder)
+        private static CommandBarGroupDefinition CreateGroup(CommandBarDataSource parent, uint sortOrder)
         {
             return new CommandBarGroupDefinition(parent, sortOrder);
         }
 
-        private static void AssignGroup(CommandBarItemDefinition item, CommandBarDefinitionBase parentDefinition)
+        private static void AssignGroup(CommandBarItemDefinition item, CommandBarDataSource parentDefinition)
         {
             item.ContainedGroups.Clear();
             if (parentDefinition is CommandBarGroupDefinition parentGroup)
                 item.Group = parentGroup;
         }
 
-        private static void SetFlags(CommandBarDefinitionBase item, XmlNode node)
+        private static void SetFlags(CommandBarDataSource item, XmlNode node)
         {
             var flags = node.GetAttributeValue<int>("Flags");
             item.Flags.EnableStyleFlags((CommandBarFlags)flags);

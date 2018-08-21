@@ -9,8 +9,8 @@ namespace ModernApplicationFramework.Docking.ContextMenuDefinitions
     public static class DocumentContextMenuDefinition
     {
         [Export]
-        public static ContextMenuDefinition DocumentContextMenu =
-            new ContextMenuDefinition(new Guid("{7EF88CA9-552A-4F28-B850-592FDE415487}"), ContextMenuCategory.OtherContextMenusCategory, DockingResources.DocumentContextMenu_Name);
+        public static ContextMenuDataSource DocumentContextMenu =
+            new ContextMenuDataSource(new Guid("{7EF88CA9-552A-4F28-B850-592FDE415487}"), ContextMenuCategory.OtherContextMenusCategory, DockingResources.DocumentContextMenu_Name);
 
         [Export]
         public static CommandBarGroupDefinition DocumentCloseContextMenuGroup =

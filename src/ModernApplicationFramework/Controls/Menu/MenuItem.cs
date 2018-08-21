@@ -56,9 +56,9 @@ namespace ModernApplicationFramework.Controls.Menu
                 new FrameworkPropertyMetadata(Boxes.BooleanFalse));
         }
 
-        public MenuItem(CommandBarDefinitionBase definitionBase)
+        public MenuItem(CommandBarDataSource dataSource)
         {
-            DataContext = definitionBase;
+            DataContext = dataSource;
         }
 
         public MenuItem()

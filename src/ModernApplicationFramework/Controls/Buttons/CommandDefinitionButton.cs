@@ -33,7 +33,7 @@ namespace ModernApplicationFramework.Controls.Buttons
             DefaultStyleKeyProperty.OverrideMetadata(typeof(CommandDefinitionButton), new FrameworkPropertyMetadata(typeof(CommandDefinitionButton)));
         }
 
-        public CommandDefinitionButton(CommandBarDefinitionBase definition) : this()
+        public CommandDefinitionButton(CommandBarDataSource definition) : this()
         {
             DataContext = definition;
         }

@@ -50,13 +50,13 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         /// Adds a new tool bar to the host
         /// </summary>
         /// <param name="definition">The data model of the toolbar</param>
-        void AddToolbarDefinition(ToolbarDefinition definition);
+        void AddToolbarDefinition(ToolBarDataSource definition);
 
         /// <summary>
         /// Removes a toolbar from the host
         /// </summary>
         /// <param name="definition">The model of the toolbar</param>
-        void RemoveToolbarDefinition(ToolbarDefinition definition);
+        void RemoveToolbarDefinition(ToolBarDataSource definition);
 
         /// <summary>
         /// Gets an unique localized default toolbar name

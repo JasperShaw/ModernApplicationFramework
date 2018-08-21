@@ -52,7 +52,7 @@ namespace ModernApplicationFramework.Controls
             IsVisibleChanged += ToolBar_IsVisibleChanged;
         }
 
-        public ToolBar(CommandBarDefinitionBase definition) : this()
+        public ToolBar(CommandBarDataSource definition) : this()
         {
             DataContext = definition;
         }

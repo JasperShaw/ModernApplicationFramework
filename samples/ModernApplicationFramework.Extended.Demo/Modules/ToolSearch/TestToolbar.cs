@@ -10,9 +10,9 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ToolSearch
 {
     class TestToolbar
     {
-        [Export] public static ToolbarDefinition TestToolbarDefinition = new ToolbarDefinition(Guid.NewGuid(), "123", 0, true, Dock.Top, ToolbarScope.Anchorable, false);
+        [Export] public static ToolBarDataSource TestToolBar = new ToolBarDataSource(Guid.NewGuid(), "123", 0, true, Dock.Top, ToolbarScope.Anchorable, false);
 
-        [Export] public static CommandBarGroupDefinition TestGroup = new CommandBarGroupDefinition(TestToolbarDefinition, 0);
+        [Export] public static CommandBarGroupDefinition TestGroup = new CommandBarGroupDefinition(TestToolBar, 0);
 
         [Export]
         public static CommandBarItemDefinition Undo =

@@ -23,10 +23,10 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
         /// <typeparam name="T">The type of the <see cref="T:System.Windows.Controls.ItemsControl" /></typeparam>
         /// <param name="itemsControl">The <see cref="T:System.Windows.Controls.ItemsControl" /> that should be filled</param>
         /// <param name="itemDefinition">The data model of the current item</param>
-        public abstract void CreateRecursive<T>(ref T itemsControl, CommandBarDefinitionBase itemDefinition)
+        public abstract void CreateRecursive<T>(ref T itemsControl, CommandBarDataSource itemDefinition)
             where T : ItemsControl;
 
-        public abstract void CreateRecursive<T>(ref T itemsControl, CommandBarDefinitionBase itemDefinition, 
+        public abstract void CreateRecursive<T>(ref T itemsControl, CommandBarDataSource itemDefinition, 
             IReadOnlyList<CommandBarGroupDefinition> groups, Func<CommandBarGroupDefinition ,IReadOnlyList<CommandBarItemDefinition>> itemFunc) where T : ItemsControl;
 
         /// <inheritdoc />
@@ -36,7 +36,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
         /// <param name="menuDefinition">The menu definition.</param>
         /// <param name="options">The options.</param>
         /// <returns></returns>
-        public IEnumerable<CommandBarItemDefinition> GetSingleSubDefinitions(CommandBarDefinitionBase menuDefinition,
+        public IEnumerable<CommandBarItemDefinition> GetSingleSubDefinitions(CommandBarDataSource menuDefinition,
             CommandBarCreationOptions options = CommandBarCreationOptions.DisplaySeparatorsOnlyIfGroupNotEmpty)
         {
 
@@ -93,7 +93,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
         }
 
 
-        public IEnumerable<CommandBarItemDefinition> GetSingleSubDefinitions(CommandBarDefinitionBase menuDefinition, IReadOnlyList<CommandBarGroupDefinition> groups,
+        public IEnumerable<CommandBarItemDefinition> GetSingleSubDefinitions(CommandBarDataSource menuDefinition, IReadOnlyList<CommandBarGroupDefinition> groups,
             Func<CommandBarGroupDefinition ,IReadOnlyList<CommandBarItemDefinition>> items,
             CommandBarCreationOptions options = CommandBarCreationOptions.DisplaySeparatorsOnlyIfGroupNotEmpty)
         {
@@ -117,14 +117,14 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
                     {
                         if (itemList.Any(x => x.IsVisible))
                         {
-                            var separatorDefinition = CommandBarSeparatorDefinition.SeparatorDefinition;
+                            var separatorDefinition = SeparatorDataSource.NewInstance;
                             separatorDefinition.Group = groups[i - 1];
                             list.Add(separatorDefinition);
                         }
                     }
                     else
                     {
-                        var separatorDefinition = CommandBarSeparatorDefinition.SeparatorDefinition;
+                        var separatorDefinition = SeparatorDataSource.NewInstance;
                         separatorDefinition.Group = groups[i - 1];
                         list.Add(separatorDefinition);
                     }

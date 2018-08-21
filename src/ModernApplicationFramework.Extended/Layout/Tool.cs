@@ -61,7 +61,7 @@ namespace ModernApplicationFramework.Extended.Layout
 
         public virtual bool HasToolbar => false;
 
-        public virtual ToolbarDefinition Toolbar => null;
+        public virtual ToolBarDataSource Toolbar => null;
 
         Guid IWindowSearch.Category => SearchCategory;
 

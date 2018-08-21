@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
@@ -8,16 +9,17 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     /// A special command bar item definition, representing an separator
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarItemDefinition" />
-    public sealed class CommandBarSeparatorDefinition : CommandBarItemDefinition
+    [DebuggerDisplay("<Separator>")]
+    public sealed class SeparatorDataSource : CommandBarItemDefinition
     {
         /// <summary>
         /// Returns a new instance of a separator command bar item
         /// </summary>
-        public static CommandBarSeparatorDefinition SeparatorDefinition => new CommandBarSeparatorDefinition();
+        public static SeparatorDataSource NewInstance => new SeparatorDataSource();
 
         public override Guid Id => Guid.Empty;
 
-        private CommandBarSeparatorDefinition() : base(null, uint.MaxValue, null, new SeparatorCommandDefinition(),
+        private SeparatorDataSource() : base(null, uint.MaxValue, null, new SeparatorCommandDefinition(),
             true, false, false, false)
         {
         }
