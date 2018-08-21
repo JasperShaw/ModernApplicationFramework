@@ -49,7 +49,7 @@ namespace ModernApplicationFramework.Controls.Menu
             var startIndex = _parent.Items.IndexOf(this) + 1;
             foreach (var command in listCommands)
             {
-                var id = new CommandBarCommandItemDefinition(Guid.Empty, (uint) startIndex ,command);
+                var id = new CommandBarCommandItem(Guid.Empty, (uint) startIndex ,command);
                 var newMenuItem = new MenuItem(id);
                 if (command is CommandDefinition commandDefinition && commandDefinition.Command.Checked)
                     id.IsChecked = true;

@@ -23,13 +23,13 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest.Comm
 
         public TestMenuControllerDefinition()
         {
-            Items = new ObservableCollection<CommandBarItemDefinition>
+            Items = new ObservableCollection<CommandBarItemDataSource>
             {
-                new CommandBarCommandItemDefinition(Guid.Empty, int.MaxValue, IoC.Get<UndoCommandDefinition>()),
-                new CommandBarCommandItemDefinition(Guid.Empty, 0, IoC.Get<OpenSettingsCommandDefinition>())
+                new CommandBarCommandItem(Guid.Empty, int.MaxValue, IoC.Get<UndoCommandDefinition>()),
+                new CommandBarCommandItem(Guid.Empty, 0, IoC.Get<OpenSettingsCommandDefinition>())
             };
         }
 
-        public override ObservableCollection<CommandBarItemDefinition> Items { get; set; }
+        public override ObservableCollection<CommandBarItemDataSource> Items { get; set; }
     }
 }

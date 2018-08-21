@@ -21,26 +21,26 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         private uint _sortOrder;
         private string _text;
         private bool _isChecked;
-        private FlagStorage _flagStorage;
+        private FlagsDataSource _flagsDataSource;
 	    private string _name;
         private bool _acquireFocus;
         private bool _isEnabled = true;
 
         protected string OriginalText { get; set; }
-        private FlagStorage _originalFlagStore;
+        private FlagsDataSource _originalFlagStore;
         private bool _isVisible;
 
-        protected internal FlagStorage OriginalFlagStore =>
-            _originalFlagStore ?? (_originalFlagStore = new FlagStorage());
+        protected internal FlagsDataSource OriginalFlagStore =>
+            _originalFlagStore ?? (_originalFlagStore = new FlagsDataSource());
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ObservableCollection<CommandBarItemDefinition> Items { get; set; }
+        public ObservableCollection<CommandBarItemDataSource> Items { get; set; }
         
         /// <summary>
-        /// The <see cref="FlagStorage"/> of this definition
+        /// The <see cref="FlagsDataSource"/> of this definition
         /// </summary>
-        public FlagStorage Flags => _flagStorage ?? (_flagStorage = new FlagStorage());
+        public FlagsDataSource Flags => _flagsDataSource ?? (_flagsDataSource = new FlagsDataSource());
 
         /// <summary>
         /// Indicates whether this definition was created by the application's user

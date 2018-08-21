@@ -14,12 +14,12 @@ namespace ModernApplicationFramework.Extended.CommandBar.MenuDefinitions
             new CommandBarGroupDefinition(TopLevelMenuDefinitions.ToolsMenu, Int32.MaxValue);
 
         [Export]
-        public static CommandBarItemDefinition Settings =
-            new CommandBarCommandItemDefinition<OpenSettingsCommandDefinition>(
+        public static CommandBarItemDataSource Settings =
+            new CommandBarCommandItemDataSource<OpenSettingsCommandDefinition>(
                 new Guid("{1F0C2B26-D003-437E-949C-D07E4FEF58C9}"), SettingsGroup, Int32.MaxValue);
 
-        [Export] public static CommandBarItemDefinition CustomizeDialog =
-            new CommandBarCommandItemDefinition<CustomizeMenuCommandDefinition>(
+        [Export] public static CommandBarItemDataSource CustomizeDialog =
+            new CommandBarCommandItemDataSource<CustomizeMenuCommandDefinition>(
                 new Guid("{05B1B0FD-C239-420F-8BC3-A6787D7B2E0A}"), SettingsGroup, Int32.MaxValue - 1);
     }
 }

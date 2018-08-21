@@ -35,7 +35,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
                 else
                     menuItemControl = new MenuItem(item);
 
-                if (item is MenuDefinition)
+                if (item is MenuDataSource)
                     CreateRecursive(ref menuItemControl, item);
 
                 itemsControl.Items.Add(menuItemControl);
@@ -43,7 +43,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
         }
 
         public override void CreateRecursive<T>(ref T itemsControl, CommandBarDataSource itemDefinition, IReadOnlyList<CommandBarGroupDefinition> groups,
-            Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDefinition>> itemFunc)
+            Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDataSource>> itemFunc)
         {
 
             var host = IoC.Get<ICommandBarDefinitionHost>();
@@ -57,7 +57,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
                 else
                     menuItemControl = new MenuItem(item);
 
-                if (item is MenuDefinition)
+                if (item is MenuDataSource)
                 {
                     groups = host.ItemGroupDefinitions.Where(x => x.Parent == item)
                         .Where(x => !host.ExcludedItemDefinitions.Contains(x))

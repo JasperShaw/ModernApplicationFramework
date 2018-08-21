@@ -12,7 +12,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     /// </summary>
     /// <typeparam name="T">The type of the command definition this item should have</typeparam>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarItemDefinition`1" />
-    public sealed class CommandBarMenuControllerDefinition<T> : CommandBarMenuControllerDefinition where T : CommandDefinitionBase
+    public sealed class MenuControllerDataSource<T> : MenuControllerDataSource where T : CommandDefinitionBase
 	{
 	    private string _text;
 	    public override CommandDefinitionBase CommandDefinition { get; }
@@ -41,7 +41,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
         public override Guid Id { get; }
 
-	    public CommandBarMenuControllerDefinition(Guid id, CommandBarGroupDefinition group, uint sortOrder,
+	    public MenuControllerDataSource(Guid id, CommandBarGroupDefinition group, uint sortOrder,
             bool isVisible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true, CommandBarFlags flags = CommandBarFlags.CommandFlagTextIsAnchor)
             : base(null, sortOrder, group, null, isVisible, isChecked, isCustom, isCustomizable, flags)
 	    {
@@ -56,14 +56,14 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         }
     }
 
-    public abstract class CommandBarMenuControllerDefinition : CommandBarItemDefinition
+    public abstract class MenuControllerDataSource : CommandBarItemDataSource
     {
-        private CommandBarItemDefinition _anchorItem;
+        private CommandBarItemDataSource _anchorItem;
 
         /// <summary>
         /// The currently anchored command bar item
         /// </summary>
-        public CommandBarItemDefinition AnchorItem
+        public CommandBarItemDataSource AnchorItem
         {
             get => _anchorItem;
             set
@@ -74,7 +74,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
-        protected CommandBarMenuControllerDefinition(string text, uint sortOrder, CommandBarGroupDefinition group, CommandDefinitionBase definition, bool visible, bool isChecked, bool isCustom, bool isCustomizable, CommandBarFlags flags)
+        protected MenuControllerDataSource(string text, uint sortOrder, CommandBarGroupDefinition group, CommandDefinitionBase definition, bool visible, bool isChecked, bool isCustom, bool isCustomizable, CommandBarFlags flags)
             : base(text, sortOrder, group, definition, visible, isChecked, isCustom, isCustomizable, flags)
         {
         }

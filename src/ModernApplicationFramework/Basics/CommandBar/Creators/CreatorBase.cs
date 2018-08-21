@@ -27,7 +27,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
             where T : ItemsControl;
 
         public abstract void CreateRecursive<T>(ref T itemsControl, CommandBarDataSource itemDefinition, 
-            IReadOnlyList<CommandBarGroupDefinition> groups, Func<CommandBarGroupDefinition ,IReadOnlyList<CommandBarItemDefinition>> itemFunc) where T : ItemsControl;
+            IReadOnlyList<CommandBarGroupDefinition> groups, Func<CommandBarGroupDefinition ,IReadOnlyList<CommandBarItemDataSource>> itemFunc) where T : ItemsControl;
 
         /// <inheritdoc />
         /// <summary>
@@ -36,7 +36,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
         /// <param name="menuDefinition">The menu definition.</param>
         /// <param name="options">The options.</param>
         /// <returns></returns>
-        public IEnumerable<CommandBarItemDefinition> GetSingleSubDefinitions(CommandBarDataSource menuDefinition,
+        public IEnumerable<CommandBarItemDataSource> GetSingleSubDefinitions(CommandBarDataSource menuDefinition,
             CommandBarCreationOptions options = CommandBarCreationOptions.DisplaySeparatorsOnlyIfGroupNotEmpty)
         {
 
@@ -93,15 +93,15 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
         }
 
 
-        public IEnumerable<CommandBarItemDefinition> GetSingleSubDefinitions(CommandBarDataSource menuDefinition, IReadOnlyList<CommandBarGroupDefinition> groups,
-            Func<CommandBarGroupDefinition ,IReadOnlyList<CommandBarItemDefinition>> items,
+        public IEnumerable<CommandBarItemDataSource> GetSingleSubDefinitions(CommandBarDataSource menuDefinition, IReadOnlyList<CommandBarGroupDefinition> groups,
+            Func<CommandBarGroupDefinition ,IReadOnlyList<CommandBarItemDataSource>> items,
             CommandBarCreationOptions options = CommandBarCreationOptions.DisplaySeparatorsOnlyIfGroupNotEmpty)
         {
             if (options.HasFlag(CommandBarCreationOptions.DisplaySeparatorsInAnyCase) && 
                 options.HasFlag(CommandBarCreationOptions.DisplaySeparatorsOnlyIfGroupNotEmpty))
                 throw new InvalidOperationException("Invalid flags");
 
-            var list = new List<CommandBarItemDefinition>();
+            var list = new List<CommandBarItemDataSource>();
 
             if (!options.HasFlag(CommandBarCreationOptions.DisplayInvisibleItems))
                 groups = groups.Where(x => x.Items.Any(y => y.IsVisible)).ToList();

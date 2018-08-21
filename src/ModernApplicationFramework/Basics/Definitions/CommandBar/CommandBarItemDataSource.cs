@@ -14,7 +14,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarDefinitionBase" />
     /// <seealso cref="T:ModernApplicationFramework.Interfaces.IHasInternalName" />
-    public abstract class CommandBarItemDefinition : CommandBarDataSource, IHasInternalName
+    public abstract class CommandBarItemDataSource : CommandBarDataSource, IHasInternalName
     {
         private bool _precededBySeparator;
         private CommandBarGroupDefinition _group;
@@ -123,7 +123,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
-        protected CommandBarItemDefinition(string text, uint sortOrder, CommandBarGroupDefinition group,
+        protected CommandBarItemDataSource(string text, uint sortOrder, CommandBarGroupDefinition group,
             CommandDefinitionBase definition, bool visible,
             bool isChecked, bool isCustom, bool isCustomizable, CommandBarFlags flags = CommandBarFlags.CommandFlagNone)
             : base(text, sortOrder, definition, visible, isCustom, isCustomizable, isChecked, flags)

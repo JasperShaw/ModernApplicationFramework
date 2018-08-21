@@ -23,7 +23,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
             return contextMenu;
         }
 
-        public ContextMenu CreateContextMenu(CommandBarDataSource contextMenuDefinition, IReadOnlyList<CommandBarGroupDefinition> groups, Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDefinition>> itemsFunc)
+        public ContextMenu CreateContextMenu(CommandBarDataSource contextMenuDefinition, IReadOnlyList<CommandBarGroupDefinition> groups, Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDataSource>> itemsFunc)
         {
             var contextMenu = new ContextMenu(contextMenuDefinition);
             CreateRecursive(ref contextMenu, contextMenuDefinition, groups, itemsFunc);

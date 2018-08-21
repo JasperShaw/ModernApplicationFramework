@@ -25,7 +25,7 @@ namespace ModernApplicationFramework.Basics.Services
     {
         private readonly List<CommandBarDataSource> _allDefinitions = new List<CommandBarDataSource>();
         private ICommandBarDefinitionHost _definitionHost;
-        private IEnumerable<CommandBarItemDefinition> _allCommandBarItems;
+        private IEnumerable<CommandBarItemDataSource> _allCommandBarItems;
         private IEnumerable<CommandDefinitionBase> _allCommandDefintions;
 
         protected override string RootNode => "CommandBarDefinitions";
@@ -112,7 +112,7 @@ namespace ModernApplicationFramework.Basics.Services
             var allMenuBars = IoC.GetAll<MenuBarDataSource>();
             var allToolBars = IoC.GetAll<ToolBarDataSource>();
             var allcontextMenus = IoC.GetAll<ContextMenuDataSource>();
-            _allCommandBarItems = IoC.GetAll<CommandBarItemDefinition>();
+            _allCommandBarItems = IoC.GetAll<CommandBarItemDataSource>();
             _allCommandDefintions = IoC.GetAll<CommandDefinitionBase>();
 
             _allDefinitions.AddRange(allMenuBars);
@@ -184,7 +184,7 @@ namespace ModernApplicationFramework.Basics.Services
             childNode.TryGetValueResult("IsVisible", out var visible, true);
             childNode.TryGetValueResult<string>("Text", out var text);
 
-            CommandBarSplitItemDefinition item;
+            SplitButtonDataSource buttonDataSource;
             if (guid == Guid.Empty)
             {
                 var commandId = childNode.GetAttributeValue<Guid>("Command");
@@ -193,21 +193,21 @@ namespace ModernApplicationFramework.Basics.Services
                 var command = _allCommandDefintions.FirstOrDefault(x => x.Id.Equals(commandId));
                 if (command == null)
                     throw new ArgumentNullException(nameof(parentDefinition));
-                item = new CommandBarSplitItemDefinition(guid, text, sortOrder, null, command, true, false, true);
+                buttonDataSource = new SplitButtonDataSource(guid, text, sortOrder, null, command, true, false, true);
             }
             else
-                item = FindCommandBarDefinitionById<CommandBarSplitItemDefinition>(guid);
+                buttonDataSource = FindCommandBarDefinitionById<SplitButtonDataSource>(guid);
 
-            if (item == null)
+            if (buttonDataSource == null)
                 return;
 
-            AssignGroup(item, parentDefinition);
-            SetFlags(item, childNode);
-            item.SortOrder = sortOrder;
-            item.IsVisible = visible;
+            AssignGroup(buttonDataSource, parentDefinition);
+            SetFlags(buttonDataSource, childNode);
+            buttonDataSource.SortOrder = sortOrder;
+            buttonDataSource.IsVisible = visible;
             if (text != null)
-                item.Text = text;
-            _definitionHost.ItemDefinitions.Add(item);
+                buttonDataSource.Text = text;
+            _definitionHost.ItemDefinitions.Add(buttonDataSource);
         }
 
         private void CreateCommandBarGroup(CommandBarDataSource parentDefinition, XmlNode childNode)
@@ -226,15 +226,15 @@ namespace ModernApplicationFramework.Basics.Services
             var sortOrder = childNode.GetAttributeValue<uint>("SortOrder");
             childNode.TryGetValueResult("IsVisible", out var visible, true);
             childNode.TryGetValueResult<string>("Text", out var text);
-            MenuDefinition menu;
+            MenuDataSource menu;
             if (guid == Guid.Empty)
             {
                 if (!(parentDefinition is CommandBarGroupDefinition group))
                     throw new ArgumentException("Parent must be a group");
-                menu = new MenuDefinition(guid, group, sortOrder, text, true);
+                menu = new MenuDataSource(guid, group, sortOrder, text, true);
             }
             else
-                menu = FindCommandBarDefinitionById<MenuDefinition>(guid);
+                menu = FindCommandBarDefinitionById<MenuDataSource>(guid);
 
             if (menu == null)
                 return;
@@ -257,7 +257,7 @@ namespace ModernApplicationFramework.Basics.Services
             childNode.TryGetValueResult<string>("Text", out var text);
             childNode.TryGetValueResult("IsVisible", out var visible, true);
 
-            CommandBarItemDefinition item;
+            CommandBarItemDataSource item;
             if (guid == Guid.Empty)
             {
                 var commandId = childNode.GetAttributeValue<Guid>("Command");
@@ -266,10 +266,10 @@ namespace ModernApplicationFramework.Basics.Services
                 var command = _allCommandDefintions.FirstOrDefault(x => x.Id.Equals(commandId));
                 if (command == null)
                     throw new ArgumentNullException(nameof(parentDefinition));
-                item = new CommandBarCommandItemDefinition(guid, sortOrder, command);
+                item = new CommandBarCommandItem(guid, sortOrder, command);
             }
             else
-                item = FindCommandBarDefinitionById<CommandBarItemDefinition>(guid);
+                item = FindCommandBarDefinitionById<CommandBarItemDataSource>(guid);
 
             if (item == null)
                 return;
@@ -291,7 +291,7 @@ namespace ModernApplicationFramework.Basics.Services
             if (guid == Guid.Empty)
                 throw new NotSupportedException("Menu Controller can not be custom");
 
-            var menuController = FindCommandBarDefinitionById<CommandBarMenuControllerDefinition>(guid);
+            var menuController = FindCommandBarDefinitionById<MenuControllerDataSource>(guid);
 
             if (menuController == null)
                return;
@@ -313,7 +313,7 @@ namespace ModernApplicationFramework.Basics.Services
             childNode.TryGetValueResult<string>("Text", out var text);
             childNode.TryGetValueResult("IsVisible", out var visible, true);
 
-            CommandBarComboItemDefinition comboboxItem;
+            CommandBarComboItem comboboxItem;
             if (guid == Guid.Empty)
             {
                 var commandId = childNode.GetAttributeValue<Guid>("Command");
@@ -323,10 +323,10 @@ namespace ModernApplicationFramework.Basics.Services
                 if (command == null)
                     throw new ArgumentNullException(nameof(parentDefinition));
                 comboboxItem =
-                    new CommandBarComboItemDefinition(guid, text, sortOrder, null, command, true, false, true);
+                    new CommandBarComboItem(guid, text, sortOrder, null, command, true, false, true);
             }
             else
-                comboboxItem = FindCommandBarDefinitionById<CommandBarComboItemDefinition>(guid);
+                comboboxItem = FindCommandBarDefinitionById<CommandBarComboItem>(guid);
 
             if (comboboxItem == null)
                 return;
@@ -387,14 +387,14 @@ namespace ModernApplicationFramework.Basics.Services
                     XmlElement itemElement = null;
                     switch (groupItem)
                     {
-                        case MenuDefinition menuDefinition:
+                        case MenuDataSource menuDefinition:
                             itemElement = CreateElement(document, "MenuDefinition", menuDefinition, element =>
                             {
                                 if (!menuDefinition.IsVisible)
                                     element.SetAttribute("IsVisible", false.ToString());
                             });
                             break;
-                        case CommandBarMenuControllerDefinition menuController:
+                        case MenuControllerDataSource menuController:
                             itemElement = CreateElement(document, "MenuControllerDefinition",
                                 menuController,
                                 element =>
@@ -415,7 +415,7 @@ namespace ModernApplicationFramework.Basics.Services
                                     }
                                 });
                             break;
-                        case CommandBarComboItemDefinition comboItemDefinition:
+                        case CommandBarComboItem comboItemDefinition:
                             itemElement = CreateElement(document, "ComboBoxDefinition", comboItemDefinition,
                                 element =>
                                 {
@@ -430,7 +430,7 @@ namespace ModernApplicationFramework.Basics.Services
                                         element.SetAttribute("IsVisible", false.ToString());
                                 });
                             break;
-                        case CommandBarSplitItemDefinition splitItemDefinition:
+                        case SplitButtonDataSource splitItemDefinition:
                             itemElement = CreateElement(document,
                                 "SplitButtonDefinition", splitItemDefinition,
                                 element =>
@@ -441,7 +441,7 @@ namespace ModernApplicationFramework.Basics.Services
                                         element.SetAttribute("IsVisible", false.ToString());
                                 });
                             break;
-                        case CommandBarItemDefinition commandItem:
+                        case CommandBarItemDataSource commandItem:
                             itemElement = CreateElement(document, "ItemDefinition", commandItem,
                                 element =>
                             {
@@ -491,7 +491,7 @@ namespace ModernApplicationFramework.Basics.Services
             return new CommandBarGroupDefinition(parent, sortOrder);
         }
 
-        private static void AssignGroup(CommandBarItemDefinition item, CommandBarDataSource parentDefinition)
+        private static void AssignGroup(CommandBarItemDataSource item, CommandBarDataSource parentDefinition)
         {
             item.ContainedGroups.Clear();
             if (parentDefinition is CommandBarGroupDefinition parentGroup)

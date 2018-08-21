@@ -96,12 +96,12 @@ namespace ModernApplicationFramework.Controls.ComboBox
             }
         }
 
-        private FlagStorage _flagStorage;
+        private FlagsDataSource _flagsDataSource;
 
         /// <summary>
         /// The flag store
         /// </summary>
-        public virtual FlagStorage Flags => _flagStorage ?? (_flagStorage = new FlagStorage());
+        public virtual FlagsDataSource Flags => _flagsDataSource ?? (_flagsDataSource = new FlagsDataSource());
 
         public event PropertyChangedEventHandler PropertyChanged;
 

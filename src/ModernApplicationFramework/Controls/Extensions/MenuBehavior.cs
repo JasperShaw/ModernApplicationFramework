@@ -96,7 +96,7 @@ namespace ModernApplicationFramework.Controls.Extensions
             {
                 var item = control.Items[i];
 
-                if (item is FrameworkElement fe && fe.DataContext is CommandBarItemDefinition x && x.PrecededBySeparator && i - 1 > 0)
+                if (item is FrameworkElement fe && fe.DataContext is CommandBarItemDataSource x && x.PrecededBySeparator && i - 1 > 0)
                 {
                     if (!x.IsVisible)
                     {

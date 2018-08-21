@@ -29,7 +29,7 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         /// <summary>
         /// A list of all commands fitting to the <see cref="SelectedCategory"/>
         /// </summary>
-		IEnumerable<CommandBarItemDefinition> Items { get; set; }
+		IEnumerable<CommandBarItemDataSource> Items { get; set; }
 
         /// <summary>
         /// The currently selected Category
@@ -39,7 +39,7 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         /// <summary>
         /// The currently selected Command
         /// </summary>
-		CommandBarItemDefinition SelectedItem { get; set; }
+		CommandBarItemDataSource SelectedItem { get; set; }
 
         /// <summary>
         /// Re-fills <see cref="Items"/>

@@ -60,15 +60,15 @@ namespace ModernApplicationFramework.Controls.Menu
 
         ResourceKey IExposeStyleKeys.SeparatorStyleKey => SeparatorStyleKey;
 
-        public CommandBarItemDefinition AnchorItem
+        public CommandBarItemDataSource AnchorItem
         {
-            get => (CommandBarItemDefinition) GetValue(AnchorItemProperty);
+            get => (CommandBarItemDataSource) GetValue(AnchorItemProperty);
             set => SetValue(AnchorItemProperty, value);
         }
 
         static MenuController()
         {
-            AnchorItemProperty = DependencyProperty.Register("AnchorItem", typeof(CommandBarItemDefinition), typeof(MenuController),
+            AnchorItemProperty = DependencyProperty.Register("AnchorItem", typeof(CommandBarItemDataSource), typeof(MenuController),
                 new FrameworkPropertyMetadata(AnchorItemChanged, CoerceAnchorItemCallback));
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MenuController), new FrameworkPropertyMetadata(typeof(MenuController)));
             EventManager.RegisterClassHandler(typeof(MenuItem), CommandExecutedRoutedEvent, new RoutedEventHandler(OnCommandExecuted));
@@ -81,9 +81,9 @@ namespace ModernApplicationFramework.Controls.Menu
 
         private void AnchorItemChanged(DependencyPropertyChangedEventArgs e)
         {
-            var anchorItem = e.NewValue as CommandBarItemDefinition;
+            var anchorItem = e.NewValue as CommandBarItemDataSource;
 
-            if (e.OldValue is CommandBarItemDefinition oldAnchorItem)
+            if (e.OldValue is CommandBarItemDataSource oldAnchorItem)
             {
                 if (oldAnchorItem.CommandDefinition is CommandDefinition commandDefinition)
                     commandDefinition.Command.CanExecuteChanged -= Command_CanExecuteChanged;
@@ -114,7 +114,7 @@ namespace ModernApplicationFramework.Controls.Menu
 
         private object CoerceAnchorItemCallback(object basevalue)
         {
-            if (basevalue != null && !(basevalue is CommandBarItemDefinition))
+            if (basevalue != null && !(basevalue is CommandBarItemDataSource))
                 return DependencyProperty.UnsetValue;
             return basevalue;
         }
@@ -127,11 +127,11 @@ namespace ModernApplicationFramework.Controls.Menu
             var ancestor = originalSource.FindAncestor<MenuController>();
             if (ancestor == null)
                 return;
-            var dataContext = originalSource?.DataContext as CommandBarItemDefinition;
+            var dataContext = originalSource?.DataContext as CommandBarItemDataSource;
             ancestor.OnCommandExecuted(dataContext);
         }
 
-        private void OnCommandExecuted(CommandBarItemDefinition dataContext)
+        private void OnCommandExecuted(CommandBarItemDataSource dataContext)
         {
             IsSubmenuOpen = false;
             //if (this.IsAnchorCommandFixed())
@@ -144,7 +144,7 @@ namespace ModernApplicationFramework.Controls.Menu
             if (e.Key == Key.Return)
             {
                 e.Handled = true;
-                var dataContext = DataContext as CommandBarItemDefinition;
+                var dataContext = DataContext as CommandBarItemDataSource;
                 if (dataContext == null)
                     return;
                 if (dataContext.CommandDefinition is CommandDefinition commandDefinition)

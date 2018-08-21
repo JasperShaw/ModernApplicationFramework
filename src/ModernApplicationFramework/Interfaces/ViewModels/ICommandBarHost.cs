@@ -40,50 +40,50 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
 
 
         void BuildLogical(CommandBarDataSource definition, IReadOnlyList<CommandBarGroupDefinition> groups,
-            Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDefinition>> itemFunc);
+            Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDataSource>> itemFunc);
 
         /// <summary>
         /// Adds a <see cref="CommandBarDataSource"/> to the parent's sub-tree
         /// </summary>
-        /// <param name="definition">The definition to add</param>
+        /// <param name="dataSource">The definition to add</param>
         /// <param name="parent">The parent definition</param>
         /// <param name="addAboveSeparator">Indicates whether the new definition is right above a separator<see langword="true"/> if <see cref="parent"/> is a separator; <see langword="false"/> if not</param>
-        void AddItemDefinition(CommandBarItemDefinition definition, CommandBarDataSource parent,
+        void AddItemDefinition(CommandBarItemDataSource dataSource, CommandBarDataSource parent,
             bool addAboveSeparator);
 
         /// <summary>
         /// Deletes a definition
         /// </summary>
-        /// <param name="definition">The definition to delete</param>
-        void DeleteItemDefinition(CommandBarItemDefinition definition);
+        /// <param name="dataSource">The definition to delete</param>
+        void DeleteItemDefinition(CommandBarItemDataSource dataSource);
 
         /// <summary>
-        /// Gets the predecessor of a given <see cref="CommandBarItemDefinition"/>
+        /// Gets the predecessor of a given <see cref="CommandBarItemDataSource"/>
         /// </summary>
-        /// <param name="definition">The definition which predecessor is searched</param>
-        /// <returns>The found <see cref="CommandBarItemDefinition"/>. Returns <see langword="null"/> if there was no predecessor</returns>
-        CommandBarItemDefinition GetPreviousItem(CommandBarItemDefinition definition);
+        /// <param name="dataSource">The definition which predecessor is searched</param>
+        /// <returns>The found <see cref="CommandBarItemDataSource"/>. Returns <see langword="null"/> if there was no predecessor</returns>
+        CommandBarItemDataSource GetPreviousItem(CommandBarItemDataSource dataSource);
 
         /// <summary>
-        /// Gets the successor of a given <see cref="CommandBarItemDefinition"/>
+        /// Gets the successor of a given <see cref="CommandBarItemDataSource"/>
         /// </summary>
-        /// <param name="definition">The definition which successor is searched</param>
-        /// <returns>The found <see cref="CommandBarItemDefinition"/>. Returns <see langword="null"/> if there was no successor</returns>
-        CommandBarItemDefinition GetNextItem(CommandBarItemDefinition definition);
+        /// <param name="dataSource">The definition which successor is searched</param>
+        /// <returns>The found <see cref="CommandBarItemDataSource"/>. Returns <see langword="null"/> if there was no successor</returns>
+        CommandBarItemDataSource GetNextItem(CommandBarItemDataSource dataSource);
 
         /// <summary>
-        /// Gets the next <see cref="CommandBarItemDefinition"/> inside the same group
+        /// Gets the next <see cref="CommandBarItemDataSource"/> inside the same group
         /// </summary>
-        /// <param name="definition">The definition which successor is searched</param>
-        /// <returns>The found <see cref="CommandBarItemDefinition"/>. Returns <see langword="null"/> if there was no successor</returns>
-        CommandBarItemDefinition GetNextItemInGroup(CommandBarItemDefinition definition);
+        /// <param name="dataSource">The definition which successor is searched</param>
+        /// <returns>The found <see cref="CommandBarItemDataSource"/>. Returns <see langword="null"/> if there was no successor</returns>
+        CommandBarItemDataSource GetNextItemInGroup(CommandBarItemDataSource dataSource);
 
         /// <summary>
-        /// Gets the previous <see cref="CommandBarItemDefinition"/> inside the same group
+        /// Gets the previous <see cref="CommandBarItemDataSource"/> inside the same group
         /// </summary>
-        /// <param name="definition">The definition which predecessor is searched</param>
-        /// <returns>The found <see cref="CommandBarItemDefinition"/>. Returns <see langword="null"/> if there was no predecessor</returns>
-        CommandBarItemDefinition GetPreviousItemInGroup(CommandBarItemDefinition definition);
+        /// <param name="dataSource">The definition which predecessor is searched</param>
+        /// <returns>The found <see cref="CommandBarItemDataSource"/>. Returns <see langword="null"/> if there was no predecessor</returns>
+        CommandBarItemDataSource GetPreviousItemInGroup(CommandBarItemDataSource dataSource);
 
         /// <summary>
         /// Deletes a <see cref="CommandBarGroupDefinition"/> and moves all containing items as specified.
@@ -101,16 +101,16 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         /// <summary>
         /// Adds a new group above a given element and inserts all following items of the old group into the new one.
         /// </summary>
-        /// <param name="startingDefinition">The definition where to add the new group</param>
-        void AddGroupAt(CommandBarItemDefinition startingDefinition);
+        /// <param name="startingItem">The definition where to add the new group</param>
+        void AddGroupAt(CommandBarItemDataSource startingItem);
 
         /// <summary>
-        /// Moves a given <see cref="CommandBarItemDefinition"/> up and down and through groups.
+        /// Moves a given <see cref="CommandBarItemDataSource"/> up and down and through groups.
         /// </summary>
-        /// <param name="selectedListBoxDefinition">The definition to move</param>
+        /// <param name="selectedListBoxItem">The definition to move</param>
         /// <param name="offset">The number of steps to move the item. A negative number means moving upwards.</param>
         /// <param name="parent">The parent <see cref="CommandBarDataSource"/></param>
-        void MoveItem(CommandBarItemDefinition selectedListBoxDefinition, int offset, CommandBarDataSource parent);
+        void MoveItem(CommandBarItemDataSource selectedListBoxItem, int offset, CommandBarDataSource parent);
 
         /// <summary>
         /// Gets the successor group

@@ -8,8 +8,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
     public static class MenuDefinitions
     {
         [Export]
-        public static CommandBarItemDefinition Toolbox =
-            new CommandBarCommandItemDefinition<OpenToolboxCommandDefinition>(
+        public static CommandBarItemDataSource Toolbox =
+            new CommandBarCommandItemDataSource<OpenToolboxCommandDefinition>(
                 new Guid("{33E9B20E-D1A8-4924-BEA0-0C197479E677}"), Extended.CommandBar.MenuDefinitions.ViewMenuDefinitions.ToolsViewGroup, 3);
     }
 }

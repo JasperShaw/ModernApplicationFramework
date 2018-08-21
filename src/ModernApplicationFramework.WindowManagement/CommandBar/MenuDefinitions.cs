@@ -16,13 +16,13 @@ namespace ModernApplicationFramework.WindowManagement.CommandBar
             new CommandBarGroupDefinition(Extended.CommandBarDefinitions.TopLevelMenuDefinitions.WindowMenu, 3);
 
         [Export]
-        public static CommandBarItemDefinition SaveLayout =
-            new CommandBarCommandItemDefinition<SaveCurrentLayoutCommandDefinition>(new Guid("{5070E265-37C1-4D5C-9AED-BC6F0A937189}"), LayoutGroup, 0);
+        public static CommandBarItemDataSource SaveLayout =
+            new CommandBarCommandItemDataSource<SaveCurrentLayoutCommandDefinition>(new Guid("{5070E265-37C1-4D5C-9AED-BC6F0A937189}"), LayoutGroup, 0);
 
         //------------- Apply Layout Sub Menu
         [Export]
-        public static CommandBarItemDefinition ApplyLayout =
-            new MenuDefinition(new Guid("{B840B60F-85B0-4A95-B147-09AACF96ACE4}"), LayoutGroup, 1, WindowManagement_Resources.MenuDefinition_ApplyLayout);
+        public static CommandBarItemDataSource ApplyLayout =
+            new MenuDataSource(new Guid("{B840B60F-85B0-4A95-B147-09AACF96ACE4}"), LayoutGroup, 1, WindowManagement_Resources.MenuDefinition_ApplyLayout);
 
 
         [Export]
@@ -30,17 +30,17 @@ namespace ModernApplicationFramework.WindowManagement.CommandBar
             new CommandBarGroupDefinition(ApplyLayout, uint.MinValue);
 
         [Export]
-        public static CommandBarItemDefinition ShowLayouts =
-            new CommandBarCommandItemDefinition<ListWindowLayoutsCommandDefinition>(new Guid("{38D3A38F-03C5-47A5-B226-B2DEC4C1465F}"), LayoutApplyGroup, 0);
+        public static CommandBarItemDataSource ShowLayouts =
+            new CommandBarCommandItemDataSource<ListWindowLayoutsCommandDefinition>(new Guid("{38D3A38F-03C5-47A5-B226-B2DEC4C1465F}"), LayoutApplyGroup, 0);
 
         //--------------
 
         [Export]
-        public static CommandBarItemDefinition ManageLayouts =
-            new CommandBarCommandItemDefinition<ManageLayoutCommandDefinition>(new Guid("{7A6A8F10-F147-4AF7-8BB5-1904490A828B}"), LayoutGroup, 2);
+        public static CommandBarItemDataSource ManageLayouts =
+            new CommandBarCommandItemDataSource<ManageLayoutCommandDefinition>(new Guid("{7A6A8F10-F147-4AF7-8BB5-1904490A828B}"), LayoutGroup, 2);
 
         [Export]
-        public static CommandBarItemDefinition ResetLayout =
-            new CommandBarCommandItemDefinition<ResetLayoutCommandDefinition>(new Guid("{18B5578C-6C3C-4DCB-858A-DA6DC8E114CB}"), LayoutGroup, 3, true, false, false, true);
+        public static CommandBarItemDataSource ResetLayout =
+            new CommandBarCommandItemDataSource<ResetLayoutCommandDefinition>(new Guid("{18B5578C-6C3C-4DCB-858A-DA6DC8E114CB}"), LayoutGroup, 3, true, false, false, true);
     }
 }

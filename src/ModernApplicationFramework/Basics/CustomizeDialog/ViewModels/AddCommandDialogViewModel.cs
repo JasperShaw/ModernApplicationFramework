@@ -24,8 +24,8 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
     public sealed class AddCommandDialogViewModel : Screen, IAddCommandDialogViewModel
     {
         private CommandCategory _selectedCategory;
-        private IEnumerable<CommandBarItemDefinition> _items;
-        private CommandBarItemDefinition _selectedItem;
+        private IEnumerable<CommandBarItemDataSource> _items;
+        private CommandBarItemDataSource _selectedItem;
 
         public ICommand OkClickCommand => new Command(ExecuteOkClick);
 
@@ -33,7 +33,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 
         public IEnumerable<CommandDefinitionBase> AllCommandDefinitions { get; }
 
-        public IEnumerable<CommandBarItemDefinition> Items
+        public IEnumerable<CommandBarItemDataSource> Items
         {
             get => _items;
             set
@@ -57,7 +57,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             }
         }
 
-        public CommandBarItemDefinition SelectedItem
+        public CommandBarItemDataSource SelectedItem
         {
             get => _selectedItem;
             set
@@ -89,22 +89,22 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         {
             if (!AllCommandDefinitions.Any())
                 return;
-            List<CommandBarItemDefinition> list = new List<CommandBarItemDefinition>();
+            List<CommandBarItemDataSource> list = new List<CommandBarItemDataSource>();
             foreach (var commandDefinition in AllCommandDefinitions)
             {
                 if (commandDefinition.Category == SelectedCategory && !(commandDefinition is CommandMenuControllerDefinition))
                 {
                     if (commandDefinition.ControlType == CommandControlTypes.SplitDropDown)
                     {
-                        list.Add(new CommandBarSplitItemDefinition(Guid.Empty, commandDefinition.Text, 0, null, commandDefinition, true, false, true));
+                        list.Add(new SplitButtonDataSource(Guid.Empty, commandDefinition.Text, 0, null, commandDefinition, true, false, true));
                     }
                     else if (commandDefinition.ControlType == CommandControlTypes.Combobox)
                     {
-                        list.Add(new CommandBarComboItemDefinition(Guid.Empty, commandDefinition.Text, 0, null,
+                        list.Add(new CommandBarComboItem(Guid.Empty, commandDefinition.Text, 0, null,
                             commandDefinition, true, false, true));
                     }
                     else
-                        list.Add(new CommandBarCommandItemDefinition(Guid.Empty, 0, commandDefinition, true));
+                        list.Add(new CommandBarCommandItem(Guid.Empty, 0, commandDefinition, true));
                 }          
             }
             Items = list; //Slower to .ToList but actually fixes the CustomSort not being used

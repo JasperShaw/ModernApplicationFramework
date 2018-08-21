@@ -19,7 +19,7 @@ namespace ModernApplicationFramework.Interfaces
         /// <summary>
         /// Collection of all commandbar item definitions
         /// </summary>
-        ObservableCollection<CommandBarItemDefinition> ItemDefinitions { get; }
+        ObservableCollection<CommandBarItemDataSource> ItemDefinitions { get; }
 
         /// <summary>
         /// Collection of excluded commandbar item definitions
@@ -33,6 +33,6 @@ namespace ModernApplicationFramework.Interfaces
 
         IReadOnlyList<CommandBarGroupDefinition> GetSortedGroupsOfDefinition(CommandBarDataSource definition, bool onlyGroupsWithVisibleItems = true);
 
-        Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDefinition>> GetItemsOfGroup { get; }
+        Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDataSource>> GetItemsOfGroup { get; }
     }
 }

@@ -86,13 +86,13 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         CustomizeRadioButtonOptions SelectedOption { get; set; }
 
         /// <summary>
-        /// The currently selected <see cref="CommandBarItemDefinition"/>
+        /// The currently selected <see cref="CommandBarItemDataSource"/>
         /// </summary>
-        CommandBarItemDefinition SelectedListBoxDefinition { get; set; }
+        CommandBarItemDataSource SelectedListBoxItem { get; set; }
 
         /// <summary>
         /// A list of all items displayed
         /// </summary>
-        IEnumerable<CommandBarItemDefinition> Items { get; set; }
+        IEnumerable<CommandBarItemDataSource> Items { get; set; }
     }
 }

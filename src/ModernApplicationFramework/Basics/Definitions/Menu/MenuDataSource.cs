@@ -9,11 +9,11 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
     /// A command bar definition that specifies a menu item
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarItemDefinition" />
-    public class MenuDefinition : CommandBarItemDefinition
+    public class MenuDataSource : CommandBarItemDataSource
     {
         public override Guid Id { get; }
 
-        public MenuDefinition(Guid id, CommandBarGroupDefinition group, uint sortOrder, string text, bool isCustom = false,
+        public MenuDataSource(Guid id, CommandBarGroupDefinition group, uint sortOrder, string text, bool isCustom = false,
             bool isCustomizable = true)
             : base(text, sortOrder, group, new MenuHeaderCommandDefinition(), true, false, isCustom, isCustomizable)
         {

@@ -10,7 +10,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     /// A storage to collect flags
     /// </summary>
     /// <seealso cref="T:System.ComponentModel.INotifyPropertyChanged" />
-    public class FlagStorage : INotifyPropertyChanged
+    public class FlagsDataSource : INotifyPropertyChanged
     {
         private bool _pict;
         private bool _pictAndText;

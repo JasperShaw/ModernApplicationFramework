@@ -8,7 +8,7 @@ namespace ModernApplicationFramework.Core.Converters.Customize
     {
         protected override bool Convert(CommandBarDataSource value, object parameter, CultureInfo culture)
         {
-            if (value is CommandBarItemDefinition itemDefinition)
+            if (value is CommandBarItemDataSource itemDefinition)
                 return !itemDefinition.IsVeryFirst;
             return false;
         }

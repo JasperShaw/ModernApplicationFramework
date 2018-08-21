@@ -8,11 +8,11 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     /// Simple command bar item
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarItemDefinition" />
-    public sealed class CommandBarCommandItemDefinition : CommandBarItemDefinition
+    public sealed class CommandBarCommandItem : CommandBarItemDataSource
     {
         public override Guid Id { get; }
 
-        public CommandBarCommandItemDefinition(Guid id, uint sortOrder, CommandDefinitionBase commandDefinition, bool isCustom = false,
+        public CommandBarCommandItem(Guid id, uint sortOrder, CommandDefinitionBase commandDefinition, bool isCustom = false,
             bool isCustomizable = true)
             : base(null, sortOrder, null, commandDefinition, true, false, isCustom, isCustomizable)
         {

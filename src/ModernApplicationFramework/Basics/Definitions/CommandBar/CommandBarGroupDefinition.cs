@@ -18,12 +18,12 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         /// <summary>
         /// Gets the last item of the group.
         /// </summary>
-        public CommandBarItemDefinition LastItem => Items.LastOrDefault();
+        public CommandBarItemDataSource LastItem => Items.LastOrDefault();
 
         /// <summary>
         /// Gets the first item of the group.
         /// </summary>
-        public CommandBarItemDefinition FirstItem => Items.FirstOrDefault();
+        public CommandBarItemDataSource FirstItem => Items.FirstOrDefault();
 
         /// <summary>
         /// The parent command bar element of the group
@@ -42,7 +42,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         /// <summary>
         /// The collection of all containing command bar items
         /// </summary>
-        public List<CommandBarItemDefinition> Items { get; set; }
+        public List<CommandBarItemDataSource> Items { get; set; }
 
         public override Guid Id => Guid.Empty;
 
@@ -51,7 +51,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         {
             _parent = parent;
             Parent?.ContainedGroups?.AddSorted(this, new SortOrderComparer<CommandBarGroupDefinition>());
-            Items = new List<CommandBarItemDefinition>();
+            Items = new List<CommandBarItemDataSource>();
         }
     }
 }

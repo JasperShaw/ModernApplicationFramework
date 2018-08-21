@@ -18,7 +18,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
     [Export(typeof(IMainMenuCreator))]
     public class MenuCreator : MenuCreatorBase, IMainMenuCreator
     {
-        public MenuItem CreateMenuItem(CommandBarDataSource contextMenuDefinition, IReadOnlyList<CommandBarGroupDefinition> groups, Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDefinition>> itemsFunc)
+        public MenuItem CreateMenuItem(CommandBarDataSource contextMenuDefinition, IReadOnlyList<CommandBarGroupDefinition> groups, Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDataSource>> itemsFunc)
         {
             var menuItem = new MenuItem(contextMenuDefinition);
             CreateRecursive(ref menuItem, contextMenuDefinition, groups, itemsFunc);

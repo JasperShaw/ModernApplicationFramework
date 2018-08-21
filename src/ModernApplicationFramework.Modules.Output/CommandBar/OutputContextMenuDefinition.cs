@@ -17,7 +17,7 @@ namespace ModernApplicationFramework.Modules.Output.CommandBar
             new CommandBarGroupDefinition(ToolboxContextMenu, uint.MinValue);
 
         [Export]
-        public static CommandBarItemDefinition CopyCommandItemDefinition =
-            new CommandBarCommandItemDefinition<CopyCommandDefinition>(new Guid("{C18EA117-A73C-4AA2-AD78-C05DE2711B94}"), CopyGroup, 0);
+        public static CommandBarItemDataSource CopyCommandItem =
+            new CommandBarCommandItemDataSource<CopyCommandDefinition>(new Guid("{C18EA117-A73C-4AA2-AD78-C05DE2711B94}"), CopyGroup, 0);
     }
 }

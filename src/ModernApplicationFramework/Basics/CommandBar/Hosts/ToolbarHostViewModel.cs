@@ -159,18 +159,18 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             });
         }
 
-        public override void AddItemDefinition(CommandBarItemDefinition definition, CommandBarDataSource parent,
+        public override void AddItemDefinition(CommandBarItemDataSource dataSource, CommandBarDataSource parent,
             bool addAboveSeparator)
         {
-            base.AddItemDefinition(definition, parent, addAboveSeparator);        
-            var root = FindRoot(definition);         
+            base.AddItemDefinition(dataSource, parent, addAboveSeparator);        
+            var root = FindRoot(dataSource);         
             Build(root);
         }
 
-        public override void DeleteItemDefinition(CommandBarItemDefinition definition)
+        public override void DeleteItemDefinition(CommandBarItemDataSource dataSource)
         {
-            base.DeleteItemDefinition(definition);
-            var root = FindRoot(definition);
+            base.DeleteItemDefinition(dataSource);
+            var root = FindRoot(dataSource);
             Build(root);
         }
 

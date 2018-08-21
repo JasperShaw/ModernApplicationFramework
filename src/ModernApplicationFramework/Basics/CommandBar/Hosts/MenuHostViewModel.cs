@@ -87,16 +87,16 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             }
         }
 
-        public override void AddItemDefinition(CommandBarItemDefinition definition, CommandBarDataSource parent, bool addAboveSeparator)
+        public override void AddItemDefinition(CommandBarItemDataSource dataSource, CommandBarDataSource parent, bool addAboveSeparator)
         {
-            base.AddItemDefinition(definition, parent, addAboveSeparator);
+            base.AddItemDefinition(dataSource, parent, addAboveSeparator);
             Build(parent);
         }
 
-        public override void DeleteItemDefinition(CommandBarItemDefinition definition)
+        public override void DeleteItemDefinition(CommandBarItemDataSource dataSource)
         {
-            base.DeleteItemDefinition(definition);
-            Build(definition.Group.Parent);
+            base.DeleteItemDefinition(dataSource);
+            Build(dataSource.Group.Parent);
         }
 
         private static bool ReplaceItemWithinList<T>(IList items, T newItem, Func<T, bool> func) where T: ItemsControl

@@ -18,7 +18,7 @@ namespace ModernApplicationFramework.Interfaces.Utilities
         /// <param name="itemDefinition">The datamodel of the current item</param>
         //void CreateRecursive<T>(ref T itemsControl, CommandBarDefinitionBase itemDefinition) where T : ItemsControl;
         void CreateRecursive<T>(ref T itemsControl, CommandBarDataSource itemDefinition,
-            IReadOnlyList<CommandBarGroupDefinition> groups, Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDefinition>> itemFunc)
+            IReadOnlyList<CommandBarGroupDefinition> groups, Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDataSource>> itemFunc)
             where T : ItemsControl;
 
         /// <summary>
@@ -27,13 +27,13 @@ namespace ModernApplicationFramework.Interfaces.Utilities
         /// <param name="dataSource">The <see cref="CommandBarDataSource"/> to find its sub-definitions</param>
         /// <param name="options">An option to include separators to the result.</param>
         /// <returns>Returns a list with all found definitions</returns>
-        IEnumerable<CommandBarItemDefinition> GetSingleSubDefinitions(CommandBarDataSource dataSource, CommandBarCreationOptions options);
+        IEnumerable<CommandBarItemDataSource> GetSingleSubDefinitions(CommandBarDataSource dataSource, CommandBarCreationOptions options);
 
 
 
-        IEnumerable<CommandBarItemDefinition> GetSingleSubDefinitions(CommandBarDataSource menuDefinition,
+        IEnumerable<CommandBarItemDataSource> GetSingleSubDefinitions(CommandBarDataSource menuDefinition,
             IReadOnlyList<CommandBarGroupDefinition> groups,
-            Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDefinition>> items,
+            Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDataSource>> items,
             CommandBarCreationOptions options = CommandBarCreationOptions.DisplaySeparatorsOnlyIfGroupNotEmpty);
     }
 

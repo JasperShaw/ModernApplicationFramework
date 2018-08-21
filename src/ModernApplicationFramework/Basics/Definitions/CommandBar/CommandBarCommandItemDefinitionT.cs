@@ -9,7 +9,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     /// </summary>
     /// <typeparam name="T">The type of the command definition this item should have</typeparam>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarItemDefinition`1" />
-    public sealed class CommandBarCommandItemDefinition<T> : CommandBarItemDefinition<T> where T : CommandDefinitionBase
+    public sealed class CommandBarCommandItemDataSource<T> : CommandBarItemDataSource<T> where T : CommandDefinitionBase
 	{
         private bool _bindItemVisibilityToCommandExecution;
 
@@ -30,7 +30,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
 	    public override Guid Id { get; }
 
-        public CommandBarCommandItemDefinition(Guid id, CommandBarGroupDefinition group, uint sortOrder,
+        public CommandBarCommandItemDataSource(Guid id, CommandBarGroupDefinition group, uint sortOrder,
             bool isVisible = true, bool isChecked = false, bool isCustom = false,
             bool bindItemVisibilityToCommandExecution = false, bool isCustomizable = true, CommandBarFlags flags = CommandBarFlags.CommandFlagNone)
             : base(null, sortOrder, group, isVisible, isChecked, isCustom, isCustomizable, flags)

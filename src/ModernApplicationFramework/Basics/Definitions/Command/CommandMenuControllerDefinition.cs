@@ -15,7 +15,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         /// <summary>
         ///     The containing item command definitions
         /// </summary>
-        public abstract ObservableCollection<CommandBarItemDefinition> Items { get; set; }
+        public abstract ObservableCollection<CommandBarItemDataSource> Items { get; set; }
 
         public override bool IsList => false;
     }

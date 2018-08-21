@@ -10,7 +10,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     /// </summary>
     /// <typeparam name="T">The type of the command definition this item should have</typeparam>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarItemDefinition" />
-    public abstract class CommandBarItemDefinition<T> : CommandBarItemDefinition where T : CommandDefinitionBase
+    public abstract class CommandBarItemDataSource<T> : CommandBarItemDataSource where T : CommandDefinitionBase
 	{
 		private string _text;
 		private string _name;
@@ -46,7 +46,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 			}
 		}
 
-		protected CommandBarItemDefinition(string text, uint sortOrder, CommandBarGroupDefinition group, 
+		protected CommandBarItemDataSource(string text, uint sortOrder, CommandBarGroupDefinition group, 
 			bool visible, bool isChecked, bool isCustom, bool isCustomizable, CommandBarFlags flags) 
 			: base(text, sortOrder, group, IoC.Get<ICommandService>().GetCommandDefinition(typeof(T)), visible, isChecked, isCustom, isCustomizable, flags)
 		{

@@ -10,7 +10,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarItemDefinition" />
     [DebuggerDisplay("<Separator>")]
-    public sealed class SeparatorDataSource : CommandBarItemDefinition
+    public sealed class SeparatorDataSource : CommandBarItemDataSource
     {
         /// <summary>
         /// Returns a new instance of a separator command bar item

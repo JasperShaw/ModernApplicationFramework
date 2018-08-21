@@ -522,7 +522,7 @@
     <Compile Include="Basics\CommandBar\Creators\ContextMenuCreator.cs" />
     <Compile Include="Basics\CustomizeDialog\ViewModels\AddCommandDialogViewModel.cs" />
     <Compile Include="Basics\CustomizeDialog\ViewModels\CommandsPageViewModel.cs" />
-    <Compile Include="Basics\Definitions\CommandBar\CommandBarItemDefinitionT.cs" />
+    <Compile Include="Basics\Definitions\CommandBar\CommandBarItemDataSourceT.cs" />
     <Compile Include="Basics\EnvironmentGeneralOptions.cs" />
     <Compile Include="Basics\EnvironmentRenderCapabilities.cs" />
     <Compile Include="Controls\Dialogs\DialogResourcesResources.Designer.cs">
@@ -566,8 +566,8 @@
     </Compile>
     <Compile Include="Interfaces\Services\IMafUIShell.cs" />
     <Compile Include="Interfaces\ViewModels\IAddCommandDialogViewModel.cs" />
-    <Compile Include="Basics\Definitions\CommandBar\CommandBarMenuControllerDefinition.cs" />
-    <Compile Include="Basics\Definitions\CommandBar\CommandBarSplitItemDefinition.cs" />
+    <Compile Include="Basics\Definitions\CommandBar\MenuControllerDataSource.cs" />
+    <Compile Include="Basics\Definitions\CommandBar\SplitButtonDataSource.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarComboItemDefinitionT.cs" />
     <Compile Include="Basics\Creators\NumberStatusStringCreator.cs" />
     <Compile Include="Basics\Definitions\CommandBar\TextCommandBarItemDefinition.cs" />
@@ -602,14 +602,14 @@
     <Compile Include="Basics\CustomizeDialog\Views\AddCommandDialogView.xaml.cs">
       <DependentUpon>AddCommandDialogView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Basics\Definitions\CommandBar\CommandBarCommandItemDefinition.cs" />
+    <Compile Include="Basics\Definitions\CommandBar\CommandBarCommandItem.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarCommandItemDefinitionT.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarDataSource.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarFlags.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarGroupDefinition.cs" />
-    <Compile Include="Basics\Definitions\CommandBar\CommandBarItemDefinition.cs" />
+    <Compile Include="Basics\Definitions\CommandBar\CommandBarItemDataSource.cs" />
     <Compile Include="Basics\Definitions\CommandBar\ExcludeCommandBarElementDefinition.cs" />
-    <Compile Include="Basics\Definitions\CommandBar\FlagStorage.cs" />
+    <Compile Include="Basics\Definitions\CommandBar\FlagsDataSource.cs" />
     <Compile Include="Core\Comparers\SortOrderComparer.cs" />
     <Compile Include="Basics\Definitions\Command\CommandCategory.cs" />
     <Compile Include="Basics\Definitions\Command\CommandControlTypes.cs" />
@@ -617,7 +617,7 @@
     <Compile Include="Basics\Definitions\ContextMenu\ContextMenuCategory.cs" />
     <Compile Include="Basics\Definitions\ContextMenu\ContextMenuDataSource.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuBarDataSource.cs" />
-    <Compile Include="Basics\Definitions\Menu\MenuDefinition.cs" />
+    <Compile Include="Basics\Definitions\Menu\MenuDataSource.cs" />
     <Compile Include="Basics\Definitions\Toolbar\ToolBarDataSource.cs" />
     <Compile Include="Basics\CommandBar\ToolbarsContextMenuDefinition.cs" />
     <Compile Include="Basics\CommandBar\Commands\CustomizeMenuCommandDefinition.cs" />

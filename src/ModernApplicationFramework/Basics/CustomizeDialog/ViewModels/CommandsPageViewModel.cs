@@ -53,9 +53,9 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         private IEnumerable<CommandBarDataSource> _customizableContextMenus;
         private IEnumerable<CommandBarDataSource> _customizableMenuBars;
         private IEnumerable<CommandBarDataSource> _customizableToolBars;
-        private IEnumerable<CommandBarItemDefinition> _items;
+        private IEnumerable<CommandBarItemDataSource> _items;
         private CommandBarDataSource _selectedContextMenuItem;
-        private CommandBarItemDefinition _selectedListBoxDefinition;
+        private CommandBarItemDataSource _selectedListBoxDataSource;
 
         private CommandBarDataSource _selectedMenuItem;
         private CustomizeRadioButtonOptions _selectedOption;
@@ -108,7 +108,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 
         public ICommand HandleStylingFlagChangeCommand => new DelegateCommand(HandleStylingFlagChange);
 
-        public IEnumerable<CommandBarItemDefinition> Items
+        public IEnumerable<CommandBarItemDataSource> Items
         {
             get => _items;
             set
@@ -134,14 +134,14 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             }
         }
 
-        public CommandBarItemDefinition SelectedListBoxDefinition
+        public CommandBarItemDataSource SelectedListBoxItem
         {
-            get => _selectedListBoxDefinition;
+            get => _selectedListBoxDataSource;
             set
             {
-                if (_selectedListBoxDefinition == value)
+                if (_selectedListBoxDataSource == value)
                     return;
-                _selectedListBoxDefinition = value;
+                _selectedListBoxDataSource = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -201,7 +201,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             _definitionHost = IoC.Get<ICommandBarDefinitionHost>();
 
             DisplayName = Customize_Resources.CustomizeDialog_Commands;
-            Items = new List<CommandBarItemDefinition>();
+            Items = new List<CommandBarItemDataSource>();
             BuildCheckBoxItems(CustomizeRadioButtonOptions.All);
             SelectedMenuItem = CustomizableMenuBars.FirstOrDefault();
             SelectedToolBarItem = CustomizableToolBars.FirstOrDefault();
@@ -222,7 +222,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             base.OnViewLoaded(view);
             if (view is ICommandsPageView correctView)
                 _control = correctView;
-            SelectedListBoxDefinition = Items.FirstOrDefault();
+            SelectedListBoxItem = Items.FirstOrDefault();
         }
 
         private void BuildCheckBoxItems(CustomizeRadioButtonOptions value)
@@ -279,7 +279,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
                 Items = BuildItemSourcesCore(_contextMenuCreator, SelectedContextMenuItem);
         }
 
-        private IEnumerable<CommandBarItemDefinition> BuildItemSourcesCore(ICreatorBase creator, CommandBarDataSource definition)
+        private IEnumerable<CommandBarItemDataSource> BuildItemSourcesCore(ICreatorBase creator, CommandBarDataSource definition)
         {
             var groups = _definitionHost.ItemGroupDefinitions.Where(x => x.Parent == definition)
                 .Where(x => !_definitionHost.ExcludedItemDefinitions.Contains(x))
@@ -306,11 +306,11 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 
         private void DoMove(int offset)
         {
-            var selectedItem = SelectedListBoxDefinition;
+            var selectedItem = SelectedListBoxItem;
 
             GetModelAndParent(out var model, out var parent);
 
-            model.MoveItem(SelectedListBoxDefinition, offset, parent);
+            model.MoveItem(SelectedListBoxItem, offset, parent);
 
             model.Build();
             BuildItemSources(SelectedOption);
@@ -320,14 +320,14 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
                                   Items.Where(x => x.Group == model.GetPreviousGroup(selectedItem.Group))
                                       .FirstOrDefault(x => x.SortOrder == selectedItem.SortOrder);
 
-            SelectedListBoxDefinition = newSelectedItem;
+            SelectedListBoxItem = newSelectedItem;
         }
 
 
         private void ExecuteDropDownClick()
         {
             var dropDownMenu = _control.ModifySelectionButton.DropDownMenu;
-            dropDownMenu.DataContext = SelectedListBoxDefinition;
+            dropDownMenu.DataContext = SelectedListBoxItem;
             dropDownMenu.IsOpen = true;
         }
 
@@ -372,17 +372,17 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 
             InternalAddItem(def);
             BuildItemSources(SelectedOption);
-            SelectedListBoxDefinition = def;
+            SelectedListBoxItem = def;
         }
 
         private void HandleCommandAddNewMenu()
         {
-            var newMenuItem = new MenuDefinition(Guid.Empty, null, 0, CommandBarResources.NewMenuDefaultName, true);
+            var newMenuItem = new MenuDataSource(Guid.Empty, null, 0, CommandBarResources.NewMenuDefaultName, true);
 
             InternalAddItem(newMenuItem);
             BuildItemSources(SelectedOption);
             BuildCheckBoxItems(SelectedOption);
-            SelectedListBoxDefinition = newMenuItem;
+            SelectedListBoxItem = newMenuItem;
         }
 
         private void HandleCommandAddOrRemoveGroup(object value)
@@ -391,34 +391,34 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
                 return;
             GetModelAndParent(out var model, out var parent);
 
-            var nextSelectedItem = SelectedListBoxDefinition;
+            var nextSelectedItem = SelectedListBoxItem;
 
             //Needs to be inverted as the Checkbox will be added before this code executes
             if (!(bool) value)
-                model.DeleteGroup(SelectedListBoxDefinition.Group, AppendTo.Previous);
+                model.DeleteGroup(SelectedListBoxItem.Group, AppendTo.Previous);
             else
-                model.AddGroupAt(SelectedListBoxDefinition);
+                model.AddGroupAt(SelectedListBoxItem);
 
             BuildItemSources(SelectedOption);
             BuildCheckBoxItems(SelectedOption);
-            SelectedListBoxDefinition = nextSelectedItem;
+            SelectedListBoxItem = nextSelectedItem;
             model.Build(parent);
         }
 
         private void HandleCommandDelete()
         {
-            if (SelectedListBoxDefinition == null)
+            if (SelectedListBoxItem == null)
                 return;
             GetModelAndParent(out var model, out CommandBarDataSource _);
 
-            var nextSelectedItem = model.GetNextItemInGroup(SelectedListBoxDefinition) ??
-                                   model.GetPreviousItem(SelectedListBoxDefinition) ??
-                                   model.GetNextItem(SelectedListBoxDefinition);
+            var nextSelectedItem = model.GetNextItemInGroup(SelectedListBoxItem) ??
+                                   model.GetPreviousItem(SelectedListBoxItem) ??
+                                   model.GetNextItem(SelectedListBoxItem);
 
-            model.DeleteItemDefinition(SelectedListBoxDefinition);
+            model.DeleteItemDefinition(SelectedListBoxItem);
             BuildItemSources(SelectedOption);
             BuildCheckBoxItems(SelectedOption);
-            SelectedListBoxDefinition = nextSelectedItem;
+            SelectedListBoxItem = nextSelectedItem;
         }
 
         private void HandleCommandMoveDown()
@@ -450,38 +450,38 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 
         private void HandleResetItem()
         {
-            SelectedListBoxDefinition.Reset();
+            SelectedListBoxItem.Reset();
         }
 
         private void HandleStylingFlagChange(object value)
         {
             if (!(value is CommandBarFlags commandFlag))
                 return;
-            var allFlags = SelectedListBoxDefinition.Flags.AllFlags;
+            var allFlags = SelectedListBoxItem.Flags.AllFlags;
             var commandflag2 = ((CommandBarFlags) allFlags & ~StylingFlagsConverter.StylingMask) | commandFlag;
-            SelectedListBoxDefinition.Flags.EnableStyleFlags(commandflag2);
+            SelectedListBoxItem.Flags.EnableStyleFlags(commandflag2);
         }
 
-        private void InternalAddItem(CommandBarItemDefinition definitionToAdd)
+        private void InternalAddItem(CommandBarItemDataSource dataSourceToAdd)
         {
             uint newSortOrder;
             bool flag;
-            if (SelectedListBoxDefinition == null)
+            if (SelectedListBoxItem == null)
             {
                 newSortOrder = 0;
                 flag = false;
             }
             else
             {
-                newSortOrder = SelectedListBoxDefinition.SortOrder;
-                flag = SelectedListBoxDefinition.SortOrder > 0 &&
-                       SelectedListBoxDefinition.CommandDefinition.ControlType == CommandControlTypes.Separator;
-                definitionToAdd.Group = SelectedListBoxDefinition.Group;
+                newSortOrder = SelectedListBoxItem.SortOrder;
+                flag = SelectedListBoxItem.SortOrder > 0 &&
+                       SelectedListBoxItem.CommandDefinition.ControlType == CommandControlTypes.Separator;
+                dataSourceToAdd.Group = SelectedListBoxItem.Group;
             }
-            definitionToAdd.SortOrder = newSortOrder;
+            dataSourceToAdd.SortOrder = newSortOrder;
 
             GetModelAndParent(out var model, out var parent);
-            model.AddItemDefinition(definitionToAdd, parent, flag);
+            model.AddItemDefinition(dataSourceToAdd, parent, flag);
         }
     }
 

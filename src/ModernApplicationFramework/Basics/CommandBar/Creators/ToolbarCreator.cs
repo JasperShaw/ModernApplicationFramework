@@ -29,7 +29,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
         }
 
         public override void CreateRecursive<T>(ref T itemsControl, CommandBarDataSource itemDefinition, IReadOnlyList<CommandBarGroupDefinition> groups,
-            Func<CommandBarGroupDefinition,IReadOnlyList<CommandBarItemDefinition>> itemFunc)
+            Func<CommandBarGroupDefinition,IReadOnlyList<CommandBarItemDataSource>> itemFunc)
         {
             var topItem = GetSingleSubDefinitions(itemDefinition, groups, itemFunc);
             if (!(itemDefinition is ToolBarDataSource))
@@ -37,9 +37,9 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
 
             foreach (var item in topItem)
             {
-                if (item is MenuDefinition)
+                if (item is MenuDataSource)
                 {
-                    var list = new ObservableCollection<CommandBarItemDefinition>();
+                    var list = new ObservableCollection<CommandBarItemDataSource>();
                     Fill(ref list, item, itemFunc);
                     item.Items = list;
                     itemsControl.Items.Add(new CommandDefinitionButton(item));
@@ -92,8 +92,8 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
         //    }
         //}
 
-        private void Fill(ref ObservableCollection<CommandBarItemDefinition> list, CommandBarDataSource item,
-            Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDefinition>> itemFunc)
+        private void Fill(ref ObservableCollection<CommandBarItemDataSource> list, CommandBarDataSource item,
+            Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDataSource>> itemFunc)
         {
             var host = IoC.Get<ICommandBarDefinitionHost>();
             var group = host.ItemGroupDefinitions.Where(x => x.Parent == item)
@@ -107,9 +107,9 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
             foreach (var def in defs)
             {
                 list.Add(def);
-                if (def is MenuDefinition)
+                if (def is MenuDataSource)
                 {
-                    var newList = new ObservableCollection<CommandBarItemDefinition>();
+                    var newList = new ObservableCollection<CommandBarItemDataSource>();
                     Fill(ref newList, def, itemFunc);
                     def.Items = newList;
                 }
