@@ -23,11 +23,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         private ComboBoxModel _model;
         private IHasTextProperty _displayedItem;
         private IObservableCollection<IHasTextProperty> _items;
-
-
         private IHasTextProperty _tempItem;
-
-        private bool _isUpdating;
 
         public string DisplayedText
         {
@@ -164,11 +160,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
                 Model = comboBoxDefinition.Model;
                 Model.PropertyChanged += ModelOnPropertyChanged;
                 _isEditable = Model.IsEditing;
+                Flags.EnableStyleFlags(flags);
             }
-
             Id = id;
-
-            Flags.FilterKeys = true;
         }
 
         private void ModelOnPropertyChanged(object sender, PropertyChangedEventArgs e)
