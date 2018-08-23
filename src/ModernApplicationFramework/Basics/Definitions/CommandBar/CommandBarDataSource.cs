@@ -58,7 +58,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         /// <summary>
         /// The groups that are hosted by the element
         /// </summary>
-        public IList<CommandBarGroupDefinition> ContainedGroups { get; }
+        public IList<CommandBarGroup> ContainedGroups { get; }
 
         /// <summary>
         /// The sorting order of the definition
@@ -196,7 +196,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             _isChecked = isChecked;
             _isVisible = isVisible;
             IsCustomizable = isCustomizable;
-            ContainedGroups = new List<CommandBarGroupDefinition>();
+            ContainedGroups = new List<CommandBarGroup>();
             Flags.EnableStyleFlags(flags);
             OriginalFlagStore.EnableStyleFlags(flags);
             if (definition != null)

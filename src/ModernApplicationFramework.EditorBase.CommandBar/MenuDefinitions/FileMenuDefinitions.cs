@@ -12,14 +12,14 @@ namespace ModernApplicationFramework.EditorBase.CommandBar.MenuDefinitions
         /*  File --> New    */
 
         [Export]
-        public static CommandBarGroupDefinition OpenNewFileGroup =
-            new CommandBarGroupDefinition(Extended.CommandBarDefinitions.TopLevelMenuDefinitions.FileMenu, 0);
+        public static CommandBarGroup OpenNewFileGroup =
+            new CommandBarGroup(Extended.CommandBarDefinitions.TopLevelMenuDefinitions.FileMenu, 0);
 
         [Export] public static CommandBarItemDataSource NewMenu =
             new MenuDataSource(new Guid("{2EDA6AB7-5780-4E8D-AA3E-193300AC484A}"), OpenNewFileGroup, 0, CommandBarResources.MenuNew);
 
-        [Export] public static CommandBarGroupDefinition NewGroup =
-            new CommandBarGroupDefinition(NewMenu, 0);
+        [Export] public static CommandBarGroup NewGroup =
+            new CommandBarGroup(NewMenu, 0);
 
         [Export]
         public static CommandBarItemDataSource NewFile =
@@ -33,8 +33,8 @@ namespace ModernApplicationFramework.EditorBase.CommandBar.MenuDefinitions
             new MenuDataSource(new Guid("{36D45A3A-9A2D-4142-9659-9CC046E2C14F}"), OpenNewFileGroup, 1, CommandBarResources.MenuOpen);
 
         [Export]
-        public static CommandBarGroupDefinition OpenFileGroup =
-            new CommandBarGroupDefinition(OpenMenu, 2);
+        public static CommandBarGroup OpenFileGroup =
+            new CommandBarGroup(OpenMenu, 2);
 
         [Export]
         public static CommandBarItemDataSource OpenFile =
@@ -44,8 +44,8 @@ namespace ModernApplicationFramework.EditorBase.CommandBar.MenuDefinitions
         /*  File --> Save   */
 
         [Export]
-        public static CommandBarGroupDefinition SaveGroup =
-            new CommandBarGroupDefinition(Extended.CommandBarDefinitions.TopLevelMenuDefinitions.FileMenu, 3);
+        public static CommandBarGroup SaveGroup =
+            new CommandBarGroup(Extended.CommandBarDefinitions.TopLevelMenuDefinitions.FileMenu, 3);
 
         [Export]
         public static CommandBarItemDataSource SaveFile =
@@ -65,16 +65,16 @@ namespace ModernApplicationFramework.EditorBase.CommandBar.MenuDefinitions
         /*  File --> Recently Used   */
 
         [Export]
-        public static CommandBarGroupDefinition RecentlyUsedGroup =
-            new CommandBarGroupDefinition(Extended.CommandBarDefinitions.TopLevelMenuDefinitions.FileMenu, 6);
+        public static CommandBarGroup RecentlyUsedGroup =
+            new CommandBarGroup(Extended.CommandBarDefinitions.TopLevelMenuDefinitions.FileMenu, 6);
 
         [Export]
         public static CommandBarItemDataSource RecentFilesMenu =
             new MenuDataSource(new Guid("{27D0D3B9-DCDE-405D-BCE8-C05ECCEDF74F}"), RecentlyUsedGroup, 0, CommandBarResources.MenuRecentFiles);
 
         [Export]
-        public static CommandBarGroupDefinition RecentFilesGroup =
-            new CommandBarGroupDefinition(RecentFilesMenu, 0);
+        public static CommandBarGroup RecentFilesGroup =
+            new CommandBarGroup(RecentFilesMenu, 0);
 
         [Export]
         public static CommandBarItemDataSource SwitchActiveLayoutDocument =

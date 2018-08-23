@@ -15,7 +15,7 @@ namespace ModernApplicationFramework.Extended.Demo
         [Export] public static CommandBarItemDataSource TestMenu = new MenuDataSource(
             new Guid("{C374077C-1EAD-41E3-9E93-96F2DD812752}"), MainMenuBarDefinition.MainMenuBarGroup, 14, "&Test");
 
-        [Export] public static CommandBarGroupDefinition TestGroup1 = new CommandBarGroupDefinition(TestMenu, int.MaxValue);
+        [Export] public static CommandBarGroup TestGroup1 = new CommandBarGroup(TestMenu, int.MaxValue);
 
         [Export] public static CommandBarItemDataSource TestCommand =
             new CommandBarCommandItemDataSource<TestCommandDefinition>(
@@ -24,7 +24,7 @@ namespace ModernApplicationFramework.Extended.Demo
         [Export] public static CommandBarItemDataSource TestSub =
             new MenuDataSource(new Guid("{3F544F5A-8D20-428F-AC3A-40763840314E}"), TestGroup1, 0, "Test", true);
 
-        [Export] public static CommandBarGroupDefinition TestGroup2 = new CommandBarGroupDefinition(TestSub, int.MaxValue);
+        [Export] public static CommandBarGroup TestGroup2 = new CommandBarGroup(TestSub, int.MaxValue);
 
         [Export] public static CommandBarItemDataSource TestSub1 =
             new CommandBarCommandItemDataSource<UndoCommandDefinition>(
@@ -39,7 +39,7 @@ namespace ModernApplicationFramework.Extended.Demo
             new MenuControllerDataSource<TestMenuControllerDefinition>(
                 new Guid("{A459EAA6-E5B0-474D-8DEB-7353FBB9C15E}"), TestGroup1, uint.MinValue);
 
-        [Export] public static CommandBarGroupDefinition TestGroup4 = new CommandBarGroupDefinition(TestSubSub, int.MaxValue);
+        [Export] public static CommandBarGroup TestGroup4 = new CommandBarGroup(TestSubSub, int.MaxValue);
 
         [Export] public static CommandBarItemDataSource TestSubSub1 =
             new CommandBarCommandItemDataSource<UndoCommandDefinition>(

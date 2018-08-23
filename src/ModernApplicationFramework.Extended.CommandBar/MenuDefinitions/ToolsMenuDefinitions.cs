@@ -10,8 +10,8 @@ namespace ModernApplicationFramework.Extended.CommandBar.MenuDefinitions
     public static class ToolsMenuDefinitions
     {
         [Export]
-        public static CommandBarGroupDefinition SettingsGroup =
-            new CommandBarGroupDefinition(TopLevelMenuDefinitions.ToolsMenu, Int32.MaxValue);
+        public static CommandBarGroup SettingsGroup =
+            new CommandBarGroup(TopLevelMenuDefinitions.ToolsMenu, Int32.MaxValue);
 
         [Export]
         public static CommandBarItemDataSource Settings =

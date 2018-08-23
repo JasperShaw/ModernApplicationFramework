@@ -46,7 +46,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 			}
 		}
 
-		protected CommandBarItemDataSource(string text, uint sortOrder, CommandBarGroupDefinition group, 
+		protected CommandBarItemDataSource(string text, uint sortOrder, CommandBarGroup group, 
 			bool visible, bool isChecked, bool isCustom, bool isCustomizable, CommandBarFlags flags) 
 			: base(text, sortOrder, group, IoC.Get<ICommandService>().GetCommandDefinition(typeof(T)), visible, isChecked, isCustom, isCustomizable, flags)
 		{

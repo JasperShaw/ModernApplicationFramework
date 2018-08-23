@@ -11,8 +11,8 @@ namespace ModernApplicationFramework.Docking.ContextMenuDefinitions
         [Export] public static ContextMenuDataSource AnchorableContextMenu =
             new ContextMenuDataSource(new Guid("{B8615A48-C325-46ED-9F3D-135A1DF2E6D6}"), ContextMenuCategory.OtherContextMenusCategory, DockingResources.AnchorableContextMenu_Name);
 
-        [Export] public static CommandBarGroupDefinition AnchorableContextMenuGroup =
-            new CommandBarGroupDefinition(AnchorableContextMenu, uint.MinValue);
+        [Export] public static CommandBarGroup AnchorableContextMenuGroup =
+            new CommandBarGroup(AnchorableContextMenu, uint.MinValue);
 
         [Export] public static CommandBarItemDataSource FloatCommandItem =
                 new CommandBarCommandItemDataSource<FloatDockedWindowCommandDefinition>(new Guid("{BA3AB1EE-7A35-4E8D-9B77-6EFAE261CE2C}"), AnchorableContextMenuGroup, 0)

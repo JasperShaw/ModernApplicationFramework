@@ -11,6 +11,6 @@ namespace ModernApplicationFramework.Extended.CommandBarDefinitions
         [Export] public static MenuBarDataSource MainMenuBar = new MenuBarDataSource(
             new Guid("{E3C38E3A-272D-4FB5-BA8A-208FFF5142AE}"), CommandBar_Resources.MenuBarMain_Name, uint.MinValue);
 
-        [Export] public static CommandBarGroupDefinition MainMenuBarGroup = new CommandBarGroupDefinition(MainMenuBar, uint.MinValue);
+        [Export] public static CommandBarGroup MainMenuBarGroup = new CommandBarGroup(MainMenuBar, uint.MinValue);
     }
 }

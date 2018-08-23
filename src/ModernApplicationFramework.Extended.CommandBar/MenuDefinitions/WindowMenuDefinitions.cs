@@ -12,8 +12,8 @@ namespace ModernApplicationFramework.Extended.CommandBar.MenuDefinitions
         //OpenWindowsGroup
 
         [Export]
-        public static CommandBarGroupDefinition OpenWindowsGroup =
-            new CommandBarGroupDefinition(TopLevelMenuDefinitions.WindowMenu, int.MaxValue);
+        public static CommandBarGroup OpenWindowsGroup =
+            new CommandBarGroup(TopLevelMenuDefinitions.WindowMenu, int.MaxValue);
 
         [Export] public static CommandBarItemDataSource SwitchActiveLayoutDocument =
             new CommandBarCommandItemDataSource<SwitchToDocumentCommandListDefinition>(
@@ -23,8 +23,8 @@ namespace ModernApplicationFramework.Extended.CommandBar.MenuDefinitions
         //DocumentToolsGroup
 
         [Export]
-        public static CommandBarGroupDefinition DocumentToolsGroup =
-            new CommandBarGroupDefinition(TopLevelMenuDefinitions.WindowMenu, 4);
+        public static CommandBarGroup DocumentToolsGroup =
+            new CommandBarGroup(TopLevelMenuDefinitions.WindowMenu, 4);
 
         [Export] public static CommandBarItemDataSource AutoHideAll =
             new CommandBarCommandItemDataSource<AutoHideAllWindowsCommandDefinition>(
@@ -66,8 +66,8 @@ namespace ModernApplicationFramework.Extended.CommandBar.MenuDefinitions
 
         //FloatDockGroup
         [Export]
-        public static CommandBarGroupDefinition FloatDockGroup =
-            new CommandBarGroupDefinition(TopLevelMenuDefinitions.WindowMenu, 1);
+        public static CommandBarGroup FloatDockGroup =
+            new CommandBarGroup(TopLevelMenuDefinitions.WindowMenu, 1);
 
         [Export] public static CommandBarItemDataSource Float =
             new CommandBarCommandItemDataSource<FloatDockedWindowCommandDefinition>(

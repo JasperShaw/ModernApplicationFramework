@@ -13,8 +13,8 @@ namespace ModernApplicationFramework.Modules.Output.CommandBar
             new Basics.Definitions.ContextMenu.ContextMenuDataSource(new Guid("{18E35741-10B1-47C0-87F0-83058900B907}"), ContextMenuCategory.OtherContextMenusCategory, "Output Window");
 
         [Export]
-        public static CommandBarGroupDefinition CopyGroup =
-            new CommandBarGroupDefinition(ToolboxContextMenu, uint.MinValue);
+        public static CommandBarGroup CopyGroup =
+            new CommandBarGroup(ToolboxContextMenu, uint.MinValue);
 
         [Export]
         public static CommandBarItemDataSource CopyCommandItem =

@@ -9,8 +9,8 @@ namespace ModernApplicationFramework.Extended.CommandBar.MenuDefinitions
 {
     public static class FileMenuDefinitions
     {
-        [Export] public static CommandBarGroupDefinition CloseGroup =
-            new CommandBarGroupDefinition(TopLevelMenuDefinitions.FileMenu, 2);
+        [Export] public static CommandBarGroup CloseGroup =
+            new CommandBarGroup(TopLevelMenuDefinitions.FileMenu, 2);
 
         [Export] public static CommandBarItemDataSource CloseActiveDocument =
             new CommandBarCommandItemDataSource<CloseDockedWindowCommandDefinition>(
@@ -18,8 +18,8 @@ namespace ModernApplicationFramework.Extended.CommandBar.MenuDefinitions
 
 
         [Export]
-        public static CommandBarGroupDefinition CloseProgramGroup =
-            new CommandBarGroupDefinition(TopLevelMenuDefinitions.FileMenu, int.MaxValue);
+        public static CommandBarGroup CloseProgramGroup =
+            new CommandBarGroup(TopLevelMenuDefinitions.FileMenu, int.MaxValue);
 
         [Export]
         public static CommandBarItemDataSource CloseProgram =

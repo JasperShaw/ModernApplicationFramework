@@ -17,7 +17,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     public abstract class CommandBarItemDataSource : CommandBarDataSource, IHasInternalName
     {
         private bool _precededBySeparator;
-        private CommandBarGroupDefinition _group;
+        private CommandBarGroup _group;
         private string _internalName;
         private bool _isVeryFirst;
         private string _text;
@@ -104,7 +104,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         /// <summary>
         /// The current group of the item
         /// </summary>
-        public CommandBarGroupDefinition Group
+        public CommandBarGroup Group
         {
             get => _group;
             set
@@ -147,7 +147,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         //    }
         //}
 
-        protected CommandBarItemDataSource(string text, uint sortOrder, CommandBarGroupDefinition group,
+        protected CommandBarItemDataSource(string text, uint sortOrder, CommandBarGroup group,
             CommandDefinitionBase definition, bool visible,
             bool isChecked, bool isCustom, bool isCustomizable, CommandBarFlags flags = CommandBarFlags.CommandFlagNone)
             : base(text, sortOrder, definition, visible, isCustom, isCustomizable, isChecked, flags)
@@ -188,7 +188,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         /// </summary>
         /// <param name="value">The value.</param>
         /// <param name="oldGroup">The old group.</param>
-        protected void UpdateGroup(CommandBarGroupDefinition value, CommandBarGroupDefinition oldGroup)
+        protected void UpdateGroup(CommandBarGroup value, CommandBarGroup oldGroup)
         {
             if (CommandDefinition.ControlType == CommandControlTypes.Separator)
                 return;

@@ -40,14 +40,14 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         }
 
 
-        public SplitButtonDataSource(Guid id, string statusString, CommandBarGroupDefinition group, uint sortOrder,
+        public SplitButtonDataSource(Guid id, string statusString, CommandBarGroup group, uint sortOrder,
             bool isVisible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true)
             : this(id, group, sortOrder, isVisible, isChecked, isCustom, isCustomizable)
         {
             StatusString = statusString;
         }
 
-        public SplitButtonDataSource(Guid id, CommandBarGroupDefinition group, uint sortOrder,
+        public SplitButtonDataSource(Guid id, CommandBarGroup group, uint sortOrder,
             bool isVisible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true)
             : base(id, null, sortOrder, group, null, isVisible, isChecked, isCustom, isCustomizable)
         {
@@ -104,7 +104,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         public IStatusStringCreator StringCreator { get; set; }
 
 
-        internal SplitButtonDataSource(Guid id, string text, uint sortOrder, CommandBarGroupDefinition group, CommandDefinitionBase definition, 
+        internal SplitButtonDataSource(Guid id, string text, uint sortOrder, CommandBarGroup group, CommandDefinitionBase definition, 
             bool visible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = false) 
             : base(text, sortOrder, group, definition, visible, isChecked, isCustom, isCustomizable)
         {

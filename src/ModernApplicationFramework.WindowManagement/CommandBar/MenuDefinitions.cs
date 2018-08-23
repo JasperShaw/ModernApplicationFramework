@@ -12,8 +12,8 @@ namespace ModernApplicationFramework.WindowManagement.CommandBar
     {
         //LayoutGroup
         [Export]
-        public static CommandBarGroupDefinition LayoutGroup =
-            new CommandBarGroupDefinition(Extended.CommandBarDefinitions.TopLevelMenuDefinitions.WindowMenu, 3);
+        public static CommandBarGroup LayoutGroup =
+            new CommandBarGroup(Extended.CommandBarDefinitions.TopLevelMenuDefinitions.WindowMenu, 3);
 
         [Export]
         public static CommandBarItemDataSource SaveLayout =
@@ -26,8 +26,8 @@ namespace ModernApplicationFramework.WindowManagement.CommandBar
 
 
         [Export]
-        public static CommandBarGroupDefinition LayoutApplyGroup =
-            new CommandBarGroupDefinition(ApplyLayout, uint.MinValue);
+        public static CommandBarGroup LayoutApplyGroup =
+            new CommandBarGroup(ApplyLayout, uint.MinValue);
 
         [Export]
         public static CommandBarItemDataSource ShowLayouts =

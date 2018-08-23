@@ -14,8 +14,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
             new ContextMenuDataSource(new Guid("{70967216-21B8-454D-8361-201F127A6D32}"), ContextMenuCategory.OtherContextMenusCategory, "Toolbox");
 
         [Export]
-        public static CommandBarGroupDefinition BasicEditGroup =
-            new CommandBarGroupDefinition(ToolboxContextMenu, uint.MinValue);
+        public static CommandBarGroup BasicEditGroup =
+            new CommandBarGroup(ToolboxContextMenu, uint.MinValue);
 
         [Export]
         public static CommandBarItemDataSource CutCommandItem =
@@ -41,8 +41,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
 
 
         [Export]
-        public static CommandBarGroupDefinition ItemDisplayCommandGroup =
-            new CommandBarGroupDefinition(ToolboxContextMenu, 1);
+        public static CommandBarGroup ItemDisplayCommandGroup =
+            new CommandBarGroup(ToolboxContextMenu, 1);
 
         [Export]
         public static CommandBarItemDataSource ShowAllItemsItem =
@@ -51,8 +51,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
 
 
         [Export]
-        public static CommandBarGroupDefinition ItemManageCommandGroup =
-            new CommandBarGroupDefinition(ToolboxContextMenu, 2);
+        public static CommandBarGroup ItemManageCommandGroup =
+            new CommandBarGroup(ToolboxContextMenu, 2);
 
         [Export]
         public static CommandBarItemDataSource AddItemItem =
@@ -71,8 +71,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
 
 
         [Export]
-        public static CommandBarGroupDefinition CategoryCommandGroup =
-            new CommandBarGroupDefinition(ToolboxContextMenu, 3);
+        public static CommandBarGroup CategoryCommandGroup =
+            new CommandBarGroup(ToolboxContextMenu, 3);
 
         [Export]
         public static CommandBarItemDataSource AddCategoryItem =
@@ -87,8 +87,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
             new CommandBarCommandItemDataSource<RenameToolboxCategoryCommandDefinition>(new Guid("{1D6FB604-BF18-44F1-8EE4-50C8015D29C8}"), CategoryCommandGroup, 2, true, false, false, true);
 
         [Export]
-        public static CommandBarGroupDefinition ItemMoveCommandGroup =
-            new CommandBarGroupDefinition(ToolboxContextMenu, 3);
+        public static CommandBarGroup ItemMoveCommandGroup =
+            new CommandBarGroup(ToolboxContextMenu, 3);
 
         [Export]
         public static CommandBarItemDataSource MoveUpCommandItem=

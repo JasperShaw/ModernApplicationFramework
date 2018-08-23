@@ -27,8 +27,8 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
             
         }
 
-        public override void CreateRecursive<T>(ref T itemsControl, CommandBarDataSource itemDefinition, IReadOnlyList<CommandBarGroupDefinition> groups,
-            Func<CommandBarGroupDefinition,IReadOnlyList<CommandBarItemDataSource>> itemFunc)
+        public override void CreateRecursive<T>(ref T itemsControl, CommandBarDataSource itemDefinition, IReadOnlyList<CommandBarGroup> groups,
+            Func<CommandBarGroup,IReadOnlyList<CommandBarItemDataSource>> itemFunc)
         {
             var topItem = GetSingleSubDefinitions(itemDefinition, groups, itemFunc);
             if (!(itemDefinition is ToolBarDataSource))
@@ -92,7 +92,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
         //}
 
         private void Fill(ref ObservableCollection<CommandBarItemDataSource> list, CommandBarDataSource item,
-            Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDataSource>> itemFunc)
+            Func<CommandBarGroup, IReadOnlyList<CommandBarItemDataSource>> itemFunc)
         {
             var host = IoC.Get<ICommandBarDefinitionHost>();
             var group = host.ItemGroupDefinitions.Where(x => x.Parent == item)

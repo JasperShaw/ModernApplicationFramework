@@ -8,8 +8,8 @@ namespace ModernApplicationFramework.Extended.CommandBar.MenuDefinitions
 {
     public static class EditMenuDefinitions
     {
-        [Export] public static CommandBarGroupDefinition EditUndoRedoMenuGroup =
-            new CommandBarGroupDefinition(TopLevelMenuDefinitions.EditMenu, 1);
+        [Export] public static CommandBarGroup EditUndoRedoMenuGroup =
+            new CommandBarGroup(TopLevelMenuDefinitions.EditMenu, 1);
 
         [Export] public static CommandBarItemDataSource EditUndoMenuItem =
             new CommandBarCommandItemDataSource<UndoCommandDefinition>(
@@ -22,8 +22,8 @@ namespace ModernApplicationFramework.Extended.CommandBar.MenuDefinitions
 
 
         [Export]
-        public static CommandBarGroupDefinition BasicEditGroup =
-            new CommandBarGroupDefinition(TopLevelMenuDefinitions.EditMenu, 2);
+        public static CommandBarGroup BasicEditGroup =
+            new CommandBarGroup(TopLevelMenuDefinitions.EditMenu, 2);
 
         [Export]
         public static CommandBarItemDataSource DeleteItem =

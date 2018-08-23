@@ -13,8 +13,8 @@ namespace ModernApplicationFramework.Docking.ContextMenuDefinitions
             new ContextMenuDataSource(new Guid("{7EF88CA9-552A-4F28-B850-592FDE415487}"), ContextMenuCategory.OtherContextMenusCategory, DockingResources.DocumentContextMenu_Name);
 
         [Export]
-        public static CommandBarGroupDefinition DocumentCloseContextMenuGroup =
-            new CommandBarGroupDefinition(DocumentContextMenu, uint.MinValue);
+        public static CommandBarGroup DocumentCloseContextMenuGroup =
+            new CommandBarGroup(DocumentContextMenu, uint.MinValue);
 
         [Export]
         public static CommandBarItemDataSource CloseCommandItem =
@@ -31,16 +31,16 @@ namespace ModernApplicationFramework.Docking.ContextMenuDefinitions
                 DocumentCloseContextMenuGroup, 2);
 
         [Export]
-        public static CommandBarGroupDefinition DocumentFloatContextMenuGroup =
-            new CommandBarGroupDefinition(DocumentContextMenu, 2);
+        public static CommandBarGroup DocumentFloatContextMenuGroup =
+            new CommandBarGroup(DocumentContextMenu, 2);
 
         [Export]
         public static CommandBarItemDataSource FloatCommandItem =
             new CommandBarCommandItemDataSource<FloatDockedWindowCommandDefinition>(new Guid("{BB537387-9C07-4CF3-9499-2C4D5DC0ABE0}"), DocumentFloatContextMenuGroup, 1);
 
         [Export]
-        public static CommandBarGroupDefinition DocumentTabGroupContextMenuGroup =
-            new CommandBarGroupDefinition(DocumentContextMenu, 3);
+        public static CommandBarGroup DocumentTabGroupContextMenuGroup =
+            new CommandBarGroup(DocumentContextMenu, 3);
 
         [Export]
         public static CommandBarItemDataSource NewHorizontalTabGroupItemItem =

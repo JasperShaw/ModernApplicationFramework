@@ -8,10 +8,10 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
     /// <inheritdoc />
     /// <summary>
-    /// A <see cref="CommandBarGroupDefinition"/> is a container that contains command bar items 
+    /// A <see cref="CommandBarGroup"/> is a container that contains command bar items 
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarDefinitionBase" />
-    public class CommandBarGroupDefinition : CommandBarDataSource
+    public class CommandBarGroup : CommandBarDataSource
     {
         private CommandBarDataSource _parent;
 
@@ -46,11 +46,11 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
         public override Guid Id => Guid.Empty;
 
-        public CommandBarGroupDefinition(CommandBarDataSource parent, uint sortOrder)
+        public CommandBarGroup(CommandBarDataSource parent, uint sortOrder)
             : base(null, sortOrder, null, true, false, false, false)
         {
             _parent = parent;
-            Parent?.ContainedGroups?.AddSorted(this, new SortOrderComparer<CommandBarGroupDefinition>());
+            Parent?.ContainedGroups?.AddSorted(this, new SortOrderComparer<CommandBarGroup>());
             Items = new List<CommandBarItemDataSource>();
         }
     }

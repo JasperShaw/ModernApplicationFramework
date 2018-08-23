@@ -18,7 +18,7 @@ namespace ModernApplicationFramework.Interfaces.Utilities
         /// <param name="itemDefinition">The datamodel of the current item</param>
         //void CreateRecursive<T>(ref T itemsControl, CommandBarDefinitionBase itemDefinition) where T : ItemsControl;
         void CreateRecursive<T>(ref T itemsControl, CommandBarDataSource itemDefinition,
-            IReadOnlyList<CommandBarGroupDefinition> groups, Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDataSource>> itemFunc)
+            IReadOnlyList<CommandBarGroup> groups, Func<CommandBarGroup, IReadOnlyList<CommandBarItemDataSource>> itemFunc)
             where T : ItemsControl;
 
         /// <summary>
@@ -32,8 +32,8 @@ namespace ModernApplicationFramework.Interfaces.Utilities
 
 
         IEnumerable<CommandBarItemDataSource> GetSingleSubDefinitions(CommandBarDataSource menuDefinition,
-            IReadOnlyList<CommandBarGroupDefinition> groups,
-            Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDataSource>> items,
+            IReadOnlyList<CommandBarGroup> groups,
+            Func<CommandBarGroup, IReadOnlyList<CommandBarItemDataSource>> items,
             CommandBarCreationOptions options = CommandBarCreationOptions.DisplaySeparatorsOnlyIfGroupNotEmpty);
     }
 

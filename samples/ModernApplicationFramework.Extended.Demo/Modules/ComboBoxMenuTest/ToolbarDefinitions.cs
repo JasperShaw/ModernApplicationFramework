@@ -16,7 +16,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest
     {
         [Export] public static ToolBarDataSource ComboBox = new ToolBarDataSource(new Guid("{9DC799F9-7997-4DC0-87B0-A12D6FE26AF2}"), "ComboBoxTest", 1, true, Dock.Top);
 
-        [Export] public static CommandBarGroupDefinition Group1 = new CommandBarGroupDefinition(ComboBox, 0);
+        [Export] public static CommandBarGroup Group1 = new CommandBarGroup(ComboBox, 0);
 
         [Export]
         public static CommandBarItemDataSource ComboItem = new ComboBoxDataSource(
@@ -41,8 +41,8 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest
             new MenuDataSource(new Guid("{B99B7750-D09F-48DB-A16E-E695086F4660}"), Group1, 1, CommandBar_Resources.MenuEdit_Name);
 
         [Export]
-        public static CommandBarGroupDefinition EditUndoRedoMenuGroup =
-            new CommandBarGroupDefinition(EditMenu, 0);
+        public static CommandBarGroup EditUndoRedoMenuGroup =
+            new CommandBarGroup(EditMenu, 0);
 
         [Export]
         public static CommandBarItemDataSource EditUndoMenuItem =
@@ -59,8 +59,8 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest
             new MenuDataSource(new Guid("{9E435A36-0D68-440F-BF6B-6D03A8AA1EC7}"), EditUndoRedoMenuGroup, 1, "Test");
 
         [Export]
-        public static CommandBarGroupDefinition EditUndoRedoMenuGroup2 =
-            new CommandBarGroupDefinition(EditMenu2, 0);
+        public static CommandBarGroup EditUndoRedoMenuGroup2 =
+            new CommandBarGroup(EditMenu2, 0);
 
         [Export]
         public static CommandBarItemDataSource EditRedoMenuItem2 =

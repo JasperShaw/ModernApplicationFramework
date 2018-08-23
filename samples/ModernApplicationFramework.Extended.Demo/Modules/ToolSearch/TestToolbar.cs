@@ -12,7 +12,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ToolSearch
     {
         [Export] public static ToolBarDataSource TestToolBar = new ToolBarDataSource(Guid.NewGuid(), "123", 0, true, Dock.Top, ToolbarScope.Anchorable, false);
 
-        [Export] public static CommandBarGroupDefinition TestGroup = new CommandBarGroupDefinition(TestToolBar, 0);
+        [Export] public static CommandBarGroup TestGroup = new CommandBarGroup(TestToolBar, 0);
 
         [Export]
         public static CommandBarItemDataSource Undo =

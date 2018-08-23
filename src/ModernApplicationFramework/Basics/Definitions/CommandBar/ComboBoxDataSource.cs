@@ -151,7 +151,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
         public override Guid Id { get; }
 
-        public ComboBoxDataSource(Guid id, string text, uint sortOrder, CommandBarGroupDefinition group, CommandDefinitionBase definition,
+        public ComboBoxDataSource(Guid id, string text, uint sortOrder, CommandBarGroup group, CommandDefinitionBase definition,
             bool visible, bool isChecked, bool isCustom, bool isCustomizable, CommandBarFlags flags = CommandBarFlags.CommandFlagNone) :
             base(text, sortOrder, group, definition, visible, isChecked, isCustom, isCustomizable, flags)
         {

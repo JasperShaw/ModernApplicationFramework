@@ -230,7 +230,7 @@ namespace ModernApplicationFramework.Basics.Services
             MenuDataSource menu;
             if (guid == Guid.Empty)
             {
-                if (!(parentDefinition is CommandBarGroupDefinition group))
+                if (!(parentDefinition is CommandBarGroup group))
                     throw new ArgumentException("Parent must be a group");
                 menu = new MenuDataSource(guid, group, sortOrder, text, true);
             }
@@ -491,15 +491,15 @@ namespace ModernApplicationFramework.Basics.Services
             return (T)definition;
         }
 
-        private static CommandBarGroupDefinition CreateGroup(CommandBarDataSource parent, uint sortOrder)
+        private static CommandBarGroup CreateGroup(CommandBarDataSource parent, uint sortOrder)
         {
-            return new CommandBarGroupDefinition(parent, sortOrder);
+            return new CommandBarGroup(parent, sortOrder);
         }
 
         private static void AssignGroup(CommandBarItemDataSource item, CommandBarDataSource parentDefinition)
         {
             item.ContainedGroups.Clear();
-            if (parentDefinition is CommandBarGroupDefinition parentGroup)
+            if (parentDefinition is CommandBarGroup parentGroup)
                 item.Group = parentGroup;
         }
 

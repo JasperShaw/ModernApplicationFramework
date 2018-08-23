@@ -606,7 +606,7 @@
     <Compile Include="Basics\Definitions\CommandBar\CommandBarCommandItemDefinitionT.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarDataSource.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarFlags.cs" />
-    <Compile Include="Basics\Definitions\CommandBar\CommandBarGroupDefinition.cs" />
+    <Compile Include="Basics\Definitions\CommandBar\CommandBarGroup.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarItemDataSource.cs" />
     <Compile Include="Basics\Definitions\CommandBar\ExcludeCommandBarElementDefinition.cs" />
     <Compile Include="Basics\Definitions\CommandBar\FlagsDataSource.cs" />

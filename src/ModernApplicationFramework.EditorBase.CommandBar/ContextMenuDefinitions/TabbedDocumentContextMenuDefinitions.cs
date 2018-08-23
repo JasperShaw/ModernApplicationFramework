@@ -13,8 +13,8 @@ namespace ModernApplicationFramework.EditorBase.CommandBar.ContextMenuDefinition
                 Docking.ContextMenuDefinitions.DocumentContextMenuDefinition.DocumentCloseContextMenuGroup, 0, true, false, false, true);
 
 
-        [Export] public static CommandBarGroupDefinition DocumentFileContextMenuGroup =
-            new CommandBarGroupDefinition(
+        [Export] public static CommandBarGroup DocumentFileContextMenuGroup =
+            new CommandBarGroup(
                 Docking.ContextMenuDefinitions.DocumentContextMenuDefinition.DocumentContextMenu, 1);
 
         [Export]

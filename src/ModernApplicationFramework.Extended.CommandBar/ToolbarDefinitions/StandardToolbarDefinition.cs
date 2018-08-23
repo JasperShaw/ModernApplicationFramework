@@ -12,7 +12,7 @@ namespace ModernApplicationFramework.Extended.CommandBar.ToolbarDefinitions
 	{
 		[Export] public static ToolBarDataSource Standard = new ToolBarDataSource(new Guid("{3E4FEEB6-F0D4-4FCD-B1B9-17BB5384CB0A}"), CommandBar_Resources.ToolBarStandard_Name, uint.MinValue, true, Dock.Top);
 
-		[Export] public static CommandBarGroupDefinition StandardUndoRedoGroup = new CommandBarGroupDefinition(Standard, 2);
+		[Export] public static CommandBarGroup StandardUndoRedoGroup = new CommandBarGroup(Standard, 2);
 
 		[Export] public static CommandBarItemDataSource UndoToolbarItem =
 			new SplitButtonDataSource<MultiUndoCommandDefinition>(new Guid("{34B50654-40D7-4322-A22E-4A3CA14E5810}"), 

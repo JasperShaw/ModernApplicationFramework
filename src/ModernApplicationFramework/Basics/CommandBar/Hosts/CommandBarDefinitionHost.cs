@@ -21,13 +21,13 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
     public sealed class CommandBarDefinitionHost : ICommandBarDefinitionHost
     {
         [ImportingConstructor]
-        public CommandBarDefinitionHost([ImportMany] CommandBarGroupDefinition[] menuItemGroups,
+        public CommandBarDefinitionHost([ImportMany] CommandBarGroup[] menuItemGroups,
             [ImportMany] CommandBarItemDataSource[] menuItems,
             [ImportMany] ExcludeCommandBarElementDefinition[] excludedItems,
             [ImportMany] ExcludedCommandDefinition[] excludedCommands)
         {
             ItemGroupDefinitions =
-                new ObservableCollection<CommandBarGroupDefinition>(menuItemGroups.OrderBy(x => x.SortOrder));
+                new ObservableCollection<CommandBarGroup>(menuItemGroups.OrderBy(x => x.SortOrder));
             ItemDefinitions = new ObservableCollection<CommandBarItemDataSource>(menuItems.OrderBy(x => x.SortOrder));
             ExcludedItemDefinitions = new ObservableCollection<CommandBarDataSource>();
             foreach (var item in excludedItems)
@@ -49,7 +49,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             ItemGroupDefinitions.CollectionChanged += ItemGroupDefinitions_CollectionChanged;
         }
 
-        public ObservableCollection<CommandBarGroupDefinition> ItemGroupDefinitions { get; }
+        public ObservableCollection<CommandBarGroup> ItemGroupDefinitions { get; }
 
         public ObservableCollection<CommandBarItemDataSource> ItemDefinitions { get; }
 
@@ -57,7 +57,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
         public ObservableCollection<CommandDefinitionBase> ExcludedCommandDefinitions { get; }
 
-        public IReadOnlyList<CommandBarGroupDefinition> GetSortedGroupsOfDefinition(CommandBarDataSource definition, bool onlyGroupsWithVisibleItems = true)
+        public IReadOnlyList<CommandBarGroup> GetSortedGroupsOfDefinition(CommandBarDataSource definition, bool onlyGroupsWithVisibleItems = true)
         {
             var groups = ItemGroupDefinitions.Where(x => x.Parent == definition)
                 .Where(x => !ExcludedItemDefinitions.Contains(x));
@@ -66,7 +66,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             return groups.OrderBy(x => x.SortOrder).ToList();
         }
 
-        public Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDataSource>> GetItemsOfGroup => group =>
+        public Func<CommandBarGroup, IReadOnlyList<CommandBarItemDataSource>> GetItemsOfGroup => group =>
         {
             var list = ItemDefinitions.Where(x => x.Group == group)
                 .Where(x => !ExcludedItemDefinitions.Contains(x))
@@ -104,7 +104,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         {
             if (e.NewItems != null)
                 foreach (var item in e.NewItems)
-                    if (item is CommandBarGroupDefinition groupDefinition)
+                    if (item is CommandBarGroup groupDefinition)
                     {
                         var items = ItemDefinitions.Where(x => x.Group == groupDefinition);
                         foreach (var itemDefinition in items)
@@ -115,7 +115,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
             if (e.OldItems != null)
                 foreach (var item in e.OldItems)
-                    if (item is CommandBarGroupDefinition groupDefinition)
+                    if (item is CommandBarGroup groupDefinition)
                     {
                         groupDefinition.Parent.ContainedGroups.Remove(groupDefinition);
                         groupDefinition.Items.Clear();

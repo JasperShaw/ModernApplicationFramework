@@ -42,8 +42,8 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
             }
         }
 
-        public override void CreateRecursive<T>(ref T itemsControl, CommandBarDataSource itemDefinition, IReadOnlyList<CommandBarGroupDefinition> groups,
-            Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDataSource>> itemFunc)
+        public override void CreateRecursive<T>(ref T itemsControl, CommandBarDataSource itemDefinition, IReadOnlyList<CommandBarGroup> groups,
+            Func<CommandBarGroup, IReadOnlyList<CommandBarItemDataSource>> itemFunc)
         {
 
             var host = IoC.Get<ICommandBarDefinitionHost>();

@@ -27,7 +27,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
             where T : ItemsControl;
 
         public abstract void CreateRecursive<T>(ref T itemsControl, CommandBarDataSource itemDefinition, 
-            IReadOnlyList<CommandBarGroupDefinition> groups, Func<CommandBarGroupDefinition ,IReadOnlyList<CommandBarItemDataSource>> itemFunc) where T : ItemsControl;
+            IReadOnlyList<CommandBarGroup> groups, Func<CommandBarGroup ,IReadOnlyList<CommandBarItemDataSource>> itemFunc) where T : ItemsControl;
 
         /// <inheritdoc />
         /// <summary>
@@ -93,8 +93,8 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
         }
 
 
-        public IEnumerable<CommandBarItemDataSource> GetSingleSubDefinitions(CommandBarDataSource menuDefinition, IReadOnlyList<CommandBarGroupDefinition> groups,
-            Func<CommandBarGroupDefinition ,IReadOnlyList<CommandBarItemDataSource>> items,
+        public IEnumerable<CommandBarItemDataSource> GetSingleSubDefinitions(CommandBarDataSource menuDefinition, IReadOnlyList<CommandBarGroup> groups,
+            Func<CommandBarGroup ,IReadOnlyList<CommandBarItemDataSource>> items,
             CommandBarCreationOptions options = CommandBarCreationOptions.DisplaySeparatorsOnlyIfGroupNotEmpty)
         {
             if (options.HasFlag(CommandBarCreationOptions.DisplaySeparatorsInAnyCase) && 

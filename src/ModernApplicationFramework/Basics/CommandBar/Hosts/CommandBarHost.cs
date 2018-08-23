@@ -40,7 +40,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             //Apparently the current parent is empty so we need to add a group first
             if (dataSource.Group == null)
             {
-                var group = new CommandBarGroupDefinition(parent, uint.MinValue);
+                var group = new CommandBarGroup(parent, uint.MinValue);
                 dataSource.Group = group;
                 DefinitionHost.ItemGroupDefinitions.AddSorted(group, new SortOrderComparer<CommandBarDataSource>());
             }
@@ -133,7 +133,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         }
 
 
-        public void BuildLogical(CommandBarDataSource definition, IReadOnlyList<CommandBarGroupDefinition> groups, Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDataSource>> itemFunc)
+        public void BuildLogical(CommandBarDataSource definition, IReadOnlyList<CommandBarGroup> groups, Func<CommandBarGroup, IReadOnlyList<CommandBarItemDataSource>> itemFunc)
         {
             var topGroups = groups.Where(x => x.Parent == definition)
                 .OrderBy(x => x.SortOrder)
@@ -173,7 +173,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         }
 
 
-        public void DeleteGroup(CommandBarGroupDefinition group, AppendTo option = AppendTo.Next)
+        public void DeleteGroup(CommandBarGroup group, AppendTo option = AppendTo.Next)
         {
             var definitionsInCurrentGroup = group.Items;
             var newGroup = option == AppendTo.Next ? GetNextGroup(group) : GetPreviousGroup(group);
@@ -242,7 +242,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             foreach (var groupDefinition in groupsToResort)
                 groupDefinition.SortOrder = i++;
 
-            var newGroup = new CommandBarGroupDefinition(parent, newGroupSortOrder);
+            var newGroup = new CommandBarGroup(parent, newGroupSortOrder);
 
             uint j = 0;
             foreach (var itemDefinition in itemsToRegroup.ToList())
@@ -255,7 +255,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             foreach (var itemDefinition in itemsToRegroupInOldGroup)
                 itemDefinition.SortOrder = k++;
 
-            DefinitionHost.ItemGroupDefinitions.AddSorted(newGroup, new SortOrderComparer<CommandBarGroupDefinition>());
+            DefinitionHost.ItemGroupDefinitions.AddSorted(newGroup, new SortOrderComparer<CommandBarGroup>());
             RemoveGapsInGroupSortOrder(parent);
             BuildLogical(parent);
         }
@@ -334,13 +334,13 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             return nextItem;
         }
 
-        public CommandBarGroupDefinition GetNextGroup(CommandBarGroupDefinition group)
+        public CommandBarGroup GetNextGroup(CommandBarGroup group)
         {
             return group.Parent.ContainedGroups.OrderBy(x => x.SortOrder)
                 .FirstOrDefault(x => x.SortOrder > group.SortOrder);
         }
 
-        public CommandBarGroupDefinition GetPreviousGroup(CommandBarGroupDefinition group)
+        public CommandBarGroup GetPreviousGroup(CommandBarGroup group)
         {
             return group.Parent.ContainedGroups.OrderBy(x => x.SortOrder)
                 .LastOrDefault(x => x.SortOrder < group.SortOrder);
@@ -463,9 +463,9 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
         public static CommandBarDataSource FindRoot(CommandBarDataSource definition)
         {
-            if (!(definition is CommandBarItemDataSource) && !(definition is CommandBarGroupDefinition))
+            if (!(definition is CommandBarItemDataSource) && !(definition is CommandBarGroup))
                 return definition;
-            if (definition is CommandBarGroupDefinition groupDefinition)
+            if (definition is CommandBarGroup groupDefinition)
                 return FindRoot(groupDefinition.Parent);
             var itemDefinition = (CommandBarItemDataSource) definition;
             return FindRoot(itemDefinition.Group.Parent);
@@ -485,12 +485,12 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             }
         }
 
-        private IEnumerable<CommandBarGroupDefinition> GetAllGroupsInParent(CommandBarDataSource parent)
+        private IEnumerable<CommandBarGroup> GetAllGroupsInParent(CommandBarDataSource parent)
         {
             return parent.ContainedGroups.OrderBy(x => x.SortOrder);
         }
 
-        private CommandBarGroupDefinition GetLastGroupDefinitionInParent(CommandBarDataSource parent)
+        private CommandBarGroup GetLastGroupDefinitionInParent(CommandBarDataSource parent)
         {
             return GetAllGroupsInParent(parent).LastOrDefault();
         }

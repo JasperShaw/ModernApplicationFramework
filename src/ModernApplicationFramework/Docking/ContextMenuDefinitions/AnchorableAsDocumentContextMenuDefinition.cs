@@ -11,8 +11,8 @@ namespace ModernApplicationFramework.Docking.ContextMenuDefinitions
         [Export] public static ContextMenuDataSource AnchorableAsDocumentContextMenu =
             new ContextMenuDataSource(new Guid("{B3F345F4-65B8-4E5F-A1A8-78A685570595}"), ContextMenuCategory.OtherContextMenusCategory, DockingResources.AnchorableAsDocumentContextMenu_Name);
 
-        [Export] public static CommandBarGroupDefinition AnchorCloseContextMenuGroup =
-            new CommandBarGroupDefinition(AnchorableAsDocumentContextMenu, uint.MinValue);
+        [Export] public static CommandBarGroup AnchorCloseContextMenuGroup =
+            new CommandBarGroup(AnchorableAsDocumentContextMenu, uint.MinValue);
 
         [Export] public static CommandBarItemDataSource CloseCommandItem =
             new CommandBarCommandItemDataSource<CloseDockedWindowCommandDefinition>(new Guid("{997271C3-BFBD-45A7-9F95-CEF05CE42120}"), AnchorCloseContextMenuGroup, 1);
@@ -21,8 +21,8 @@ namespace ModernApplicationFramework.Docking.ContextMenuDefinitions
             new CommandBarCommandItemDataSource<CloseAllButThisDockedWindowCommandDefinition>(new Guid("{B36DE2BA-B399-4190-8FCE-362E55D96EDF}"), 
                 AnchorCloseContextMenuGroup, 2);
 
-        [Export] public static CommandBarGroupDefinition AnchorableContextMenuGroup =
-            new CommandBarGroupDefinition(AnchorableAsDocumentContextMenu, 1);
+        [Export] public static CommandBarGroup AnchorableContextMenuGroup =
+            new CommandBarGroup(AnchorableAsDocumentContextMenu, 1);
 
         [Export] public static CommandBarItemDataSource FloatCommandItem =
             new CommandBarCommandItemDataSource<FloatDockedWindowCommandDefinition>(new Guid("{77890BF4-7C29-4034-88E6-81FF4391F51D}"), AnchorableContextMenuGroup, 0);
@@ -36,8 +36,8 @@ namespace ModernApplicationFramework.Docking.ContextMenuDefinitions
         [Export] public static CommandBarItemDataSource HideCommandItem =
             new CommandBarCommandItemDataSource<HideDockedWindowCommandDefinition>(new Guid("{CC1D3ACE-D60F-476D-98AD-0CF65F06F2A2}"), AnchorableContextMenuGroup, 3);
 
-        [Export] public static CommandBarGroupDefinition DocumentTabGroupContextMenuGroup =
-            new CommandBarGroupDefinition(AnchorableAsDocumentContextMenu, 2);
+        [Export] public static CommandBarGroup DocumentTabGroupContextMenuGroup =
+            new CommandBarGroup(AnchorableAsDocumentContextMenu, 2);
 
         [Export] public static CommandBarItemDataSource NewHorizontalTabGroupItemItem =
             new CommandBarCommandItemDataSource<NewHorizontalTabGroupCommandDefinition>(new Guid("{3A5197AF-CBB1-4C94-9706-B4A0A5785F7F}"), 

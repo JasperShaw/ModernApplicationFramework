@@ -8,9 +8,9 @@ namespace ModernApplicationFramework.Extended.CommandBar.MenuDefinitions
 {
     public static class ViewMenuDefinitions
     {
-        [Export] public static CommandBarGroupDefinition ScreenViewGroup = new CommandBarGroupDefinition(TopLevelMenuDefinitions.ViewMenu, 4);
+        [Export] public static CommandBarGroup ScreenViewGroup = new CommandBarGroup(TopLevelMenuDefinitions.ViewMenu, 4);
 
-        [Export] public static CommandBarGroupDefinition ToolsViewGroup = new CommandBarGroupDefinition(TopLevelMenuDefinitions.ViewMenu, 3);
+        [Export] public static CommandBarGroup ToolsViewGroup = new CommandBarGroup(TopLevelMenuDefinitions.ViewMenu, 3);
 
         [Export] public static CommandBarItemDataSource FullScreen =
             new CommandBarCommandItemDataSource<FullScreenCommandDefinition>(

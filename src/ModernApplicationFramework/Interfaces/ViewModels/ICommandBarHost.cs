@@ -39,8 +39,8 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         void BuildLogical(CommandBarDataSource definition);
 
 
-        void BuildLogical(CommandBarDataSource definition, IReadOnlyList<CommandBarGroupDefinition> groups,
-            Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDataSource>> itemFunc);
+        void BuildLogical(CommandBarDataSource definition, IReadOnlyList<CommandBarGroup> groups,
+            Func<CommandBarGroup, IReadOnlyList<CommandBarItemDataSource>> itemFunc);
 
         /// <summary>
         /// Adds a <see cref="CommandBarDataSource"/> to the parent's sub-tree
@@ -86,11 +86,11 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         CommandBarItemDataSource GetPreviousItemInGroup(CommandBarItemDataSource dataSource);
 
         /// <summary>
-        /// Deletes a <see cref="CommandBarGroupDefinition"/> and moves all containing items as specified.
+        /// Deletes a <see cref="CommandBarGroup"/> and moves all containing items as specified.
         /// </summary>
         /// <param name="group">The group to delte</param>
         /// <param name="option">The option where to move all containing items</param>
-        void DeleteGroup(CommandBarGroupDefinition group, AppendTo option);
+        void DeleteGroup(CommandBarGroup group, AppendTo option);
 
         /// <summary>
         /// Gets all top-level definitions
@@ -116,16 +116,16 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         /// Gets the successor group
         /// </summary>
         /// <param name="group">The group which successor is searched</param>
-        /// <returns>The found <see cref="CommandBarGroupDefinition"/>. Returns <see langword="null"/> if there was no successor</returns>
-        CommandBarGroupDefinition GetNextGroup(CommandBarGroupDefinition group);
+        /// <returns>The found <see cref="CommandBarGroup"/>. Returns <see langword="null"/> if there was no successor</returns>
+        CommandBarGroup GetNextGroup(CommandBarGroup group);
 
 
         /// <summary>
         /// Gets the pre group predecessor
         /// </summary>
         /// <param name="group">The group which predecessor is searched</param>
-        /// <returns>The found <see cref="CommandBarGroupDefinition"/>. Returns <see langword="null"/> if there was no predecessor</returns>
-        CommandBarGroupDefinition GetPreviousGroup(CommandBarGroupDefinition group);
+        /// <returns>The found <see cref="CommandBarGroup"/>. Returns <see langword="null"/> if there was no predecessor</returns>
+        CommandBarGroup GetPreviousGroup(CommandBarGroup group);
 
 
         /// <summary>
