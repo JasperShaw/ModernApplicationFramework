@@ -9,7 +9,7 @@ using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
-    public class ComboBoxDataSource : CommandBarItemDataSource
+    internal class ComboBoxDataSource : CommandBarItemDataSource
     {
         private string _displayedText;
         private string _shortcutText;
@@ -149,6 +149,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
+        public override CommandBarItemTypes UiType => CommandBarItemTypes.Combobox;
+
         public override Guid Id { get; }
 
         public ComboBoxDataSource(Guid id, string text, uint sortOrder, CommandBarGroup group, CommandDefinitionBase definition,
@@ -213,7 +215,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             if (Equals(_tempItem, Model.SelectedItem))
             {
                 DisplayedItem = _tempItem;
-                DisplayedText = _tempItem.Text;
+                DisplayedText = _tempItem?.Text;
             }
             else
                 Model.SelectedItem = _tempItem;

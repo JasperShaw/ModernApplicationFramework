@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.ComponentModel.Composition.Primitives;
 using System.Windows.Controls;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
@@ -18,15 +19,23 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest
 
         [Export] public static CommandBarGroup Group1 = new CommandBarGroup(ComboBox, 0);
 
-        [Export]
-        public static CommandBarItemDataSource ComboItem = new ComboBoxDataSource(
-            new Guid("{525CEE81-5407-405B-9A3F-FF6133505495}"), "Test", 0, Group1,
-            IoC.Get<ComboBoxCommandDefinition>(), true, false, false, true);
+        //[Export]
+        //public static CommandBarItemDataSource ComboItem = new ComboBoxDataSource(
+        //    new Guid("{525CEE81-5407-405B-9A3F-FF6133505495}"), "Test", 0, Group1,
+        //    IoC.Get<ComboBoxCommandDefinition>(), true, false, false, true);
 
-        [Export]
-        public static CommandBarItemDataSource ComboItem2 = new ComboBoxDataSource(
-            new Guid("{28C34A28-06A6-48E9-942F-6659E506B38B}"), "Test2", 0, Group1,
-            IoC.Get<ComboBoxCommandDefinition>(), true, false, false, true);
+        //[Export]
+        //public static CommandBarItemDataSource ComboItem2 = new ComboBoxDataSource(
+        //    new Guid("{28C34A28-06A6-48E9-942F-6659E506B38B}"), "Test2", 0, Group1,
+        //    IoC.Get<ComboBoxCommandDefinition>(), true, false, false, true);
+
+        [Export] public static CommandBarItem ComboItem3 =
+            new CommandBarComboBox<ComboBoxCommandDefinition>(new Guid("{525CEE81-5407-405B-9A3F-FF6133505495}"),
+                Group1, 0);
+
+        [Export] public static CommandBarItem ComboItem4 =
+            new CommandBarComboBox<ComboBoxCommandDefinition>(new Guid("{28C34A28-06A6-48E9-942F-6659E506B38B}"),
+                Group1, 1);
 
 
         [Export]

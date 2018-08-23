@@ -230,7 +230,7 @@
             <listBoxes:CustomizeControlsListBox x:Name="ControlsListBox" Grid.Row="1" Grid.Column="0"
                                                Margin="10,0,10,10" SelectedIndex="0"
                                                IsSynchronizedWithCurrentItem="True" ItemsSource="{Binding Items}"
-                                               SelectedItem="{Binding SelectedListBoxDefinition, Mode=TwoWay}">
+                                               SelectedItem="{Binding SelectedListBoxItem, Mode=TwoWay}">
                 <!--<ItemsControl.ItemsSource>
                     <MultiBinding Converter="{StaticResource EnabledFilteringMultiConverter}">
                         <Binding ElementName="MenuBarCombo" Path="IsEnabled"/>
@@ -253,7 +253,7 @@
                                        Command="{Binding HandleAddNewMenuCommand}" />
                 <dialogButtons:DialogButton x:Name="DeleteButton" Content="{x:Static customizeDialog:Customize_Resources.CommandsPage_Delete}" Command="{Binding HandleDeleteCommand}">
                     <UIElement.IsEnabled>
-                        <Binding Path="SelectedListBoxDefinition"
+                        <Binding Path="SelectedListBoxItem"
                                  Converter="{StaticResource IsSeparatorOrCustomizableModelConverter}" />
                     </UIElement.IsEnabled>
                 </dialogButtons:DialogButton>
@@ -279,7 +279,7 @@
                                                Content="{x:Static customizeDialog:Customize_Resources.CommandsPage_ModifySelection}"
                                                DropDownMenu="{DynamicResource ModifySelectionCommandsMenu}">
                     <UIElement.IsEnabled>
-                        <Binding Path="SelectedListBoxDefinition"
+                        <Binding Path="SelectedListBoxItem"
                                  Converter="{StaticResource IsNotSeparatorModelConverter}" />
                     </UIElement.IsEnabled>
                 </buttons:DropDownDialogButton>

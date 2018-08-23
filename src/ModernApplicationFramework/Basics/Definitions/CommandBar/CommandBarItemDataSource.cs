@@ -123,6 +123,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
+        public virtual CommandBarItemTypes UiType { get; } = CommandBarItemTypes.Button;
+
 
         //protected CommandBarItemDataSource(CommandBarItemDataSource inner) : base(inner)
         //{

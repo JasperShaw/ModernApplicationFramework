@@ -9,6 +9,7 @@ using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Core.Comparers;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 {
@@ -18,17 +19,24 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
     /// </summary>
     /// <seealso cref="T:ICommandBarDefinitionHost" />
     [Export(typeof(ICommandBarDefinitionHost))]
-    public sealed class CommandBarDefinitionHost : ICommandBarDefinitionHost
+    internal sealed class CommandBarDefinitionHost : ICommandBarDefinitionHost, IPartImportsSatisfiedNotification
     {
+
+        [Import] private CommandBarItemFactory _itemFactory;
+
+        [ImportMany] private List<Lazy<CommandBarItemDataSource>> _items;
+
+
         [ImportingConstructor]
-        public CommandBarDefinitionHost([ImportMany] CommandBarGroup[] menuItemGroups,
+        internal CommandBarDefinitionHost([ImportMany] CommandBarGroup[] menuItemGroups,
             [ImportMany] CommandBarItemDataSource[] menuItems,
             [ImportMany] ExcludeCommandBarElementDefinition[] excludedItems,
             [ImportMany] ExcludedCommandDefinition[] excludedCommands)
         {
             ItemGroupDefinitions =
                 new ObservableCollection<CommandBarGroup>(menuItemGroups.OrderBy(x => x.SortOrder));
-            ItemDefinitions = new ObservableCollection<CommandBarItemDataSource>(menuItems.OrderBy(x => x.SortOrder));
+            //ItemDefinitions = new ObservableCollection<CommandBarItemDataSource>(menuItems.OrderBy(x => x.SortOrder));
+            ItemDefinitions = new ObservableCollection<CommandBarItemDataSource>();
             ExcludedItemDefinitions = new ObservableCollection<CommandBarDataSource>();
             foreach (var item in excludedItems)
                 ExcludedItemDefinitions.Add(item.ExcludedCommandBarDefinition);
@@ -39,13 +47,6 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             foreach (var item in excludedCommands)
                 ExcludedCommandDefinitions.Add(item.ExcludedDefinition);
 
-            foreach (var itemDefinition in ItemDefinitions)
-            {
-                var group = ItemGroupDefinitions.FirstOrDefault(x => x == itemDefinition.Group);
-                group?.Items.AddSorted(itemDefinition, new SortOrderComparer<CommandBarDataSource>());
-            }
-
-            ItemDefinitions.CollectionChanged += ItemDefinitions_CollectionChanged;
             ItemGroupDefinitions.CollectionChanged += ItemGroupDefinitions_CollectionChanged;
         }
 
@@ -143,6 +144,27 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
                 foreach (var item in e.OldItems)
                     if (item is CommandBarItemDataSource itemDefinition)
                         itemDefinition.Group.Items.Remove(itemDefinition);
+        }
+
+        public void OnImportsSatisfied()
+        {
+
+            var items = _items.Select(x => x.Value).ToList();
+            items.AddRange(_itemFactory.RegisteredCommandBarItems.Select(x => x.Value.ItemDataSource));
+
+            foreach (var item in items)
+            {
+                ItemDefinitions.Add(item);
+            }
+
+
+            foreach (var itemDefinition in ItemDefinitions)
+            {
+                var group = ItemGroupDefinitions.FirstOrDefault(x => x == itemDefinition.Group);
+                group?.Items.AddSorted(itemDefinition, new SortOrderComparer<CommandBarDataSource>());
+            }
+
+            ItemDefinitions.CollectionChanged += ItemDefinitions_CollectionChanged;
         }
     }
 }
