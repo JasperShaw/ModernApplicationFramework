@@ -19,12 +19,12 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest
         [Export] public static CommandBarGroupDefinition Group1 = new CommandBarGroupDefinition(ComboBox, 0);
 
         [Export]
-        public static CommandBarItemDataSource ComboItem = new ComboBoxDataSourceEx(
+        public static CommandBarItemDataSource ComboItem = new ComboBoxDataSource(
             new Guid("{525CEE81-5407-405B-9A3F-FF6133505495}"), "Test", 0, Group1,
             IoC.Get<ComboBoxCommandDefinition>(), true, false, false, true);
 
         [Export]
-        public static CommandBarItemDataSource ComboItem2 = new ComboBoxDataSourceEx(
+        public static CommandBarItemDataSource ComboItem2 = new ComboBoxDataSource(
             new Guid("{28C34A28-06A6-48E9-942F-6659E506B38B}"), "Test2", 0, Group1,
             IoC.Get<ComboBoxCommandDefinition>(), true, false, false, true);
 

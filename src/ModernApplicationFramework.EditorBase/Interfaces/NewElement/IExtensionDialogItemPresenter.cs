@@ -35,7 +35,8 @@ namespace ModernApplicationFramework.EditorBase.Interfaces.NewElement
 
         ObservableCollection<ISortingComboboxItem> SortItems { get; set; }
 
-        ComboBoxDataSource SortDataSource { get; set; }
+        //TODO combo:
+        //ComboBoxDataSource SortDataSource { get; set; }
 
 
         IExtensionDefinition SelectedExtension { get; set; }

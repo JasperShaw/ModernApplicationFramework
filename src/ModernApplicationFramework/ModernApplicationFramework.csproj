@@ -238,7 +238,9 @@
     <Compile Include="Basics\ApplicationEnvironment\AbstractEnvironmentVariables.cs" />
     <Compile Include="Basics\ApplicationEnvironment\FallbackEnvironmentVariables.cs" />
     <Compile Include="Basics\CommandBar\Commands\CustomizeMenuCommand.cs" />
-    <Compile Include="Controls\ComboBox\ComboBoxDataSourceEx.cs" />
+    <Compile Include="Basics\Definitions\CommandBar\ComboBoxDataSource.cs" />
+    <Compile Include="Basics\Definitions\CommandBar\ComboBoxItemModel.cs" />
+    <Compile Include="Basics\Definitions\CommandBar\ComboBoxModel.cs" />
     <Compile Include="Interfaces\Commands\ICustomizeMenuCommand.cs" />
     <Compile Include="Basics\Search\Search.Resources.Designer.cs">
       <DependentUpon>Search.Resources.resx</DependentUpon>
@@ -486,7 +488,6 @@
     <Compile Include="Input\MultiKeyBinding.cs" />
     <Compile Include="Input\MultiKeyGestureValueSerializer.cs" />
     <Compile Include="Input\Command\UICommand.cs" />
-    <Compile Include="Controls\ComboBox\ComboBoxItemsWrapper.cs" />
     <Compile Include="Controls\TextBoxes\KeyGestureTextBox.cs" />
     <Compile Include="Core\Comparers\CategoryCommandTextComparer.cs" />
     <Compile Include="Core\Converters\General\NullToBooleanConverter.cs" />
@@ -501,7 +502,6 @@
     <Compile Include="Basics\Services\MafUIShell.cs" />
     <Compile Include="Basics\Services\AbstractStatusBarService.cs" />
     <Compile Include="Core\BackgroundDispatcher.cs" />
-    <Compile Include="Controls\ComboBox\ComboBoxVisualSource.cs" />
     <Compile Include="Controls\ElementContainer.cs" />
     <Compile Include="Controls\VisualTargetPresentationSource.cs" />
     <Compile Include="Controls\VisualWrapper.cs" />
@@ -509,7 +509,6 @@
     <Compile Include="Controls\StatusBarContainer.cs" />
     <Compile Include="Controls\TextBoxes\NumberOnlyTextBox.cs" />
     <Compile Include="Basics\Services\Bootstrapper.cs" />
-    <Compile Include="Controls\ComboBox\ComboBoxDataSource.cs" />
     <Compile Include="Basics\CommandBar\CommandBarResources.Designer.cs">
       <DependentUpon>CommandBarResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -570,7 +569,6 @@
     <Compile Include="Interfaces\ViewModels\IAddCommandDialogViewModel.cs" />
     <Compile Include="Basics\Definitions\CommandBar\MenuControllerDataSource.cs" />
     <Compile Include="Basics\Definitions\CommandBar\SplitButtonDataSource.cs" />
-    <Compile Include="Basics\Definitions\CommandBar\CommandBarComboItemDefinitionT.cs" />
     <Compile Include="Basics\Creators\NumberStatusStringCreator.cs" />
     <Compile Include="Basics\Definitions\CommandBar\TextCommandBarItemDefinition.cs" />
     <Compile Include="Core\Converters\FormattedLocalizableStringConverter.cs" />

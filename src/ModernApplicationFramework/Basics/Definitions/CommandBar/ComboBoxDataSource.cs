@@ -1,21 +1,19 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Caliburn.Micro;
-using JetBrains.Annotations;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Controls.ComboBox;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Controls.ComboBox
+namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
-    public class ComboBoxDataSourceEx : CommandBarItemDataSource
+    public class ComboBoxDataSource : CommandBarItemDataSource
     {
         private string _displayedText;
         private string _shortcutText;
-        private bool _isEditable = true;
+        private bool _isEditable;
         private bool _isFocused;
         private int _selectionBegin;
         private int _selectionEnd;
@@ -25,6 +23,9 @@ namespace ModernApplicationFramework.Controls.ComboBox
         private ComboBoxModel _model;
         private IHasTextProperty _displayedItem;
         private IObservableCollection<IHasTextProperty> _items;
+
+
+        private IHasTextProperty _tempItem;
 
         private bool _isUpdating;
 
@@ -154,7 +155,7 @@ namespace ModernApplicationFramework.Controls.ComboBox
 
         public override Guid Id { get; }
 
-        public ComboBoxDataSourceEx(Guid id, string text, uint sortOrder, CommandBarGroupDefinition group, CommandDefinitionBase definition,
+        public ComboBoxDataSource(Guid id, string text, uint sortOrder, CommandBarGroupDefinition group, CommandDefinitionBase definition,
             bool visible, bool isChecked, bool isCustom, bool isCustomizable, CommandBarFlags flags = CommandBarFlags.CommandFlagNone) :
             base(text, sortOrder, group, definition, visible, isChecked, isCustom, isCustomizable, flags)
         {
@@ -162,6 +163,7 @@ namespace ModernApplicationFramework.Controls.ComboBox
             {
                 Model = comboBoxDefinition.Model;
                 Model.PropertyChanged += ModelOnPropertyChanged;
+                _isEditable = Model.IsEditing;
             }
 
             Id = id;
@@ -171,13 +173,13 @@ namespace ModernApplicationFramework.Controls.ComboBox
 
         private void ModelOnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (_isUpdating)
-                return;
+            //if (_isUpdating)
+            //    return;
             switch (e.PropertyName)
             {
                 case nameof(Model.SelectedItem):
                     DisplayedItem = Model.SelectedItem;
-                    DisplayedText = Model.SelectedItem.Text;
+                    DisplayedText = Model.SelectedItem?.Text;
                     break;
                 case nameof(Model.IsEditing):
                     IsEditable = Model.IsEditing;
@@ -187,7 +189,10 @@ namespace ModernApplicationFramework.Controls.ComboBox
 
         public void ExecuteItem(int index)
         {
-            InvokeSetDisplayedItemByIndex(index);
+            var item = Items.ElementAtOrDefault(index);
+            if (item == null)
+                return;
+            _tempItem = item;
         }
 
         public void ExecuteItem(string text)
@@ -211,10 +216,13 @@ namespace ModernApplicationFramework.Controls.ComboBox
 
         public void Update()
         {
-            _isUpdating = true;
-            Model.SelectedItem = DisplayedItem;
-            Model.IsEditing = IsEditable;
-            _isUpdating = false;
+            if (Equals(_tempItem, Model.SelectedItem))
+            {
+                DisplayedItem = _tempItem;
+                DisplayedText = _tempItem.Text;
+            }
+            else
+                Model.SelectedItem = _tempItem;
         }
 
         public void InvokeSetDisplayedItemByIndex(int index)
@@ -238,25 +246,14 @@ namespace ModernApplicationFramework.Controls.ComboBox
             }
         }
 
-        private void AssureSelection()
-        {
-            if (DisplayedItem == null)
-            {
-                DisplayedText = string.Empty;
-                return;
-            }
-            var item = Items.FirstOrDefault(x => x.Text == DisplayedItem.Text);
-            DisplayedItem = item;
-            DisplayedText = item?.Text;
-        }
-
         internal bool InvokeFilterEvent(FilterKeyMessages filterMessage, string text, int virtualKeyCode = 0, char input = char.MinValue)
         {
             switch (filterMessage)
             {
                 case FilterKeyMessages.GotFocus:
-                case FilterKeyMessages.LostFocus:
-                    AssureSelection();
+                    _tempItem = DisplayedItem;
+                    return false;
+                case FilterKeyMessages.LostFocus:                      
                     return false;
                 case FilterKeyMessages.CharPressed:
                     return Model.FilterTextInput(input);
@@ -280,117 +277,6 @@ namespace ModernApplicationFramework.Controls.ComboBox
                 default:
                     throw new ArgumentOutOfRangeException(nameof(filterMessage), filterMessage, null);
             }
-        }
-    }
-
-    public class ComboBoxModel : INotifyPropertyChanged
-    {
-        public static ComboBoxModel Instance = new ComboBoxModel();
-        private bool _isEditing;
-        private IHasTextProperty _selectedItem;
-
-        public IObservableCollection<IHasTextProperty> Items { get; }
-
-        public IHasTextProperty SelectedItem
-        {
-            get => _selectedItem;
-            set
-            {
-                if (Equals(value, _selectedItem)) return;
-                _selectedItem = value;
-                OnSelectionChanged(value);
-                OnPropertyChanged();
-            }
-        }
-
-        public bool IsEditing
-        {
-            get => _isEditing;
-            set
-            {
-                if (value == _isEditing) return;
-                _isEditing = value;
-                OnEditingChanged(value);
-                OnPropertyChanged();
-            }
-        }
-
-        public ComboBoxModel()
-        {
-            Items = new BindableCollection<IHasTextProperty>
-            {
-                new ComboBoxItemModel("123"),
-                new ComboBoxItemModel("456"),
-                new ComboBoxItemModel("789"),
-            };
-        }
-
-        public void ClearItems()
-        {
-            Items.Clear();
-        }
-
-        public void AddItem(ComboBoxItemModel item)
-        {
-            Validate.IsNotNull(item, nameof(item));
-            if (Items.Contains(item))
-                throw new ArgumentException("Cannot add the same item twice");
-            Items.Add(item);
-        }
-
-        public virtual bool FilterKey(int virtualKeyCode, bool systemKey = false)
-        {
-            return false;
-        }
-
-        public virtual bool FilterTextInput(char input)
-        {
-            return false;
-        }
-
-        protected virtual void OnSelectionChanged(IHasTextProperty item)
-        {
-        }
-
-        protected virtual void OnEditingChanged(bool editable)
-        {
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-    }
-
-    public class ComboBoxItemModel : IHasTextProperty
-    {
-        private string _text;
-
-        public string Text
-        {
-            get => _text;
-            set
-            {
-                if (value == _text) return;
-                _text = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public ComboBoxItemModel(string text)
-        {
-            _text = text;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

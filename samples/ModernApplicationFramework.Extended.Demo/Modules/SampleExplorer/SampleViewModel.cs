@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.Composition;
-using System.Linq;
 using System.Windows.Input;
-using ModernApplicationFramework.Controls.ComboBox;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest.Commands;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Input.Command;
@@ -20,8 +20,9 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.SampleExplorer
 
         private void AddComboValue()
         {
-            ComboBoxModel.Instance.AddItem(new ComboBoxItemModel("012"));
-            //
+            var i = new ComboBoxItemModel("012");
+            ComboDataModel.AddItem(i);
+            ComboDataModel.SelectedItem = i;
         }
 
         private void ShowComboValue()
@@ -36,7 +37,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.SampleExplorer
         {
             _dockingHostViewModel = shell;
             Samples = samples;
-            ComboDataModel = ComboBoxModel.Instance;
+            ComboDataModel = TestComboModel.Instance;
         }
 
         public ComboBoxModel ComboDataModel { get; }

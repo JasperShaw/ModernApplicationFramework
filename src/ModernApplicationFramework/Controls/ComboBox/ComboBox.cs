@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Core.Localization;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces;
@@ -68,7 +69,7 @@ namespace ModernApplicationFramework.Controls.ComboBox
 
         private string _displayedTextOnFocus;
 
-        private ComboBoxDataSourceEx _controllingDataSource;
+        private ComboBoxDataSource _controllingDataSource;
 
         public MenuItem ParentMenuItem => this.FindAncestor<MenuItem>();
 
@@ -76,7 +77,7 @@ namespace ModernApplicationFramework.Controls.ComboBox
         {
             get
             {
-                if (!(DataContext is ComboBoxDataSourceEx data))
+                if (!(DataContext is ComboBoxDataSource data))
                     return false;
                 return data.Flags.FilterKeys;
             }
@@ -86,7 +87,7 @@ namespace ModernApplicationFramework.Controls.ComboBox
         {
             get
             {
-                if (!(DataContext is ComboBoxDataSourceEx data))
+                if (!(DataContext is ComboBoxDataSource data))
                     return false;
                 return data.Flags.ComboCommitsOnDrop;
             }
@@ -627,7 +628,7 @@ namespace ModernApplicationFramework.Controls.ComboBox
             UnsubscribeFromPropertyChanges(_controllingDataSource);
         }
 
-        private void UnsubscribeFromPropertyChanges(ComboBoxDataSourceEx dataSource)
+        private void UnsubscribeFromPropertyChanges(ComboBoxDataSource dataSource)
         {
             if (!(dataSource is INotifyPropertyChanged ds))
                 return;
@@ -731,7 +732,7 @@ namespace ModernApplicationFramework.Controls.ComboBox
                 _controllingDataSource = null;
             }
 
-            if (!(e.NewValue is ComboBoxDataSourceEx dataSource))
+            if (!(e.NewValue is ComboBoxDataSource dataSource))
                 return;
             _controllingDataSource = dataSource;
             SubscribeToPropertyChanges(_controllingDataSource);

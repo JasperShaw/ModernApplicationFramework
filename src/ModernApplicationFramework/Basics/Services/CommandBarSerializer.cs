@@ -316,34 +316,34 @@ namespace ModernApplicationFramework.Basics.Services
             childNode.TryGetValueResult<string>("Text", out var text);
             childNode.TryGetValueResult("IsVisible", out var visible, true);
 
-            CommandBarComboItem comboboxItem;
-            if (guid == Guid.Empty)
-            {
-                var commandId = childNode.GetAttributeValue<Guid>("Command");
-                if (commandId == Guid.Empty)
-                    throw new NotSupportedException("CommandId cannot be 'Guid.Empty'");
-                var command = _allCommandDefintions.FirstOrDefault(x => x.Id.Equals(commandId));
-                if (command == null)
-                    throw new ArgumentNullException(nameof(parentDefinition));
-                comboboxItem =
-                    new CommandBarComboItem(guid, text, sortOrder, null, command, true, false, true);
-            }
-            else
-                comboboxItem = FindCommandBarDefinitionById<CommandBarComboItem>(guid);
+            //CommandBarComboItem comboboxItem;
+            //if (guid == Guid.Empty)
+            //{
+            //    var commandId = childNode.GetAttributeValue<Guid>("Command");
+            //    if (commandId == Guid.Empty)
+            //        throw new NotSupportedException("CommandId cannot be 'Guid.Empty'");
+            //    var command = _allCommandDefintions.FirstOrDefault(x => x.Id.Equals(commandId));
+            //    if (command == null)
+            //        throw new ArgumentNullException(nameof(parentDefinition));
+            //    comboboxItem =
+            //        new CommandBarComboItem(guid, text, sortOrder, null, command, true, false, true);
+            //}
+            //else
+            //    comboboxItem = FindCommandBarDefinitionById<CommandBarComboItem>(guid);
 
-            if (comboboxItem == null)
-                return;
+            //if (comboboxItem == null)
+            //    return;
 
-            AssignGroup(comboboxItem, parentDefinition);
-            SetFlags(comboboxItem, childNode);
-            comboboxItem.SortOrder = sortOrder;
-            comboboxItem.VisualSource.Flags.EnableStyleFlags((CommandBarFlags)vFlags);
-            comboboxItem.VisualSource.IsEditable = editable;
-            comboboxItem.VisualSource.DropDownWidth = dropDownWidth;
-            comboboxItem.IsVisible = visible;
-            if (text != null)
-                comboboxItem.Text = text;
-            _definitionHost.ItemDefinitions.Add(comboboxItem);
+            //AssignGroup(comboboxItem, parentDefinition);
+            //SetFlags(comboboxItem, childNode);
+            //comboboxItem.SortOrder = sortOrder;
+            //comboboxItem.VisualSource.Flags.EnableStyleFlags((CommandBarFlags)vFlags);
+            //comboboxItem.VisualSource.IsEditable = editable;
+            //comboboxItem.VisualSource.DropDownWidth = dropDownWidth;
+            //comboboxItem.IsVisible = visible;
+            //if (text != null)
+            //    comboboxItem.Text = text;
+            //_definitionHost.ItemDefinitions.Add(comboboxItem);
         }
 
         #endregion

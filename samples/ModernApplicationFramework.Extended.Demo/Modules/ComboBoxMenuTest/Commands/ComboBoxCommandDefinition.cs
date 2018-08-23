@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest.Commands
 {
@@ -15,5 +16,21 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest.Comm
         public override string ToolTip => "ToolTip Test";
         public override CommandCategory Category => CommandCategories.FileCommandCategory;
         public override Guid Id => new Guid("{832E08A3-3DEB-4E89-913D-798564087985}");
+        public override ComboBoxModel Model => TestComboModel.Instance;
+    }
+
+    public class TestComboModel : ComboBoxModel
+    {
+        public static ComboBoxModel Instance = _instance ?? (_instance = new TestComboModel());
+        private static ComboBoxModel _instance;
+
+        public TestComboModel()
+        {
+            Items.Add(new ComboBoxItemModel("123"));
+            Items.Add(new ComboBoxItemModel("456"));
+            Items.Add(new ComboBoxItemModel("789"));
+
+            //IsEditing = true;
+        }
     }
 }
