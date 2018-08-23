@@ -98,16 +98,17 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
                     {
                         list.Add(new SplitButtonDataSource(Guid.Empty, commandDefinition.Text, 0, null, commandDefinition, true, false, true));
                     }
-                    else if (commandDefinition.ControlType == CommandControlTypes.Combobox)
-                    {
-                        list.Add(new CommandBarComboItem(Guid.Empty, commandDefinition.Text, 0, null,
-                            commandDefinition, true, false, true));
-                    }
+                    // TODO: Combobox
+                    //else if (commandDefinition.ControlType == CommandControlTypes.Combobox)
+                    //{
+                    //    list.Add(new CommandBarComboItem(Guid.Empty, commandDefinition.Text, 0, null,
+                    //        commandDefinition, true, false, true));
+                    //}
                     else
                         list.Add(new CommandBarCommandItem(Guid.Empty, 0, commandDefinition, true));
                 }          
             }
-            Items = list; //Slower to .ToList but actually fixes the CustomSort not being used
+            Items = list; //Slower than .ToList but actually fixes the CustomSort not being used
         }
 
         protected override void OnViewLoaded(object view)

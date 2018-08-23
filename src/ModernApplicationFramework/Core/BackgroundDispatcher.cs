@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
 using System.Windows;
@@ -79,6 +80,7 @@ namespace ModernApplicationFramework.Core
             Dispatcher.CurrentDispatcher.ShutdownStarted -= OnDispatcherShutdownStarted;
         }
 
+        [DebuggerStepThrough]
         private void ThreadProc(object arg)
         {
             Dispatcher = Dispatcher.CurrentDispatcher;

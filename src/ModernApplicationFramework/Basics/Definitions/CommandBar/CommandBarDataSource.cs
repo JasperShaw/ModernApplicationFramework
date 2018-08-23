@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="DisposableObject" />
     /// <summary>
     /// Fundamental command bar element definition
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Interfaces.IHasTextProperty" />
     [DebuggerDisplay("Name = {" + nameof(Name) + "}")]
-    public abstract class CommandBarDataSource : IHasTextProperty
+    public abstract class CommandBarDataSource : DisposableObject, IHasTextProperty
     {
         private uint _sortOrder;
         private string _text;
@@ -34,8 +34,6 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             _originalFlagStore ?? (_originalFlagStore = new FlagsDataSource());
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        public ObservableCollection<CommandBarItemDataSource> Items { get; set; }
         
         /// <summary>
         /// The <see cref="FlagsDataSource"/> of this definition
@@ -159,6 +157,32 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         public virtual bool IsTextModified { get; protected set; }
 
         public abstract Guid Id { get; }
+
+        //protected CommandBarDataSource(CommandBarDataSource inner)
+        //{
+        //    if (inner == null)
+        //        throw new ArgumentNullException(nameof(inner));
+
+        //    _sortOrder = inner.SortOrder;
+        //    _text = inner.Text ?? inner.CommandDefinition.Text;
+        //    OriginalText = inner.Text ?? inner.CommandDefinition.Text;
+        //    _name = inner.Text ?? inner.CommandDefinition.Text;
+        //    CommandDefinition = inner.CommandDefinition;
+        //    IsCustom = inner.IsCustom;
+        //    _isChecked = inner.IsChecked;
+        //    _isVisible = inner.IsVisible;
+        //    IsCustomizable = inner.IsCustomizable;
+        //    ContainedGroups = new List<CommandBarGroupDefinition>();
+        //    Flags.EnableStyleFlags((CommandBarFlags) inner.Flags.AllFlags);
+        //    OriginalFlagStore.EnableStyleFlags((CommandBarFlags) inner.Flags.AllFlags);
+        //    if (inner.CommandDefinition != null)
+        //        inner.CommandDefinition.PropertyChanged += Definition_PropertyChanged;
+        //    if (inner.CommandDefinition is CommandDefinition commandDefinition)
+        //    {
+        //        InternalCommandDefinition = commandDefinition;
+        //        commandDefinition.Command.CommandChanged += OnCommandChanged;
+        //    }
+        //}
 
         protected CommandBarDataSource(string text, uint sortOrder, CommandDefinitionBase definition, bool isVisible, bool isCustom,
             bool isCustomizable, bool isChecked, CommandBarFlags flags = CommandBarFlags.CommandFlagNone)

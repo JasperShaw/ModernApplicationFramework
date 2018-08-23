@@ -100,7 +100,7 @@ namespace ModernApplicationFramework.Core.Localization
             var tmp = trimmed.ToCharArray();
             if (tmp.Length > 1)
                 throw new ArgumentException($"Invalid key string: {trimmed}");
-            return KeyInterop.KeyFromVirtualKey(VkKeyScan(tmp[0]));
+            return KeyInterop.KeyFromVirtualKey(User32.VkKeyScan(tmp[0]));
         }
 
         private static string GetLocalizedKeyName(Key key, CultureInfo culture)
@@ -407,8 +407,5 @@ namespace ModernApplicationFramework.Core.Localization
         {
             return ResourceManager.GetString($"KeyboardKey_{key}", culture);
         }
-
-        [DllImport("user32.dll")]
-        static extern short VkKeyScan(char ch);
     }
 }

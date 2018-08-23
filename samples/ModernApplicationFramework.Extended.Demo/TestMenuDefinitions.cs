@@ -50,9 +50,9 @@ namespace ModernApplicationFramework.Extended.Demo
             new SplitButtonDataSource<MultiUndoCommandDefinition>(
                 new Guid("{D7CBAF7A-724D-427F-8B14-319740835130}"), TestGroup1, 0);
 
-        [Export] public static CommandBarItemDataSource ComboItem =
-            new CommandBarComboItem<ComboBoxCommandDefinition>(
-                new Guid("{25EEF4F2-6B3E-4C38-AF3E-F4342426CD4F}"), TestGroup1, 0, false, false);
+        //[Export] public static CommandBarItemDataSource ComboItem =
+        //    new CommandBarComboItem<ComboBoxCommandDefinition>(
+        //        new Guid("{25EEF4F2-6B3E-4C38-AF3E-F4342426CD4F}"), TestGroup1, 0, false, false);
 
 
         //[Export] public static CommandBarItemDefinition MenuControllerItem = new CommandBarMenuControllerDefinitionT<TestMenuControllerDefinition>(MainMenuBarDefinition.MainMenuBarGroup, uint.MinValue);

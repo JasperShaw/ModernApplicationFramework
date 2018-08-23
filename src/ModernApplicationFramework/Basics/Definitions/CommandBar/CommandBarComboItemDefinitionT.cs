@@ -1,7 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using Caliburn.Micro;
+using JetBrains.Annotations;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Controls.ComboBox;
+using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
@@ -18,11 +23,6 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             bool isVisible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true, CommandBarFlags flags = CommandBarFlags.CommandFlagNone)
             : base(id, null, sortOrder, group, IoC.Get<ICommandService>().GetCommandDefinition(typeof(T)), isVisible, isChecked, isCustom, isCustomizable, flags)
         {
-            VisualSource.Flags.StretchHorizontally = stretchHorizontally;
-            VisualSource.IsEditable = isEditable;
-
-            if (CommandDefinition is CommandComboBoxDefinition comboBoxDefinition)
-                DataSource = comboBoxDefinition.DataSource;
         }
 	}
 
@@ -61,14 +61,12 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
+
         internal CommandBarComboItem(Guid id, string text, uint sortOrder, CommandBarGroupDefinition group, CommandDefinitionBase definition,
             bool visible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true, CommandBarFlags flags = CommandBarFlags.CommandFlagNone) 
             : base(text, sortOrder, group, definition, visible, isChecked, isCustom, isCustomizable, flags)
         {
-            Id = id;
-            VisualSource = new ComboBoxVisualSource();
-            if (definition is CommandComboBoxDefinition comboBoxDefinition)
-                DataSource = comboBoxDefinition.DataSource;
+
         }
     }
 }

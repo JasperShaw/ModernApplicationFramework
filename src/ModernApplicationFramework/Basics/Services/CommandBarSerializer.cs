@@ -170,8 +170,9 @@ namespace ModernApplicationFramework.Basics.Services
                     CreateCommandBarItem(parentDefinition, childNode);
                 else if (childNode.Name == "MenuControllerDefinition")
                     CreateCommandBarMenuControllerItem(parentDefinition, childNode);
-                else if (childNode.Name == "ComboBoxDefinition")
-                    CreateCommandBarComboBoxItem(parentDefinition, childNode);
+                // TODO: Combobox
+                //else if (childNode.Name == "ComboBoxDefinition")
+                //    CreateCommandBarComboBoxItem(parentDefinition, childNode);
                 else if (childNode.Name == "SplitButtonDefinition")
                     CreateCommandSplitButtonItem(parentDefinition, childNode);
             }
@@ -303,6 +304,8 @@ namespace ModernApplicationFramework.Basics.Services
             _definitionHost.ItemDefinitions.Add(menuController);
         }
 
+
+        // TODO: Combobox
         private void CreateCommandBarComboBoxItem(CommandBarDataSource parentDefinition, XmlNode childNode)
         {
             var guid = childNode.GetAttributeValue<Guid>("Id");
@@ -415,21 +418,23 @@ namespace ModernApplicationFramework.Basics.Services
                                     }
                                 });
                             break;
-                        case CommandBarComboItem comboItemDefinition:
-                            itemElement = CreateElement(document, "ComboBoxDefinition", comboItemDefinition,
-                                element =>
-                                {
-                                    element.SetAttribute("Command",
-                                        comboItemDefinition.CommandDefinition.Id.ToString("B"));
-                                    element.SetAttribute("VisualFlags",
-                                        comboItemDefinition.VisualSource.Flags.AllFlags.ToString());
-                                    element.SetAttribute("IsEditable",
-                                        comboItemDefinition.VisualSource.IsEditable.ToString());
-                                    element.SetAttribute("DropDownWidth", comboItemDefinition.VisualSource.DropDownWidth.ToString(InvariantCulture));
-                                    if (!comboItemDefinition.IsVisible)
-                                        element.SetAttribute("IsVisible", false.ToString());
-                                });
-                            break;
+
+                        // TODO: Combobox
+                        //case CommandBarComboItem comboItemDefinition:
+                        //    itemElement = CreateElement(document, "ComboBoxDefinition", comboItemDefinition,
+                        //        element =>
+                        //        {
+                        //            element.SetAttribute("Command",
+                        //                comboItemDefinition.CommandDefinition.Id.ToString("B"));
+                        //            element.SetAttribute("VisualFlags",
+                        //                comboItemDefinition.VisualSource.Flags.AllFlags.ToString());
+                        //            element.SetAttribute("IsEditable",
+                        //                comboItemDefinition.VisualSource.IsEditable.ToString());
+                        //            element.SetAttribute("DropDownWidth", comboItemDefinition.VisualSource.DropDownWidth.ToString(InvariantCulture));
+                        //            if (!comboItemDefinition.IsVisible)
+                        //                element.SetAttribute("IsVisible", false.ToString());
+                        //        });
+                        //    break;
                         case SplitButtonDataSource splitItemDefinition:
                             itemElement = CreateElement(document,
                                 "SplitButtonDefinition", splitItemDefinition,

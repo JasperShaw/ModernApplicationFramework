@@ -16,5 +16,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         CommandFlagTextIsAnchor = 4,
         CommandStretchHorizontally = 8,
         CommandFlagFixMenuController = 16,
+        CommandFilterKeys = 32,
+        CommandFlagComboCommitsOnDrop = 64,
     }
 }

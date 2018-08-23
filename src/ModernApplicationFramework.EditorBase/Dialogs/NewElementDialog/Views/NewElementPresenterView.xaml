@@ -514,7 +514,7 @@
                                Focusable="False"
                                Foreground="{DynamicResource {x:Static themes:ColorResources.ContentTextBrush}}"/>
                     <mafc:ComboBox Width="160" x:Name="SortComboBox" VerticalAlignment="Center" DockPanel.Dock="Left" TabIndex="1" Margin="0,0,4,0"
-                                   DataSource="{Binding SortDataSource}" ItemsSource="{Binding SortItems}">
+                                   ItemsSource="{Binding SortItems}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock>

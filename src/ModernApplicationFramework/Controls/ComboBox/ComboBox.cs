@@ -1,12 +1,15 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Net.Mime;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using ModernApplicationFramework.Controls.AutomationPeer;
+using ModernApplicationFramework.Core.Localization;
 using ModernApplicationFramework.Core.Utilities;
+using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Utilities;
 using MenuItem = ModernApplicationFramework.Controls.Menu.MenuItem;
@@ -25,35 +28,32 @@ namespace ModernApplicationFramework.Controls.ComboBox
     {
         internal const double DefaultWidth = 90.0;
 
-        /// <summary>
-        /// The displayed item
-        /// </summary>
-        public static readonly DependencyProperty DisplayedItemProperty;
+        public static readonly DependencyProperty DisplayedItemProperty = DependencyProperty.Register(
+            nameof(DisplayedItem), typeof(IHasTextProperty), typeof(ComboBox),
+            new FrameworkPropertyMetadata(null,
+                FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange |
+                FrameworkPropertyMetadataOptions.AffectsRender));
 
-        /// <summary>
-        /// Indication whether the combo box is inside a menu item
-        /// </summary>
-        public static readonly DependencyProperty IsEmbeddedInMenuProperty;
+        public static readonly DependencyProperty IsEmbeddedInMenuProperty =
+            DependencyProperty.Register(nameof(IsEmbeddedInMenu), typeof(bool), typeof(ComboBox),
+                new FrameworkPropertyMetadata(Boxes.BooleanFalse));
 
-
-        /// <summary>
-        /// The visual data source property
-        /// </summary>
-        public static readonly DependencyProperty VisualDataSourceProperty;
-        
-        /// <summary>
-        /// The data source property
-        /// </summary>
-        public static readonly DependencyProperty DataSourceProperty;
-
-        private static readonly string[] PropertiesToObserve;
+        private static readonly string[] PropertiesToObserve = {
+            "DropDownWidth",
+            "IsFocused",
+            "SelectionBegin",
+            "SelectionEnd",
+            "QueryForFocusChange"
+        };
 
         private TextBox _editableTextBoxPart;
         private ToggleButton _toggleButton;
 
         private WeakReference _rememberedFocus;
-        private IntPtr _rememberedHwndFocus;
-        private IntPtr _previousHwndFocus;
+        private IntPtr _rememberedHwndFocus = IntPtr.Zero;
+        private IntPtr _previousHwndFocus = IntPtr.Zero;
+        private int _indexOfDisplayedItemOnFocus = -1;
+
         private bool _inKeyboardNavigationMode;
 
         private double _width;
@@ -66,29 +66,38 @@ namespace ModernApplicationFramework.Controls.ComboBox
         private bool _supressUpdateOnLostFocus;
         private bool _supressKillFocusFilterNotification;
 
-        private ComboBoxDataSource _controllingDataSource;
-        private ComboBoxVisualSource _controllingVisualSource;
+        private string _displayedTextOnFocus;
 
-        private ComboBoxAutomationPeer _peer;
+        private ComboBoxDataSourceEx _controllingDataSource;
 
         public MenuItem ParentMenuItem => this.FindAncestor<MenuItem>();
 
-        public object DisplayedItem
+        private bool IsFilterKeysEnabled
         {
-            get => GetValue(DisplayedItemProperty);
+            get
+            {
+                if (!(DataContext is ComboBoxDataSourceEx data))
+                    return false;
+                return data.Flags.FilterKeys;
+            }
+        }
+
+        private bool ComboCommitsOnDrop
+        {
+            get
+            {
+                if (!(DataContext is ComboBoxDataSourceEx data))
+                    return false;
+                return data.Flags.ComboCommitsOnDrop;
+            }
+        }
+
+
+        //TODO type:
+        public IHasTextProperty DisplayedItem
+        {
+            get => (IHasTextProperty)GetValue(DisplayedItemProperty);
             set => SetValue(DisplayedItemProperty, value);
-        }
-
-        public ComboBoxVisualSource VisualDataSource
-        {
-            get => (ComboBoxVisualSource)GetValue(VisualDataSourceProperty);
-            set => SetValue(VisualDataSourceProperty, value);
-        }
-
-        public ComboBoxDataSource DataSource
-        {
-            get => (ComboBoxDataSource)GetValue(DataSourceProperty);
-            set => SetValue(DataSourceProperty, value);
         }
 
         public bool IsEmbeddedInMenu
@@ -109,41 +118,12 @@ namespace ModernApplicationFramework.Controls.ComboBox
 
         static ComboBox()
         {
-            DisplayedItemProperty = DependencyProperty.Register("DisplayedItem", typeof(object), typeof(ComboBox),
-                new FrameworkPropertyMetadata(null,
-                    FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange |
-                    FrameworkPropertyMetadataOptions.AffectsRender, OnDisplayedItemChanged));
-            IsEmbeddedInMenuProperty = DependencyProperty.Register("IsEmbeddedInMenu", typeof(bool), typeof(ComboBox),
-                new FrameworkPropertyMetadata(Boxes.BooleanFalse));
-            VisualDataSourceProperty = DependencyProperty.Register("VisualDataSource", typeof(ComboBoxVisualSource), typeof(ComboBox),
-                new FrameworkPropertyMetadata(OnVisualDataSourceChanged));
-            DataSourceProperty = DependencyProperty.Register("DataSource", typeof(ComboBoxDataSource), typeof(ComboBox),
-                new FrameworkPropertyMetadata(OnDataSourceChanged));
-            PropertiesToObserve = new[]
-            {
-                "DropDownWidth",
-                "IsFocused",
-                "SelectionBegin",
-                "SelectionEnd",
-                "QueryForFocusChange"
-            };
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ComboBox), new FrameworkPropertyMetadata(typeof(ComboBox)));
-        }
-
-        private static void OnDataSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((ComboBox)d).OnDataSourceChanged(e);
-        }
-
-        private static void OnVisualDataSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((ComboBox)d).OnVisualDataSourceChanged(e);
         }
 
         public ComboBox()
         {
-            _rememberedHwndFocus = IntPtr.Zero;
-            _previousHwndFocus = IntPtr.Zero;
+            DataContextChanged += OnDataContextChanged;
 
             DteFocusHelper.HookAcquireFocus(this);
             AddHandler(MouseDownEvent, new MouseButtonEventHandler(OnMouseDown), true);
@@ -166,9 +146,66 @@ namespace ModernApplicationFramework.Controls.ComboBox
             _editableTextBoxPart.LostKeyboardFocus += OnEditableTextBoxPartLostKeyboardFocus;
         }
 
+        protected override void OnPreviewDragEnter(DragEventArgs e)
+        {
+            if (IsEditable && DataObjectHelper.DataObjectHasString(e.Data))
+            {
+                e.Effects = DragDropEffects.Copy;
+                e.Handled = true;
+            }
+            base.OnPreviewDragEnter(e);
+        }
+
+        protected override void OnPreviewDragOver(DragEventArgs e)
+        {
+            if (IsEditable && DataObjectHelper.DataObjectHasString(e.Data))
+            {
+                e.Effects = DragDropEffects.Copy;
+                e.Handled = true;
+            }
+            base.OnPreviewDragOver(e);
+        }
+
+        protected override void OnPreviewDragLeave(DragEventArgs e)
+        {
+            if (IsEditable && DataObjectHelper.DataObjectHasString(e.Data))
+                e.Handled = true;
+            base.OnPreviewDragLeave(e);
+        }
+
+        protected override void OnPreviewDrop(DragEventArgs e)
+        {
+            if (IsEditable)
+            {
+                var stringFromDataObject = DataObjectHelper.GetStringFromDataObject(e.Data);
+                if (stringFromDataObject != null)
+                {            
+                    Keyboard.Focus(this);
+                    Text = stringFromDataObject;
+                    _controllingDataSource.SelectionBegin = _controllingDataSource.SelectionEnd = 0;
+                    _editableTextBoxPart.CaretIndex = Text.Length;
+                    if (ComboCommitsOnDrop)
+                        HandleComboSelection(IsDropDownOpen, -1);
+                    //TODO:
+                    if (_controllingDataSource != null && IsFilterKeysEnabled)
+                        _controllingDataSource.InvokeTextChangedEvent(FilterKeyMessages.DragDrop, Text);
+                    e.Effects = DragDropEffects.Copy;
+                    e.Handled = true;
+                }
+            }
+            base.OnPreviewDrop(e);
+        }
+
         private void OnEditableTextBoxPartLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
+            if (!ShouldRestoreFocus((DependencyObject)e.NewFocus))
+                return;
             RestorePreviousHwndFocus();
+        }
+
+        private static bool ShouldRestoreFocus(DependencyObject newFocus)
+        {
+            return newFocus == null;
         }
 
         private void RestorePreviousHwndFocus()
@@ -182,6 +219,8 @@ namespace ModernApplicationFramework.Controls.ComboBox
 
         private void OnEditableTextBoxPartPreviewLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
+            if (!ShouldRestoreFocus((DependencyObject)e.NewFocus))
+                return;
             RestorePreviousHwndFocus();
         }
 
@@ -204,15 +243,15 @@ namespace ModernApplicationFramework.Controls.ComboBox
 
         private void TextBoxTextChanged(object sender, TextChangedEventArgs e)
         {
-
-            if (_controllingDataSource == null)
+            if (_controllingDataSource == null || !IsFilterKeysEnabled)
                 return;
             UpdateTextSelectionProperties();
+            _controllingDataSource.InvokeTextChangedEvent(FilterKeyMessages.TextChanged, Text);
         }
 
         private void TextBoxSelectionChanged(object sender, RoutedEventArgs e)
         {
-            if (_controllingDataSource == null)
+            if (_controllingDataSource == null || !IsFilterKeysEnabled)
                 return;
             UpdateTextSelectionProperties();
         }
@@ -223,8 +262,8 @@ namespace ModernApplicationFramework.Controls.ComboBox
             {
                 _supressSelectionStartChange = true;
                 _supressSelectionEndChange = true;
-                _controllingVisualSource.SelectionBegin = _editableTextBoxPart.SelectionStart;
-                _controllingVisualSource.SelectionEnd = _editableTextBoxPart.SelectionLength + _editableTextBoxPart.SelectionStart;
+                _controllingDataSource.SelectionBegin = _editableTextBoxPart.SelectionStart;
+                _controllingDataSource.SelectionEnd = _editableTextBoxPart.SelectionLength + _editableTextBoxPart.SelectionStart;
             }
             finally
             {
@@ -243,72 +282,201 @@ namespace ModernApplicationFramework.Controls.ComboBox
 
         protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
+            if (_controllingDataSource != null || IsEditable && IsFilterKeysEnabled)
+            {
+                Trace.WriteLine(e.Key);
+                int keyCodeFromWpfKey;
+                var message = FilterKeyMessages.KeyDown;
+                if (e.SystemKey != Key.None)
+                {
+                    keyCodeFromWpfKey = GetVirtualKeyCodeFromWpfKey(e.SystemKey);
+                    message = FilterKeyMessages.SystemKeyDown;
+                }
+                else
+                    keyCodeFromWpfKey = GetVirtualKeyCodeFromWpfKey(e.Key);
+                e.Handled = _controllingDataSource.InvokeFilterEvent(message, Text, keyCodeFromWpfKey);
+            }
+
+
             if (e.Handled || !ShouldPassPreviewKeyDownToBase(e))
                 return;
             base.OnPreviewKeyDown(e);
         }
 
+        private static int GetVirtualKeyCodeFromWpfKey(Key key)
+        {
+            var num = KeyInterop.VirtualKeyFromKey(key);
+            switch (num)
+            {
+                case 160:
+                case 161:
+                    num = 16;
+                    break;
+                case 162:
+                case 163:
+                    num = 17;
+                    break;
+                case 164:
+                case 165:
+                    num = 18;
+                    break;
+            }
+            return num;
+        }
+
         protected override void OnKeyDown(KeyEventArgs e)
         {
-            base.OnKeyDown(e);
-            if (IsEditable && e.Key == Key.Return)
+            if (e.Key == Key.Tab || e.Key == Key.System && e.KeyboardDevice.Modifiers == ModifierKeys.Alt &&
+                e.SystemKey == Key.Up)
             {
+                var flag1 = e.Key == Key.Tab;
+                var isSelectionFromList = IsDropDownOpen;
+                var flag2 = false;
+                var selectionIndex = -1;
+                if (IsEditable)
+                {
+                    if (!string.Equals(_editableTextBoxPart.Text, _displayedTextOnFocus))
+                    {
+                        var num = 0;
+                        foreach (var item in _controllingDataSource.Items)
+                        {
+                            if (string.Equals(item.Text, _editableTextBoxPart.Text))
+                            {
+                                selectionIndex = num;
+                                break;
+                            }
+                            ++num;
+                        }
+                        flag2 = true;
+                    }
+                }
+                else if (IsDropDownOpen)
+                {
+                    if (Keyboard.FocusedElement is ComboBoxItem focusedElement)
+                    {
+                        var dataSource = focusedElement.DataContext as IHasTextProperty;
+                        if (dataSource == _controllingDataSource.DisplayedItem)
+                            selectionIndex = _controllingDataSource.Items.IndexOf(dataSource);
+                    }
+                }
+                else if (_controllingDataSource.SelectedIndex != -1 && _controllingDataSource.SelectedIndex != _indexOfDisplayedItemOnFocus)
+                    selectionIndex = _controllingDataSource.SelectedIndex;
                 if (IsEmbeddedInMenu)
                     ReleaseMouseInEmbeddedMode();
-                HandleComboSelection(IsDropDownOpen, -1);
+                if (selectionIndex != -1 | flag2)
+                {
+                    HandleComboSelection(isSelectionFromList, selectionIndex);
+                    isSelectionFromList = false;
+                }
+                if (isSelectionFromList)
+                    IsDropDownOpen = false;
+                if (!IsKeyboardFocusWithin)
+                    Keyboard.Focus(this);
+                if (flag1)
+                    (IsEditable ? (UIElement)e.OriginalSource : this).MoveFocus(
+                        new TraversalRequest(e.KeyboardDevice.Modifiers == ModifierKeys.Shift
+                            ? FocusNavigationDirection.Previous
+                            : FocusNavigationDirection.Next));
                 e.Handled = true;
             }
             else
             {
-                if (IsEditable || IsDropDownOpen || _controllingDataSource == null)
-                    return;
-                if (e.Key == Key.Down || e.Key == Key.Up)
+                base.OnKeyDown(e);
+                if (IsEditable && e.Key == Key.Return)
                 {
-                    if (!_inKeyboardNavigationMode)
-                        _controllingDataSource.UpdateItems();
-                    _inKeyboardNavigationMode = true;
-                    _controllingDataSource.ChangeDisplayedItemRelative(e.Key == Key.Down ? 1 : -1);
-                    e.Handled = true;
-                }
-                else if (e.Key == Key.Next || e.Key == Key.Prior)
-                {
-                    if (!_inKeyboardNavigationMode)
-                        _controllingDataSource.UpdateItems();
-                    _inKeyboardNavigationMode = true;
-                    _controllingDataSource.ChangeDisplayedItemRelative(e.Key == Key.Next ? 15 : -15);
-                    e.Handled = true;
-                }
-                else if (e.Key == Key.Home || e.Key == Key.End)
-                {
-                    if (!_inKeyboardNavigationMode)
-                        _controllingDataSource.UpdateItems();
-                    _inKeyboardNavigationMode = true;
-                    _controllingDataSource.ChangeDisplayedItem(e.Key == Key.Home
-                        ? 0
-                        : _controllingDataSource.Items.Count - 1);
+                    if (IsEmbeddedInMenu)
+                        ReleaseMouseInEmbeddedMode();
+                    HandleComboSelection(IsDropDownOpen, -1);
                     e.Handled = true;
                 }
                 else
                 {
-                    if (e.Key != Key.Return || !_inKeyboardNavigationMode)
+                    if (IsEditable || IsDropDownOpen || _controllingDataSource == null)
                         return;
-                    _inKeyboardNavigationMode = false;
-                    HandleComboSelection(true, _controllingDataSource.SelectedIndex);
-                    e.Handled = true;
+                    if (e.Key == Key.Down || e.Key == Key.Up)
+                    {
+                        //if (!_inKeyboardNavigationMode)
+                        //{
+                        //    _controllingDataSource.UpdateItems();
+                        //}
+                        _inKeyboardNavigationMode = true;
+                        _controllingDataSource.InvokeSetDisplayedItemRelative(e.Key == Key.Down ? 1 : -1);
+                        e.Handled = true;
+                    }
+                    else if (e.Key == Key.Next || e.Key == Key.Prior)
+                    {
+                        //if (!_inKeyboardNavigationMode)
+                        //{
+                        //    _controllingDataSource.UpdateItems();
+                        //}
+                        _inKeyboardNavigationMode = true;
+                        _controllingDataSource.InvokeSetDisplayedItemRelative(e.Key == Key.Next ? 15 : -15);
+                        e.Handled = true;
+                    }
+                    else if (e.Key == Key.Home || e.Key == Key.End)
+                    {
+                        //if (!_inKeyboardNavigationMode)
+                        //{
+                        //    _controllingDataSource.UpdateItems();
+                        //}
+                        _inKeyboardNavigationMode = true;
+                        _controllingDataSource.InvokeSetDisplayedItemByIndex(e.Key == Key.Home ? 0 : _controllingDataSource.Items.Count - 1);
+                        e.Handled = true;
+                    }
+                    else
+                    {
+                        if (e.Key != Key.Return || !_inKeyboardNavigationMode)
+                            return;
+                        _inKeyboardNavigationMode = false;
+                        HandleComboSelection(true, _controllingDataSource.SelectedIndex);
+                        e.Handled = true;
+                    }
                 }
             }
+        }
+
+        protected override void OnPreviewTextInput(TextCompositionEventArgs e)
+        {
+            if (_controllingDataSource != null && IsFilterKeysEnabled && IsEditable &&
+                (e.Text.Length > 0 || e.SystemText.Length > 0))
+            {
+                var ch = e.Text.Length != 0 ? e.Text[0] : e.SystemText[0];
+                e.Handled = _controllingDataSource.InvokeFilterEvent(FilterKeyMessages.CharPressed, Text, 0, ch);
+            }
+            base.OnPreviewTextInput(e);
         }
 
         protected override void OnDropDownOpened(EventArgs e)
         {
             if (_controllingDataSource != null)
+            {
+                //_controllingDataSource.UpdateItems();
                 if (IsEditable)
                     _editableTextBoxPart?.SelectAll();
+            }
             base.OnDropDownOpened(e);
+            if (!IsFilterKeysEnabled || _controllingDataSource == null)
+                return;
+            _controllingDataSource.InvokeFilterEvent(FilterKeyMessages.GotFocus, Text);
         }
 
         protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
         {
+            if (IsEditable)
+            {
+                if (string.IsNullOrEmpty(_displayedTextOnFocus))
+                    _displayedTextOnFocus = _editableTextBoxPart.Text;
+            }
+
+            else if (_indexOfDisplayedItemOnFocus == -1)
+                _indexOfDisplayedItemOnFocus = _controllingDataSource.SelectedIndex;
+
+            if (_controllingDataSource != null && IsFilterKeysEnabled &&
+                (e.Source == _editableTextBoxPart || e.OriginalSource == _editableTextBoxPart))
+            {
+                _controllingDataSource.InvokeFilterEvent(FilterKeyMessages.GotFocus, Text);
+            }
+
             if (IsEditable && IsEmbeddedInMenu)
             {
                 if (!IsDropDownOpen)
@@ -316,13 +484,13 @@ namespace ModernApplicationFramework.Controls.ComboBox
                 DropDownClosed += SetCaptureOnDropDownClosed;
             }
             base.OnGotKeyboardFocus(e);
-            if (_controllingDataSource == null || _controllingVisualSource == null)
+            if (_controllingDataSource == null)
                 return;
             var keyboardFocusWithin = IsKeyboardFocusWithin;
-            _controllingVisualSource.IsFocused = keyboardFocusWithin;
+            _controllingDataSource.IsFocused = keyboardFocusWithin;
             if (!keyboardFocusWithin || !IsEditable)
                 return;
-            _controllingDataSource.UpdateItems();
+            //_controllingDataSource.UpdateItems();
             _editableTextBoxPart?.SelectAll();
         }
 
@@ -331,35 +499,44 @@ namespace ModernApplicationFramework.Controls.ComboBox
             _inKeyboardNavigationMode = false;
             if (_controllingDataSource != null && _controllingDataSource.IsDisposed)
                 return;
-            base.OnLostKeyboardFocus(e);
-            if (_controllingDataSource != null && _controllingVisualSource != null)
+            if (_controllingDataSource != null && IsFilterKeysEnabled && !_supressKillFocusFilterNotification &&
+                (e.Source == _editableTextBoxPart || e.OriginalSource == _editableTextBoxPart))
             {
-                _controllingVisualSource.IsFocused = IsKeyboardFocusWithin;
+                _controllingDataSource.InvokeFilterEvent(FilterKeyMessages.LostFocus, Text);
+            }
+            base.OnLostKeyboardFocus(e);
+            if (_controllingDataSource != null)
+            {
+                _controllingDataSource.IsFocused = IsKeyboardFocusWithin;
                 try
                 {
                     _supressSelectionStartChange = true;
-                    _controllingVisualSource.SelectionBegin = 0;
+                    _controllingDataSource.SelectionBegin = 0;
                 }
                 finally
                 {
                     _supressSelectionStartChange = false;
                 }
+
                 if (!IsKeyboardFocusWithin)
+                {
                     if (!_supressUpdateOnLostFocus)
+                    {
                         try
                         {
-                            _controllingDataSource.UpdateItems();
+                            _controllingDataSource.Update();
                         }
                         catch (COMException)
                         {
                         }
+                    }
+                }
+                if (!IsEditable || !IsEmbeddedInMenu || Mouse.Captured != _editableTextBoxPart)
+                    return;
+                Mouse.RemovePreviewMouseDownOutsideCapturedElementHandler(_editableTextBoxPart, OnPreviewMouseDownOutsideCapturedElementHandler);
+                FocusManager.SetFocusedElement(ParentMenu, null);
+                Mouse.Capture(ParentMenu, CaptureMode.SubTree);
             }
-            if (!IsEditable || !IsEmbeddedInMenu || !Equals(Mouse.Captured, _editableTextBoxPart))
-                return;
-            Mouse.RemovePreviewMouseDownOutsideCapturedElementHandler(_editableTextBoxPart,
-                OnPreviewMouseDownOutsideCapturedElementHandler);
-            FocusManager.SetFocusedElement(ParentMenu, null);
-            Mouse.Capture(ParentMenu, CaptureMode.SubTree);
         }
 
 
@@ -377,9 +554,7 @@ namespace ModernApplicationFramework.Controls.ComboBox
                         constraint = base.MeasureOverride(constraint);
                 }
                 else
-                {
                     constraint.Width = availableSize.Width;
-                }
             }
             return constraint;
         }
@@ -389,14 +564,10 @@ namespace ModernApplicationFramework.Controls.ComboBox
             return new ComboBoxItem(this);
         }
 
-
-        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer()
-        {
-            return new ComboBoxAutomationPeer(this);
-        }
-
         internal void HandleComboSelection(bool isSelectionFromList, int selectionIndex)
         {
+            _indexOfDisplayedItemOnFocus = -1;
+            _displayedTextOnFocus = string.Empty;
             if (_controllingDataSource == null)
                 return;
             try
@@ -408,17 +579,14 @@ namespace ModernApplicationFramework.Controls.ComboBox
                 _rememberedFocus = focusedElement != null ? new WeakReference(focusedElement) : null;
                 _rememberedHwndFocus = User32.GetFocus();
                 if (selectionIndex == -1)
-                {
-                }
+                    _controllingDataSource.ExecuteItem(Text);
                 else
-                {
-                    _controllingDataSource.ChangeDisplayedItem(selectionIndex);
-                }
+                    _controllingDataSource.ExecuteItem(selectionIndex);
                 if (isSelectionFromList)
                     IsDropDownOpen = false;
                 if (IsKeyboardFocusWithin)
                     return;
-                _controllingDataSource.UpdateItems();
+                _controllingDataSource.Update();
             }
             finally
             {
@@ -432,11 +600,11 @@ namespace ModernApplicationFramework.Controls.ComboBox
             return ItemContainerGenerator.Status == GeneratorStatus.ContainersGenerated;
         }
 
-
-        private static void OnDisplayedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static uint ConstructKeyboardEventLParam(uint repeatCount, uint scanCode)
         {
-            ((ComboBox)d).OnDisplayedItemChanged(e);
+            return (uint)((int)repeatCount & ushort.MaxValue | ((int)scanCode & byte.MaxValue) << 16);
         }
+
 
         private bool ShouldPassPreviewKeyDownToBase(KeyEventArgs e)
         {
@@ -454,45 +622,12 @@ namespace ModernApplicationFramework.Controls.ComboBox
             CaptureMouseInEmbeddedMode();
         }
 
-        private void OnDataSourceChanged(DependencyPropertyChangedEventArgs e)
-        {
-            if (_controllingDataSource != null)
-            {
-                _controllingDataSource.Dispose();
-                _controllingDataSource = null;
-            }
-
-            if (!(e.NewValue is ComboBoxDataSource newValue))
-                return;
-            _controllingDataSource = newValue;
-        }
-
-        private void OnVisualDataSourceChanged(DependencyPropertyChangedEventArgs e)
-        {
-
-            if (_controllingVisualSource != null)
-            {
-                _controllingVisualSource.Dispose();
-                _controllingVisualSource = null;
-            }
-
-            if (!(e.NewValue is ComboBoxVisualSource newValue))
-                return;
-            _controllingVisualSource = newValue;
-
-
-            SubscribeToPropertyChanges(_controllingVisualSource);
-            _controllingVisualSource.Disposing += OnControllingDataSourceDisposing;
-            _isStretchingHorizontally = _controllingVisualSource.Flags.StretchHorizontally;
-            CacheDropDownWidth();
-        }
-
         private void OnControllingDataSourceDisposing(object sender, EventArgs e)
         {
             UnsubscribeFromPropertyChanges(_controllingDataSource);
         }
 
-        private void UnsubscribeFromPropertyChanges(ComboBoxDataSource dataSource)
+        private void UnsubscribeFromPropertyChanges(ComboBoxDataSourceEx dataSource)
         {
             if (!(dataSource is INotifyPropertyChanged ds))
                 return;
@@ -510,54 +645,15 @@ namespace ModernApplicationFramework.Controls.ComboBox
 
         private void CacheDropDownWidth()
         {
-            _width = _controllingVisualSource.DropDownWidth > 0.0 ? _controllingVisualSource.DropDownWidth : 90.0;
+            _width = _controllingDataSource.DropDownWidth > 0.0 ? _controllingDataSource.DropDownWidth : 90.0;
         }
 
-        private void SubscribeToPropertyChanges(ComboBoxVisualSource visualSource)
+        private void SubscribeToPropertyChanges(INotifyPropertyChanged dataSource)
         {
-            if (!(visualSource is INotifyPropertyChanged vs))
+            if (!(dataSource is INotifyPropertyChanged notify))
                 return;
             foreach (var propertyName in PropertiesToObserve)
-                PropertyChangedEventManager.AddListener(vs, this, propertyName);
-        }
-
-        private void OnDisplayedItemChanged(DependencyPropertyChangedEventArgs e)
-        {
-            _peer = AutomationPeerHelper.CreatePeerFromElement<ComboBoxAutomationPeer>(this);
-            var oldValue1 = e.OldValue;
-
-            if (AutomationPeerHelper.SelectionListenersExist())
-            {
-                var getPeer =
-                    new Func<object, System.Windows.Automation.Peers.AutomationPeer>(
-                        item => _peer.GetItemAutomationPeer(item));
-                var childListenersMightExists = HasGeneratedContainers() || _peer.HasHandedOutChildPeers;
-                if (e.NewValue != null)
-                {
-                    AutomationPeerHelper.RaiseSelectionEvents(_peer, null, e.NewValue, childListenersMightExists,
-                        getPeer);
-                }
-                else
-                {
-                    if (e.OldValue == null)
-                        return;
-                    var sourceArray1 = new object[0];
-                    var sourceArray2 = new[]
-                    {
-                        e.OldValue
-                    };
-                    AutomationPeerHelper.RaiseSelectionEvents(_peer,
-                        new SelectionChangedEventArgs(SelectionChangedEvent, sourceArray2, sourceArray1), null,
-                        childListenersMightExists, getPeer);
-                }
-                if (e.NewValue != null)
-                    _peer.RaiseIsSelectedChanged(e.NewValue, false, true);
-                if (oldValue1 != null)
-                    _peer.RaiseIsSelectedChanged(oldValue1, false, true);
-            }
-            if (oldValue1 == null)
-                return;
-            _peer.RemoveItemFromPeerCache(oldValue1);
+                PropertyChangedEventManager.AddListener(notify, this, propertyName);
         }
 
         private void CaptureMouseInEmbeddedMode()
@@ -584,37 +680,38 @@ namespace ModernApplicationFramework.Controls.ComboBox
 
         private void OnDataContextPropertyChanged(PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "DropDownWidth" && _controllingVisualSource != null)
+            if (e.PropertyName == "DropDownWidth" && _controllingDataSource != null)
             {
                 CacheDropDownWidth();
             }
-            else if (e.PropertyName == "IsFocused" && _controllingVisualSource != null)
+            else if (e.PropertyName == "IsFocused" && _controllingDataSource != null)
             {
-                if (!_controllingVisualSource.IsFocused || IsKeyboardFocusWithin)
+                if (!_controllingDataSource.IsFocused || IsKeyboardFocusWithin)
                     return;
+                //TODO: Test what happens if model get's changed outside this control
                 Keyboard.Focus(this);
-                _controllingVisualSource.IsFocused = IsKeyboardFocusWithin;
+                _controllingDataSource.IsFocused = IsKeyboardFocusWithin;
             }
-            else if (e.PropertyName == "SelectionBegin" && _controllingVisualSource != null)
+            else if (e.PropertyName == "SelectionBegin" && _controllingDataSource != null)
             {
                 if (_editableTextBoxPart == null || _supressSelectionStartChange)
                     return;
-                _editableTextBoxPart.SelectionStart = _controllingVisualSource.SelectionBegin;
+                _editableTextBoxPart.SelectionStart = _controllingDataSource.SelectionBegin;
             }
-            else if (e.PropertyName == "SelectionEnd" && _controllingVisualSource != null)
+            else if (e.PropertyName == "SelectionEnd" && _controllingDataSource != null)
             {
                 if (_editableTextBoxPart == null || _supressSelectionEndChange)
                     return;
-                _editableTextBoxPart.SelectionLength = _controllingVisualSource.SelectionEnd -
+                _editableTextBoxPart.SelectionLength = _controllingDataSource.SelectionEnd -
                                                        _editableTextBoxPart.SelectionStart;
             }
             else
             {
-                if (e.PropertyName != "QueryForFocusChange" || _controllingVisualSource == null ||
-                    _supressQueryForFocusChangeListener || !_controllingVisualSource.QueryForFocusChange)
+                if (e.PropertyName != "QueryForFocusChange" || _controllingDataSource == null ||
+                    _supressQueryForFocusChangeListener || !_controllingDataSource.QueryForFocusChange)
                     return;
                 _supressQueryForFocusChangeListener = true;
-                _controllingVisualSource.QueryForFocusChange =
+                _controllingDataSource.QueryForFocusChange =
                     _rememberedFocus != null && !_rememberedFocus.IsAlive ||
                     (_rememberedFocus == null || !_rememberedFocus.IsAlive
                         ? null
@@ -625,5 +722,33 @@ namespace ModernApplicationFramework.Controls.ComboBox
                 _supressQueryForFocusChangeListener = false;
             }
         }
+
+        private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (_controllingDataSource != null)
+            {
+                _controllingDataSource.Dispose();
+                _controllingDataSource = null;
+            }
+
+            if (!(e.NewValue is ComboBoxDataSourceEx dataSource))
+                return;
+            _controllingDataSource = dataSource;
+            SubscribeToPropertyChanges(_controllingDataSource);
+            _controllingDataSource.Disposing += OnControllingDataSourceDisposing;
+            _isStretchingHorizontally = _controllingDataSource.Flags.StretchHorizontally;
+            CacheDropDownWidth();
+        }
+    }
+
+    internal enum FilterKeyMessages
+    {
+        GotFocus,
+        LostFocus,
+        TextChanged,
+        DragDrop,
+        CharPressed,
+        SystemKeyDown,
+        KeyDown
     }
 }

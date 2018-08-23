@@ -26,19 +26,17 @@ namespace ModernApplicationFramework.Utilities
         {
             if (e.NewItems != null)
             {
-                foreach (Object item in e.NewItems)
+                foreach (object item in e.NewItems)
                 {
-                    var notifyPropertyChanged = item as INotifyPropertyChanged;
-                    if (notifyPropertyChanged != null)
+                    if (item is INotifyPropertyChanged notifyPropertyChanged)
                         notifyPropertyChanged.PropertyChanged += Item_PropertyChanged;
                 }
             }
             if (e.OldItems != null)
             {
-                foreach (Object item in e.OldItems)
+                foreach (var item in e.OldItems)
                 {
-                    var notifyPropertyChanged = item as INotifyPropertyChanged;
-                    if (notifyPropertyChanged != null)
+                    if (item is INotifyPropertyChanged notifyPropertyChanged)
                         notifyPropertyChanged.PropertyChanged -= Item_PropertyChanged;
                 }
             }

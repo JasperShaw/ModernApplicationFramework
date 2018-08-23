@@ -42,20 +42,6 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
             <textBoxes:ModernTextBox/>
-            <comboBox:ComboBox DataSource="{Binding DataSource}" Margin="0,10,0,0">
-                <ComboBox.ItemsSource>
-                    <Binding Path="Items"/>
-                </ComboBox.ItemsSource>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock>
-                            <TextBlock.Text>
-                                <Binding Path="Text"/>
-                            </TextBlock.Text>
-                        </TextBlock>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </comboBox:ComboBox>
             <buttons:Button Content="ShowComboValue" Margin="0,10,0,0" Command="{Binding ShowComboValueCommand}"/>
             <buttons:Button Content="AddComboValue" Margin="0,10,0,0" Command="{Binding AddComboValueCommand}"/>
             <buttons:SplitButton Margin="0,10,0,0"/>

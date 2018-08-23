@@ -11,12 +11,6 @@ namespace ModernApplicationFramework.Controls.ComboBox
     {
         private readonly ComboBox _parent;
 
-        static ComboBoxItem()
-        {
-            //DefaultStyleKeyProperty.OverrideMetadata(typeof(ComboBoxItem),
-            //    new FrameworkPropertyMetadata(typeof(ComboBoxItem)));
-        }
-
         public ComboBoxItem(ComboBox parent)
         {
             _parent = parent;
@@ -42,6 +36,5 @@ namespace ModernApplicationFramework.Controls.ComboBox
         {
             _parent.HandleComboSelection(true, _parent.ItemContainerGenerator.IndexFromContainer(this));
         }
-
     }
 }

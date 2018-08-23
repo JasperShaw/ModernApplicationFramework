@@ -1,11 +1,12 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Windows.Controls;
+using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
+using ModernApplicationFramework.Controls.ComboBox;
 using ModernApplicationFramework.Extended.CommandBar.CommandDefinitions;
-using ModernApplicationFramework.Extended.Commands;
 using ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest.Commands;
 using ModernApplicationFramework.Extended.Properties;
 
@@ -17,7 +18,15 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest
 
         [Export] public static CommandBarGroupDefinition Group1 = new CommandBarGroupDefinition(ComboBox, 0);
 
-        [Export] public static CommandBarItemDataSource ComboItem = new CommandBarComboItem<ComboBoxCommandDefinition>(new Guid("{D142CB05-16D2-4C89-A953-924A3F4CF972}"), Group1, 0, false, false);
+        [Export]
+        public static CommandBarItemDataSource ComboItem = new ComboBoxDataSourceEx(
+            new Guid("{525CEE81-5407-405B-9A3F-FF6133505495}"), "Test", 0, Group1,
+            IoC.Get<ComboBoxCommandDefinition>(), true, false, false, true);
+
+        [Export]
+        public static CommandBarItemDataSource ComboItem2 = new ComboBoxDataSourceEx(
+            new Guid("{28C34A28-06A6-48E9-942F-6659E506B38B}"), "Test2", 0, Group1,
+            IoC.Get<ComboBoxCommandDefinition>(), true, false, false, true);
 
 
         [Export]

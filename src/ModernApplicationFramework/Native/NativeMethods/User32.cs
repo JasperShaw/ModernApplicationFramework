@@ -300,5 +300,11 @@ namespace ModernApplicationFramework.Native.NativeMethods
         [DllImport("user32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetGUIThreadInfo(uint idThread, out GuiThreadInfo lpgui);
+
+        [DllImport("user32.dll")]
+        internal static extern uint MapVirtualKey(uint uCode, uint uMapType);
+
+        [DllImport("user32.dll")]
+        internal static extern short VkKeyScan(char ch);
     }
 }

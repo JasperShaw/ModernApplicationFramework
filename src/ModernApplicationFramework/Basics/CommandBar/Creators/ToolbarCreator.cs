@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Windows.Controls;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
@@ -37,11 +36,11 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
 
             foreach (var item in topItem)
             {
-                if (item is MenuDataSource)
+                if (item is MenuDataSource menuDataSource)
                 {
                     var list = new ObservableCollection<CommandBarItemDataSource>();
                     Fill(ref list, item, itemFunc);
-                    item.Items = list;
+                    menuDataSource.Items = list;
                     itemsControl.Items.Add(new CommandDefinitionButton(item));
                 }
                 else
@@ -107,11 +106,11 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
             foreach (var def in defs)
             {
                 list.Add(def);
-                if (def is MenuDataSource)
+                if (def is MenuDataSource menuDataSource)
                 {
                     var newList = new ObservableCollection<CommandBarItemDataSource>();
                     Fill(ref newList, def, itemFunc);
-                    def.Items = newList;
+                    menuDataSource.Items = newList;
                 }
             }
         }

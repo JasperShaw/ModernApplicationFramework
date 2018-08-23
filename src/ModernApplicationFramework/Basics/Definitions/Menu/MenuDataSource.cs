@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 
@@ -19,6 +20,8 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
         {
             Id = id;
         }
+
+        public ObservableCollection<CommandBarItemDataSource> Items { get; set; }
 
         private sealed class MenuHeaderCommandDefinition : CommandDefinitionBase
         {

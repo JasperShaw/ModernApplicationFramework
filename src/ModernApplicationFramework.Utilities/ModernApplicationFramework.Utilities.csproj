@@ -101,6 +101,7 @@
     <Compile Include="DirtyObjectManager.cs" />
     <Compile Include="DisposableObject.cs" />
     <Compile Include="DpiHelper.cs" />
+    <Compile Include="DataObjectHelper.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="FocusHelper.cs" />
     <Compile Include="GZip.cs" />

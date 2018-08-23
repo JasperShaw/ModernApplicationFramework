@@ -1088,10 +1088,9 @@
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                         <comboBox:ComboBox x:Name="PART_FocusTarget" Margin="7,2,2,2" Grid.Column="2" TextSearch.TextPath="Text"
                                            IsEnabled="{TemplateBinding IsEnabled}" ShouldPreserveUserEnteredPrefix="True"
-                                           IsEmbeddedInMenu="true"  IsEditable="{Binding VisualSource.IsEditable}" 
-                                           DataSource="{Binding DataSource}" VisualDataSource="{Binding VisualSource}">
+                                           IsEmbeddedInMenu="true"  IsEditable="{Binding IsEditable}">
                             <ItemsControl.ItemsSource>
-                                <Binding Path="DataSource.Items"/>
+                                <Binding Path="Items"/>
                             </ItemsControl.ItemsSource>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>

@@ -320,7 +320,7 @@
         </Setter>
         <Setter Property="DisplayedItem">
             <Setter.Value>
-                <Binding Mode="TwoWay" Path="DataSource.DisplayedItem" RelativeSource="{RelativeSource Self}"/>
+                <Binding Mode="TwoWay" Path="DisplayedItem"/>
             </Setter.Value>
         </Setter>
         <Setter Property="FocusVisualStyle" Value="{StaticResource ComboBoxFocusVisual}"/>
@@ -468,12 +468,12 @@
                     </ControlTemplate>
                 </Control.Template>
             </comboBox:ComboBoxLabel>
-            <comboBox:ComboBox x:Name="PART_FocusTarget" Margin="3,1,3,1" Grid.Column="1" TextSearch.TextPath="Text" IsEditable="{Binding VisualSource.IsEditable}"
-                           ShouldPreserveUserEnteredPrefix="True" ToolTipService.ShowOnDisabled="true"
-                           VisualDataSource="{Binding VisualSource}" DataSource="{Binding DataSource}">
+            <comboBox:ComboBox x:Name="PART_FocusTarget" Margin="3,1,3,1" Grid.Column="1" 
+                               TextSearch.TextPath="Text" IsEditable="{Binding IsEditable}" 
+                               ShouldPreserveUserEnteredPrefix="True" ToolTipService.ShowOnDisabled="true">
 
                 <ItemsControl.ItemsSource>
-                    <Binding Path="DataSource.Items" RelativeSource="{RelativeSource Self}"/>
+                    <Binding Path="Items"/>
                 </ItemsControl.ItemsSource>
                 <comboBox:ComboBox.IsEmbeddedInMenu>
                     <Binding Mode="OneWay" RelativeSource="{RelativeSource Self}" Path="ParentMenuItem" Converter="{StaticResource NotNullConverter}"/>
@@ -503,8 +503,8 @@
             <DataTrigger Value="False" Binding="{Binding IsEnabled}">
                 <Setter TargetName="Label" Property="Foreground" Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarTextInactive}}"/>
             </DataTrigger>
-            <DataTrigger Value="False" Binding="{Binding VisualSource.Flags.StretchHorizontally}">
-                <Setter TargetName="PART_FocusTarget" Property="Width" Value="{Binding Path=VisualSource.DropDownWidth, Mode=TwoWay, Converter={StaticResource ComboBoxWidthConverter}}"/>
+            <DataTrigger Value="False" Binding="{Binding Flags.StretchHorizontally}">
+                <Setter TargetName="PART_FocusTarget" Property="Width" Value="{Binding Path=DropDownWidth, Mode=TwoWay, Converter={StaticResource ComboBoxWidthConverter}}"/>
             </DataTrigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>

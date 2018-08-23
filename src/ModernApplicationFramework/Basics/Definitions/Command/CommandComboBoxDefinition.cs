@@ -12,9 +12,6 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         public override bool IsList => false;
         public override CommandControlTypes ControlType => CommandControlTypes.Combobox;
 
-        /// <summary>
-        /// The data model of the combo box
-        /// </summary>
-        public abstract ComboBoxDataSource DataSource { get; }
+        public virtual ComboBoxModel Model => ComboBoxModel.Instance;
     }
 }

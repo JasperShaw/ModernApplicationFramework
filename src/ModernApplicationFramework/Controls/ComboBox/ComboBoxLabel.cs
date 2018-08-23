@@ -9,7 +9,8 @@ namespace ModernApplicationFramework.Controls.ComboBox
     /// <seealso cref="T:System.Windows.Controls.Button" />
     public class ComboBoxLabel : System.Windows.Controls.Button
     {
-        public static readonly DependencyProperty TargetComboBoxProperty;
+        public static readonly DependencyProperty TargetComboBoxProperty =
+            DependencyProperty.Register(nameof(TargetComboBox), typeof(ComboBox), typeof(ComboBoxLabel));
 
         public System.Windows.Controls.ComboBox TargetComboBox
         {
@@ -19,7 +20,6 @@ namespace ModernApplicationFramework.Controls.ComboBox
 
         static ComboBoxLabel()
         {
-            TargetComboBoxProperty = DependencyProperty.Register("TargetComboBox", typeof(System.Windows.Controls.ComboBox), typeof(ComboBoxLabel));
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ComboBoxLabel), new FrameworkPropertyMetadata(typeof(ComboBoxLabel)));
         }
 

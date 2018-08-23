@@ -19,6 +19,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         private bool _stretchHorizontally;
         private bool _textIsAnchor;
         private bool _fixMenuController;
+        private bool _filterKeys;
+        private bool _comboCommitsOnDrop;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -123,6 +125,32 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
                 if (value == _fixMenuController) return;
                 _fixMenuController = value;
                 SetFlag(CommandBarFlags.CommandFlagTextIsAnchor, value);
+                OnPropertyChanged();
+            }
+        }
+
+        public bool FilterKeys
+        {
+            get => _filterKeys;
+            set
+            {
+                if (value == _filterKeys)
+                    return;
+                _filterKeys = value;
+                SetFlag(CommandBarFlags.CommandFilterKeys, value);
+                OnPropertyChanged();
+            }
+        }
+
+        public bool ComboCommitsOnDrop
+        {
+            get => _comboCommitsOnDrop;
+            set
+            {
+                if (value == _comboCommitsOnDrop)
+                    return;
+                _comboCommitsOnDrop = value;
+                SetFlag(CommandBarFlags.CommandFlagComboCommitsOnDrop, value);
                 OnPropertyChanged();
             }
         }
