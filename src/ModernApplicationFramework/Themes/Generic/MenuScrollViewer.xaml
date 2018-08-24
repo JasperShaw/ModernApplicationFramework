@@ -3,11 +3,6 @@
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
                     xmlns:menu="clr-namespace:ModernApplicationFramework.Controls.Menu">
 
-	<ResourceDictionary.MergedDictionaries>
-	    <ResourceDictionary Source="Brushes.xaml"/>
-	</ResourceDictionary.MergedDictionaries>
-
-
 	<MenuScrollingVisibilityConverter x:Key="MenuScrollingVisibilityConverter"/>
 
 	<Geometry x:Key="UpArrowGeometry" x:Uid="Geometry_4">M 0 3 L 3 0 L 6 3 Z</Geometry>

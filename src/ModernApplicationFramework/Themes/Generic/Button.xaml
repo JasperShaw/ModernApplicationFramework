@@ -6,10 +6,6 @@
                     xmlns:styles="clr-namespace:ModernApplicationFramework.Core.Styles"
                     xmlns:dialogButtons="clr-namespace:ModernApplicationFramework.Controls.Buttons.DialogButtons">
 
-    <ResourceDictionary.MergedDictionaries>
-		<ResourceDictionary Source="Brushes.xaml"/>
-	</ResourceDictionary.MergedDictionaries>
-
     <Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type styles:StyleResourceKeys},
                      ResourceId=ThemedDialogButtonStyleKey}" BasedOn="{StaticResource {x:Type Button}}"
            TargetType="{x:Type Button}">

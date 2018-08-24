@@ -1,9 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
-                    xmlns:utilities="clr-namespace:ModernApplicationFramework.Core.Utilities"
-                    xmlns:buttons="clr-namespace:ModernApplicationFramework.Controls.Buttons"
-                    xmlns:styles="clr-namespace:ModernApplicationFramework.Core.Styles"
+
                     xmlns:dialogButtons="clr-namespace:ModernApplicationFramework.Controls.Buttons.DialogButtons">
 
     <Style TargetType="{x:Type dialogButtons:DialogToggleButton}">

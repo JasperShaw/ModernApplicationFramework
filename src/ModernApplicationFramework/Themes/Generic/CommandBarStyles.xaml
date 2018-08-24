@@ -21,7 +21,6 @@
                     xmlns:converters2="clr-namespace:ModernApplicationFramework.Imaging.Converters;assembly=ModernApplicationFramework.Imaging">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="ComboBox.xaml"/>
         <ResourceDictionary Source="ContextMenu.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 

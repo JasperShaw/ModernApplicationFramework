@@ -3,10 +3,6 @@
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
                     xmlns:internals="clr-namespace:ModernApplicationFramework.Controls.Internals">
 
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="Brushes.xaml"/>
-    </ResourceDictionary.MergedDictionaries>
-    
     <Style TargetType="{x:Type internals:WindowTitleBarButton}">
         <Setter Property="Visibility" Value="Visible"/>
         <Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.WindowTitleBarButtonBackground}}"/>

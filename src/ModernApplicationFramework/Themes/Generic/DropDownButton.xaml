@@ -6,11 +6,7 @@
                     xmlns:primitives="clr-namespace:ModernApplicationFramework.Controls.Primitives"
                     xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General"
                     xmlns:buttons="clr-namespace:ModernApplicationFramework.Controls.Buttons">
-    
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="Brushes.xaml"/>
-    </ResourceDictionary.MergedDictionaries>
-    
+       
     <general:InverseBoolConverter x:Key="InverseBoolConverter"/>
     
     <Style TargetType="{x:Type buttons:DropDownButton}">

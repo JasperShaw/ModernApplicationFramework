@@ -1,6 +1,4 @@
-﻿using System;
-using System.Reflection;
-using System.Windows;
+﻿using System.Windows;
 using ModernApplicationFramework.Controls.Windows;
 
 namespace ModernApplicationFramework.Core.Themes
@@ -11,13 +9,6 @@ namespace ModernApplicationFramework.Core.Themes
         private static object _scrollViewerStyleKey;
         private static object _customGridViewScrollViewerStyleKey;
         private static object _comboBoxStyleKey;
-
-        static ResourceKeys()
-        {
-            Application.LoadComponent(new Uri(
-                "/" + Assembly.GetExecutingAssembly().GetName().Name + ";component/" + "Themes/Generic.xaml",
-                UriKind.Relative));
-        }
 
         public static object UnthemedScrollBarStyleKey => "ResourceKeys.UnthemedScrollBarStyleKey";
 

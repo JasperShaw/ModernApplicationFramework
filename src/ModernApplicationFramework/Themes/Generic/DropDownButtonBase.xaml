@@ -3,10 +3,6 @@
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
                     xmlns:primitives="clr-namespace:ModernApplicationFramework.Controls.Primitives">
 
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="Brushes.xaml"></ResourceDictionary>
-    </ResourceDictionary.MergedDictionaries>
-
     <Style TargetType="{x:Type primitives:DropDownButtonBase}">
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>

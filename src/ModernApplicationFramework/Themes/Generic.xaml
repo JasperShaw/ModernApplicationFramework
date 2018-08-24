@@ -2,9 +2,9 @@
 
     <ResourceDictionary.MergedDictionaries>
 
-        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/Brushes.xaml"/>
-        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/ColorResources.xaml"/>
-        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/SearchControlColors.xaml"/>
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Brushes.xaml"/>
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/ColorResources.xaml"/>
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/SearchControlColors.xaml"/>
         
 
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/Button.xaml"/>
