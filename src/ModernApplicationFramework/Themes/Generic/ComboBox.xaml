@@ -5,6 +5,7 @@
     <Style x:Key="{x:Static themes:ResourceKeys.ComboBoxStyleKey}" TargetType="{x:Type ComboBox}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:CommonControlsColors.ComboBoxText}}"/>
         <Setter Property="Template">
             <Setter.Value>
                  <ControlTemplate TargetType="{x:Type ComboBox}">

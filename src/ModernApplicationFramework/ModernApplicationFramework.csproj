@@ -242,6 +242,7 @@
     <Compile Include="Basics\Definitions\CommandBar\CommandBarComboBox.cs" />
     <Compile Include="Basics\Definitions\CommandBar\ComboBoxItemModel.cs" />
     <Compile Include="Basics\Definitions\CommandBar\ComboBoxModel.cs" />
+    <Compile Include="Core\Themes\CommonControlsColors.cs" />
     <Compile Include="Interfaces\Commands\ICustomizeMenuCommand.cs" />
     <Compile Include="Basics\Search\Search.Resources.Designer.cs">
       <DependentUpon>Search.Resources.resx</DependentUpon>
