@@ -1,0 +1,123 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework">
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxBackground}" Color="#FF333337"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxBackgroundDisabled}" Color="#FF2D2D30"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxBackgroundFocused}" Color="#FF3F3F46"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxBackgroundHover}" Color="#FF3F3F46"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxBackgroundPressed}" Color="#FF3F3F46"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxBorder}" Color="#FF3F3F46"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxBorderDisabled}" Color="#FF3F3F46"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxBorderFocused}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxBorderHover}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxBorderPressed}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxGlyph}" Color="#FF999999"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxGlyphBackground}" Color="#FF333337"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxGlyphBackgroundDisabled}" Color="#FF2D2D30"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxGlyphBackgroundFocused}" Color="#FF3F3F46"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxGlyphBackgroundHover}" Color="#FF1F1F20"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxGlyphBackgroundPressed}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxGlyphDisabled}" Color="#FF656565"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxGlyphFocused}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxGlyphHover}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxGlyphPressed}" Color="#FFFFFFFF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxListBackground}" Color="#FF1F1F1C"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxListBackgroundShadow}" Color="#19000000"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxListBorder}" Color="#FF3F3F46"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxListItemBackgroundHover}" Color="#FF3F3F46"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxListItemBorderHover}" Color="#FF3F3F46"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxListItemText}" Color="#FFFFFFFF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxListItemTextHover}" Color="#FFFFFFFF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxSelection}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxSeparator}" Color="#FF333337"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxSeparatorDisabled}" Color="#FF2D2D30"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxSeparatorFocused}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxSeparatorHover}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxSeparatorPressed}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxText}" Color="#FFF1F1F1"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxTextDisabled}" Color="#FF656565"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxTextFocused}" Color="#FFFFFFFF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxTextHover}" Color="#FFFFFFFF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxTextInputSelection}" Color="#66007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxTextPressed}" Color="#FFFFFFFF"/>
+
+
+</ResourceDictionary>

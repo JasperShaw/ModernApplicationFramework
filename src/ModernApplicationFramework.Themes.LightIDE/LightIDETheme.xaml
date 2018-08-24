@@ -6,6 +6,7 @@
 		<ResourceDictionary Source="/ModernApplicationFramework.Themes.LightIDE;component/ColorResources.xaml"/>
 		<ResourceDictionary Source="/ModernApplicationFramework.Themes.LightIDE;component/ToolboxColorResources.xaml"/>
 		<ResourceDictionary Source="/ModernApplicationFramework.Themes.LightIDE;component/SearchControlColors.xaml"/>
+		<ResourceDictionary Source="/ModernApplicationFramework.Themes.LightIDE;component/CommonControlColors.xaml"/>
     </ResourceDictionary.MergedDictionaries>	
     
 </ResourceDictionary>
