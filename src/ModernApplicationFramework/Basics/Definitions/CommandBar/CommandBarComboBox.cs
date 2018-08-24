@@ -43,15 +43,56 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
             ItemDataSource = new ComboBoxDataSource(id, name, sortOrder, group,
                 itemDefinition, visible, false, isCustom, customizable, flags);
-        }
-
-        
+        }   
     }
 
-    public class MenuCommandItem : CommandBarItem
-    {
-        protected internal override CommandBarItemDataSource ItemDataSource { get; }
-    }
+
+
+    //public class CommandBarSplitButton<T> : CommandBarSplitButton where T : CommandSplitButtonDefinition
+    //{
+    //    public CommandBarSplitButton(Guid id, CommandBarGroup group, uint sortOrder,
+    //        CommandBarFlags flags = CommandBarFlags.CommandFlagNone) :
+    //        this(id, group, sortOrder, flags, true, false, true)
+    //    {
+    //    }
+
+    //    public CommandBarSplitButton(Guid id, CommandBarGroup group, uint sortOrder,
+    //        CommandBarFlags flags, bool visible, bool isCustom, bool customizable) :
+    //        base(id, null, (T)IoC.Get<ICommandService>().GetCommandDefinition(typeof(T)), group, sortOrder, flags, visible, isCustom, customizable)
+    //    {
+    //    }
+    //}
+
+    //public class CommandBarSplitButton : CommandBarItem
+    //{
+    //    protected internal override CommandBarItemDataSource ItemDataSource { get; }
+
+    //    public CommandBarSplitButton(Guid id, CommandSplitButtonDefinition itemDefinition, CommandBarGroup group, uint sortOrder,
+    //        CommandBarFlags flags = CommandBarFlags.CommandFlagNone) : this(id, itemDefinition.Name, itemDefinition, group, sortOrder, flags, true, false, true)
+    //    {
+
+    //    }
+
+    //    public CommandBarSplitButton(Guid id, string name, CommandSplitButtonDefinition itemDefinition, CommandBarGroup group, uint sortOrder,
+    //        CommandBarFlags flags, bool visible, bool isCustom, bool customizable)
+    //    {
+    //        if (itemDefinition == null)
+    //            throw new ArgumentNullException(nameof(itemDefinition));
+
+    //        if (string.IsNullOrEmpty(name))
+    //            name = itemDefinition.Text;
+
+    //        ItemDataSource = new SplitButtonDataSource(id, name, sortOrder, group,
+    //            itemDefinition, visible, false, isCustom, customizable, flags);
+    //    }
+    //}
+
+
+
+
+
+
+
 
     public abstract class CommandBarItem
     {

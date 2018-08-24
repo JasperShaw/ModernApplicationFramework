@@ -33,7 +33,17 @@ namespace ModernApplicationFramework.Controls.ComboBox
             nameof(DisplayedItem), typeof(IHasTextProperty), typeof(ComboBox),
             new FrameworkPropertyMetadata(null,
                 FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange |
-                FrameworkPropertyMetadataOptions.AffectsRender));
+                FrameworkPropertyMetadataOptions.AffectsRender, OnDisplayedItemChanged));
+
+        private static void OnDisplayedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((ComboBox)d).OnDisplayedItemChanged(e);
+        }
+
+        private void OnDisplayedItemChanged(DependencyPropertyChangedEventArgs e)
+        {
+
+        }
 
         public static readonly DependencyProperty IsEmbeddedInMenuProperty =
             DependencyProperty.Register(nameof(IsEmbeddedInMenu), typeof(bool), typeof(ComboBox),

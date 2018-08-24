@@ -11,7 +11,6 @@
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/DialogToggleButton.xaml"/>
 
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/ComboBox.xaml"/>
-        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/ComboBoxItem.xaml"/>
 
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/DropDownButtonBase.xaml"/>
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/DropDownButton.xaml"/>

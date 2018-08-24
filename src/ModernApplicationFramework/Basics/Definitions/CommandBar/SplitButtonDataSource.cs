@@ -17,20 +17,20 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 	    private string _text;
 	    public override CommandDefinitionBase CommandDefinition { get; }
 
-	    public override string Text
-	    {
-	        get => _text;
-	        set
-	        {
-	            if (value == _text)
+        public override string Text
+        {
+            get => _text;
+            set
+            {
+                if (value == _text)
                     return;
-	            IsTextModified = true;
-	            _text = value;
-	            OnPropertyChanged();
-	        }
-	    }
+                IsTextModified = true;
+                _text = value;
+                OnPropertyChanged();
+            }
+        }
 
-	    public override void Reset()
+        public override void Reset()
 	    {
 	        IsTextModified = false;
 	        _text = OriginalText;

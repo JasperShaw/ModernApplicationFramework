@@ -1,7 +1,6 @@
 ﻿using System;
+using System.Reflection;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using ModernApplicationFramework.Controls.Windows;
 
 namespace ModernApplicationFramework.Core.Themes
@@ -11,6 +10,14 @@ namespace ModernApplicationFramework.Core.Themes
         private static object _scrollBarStyleKey;
         private static object _scrollViewerStyleKey;
         private static object _customGridViewScrollViewerStyleKey;
+        private static object _comboBoxStyleKey;
+
+        static ResourceKeys()
+        {
+            Application.LoadComponent(new Uri(
+                "/" + Assembly.GetExecutingAssembly().GetName().Name + ";component/" + "Themes/Generic.xaml",
+                UriKind.Relative));
+        }
 
         public static object UnthemedScrollBarStyleKey => "ResourceKeys.UnthemedScrollBarStyleKey";
 
@@ -19,13 +26,16 @@ namespace ModernApplicationFramework.Core.Themes
         public static object UnthemedScrollViewerStyleKey => "ResourceKeys.UnthemedScrollViewerStyleKey";
 
         public static object ScrollViewerStyleKey => _scrollViewerStyleKey ?? (_scrollViewerStyleKey =
-                                                         GetResourceKey(typeof(ScrollViewer), nameof(ScrollViewerStyleKey)));
+                                                         GetResourceKey(nameof(ScrollViewerStyleKey)));
 
         public static object ScrollBarStyleKey => _scrollBarStyleKey ??
-                                                  (_scrollBarStyleKey = GetResourceKey(typeof(ScrollBar), nameof(ScrollBarStyleKey)));
+                                                  (_scrollBarStyleKey = GetResourceKey(nameof(ScrollBarStyleKey)));
 
         public static object CustomGridViewScrollViewerStyleKey => _customGridViewScrollViewerStyleKey ?? (_customGridViewScrollViewerStyleKey =
-                                                                       GetResourceKey(typeof(ScrollViewer), nameof(CustomGridViewScrollViewerStyleKey)));
+                                                                       GetResourceKey(nameof(CustomGridViewScrollViewerStyleKey)));
+
+        public static object ComboBoxStyleKey => _comboBoxStyleKey ?? (_comboBoxStyleKey =
+                                                     GetResourceKey(nameof(_comboBoxStyleKey)));
 
         public static object GetScrollBarStyleKey(bool themed)
         {
@@ -48,7 +58,7 @@ namespace ModernApplicationFramework.Core.Themes
             return CustomGridViewScrollViewerStyleKey;
         }
 
-        private static object GetResourceKey(Type type, string resourceId)
+        private static object GetResourceKey(string resourceId)
         {
             return new ComponentResourceKey(typeof(MainWindow), resourceId);
         }
