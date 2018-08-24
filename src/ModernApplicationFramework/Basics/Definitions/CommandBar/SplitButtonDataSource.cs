@@ -49,7 +49,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
         public SplitButtonDataSource(Guid id, CommandBarGroup group, uint sortOrder,
             bool isVisible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true)
-            : base(id, null, sortOrder, group, null, isVisible, isChecked, isCustom, isCustomizable)
+            : base(id, null, sortOrder, group, null, isCustom)
         {
 
             CommandDefinition = IoC.Get<ICommandService>().GetCommandDefinition(typeof(T));
@@ -105,8 +105,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
 
         internal SplitButtonDataSource(Guid id, string text, uint sortOrder, CommandBarGroup group, CommandDefinitionBase definition, 
-            bool visible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = false) 
-            : base(text, sortOrder, group, definition, visible, isChecked, isCustom, isCustomizable)
+            bool isCustom = false) 
+            : base(text, sortOrder, group, definition, isCustom, false)
         {
             Id = id;
 

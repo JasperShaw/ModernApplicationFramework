@@ -73,13 +73,12 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
 
         public override Guid Id { get; }
 
-        public ToolBarDataSource(Guid id, string text, uint sortOrder, bool visible, Dock position, ToolbarScope scope = ToolbarScope.MainWindow, bool isCustomizable = true,
-            bool isCustom = false) : base(text, sortOrder, new ToolbarCommandDefinition(), visible, isCustom, isCustomizable,
-            false)
+        public ToolBarDataSource(Guid id, string text, uint sortOrder, bool isCustom, Dock position, 
+            ToolbarScope scope = ToolbarScope.MainWindow, CommandBarFlags flags = CommandBarFlags.CommandFlagNone) : 
+            base(text, sortOrder, new ToolbarCommandDefinition(), isCustom, false, flags)
         {
             Id = id;
             _position = position;
-            IsVisible = visible;
             ToolbarScope = scope;
             _internalName = new AccessKeyRemovingConverter()
                 .Convert(text, typeof(string), null, CultureInfo.CurrentCulture)

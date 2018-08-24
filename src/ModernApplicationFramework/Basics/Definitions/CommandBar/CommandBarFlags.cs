@@ -18,5 +18,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         CommandFlagFixMenuController = 16,
         CommandFilterKeys = 32,
         CommandFlagComboCommitsOnDrop = 64,
+        CommandNoCustomize = 128,
+        CommandDefaultInvisible = 256,
+        CommandDynamicVisibility = 512
     }
 }

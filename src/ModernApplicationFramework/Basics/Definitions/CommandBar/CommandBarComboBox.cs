@@ -11,13 +11,13 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     {
         public CommandBarComboBox(Guid id, CommandBarGroup group, uint sortOrder,
             CommandBarFlags flags = CommandBarFlags.CommandFlagNone) :
-            this(id, group, sortOrder, flags, true, false, true)
+            this(id, group, sortOrder, flags, false)
         {
         }
 
         public CommandBarComboBox(Guid id, CommandBarGroup group, uint sortOrder, 
-            CommandBarFlags flags, bool visible, bool isCustom, bool customizable) : 
-            base(id, null, (T)IoC.Get<ICommandService>().GetCommandDefinition(typeof(T)), group, sortOrder, flags, visible, isCustom, customizable)
+            CommandBarFlags flags, bool isCustom) : 
+            base(id, null, (T)IoC.Get<ICommandService>().GetCommandDefinition(typeof(T)), group, sortOrder, flags, isCustom)
         {
         }
     }
@@ -27,13 +27,13 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         protected internal override CommandBarItemDataSource ItemDataSource { get; }
 
         public CommandBarComboBox(Guid id, CommandComboBoxDefinition itemDefinition, CommandBarGroup group, uint sortOrder, 
-            CommandBarFlags flags = CommandBarFlags.CommandFlagNone) : this(id, itemDefinition.Name, itemDefinition, group, sortOrder, flags, true, false, true)
+            CommandBarFlags flags = CommandBarFlags.CommandFlagNone) : this(id, itemDefinition.Name, itemDefinition, group, sortOrder, flags, false)
         {
 
         }
 
         public CommandBarComboBox(Guid id, string name, CommandComboBoxDefinition itemDefinition, CommandBarGroup group, uint sortOrder,
-            CommandBarFlags flags, bool visible, bool isCustom, bool customizable)
+            CommandBarFlags flags, bool isCustom)
         {
             if (itemDefinition == null)
                 throw new ArgumentNullException(nameof(itemDefinition));
@@ -42,7 +42,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
                 name = itemDefinition.Text;
 
             ItemDataSource = new ComboBoxDataSource(id, name, sortOrder, group,
-                itemDefinition, visible, false, isCustom, customizable, flags);
+                itemDefinition, isCustom, flags);
         }   
     }
 
@@ -82,7 +82,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             if (string.IsNullOrEmpty(name))
                 name = itemDefinition.Text;
 
-            ItemDataSource = new SplitButtonDataSource(id, name, sortOrder, group, itemDefinition, visible, false, isCustom, customizable);
+            ItemDataSource = new SplitButtonDataSource(id, name, sortOrder, group, itemDefinition, isCustom);
         }
     }
 

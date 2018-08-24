@@ -45,31 +45,31 @@ namespace ModernApplicationFramework.Docking.ContextMenuDefinitions
         [Export]
         public static CommandBarItemDataSource NewHorizontalTabGroupItemItem =
             new CommandBarCommandItemDataSource<NewHorizontalTabGroupCommandDefinition>(new Guid("{E960B87A-2E65-4189-A3CC-1E307C841382}"),
-                DocumentTabGroupContextMenuGroup, uint.MinValue, true, false, false, true);
+                DocumentTabGroupContextMenuGroup, uint.MinValue);
 
         [Export]
         public static CommandBarItemDataSource NewVerticalTabGroupItemItem =
             new CommandBarCommandItemDataSource<NewVerticalTabGroupCommandDefinition>(new Guid("{21F0EA18-53CE-4075-ADB9-BD0E9DD8D6DD}"), DocumentTabGroupContextMenuGroup,
-                1, true, false, false, true);
+                1);
 
         [Export]
         public static CommandBarItemDataSource MoveToNextTabGroupItemItem =
             new CommandBarCommandItemDataSource<MoveToNextTabGroupCommandDefinition>(new Guid("{FEB17F72-D79C-49C7-83D4-607E28CDD7D2}"), DocumentTabGroupContextMenuGroup,
-                2, true, false, false, true);
+                2);
 
         [Export]
         public static CommandBarItemDataSource MoveAllToNextTabGroupItemItem =
             new CommandBarCommandItemDataSource<MoveAllToNextTabGroupCommandDefinition>(new Guid("{999E6855-0051-4ACA-95F7-A6B44B50CA4D}"),
-                DocumentTabGroupContextMenuGroup, 3, true, false, false, true);
+                DocumentTabGroupContextMenuGroup, 3);
 
         [Export]
         public static CommandBarItemDataSource MoveToPreviousTabGroupItemItem =
             new CommandBarCommandItemDataSource<MoveToPreviousTabGroupCommandDefinition>(new Guid("{E4C35551-E7A3-4339-B3C7-C14821566C37}"),
-                DocumentTabGroupContextMenuGroup, 4, true, false, false, true);
+                DocumentTabGroupContextMenuGroup, 4);
 
         [Export]
         public static CommandBarItemDataSource MoveAllToPreviousTabGroupItemItem =
             new CommandBarCommandItemDataSource<MoveAllToPreviousTabGroupCommandDefinition>(new Guid("{F1B00ABF-19CE-4B21-BCF9-08913ABBC280}"),
-                DocumentTabGroupContextMenuGroup, 5, true, false, false, true);
+                DocumentTabGroupContextMenuGroup, 5);
     }
 }

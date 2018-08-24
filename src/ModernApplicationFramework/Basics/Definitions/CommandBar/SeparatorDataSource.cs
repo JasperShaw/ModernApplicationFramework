@@ -19,8 +19,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
         public override Guid Id => Guid.Empty;
 
-        private SeparatorDataSource() : base(null, uint.MaxValue, null, new SeparatorCommandDefinition(),
-            true, false, false, false)
+        private SeparatorDataSource() : base(null, uint.MaxValue, null, new SeparatorCommandDefinition(), false, false)
         {
         }
 

@@ -184,8 +184,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         //    }
         //}
 
-        protected CommandBarDataSource(string text, uint sortOrder, CommandDefinitionBase definition, bool isVisible, bool isCustom,
-            bool isCustomizable, bool isChecked, CommandBarFlags flags = CommandBarFlags.CommandFlagNone)
+        protected CommandBarDataSource(string text, uint sortOrder, CommandDefinitionBase definition, bool isCustom, 
+            bool isChecked, CommandBarFlags flags = CommandBarFlags.CommandFlagNone)
         {
             _sortOrder = sortOrder;
             _text = text ?? definition?.Text;
@@ -194,8 +194,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             CommandDefinition = definition;
             IsCustom = isCustom;
             _isChecked = isChecked;
-            _isVisible = isVisible;
-            IsCustomizable = isCustomizable;
+            _isVisible = !flags.HasFlag(CommandBarFlags.CommandDefaultInvisible);
+            IsCustomizable = !flags.HasFlag(CommandBarFlags.CommandNoCustomize);
             ContainedGroups = new List<CommandBarGroup>();
             Flags.EnableStyleFlags(flags);
             OriginalFlagStore.EnableStyleFlags(flags);

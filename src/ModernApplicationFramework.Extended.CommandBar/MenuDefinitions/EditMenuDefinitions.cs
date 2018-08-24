@@ -28,7 +28,7 @@ namespace ModernApplicationFramework.Extended.CommandBar.MenuDefinitions
         [Export]
         public static CommandBarItemDataSource DeleteItem =
             new CommandBarCommandItemDataSource<DeleteCommandDefinition>(
-                new Guid("{156C413A-93BE-48C7-8219-B38D23013E53}"), BasicEditGroup, int.MaxValue, true, false, false, true);
+                new Guid("{156C413A-93BE-48C7-8219-B38D23013E53}"), BasicEditGroup, int.MaxValue);
 
         [Export]
         public static CommandBarItemDataSource CutMenuItem =

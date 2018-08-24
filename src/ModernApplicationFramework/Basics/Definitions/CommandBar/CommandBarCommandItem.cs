@@ -12,9 +12,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     {
         public override Guid Id { get; }
 
-        public CommandBarCommandItem(Guid id, uint sortOrder, CommandDefinitionBase commandDefinition, bool isCustom = false,
-            bool isCustomizable = true)
-            : base(null, sortOrder, null, commandDefinition, true, false, isCustom, isCustomizable)
+        public CommandBarCommandItem(Guid id, uint sortOrder, CommandDefinitionBase commandDefinition, bool isCustom = false)
+            : base(null, sortOrder, null, commandDefinition, isCustom, false)
         {
             Id = id;
             Text = CommandDefinition?.Text;

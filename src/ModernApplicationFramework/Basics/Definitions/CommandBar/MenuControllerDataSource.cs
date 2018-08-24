@@ -42,8 +42,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         public override Guid Id { get; }
 
 	    public MenuControllerDataSource(Guid id, CommandBarGroup group, uint sortOrder,
-            bool isVisible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true, CommandBarFlags flags = CommandBarFlags.CommandFlagTextIsAnchor)
-            : base(null, sortOrder, group, null, isVisible, isChecked, isCustom, isCustomizable, flags)
+            bool isChecked = false, bool isCustom = false, CommandBarFlags flags = CommandBarFlags.CommandFlagTextIsAnchor)
+            : base(null, sortOrder, group, null, isCustom, isChecked, flags)
 	    {
 	        Id = id;
 
@@ -74,8 +74,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
-        protected MenuControllerDataSource(string text, uint sortOrder, CommandBarGroup group, CommandDefinitionBase definition, bool visible, bool isChecked, bool isCustom, bool isCustomizable, CommandBarFlags flags)
-            : base(text, sortOrder, group, definition, visible, isChecked, isCustom, isCustomizable, flags)
+        protected MenuControllerDataSource(string text, uint sortOrder, CommandBarGroup group, CommandDefinitionBase definition, bool isChecked, bool isCustom, CommandBarFlags flags)
+            : base(text, sortOrder, group, definition, isCustom, isChecked, flags)
         {
         }
     }

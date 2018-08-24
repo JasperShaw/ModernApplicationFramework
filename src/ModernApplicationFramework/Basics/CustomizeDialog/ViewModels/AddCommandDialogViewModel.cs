@@ -94,17 +94,18 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             {
                 if (commandDefinition.Category == SelectedCategory && !(commandDefinition is CommandMenuControllerDefinition))
                 {
-                    if (commandDefinition.ControlType == CommandControlTypes.SplitDropDown)
-                    {
-                        list.Add(new SplitButtonDataSource(Guid.Empty, commandDefinition.Text, 0, null, commandDefinition, true, false, true));
-                    }
+                    //TODO: Split button
+                    //if (commandDefinition.ControlType == CommandControlTypes.SplitDropDown)
+                    //{
+                    //    list.Add(new SplitButtonDataSource(Guid.Empty, commandDefinition.Text, 0, null, commandDefinition, true, false, true));
+                    //}
                     // TODO: Combobox
                     //else if (commandDefinition.ControlType == CommandControlTypes.Combobox)
                     //{
                     //    list.Add(new CommandBarComboItem(Guid.Empty, commandDefinition.Text, 0, null,
                     //        commandDefinition, true, false, true));
                     //}
-                    else
+                    //else
                         list.Add(new CommandBarCommandItem(Guid.Empty, 0, commandDefinition, true));
                 }          
             }

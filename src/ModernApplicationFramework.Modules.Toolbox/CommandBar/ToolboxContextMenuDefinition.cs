@@ -19,11 +19,11 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
 
         [Export]
         public static CommandBarItemDataSource CutCommandItem =
-            new CommandBarCommandItemDataSource<CutCommandDefinition>(new Guid("{7ACF2153-61EB-4C78-84D9-0F4261C13D37}"), BasicEditGroup, 0, true, true, false, true);
+            new CommandBarCommandItemDataSource<CutCommandDefinition>(new Guid("{7ACF2153-61EB-4C78-84D9-0F4261C13D37}"), BasicEditGroup, 0);
 
         [Export]
         public static CommandBarItemDataSource CopyCommandItem =
-            new CommandBarCommandItemDataSource<CopyCommandDefinition>(new Guid("{913939F3-CED0-4810-8597-DAB9476B5792}"), BasicEditGroup, 1, true, true, false, true);
+            new CommandBarCommandItemDataSource<CopyCommandDefinition>(new Guid("{913939F3-CED0-4810-8597-DAB9476B5792}"), BasicEditGroup, 1);
 
         [Export]
         public static CommandBarItemDataSource PasteCommandItem =
@@ -31,11 +31,11 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
 
         [Export]
         public static CommandBarItemDataSource DeleteCommandItem =
-            new CommandBarCommandItemDataSource<DeleteCommandDefinition>(new Guid("{180D3794-7914-4B4C-BD5E-F4A101FAF831}"), BasicEditGroup, 3, true, false, false, true);
+            new CommandBarCommandItemDataSource<DeleteCommandDefinition>(new Guid("{180D3794-7914-4B4C-BD5E-F4A101FAF831}"), BasicEditGroup, 3);
 
         [Export]
         public static CommandBarItemDataSource RenametemItem =
-            new CommandBarCommandItemDataSource<RenameToolboxItemCommandDefinition>(new Guid("{61AEA91B-E3EF-40DE-8969-696F4D056003}"), BasicEditGroup, uint.MaxValue, true, false, false, true);
+            new CommandBarCommandItemDataSource<RenameToolboxItemCommandDefinition>(new Guid("{61AEA91B-E3EF-40DE-8969-696F4D056003}"), BasicEditGroup, uint.MaxValue);
 
 
 
@@ -80,11 +80,11 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
 
         [Export]
         public static CommandBarItemDataSource RemoveCategoryItem =
-            new CommandBarCommandItemDataSource<DeleteActiveToolbarCategoryCommandDefinition>(new Guid("{BF87A03B-EAFB-4778-8243-90BE338F67EA}"), CategoryCommandGroup, 1, true, false, false, true);
+            new CommandBarCommandItemDataSource<DeleteActiveToolbarCategoryCommandDefinition>(new Guid("{BF87A03B-EAFB-4778-8243-90BE338F67EA}"), CategoryCommandGroup, 1);
 
         [Export]
         public static CommandBarItemDataSource RenameCategoryItem =
-            new CommandBarCommandItemDataSource<RenameToolboxCategoryCommandDefinition>(new Guid("{1D6FB604-BF18-44F1-8EE4-50C8015D29C8}"), CategoryCommandGroup, 2, true, false, false, true);
+            new CommandBarCommandItemDataSource<RenameToolboxCategoryCommandDefinition>(new Guid("{1D6FB604-BF18-44F1-8EE4-50C8015D29C8}"), CategoryCommandGroup, 2);
 
         [Export]
         public static CommandBarGroup ItemMoveCommandGroup =

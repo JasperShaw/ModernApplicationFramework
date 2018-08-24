@@ -28,7 +28,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
 
         public override Guid Id { get; }
 
-        public MenuBarDataSource(Guid id, string text, uint sortOrder) : base(text, sortOrder, null, true, false, false, false)
+        public MenuBarDataSource(Guid id, string text, uint sortOrder) : base(text, sortOrder, null, false, false)
         {
             Id = id;
             _internalName = text;

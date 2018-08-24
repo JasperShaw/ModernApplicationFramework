@@ -47,7 +47,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         public override Guid Id => Guid.Empty;
 
         public CommandBarGroup(CommandBarDataSource parent, uint sortOrder)
-            : base(null, sortOrder, null, true, false, false, false)
+            : base(null, sortOrder, null, false, false)
         {
             _parent = parent;
             Parent?.ContainedGroups?.AddSorted(this, new SortOrderComparer<CommandBarGroup>());

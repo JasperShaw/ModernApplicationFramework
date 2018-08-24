@@ -150,9 +150,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         //}
 
         protected CommandBarItemDataSource(string text, uint sortOrder, CommandBarGroup group,
-            CommandDefinitionBase definition, bool visible,
-            bool isChecked, bool isCustom, bool isCustomizable, CommandBarFlags flags = CommandBarFlags.CommandFlagNone)
-            : base(text, sortOrder, definition, visible, isCustom, isCustomizable, isChecked, flags)
+            CommandDefinitionBase definition, bool isCustom, bool isChecked, CommandBarFlags flags = CommandBarFlags.CommandFlagNone)
+            : base(text, sortOrder, definition, isCustom, isChecked, flags)
         {
             _group = group;
             _sortOrder = sortOrder;

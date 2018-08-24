@@ -41,6 +41,6 @@ namespace ModernApplicationFramework.WindowManagement.CommandBar
 
         [Export]
         public static CommandBarItemDataSource ResetLayout =
-            new CommandBarCommandItemDataSource<ResetLayoutCommandDefinition>(new Guid("{18B5578C-6C3C-4DCB-858A-DA6DC8E114CB}"), LayoutGroup, 3, true, false, false, true);
+            new CommandBarCommandItemDataSource<ResetLayoutCommandDefinition>(new Guid("{18B5578C-6C3C-4DCB-858A-DA6DC8E114CB}"), LayoutGroup, 3);
     }
 }

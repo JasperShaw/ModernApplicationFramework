@@ -71,8 +71,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             var result = windowManager.ShowDialog(customizeDialog);
             if (!result.HasValue || !result.Value)
                 return;
-            var def = new ToolBarDataSource(Guid.Empty, customizeDialog.ToolbarName, int.MaxValue, true, Dock.Top,
-                ToolbarScope.MainWindow, true, true);
+            var def = new ToolBarDataSource(Guid.Empty, customizeDialog.ToolbarName, int.MaxValue, true, Dock.Top);
             IoC.Get<IToolBarHostViewModel>().AddToolbarDefinition(def);
             SelectedToolBar = def;
             _control.ToolBarListBox.ScrollIntoView(def);

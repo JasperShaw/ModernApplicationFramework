@@ -54,8 +54,8 @@ namespace ModernApplicationFramework.Basics.Definitions.ContextMenu
             }
         }
 
-        public ContextMenuDataSource(Guid id, ContextMenuCategory category, string text, bool isCustomizable = true) : base(text,
-            uint.MinValue, null, true, false, isCustomizable, false)
+        public ContextMenuDataSource(Guid id, ContextMenuCategory category, string text) : base(text,
+            uint.MinValue, null, false, false)
         {
             Id = id;
             Category = category;

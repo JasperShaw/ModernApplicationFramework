@@ -53,25 +53,26 @@ namespace ModernApplicationFramework.Basics.Services
         {
             DeserializeCommandBar<MenuBarDataSource, IMenuHostViewModel>(xmlRootNode,
                 "//MenuBars");
-            DeserializeCommandBar<ToolBarDataSource, IToolBarHostViewModel>(xmlRootNode,
-                "//Toolbars", delegate (XmlNode node)
-                {
-                    node.TryGetValueResult<string>("Text", out var text);
-                    node.TryGetValueResult<uint>("SortOrder", out var sortOrder);
-                    node.TryGetValueResult<bool>("IsVisible", out var visible);
-                    node.TryGetValueResult<int>("Position", out var position);
-                    return new ToolBarDataSource(Guid.Empty, text, sortOrder, visible, (Dock)position, ToolbarScope.MainWindow,true, true);
-                }, (definition, node) =>
-                {
-                    if (!(definition is ToolBarDataSource toolbar))
-                        return;
-                    node.TryGetValueResult<bool>("IsVisible", out var visible);
-                    node.TryGetValueResult<int>("Position", out var position);
-                    node.TryGetValueResult<int>("PlacementSlot", out var placementSlot);
-                    toolbar.Position = (Dock)position;
-                    toolbar.IsVisible = visible;
-                    toolbar.PlacementSlot = placementSlot;
-                });
+            //TODO: toolbar
+            //DeserializeCommandBar<ToolBarDataSource, IToolBarHostViewModel>(xmlRootNode,
+            //    "//Toolbars", delegate (XmlNode node)
+            //    {
+            //        node.TryGetValueResult<string>("Text", out var text);
+            //        node.TryGetValueResult<uint>("SortOrder", out var sortOrder);
+            //        node.TryGetValueResult<bool>("IsVisible", out var visible);
+            //        node.TryGetValueResult<int>("Position", out var position);
+            //        return new ToolBarDataSource(Guid.Empty, text, sortOrder, visible, (Dock)position, ToolbarScope.MainWindow);
+            //    }, (definition, node) =>
+            //    {
+            //        if (!(definition is ToolBarDataSource toolbar))
+            //            return;
+            //        node.TryGetValueResult<bool>("IsVisible", out var visible);
+            //        node.TryGetValueResult<int>("Position", out var position);
+            //        node.TryGetValueResult<int>("PlacementSlot", out var placementSlot);
+            //        toolbar.Position = (Dock)position;
+            //        toolbar.IsVisible = visible;
+            //        toolbar.PlacementSlot = placementSlot;
+            //    });
             DeserializeCommandBar<ContextMenuDataSource, IContextMenuHost>(xmlRootNode,
                 "//ContextMenus");
         }
@@ -179,42 +180,43 @@ namespace ModernApplicationFramework.Basics.Services
                 // TODO: Combobox
                 else if (childNode.Name == "ComboBoxDefinition")
                     CreateCommandBarComboBoxItem(parentDefinition, childNode);
-                else if (childNode.Name == "SplitButtonDefinition")
-                    CreateCommandSplitButtonItem(parentDefinition, childNode);
+                //else if (childNode.Name == "SplitButtonDefinition")
+                //    CreateCommandSplitButtonItem(parentDefinition, childNode);
             }
         }
 
+        //TODO: Splitbutton
         private void CreateCommandSplitButtonItem(CommandBarDataSource parentDefinition, XmlNode childNode)
         {
-            var guid = childNode.GetAttributeValue<Guid>("Id");
-            var sortOrder = childNode.GetAttributeValue<uint>("SortOrder");
-            childNode.TryGetValueResult("IsVisible", out var visible, true);
-            childNode.TryGetValueResult<string>("Text", out var text);
+            //var guid = childNode.GetAttributeValue<Guid>("Id");
+            //var sortOrder = childNode.GetAttributeValue<uint>("SortOrder");
+            //childNode.TryGetValueResult("IsVisible", out var visible, true);
+            //childNode.TryGetValueResult<string>("Text", out var text);
 
-            SplitButtonDataSource buttonDataSource;
-            if (guid == Guid.Empty)
-            {
-                var commandId = childNode.GetAttributeValue<Guid>("Command");
-                if (commandId == Guid.Empty)
-                    throw new NotSupportedException("CommandId cannot be 'Guid.Empty'");
-                var command = _allCommandDefintions.FirstOrDefault(x => x.Id.Equals(commandId));
-                if (command == null)
-                    throw new ArgumentNullException(nameof(parentDefinition));
-                buttonDataSource = new SplitButtonDataSource(guid, text, sortOrder, null, command, true, false, true);
-            }
-            else
-                buttonDataSource = FindCommandBarDefinitionById<SplitButtonDataSource>(guid);
+            //SplitButtonDataSource buttonDataSource;
+            //if (guid == Guid.Empty)
+            //{
+            //    var commandId = childNode.GetAttributeValue<Guid>("Command");
+            //    if (commandId == Guid.Empty)
+            //        throw new NotSupportedException("CommandId cannot be 'Guid.Empty'");
+            //    var command = _allCommandDefintions.FirstOrDefault(x => x.Id.Equals(commandId));
+            //    if (command == null)
+            //        throw new ArgumentNullException(nameof(parentDefinition));
+            //    buttonDataSource = new SplitButtonDataSource(guid, text, sortOrder, null, command, true, false, true);
+            //}
+            //else
+            //    buttonDataSource = FindCommandBarDefinitionById<SplitButtonDataSource>(guid);
 
-            if (buttonDataSource == null)
-                return;
+            //if (buttonDataSource == null)
+            //    return;
 
-            AssignGroup(buttonDataSource, parentDefinition);
-            SetFlags(buttonDataSource, childNode);
-            buttonDataSource.SortOrder = sortOrder;
-            buttonDataSource.IsVisible = visible;
-            if (text != null)
-                buttonDataSource.Text = text;
-            _definitionHost.ItemDefinitions.Add(buttonDataSource);
+            //AssignGroup(buttonDataSource, parentDefinition);
+            //SetFlags(buttonDataSource, childNode);
+            //buttonDataSource.SortOrder = sortOrder;
+            //buttonDataSource.IsVisible = visible;
+            //if (text != null)
+            //    buttonDataSource.Text = text;
+            //_definitionHost.ItemDefinitions.Add(buttonDataSource);
         }
 
         private void CreateCommandBarGroup(CommandBarDataSource parentDefinition, XmlNode childNode)

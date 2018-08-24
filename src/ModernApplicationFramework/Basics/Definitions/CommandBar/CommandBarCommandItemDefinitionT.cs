@@ -31,9 +31,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 	    public override Guid Id { get; }
 
         public CommandBarCommandItemDataSource(Guid id, CommandBarGroup group, uint sortOrder,
-            bool isVisible = true, bool isChecked = false, bool isCustom = false,
-            bool bindItemVisibilityToCommandExecution = false, bool isCustomizable = true, CommandBarFlags flags = CommandBarFlags.CommandFlagNone)
-            : base(null, sortOrder, group, isVisible, isChecked, isCustom, isCustomizable, flags)
+            bool isCustom = false, bool isChecked = false,
+            bool bindItemVisibilityToCommandExecution = false, CommandBarFlags flags = CommandBarFlags.CommandFlagNone)
+            : base(null, sortOrder, group, isCustom,  isChecked, flags)
         {
             Id = id;
             BindItemVisibilityToCommandExecution = bindItemVisibilityToCommandExecution;
