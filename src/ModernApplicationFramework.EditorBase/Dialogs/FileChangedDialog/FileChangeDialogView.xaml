@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:mafc="http://modern.framework.com/controls"
         xmlns:dialogButtons="clr-namespace:ModernApplicationFramework.Controls.Buttons.DialogButtons;assembly=ModernApplicationFramework"
-        xmlns:styles="clr-namespace:ModernApplicationFramework.Core.Styles;assembly=ModernApplicationFramework"
         xmlns:fileChangedDialog="clr-namespace:ModernApplicationFramework.EditorBase.Dialogs.FileChangedDialog"
+        xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework"
         mc:Ignorable="d" Height="236" Width="629" ResizeMode="NoResize">
     <FrameworkElement.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -30,7 +30,7 @@
                        TextWrapping="Wrap" TextTrimming="CharacterEllipsis" TextAlignment="Left" Width="550"/>
             <StackPanel Grid.Row="2" Margin="0,16,0,0" Width="550" HorizontalAlignment="Left"
                         Visibility="{Binding ShowSettingsMessage, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <CheckBox Style="{DynamicResource {x:Static styles:StyleResourceKeys.FormsCheckBoxStyle}}" IsChecked="{Binding ApplyIfClean, Mode=TwoWay}">
+                <CheckBox Style="{DynamicResource {x:Static themes:ResourceKeys.FormsCheckBoxStyle}}" IsChecked="{Binding ApplyIfClean, Mode=TwoWay}">
                     <AccessText Text="{x:Static fileChangedDialog:FileChangedDialogResources.CheckboxText}" TextTrimming="WordEllipsis" TextWrapping="Wrap" TextAlignment="Left"/>
                 </CheckBox>
                 <TextBlock Text="{x:Static fileChangedDialog:FileChangedDialogResources.MessageSettings}" TextTrimming="WordEllipsis" TextWrapping="Wrap" Margin="12" TextAlignment="Left"/>

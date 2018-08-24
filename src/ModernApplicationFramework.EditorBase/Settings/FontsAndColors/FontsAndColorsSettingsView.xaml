@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:styles="clr-namespace:ModernApplicationFramework.Core.Styles;assembly=ModernApplicationFramework"
              xmlns:fontsAndColors="clr-namespace:ModernApplicationFramework.EditorBase.Settings.FontsAndColors"
              xmlns:converters="clr-namespace:ModernApplicationFramework.EditorBase.Core.Converters"
+             xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -81,7 +81,7 @@
                          
                          ItemsSource="{Binding Items}" 
                          ItemTemplate="{StaticResource ItemTemplate}"
-                         ItemContainerStyle="{DynamicResource {x:Static styles:StyleResourceKeys.FormsListViewItemStyleKey}}"/>
+                         ItemContainerStyle="{DynamicResource {x:Static themes:ResourceKeys.FormsListViewItemStyleKey}}"/>
 
                 <Grid Grid.Row="0" Grid.RowSpan="2" Grid.Column="2">
                     <Grid.RowDefinitions>

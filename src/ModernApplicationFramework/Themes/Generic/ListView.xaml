@@ -21,8 +21,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type styles:StyleResourceKeys},
-                     ResourceId=ThemedListViewStyleKey}" BasedOn="{StaticResource ListViewStyle}"
+    <Style x:Key="{x:Static themes:ResourceKeys.ThemedListViewStyleKey}"
            TargetType="{x:Type ListView}"/>
 
 </ResourceDictionary>

@@ -3,11 +3,9 @@
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
                     xmlns:utilities="clr-namespace:ModernApplicationFramework.Core.Utilities"
                     xmlns:buttons="clr-namespace:ModernApplicationFramework.Controls.Buttons"
-                    xmlns:styles="clr-namespace:ModernApplicationFramework.Core.Styles"
                     xmlns:dialogButtons="clr-namespace:ModernApplicationFramework.Controls.Buttons.DialogButtons">
 
-    <Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type styles:StyleResourceKeys},
-                     ResourceId=ThemedDialogButtonStyleKey}" BasedOn="{StaticResource {x:Type Button}}"
+    <Style x:Key="{x:Static themes:ResourceKeys.ThemedDialogButtonStyleKey}"
            TargetType="{x:Type Button}">
         <Setter Property="Template">
             <Setter.Value>

@@ -4,7 +4,6 @@
              xmlns:mafc="http://modern.framework.com/controls"
              xmlns:textBoxes="clr-namespace:ModernApplicationFramework.Controls.TextBoxes;assembly=ModernApplicationFramework"
              xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework"
-             xmlns:styles="clr-namespace:ModernApplicationFramework.Core.Styles;assembly=ModernApplicationFramework"
              xmlns:dialogButtons="clr-namespace:ModernApplicationFramework.Controls.Buttons.DialogButtons;assembly=ModernApplicationFramework"
              xmlns:newElementDialog="clr-namespace:ModernApplicationFramework.EditorBase.Dialogs.NewElementDialog"
              MinWidth="800" MinHeight="450" Background="{DynamicResource {x:Static themes:ColorResources.BackgroundLowerRegionBrush}}"
@@ -89,7 +88,7 @@
                 </dialogButtons:DialogSplitDropDownButton.DropDownMenu>
             </dialogButtons:DialogSplitDropDownButton>
             <Button MinWidth="75" MinHeight="23" Margin="0,3,12,6" Padding="6,2,6,2" IsCancel="true"
-                    Style="{DynamicResource {x:Static styles:StyleResourceKeys.ThemedDialogButtonStyleKey}}"
+                    Style="{DynamicResource {x:Static themes:ResourceKeys.ThemedDialogButtonStyleKey}}"
                     Content="{x:Static newElementDialog:NewElementDialogResources.NewElementCancelButton}"/>
         </StackPanel>
     </Grid>

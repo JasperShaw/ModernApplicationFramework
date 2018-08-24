@@ -4,17 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:general="clr-namespace:ModernApplicationFramework.Extended.Settings.General"
-             xmlns:styles="clr-namespace:ModernApplicationFramework.Core.Styles;assembly=ModernApplicationFramework"
+             xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework"
              mc:Ignorable="d" d:DesignWidth="460" Width="460" HorizontalAlignment="Left">
 
     <StackPanel Margin="0,0,0,3">
         <StackPanel Orientation="Vertical">
             <CheckBox Content="{x:Static general:GeneralSettingsResources.UseStatusBarCheckBox_Text}" Margin="0,5,0,0" 
-                          IsChecked="{Binding ShowStatusBar, Mode=TwoWay}" Style="{DynamicResource {x:Static styles:StyleResourceKeys.FormsCheckBoxStyle}}"/>
+                          IsChecked="{Binding ShowStatusBar, Mode=TwoWay}" Style="{DynamicResource {x:Static themes:ResourceKeys.FormsCheckBoxStyle}}"/>
             <CheckBox x:Name="AutoAdjustCheckBox" Content="{x:Static general:GeneralSettingsResources.CloseAffectsOnlyActiveCheckBox_Text}" Margin="0,5,0,0"
-                      Style="{DynamicResource {x:Static styles:StyleResourceKeys.FormsCheckBoxStyle}}" IsChecked="{Binding CloseAffectsOnlyActive, Mode=TwoWay}"/>
+                      Style="{DynamicResource {x:Static themes:ResourceKeys.FormsCheckBoxStyle}}" IsChecked="{Binding CloseAffectsOnlyActive, Mode=TwoWay}"/>
             <CheckBox Content="{x:Static general:GeneralSettingsResources.AutoHideAffectsOnlyActiveCheckBox_Text}" Margin="0,5,0,0" 
-                      Style="{DynamicResource {x:Static styles:StyleResourceKeys.FormsCheckBoxStyle}}" IsChecked="{Binding AutoHideAffectsOnlyActive, Mode=TwoWay}"/>
+                      Style="{DynamicResource {x:Static themes:ResourceKeys.FormsCheckBoxStyle}}" IsChecked="{Binding AutoHideAffectsOnlyActive, Mode=TwoWay}"/>
         </StackPanel>
     </StackPanel>
 </UserControl>

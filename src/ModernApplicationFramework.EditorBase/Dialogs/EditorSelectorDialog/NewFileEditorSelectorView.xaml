@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:mafc="http://modern.framework.com/controls"
         xmlns:dialogButtons="clr-namespace:ModernApplicationFramework.Controls.Buttons.DialogButtons;assembly=ModernApplicationFramework"
-        xmlns:styles="clr-namespace:ModernApplicationFramework.Core.Styles;assembly=ModernApplicationFramework"
         xmlns:editorSelectorDialog="clr-namespace:ModernApplicationFramework.EditorBase.Dialogs.EditorSelectorDialog"
+        xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework"
         mc:Ignorable="d" Height="377" Width="576" Background="{x:Static SystemColors.ControlBrush}" ResizeMode="NoResize">
     <FrameworkElement.Resources>
         <ResourceDictionary>
@@ -36,7 +36,7 @@
             </Label>
             <ListBox x:Name="ListView" Grid.Row="1" Grid.Column="0" Margin="7,0,0,0"
                      ItemsSource="{Binding Editors}" SelectedItem="{Binding SelectedEditor}"
-                     ItemContainerStyle="{DynamicResource {x:Static styles:StyleResourceKeys.FormsListViewItemStyleKey}}"
+                     ItemContainerStyle="{DynamicResource {x:Static themes:ResourceKeys.FormsListViewItemStyleKey}}"
                      ItemTemplate="{StaticResource EditorItemTemplate}"/>
             <Grid Grid.Column="1" Grid.Row="1">
                 <dialogButtons:DialogButton Content="{x:Static editorSelectorDialog:EditorSelectorResources.AsDefaultButton}" 
