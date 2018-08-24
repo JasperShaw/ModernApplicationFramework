@@ -65,8 +65,8 @@
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
                      ResourceId=ComboBoxListBackground}" Color="#FFF6F6F6"/>
 
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
-                     ResourceId=ComboBoxListBackgroundShadow}" Color="#19000000"/>
+    <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
+                     ResourceId=ComboBoxListBackgroundShadow}" A="190" R="0" G="0" B="0"/>
 
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:CommonControlsColors},
                      ResourceId=ComboBoxListBorder}" Color="#FFCCCEDB"/>

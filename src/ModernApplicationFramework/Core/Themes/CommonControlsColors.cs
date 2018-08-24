@@ -45,121 +45,121 @@ namespace ModernApplicationFramework.Core.Themes
         private static ComponentResourceKey _comboBoxTextPressed;
 
         public static ComponentResourceKey ComboBoxBackground => _comboBoxBackground ??
-                                                                         (_comboBoxBackground = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxBackground)));
+                                                                         (_comboBoxBackground = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxBackground)));
 
         public static ComponentResourceKey ComboBoxBackgroundDisabled => _comboBoxBackgroundDisabled ??
-                                                                         (_comboBoxBackgroundDisabled = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxBackgroundDisabled)));
+                                                                         (_comboBoxBackgroundDisabled = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxBackgroundDisabled)));
 
         public static ComponentResourceKey ComboBoxBackgroundFocused => _comboBoxBackgroundFocused ??
-                                                                         (_comboBoxBackgroundFocused = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxBackgroundFocused)));
+                                                                         (_comboBoxBackgroundFocused = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxBackgroundFocused)));
 
         public static ComponentResourceKey ComboBoxBackgroundHover => _comboBoxBackgroundHover ??
-                                                                         (_comboBoxBackgroundHover = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxBackgroundHover)));
+                                                                         (_comboBoxBackgroundHover = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxBackgroundHover)));
 
         public static ComponentResourceKey ComboBoxBackgroundPressed => _comboBoxBackgroundPressed ??
-                                                                         (_comboBoxBackgroundPressed = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxBackgroundPressed)));
+                                                                         (_comboBoxBackgroundPressed = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxBackgroundPressed)));
 
         public static ComponentResourceKey ComboBoxBorder => _comboBoxBorder ??
-                                                                         (_comboBoxBorder = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxBorder)));
+                                                                         (_comboBoxBorder = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxBorder)));
 
         public static ComponentResourceKey ComboBoxBorderDisabled => _comboBoxBorderDisabled ??
-                                                                         (_comboBoxBorderDisabled = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxBorderDisabled)));
+                                                                         (_comboBoxBorderDisabled = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxBorderDisabled)));
 
         public static ComponentResourceKey ComboBoxBorderFocused => _comboBoxBorderFocused ??
-                                                                         (_comboBoxBorderFocused = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxBorderFocused)));
+                                                                         (_comboBoxBorderFocused = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxBorderFocused)));
 
         public static ComponentResourceKey ComboBoxBorderHover => _comboBoxBorderHover ??
-                                                                         (_comboBoxBorderHover = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxBorderHover)));
+                                                                         (_comboBoxBorderHover = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxBorderHover)));
 
         public static ComponentResourceKey ComboBoxBorderPressed => _comboBoxBorderPressed ??
-                                                                         (_comboBoxBorderPressed = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxBorderPressed)));
+                                                                         (_comboBoxBorderPressed = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxBorderPressed)));
 
         public static ComponentResourceKey ComboBoxGlyph => _comboBoxGlyph ??
-                                                                         (_comboBoxGlyph = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxGlyph)));
+                                                                         (_comboBoxGlyph = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxGlyph)));
 
         public static ComponentResourceKey ComboBoxGlyphBackground => _comboBoxGlyphBackground ??
-                                                                         (_comboBoxGlyphBackground = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxGlyphBackground)));
+                                                                         (_comboBoxGlyphBackground = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxGlyphBackground)));
 
         public static ComponentResourceKey ComboBoxGlyphBackgroundDisabled => _comboBoxGlyphBackgroundDisabled ??
-                                                                         (_comboBoxGlyphBackgroundDisabled = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxGlyphBackgroundDisabled)));
+                                                                         (_comboBoxGlyphBackgroundDisabled = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxGlyphBackgroundDisabled)));
 
         public static ComponentResourceKey ComboBoxGlyphBackgroundFocused => _comboBoxGlyphBackgroundFocused ??
-                                                                         (_comboBoxGlyphBackgroundFocused = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxGlyphBackgroundFocused)));
+                                                                         (_comboBoxGlyphBackgroundFocused = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxGlyphBackgroundFocused)));
 
         public static ComponentResourceKey ComboBoxGlyphBackgroundHover => _comboBoxGlyphBackgroundHover ??
-                                                                         (_comboBoxGlyphBackgroundHover = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxGlyphBackgroundHover)));
+                                                                         (_comboBoxGlyphBackgroundHover = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxGlyphBackgroundHover)));
 
         public static ComponentResourceKey ComboBoxGlyphBackgroundPressed => _comboBoxGlyphBackgroundPressed ??
-                                                                         (_comboBoxGlyphBackgroundPressed = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxGlyphBackgroundPressed)));
+                                                                         (_comboBoxGlyphBackgroundPressed = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxGlyphBackgroundPressed)));
 
         public static ComponentResourceKey ComboBoxGlyphDisabled => _comboBoxGlyphDisabled ??
-                                                                         (_comboBoxGlyphDisabled = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxGlyphDisabled)));
+                                                                         (_comboBoxGlyphDisabled = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxGlyphDisabled)));
 
         public static ComponentResourceKey ComboBoxGlyphFocused => _comboBoxGlyphFocused ??
-                                                                         (_comboBoxGlyphFocused = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxGlyphFocused)));
+                                                                         (_comboBoxGlyphFocused = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxGlyphFocused)));
 
         public static ComponentResourceKey ComboBoxGlyphHover => _comboBoxGlyphHover ??
-                                                                         (_comboBoxGlyphHover = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxGlyphHover)));
+                                                                         (_comboBoxGlyphHover = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxGlyphHover)));
 
         public static ComponentResourceKey ComboBoxGlyphPressed => _comboBoxGlyphPressed ??
-                                                                         (_comboBoxGlyphPressed = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxGlyphPressed)));
+                                                                         (_comboBoxGlyphPressed = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxGlyphPressed)));
 
         public static ComponentResourceKey ComboBoxListBackground => _comboBoxListBackground ??
-                                                                         (_comboBoxListBackground = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxListBackground)));
+                                                                         (_comboBoxListBackground = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxListBackground)));
 
         public static ComponentResourceKey ComboBoxListBackgroundShadow => _comboBoxListBackgroundShadow ??
-                                                                         (_comboBoxListBackgroundShadow = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxListBackgroundShadow)));
+                                                                         (_comboBoxListBackgroundShadow = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxListBackgroundShadow)));
 
         public static ComponentResourceKey ComboBoxListBorder => _comboBoxListBorder ??
-                                                                         (_comboBoxListBorder = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxListBorder)));
+                                                                         (_comboBoxListBorder = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxListBorder)));
 
         public static ComponentResourceKey ComboBoxListItemBackgroundHover => _comboBoxListItemBackgroundHover ??
-                                                                         (_comboBoxListItemBackgroundHover = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxListItemBackgroundHover)));
+                                                                         (_comboBoxListItemBackgroundHover = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxListItemBackgroundHover)));
 
         public static ComponentResourceKey ComboBoxListItemBorderHover => _comboBoxListItemBorderHover ??
-                                                                         (_comboBoxListItemBorderHover = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxListItemBorderHover)));
+                                                                         (_comboBoxListItemBorderHover = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxListItemBorderHover)));
 
         public static ComponentResourceKey ComboBoxListItemText => _comboBoxListItemText ??
-                                                                         (_comboBoxListItemText = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxListItemText)));
+                                                                         (_comboBoxListItemText = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxListItemText)));
 
         public static ComponentResourceKey ComboBoxListItemTextHover => _comboBoxListItemTextHover ??
-                                                                         (_comboBoxListItemTextHover = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxListItemTextHover)));
+                                                                         (_comboBoxListItemTextHover = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxListItemTextHover)));
 
         public static ComponentResourceKey ComboBoxSelection => _comboBoxSelection ??
-                                                                         (_comboBoxSelection = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxSelection)));
+                                                                         (_comboBoxSelection = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxSelection)));
 
         public static ComponentResourceKey ComboBoxSeparator => _comboBoxSeparator ??
-                                                                         (_comboBoxSeparator = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxSeparator)));
+                                                                         (_comboBoxSeparator = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxSeparator)));
 
         public static ComponentResourceKey ComboBoxSeparatorDisabled => _comboBoxSeparatorDisabled ??
-                                                                         (_comboBoxSeparatorDisabled = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxSeparatorDisabled)));
+                                                                         (_comboBoxSeparatorDisabled = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxSeparatorDisabled)));
 
         public static ComponentResourceKey ComboBoxSeparatorFocused => _comboBoxSeparatorFocused ??
-                                                                         (_comboBoxSeparatorFocused = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxSeparatorFocused)));
+                                                                         (_comboBoxSeparatorFocused = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxSeparatorFocused)));
 
         public static ComponentResourceKey ComboBoxSeparatorHover => _comboBoxSeparatorHover ??
-                                                                         (_comboBoxSeparatorHover = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxSeparatorHover)));
+                                                                         (_comboBoxSeparatorHover = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxSeparatorHover)));
 
         public static ComponentResourceKey ComboBoxSeparatorPressed => _comboBoxSeparatorPressed ??
-                                                                         (_comboBoxSeparatorPressed = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxSeparatorPressed)));
+                                                                         (_comboBoxSeparatorPressed = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxSeparatorPressed)));
 
         public static ComponentResourceKey ComboBoxText => _comboBoxText ??
-                                                                         (_comboBoxText = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxText)));
+                                                                         (_comboBoxText = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxText)));
 
         public static ComponentResourceKey ComboBoxTextDisabled => _comboBoxTextDisabled ??
-                                                                         (_comboBoxTextDisabled = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxTextDisabled)));
+                                                                         (_comboBoxTextDisabled = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxTextDisabled)));
 
         public static ComponentResourceKey ComboBoxTextFocused => _comboBoxTextFocused ??
-                                                                         (_comboBoxTextFocused = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxTextFocused)));
+                                                                         (_comboBoxTextFocused = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxTextFocused)));
 
         public static ComponentResourceKey ComboBoxTextHover => _comboBoxTextHover ??
-                                                                         (_comboBoxTextHover = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxTextHover)));
+                                                                         (_comboBoxTextHover = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxTextHover)));
 
         public static ComponentResourceKey ComboBoxTextInputSelection => _comboBoxTextInputSelection ??
-                                                                         (_comboBoxTextInputSelection = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxTextInputSelection)));
+                                                                         (_comboBoxTextInputSelection = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxTextInputSelection)));
 
         public static ComponentResourceKey ComboBoxTextPressed => _comboBoxTextPressed ??
-                                                                         (_comboBoxTextPressed = new ComponentResourceKey(typeof(ColorResources), nameof(ComboBoxTextPressed)));
+                                                                         (_comboBoxTextPressed = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxTextPressed)));
 
     }
 }
