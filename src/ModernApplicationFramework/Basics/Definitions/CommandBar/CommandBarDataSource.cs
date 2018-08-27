@@ -56,7 +56,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         /// <summary>
         /// The command definition of the element
         /// </summary>
-        public virtual CommandDefinitionBase CommandDefinition { get; }
+
 
         /// <summary>
         /// The groups that are hosted by the element
@@ -163,16 +163,15 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
         public abstract Guid Id { get; }
 
-        protected CommandBarDataSource(string text, uint sortOrder, CommandDefinitionBase definition, bool isCustom, 
+        protected CommandBarDataSource(string text, uint sortOrder, bool isCustom, 
             bool isChecked, CommandBarFlags flags = CommandBarFlags.CommandFlagNone)
         {
             _sortOrder = sortOrder;
-            _text = text ?? definition?.Text;
-            OriginalText = text ?? definition?.Text;
-	        _name = text ?? definition?.Text;
+            _text = text;
+            OriginalText = text;
+	        _name = text;
             _internalName = new AccessKeyRemovingConverter().Convert(text, typeof(string), null, CultureInfo.CurrentCulture)
                 ?.ToString();
-            CommandDefinition = definition;
             IsCustom = isCustom;
             _isChecked = isChecked;
             _isVisible = !flags.HasFlag(CommandBarFlags.CommandDefaultInvisible);
@@ -182,6 +181,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             OriginalFlagStore.EnableStyleFlags(flags);
         }
 
+        //TODO: Create instance
         internal static CommandBarDataSource CreateInstance<T>(T itemDefinition) where T : CommandDefinitionBase
         {
             switch (itemDefinition.ControlType)
@@ -204,19 +204,12 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             throw new ArgumentException();
         }
 
-        internal CommandDefinition InternalCommandDefinition { get; set; }
-
         public virtual void Reset()
         {
             IsTextModified = false;
             _text = OriginalText;
             OnPropertyChanged(nameof(Text));
             Flags.EnableStyleFlags((CommandBarFlags)OriginalFlagStore.AllFlags);
-        }
-
-        protected virtual void UpdateText()
-        {
-            Text = CommandDefinition?.Text;
         }
 
         [NotifyPropertyChangedInvocator]

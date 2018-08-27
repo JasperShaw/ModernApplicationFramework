@@ -17,13 +17,17 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         public override CommandControlTypes ControlType => CommandControlTypes.SplitDropDown;
 
         public abstract SplitButtonModel Model { get; }
+
+        protected CommandSplitButtonDefinition(ICommandDefinitionCommand command)
+        {
+            Command = command;
+        }
     }
 
     public abstract class CommandSplitButtonDefinition<T> : CommandSplitButtonDefinition where T : ICommandDefinitionCommand
     {
-        protected CommandSplitButtonDefinition()
+        protected CommandSplitButtonDefinition() : base(IoC.Get<T>())
         {
-            Command = IoC.Get<T>();
         }
     }
 }

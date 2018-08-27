@@ -82,7 +82,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             if (e.NewItems != null)
                 foreach (var item in e.NewItems)
                 {
-                    foreach (var itemDefinition in ItemDefinitions)
+                    foreach (var itemDefinition in ItemDefinitions.OfType<CommandBarItemDataSource>())
                         if (itemDefinition.CommandDefinition.GetType() == item.GetType())
                             ExcludedItemDefinitions.Add(itemDefinition);
                     if (item is CommandDefinition commandDefinition)
@@ -92,7 +92,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             if (e.OldItems != null)
                 foreach (var item in e.OldItems)
                 {
-                    foreach (var itemDefinition in ExcludedItemDefinitions.ToList())
+                    foreach (var itemDefinition in ExcludedItemDefinitions.OfType<CommandBarItemDataSource>())
                         if (itemDefinition.CommandDefinition.GetType() == item.GetType())
                             ExcludedItemDefinitions.Remove(itemDefinition);
                     if (item is CommandDefinition commandDefinition)

@@ -7,9 +7,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
     internal class MenuControllerDataSource : CommandBarItemDataSource
     {
-        private CommandBarDataSource _anchorItem;
+        private CommandBarItemDataSource _anchorItem;
 
-        public CommandBarDataSource AnchorItem
+        public CommandBarItemDataSource AnchorItem
         {
             get => _anchorItem;
             set
@@ -31,10 +31,12 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             if (itemDefinition == null)
                 throw new ArgumentNullException(nameof(itemDefinition));
             Id = id;
-            var items = new List<CommandBarDataSource>();
+            var items = new List<CommandBarItemDataSource>();
             foreach (var valuePair in itemDefinition.Model.Items)
             {
-                var item = CreateInstance(valuePair.Key);
+                var item = CreateInstance(valuePair.Key) as CommandBarItemDataSource;
+                if (item == null)
+                    continue;
                 if (valuePair.Value)
                     item.Flags.FixMenuController = true;
                 items.Add(item);

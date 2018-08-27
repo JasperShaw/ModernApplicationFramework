@@ -5,8 +5,6 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using JetBrains.Annotations;
 using ModernApplicationFramework.Core.Converters.AccessKey;
-using ModernApplicationFramework.Imaging;
-using ModernApplicationFramework.Imaging.Interop;
 
 namespace ModernApplicationFramework.Basics.Definitions.Command
 {
@@ -18,7 +16,6 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
     public abstract class CommandDefinitionBase : INotifyPropertyChanged
     {
         protected virtual char Delimiter => '.';
-
 
         /// <summary>
         /// Fires when a property was changed
@@ -42,17 +39,6 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         /// The tooltip of the definition
         /// </summary>
         public abstract string ToolTip { get; }
-
-        /// <summary>
-        /// The image moniker of the command definition.
-        /// </summary>
-        public virtual ImageMoniker ImageMonikerSource => ImageLibrary.EmptyMoniker;
-
-
-        /// <summary>
-        /// Options that identifies the definition as a container of a list of definitions
-        /// </summary>
-        public abstract bool IsList { get; }
 
         /// <summary>
         /// The <see cref="CommandCategory"/> of this definition. May be <see langword="null"/>

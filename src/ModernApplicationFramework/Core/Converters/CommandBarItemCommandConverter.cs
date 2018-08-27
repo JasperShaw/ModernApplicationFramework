@@ -15,7 +15,7 @@ namespace ModernApplicationFramework.Core.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is CommandBarDataSource definitionBase)
+            if (value is CommandBarItemDataSource definitionBase)
             {
                 var c = definitionBase.CommandDefinition as CommandDefinition;
                 return c?.Command;

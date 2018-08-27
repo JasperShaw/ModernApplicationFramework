@@ -12,7 +12,5 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         public override CommandControlTypes ControlType => CommandControlTypes.MenuController;
 
         public abstract MenuControllerModel Model { get; }
-
-        public override bool IsList => false;
     }
 }

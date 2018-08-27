@@ -255,6 +255,7 @@
     <Compile Include="Basics\Definitions\CommandBar\Elements\CommandBarSplitButton.cs" />
     <Compile Include="Basics\Definitions\CommandBar\Models\MenuControllerModel.cs" />
     <Compile Include="Basics\Definitions\CommandBar\Models\SplitButtonModel.cs" />
+    <Compile Include="Basics\Definitions\Command\CommandItemDefinitionBase.cs" />
     <Compile Include="Core\Themes\CommonControlsColors.cs" />
     <Compile Include="Interfaces\Commands\ICustomizeMenuCommand.cs" />
     <Compile Include="Basics\Search\Search.Resources.Designer.cs">
@@ -1406,6 +1407,7 @@
     <EmbeddedResource Include="Resources\split.cur" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Basics\Definitions\CommandBar\Definitions\" />
     <Folder Include="Basics\Definitions\Menu\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

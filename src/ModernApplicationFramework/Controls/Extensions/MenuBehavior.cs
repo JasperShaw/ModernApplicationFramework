@@ -126,7 +126,7 @@ namespace ModernApplicationFramework.Controls.Extensions
                 return;
             foreach (var item in menuItems)
             {
-                if (item.DataContext is CommandBarDataSource definition &&
+                if (item.DataContext is CommandBarItemDataSource definition &&
                     definition.CommandDefinition is CommandDefinition command)
                     definition.IsChecked = command.Command.Checked;
             }

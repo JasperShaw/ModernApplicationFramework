@@ -181,7 +181,7 @@ namespace ModernApplicationFramework.Controls.Buttons
 
         internal void Invoke()
         {
-            var dataContext = (CommandBarDataSource) DataContext;
+            var dataContext = (CommandBarItemDataSource) DataContext;
             
             if (dataContext?.CommandDefinition == null || !(dataContext.CommandDefinition is CommandSplitButtonDefinition splitCommandDefinition))
                 return;

@@ -60,7 +60,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
         public ToolBarDataSource(Guid id, string text, uint sortOrder, bool isCustom, Dock position, 
             ToolbarScope scope = ToolbarScope.MainWindow, CommandBarFlags flags = CommandBarFlags.CommandFlagNone) : 
-            base(text, sortOrder, null, isCustom, false, flags)
+            base(text, sortOrder, isCustom, false, flags)
         {
             Id = id;
             _position = position;

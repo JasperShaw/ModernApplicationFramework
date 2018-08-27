@@ -7,7 +7,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
     /// Basic definition model used for application commands providing a list of definitions
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.Command.CommandDefinitionBase" />
-    public abstract class CommandListDefinition : CommandDefinitionBase
+    public abstract class CommandListDefinition : CommandItemDefinitionBase
     {
         public sealed override bool IsList => true;
         public override CommandControlTypes ControlType => CommandControlTypes.Button;

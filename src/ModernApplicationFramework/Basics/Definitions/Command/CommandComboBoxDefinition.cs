@@ -1,5 +1,4 @@
-﻿using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Basics.Definitions.CommandBar.Models;
+﻿using ModernApplicationFramework.Basics.Definitions.CommandBar.Models;
 
 namespace ModernApplicationFramework.Basics.Definitions.Command
 {
@@ -10,8 +9,6 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.Command.CommandDefinitionBase" />
     public abstract class CommandComboBoxDefinition : CommandDefinitionBase
     {
-        public override bool IsList => false;
-
         public override CommandControlTypes ControlType => CommandControlTypes.Combobox;
 
         public abstract ComboBoxModel Model { get; }

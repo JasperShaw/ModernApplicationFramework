@@ -17,7 +17,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
     ///     Basic definition model used for application commands
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.Command.CommandDefinitionBase" />
-    public abstract class CommandDefinition : CommandDefinitionBase
+    public abstract class CommandDefinition : CommandItemDefinitionBase
     {
         private IKeyGestureService _gestureService;
         
