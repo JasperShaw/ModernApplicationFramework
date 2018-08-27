@@ -1,13 +1,29 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Globalization;
+using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Core.Comparers;
 using ModernApplicationFramework.Core.Converters.AccessKey;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
+
+    //TODO Remove
+    public abstract class CommandBarItemDataSource<T> : CommandBarItemDataSource where T : CommandDefinitionBase
+    {
+        protected CommandBarItemDataSource(string text, uint sortOrder, CommandBarGroup group,
+            bool isChecked, bool isCustom, CommandBarFlags flags)
+            : base(text, sortOrder, group, IoC.Get<ICommandService>().GetCommandDefinition(typeof(T)), isCustom, isChecked, flags)
+        {
+        }
+    }
+
+
+
     /// <inheritdoc cref="CommandBarDataSource" />
     /// <summary>
     /// Fundamental command bar item definition
@@ -130,6 +146,15 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             {
                 InternalName = internalName;
             }
+
+            if (definition != null)
+                definition.PropertyChanged += Definition_PropertyChanged;
+
+            if (definition is CommandDefinition commandDefinition)
+            {
+                InternalCommandDefinition = commandDefinition;
+                commandDefinition.Command.CommandChanged += OnCommandChanged;
+            }
         }
 
         public override void Reset()
@@ -140,6 +165,13 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             UpdateName();
             OnPropertyChanged(nameof(Text));
             Flags.EnableStyleFlags((CommandBarFlags)OriginalFlagStore.AllFlags);
+        }
+
+        protected virtual void OnCommandChanged(object sender, EventArgs e)
+        {
+            IsVisible = InternalCommandDefinition.Command.Visible;
+            IsEnabled = InternalCommandDefinition.Command.Enabled;
+            IsChecked = InternalCommandDefinition.Command.Enabled;
         }
 
         /// <summary>
@@ -196,6 +228,12 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         {
             if (e.PropertyName == nameof(IHasInternalName.InternalName))
                 UpdateInternalName();
+        }
+
+        private void Definition_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(CommandDefinition.Text))
+                UpdateText();
         }
     }
 }

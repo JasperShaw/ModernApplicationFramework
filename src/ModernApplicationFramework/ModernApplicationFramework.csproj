@@ -244,6 +244,7 @@
     <Compile Include="Basics\CommandBar\Commands\CustomizeMenuCommand.cs" />
     <Compile Include="Basics\Definitions\CommandBar\ComboBoxDataSource.cs" />
     <Compile Include="Basics\Definitions\CommandBar\Elements\CommandBarComboBox.cs" />
+    <Compile Include="Basics\Definitions\CommandBar\Elements\CommandBarCommandItem.cs" />
     <Compile Include="Basics\Definitions\CommandBar\Elements\CommandBarItem.cs" />
     <Compile Include="Basics\Definitions\CommandBar\Elements\CommandBarMenuController.cs" />
     <Compile Include="Basics\Definitions\CommandBar\Elements\CommandBarMenuItem.cs" />
@@ -536,7 +537,6 @@
     <Compile Include="Basics\CommandBar\Creators\ContextMenuCreator.cs" />
     <Compile Include="Basics\CustomizeDialog\ViewModels\AddCommandDialogViewModel.cs" />
     <Compile Include="Basics\CustomizeDialog\ViewModels\CommandsPageViewModel.cs" />
-    <Compile Include="Basics\Definitions\CommandBar\CommandBarItemDataSourceT.cs" />
     <Compile Include="Basics\EnvironmentGeneralOptions.cs" />
     <Compile Include="Basics\EnvironmentRenderCapabilities.cs" />
     <Compile Include="Controls\Dialogs\DialogResourcesResources.Designer.cs">
@@ -615,7 +615,7 @@
     <Compile Include="Basics\CustomizeDialog\Views\AddCommandDialogView.xaml.cs">
       <DependentUpon>AddCommandDialogView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Basics\Definitions\CommandBar\CommandBarCommandItem.cs" />
+    <Compile Include="Basics\Definitions\CommandBar\ButtonDataSource.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarCommandItemDefinitionT.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarDataSource.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarFlags.cs" />

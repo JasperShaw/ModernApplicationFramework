@@ -106,7 +106,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
                     //        commandDefinition, true, false, true));
                     //}
                     //else
-                        list.Add(new CommandBarCommandItem(Guid.Empty, 0, commandDefinition, true));
+                        list.Add(new ButtonDataSource(Guid.Empty, 0, commandDefinition, true));
                 }          
             }
             Items = list; //Slower than .ToList but actually fixes the CustomSort not being used

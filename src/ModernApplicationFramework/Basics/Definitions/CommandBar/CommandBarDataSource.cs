@@ -180,14 +180,6 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             ContainedGroups = new List<CommandBarGroup>();
             Flags.EnableStyleFlags(flags);
             OriginalFlagStore.EnableStyleFlags(flags);
-            if (definition != null)
-                definition.PropertyChanged += Definition_PropertyChanged;
-
-            if (definition is CommandDefinition commandDefinition)
-            {
-                InternalCommandDefinition = commandDefinition;
-                commandDefinition.Command.CommandChanged += OnCommandChanged;
-            }
         }
 
         internal static CommandBarDataSource CreateInstance<T>(T itemDefinition) where T : CommandDefinitionBase
@@ -195,7 +187,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             switch (itemDefinition.ControlType)
             {
                 case CommandControlTypes.Button:
-                    return new CommandBarCommandItem(Guid.Empty, 0, itemDefinition);
+                    return new ButtonDataSource(Guid.Empty, 0, itemDefinition);
                 case CommandControlTypes.Separator:
                     return SeparatorDataSource.NewInstance;
                 case CommandControlTypes.SplitDropDown:
@@ -231,19 +223,6 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected virtual void OnCommandChanged(object sender, EventArgs e)
-        {
-            IsVisible = InternalCommandDefinition.Command.Visible;
-            IsEnabled = InternalCommandDefinition.Command.Enabled;
-            IsChecked = InternalCommandDefinition.Command.Enabled;
-        }
-
-        private void Definition_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(CommandDefinition.Text))
-                UpdateText();
         }
 
         public string InternalName

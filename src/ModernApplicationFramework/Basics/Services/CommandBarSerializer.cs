@@ -173,8 +173,9 @@ namespace ModernApplicationFramework.Basics.Services
                     CreateCommandBarGroup(parentDefinition, childNode);
                 else if (childNode.Name == "MenuDefinition")
                     CreateCommandBarMenu(parentDefinition, childNode);
-                else if (childNode.Name == "ItemDefinition")
-                    CreateCommandBarItem(parentDefinition, childNode);
+                //TODO: Button
+                //else if (childNode.Name == "ItemDefinition")
+                //    CreateCommandBarItem(parentDefinition, childNode);
                 else if (childNode.Name == "MenuControllerDefinition")
                     CreateCommandBarMenuControllerItem(parentDefinition, childNode);
                 else if (childNode.Name == "ComboBoxDefinition")
@@ -257,38 +258,38 @@ namespace ModernApplicationFramework.Basics.Services
             _definitionHost.ItemDefinitions.Add(menu);
         }
 
-        private void CreateCommandBarItem(CommandBarDataSource parentDefinition, XmlNode childNode)
-        {
-            var guid = childNode.GetAttributeValue<Guid>("Id");
-            var sortOrder = childNode.GetAttributeValue<uint>("SortOrder");
-            childNode.TryGetValueResult<string>("Text", out var text);
-            childNode.TryGetValueResult("IsVisible", out var visible, true);
+        //private void CreateCommandBarItem(CommandBarDataSource parentDefinition, XmlNode childNode)
+        //{
+        //    var guid = childNode.GetAttributeValue<Guid>("Id");
+        //    var sortOrder = childNode.GetAttributeValue<uint>("SortOrder");
+        //    childNode.TryGetValueResult<string>("Text", out var text);
+        //    childNode.TryGetValueResult("IsVisible", out var visible, true);
 
-            CommandBarItemDataSource item;
-            if (guid == Guid.Empty)
-            {
-                var commandId = childNode.GetAttributeValue<Guid>("Command");
-                if (commandId == Guid.Empty)
-                    throw new NotSupportedException("CommandId cannot be 'Guid.Empty'");
-                var command = _allCommandDefintions.FirstOrDefault(x => x.Id.Equals(commandId));
-                if (command == null)
-                    throw new ArgumentNullException(nameof(parentDefinition));
-                item = new CommandBarCommandItem(guid, sortOrder, command);
-            }
-            else
-                item = FindCommandBarDefinitionById<CommandBarItemDataSource>(guid);
+        //    CommandBarItemDataSource item;
+        //    if (guid == Guid.Empty)
+        //    {
+        //        var commandId = childNode.GetAttributeValue<Guid>("Command");
+        //        if (commandId == Guid.Empty)
+        //            throw new NotSupportedException("CommandId cannot be 'Guid.Empty'");
+        //        var command = _allCommandDefintions.FirstOrDefault(x => x.Id.Equals(commandId));
+        //        if (command == null)
+        //            throw new ArgumentNullException(nameof(parentDefinition));
+        //        item = new CommandBarCommandItem(guid, sortOrder, command);
+        //    }
+        //    else
+        //        item = FindCommandBarDefinitionById<CommandBarItemDataSource>(guid);
 
-            if (item == null)
-                return;
+        //    if (item == null)
+        //        return;
 
-            AssignGroup(item, parentDefinition);
-            SetFlags(item, childNode);
-            item.SortOrder = sortOrder;
-            item.IsVisible = visible;
-            if (text != null)
-                item.Text = text;
-            _definitionHost.ItemDefinitions.Add(item);
-        }
+        //    AssignGroup(item, parentDefinition);
+        //    SetFlags(item, childNode);
+        //    item.SortOrder = sortOrder;
+        //    item.IsVisible = visible;
+        //    if (text != null)
+        //        item.Text = text;
+        //    _definitionHost.ItemDefinitions.Add(item);
+        //}
 
         private void CreateCommandBarMenuControllerItem(CommandBarDataSource parentDefinition, XmlNode childNode)
         {
