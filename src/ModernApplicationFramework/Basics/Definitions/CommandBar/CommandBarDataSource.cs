@@ -118,8 +118,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
         public abstract Guid Id { get; }
 
-        protected CommandBarDataSource(string text, uint sortOrder, bool isCustom, 
-            bool isChecked, CommandBarFlags flags = CommandBarFlags.CommandFlagNone)
+        protected CommandBarDataSource(string text, uint sortOrder, bool isCustom, CommandBarFlags flags = CommandBarFlags.CommandFlagNone)
         {
             _sortOrder = sortOrder;
             _text = text;

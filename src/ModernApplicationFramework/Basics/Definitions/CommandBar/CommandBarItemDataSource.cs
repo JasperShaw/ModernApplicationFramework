@@ -17,7 +17,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     {
         protected CommandBarItemDataSource(string text, uint sortOrder, CommandBarGroup group,
             bool isChecked, bool isCustom, CommandBarFlags flags)
-            : base(text, sortOrder, group, IoC.Get<ICommandService>().GetCommandDefinition(typeof(T)), isCustom, isChecked, flags)
+            : base(text, sortOrder, group, IoC.Get<ICommandService>().GetCommandDefinition(typeof(T)), isCustom, flags)
         {
         }
     }
@@ -146,8 +146,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         }
 
         protected CommandBarItemDataSource(string text, uint sortOrder, CommandBarGroup group,
-            CommandDefinitionBase definition, bool isCustom, bool isChecked, CommandBarFlags flags = CommandBarFlags.CommandFlagNone)
-            : base(text, sortOrder, isCustom, isChecked, flags)
+            CommandDefinitionBase definition, bool isCustom, CommandBarFlags flags = CommandBarFlags.CommandFlagNone)
+            : base(text, sortOrder, isCustom, flags)
         {
             _group = group;
             _sortOrder = sortOrder;

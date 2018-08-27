@@ -26,7 +26,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
         public MenuControllerDataSource(Guid id, string text, uint sortOrder, CommandBarGroup group, CommandMenuControllerDefinition itemDefinition,
             bool isCustom = false, CommandBarFlags flgas = CommandBarFlags.CommandFlagNone)
-            : base(text, sortOrder, group, itemDefinition, isCustom, false, flgas)
+            : base(text, sortOrder, group, itemDefinition, isCustom, flgas)
         {
             if (itemDefinition == null)
                 throw new ArgumentNullException(nameof(itemDefinition));

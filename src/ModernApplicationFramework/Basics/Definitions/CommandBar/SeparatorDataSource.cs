@@ -21,7 +21,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
         public override CommandControlTypes UiType => CommandControlTypes.Separator;
 
-        private SeparatorDataSource() : base(null, uint.MaxValue, null, null, false, false)
+        private SeparatorDataSource() : base(null, uint.MaxValue, null, null, false)
         {
         }
     }

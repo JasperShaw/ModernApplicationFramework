@@ -157,7 +157,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
         public ComboBoxDataSource(Guid id, string text, uint sortOrder, CommandBarGroup group, CommandComboBoxDefinition definition, bool isCustom,
             CommandBarFlags flags = CommandBarFlags.CommandFlagNone) :
-            base(text, sortOrder, group, definition, isCustom, false, flags)
+            base(text, sortOrder, group, definition, isCustom, flags)
         {
             if (definition == null)
                 throw new ArgumentNullException();

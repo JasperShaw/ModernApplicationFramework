@@ -14,7 +14,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         public override Guid Id { get; }
 
         public MenuDataSource(Guid id, string text, CommandBarGroup group, uint sortOrder, bool isCustom, CommandBarFlags flags)
-            : base(text, sortOrder, group, null, isCustom, false, flags)
+            : base(text, sortOrder, group, null, isCustom, flags)
         {
             Id = id;
         }

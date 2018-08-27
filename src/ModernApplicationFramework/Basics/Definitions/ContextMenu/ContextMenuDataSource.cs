@@ -19,7 +19,7 @@ namespace ModernApplicationFramework.Basics.Definitions.ContextMenu
         public override Guid Id { get; }
 
         public ContextMenuDataSource(Guid id, ContextMenuCategory category, string text) : base($"{category.CategoryName} | {text}",
-            uint.MinValue, false, false)
+            uint.MinValue, false)
         {
             Id = id;
             Category = category;

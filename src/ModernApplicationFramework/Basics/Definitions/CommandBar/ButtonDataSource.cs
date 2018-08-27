@@ -26,7 +26,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         }
 
         public ButtonDataSource(Guid id, uint sortOrder, CommandDefinitionBase commandDefinition, bool isCustom = false)
-            : base(null, sortOrder, null, commandDefinition, isCustom, false)
+            : base(null, sortOrder, null, commandDefinition, isCustom)
         {
             Id = id;
             Text = CommandDefinition?.Text;
