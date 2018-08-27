@@ -4,7 +4,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar.Elements
 {
     public class CommandBarMenuItem : CommandBarItem
     {
-        protected internal override CommandBarDataSource ItemDataSource { get; }
+        public override CommandBarDataSource ItemDataSource { get; }
 
         public CommandBarMenuItem(Guid id, string text, CommandBarGroup group, uint sortOrder) : 
             this(id, text, group, sortOrder, false, CommandBarFlags.CommandFlagNone)

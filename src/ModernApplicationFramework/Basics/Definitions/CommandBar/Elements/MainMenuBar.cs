@@ -14,6 +14,6 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar.Elements
             Instance = this;
         }
 
-        protected internal override CommandBarDataSource ItemDataSource { get; }
+        public override CommandBarDataSource ItemDataSource { get; }
     }
 }

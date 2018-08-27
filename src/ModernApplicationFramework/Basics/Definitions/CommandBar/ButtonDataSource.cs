@@ -51,7 +51,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
                 IsVisible = InternalCommandDefinition.Command.Visible;
             IsChecked = InternalCommandDefinition.Command.Checked;
             if (Flags.AllFlags.HasFlag(CommandBarFlags.CommandDynamicVisibility) && !IsEnabled)
-                IsVisible = false;     
+                IsVisible = false;
         }
     }
 }

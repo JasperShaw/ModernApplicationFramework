@@ -5,7 +5,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar.Elements
 {
     public sealed class CommandBarToolbar : CommandBarItem
     {
-        protected internal override CommandBarDataSource ItemDataSource { get; }
+        public override CommandBarDataSource ItemDataSource { get; }
 
         public ToolbarScope Scope { get; }
 

@@ -28,13 +28,11 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
         [ImportingConstructor]
         internal CommandBarDefinitionHost([ImportMany] CommandBarGroup[] menuItemGroups,
-            [ImportMany] CommandBarItemDataSource[] menuItems,
             [ImportMany] ExcludeCommandBarElementDefinition[] excludedItems,
             [ImportMany] ExcludedCommandDefinition[] excludedCommands)
         {
             ItemGroupDefinitions =
                 new ObservableCollection<CommandBarGroup>(menuItemGroups.OrderBy(x => x.SortOrder));
-            //ItemDefinitions = new ObservableCollection<CommandBarItemDataSource>(menuItems.OrderBy(x => x.SortOrder));
             ItemDefinitions = new ObservableCollection<CommandBarDataSource>();
             ExcludedItemDefinitions = new ObservableCollection<CommandBarDataSource>();
             foreach (var item in excludedItems)

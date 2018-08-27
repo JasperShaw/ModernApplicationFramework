@@ -22,7 +22,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar.Elements
 
     public class CommandBarSplitButton : CommandBarItem
     {
-        protected internal override CommandBarDataSource ItemDataSource { get; }
+        public override CommandBarDataSource ItemDataSource { get; }
 
         public CommandBarSplitButton(Guid id, CommandSplitButtonDefinition itemDefinition, CommandBarGroup group, uint sortOrder,
             CommandBarFlags flags = CommandBarFlags.CommandFlagNone) : this(id, itemDefinition.Name, itemDefinition, group, sortOrder, false, false, flags)
