@@ -9,7 +9,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ToolSearch
 {
     class TestToolbar
     {
-        [Export] public static CommandBarItem TestToolBar = new CommandBarToolbar(Guid.NewGuid(), "123", 0, false,
+        [Export] public static CommandBarItem TestToolBar = new CommandBarToolbar(Guid.NewGuid(), "123", 0, 0, false,
             Dock.Top, ToolbarScope.Anchorable, CommandBarFlags.CommandFlagNone);
 
         [Export] public static CommandBarGroup TestGroup = new CommandBarGroup(TestToolBar, 0);

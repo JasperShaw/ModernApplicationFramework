@@ -16,7 +16,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     internal sealed class ToolBarDataSource : CommandBarDataSource
     {
         private Dock _position;
-        private int _placementSlot;
+        private uint _placementSlot;
+        private uint _bandIndex;
 
 
         /// <summary>
@@ -35,7 +36,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
-        public int PlacementSlot
+        public uint PlacementSlot
         {
             get => _placementSlot;
             set
@@ -46,6 +47,18 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
                 OnPropertyChanged();
             }
         }
+
+        public uint BandIndex
+        {
+            get => _bandIndex;
+            set
+            {
+                if (value == _bandIndex) return;
+                _bandIndex = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         /// <summary>
         /// The last know dock position
@@ -58,13 +71,15 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
         public override Guid Id { get; }
 
-        public ToolBarDataSource(Guid id, string text, uint sortOrder, bool isCustom, Dock position, 
+        public ToolBarDataSource(Guid id, string text, uint placementSlot, uint bandIndex, bool isCustom, Dock position, 
             ToolbarScope scope = ToolbarScope.MainWindow, CommandBarFlags flags = CommandBarFlags.CommandFlagNone) : 
-            base(text, sortOrder, isCustom, false, flags)
+            base(text, 0, isCustom, false, flags)
         {
             Id = id;
             _position = position;
             ToolbarScope = scope;
+            BandIndex = bandIndex;
+            PlacementSlot = placementSlot;
         }
     }
 

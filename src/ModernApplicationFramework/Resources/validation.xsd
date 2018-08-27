@@ -98,7 +98,7 @@
     <xs:attribute type="xs:byte" name="Position" use="required"/>
     <xs:attribute type="xs:string" name="IsVisible" use="required"/>
     <xs:attribute type="xs:byte" name="PlacementSlot" use="required"/>
-    <xs:attribute type="xs:byte" name="SortOrder" use="optional"/>
+    <xs:attribute type="xs:byte" name="BandIndex" use="required"/>
     <xs:attribute type="xs:string" name="Text" use="optional"/>
   </xs:complexType>
   <xs:complexType name="ToolbarsType">

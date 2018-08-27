@@ -58,17 +58,17 @@ namespace ModernApplicationFramework.Basics.Services
                 "//Toolbars", delegate (XmlNode node)
                 {
                     node.TryGetValueResult<string>("Text", out var text);
-                    node.TryGetValueResult<uint>("SortOrder", out var sortOrder);
+                    node.TryGetValueResult<uint>("BandIndex", out var bandIndex);
                     node.TryGetValueResult<bool>("IsVisible", out var visible);
                     node.TryGetValueResult<int>("Position", out var position);
-                    return new ToolBarDataSource(Guid.Empty, text, sortOrder, false, (Dock)position);
+                    return new ToolBarDataSource(Guid.Empty, text, 0, bandIndex, false, (Dock) position);
                 }, (definition, node) =>
                 {
                     if (!(definition is ToolBarDataSource toolbar))
                         return;
                     node.TryGetValueResult<bool>("IsVisible", out var visible);
                     node.TryGetValueResult<int>("Position", out var position);
-                    node.TryGetValueResult<int>("PlacementSlot", out var placementSlot);
+                    node.TryGetValueResult<uint>("PlacementSlot", out var placementSlot);
                     toolbar.Position = (Dock)position;
                     toolbar.IsVisible = visible;
                     toolbar.PlacementSlot = placementSlot;
@@ -92,7 +92,7 @@ namespace ModernApplicationFramework.Basics.Services
                         new KeyValuePair<string, string>("Position", ((int)definition.Position).ToString()),
                         new KeyValuePair<string, string>("IsVisible", definition.IsVisible.ToString()),
                         new KeyValuePair<string, string>("PlacementSlot", definition.PlacementSlot.ToString()),
-                        new KeyValuePair<string, string>("SortOrder", definition.SortOrder.ToString()));
+                        new KeyValuePair<string, string>("BandIndex", definition.BandIndex.ToString()));
                     if (definition.IsCustom)
                         toolBarElement.SetAttribute("Text", definition.Text);
                     return toolBarElement;

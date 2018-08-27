@@ -48,15 +48,6 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         /// </summary>
         public virtual bool IsCustom { get; }
 
-        /// <summary>
-        /// Indicates whether this definition can be modified
-        /// </summary>
-        public virtual bool IsCustomizable { get; }
-
-        /// <summary>
-        /// The command definition of the element
-        /// </summary>
-
 
         /// <summary>
         /// The groups that are hosted by the element
@@ -113,16 +104,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         /// <summary>
         /// Indicates whether this element's state is checked or not
         /// </summary>
-        public virtual bool IsChecked
-        {
-            get => _isChecked;
-            set
-            {
-                if (value == _isChecked) return;
-                _isChecked = value;
-                OnPropertyChanged();
-            }
-        }
+
 
 
         public virtual bool IsEnabled
@@ -143,18 +125,6 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             {
                 if (value == _isVisible) return;
                 _isVisible = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public virtual bool AcquireFocus
-        {
-            get => _acquireFocus;
-            set
-            {
-                if (value == _acquireFocus)
-                    return;
-                _acquireFocus = value;
                 OnPropertyChanged();
             }
         }
@@ -230,5 +200,37 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         }
 
         public virtual bool InheritInternalName => true;
+
+
+
+
+
+        /// <summary>
+        /// Indicates whether this definition can be modified
+        /// </summary>
+        public virtual bool IsCustomizable { get; }
+
+        public virtual bool AcquireFocus
+        {
+            get => _acquireFocus;
+            set
+            {
+                if (value == _acquireFocus)
+                    return;
+                _acquireFocus = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public virtual bool IsChecked
+        {
+            get => _isChecked;
+            set
+            {
+                if (value == _isChecked) return;
+                _isChecked = value;
+                OnPropertyChanged();
+            }
+        }
     }
 }
