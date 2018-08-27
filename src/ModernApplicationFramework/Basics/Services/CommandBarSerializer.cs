@@ -201,7 +201,7 @@ namespace ModernApplicationFramework.Basics.Services
                 var command = _allCommandDefintions.FirstOrDefault(x => x.Id.Equals(commandId));
                 if (!(command is CommandSplitButtonDefinition splitDefinition))
                     throw new ArgumentNullException(nameof(parentDefinition));
-                buttonDataSource = new SplitButtonDataSource(guid, text, sortOrder, null, splitDefinition, false);
+                buttonDataSource = new SplitButtonDataSource(guid, text, sortOrder, null, splitDefinition, false, false);
             }
             else
                 buttonDataSource = FindCommandBarDefinitionById<SplitButtonDataSource>(guid);

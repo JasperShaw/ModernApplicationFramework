@@ -44,12 +44,12 @@ namespace ModernApplicationFramework.Controls.Menu
             foreach (var listItem in _listItems)
                 _parent.Items.Remove(listItem);
             _listItems.Clear();
-            var listCommands = new List<CommandDefinitionBase>();
+            var listCommands = new List<CommandItemDefinitionBase>();
             commandHandler.Populate(null, listCommands);
             var startIndex = _parent.Items.IndexOf(this) + 1;
             foreach (var command in listCommands)
             {
-                var id = new ButtonDataSource(Guid.Empty, (uint) startIndex ,command);
+                var id = new ButtonDataSource(Guid.Empty, command.Text, (uint) startIndex, null ,command, false, false);
                 var newMenuItem = new MenuItem(id);
                 if (command is CommandDefinition commandDefinition && commandDefinition.Command.Checked)
                     id.IsChecked = true;

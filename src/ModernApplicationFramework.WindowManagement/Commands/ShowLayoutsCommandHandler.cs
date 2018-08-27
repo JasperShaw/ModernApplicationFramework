@@ -57,7 +57,7 @@ namespace ModernApplicationFramework.WindowManagement.Commands
             _command10 = command10;
         }
 
-        public void Populate(Command command, List<CommandDefinitionBase> commands)
+        public void Populate(Command command, List<CommandItemDefinitionBase> commands)
         {
             if (LayoutManagementService.Instance == null)
                 return;

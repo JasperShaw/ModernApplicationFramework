@@ -25,18 +25,32 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
-        public ButtonDataSource(Guid id, uint sortOrder, CommandDefinitionBase commandDefinition, bool isCustom = false)
-            : base(null, sortOrder, null, commandDefinition, isCustom)
+        public bool Checkable { get; }
+
+        public ButtonDataSource(Guid id, string text, uint sortOrder, CommandBarGroup group, 
+            CommandItemDefinitionBase itemDefinition, bool isCustom, bool isChecked, CommandBarFlags flags = CommandBarFlags.CommandFlagNone)
+            : base(text, sortOrder, group, itemDefinition, isCustom, flags)
         {
             Id = id;
-            Text = CommandDefinition?.Text;
-            Name = CommandDefinition?.Name;
+
+            _isChecked = isChecked;
+
+            Checkable = itemDefinition.Checkable;
+
+            if (itemDefinition is CommandDefinition commandDefinition)
+            {
+                InternalCommandDefinition = commandDefinition;
+                commandDefinition.Command.CommandChanged += OnCommandChanged;
+            }
         }
 
-        protected override void OnCommandChanged(object sender, EventArgs e)
+        protected void OnCommandChanged(object sender, EventArgs e)
         {
-            base.OnCommandChanged(sender, e);
+            IsEnabled = InternalCommandDefinition.Command.Enabled;
+            IsVisible = InternalCommandDefinition.Command.Visible;
             IsChecked = InternalCommandDefinition.Command.Checked;
+            if (((CommandBarFlags) Flags.AllFlags).HasFlag(CommandBarFlags.CommandDynamicVisibility) && !IsEnabled)
+                IsVisible = false;     
         }
     }
 }

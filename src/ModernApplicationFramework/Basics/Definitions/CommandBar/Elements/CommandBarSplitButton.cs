@@ -9,13 +9,13 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar.Elements
     {
         public CommandBarSplitButton(Guid id, CommandBarGroup group, uint sortOrder,
             CommandBarFlags flags = CommandBarFlags.CommandFlagNone) :
-            this(id, group, sortOrder, flags, false)
+            this(id, group, sortOrder, flags, false, false)
         {
         }
 
         public CommandBarSplitButton(Guid id, CommandBarGroup group, uint sortOrder,
-            CommandBarFlags flags, bool isCustom) :
-            base(id, null, (T)IoC.Get<ICommandService>().GetCommandDefinition(typeof(T)), group, sortOrder, isCustom, flags)
+            CommandBarFlags flags, bool isCustom, bool isChecked) :
+            base(id, null, (T)IoC.Get<ICommandService>().GetCommandDefinition(typeof(T)), group, sortOrder, isCustom, isChecked, flags)
         {
         }
     }
@@ -25,13 +25,13 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar.Elements
         protected internal override CommandBarDataSource ItemDataSource { get; }
 
         public CommandBarSplitButton(Guid id, CommandSplitButtonDefinition itemDefinition, CommandBarGroup group, uint sortOrder,
-            CommandBarFlags flags = CommandBarFlags.CommandFlagNone) : this(id, itemDefinition.Name, itemDefinition, group, sortOrder, false, flags)
+            CommandBarFlags flags = CommandBarFlags.CommandFlagNone) : this(id, itemDefinition.Name, itemDefinition, group, sortOrder, false, false, flags)
         {
 
         }
 
         public CommandBarSplitButton(Guid id, string name, CommandSplitButtonDefinition itemDefinition, CommandBarGroup group, uint sortOrder,
-            bool isCustom, CommandBarFlags flags)
+            bool isCustom, bool isChecked, CommandBarFlags flags)
         {
             if (itemDefinition == null)
                 throw new ArgumentNullException(nameof(itemDefinition));
@@ -39,7 +39,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar.Elements
             if (string.IsNullOrEmpty(name))
                 name = itemDefinition.Text;
 
-            ItemDataSource = new SplitButtonDataSource(id, name, sortOrder, group, itemDefinition, isCustom, flags);
+            ItemDataSource = new SplitButtonDataSource(id, name, sortOrder, group, itemDefinition, isCustom, isChecked, flags);
         }
     }
 }

@@ -139,11 +139,11 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             switch (itemDefinition.ControlType)
             {
                 case CommandControlTypes.Button:
-                    return new ButtonDataSource(Guid.Empty, 0, itemDefinition);
+                    return new ButtonDataSource(Guid.Empty, itemDefinition.Text, 0, null, itemDefinition as CommandItemDefinitionBase, false, false);
                 case CommandControlTypes.Separator:
                     return SeparatorDataSource.NewInstance;
                 case CommandControlTypes.SplitDropDown:
-                    return new SplitButtonDataSource(Guid.Empty, itemDefinition.Text, 0, null, itemDefinition as CommandSplitButtonDefinition, false);
+                    return new SplitButtonDataSource(Guid.Empty, itemDefinition.Text, 0, null, itemDefinition as CommandSplitButtonDefinition, false, false);
                 case CommandControlTypes.Combobox:
                     return new ComboBoxDataSource(Guid.Empty, itemDefinition.Text, 0, null, itemDefinition as CommandComboBoxDefinition, false);
                 case CommandControlTypes.Menu:

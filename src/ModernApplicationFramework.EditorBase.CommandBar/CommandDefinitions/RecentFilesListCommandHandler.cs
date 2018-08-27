@@ -23,7 +23,7 @@ namespace ModernApplicationFramework.EditorBase.CommandBar.CommandDefinitions
             _mruFilePackage = mruFilePackage;
         }
 
-        public void Populate(Command command, List<CommandDefinitionBase> commands)
+        public void Populate(Command command, List<CommandItemDefinitionBase> commands)
         {
 
             var items = _mruFilePackage.Manager.Items.Count;

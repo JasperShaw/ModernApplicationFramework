@@ -20,7 +20,7 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
             _shell = shell;
         }
 
-        public void Populate(Command command, List<CommandDefinitionBase> commands)
+        public void Populate(Command command, List<CommandItemDefinitionBase> commands)
         {
             var activeFiles = _shell.LayoutItems.Count;
             var maxFiles = IoC.Get<EnvironmentGeneralOptions>().WindowListItems;

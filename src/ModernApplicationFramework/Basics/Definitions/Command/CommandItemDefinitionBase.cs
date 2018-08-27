@@ -10,6 +10,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         /// </summary>
         public virtual ImageMoniker ImageMonikerSource => ImageLibrary.EmptyMoniker;
 
+        public virtual bool Checkable => false;
 
         /// <summary>
         /// Options that identifies the definition as a container of a list of definitions

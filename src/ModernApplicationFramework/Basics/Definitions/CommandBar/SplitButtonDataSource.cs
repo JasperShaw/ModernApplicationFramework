@@ -61,8 +61,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
 
         public SplitButtonDataSource(Guid id, string text, uint sortOrder, CommandBarGroup group, CommandSplitButtonDefinition definition, 
-            bool isCustom, CommandBarFlags flags = CommandBarFlags.CommandFlagNone) 
-            : base(id, sortOrder, definition, isCustom)
+            bool isCustom, bool isChecked, CommandBarFlags flags = CommandBarFlags.CommandFlagNone) 
+            : base(id, text, sortOrder, group, definition, isCustom, isChecked, flags)
         {
             if (definition == null)
                 throw new ArgumentNullException();

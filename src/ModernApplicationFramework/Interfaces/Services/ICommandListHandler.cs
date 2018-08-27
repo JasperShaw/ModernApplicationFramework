@@ -6,6 +6,6 @@ namespace ModernApplicationFramework.Interfaces.Services
     public interface ICommandListHandler<TCommandDefinition> : ICommandHandler
         where TCommandDefinition : CommandListDefinition
     {
-        void Populate(Input.Command.Command command, List<CommandDefinitionBase> commands);
+        void Populate(Input.Command.Command command, List<CommandItemDefinitionBase> commands);
     }
 }

@@ -167,19 +167,11 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
                 internalNameParent.PropertyChanged += InternalNameParent_PropertyChanged;
             }
             else
-            {
                 InternalName = internalName;
-            }
 
             CommandDefinition = definition;
             if (definition != null)
                 definition.PropertyChanged += Definition_PropertyChanged;
-
-            if (definition is CommandDefinition commandDefinition)
-            {
-                InternalCommandDefinition = commandDefinition;
-                commandDefinition.Command.CommandChanged += OnCommandChanged;
-            }
         }
 
         public override void Reset()
@@ -190,12 +182,6 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             UpdateName();
             OnPropertyChanged(nameof(Text));
             Flags.EnableStyleFlags((CommandBarFlags)OriginalFlagStore.AllFlags);
-        }
-
-        protected virtual void OnCommandChanged(object sender, EventArgs e)
-        {
-            IsVisible = InternalCommandDefinition.Command.Visible;
-            IsEnabled = InternalCommandDefinition.Command.Enabled;
         }
 
         /// <summary>
