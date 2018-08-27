@@ -37,6 +37,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         private bool _isVeryFirst;
         private string _text;
         private uint _sortOrder;
+        private bool _acquireFocus;
 
         /// <summary>
         /// Indicates whether this preceded by a separator item
@@ -49,6 +50,23 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
                 if (value == _precededBySeparator)
                     return;
                 _precededBySeparator = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Indicates whether this definition can be modified
+        /// </summary>
+        public virtual bool IsCustomizable { get; }
+
+        public virtual bool AcquireFocus
+        {
+            get => _acquireFocus;
+            set
+            {
+                if (value == _acquireFocus)
+                    return;
+                _acquireFocus = value;
                 OnPropertyChanged();
             }
         }
@@ -135,6 +153,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             _sortOrder = sortOrder;
             _text = text ?? definition?.Text;
 
+            IsCustomizable = !flags.HasFlag(CommandBarFlags.CommandNoCustomize);
+
             var internalName = new AccessKeyRemovingConverter()
                 .Convert(text, typeof(string), null, CultureInfo.CurrentCulture)
                 ?.ToString();
@@ -176,7 +196,6 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         {
             IsVisible = InternalCommandDefinition.Command.Visible;
             IsEnabled = InternalCommandDefinition.Command.Enabled;
-            IsChecked = InternalCommandDefinition.Command.Enabled;
         }
 
         /// <summary>

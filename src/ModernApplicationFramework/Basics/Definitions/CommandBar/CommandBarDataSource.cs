@@ -22,10 +22,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     {
         private uint _sortOrder;
         private string _text;
-        private bool _isChecked;
         private FlagsDataSource _flagsDataSource;
 	    private string _name;
-        private bool _acquireFocus;
         private bool _isEnabled = true;
 
         protected string OriginalText { get; set; }
@@ -54,19 +52,6 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         /// </summary>
         public IList<CommandBarGroup> ContainedGroups { get; }
 
-        /// <summary>
-        /// The sorting order of the definition
-        /// </summary>
-        public virtual uint SortOrder
-        {
-            get => _sortOrder;
-            set
-            {
-                if (value == _sortOrder) return;
-                _sortOrder = value;
-                OnPropertyChanged();
-            }
-        }
 
         /// <inheritdoc />
         /// <summary>
@@ -143,9 +128,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             _internalName = new AccessKeyRemovingConverter().Convert(text, typeof(string), null, CultureInfo.CurrentCulture)
                 ?.ToString();
             IsCustom = isCustom;
-            _isChecked = isChecked;
             _isVisible = !flags.HasFlag(CommandBarFlags.CommandDefaultInvisible);
-            IsCustomizable = !flags.HasFlag(CommandBarFlags.CommandNoCustomize);
             ContainedGroups = new List<CommandBarGroup>();
             Flags.EnableStyleFlags(flags);
             OriginalFlagStore.EnableStyleFlags(flags);
@@ -201,34 +184,13 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
         public virtual bool InheritInternalName => true;
 
-
-
-
-
-        /// <summary>
-        /// Indicates whether this definition can be modified
-        /// </summary>
-        public virtual bool IsCustomizable { get; }
-
-        public virtual bool AcquireFocus
+        public virtual uint SortOrder
         {
-            get => _acquireFocus;
+            get => _sortOrder;
             set
             {
-                if (value == _acquireFocus)
-                    return;
-                _acquireFocus = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public virtual bool IsChecked
-        {
-            get => _isChecked;
-            set
-            {
-                if (value == _isChecked) return;
-                _isChecked = value;
+                if (value == _sortOrder) return;
+                _sortOrder = value;
                 OnPropertyChanged();
             }
         }

@@ -7,7 +7,7 @@ using ModernApplicationFramework.Interfaces.Utilities;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
-    internal class SplitButtonDataSource : CommandBarItemDataSource
+    internal class SplitButtonDataSource : ButtonDataSource
     {
         private int _selectedIndex;
         private string _statusString;
@@ -62,7 +62,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
         public SplitButtonDataSource(Guid id, string text, uint sortOrder, CommandBarGroup group, CommandSplitButtonDefinition definition, 
             bool isCustom, CommandBarFlags flags = CommandBarFlags.CommandFlagNone) 
-            : base(text, sortOrder, group, definition, isCustom, false, flags)
+            : base(id, sortOrder, definition, isCustom)
         {
             if (definition == null)
                 throw new ArgumentNullException();

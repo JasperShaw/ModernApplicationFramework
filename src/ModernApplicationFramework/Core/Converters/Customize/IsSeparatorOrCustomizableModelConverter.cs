@@ -11,7 +11,11 @@ namespace ModernApplicationFramework.Core.Converters.Customize
         {
             if (value == null)
                 return false;
-            return value.UiType == CommandControlTypes.Separator || value.IsCustomizable;
+            if (value.UiType == CommandControlTypes.Separator)
+                return true;
+            if (value is CommandBarItemDataSource itemDataSource && itemDataSource.IsCustomizable)
+                return true;
+            return false;
         }
     }
 }

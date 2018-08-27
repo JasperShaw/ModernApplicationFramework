@@ -118,7 +118,7 @@ namespace ModernApplicationFramework.Controls.Extensions
             }
         }
 
-
+        //TODO: Check if still required
         private static void UpdateChekcedStatus(ItemsControl menuItem)
         {
             var menuItems = menuItem.Items.OfType<MenuItem>().ToList();
@@ -126,7 +126,7 @@ namespace ModernApplicationFramework.Controls.Extensions
                 return;
             foreach (var item in menuItems)
             {
-                if (item.DataContext is CommandBarItemDataSource definition &&
+                if (item.DataContext is ButtonDataSource definition &&
                     definition.CommandDefinition is CommandDefinition command)
                     definition.IsChecked = command.Command.Checked;
             }

@@ -8,9 +8,22 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     /// Simple command bar item
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarItemDefinition" />
-    public sealed class ButtonDataSource : CommandBarItemDataSource
+    public class ButtonDataSource : CommandBarItemDataSource
     {
+        private bool _isChecked;
+
         public override Guid Id { get; }
+
+        public bool IsChecked
+        {
+            get => _isChecked;
+            set
+            {
+                if (value == _isChecked) return;
+                _isChecked = value;
+                OnPropertyChanged();
+            }
+        }
 
         public ButtonDataSource(Guid id, uint sortOrder, CommandDefinitionBase commandDefinition, bool isCustom = false)
             : base(null, sortOrder, null, commandDefinition, isCustom, false)
@@ -18,6 +31,12 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             Id = id;
             Text = CommandDefinition?.Text;
             Name = CommandDefinition?.Name;
+        }
+
+        protected override void OnCommandChanged(object sender, EventArgs e)
+        {
+            base.OnCommandChanged(sender, e);
+            IsChecked = InternalCommandDefinition.Command.Checked;
         }
     }
 }
