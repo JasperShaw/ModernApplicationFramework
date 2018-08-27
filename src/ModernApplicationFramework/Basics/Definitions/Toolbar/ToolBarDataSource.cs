@@ -14,7 +14,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarDefinitionBase" />
     /// <seealso cref="T:ModernApplicationFramework.Interfaces.IHasInternalName" />
-    public sealed class ToolBarDataSource : CommandBarDataSource, IHasInternalName
+    internal sealed class ToolBarDataSource : CommandBarDataSource, IHasInternalName
     {
         private Dock _position;
         private string _internalName;
@@ -69,13 +69,15 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
             }
         }
 
+        public override CommandControlTypes UiType => CommandControlTypes.Toolbar;
+
         public ToolbarScope ToolbarScope { get; }
 
         public override Guid Id { get; }
 
         public ToolBarDataSource(Guid id, string text, uint sortOrder, bool isCustom, Dock position, 
             ToolbarScope scope = ToolbarScope.MainWindow, CommandBarFlags flags = CommandBarFlags.CommandFlagNone) : 
-            base(text, sortOrder, new ToolbarCommandDefinition(), isCustom, false, flags)
+            base(text, sortOrder, null, isCustom, false, flags)
         {
             Id = id;
             _position = position;
@@ -83,19 +85,6 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
             _internalName = new AccessKeyRemovingConverter()
                 .Convert(text, typeof(string), null, CultureInfo.CurrentCulture)
                 ?.ToString();
-        }
-
-        private sealed class ToolbarCommandDefinition : CommandDefinitionBase
-        {
-            public override string Name => null;
-            public override string NameUnlocalized => null;
-            public override string Text => null;
-            public override string ToolTip => null;
-            public override bool IsList => false;
-            public override CommandCategory Category => null;
-
-            public override CommandControlTypes ControlType => CommandControlTypes.Menu;
-            public override Guid Id => new Guid("{18C535DB-1E23-4B27-9BB9-A38F0BC6E036}");
         }
     }
 

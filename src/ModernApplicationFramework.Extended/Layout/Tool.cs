@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.Basics.InfoBar;
 using ModernApplicationFramework.Basics.Search;
@@ -61,7 +62,7 @@ namespace ModernApplicationFramework.Extended.Layout
 
         public virtual bool HasToolbar => false;
 
-        public virtual ToolBarDataSource Toolbar => null;
+        public virtual CommandBarToolbar Toolbar => null;
 
         Guid IWindowSearch.Category => SearchCategory;
 

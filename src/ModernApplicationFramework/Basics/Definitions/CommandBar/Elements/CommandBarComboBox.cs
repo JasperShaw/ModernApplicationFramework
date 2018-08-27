@@ -22,7 +22,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar.Elements
 
     public class CommandBarComboBox : CommandBarItem
     {
-        protected internal override CommandBarItemDataSource ItemDataSource { get; }
+        protected internal override CommandBarDataSource ItemDataSource { get; }
 
         public CommandBarComboBox(Guid id, CommandComboBoxDefinition itemDefinition, CommandBarGroup group, uint sortOrder, 
             CommandBarFlags flags = CommandBarFlags.CommandFlagNone) : this(id, itemDefinition.Name, itemDefinition, group, sortOrder, flags, false)

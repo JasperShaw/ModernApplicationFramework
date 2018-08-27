@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using System.Runtime.InteropServices;
 using System.Windows;
+using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.Basics.Search;
 using ModernApplicationFramework.Extended.Layout;
@@ -26,7 +27,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ToolSearch
 
         public override bool HasToolbar => true;
 
-        public override ToolBarDataSource Toolbar => TestToolbar.TestToolBar;
+        public override CommandBarToolbar Toolbar => TestToolbar.TestToolBar as CommandBarToolbar;
 
         public override IEnumWindowSearchOptions SearchOptionsEnum
         {

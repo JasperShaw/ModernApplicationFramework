@@ -1,4 +1,5 @@
-﻿using ModernApplicationFramework.Basics.Definitions.Toolbar;
+﻿using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
+using ModernApplicationFramework.Basics.Definitions.Toolbar;
 
 namespace ModernApplicationFramework.Interfaces
 {
@@ -6,6 +7,6 @@ namespace ModernApplicationFramework.Interfaces
     {
         bool HasToolbar { get; }
 
-        ToolBarDataSource Toolbar { get; }
+        CommandBarToolbar Toolbar { get; }
     }
 }

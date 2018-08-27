@@ -91,6 +91,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
+        public virtual CommandControlTypes UiType { get; } = CommandControlTypes.Button;
+
         /// <summary>
         /// The name of the definition
         /// </summary>

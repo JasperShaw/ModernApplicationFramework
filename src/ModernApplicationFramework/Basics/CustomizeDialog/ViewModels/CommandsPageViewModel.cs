@@ -288,7 +288,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
                 .ToList();
             return creator.GetSingleSubDefinitions(definition, groups, group =>
                 {
-                    return _definitionHost.ItemDefinitions.Where(x => x.Group == group)
+                    return _definitionHost.ItemDefinitions.OfType<CommandBarItemDataSource>().Where(x => x.Group == group)
                         .Where(x => !_definitionHost.ExcludedItemDefinitions.Contains(x))
                         .OrderBy(x => x.SortOrder).ToList();
                 },

@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.ViewModels;
@@ -72,7 +73,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             if (!result.HasValue || !result.Value)
                 return;
             var def = new ToolBarDataSource(Guid.Empty, customizeDialog.ToolbarName, int.MaxValue, true, Dock.Top);
-            IoC.Get<IToolBarHostViewModel>().AddToolbarDefinition(def);
+            ((IToolBarHostViewModelInternal)IoC.Get<IToolBarHostViewModel>())?.AddToolbarDefinition(def);
             SelectedToolBar = def;
             _control.ToolBarListBox.ScrollIntoView(def);
             _control.ToolBarListBox.Focus();
@@ -86,7 +87,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
                 Application.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.No)
                 return;
-            IoC.Get<IToolBarHostViewModel>().RemoveToolbarDefinition(SelectedToolBar);
+            ((IToolBarHostViewModelInternal) IoC.Get<IToolBarHostViewModel>())?.RemoveToolbarDefinition(SelectedToolBar);
         }
 
         private void ExecuteDropDownClick()

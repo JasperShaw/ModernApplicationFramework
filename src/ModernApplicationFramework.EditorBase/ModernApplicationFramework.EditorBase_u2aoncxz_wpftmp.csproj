@@ -1,0 +1,459 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C5F062E8-48C1-425E-831F-511A541E18D8}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <RootNamespace>ModernApplicationFramework.EditorBase</RootNamespace>
+    <AssemblyName>ModernApplicationFramework.EditorBase</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>7.2</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>7.2</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Commands\CopyFullPathCommand.cs" />
+    <Compile Include="Core\Converters\MonospaceToBoldConverter.cs" />
+    <Compile Include="Interfaces\Commands\ICopyFullPathCommand.cs" />
+    <Compile Include="Interfaces\Commands\INewFileCommand.cs" />
+    <Compile Include="Interfaces\Commands\IOpenContainingFolderCommand.cs" />
+    <Compile Include="Interfaces\Commands\IOpenFileCommand.cs" />
+    <Compile Include="Interfaces\Commands\ISaveActiveFileAsCommand.cs" />
+    <Compile Include="Interfaces\Commands\ISaveActiveFileCommand.cs" />
+    <Compile Include="Interfaces\Commands\ISaveAllCommand.cs" />
+    <Compile Include="Interfaces\Commands\IWindowSelectCommand.cs" />
+    <Compile Include="Commands\NewFileCommand.cs" />
+    <Compile Include="Commands\OpenContainingFolderCommand.cs" />
+    <Compile Include="Commands\OpenFileCommand.cs" />
+    <Compile Include="Commands\SaveActiveFileAsCommand.cs" />
+    <Compile Include="Commands\SaveActiveFileCommand.cs" />
+    <Compile Include="Commands\SaveAllCommand.cs" />
+    <Compile Include="Commands\WindowSelectCommand.cs" />
+    <Compile Include="Dialogs\OpenWithFileDialog\DialogResources.Designer.cs">
+      <DependentUpon>DialogResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Dialogs\OpenWithFileDialog\OpenWithFileDialog.cs" />
+    <Compile Include="Dialogs\EditorSelectorDialog\EditorListItem.cs" />
+    <Compile Include="Dialogs\EditorSelectorDialog\OpenFileEditorSelectorView.xaml.cs">
+      <DependentUpon>OpenFileEditorSelectorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\EditorSelectorDialog\NewFileEditorSelectorView.xaml.cs">
+      <DependentUpon>NewFileEditorSelectorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\EditorSelectorDialog\EditorSelectorViewModelBase.cs" />
+    <Compile Include="Dialogs\EditorSelectorDialog\EditorSelectorResources.Designer.cs">
+      <DependentUpon>EditorSelectorResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Dialogs\EditorSelectorDialog\OpenFileEditorSelectorViewModel.cs" />
+    <Compile Include="Dialogs\EditorSelectorDialog\NewFileEditorSelectorViewModel.cs" />
+    <Compile Include="Dialogs\FileChangedDialog\FileChangedDialogResources.Designer.cs">
+      <DependentUpon>FileChangedDialogResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Dialogs\FileChangedDialog\FileChangeDialogView.xaml.cs">
+      <DependentUpon>FileChangeDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\FileChangedDialog\FileChangeDialogViewModel.cs" />
+    <Compile Include="Dialogs\FileChangedDialog\ReloadFileDialogResult.cs" />
+    <Compile Include="Dialogs\SaveFileDialog\SaveFileDialog.cs" />
+    <Compile Include="Dialogs\WindowSelectionDialog\WindowSelectionDialogResources.Designer.cs">
+      <DependentUpon>WindowSelectionDialogResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Dialogs\WindowSelectionDialog\WindowSelectionDialogView.xaml.cs">
+      <DependentUpon>WindowSelectionDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\WindowSelectionDialog\WindowSelectionDialogViewModel.cs" />
+    <Compile Include="Core\Converters\GridColumnWidthConverter.cs" />
+    <Compile Include="Core\OpenSaveDialogFilters\FilterData.cs" />
+    <Compile Include="Core\OpenSaveDialogFilters\FilterDataEntry.cs" />
+    <Compile Include="Editor\EditorBase.cs" />
+    <Compile Include="Editor\EditorException.cs" />
+    <Compile Include="Editor\EditorNotFoundException.cs" />
+    <Compile Include="Editor\EditorBaseResources.Designer.cs">
+      <DependentUpon>EditorBaseResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FileSupport\Exceptions\FileNotSupportedException.cs" />
+    <Compile Include="FileSupport\FileChangeService.cs" />
+    <Compile Include="FileSupport\FileChangeWatcher.cs" />
+    <Compile Include="FileSupport\FileDefinitionContextManager.cs" />
+    <Compile Include="FileSupport\FileService.cs" />
+    <Compile Include="FileSupport\SaveFileArguments.cs" />
+    <Compile Include="FileSupport\SaveFileDialogFlags.cs" />
+    <Compile Include="FileSupport\SaveFileDialogOptions.cs" />
+    <Compile Include="Interfaces\FileSupport\IFileService.cs" />
+    <Compile Include="FileSupport\SupportedFileDefinition.cs" />
+    <Compile Include="Interfaces\FileSupport\IFileDefinitionContextManager.cs" />
+    <Compile Include="FileSupport\FileSupportResources.Designer.cs">
+      <DependentUpon>FileSupportResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FileSupport\DirtyDocumentClosingWatcher.cs" />
+    <Compile Include="FileSupport\MafFile.cs" />
+    <Compile Include="Interfaces\FileSupport\IFile.cs" />
+    <Compile Include="Interfaces\Editor\IEditor.cs" />
+    <Compile Include="Interfaces\Editor\INormalEditor.cs" />
+    <Compile Include="Interfaces\Editor\IStorableEditor.cs" />
+    <Compile Include="Interfaces\FileSupport\IFileDefinitionContext.cs" />
+    <Compile Include="Interfaces\IEditorSelectorViewModel.cs" />
+    <Compile Include="Interfaces\IEditorSelectorViewModelInternal.cs" />
+    <Compile Include="Guids.cs" />
+    <Compile Include="Interfaces\FileSupport\IFileDefinitionManager.cs" />
+    <Compile Include="Interfaces\NewElement\INewElementExtensionsProvider.cs" />
+    <Compile Include="Interfaces\NewElement\INewElementExtensionTreeNode.cs" />
+    <Compile Include="Interfaces\NewElement\INewFileSelectionModel.cs" />
+    <Compile Include="FileSupport\SupportedFileOperation.cs" />
+    <Compile Include="NativeMethods\NativeMethods.cs" />
+    <Compile Include="NativeMethods\Shell32.cs" />
+    <Compile Include="Dialogs\NewElementDialog\NewElementDialogResources.Designer.cs">
+      <DependentUpon>NewElementDialogResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Dialogs\NewElementDialog\NewElementExtensionProvider.cs" />
+    <Compile Include="Dialogs\NewElementDialog\NewElementExtensionTreeNode.cs" />
+    <Compile Include="Dialogs\NewElementDialog\NewElementExtesionRootTreeNode.cs" />
+    <Compile Include="Core\Converters\ProviderTreeViewVisibilityConverter.cs" />
+    <Compile Include="Dialogs\NewElementDialog\Views\NewElementPresenterView.xaml.cs">
+      <DependentUpon>NewElementPresenterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Core\SortingComboboxItem.cs" />
+    <Compile Include="Dialogs\NewElementDialog\Views\NewElementDialogView.xaml.cs">
+      <DependentUpon>NewElementDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\NewElementDialog\ViewModels\NewElementDialogViewModel.cs" />
+    <Compile Include="Dialogs\NewElementDialog\ViewModels\NewElementScreenViewModelBase.cs" />
+    <Compile Include="Dialogs\NewElementDialog\NewFileSelectionScreenViewModel.cs" />
+    <Compile Include="Dialogs\SaveDirtyDocumentsDialog\SaveDirtyDocumentItem.cs" />
+    <Compile Include="Dialogs\SaveDirtyDocumentsDialog\SaveDirtyDocumentsDialog.xaml.cs">
+      <DependentUpon>SaveDirtyDocumentsDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FileSupport\NewFileArguments.cs" />
+    <Compile Include="FileSupport\OpenFileArguments.cs" />
+    <Compile Include="Core\TreeNodeStyleSelector.cs" />
+    <Compile Include="Editor\EditorProvider.cs" />
+    <Compile Include="FileSupport\FileDefinitionManager.cs" />
+    <Compile Include="Interfaces\IEditorProvider.cs" />
+    <Compile Include="Interfaces\NewElement\IExtensionDefinition.cs" />
+    <Compile Include="Interfaces\NewElement\IExtensionDialogItemPresenter.cs" />
+    <Compile Include="Interfaces\NewElement\INewElementDialogModel.cs" />
+    <Compile Include="Interfaces\ISaveDirtyDocumentsDialog.cs" />
+    <Compile Include="Interfaces\ISortingComboboxItem.cs" />
+    <Compile Include="Interfaces\FileSupport\ISupportedFileDefinition.cs" />
+    <Compile Include="Interfaces\FileSupport\IReadOnlyFile.cs" />
+    <Compile Include="Interfaces\FileSupport\IStorableFile.cs" />
+    <Compile Include="FileSupport\ReadOnlyFile.cs" />
+    <Compile Include="FileSupport\StorableFile.cs" />
+    <Compile Include="FileSupport\FileSystemMruItem.cs" />
+    <Compile Include="FileSupport\FileSystemMruManager.cs" />
+    <Compile Include="Interfaces\Packages\IMruFilePackage.cs" />
+    <Compile Include="Packages\MruFiles\MruFilePackage.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\Services\IOpenFileService.cs" />
+    <Compile Include="Interfaces\Services\IUniqueNameCreator.cs" />
+    <Compile Include="Services\OpenDocumentService.cs" />
+    <Compile Include="Services\UniqueExtensionNameProvider.cs" />
+    <Compile Include="Services\UniqueFileNameProvider.cs" />
+    <Compile Include="Services\UniqueNameCreator.cs" />
+    <Compile Include="Settings\Documents\DocumentsSettingsResources.Designer.cs">
+      <DependentUpon>DocumentsSettingsResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Settings\Documents\DocumentsSettingsView.xaml.cs">
+      <DependentUpon>DocumentsSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\Documents\DocumentsSettingsViewModel.cs" />
+    <Compile Include="Settings\Documents\ExternalChangeSettings.cs" />
+    <Compile Include="Settings\EditorAssociation\EditorFileAssociation.cs" />
+    <Compile Include="Settings\EditorAssociation\EditorFileAssociationSettings.cs" />
+    <Compile Include="Settings\EditorAssociation\EditorSettingsCategory.cs" />
+    <Compile Include="Interfaces\Settings\EditorAssociation\IEditorFileAssociationSettings.cs" />
+    <Compile Include="Interfaces\Settings\EditorAssociation\INewFileEditorAssociationSettings.cs" />
+    <Compile Include="Interfaces\Settings\EditorAssociation\IOpenFileEditorAssociationSettings.cs" />
+    <Compile Include="Settings\EditorAssociation\NewFileEditorAssociationSettings.cs" />
+    <Compile Include="Settings\EditorAssociation\OpenFileEditorAssociationSettings.cs" />
+    <Compile Include="Settings\FontsAndColors\FontAndColorInformation.cs" />
+    <Compile Include="Settings\FontsAndColors\FontNameItem.cs" />
+    <Compile Include="Settings\FontsAndColors\FontsAndColorsSettingsItemFactory.cs" />
+    <Compile Include="Settings\FontsAndColors\FontsAndColorsSettingsView.xaml.cs">
+      <DependentUpon>FontsAndColorsSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\FontsAndColors\FontsAndColorsSettingsViewModel.cs" />
+    <Compile Include="Settings\MruFiles\StorableMruFile.cs" />
+    <Compile Include="Settings\MruFiles\StoredMruFiles.cs" />
+    <Compile Include="Settings\WindowSelectionDialog\WindowSelectionDialogSettings.cs" />
+    <EmbeddedResource Include="Dialogs\OpenWithFileDialog\DialogResources.de.resx" />
+    <EmbeddedResource Include="Dialogs\OpenWithFileDialog\DialogResources.en.resx" />
+    <EmbeddedResource Include="Dialogs\OpenWithFileDialog\DialogResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>DialogResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\EditorSelectorDialog\EditorSelectorResources.de.resx" />
+    <EmbeddedResource Include="Dialogs\EditorSelectorDialog\EditorSelectorResources.en.resx" />
+    <EmbeddedResource Include="Dialogs\EditorSelectorDialog\EditorSelectorResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>EditorSelectorResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\FileChangedDialog\FileChangedDialogResources.de.resx" />
+    <EmbeddedResource Include="Dialogs\FileChangedDialog\FileChangedDialogResources.en.resx" />
+    <EmbeddedResource Include="Dialogs\FileChangedDialog\FileChangedDialogResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>FileChangedDialogResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\WindowSelectionDialog\WindowSelectionDialogResources.de.resx" />
+    <EmbeddedResource Include="Dialogs\WindowSelectionDialog\WindowSelectionDialogResources.en.resx" />
+    <EmbeddedResource Include="Dialogs\WindowSelectionDialog\WindowSelectionDialogResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>WindowSelectionDialogResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Editor\EditorBaseResources.de.resx" />
+    <EmbeddedResource Include="Editor\EditorBaseResources.en.resx" />
+    <EmbeddedResource Include="Editor\EditorBaseResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>EditorBaseResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FileSupport\FileSupportResources.de.resx" />
+    <EmbeddedResource Include="FileSupport\FileSupportResources.en.resx" />
+    <EmbeddedResource Include="FileSupport\FileSupportResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>FileSupportResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\NewElementDialog\NewElementDialogResources.de.resx" />
+    <EmbeddedResource Include="Dialogs\NewElementDialog\NewElementDialogResources.en.resx" />
+    <EmbeddedResource Include="Dialogs\NewElementDialog\NewElementDialogResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>NewElementDialogResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\NewElementDialog\NewElementDialogResources.ru.resx" />
+    <EmbeddedResource Include="Settings\Documents\DocumentsSettingsResources.de.resx" />
+    <EmbeddedResource Include="Settings\Documents\DocumentsSettingsResources.en.resx" />
+    <EmbeddedResource Include="Settings\Documents\DocumentsSettingsResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>DocumentsSettingsResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ModernApplicationFramework.Editor\ModernApplicationFramework.Editor.csproj">
+      <Project>{02E01928-3C7B-4428-9F68-7DB8B932C24E}</Project>
+      <Name>ModernApplicationFramework.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModernApplicationFramework.Extended.CommandBar\ModernApplicationFramework.Extended.CommandBar.csproj">
+      <Project>{e3f05145-f9a9-42a4-b67d-ade61980b20a}</Project>
+      <Name>ModernApplicationFramework.Extended.CommandBar</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModernApplicationFramework.Extended\ModernApplicationFramework.Extended.csproj">
+      <Project>{51911695-6cdb-4833-9782-06c8821d1c4e}</Project>
+      <Name>ModernApplicationFramework.Extended</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModernApplicationFramework.Imaging\ModernApplicationFramework.Imaging.csproj">
+      <Project>{D8B696A7-BA7D-4762-8C34-13B7F212074F}</Project>
+      <Name>ModernApplicationFramework.Imaging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModernApplicationFramework.Settings\ModernApplicationFramework.Settings.csproj">
+      <Project>{240cc7db-f3a0-48e7-a8eb-5785a90128be}</Project>
+      <Name>ModernApplicationFramework.Settings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModernApplicationFramework.Text\ModernApplicationFramework.Text.csproj">
+      <Project>{27e9b710-9584-4fad-93ff-ebf2a9600da7}</Project>
+      <Name>ModernApplicationFramework.Text</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModernApplicationFramework.Utilities\ModernApplicationFramework.Utilities.csproj">
+      <Project>{2b388979-5b07-4f0a-a302-0c575aaa21c0}</Project>
+      <Name>ModernApplicationFramework.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModernApplicationFramework\ModernApplicationFramework.csproj">
+      <Project>{74f6c6a1-64bb-47d4-9e7f-6cd5c4ca166c}</Project>
+      <Name>ModernApplicationFramework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ReferencePath Include="C:\Users\Anakin\Source\ModernApplicationFramework\packages\Caliburn.Micro.Core.3.2.0\lib\net45\Caliburn.Micro.dll" />
+    <ReferencePath Include="C:\Users\Anakin\Source\ModernApplicationFramework\packages\Caliburn.Micro.3.2.0\lib\net45\Caliburn.Micro.Platform.Core.dll" />
+    <ReferencePath Include="C:\Users\Anakin\Source\ModernApplicationFramework\packages\Caliburn.Micro.3.2.0\lib\net45\Caliburn.Micro.Platform.dll" />
+    <ReferencePath Include="C:\Users\Anakin\Source\ModernApplicationFramework\packages\JetBrains.Annotations.11.1.0\lib\net20\JetBrains.Annotations.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Microsoft.Build.Tasks.v4.0.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Microsoft.CSharp.dll" />
+    <ReferencePath Include="C:\Users\Anakin\Source\ModernApplicationFramework\src\ModernApplicationFramework\bin\Debug\ModernApplicationFramework.dll" />
+    <ReferencePath Include="C:\Users\Anakin\Source\ModernApplicationFramework\src\ModernApplicationFramework.Editor\bin\Debug\ModernApplicationFramework.Editor.dll" />
+    <ReferencePath Include="C:\Users\Anakin\Source\ModernApplicationFramework\src\ModernApplicationFramework.Extended.CommandBar\bin\Debug\ModernApplicationFramework.Extended.CommandBar.dll" />
+    <ReferencePath Include="C:\Users\Anakin\Source\ModernApplicationFramework\src\ModernApplicationFramework.Extended\bin\Debug\ModernApplicationFramework.Extended.dll" />
+    <ReferencePath Include="C:\Users\Anakin\Source\ModernApplicationFramework\src\ModernApplicationFramework.Imaging\bin\Debug\ModernApplicationFramework.Imaging.dll" />
+    <ReferencePath Include="C:\Users\Anakin\Source\ModernApplicationFramework\src\ModernApplicationFramework.Settings\bin\Debug\ModernApplicationFramework.Settings.dll" />
+    <ReferencePath Include="C:\Users\Anakin\Source\ModernApplicationFramework\src\ModernApplicationFramework.Text\bin\Debug\ModernApplicationFramework.Text.dll" />
+    <ReferencePath Include="C:\Users\Anakin\Source\ModernApplicationFramework\src\ModernApplicationFramework.Utilities\bin\Debug\ModernApplicationFramework.Utilities.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\mscorlib.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\PresentationCore.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\PresentationFramework.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\System.ComponentModel.Composition.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\System.Core.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\System.Data.DataSetExtensions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\System.Data.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\System.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\System.Drawing.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\System.Net.Http.dll" />
+    <ReferencePath Include="C:\Users\Anakin\Source\ModernApplicationFramework\packages\Caliburn.Micro.3.2.0\lib\net45\System.Windows.Interactivity.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\System.Xaml.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\System.Xml.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\System.Xml.Linq.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\WindowsBase.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\Microsoft.Win32.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\netstandard.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.AppContext.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Collections.Concurrent.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Collections.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Collections.NonGeneric.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Collections.Specialized.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.ComponentModel.Annotations.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.ComponentModel.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.ComponentModel.EventBasedAsync.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.ComponentModel.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.ComponentModel.TypeConverter.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Console.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Data.Common.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Diagnostics.Contracts.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Diagnostics.Debug.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Diagnostics.FileVersionInfo.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Diagnostics.Process.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Diagnostics.StackTrace.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Diagnostics.TextWriterTraceListener.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Diagnostics.Tools.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Diagnostics.TraceSource.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Drawing.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Dynamic.Runtime.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Globalization.Calendars.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Globalization.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Globalization.Extensions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.IO.Compression.ZipFile.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.IO.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.IO.FileSystem.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.IO.FileSystem.DriveInfo.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.IO.FileSystem.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.IO.FileSystem.Watcher.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.IO.IsolatedStorage.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.IO.MemoryMappedFiles.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.IO.Pipes.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.IO.UnmanagedMemoryStream.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Linq.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Linq.Expressions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Linq.Parallel.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Linq.Queryable.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Net.Http.Rtc.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Net.NameResolution.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Net.NetworkInformation.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Net.Ping.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Net.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Net.Requests.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Net.Security.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Net.Sockets.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Net.WebHeaderCollection.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Net.WebSockets.Client.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Net.WebSockets.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.ObjectModel.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Reflection.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Reflection.Emit.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Reflection.Emit.ILGeneration.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Reflection.Emit.Lightweight.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Reflection.Extensions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Reflection.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Resources.Reader.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Resources.ResourceManager.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Resources.Writer.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Runtime.CompilerServices.VisualC.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Runtime.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Runtime.Extensions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Runtime.Handles.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Runtime.InteropServices.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Runtime.InteropServices.RuntimeInformation.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Runtime.InteropServices.WindowsRuntime.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Runtime.Numerics.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Runtime.Serialization.Formatters.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Runtime.Serialization.Json.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Runtime.Serialization.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Runtime.Serialization.Xml.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Security.Claims.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Security.Cryptography.Algorithms.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Security.Cryptography.Csp.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Security.Cryptography.Encoding.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Security.Cryptography.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Security.Cryptography.X509Certificates.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Security.Principal.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Security.SecureString.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.ServiceModel.Duplex.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.ServiceModel.Http.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.ServiceModel.NetTcp.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.ServiceModel.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.ServiceModel.Security.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Text.Encoding.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Text.Encoding.Extensions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Text.RegularExpressions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Threading.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Threading.Overlapped.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Threading.Tasks.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Threading.Tasks.Parallel.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Threading.Thread.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Threading.ThreadPool.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Threading.Timer.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.ValueTuple.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Xml.ReaderWriter.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Xml.XDocument.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Xml.XmlDocument.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Xml.XmlSerializer.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Xml.XPath.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\Facades\System.Xml.XPath.XDocument.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="C:\Users\Anakin\Source\ModernApplicationFramework\src\ModernApplicationFramework.EditorBase\obj\Debug\Dialogs\EditorSelectorDialog\OpenFileEditorSelectorView.g.cs" />
+    <Compile Include="C:\Users\Anakin\Source\ModernApplicationFramework\src\ModernApplicationFramework.EditorBase\obj\Debug\Dialogs\EditorSelectorDialog\NewFileEditorSelectorView.g.cs" />
+    <Compile Include="C:\Users\Anakin\Source\ModernApplicationFramework\src\ModernApplicationFramework.EditorBase\obj\Debug\Dialogs\FileChangedDialog\FileChangeDialogView.g.cs" />
+    <Compile Include="C:\Users\Anakin\Source\ModernApplicationFramework\src\ModernApplicationFramework.EditorBase\obj\Debug\Dialogs\WindowSelectionDialog\WindowSelectionDialogView.g.cs" />
+    <Compile Include="C:\Users\Anakin\Source\ModernApplicationFramework\src\ModernApplicationFramework.EditorBase\obj\Debug\Dialogs\NewElementDialog\Views\NewElementPresenterView.g.cs" />
+    <Compile Include="C:\Users\Anakin\Source\ModernApplicationFramework\src\ModernApplicationFramework.EditorBase\obj\Debug\Dialogs\NewElementDialog\Views\NewElementDialogView.g.cs" />
+    <Compile Include="C:\Users\Anakin\Source\ModernApplicationFramework\src\ModernApplicationFramework.EditorBase\obj\Debug\Dialogs\SaveDirtyDocumentsDialog\SaveDirtyDocumentsDialog.g.cs" />
+    <Compile Include="C:\Users\Anakin\Source\ModernApplicationFramework\src\ModernApplicationFramework.EditorBase\obj\Debug\Settings\Documents\DocumentsSettingsView.g.cs" />
+    <Compile Include="C:\Users\Anakin\Source\ModernApplicationFramework\src\ModernApplicationFramework.EditorBase\obj\Debug\Settings\FontsAndColors\FontsAndColorsSettingsView.g.cs" />
+    <Compile Include="C:\Users\Anakin\Source\ModernApplicationFramework\src\ModernApplicationFramework.EditorBase\obj\Debug\GeneratedInternalTypeHelper.g.cs" />
+  </ItemGroup>
+</Project>

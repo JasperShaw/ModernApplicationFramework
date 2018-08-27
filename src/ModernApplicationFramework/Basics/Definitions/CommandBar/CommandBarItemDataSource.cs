@@ -123,8 +123,6 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
-        public virtual CommandControlTypes UiType { get; } = CommandControlTypes.Button;
-
         protected CommandBarItemDataSource(string text, uint sortOrder, CommandBarGroup group,
             CommandDefinitionBase definition, bool isCustom, bool isChecked, CommandBarFlags flags = CommandBarFlags.CommandFlagNone)
             : base(text, sortOrder, definition, isCustom, isChecked, flags)

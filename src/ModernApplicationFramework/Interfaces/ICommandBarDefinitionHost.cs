@@ -19,7 +19,7 @@ namespace ModernApplicationFramework.Interfaces
         /// <summary>
         /// Collection of all commandbar item definitions
         /// </summary>
-        ObservableCollection<CommandBarItemDataSource> ItemDefinitions { get; }
+        ObservableCollection<CommandBarDataSource> ItemDefinitions { get; }
 
         /// <summary>
         /// Collection of excluded commandbar item definitions

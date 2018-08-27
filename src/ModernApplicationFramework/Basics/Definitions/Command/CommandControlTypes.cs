@@ -11,6 +11,7 @@
         SplitDropDown,
         Combobox,
         Menu,
-        MenuController
+        MenuController,
+        Toolbar
     }
 }

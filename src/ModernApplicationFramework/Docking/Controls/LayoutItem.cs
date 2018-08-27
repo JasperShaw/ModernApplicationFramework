@@ -494,14 +494,15 @@ namespace ModernApplicationFramework.Docking.Controls
 
         public void AddToolbar(IToolbarProvider provider)
         {
-            if (!provider.HasToolbar || provider.Toolbar == null || provider.Toolbar.ToolbarScope != ToolbarScope.Anchorable)
+            if (!provider.HasToolbar || provider.Toolbar == null || provider.Toolbar.Scope != ToolbarScope.Anchorable)
                 return;
 
             var t = new AnchorableToolBarTray();
-            var toolbar = new ModernApplicationFramework.Controls.ToolBar(provider.Toolbar);
+            var toolbar = new ModernApplicationFramework.Controls.ToolBar(provider.Toolbar.ItemDataSource);
 
             var tc = IoC.Get<IToolbarCreator>();
-            tc?.CreateRecursive(ref toolbar, provider.Toolbar, provider.Toolbar.ContainedGroups.ToList(), group => group.Items);
+            tc?.CreateRecursive(ref toolbar, provider.Toolbar.ItemDataSource,
+                provider.Toolbar.ItemDataSource.ContainedGroups.ToList(), group => group.Items);
 
             t.AddToolBar(toolbar);
             AddTopToolbarTray(t);

@@ -1,4 +1,5 @@
 ﻿using System.Windows.Input;
+using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Controls.Menu;
@@ -46,17 +47,6 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         /// </summary>
         ToolbarScope ToolbarScope { get; }
 
-        /// <summary>
-        /// Adds a new tool bar to the host
-        /// </summary>
-        /// <param name="definition">The data model of the toolbar</param>
-        void AddToolbarDefinition(ToolBarDataSource definition);
-
-        /// <summary>
-        /// Removes a toolbar from the host
-        /// </summary>
-        /// <param name="definition">The model of the toolbar</param>
-        void RemoveToolbarDefinition(ToolBarDataSource definition);
 
         /// <summary>
         /// Gets an unique localized default toolbar name

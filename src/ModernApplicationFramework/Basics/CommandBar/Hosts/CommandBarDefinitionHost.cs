@@ -37,7 +37,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             ItemGroupDefinitions =
                 new ObservableCollection<CommandBarGroup>(menuItemGroups.OrderBy(x => x.SortOrder));
             //ItemDefinitions = new ObservableCollection<CommandBarItemDataSource>(menuItems.OrderBy(x => x.SortOrder));
-            ItemDefinitions = new ObservableCollection<CommandBarItemDataSource>();
+            ItemDefinitions = new ObservableCollection<CommandBarDataSource>();
             ExcludedItemDefinitions = new ObservableCollection<CommandBarDataSource>();
             foreach (var item in excludedItems)
                 ExcludedItemDefinitions.Add(item.ExcludedCommandBarDefinition);
@@ -53,7 +53,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
         public ObservableCollection<CommandBarGroup> ItemGroupDefinitions { get; }
 
-        public ObservableCollection<CommandBarItemDataSource> ItemDefinitions { get; }
+        public ObservableCollection<CommandBarDataSource> ItemDefinitions { get; }
 
         public ObservableCollection<CommandBarDataSource> ExcludedItemDefinitions { get; }
 
@@ -70,7 +70,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
         public Func<CommandBarGroup, IReadOnlyList<CommandBarItemDataSource>> GetItemsOfGroup => group =>
         {
-            var list = ItemDefinitions.Where(x => x.Group == group)
+            var list = ItemDefinitions.OfType<CommandBarItemDataSource>().Where(x => x.Group == group)
                 .Where(x => !ExcludedItemDefinitions.Contains(x))
                 .OrderBy(x => x.SortOrder).ToList();
 
@@ -108,7 +108,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
                 foreach (var item in e.NewItems)
                     if (item is CommandBarGroup groupDefinition)
                     {
-                        var items = ItemDefinitions.Where(x => x.Group == groupDefinition);
+                        var items = ItemDefinitions.OfType<CommandBarItemDataSource>().Where(x => x.Group == groupDefinition);
                         foreach (var itemDefinition in items)
                             if (!groupDefinition.Items.Contains(itemDefinition))
                                 groupDefinition.Items.AddSorted(itemDefinition,
@@ -150,7 +150,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         public void OnImportsSatisfied()
         {
 
-            var items = _items.Select(x => x.Value).ToList();
+            var items = _items.Select(x => x.Value).OfType<CommandBarDataSource>().ToList();
             items.AddRange(_itemFactory.RegisteredCommandBarItems.Select(x => x.Value.ItemDataSource));
 
             foreach (var item in items)
@@ -159,7 +159,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             }
 
 
-            foreach (var itemDefinition in ItemDefinitions)
+            foreach (var itemDefinition in ItemDefinitions.OfType<CommandBarItemDataSource>())
             {
                 var group = ItemGroupDefinitions.FirstOrDefault(x => x == itemDefinition.Group);
                 group?.Items.AddSorted(itemDefinition, new SortOrderComparer<CommandBarDataSource>());

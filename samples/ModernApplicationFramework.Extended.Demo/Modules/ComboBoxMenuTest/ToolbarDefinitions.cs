@@ -1,13 +1,9 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using System.ComponentModel.Composition.Primitives;
 using System.Windows.Controls;
-using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
 using ModernApplicationFramework.Basics.Definitions.Menu;
-using ModernApplicationFramework.Basics.Definitions.Toolbar;
-using ModernApplicationFramework.Controls.ComboBox;
 using ModernApplicationFramework.Extended.CommandBar.CommandDefinitions;
 using ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest.Commands;
 using ModernApplicationFramework.Extended.Properties;
@@ -16,7 +12,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest
 {
     public static class ToolbarDefinitions
     {
-        [Export] public static ToolBarDataSource ComboBox = new ToolBarDataSource(new Guid("{9DC799F9-7997-4DC0-87B0-A12D6FE26AF2}"), "ComboBoxTest", 1, true, Dock.Top);
+        [Export] public static CommandBarItem ComboBox = new CommandBarToolbar(new Guid("{9DC799F9-7997-4DC0-87B0-A12D6FE26AF2}"), "ComboBoxTest", 1, true, Dock.Top);
 
         [Export] public static CommandBarGroup Group1 = new CommandBarGroup(ComboBox, 0);
 
@@ -30,15 +26,17 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest
             new CommandBarComboBox<ComboBoxCommandDefinition>(new Guid("{28C34A28-06A6-48E9-942F-6659E506B38B}"),
                 Group1, 1);
 
-        [Export] public static CommandBarItem MenuControllerItem =
+        [Export]
+        public static CommandBarItem MenuControllerItem =
             new CommandBarMenuController<TestMenuControllerDefinition>(
                 new Guid("{D564F680-DB8C-4D0B-B428-B450152D9B68}"),
                 Group1, uint.MaxValue);
 
-        [Export] public static CommandBarItemDataSource EditMenu =
+        [Export]
+        public static CommandBarItemDataSource EditMenu =
             new MenuDataSource(new Guid("{B99B7750-D09F-48DB-A16E-E695086F4660}"), Group1, 1,
                 CommandBar_Resources.MenuEdit_Name);
-    
+
         [Export]
         public static CommandBarGroup EditUndoRedoMenuGroup =
             new CommandBarGroup(EditMenu, 0);

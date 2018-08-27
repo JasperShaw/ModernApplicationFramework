@@ -49,7 +49,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
 
             return GetSingleSubDefinitions(menuDefinition, groups, group =>
             {
-                return host.ItemDefinitions.Where(x => x.Group == group)
+                return host.ItemDefinitions.OfType<CommandBarItemDataSource>().Where(x => x.Group == group)
                     .Where(x => !host.ExcludedItemDefinitions.Contains(x))
                     .OrderBy(x => x.SortOrder).ToList();
             });

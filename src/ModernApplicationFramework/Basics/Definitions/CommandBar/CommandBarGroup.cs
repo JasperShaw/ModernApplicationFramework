@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
 using ModernApplicationFramework.Core.Comparers;
 using ModernApplicationFramework.Core.Utilities;
 
@@ -11,6 +13,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     /// A <see cref="CommandBarGroup"/> is a container that contains command bar items 
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarDefinitionBase" />
+    [DebuggerDisplay("<CommandBar Group>")]
     public class CommandBarGroup : CommandBarDataSource
     {
         private CommandBarDataSource _parent;
@@ -52,6 +55,10 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             _parent = parent;
             Parent?.ContainedGroups?.AddSorted(this, new SortOrderComparer<CommandBarGroup>());
             Items = new List<CommandBarItemDataSource>();
+        }
+
+        public CommandBarGroup(CommandBarItem parentItem, uint sortOrder) : this(parentItem.ItemDataSource, sortOrder)
+        {
         }
     }
 }

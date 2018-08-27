@@ -28,7 +28,7 @@ namespace ModernApplicationFramework.Basics.Services
     {
         private readonly List<CommandBarDataSource> _allDefinitions = new List<CommandBarDataSource>();
         private ICommandBarDefinitionHost _definitionHost;
-        private IEnumerable<CommandBarItemDataSource> _allCommandBarItems;
+        private IEnumerable<CommandBarDataSource> _allCommandBarItems;
         private IEnumerable<CommandDefinitionBase> _allCommandDefintions;
 
         protected override string RootNode => "CommandBarDefinitions";
@@ -202,7 +202,7 @@ namespace ModernApplicationFramework.Basics.Services
                 var command = _allCommandDefintions.FirstOrDefault(x => x.Id.Equals(commandId));
                 if (!(command is CommandSplitButtonDefinition splitDefinition))
                     throw new ArgumentNullException(nameof(parentDefinition));
-                buttonDataSource = new SplitButtonDataSource(guid, text, sortOrder, null, splitDefinition);
+                buttonDataSource = new SplitButtonDataSource(guid, text, sortOrder, null, splitDefinition, false);
             }
             else
                 buttonDataSource = FindCommandBarDefinitionById<SplitButtonDataSource>(guid);

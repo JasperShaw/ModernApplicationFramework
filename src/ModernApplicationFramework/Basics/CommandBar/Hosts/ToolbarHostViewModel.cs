@@ -10,7 +10,9 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.CommandBar.Commands;
+using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.Core.Exception;
 using ModernApplicationFramework.Input.Command;
@@ -31,7 +33,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
     /// <seealso cref="T:ModernApplicationFramework.Basics.CommandBar.Hosts.CommandBarHost" />
     /// <seealso cref="T:ModernApplicationFramework.Interfaces.ViewModels.IToolBarHostViewModel" />
     [Export(typeof(IToolBarHostViewModel))]
-    public sealed class ToolbarHostViewModel : CommandBarHost, IToolBarHostViewModel
+    internal sealed class ToolbarHostViewModel : CommandBarHost, IToolBarHostViewModelInternal
     {
         private readonly Dictionary<ToolBarDataSource, ToolBar> _toolbars;
         private ToolBarTray _bottomToolBarTay;
@@ -94,12 +96,12 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         }
 
         [ImportingConstructor]
-        public ToolbarHostViewModel([ImportMany] ToolBarDataSource[] toolBar)
+        public ToolbarHostViewModel([Import] ICommandBarDefinitionHost host)
         {
             _toolbars = new Dictionary<ToolBarDataSource, ToolBar>();
 
             TopLevelDefinitions = new ObservableCollectionEx<CommandBarDataSource>();
-            foreach (var definition in toolBar.Where(x => x.ToolbarScope == ToolbarScope))
+            foreach (var definition in host.ItemDefinitions.Where(x => x.UiType == CommandControlTypes.Toolbar && ((ToolBarDataSource) x).ToolbarScope == ToolbarScope))
                 TopLevelDefinitions.Add(definition);
 
             ((ObservableCollectionEx<CommandBarDataSource>) TopLevelDefinitions).CollectionChanged +=
@@ -153,7 +155,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             toolBar = new ToolBar(toolbarDefinition);
             IoC.Get<IToolbarCreator>().CreateRecursive(ref toolBar, toolbarDefinition, groups, group =>
             {
-                return host.ItemDefinitions.Where(x => x.Group == group)
+                return host.ItemDefinitions.OfType<CommandBarItemDataSource>().Where(x => x.Group == group)
                     .Where(x => !host.ExcludedItemDefinitions.Contains(x))
                     .OrderBy(x => x.SortOrder).ToList();
             });

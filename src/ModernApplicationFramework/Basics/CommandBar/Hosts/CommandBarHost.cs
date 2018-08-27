@@ -298,7 +298,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         {
             if (dataSource.CommandDefinition.ControlType == CommandControlTypes.Separator)
                 return null;
-            return DefinitionHost.ItemDefinitions.Where(x => x.Group == dataSource.Group)
+            return DefinitionHost.ItemDefinitions.OfType<CommandBarItemDataSource>().Where(x => x.Group == dataSource.Group)
                 .OrderByDescending(x => x.SortOrder)
                 .FirstOrDefault(x => x.SortOrder < dataSource.SortOrder);
         }
@@ -307,7 +307,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         {
             if (dataSource.CommandDefinition.ControlType == CommandControlTypes.Separator)
                 return null;
-            return DefinitionHost.ItemDefinitions.Where(x => x.Group == dataSource.Group)
+            return DefinitionHost.ItemDefinitions.OfType<CommandBarItemDataSource>().Where(x => x.Group == dataSource.Group)
                 .OrderBy(x => x.SortOrder)
                 .FirstOrDefault(x => x.SortOrder > dataSource.SortOrder);
         }
@@ -417,7 +417,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
                     item.Group = nextGroup;
                     item.SortOrder = 0;
                     AdjustItemsAfterItemInsertedInGroup(item);
-                    if (DefinitionHost.ItemDefinitions.All(x => x.Group != lastGroup))
+                    if (DefinitionHost.ItemDefinitions.OfType<CommandBarItemDataSource>().All(x => x.Group != lastGroup))
                         DeleteGroup(lastGroup);
                 }
                 else
@@ -439,7 +439,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
             foreach (var groupDefinition in groups)
             {
-                var headerMenus = DefinitionHost.ItemDefinitions.Where(x => x is MenuDataSource)
+                var headerMenus = DefinitionHost.ItemDefinitions.OfType<CommandBarItemDataSource>().Where(x => x is MenuDataSource)
                     .Where(x => x.Group == groupDefinition)
                     .OrderBy(x => x.SortOrder);
 
@@ -468,6 +468,8 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             if (definition is CommandBarGroup groupDefinition)
                 return FindRoot(groupDefinition.Parent);
             var itemDefinition = (CommandBarItemDataSource) definition;
+            if (itemDefinition.Group == null)
+                return itemDefinition;
             return FindRoot(itemDefinition.Group.Parent);
         }
 

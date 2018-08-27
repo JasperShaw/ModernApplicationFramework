@@ -2,6 +2,6 @@
 {
     public abstract class CommandBarItem
     {
-        protected internal abstract CommandBarItemDataSource ItemDataSource { get; }
+        protected internal abstract CommandBarDataSource ItemDataSource { get; }
     }
 }
