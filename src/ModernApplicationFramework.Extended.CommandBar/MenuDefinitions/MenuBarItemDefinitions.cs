@@ -1,11 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using System.Linq;
-using System.Windows;
-using System.Windows.Data;
-using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Controls.Windows;
 using ModernApplicationFramework.Extended.CommandBar.CommandDefinitions;
 using ModernApplicationFramework.Extended.CommandBarDefinitions;
 
@@ -19,13 +14,14 @@ namespace ModernApplicationFramework.Extended.CommandBar.MenuDefinitions
 
         static MenuBarItemDefinitions()
         {
-            var myBinding = new Binding(nameof(CommandBarItemDataSource.IsVisible))
-            {
-                Source = IoC.GetAll<CommandBarItemDataSource>().FirstOrDefault(x => x.CommandDefinition.Id == new Guid("{9EE995EC-45C6-40B9-A3D6-8A9F486D59C9}")),
-                Mode = BindingMode.OneWayToSource
-            };
-            ((ModernChromeWindow) Application.Current.MainWindow).SetBinding(ModernChromeWindow.FullScreenProperty,
-                myBinding);
+            //TODO: Full screen binding
+            //var myBinding = new Binding(nameof(CommandBarItemDataSource.IsVisible))
+            //{
+            //    Source = IoC.GetAll<CommandBarItemDataSource>().FirstOrDefault(x => x.CommandDefinition.Id == new Guid("{9EE995EC-45C6-40B9-A3D6-8A9F486D59C9}")),
+            //    Mode = BindingMode.OneWayToSource
+            //};
+            //((ModernChromeWindow) Application.Current.MainWindow).SetBinding(ModernChromeWindow.FullScreenProperty,
+            //    myBinding);
         }
     }
 }

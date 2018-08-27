@@ -10,7 +10,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarItemDefinition" />
     [DebuggerDisplay("<Separator>")]
-    public sealed class SeparatorDataSource : CommandBarItemDataSource
+    internal sealed class SeparatorDataSource : CommandBarItemDataSource
     {
         /// <summary>
         /// Returns a new instance of a separator command bar item
@@ -21,20 +21,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
         public override CommandControlTypes UiType => CommandControlTypes.Separator;
 
-        private SeparatorDataSource() : base(null, uint.MaxValue, null, new SeparatorCommandDefinition(), false, false)
+        private SeparatorDataSource() : base(null, uint.MaxValue, null, null, false, false)
         {
-        }
-
-        private class SeparatorCommandDefinition : CommandDefinitionBase
-        {
-            public override string Name => null;
-            public override string NameUnlocalized => null;
-            public override string Text => null;
-            public override string ToolTip => null;
-            public override bool IsList => false;
-            public override CommandCategory Category => null;
-            public override CommandControlTypes ControlType => CommandControlTypes.Separator;
-            public override Guid Id => new Guid("{7951DD77-A074-4489-9037-8CEEEC630C5C}");
         }
     }
 }

@@ -11,7 +11,7 @@ namespace ModernApplicationFramework.Core.Converters.Customize
         {
             if (index < 0 || item == null)
                 return false;
-            if (item.CommandDefinition.ControlType == CommandControlTypes.Separator)
+            if (item.UiType == CommandControlTypes.Separator)
                 return index > 1;
             return index > 0;
         }

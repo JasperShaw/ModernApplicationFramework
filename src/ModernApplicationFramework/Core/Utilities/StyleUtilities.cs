@@ -22,12 +22,12 @@ namespace ModernApplicationFramework.Core.Utilities
                 return;
             ResourceKey key = null;
 
-            if (context.CommandDefinition == null)
-            {
-                key = styleKeySource.MenuStyleKey;
-                element.SetResourceReference(FrameworkElement.StyleProperty, key);
-                return;
-            }
+            //if (context.CommandDefinition == null)
+            //{
+            //    key = styleKeySource.MenuStyleKey;
+            //    element.SetResourceReference(FrameworkElement.StyleProperty, key);
+            //    return;
+            //}
 
             switch (context.UiType)
             {

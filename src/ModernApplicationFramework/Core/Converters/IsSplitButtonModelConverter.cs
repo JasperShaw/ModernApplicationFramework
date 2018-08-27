@@ -13,7 +13,7 @@ namespace ModernApplicationFramework.Core.Converters
     {
         protected override bool Convert(CommandBarDataSource value, object parameter, CultureInfo culture)
         {
-            return value?.CommandDefinition.ControlType == CommandControlTypes.SplitDropDown;
+            return value?.UiType == CommandControlTypes.SplitDropDown;
         }
     }
 }

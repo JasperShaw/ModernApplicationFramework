@@ -10,7 +10,7 @@ namespace ModernApplicationFramework.Core.Converters
     {
         protected override Visibility Convert(CommandBarDataSource value, object parameter, CultureInfo culture)
         {
-            return value == null || value.CommandDefinition.ControlType != CommandControlTypes.Combobox
+            return value == null || value.UiType != CommandControlTypes.Combobox
                 ? Visibility.Collapsed
                 : Visibility.Visible;
         }

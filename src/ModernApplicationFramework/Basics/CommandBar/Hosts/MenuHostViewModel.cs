@@ -7,7 +7,6 @@ using System.Windows.Controls;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Controls.Internals;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Utilities;

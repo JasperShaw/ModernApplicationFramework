@@ -6,7 +6,6 @@ using System.Linq;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Core;
 using ModernApplicationFramework.Core.Comparers;
 using ModernApplicationFramework.Core.Utilities;
@@ -55,7 +54,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         public virtual void DeleteItemDefinition(CommandBarItemDataSource dataSource)
         {
             //As a Separator contains the previous group we need add all items into the next group
-            if (dataSource.CommandDefinition.ControlType == CommandControlTypes.Separator)
+            if (dataSource.UiType == CommandControlTypes.Separator)
             {
                 if (dataSource.Group == null || !DefinitionHost.ItemGroupDefinitions.Contains(dataSource.Group))
                     return;
@@ -277,7 +276,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         public CommandBarItemDataSource GetPreviousItem(CommandBarItemDataSource dataSource)
         {
             CommandBarItemDataSource previousItem;
-            if (dataSource.CommandDefinition.ControlType == CommandControlTypes.Separator || dataSource.SortOrder == 0)
+            if (dataSource.UiType == CommandControlTypes.Separator || dataSource.SortOrder == 0)
             {
                 if (dataSource.SortOrder != 0)
                     return null;
@@ -296,7 +295,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
         public CommandBarItemDataSource GetPreviousItemInGroup(CommandBarItemDataSource dataSource)
         {
-            if (dataSource.CommandDefinition.ControlType == CommandControlTypes.Separator)
+            if (dataSource.UiType == CommandControlTypes.Separator)
                 return null;
             return DefinitionHost.ItemDefinitions.OfType<CommandBarItemDataSource>().Where(x => x.Group == dataSource.Group)
                 .OrderByDescending(x => x.SortOrder)
@@ -305,7 +304,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
         public CommandBarItemDataSource GetNextItemInGroup(CommandBarItemDataSource dataSource)
         {
-            if (dataSource.CommandDefinition.ControlType == CommandControlTypes.Separator)
+            if (dataSource.UiType == CommandControlTypes.Separator)
                 return null;
             return DefinitionHost.ItemDefinitions.OfType<CommandBarItemDataSource>().Where(x => x.Group == dataSource.Group)
                 .OrderBy(x => x.SortOrder)
@@ -318,7 +317,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
             var hightestSortOrder = dataSource.Group.LastItem?.SortOrder;
 
-            if (dataSource.CommandDefinition.ControlType == CommandControlTypes.Separator ||
+            if (dataSource.UiType == CommandControlTypes.Separator ||
                 dataSource.SortOrder == hightestSortOrder)
             {
                 var nextGroup = GetNextGroup(dataSource.Group);
@@ -359,7 +358,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         {
             if (item.IsVeryFirst)
                 return;
-            if (item.CommandDefinition.ControlType == CommandControlTypes.Separator)
+            if (item.UiType == CommandControlTypes.Separator)
             {
                 var lastItem = item.Group.LastItem;
                 StepwiseMoveDown(lastItem, parent);
@@ -398,7 +397,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             if (veryLastItem == item)
                 return;
 
-            if (item.CommandDefinition.ControlType == CommandControlTypes.Separator)
+            if (item.UiType == CommandControlTypes.Separator)
             {
                 var nextGroup = GetNextGroup(item.Group);
                 var nextItem = nextGroup.FirstItem;

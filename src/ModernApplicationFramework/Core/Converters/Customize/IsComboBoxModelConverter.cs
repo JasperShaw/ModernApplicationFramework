@@ -9,7 +9,7 @@ namespace ModernApplicationFramework.Core.Converters.Customize
     {
         protected override bool Convert(CommandBarDataSource value, object parameter, CultureInfo culture)
         {
-            return value?.CommandDefinition.ControlType == CommandControlTypes.Combobox;
+            return value?.UiType == CommandControlTypes.Combobox;
         }
     }
 }

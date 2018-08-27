@@ -1,9 +1,8 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Basics.Definitions.Menu;
+using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
 using ModernApplicationFramework.WindowManagement.CommandDefinitions;
-using ModernApplicationFramework.WindowManagement.Commands;
 using ModernApplicationFramework.WindowManagement.Properties;
 
 namespace ModernApplicationFramework.WindowManagement.CommandBar
@@ -20,9 +19,9 @@ namespace ModernApplicationFramework.WindowManagement.CommandBar
             new CommandBarCommandItemDataSource<SaveCurrentLayoutCommandDefinition>(new Guid("{5070E265-37C1-4D5C-9AED-BC6F0A937189}"), LayoutGroup, 0);
 
         //------------- Apply Layout Sub Menu
-        [Export]
-        public static CommandBarItemDataSource ApplyLayout =
-            new MenuDataSource(new Guid("{B840B60F-85B0-4A95-B147-09AACF96ACE4}"), LayoutGroup, 1, WindowManagement_Resources.MenuDefinition_ApplyLayout);
+        [Export] public static CommandBarItem ApplyLayout =
+            new CommandBarMenuItem(new Guid("{B840B60F-85B0-4A95-B147-09AACF96ACE4}"),
+                WindowManagement_Resources.MenuDefinition_ApplyLayout, LayoutGroup, 1);
 
 
         [Export]

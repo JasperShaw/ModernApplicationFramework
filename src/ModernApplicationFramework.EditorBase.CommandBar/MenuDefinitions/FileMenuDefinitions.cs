@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Basics.Definitions.Menu;
+using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
 using ModernApplicationFramework.EditorBase.CommandBar.CommandDefinitions;
 using ModernApplicationFramework.EditorBase.CommandBar.Resources;
 
@@ -15,8 +15,8 @@ namespace ModernApplicationFramework.EditorBase.CommandBar.MenuDefinitions
         public static CommandBarGroup OpenNewFileGroup =
             new CommandBarGroup(Extended.CommandBarDefinitions.TopLevelMenuDefinitions.FileMenu, 0);
 
-        [Export] public static CommandBarItemDataSource NewMenu =
-            new MenuDataSource(new Guid("{2EDA6AB7-5780-4E8D-AA3E-193300AC484A}"), OpenNewFileGroup, 0, CommandBarResources.MenuNew);
+        [Export] public static CommandBarItem NewMenu =
+            new CommandBarMenuItem(new Guid("{2EDA6AB7-5780-4E8D-AA3E-193300AC484A}"), CommandBarResources.MenuNew, OpenNewFileGroup, 0);
 
         [Export] public static CommandBarGroup NewGroup =
             new CommandBarGroup(NewMenu, 0);
@@ -29,8 +29,8 @@ namespace ModernApplicationFramework.EditorBase.CommandBar.MenuDefinitions
         /*  File --> Open   */
 
         [Export]
-        public static CommandBarItemDataSource OpenMenu =
-            new MenuDataSource(new Guid("{36D45A3A-9A2D-4142-9659-9CC046E2C14F}"), OpenNewFileGroup, 1, CommandBarResources.MenuOpen);
+        public static CommandBarItem OpenMenu =
+            new CommandBarMenuItem(new Guid("{36D45A3A-9A2D-4142-9659-9CC046E2C14F}"), CommandBarResources.MenuOpen, OpenNewFileGroup, 1);
 
         [Export]
         public static CommandBarGroup OpenFileGroup =
@@ -69,8 +69,8 @@ namespace ModernApplicationFramework.EditorBase.CommandBar.MenuDefinitions
             new CommandBarGroup(Extended.CommandBarDefinitions.TopLevelMenuDefinitions.FileMenu, 6);
 
         [Export]
-        public static CommandBarItemDataSource RecentFilesMenu =
-            new MenuDataSource(new Guid("{27D0D3B9-DCDE-405D-BCE8-C05ECCEDF74F}"), RecentlyUsedGroup, 0, CommandBarResources.MenuRecentFiles);
+        public static CommandBarItem RecentFilesMenu =
+            new CommandBarMenuItem(new Guid("{27D0D3B9-DCDE-405D-BCE8-C05ECCEDF74F}"), CommandBarResources.MenuRecentFiles, RecentlyUsedGroup, 0);
 
         [Export]
         public static CommandBarGroup RecentFilesGroup =

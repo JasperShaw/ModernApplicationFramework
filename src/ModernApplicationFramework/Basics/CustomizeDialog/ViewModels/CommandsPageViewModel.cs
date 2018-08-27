@@ -12,7 +12,6 @@ using ModernApplicationFramework.Basics.CommandBar.Hosts;
 using ModernApplicationFramework.Basics.CustomizeDialog.Views;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Core.Converters.AccessKey;
 using ModernApplicationFramework.Core.Converters.Customize;
 using ModernApplicationFramework.Core.Utilities;
@@ -377,7 +376,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 
         private void HandleCommandAddNewMenu()
         {
-            var newMenuItem = new MenuDataSource(Guid.Empty, null, 0, CommandBarResources.NewMenuDefaultName, true);
+            var newMenuItem = new MenuDataSource(Guid.Empty, CommandBarResources.NewMenuDefaultName, null, 0, true, CommandBarFlags.CommandFlagNone);
 
             InternalAddItem(newMenuItem);
             BuildItemSources(SelectedOption);
@@ -475,7 +474,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             {
                 newSortOrder = SelectedListBoxItem.SortOrder;
                 flag = SelectedListBoxItem.SortOrder > 0 &&
-                       SelectedListBoxItem.CommandDefinition.ControlType == CommandControlTypes.Separator;
+                       SelectedListBoxItem.UiType == CommandControlTypes.Separator;
                 dataSourceToAdd.Group = SelectedListBoxItem.Group;
             }
             dataSourceToAdd.SortOrder = newSortOrder;

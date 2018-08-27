@@ -170,7 +170,7 @@ namespace ModernApplicationFramework.Controls.Internals
                 return false;
             if (!(frameworkElement.DataContext is CommandBarDataSource definitionBase))
                 return false;
-            if ((definitionBase.CommandDefinition.ControlType & CommandControlTypes.Combobox) == CommandControlTypes.Separator)
+            if ((definitionBase.UiType & CommandControlTypes.Combobox) == CommandControlTypes.Separator)
                 return false;
             return definitionBase.Flags.StretchHorizontally;
         }

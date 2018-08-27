@@ -2,7 +2,6 @@
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
-using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Extended.CommandBar.CommandDefinitions;
 using ModernApplicationFramework.Extended.CommandBarDefinitions;
 using ModernApplicationFramework.Extended.Commands;
@@ -13,8 +12,8 @@ namespace ModernApplicationFramework.Extended.Demo
 {
     public static class WindowMenuDefinitions
     {
-        [Export] public static CommandBarItemDataSource TestMenu = new MenuDataSource(
-            new Guid("{C374077C-1EAD-41E3-9E93-96F2DD812752}"), MainMenuBarDefinition.MainMenuBarGroup, 14, "&Test");
+        [Export] public static CommandBarItem TestMenu = new CommandBarMenuItem(
+            new Guid("{C374077C-1EAD-41E3-9E93-96F2DD812752}"), "&Test", MainMenuBarDefinition.MainMenuBarGroup, 14);
 
         [Export] public static CommandBarGroup TestGroup1 = new CommandBarGroup(TestMenu, int.MaxValue);
 
@@ -22,8 +21,9 @@ namespace ModernApplicationFramework.Extended.Demo
             new CommandBarCommandItemDataSource<TestCommandDefinition>(
                 new Guid("{3C4FD58F-7EF4-4E0F-A993-8E0349850395}"), TestGroup1, 1);
 
-        [Export] public static CommandBarItemDataSource TestSub =
-            new MenuDataSource(new Guid("{3F544F5A-8D20-428F-AC3A-40763840314E}"), TestGroup1, 0, "Test", true);
+        [Export] public static CommandBarItem TestSub =
+            new CommandBarMenuItem(new Guid("{3F544F5A-8D20-428F-AC3A-40763840314E}"), "Test", TestGroup1, 0, true,
+                CommandBarFlags.CommandFlagNone);
 
         [Export] public static CommandBarGroup TestGroup2 = new CommandBarGroup(TestSub, int.MaxValue);
 
@@ -33,8 +33,9 @@ namespace ModernApplicationFramework.Extended.Demo
 
 
 
-        [Export] public static CommandBarItemDataSource TestSubSub =
-            new MenuDataSource(new Guid("{BCFA7117-EBEC-4BDB-8FFE-D153F0BF789B}"), TestGroup2, 0, "TestSub", true);
+        [Export] public static CommandBarItem TestSubSub =
+            new CommandBarMenuItem(new Guid("{BCFA7117-EBEC-4BDB-8FFE-D153F0BF789B}"), "TestSub", TestGroup2, 0, true,
+                CommandBarFlags.CommandFlagNone);
 
         [Export]
         public static CommandBarItem MenuControllerItem =

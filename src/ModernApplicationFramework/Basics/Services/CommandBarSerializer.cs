@@ -10,7 +10,6 @@ using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
 using ModernApplicationFramework.Basics.Definitions.ContextMenu;
-using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
@@ -239,7 +238,7 @@ namespace ModernApplicationFramework.Basics.Services
             {
                 if (!(parentDefinition is CommandBarGroup group))
                     throw new ArgumentException("Parent must be a group");
-                menu = new MenuDataSource(guid, group, sortOrder, text, true);
+                menu = new MenuDataSource(guid, text, group, sortOrder, true, CommandBarFlags.CommandFlagNone);
             }
             else
                 menu = FindCommandBarDefinitionById<MenuDataSource>(guid);

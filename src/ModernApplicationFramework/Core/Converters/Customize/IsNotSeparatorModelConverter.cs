@@ -10,7 +10,7 @@ namespace ModernApplicationFramework.Core.Converters.Customize
         protected override bool Convert(CommandBarDataSource value, object parameter, CultureInfo culture)
         {
             if (value != null)
-                return value.CommandDefinition.ControlType != CommandControlTypes.Separator;
+                return value.UiType != CommandControlTypes.Separator;
             return false;
         }
     }

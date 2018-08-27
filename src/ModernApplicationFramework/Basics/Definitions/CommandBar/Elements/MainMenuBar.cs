@@ -1,5 +1,4 @@
 ﻿using System;
-using ModernApplicationFramework.Basics.Definitions.Menu;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar.Elements
 {

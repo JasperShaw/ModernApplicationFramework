@@ -3,7 +3,6 @@ using System.ComponentModel.Composition;
 using System.Windows.Controls;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
-using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Extended.CommandBar.CommandDefinitions;
 using ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest.Commands;
 using ModernApplicationFramework.Extended.Properties;
@@ -33,9 +32,9 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest
                 Group1, uint.MaxValue);
 
         [Export]
-        public static CommandBarItemDataSource EditMenu =
-            new MenuDataSource(new Guid("{B99B7750-D09F-48DB-A16E-E695086F4660}"), Group1, 1,
-                CommandBar_Resources.MenuEdit_Name);
+        public static CommandBarItem EditMenu =
+            new CommandBarMenuItem(new Guid("{B99B7750-D09F-48DB-A16E-E695086F4660}"),
+                CommandBar_Resources.MenuEdit_Name, Group1, 1);
 
         [Export]
         public static CommandBarGroup EditUndoRedoMenuGroup =
@@ -52,8 +51,8 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest
 
 
         [Export]
-        public static CommandBarItemDataSource EditMenu2 =
-            new MenuDataSource(new Guid("{9E435A36-0D68-440F-BF6B-6D03A8AA1EC7}"), EditUndoRedoMenuGroup, 1, "Test");
+        public static CommandBarItem EditMenu2 =
+            new CommandBarMenuItem(new Guid("{9E435A36-0D68-440F-BF6B-6D03A8AA1EC7}"), "Test", EditUndoRedoMenuGroup, 1);
 
         [Export]
         public static CommandBarGroup EditUndoRedoMenuGroup2 =

@@ -95,7 +95,7 @@ namespace ModernApplicationFramework.Controls.Internals
             {
                 if (!(data is CommandDefinitionButton item))
                     continue;
-                if (item.DataContext is CommandBarDataSource definition && definition.CommandDefinition.ControlType == CommandControlTypes.Separator)
+                if (item.DataContext is CommandBarDataSource definition && definition.UiType == CommandControlTypes.Separator)
                     continue;
                 var mi = new MenuItem(item.DataContext as CommandBarDataSource);
                 compositeCollection.Add(mi);
