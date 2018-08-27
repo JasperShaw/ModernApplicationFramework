@@ -2,11 +2,14 @@
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Windows.Controls;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Controls.Internals;
+using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using ContextMenu = System.Windows.Controls.ContextMenu;
@@ -59,11 +62,12 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
 
         [ImportingConstructor]
-        public MenuHostViewModel([ImportMany] MenuBarDataSource[] menubars)
+        public MenuHostViewModel([Import] ICommandBarDefinitionHost host)
         {
             Items = new BindableCollection<MenuItem>();
             _toolBarHost = IoC.Get<IToolBarHostViewModel>();
-            TopLevelDefinitions = new ObservableCollection<CommandBarDataSource>(menubars);
+            var menuBar = host.ItemDefinitions.FirstOrDefault(x => x.UiType == CommandControlTypes.MenuBar);
+            TopLevelDefinitions = new ObservableCollection<CommandBarDataSource>{ menuBar };
             Build();
         }
 

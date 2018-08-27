@@ -14,11 +14,10 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarDefinitionBase" />
     /// <seealso cref="T:ModernApplicationFramework.Interfaces.IHasInternalName" />
-    public abstract class CommandBarItemDataSource : CommandBarDataSource, IHasInternalName
+    public abstract class CommandBarItemDataSource : CommandBarDataSource
     {
         private bool _precededBySeparator;
         private CommandBarGroup _group;
-        private string _internalName;
         private bool _isVeryFirst;
         private string _text;
         private uint _sortOrder;
@@ -48,21 +47,6 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             {
                 if (value == _isVeryFirst) return;
                 _isVeryFirst = value;
-                OnPropertyChanged();
-            }
-        }
-
-        /// <inheritdoc />
-        /// <summary>
-        /// The unlocalized internal name of the object
-        /// </summary>
-        public virtual string InternalName
-        {
-            get => _internalName;
-            set
-            {
-                if (value == _internalName) return;
-                _internalName = value;
                 OnPropertyChanged();
             }
         }
@@ -135,16 +119,16 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
                 .Convert(text, typeof(string), null, CultureInfo.CurrentCulture)
                 ?.ToString();
 
-            if (group?.Parent is IHasInternalName internalNameParent)
+            if (group?.Parent is IHasInternalName internalNameParent && internalNameParent.InheritInternalName)
             {
                 if (string.IsNullOrEmpty(internalNameParent.InternalName))
                     return;
-                _internalName = internalNameParent.InternalName + " | " + internalName;
+                InternalName = internalNameParent.InternalName + " | " + internalName;
                 internalNameParent.PropertyChanged += InternalNameParent_PropertyChanged;
             }
             else
             {
-                _internalName = internalName;
+                InternalName = internalName;
             }
         }
 
@@ -165,7 +149,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         /// <param name="oldGroup">The old group.</param>
         protected void UpdateGroup(CommandBarGroup value, CommandBarGroup oldGroup)
         {
-            if (CommandDefinition.ControlType == CommandControlTypes.Separator)
+            if (UiType == CommandControlTypes.Separator)
                 return;
             if (!value.Items.Contains(this))
                 value.Items.AddSorted(this, new SortOrderComparer<CommandBarDataSource>());

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Core.Converters.AccessKey;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Utilities;
 
@@ -16,7 +18,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Interfaces.IHasTextProperty" />
     [DebuggerDisplay("Name = {" + nameof(Name) + "}")]
-    public abstract class CommandBarDataSource : DisposableObject, IHasTextProperty
+    public abstract class CommandBarDataSource : DisposableObject, IHasTextProperty, IHasInternalName
     {
         private uint _sortOrder;
         private string _text;
@@ -29,6 +31,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         protected string OriginalText { get; set; }
         private FlagsDataSource _originalFlagStore;
         private bool _isVisible;
+        private string _internalName;
 
         protected internal FlagsDataSource OriginalFlagStore =>
             _originalFlagStore ?? (_originalFlagStore = new FlagsDataSource());
@@ -167,6 +170,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             _text = text ?? definition?.Text;
             OriginalText = text ?? definition?.Text;
 	        _name = text ?? definition?.Text;
+            _internalName = new AccessKeyRemovingConverter().Convert(text, typeof(string), null, CultureInfo.CurrentCulture)
+                ?.ToString();
             CommandDefinition = definition;
             IsCustom = isCustom;
             _isChecked = isChecked;
@@ -240,5 +245,18 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             if (e.PropertyName == nameof(CommandDefinition.Text))
                 UpdateText();
         }
+
+        public string InternalName
+        {
+            get => _internalName;
+            set
+            {
+                if (value == _internalName) return;
+                _internalName = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public virtual bool InheritInternalName => true;
     }
 }

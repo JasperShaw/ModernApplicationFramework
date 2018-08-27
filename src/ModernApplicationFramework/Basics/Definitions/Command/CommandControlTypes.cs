@@ -12,6 +12,7 @@
         Combobox,
         Menu,
         MenuController,
-        Toolbar
+        Toolbar,
+        MenuBar
     }
 }

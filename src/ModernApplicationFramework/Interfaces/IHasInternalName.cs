@@ -2,6 +2,7 @@
 
 namespace ModernApplicationFramework.Interfaces
 {
+    /// <inheritdoc />
     /// <summary>
     /// Extendes an object to support internal, unlocalized names
     /// </summary>
@@ -11,5 +12,7 @@ namespace ModernApplicationFramework.Interfaces
         /// The unlocalized internal name of the object
         /// </summary>
         string InternalName { get; set; }
+
+        bool InheritInternalName { get; }
     }
 }

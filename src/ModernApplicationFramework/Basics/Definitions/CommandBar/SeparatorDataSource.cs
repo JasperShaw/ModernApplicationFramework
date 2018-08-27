@@ -19,6 +19,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
         public override Guid Id => Guid.Empty;
 
+        public override CommandControlTypes UiType => CommandControlTypes.Separator;
+
         private SeparatorDataSource() : base(null, uint.MaxValue, null, new SeparatorCommandDefinition(), false, false)
         {
         }

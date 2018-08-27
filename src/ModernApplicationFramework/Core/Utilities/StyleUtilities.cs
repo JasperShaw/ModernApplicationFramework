@@ -29,7 +29,7 @@ namespace ModernApplicationFramework.Core.Utilities
                 return;
             }
 
-            switch (context.CommandDefinition.ControlType)
+            switch (context.UiType)
             {
                 case CommandControlTypes.Separator:
                     key = styleKeySource.SeparatorStyleKey;

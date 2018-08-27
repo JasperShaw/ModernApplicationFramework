@@ -245,9 +245,9 @@
     <Compile Include="Basics\Definitions\CommandBar\ComboBoxDataSource.cs" />
     <Compile Include="Basics\Definitions\CommandBar\Elements\CommandBarComboBox.cs" />
     <Compile Include="Basics\Definitions\CommandBar\Elements\CommandBarItem.cs" />
-    <Compile Include="Basics\Definitions\CommandBar\Elements\CommandBarItemFactory.cs" />
     <Compile Include="Basics\Definitions\CommandBar\Elements\CommandBarMenuController.cs" />
     <Compile Include="Basics\Definitions\CommandBar\Elements\CommandBarToolbar.cs" />
+    <Compile Include="Basics\Definitions\CommandBar\Elements\MainMenuBar.cs" />
     <Compile Include="Basics\Definitions\CommandBar\Models\ComboBoxItemModel.cs" />
     <Compile Include="Basics\Definitions\CommandBar\Models\ComboBoxModel.cs" />
     <Compile Include="Basics\Definitions\CommandBar\Elements\CommandBarSplitButton.cs" />
@@ -628,7 +628,7 @@
     <Compile Include="Basics\Definitions\CommandBar\SeparatorDataSource.cs" />
     <Compile Include="Basics\Definitions\ContextMenu\ContextMenuCategory.cs" />
     <Compile Include="Basics\Definitions\ContextMenu\ContextMenuDataSource.cs" />
-    <Compile Include="Basics\Definitions\Menu\MenuBarDataSource.cs" />
+    <Compile Include="Basics\Definitions\CommandBar\MenuBarDataSource.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuDataSource.cs" />
     <Compile Include="Basics\Definitions\CommandBar\ToolBarDataSource.cs" />
     <Compile Include="Basics\CommandBar\ToolbarsContextMenuDefinition.cs" />

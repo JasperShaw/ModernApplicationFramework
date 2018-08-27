@@ -10,7 +10,6 @@ using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
 using ModernApplicationFramework.Core.Comparers;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces;
-using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 {
@@ -23,9 +22,8 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
     internal sealed class CommandBarDefinitionHost : ICommandBarDefinitionHost, IPartImportsSatisfiedNotification
     {
 
-        [Import] private CommandBarItemFactory _itemFactory;
-
         [ImportMany] private List<Lazy<CommandBarItemDataSource>> _items;
+        [ImportMany] private List<Lazy<CommandBarItem>> _registeredCommandBarItems;
 
 
         [ImportingConstructor]
@@ -151,7 +149,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         {
 
             var items = _items.Select(x => x.Value).OfType<CommandBarDataSource>().ToList();
-            items.AddRange(_itemFactory.RegisteredCommandBarItems.Select(x => x.Value.ItemDataSource));
+            items.AddRange(_registeredCommandBarItems.Select(x => x.Value.ItemDataSource));
 
             foreach (var item in items)
             {

@@ -13,10 +13,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarDefinitionBase" />
     /// <seealso cref="T:ModernApplicationFramework.Interfaces.IHasInternalName" />
-    internal sealed class ToolBarDataSource : CommandBarDataSource, IHasInternalName
+    internal sealed class ToolBarDataSource : CommandBarDataSource
     {
         private Dock _position;
-        private string _internalName;
         private int _placementSlot;
 
 
@@ -53,21 +52,6 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         /// </summary>
         public Dock LastPosition { get; private set; }
 
-        /// <inheritdoc />
-        /// <summary>
-        /// The unlocalized internal name of the object
-        /// </summary>
-        public string InternalName
-        {
-            get => _internalName;
-            set
-            {
-                if (value == _internalName) return;
-                _internalName = value;
-                OnPropertyChanged();
-            }
-        }
-
         public override CommandControlTypes UiType => CommandControlTypes.Toolbar;
 
         public ToolbarScope ToolbarScope { get; }
@@ -81,9 +65,6 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             Id = id;
             _position = position;
             ToolbarScope = scope;
-            _internalName = new AccessKeyRemovingConverter()
-                .Convert(text, typeof(string), null, CultureInfo.CurrentCulture)
-                ?.ToString();
         }
     }
 

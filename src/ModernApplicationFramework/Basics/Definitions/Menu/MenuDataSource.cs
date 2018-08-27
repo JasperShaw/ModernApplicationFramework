@@ -20,6 +20,8 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
             Id = id;
         }
 
+        public override CommandControlTypes UiType => CommandControlTypes.Menu;
+
         public ObservableCollection<CommandBarItemDataSource> Items { get; set; }
 
         private sealed class MenuHeaderCommandDefinition : CommandDefinitionBase
