@@ -1,4 +1,4 @@
-﻿using ModernApplicationFramework.Basics.Definitions.Toolbar;
+﻿using ModernApplicationFramework.Basics.Definitions.CommandBar;
 
 namespace ModernApplicationFramework.Controls.Utilities
 {

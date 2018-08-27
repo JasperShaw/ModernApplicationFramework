@@ -3,7 +3,6 @@ using System.ComponentModel.Composition;
 using System.Windows.Controls;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
-using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.Extended.CommandBar.CommandDefinitions;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.ToolSearch

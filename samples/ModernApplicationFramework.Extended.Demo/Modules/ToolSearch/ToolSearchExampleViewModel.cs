@@ -2,7 +2,6 @@
 using System.Runtime.InteropServices;
 using System.Windows;
 using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
-using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.Basics.Search;
 using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Extended.Utilities.PaneUtilities;

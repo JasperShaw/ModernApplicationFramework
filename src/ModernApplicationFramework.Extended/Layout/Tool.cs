@@ -7,7 +7,6 @@ using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
-using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.Basics.InfoBar;
 using ModernApplicationFramework.Basics.Search;
 using ModernApplicationFramework.Docking.Controls;

@@ -1,5 +1,4 @@
 ﻿using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
-using ModernApplicationFramework.Basics.Definitions.Toolbar;
 
 namespace ModernApplicationFramework.Interfaces
 {

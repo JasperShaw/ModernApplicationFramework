@@ -2,11 +2,10 @@
 using System.Globalization;
 using System.Windows.Controls;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Core.Converters.AccessKey;
 using ModernApplicationFramework.Interfaces;
 
-namespace ModernApplicationFramework.Basics.Definitions.Toolbar
+namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
     /// <inheritdoc cref="CommandBarDataSource" />
     /// <summary>

@@ -630,7 +630,7 @@
     <Compile Include="Basics\Definitions\ContextMenu\ContextMenuDataSource.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuBarDataSource.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuDataSource.cs" />
-    <Compile Include="Basics\Definitions\Toolbar\ToolBarDataSource.cs" />
+    <Compile Include="Basics\Definitions\CommandBar\ToolBarDataSource.cs" />
     <Compile Include="Basics\CommandBar\ToolbarsContextMenuDefinition.cs" />
     <Compile Include="Basics\CommandBar\Commands\CustomizeMenuCommandDefinition.cs" />
     <Compile Include="Basics\CommandBar\Commands\ListToolBarsCommandListDefinition.cs" />

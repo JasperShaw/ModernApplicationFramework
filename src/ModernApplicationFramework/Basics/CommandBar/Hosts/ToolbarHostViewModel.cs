@@ -13,7 +13,6 @@ using ModernApplicationFramework.Basics.CommandBar.Commands;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
-using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.Core.Exception;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces;

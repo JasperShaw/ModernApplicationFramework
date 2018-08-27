@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Controls;
-using ModernApplicationFramework.Basics.Definitions.Toolbar;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar.Elements
 {
