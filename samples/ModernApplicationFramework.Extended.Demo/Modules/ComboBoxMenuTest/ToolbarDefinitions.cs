@@ -41,12 +41,12 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest
             new CommandBarGroup(EditMenu, 0);
 
         [Export]
-        public static CommandBarItemDataSource EditUndoMenuItem =
-            new CommandBarCommandItemDataSource<UndoCommandDefinition>(new Guid("{CDF6B0C1-C783-4B81-8670-07FADD484E9E}"), EditUndoRedoMenuGroup, 0);
+        public static CommandBarItem EditUndoMenuItem =
+            new CommandBarCommandItem<UndoCommandDefinition>(new Guid("{CDF6B0C1-C783-4B81-8670-07FADD484E9E}"), EditUndoRedoMenuGroup, 0);
 
         [Export]
-        public static CommandBarItemDataSource EditRedoMenuItem =
-            new CommandBarCommandItemDataSource<RedoCommandDefinition>(new Guid("{AD040E3F-AEA8-492B-81AB-57A3291CDCC6}"), EditUndoRedoMenuGroup, 0);
+        public static CommandBarItem EditRedoMenuItem =
+            new CommandBarCommandItem<RedoCommandDefinition>(new Guid("{AD040E3F-AEA8-492B-81AB-57A3291CDCC6}"), EditUndoRedoMenuGroup, 0);
 
 
 
@@ -59,8 +59,8 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest
             new CommandBarGroup(EditMenu2, 0);
 
         [Export]
-        public static CommandBarItemDataSource EditRedoMenuItem2 =
-            new CommandBarCommandItemDataSource<RedoCommandDefinition>(new Guid("{A49013A2-6E7A-4158-A15F-8B7C1D648317}"), EditUndoRedoMenuGroup2, 0);
+        public static CommandBarItem EditRedoMenuItem2 =
+            new CommandBarCommandItem<RedoCommandDefinition>(new Guid("{A49013A2-6E7A-4158-A15F-8B7C1D648317}"), EditUndoRedoMenuGroup2, 0);
 
 
 

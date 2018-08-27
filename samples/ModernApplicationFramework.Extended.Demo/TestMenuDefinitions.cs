@@ -17,8 +17,8 @@ namespace ModernApplicationFramework.Extended.Demo
 
         [Export] public static CommandBarGroup TestGroup1 = new CommandBarGroup(TestMenu, int.MaxValue);
 
-        [Export] public static CommandBarItemDataSource TestCommand =
-            new CommandBarCommandItemDataSource<TestCommandDefinition>(
+        [Export] public static CommandBarItem TestCommand =
+            new CommandBarCommandItem<TestCommandDefinition>(
                 new Guid("{3C4FD58F-7EF4-4E0F-A993-8E0349850395}"), TestGroup1, 1);
 
         [Export] public static CommandBarItem TestSub =
@@ -27,8 +27,8 @@ namespace ModernApplicationFramework.Extended.Demo
 
         [Export] public static CommandBarGroup TestGroup2 = new CommandBarGroup(TestSub, int.MaxValue);
 
-        [Export] public static CommandBarItemDataSource TestSub1 =
-            new CommandBarCommandItemDataSource<UndoCommandDefinition>(
+        [Export] public static CommandBarItem TestSub1 =
+            new CommandBarCommandItem<UndoCommandDefinition>(
                 new Guid("{356C05BB-2635-43A1-B62C-1A07E2FF9671}"), TestGroup2, 0);
 
 
@@ -45,8 +45,8 @@ namespace ModernApplicationFramework.Extended.Demo
 
         [Export] public static CommandBarGroup TestGroup4 = new CommandBarGroup(TestSubSub, int.MaxValue);
 
-        [Export] public static CommandBarItemDataSource TestSubSub1 =
-            new CommandBarCommandItemDataSource<UndoCommandDefinition>(
+        [Export] public static CommandBarItem TestSubSub1 =
+            new CommandBarCommandItem<UndoCommandDefinition>(
                 new Guid("{87570FD3-C180-4588-A3BB-418D3A7F6283}"), TestGroup4, 0);
 
 

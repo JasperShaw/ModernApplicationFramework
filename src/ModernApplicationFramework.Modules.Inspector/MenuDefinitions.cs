@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
 using ModernApplicationFramework.Modules.Inspector.Commands;
 
 namespace ModernApplicationFramework.Modules.Inspector
@@ -9,7 +10,7 @@ namespace ModernApplicationFramework.Modules.Inspector
     {
         [Export] public static CommandBarGroup PropertiesGroup = new CommandBarGroup(Extended.CommandBarDefinitions.TopLevelMenuDefinitions.ViewMenu, int.MaxValue);
 
-        [Export] public static CommandBarItemDataSource Inspector =
-            new CommandBarCommandItemDataSource<OpenInspectorCommandDefinition>(new Guid("{65C35BD5-0961-415B-978A-40B3B7C46378}"), PropertiesGroup, 0);
+        [Export] public static CommandBarItem Inspector =
+            new CommandBarCommandItem<OpenInspectorCommandDefinition>(new Guid("{65C35BD5-0961-415B-978A-40B3B7C46378}"), PropertiesGroup, 0);
     }
 }

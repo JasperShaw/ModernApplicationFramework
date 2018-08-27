@@ -53,43 +53,6 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
                     .Where(x => !host.ExcludedItemDefinitions.Contains(x))
                     .OrderBy(x => x.SortOrder).ToList();
             });
-
-
-            //var list = new List<CommandBarItemDefinition>();
-            //var host = IoC.Get<ICommandBarDefinitionHost>();
-
-            //var groups = host.ItemGroupDefinitions.Where(x => x.Parent == menuDefinition)
-            //    .Where(x => !host.ExcludedItemDefinitions.Contains(x))
-            //    .Where(x => x.Items.Any(y => y.IsVisible))
-            //    .OrderBy(x => x.SortOrder)
-            //    .ToList();
-            //for (var i = 0; i < groups.Count; i++)
-            //{
-            //    var group = groups[i];
-            //    var menuItems = host.ItemDefinitions.Where(x => x.Group == group)
-            //        .Where(x => !host.ExcludedItemDefinitions.Contains(x))
-            //        .OrderBy(x => x.SortOrder);
-            //    if (i > 0 && i <= groups.Count - 1)
-            //    {
-            //        if (options == CommandBarCreationOptions.DisplaySeparatorsOnlyIfGroupNotEmpty)
-            //        {
-            //            if (menuItems.Any(x => x.IsVisible))
-            //            {
-            //                var separatorDefinition = CommandBarSeparatorDefinition.SeparatorDefinition;
-            //                separatorDefinition.Group = groups[i - 1];
-            //                list.Add(separatorDefinition);
-            //            }
-            //        }
-            //        else
-            //        {
-            //            var separatorDefinition = CommandBarSeparatorDefinition.SeparatorDefinition;
-            //            separatorDefinition.Group = groups[i - 1];
-            //            list.Add(separatorDefinition);
-            //        }
-            //    }
-            //    list.AddRange(menuItems);
-            //}
-            //return list;
         }
 
 

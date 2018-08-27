@@ -617,7 +617,6 @@
       <DependentUpon>AddCommandDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Basics\Definitions\CommandBar\ButtonDataSource.cs" />
-    <Compile Include="Basics\Definitions\CommandBar\CommandBarCommandItemDefinitionT.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarDataSource.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarFlags.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarGroup.cs" />

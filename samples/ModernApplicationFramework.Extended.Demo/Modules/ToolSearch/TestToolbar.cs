@@ -15,11 +15,11 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ToolSearch
         [Export] public static CommandBarGroup TestGroup = new CommandBarGroup(TestToolBar, 0);
 
         [Export]
-        public static CommandBarItemDataSource Undo =
-            new CommandBarCommandItemDataSource<UndoCommandDefinition>(Guid.NewGuid(),
+        public static CommandBarItem Undo =
+            new CommandBarCommandItem<UndoCommandDefinition>(Guid.NewGuid(),
                 TestGroup, uint.MinValue);
         [Export]
-        public static CommandBarItemDataSource Options =
-            new CommandBarCommandItemDataSource<OpenSettingsCommandDefinition>(Guid.NewGuid(), TestGroup, 1);
+        public static CommandBarItem Options =
+            new CommandBarCommandItem<OpenSettingsCommandDefinition>(Guid.NewGuid(), TestGroup, 1);
     }
 }

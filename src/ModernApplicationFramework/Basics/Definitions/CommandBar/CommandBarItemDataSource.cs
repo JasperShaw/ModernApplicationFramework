@@ -1,29 +1,13 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Globalization;
-using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Core.Comparers;
 using ModernApplicationFramework.Core.Converters.AccessKey;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces;
-using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
-
-    //TODO Remove
-    public abstract class CommandBarItemDataSource<T> : CommandBarItemDataSource where T : CommandDefinitionBase
-    {
-        protected CommandBarItemDataSource(string text, uint sortOrder, CommandBarGroup group,
-            bool isChecked, bool isCustom, CommandBarFlags flags)
-            : base(text, sortOrder, group, IoC.Get<ICommandService>().GetCommandDefinition(typeof(T)), isCustom, flags)
-        {
-        }
-    }
-
-
-
     /// <inheritdoc cref="CommandBarDataSource" />
     /// <summary>
     /// Fundamental command bar item definition

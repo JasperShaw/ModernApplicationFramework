@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.CommandBar.Commands;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
 using ModernApplicationFramework.Basics.Definitions.ContextMenu;
 
 namespace ModernApplicationFramework.Basics.CommandBar
@@ -18,13 +19,13 @@ namespace ModernApplicationFramework.Basics.CommandBar
         [Export] public static CommandBarGroup ToolBarListGroup =
             new CommandBarGroup(ToolbarsContextMenu, 0);
 
-        [Export] public static CommandBarItemDataSource ToolBarList =
-            new CommandBarCommandItemDataSource<ListToolBarsCommandListDefinition>(new Guid("{35646656-0C32-45F2-9B2E-0CEA296E9698}"), ToolBarListGroup, 0);
+        [Export] public static CommandBarItem ToolBarList =
+            new CommandBarCommandItem<ListToolBarsCommandListDefinition>(new Guid("{35646656-0C32-45F2-9B2E-0CEA296E9698}"), ToolBarListGroup, 0);
 
         [Export] public static CommandBarGroup CustomizeGroup =
             new CommandBarGroup(ToolbarsContextMenu, int.MaxValue);
 
-        [Export] public static CommandBarItemDataSource Customize =
-            new CommandBarCommandItemDataSource<CustomizeMenuCommandDefinition>(new Guid("{1664DE44-25E9-421E-95F9-A50F93575758}"), CustomizeGroup, 0);
+        [Export] public static CommandBarItem Customize =
+            new CommandBarCommandItem<CustomizeMenuCommandDefinition>(new Guid("{1664DE44-25E9-421E-95F9-A50F93575758}"), CustomizeGroup, 0);
     }
 }

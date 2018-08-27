@@ -12,22 +12,14 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     /// <seealso cref="T:System.ComponentModel.INotifyPropertyChanged" />
     public class FlagsDataSource : INotifyPropertyChanged
     {
-        private bool _pict;
-        private bool _pictAndText;
-        private bool _textOnly;
-        private uint _allFlags;
-        private bool _stretchHorizontally;
-        private bool _textIsAnchor;
-        private bool _fixMenuController;
-        private bool _filterKeys;
-        private bool _comboCommitsOnDrop;
+        private CommandBarFlags _allFlags;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// All flags currently saved
         /// </summary>
-        public uint AllFlags
+        public CommandBarFlags AllFlags
         {
             get => _allFlags;
             set
@@ -44,12 +36,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         /// </summary>
         public bool Pict
         {
-            get => _pict;
+            get => _allFlags.HasFlag(CommandBarFlags.CommandFlagPict);
             set
             {
-                if (value == _pict)
-                    return;
-                _pict = value;
                 SetFlag(CommandBarFlags.CommandFlagPict, value);
                 OnPropertyChanged();
             }
@@ -60,12 +49,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         /// </summary>
         public bool TextOnly
         {
-            get => _textOnly;
+            get => _allFlags.HasFlag(CommandBarFlags.CommandFlagText);
             set
             {
-                if (value == _textOnly)
-                    return;
-                _textOnly = value;
                 SetFlag(CommandBarFlags.CommandFlagText, value);
                 OnPropertyChanged();
             }
@@ -76,12 +62,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         /// </summary>
         public bool PictAndText
         {
-            get => _pictAndText;
+            get => _allFlags.HasFlag(CommandBarFlags.CommandFlagPictAndText);
             set
             {
-                if (value == _pictAndText)
-                    return;
-                _pictAndText = value;
                 SetFlag(CommandBarFlags.CommandFlagPictAndText, value);
                 OnPropertyChanged();
             }
@@ -92,11 +75,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         /// </summary>
         public bool StretchHorizontally
         {
-            get => _stretchHorizontally;
+            get => _allFlags.HasFlag(CommandBarFlags.CommandStretchHorizontally);
             set
             {
-                if (value == _stretchHorizontally) return;
-                _stretchHorizontally = value;
                 SetFlag(CommandBarFlags.CommandStretchHorizontally, value);
                 OnPropertyChanged();
             }
@@ -107,11 +88,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         /// </summary>
         public bool TextIsAnchor
         {
-            get => _textIsAnchor;
+            get => _allFlags.HasFlag(CommandBarFlags.CommandFlagTextIsAnchor);
             set
             {
-                if (value == _textIsAnchor) return;
-                _textIsAnchor = value;
                 SetFlag(CommandBarFlags.CommandFlagTextIsAnchor, value);
                 OnPropertyChanged();
             }
@@ -119,24 +98,19 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
         public bool FixMenuController
         {
-            get => _fixMenuController;
+            get => _allFlags.HasFlag(CommandBarFlags.CommandFlagFixMenuController);
             set
             {
-                if (value == _fixMenuController) return;
-                _fixMenuController = value;
-                SetFlag(CommandBarFlags.CommandFlagTextIsAnchor, value);
+                SetFlag(CommandBarFlags.CommandFlagFixMenuController, value);
                 OnPropertyChanged();
             }
         }
 
         public bool FilterKeys
         {
-            get => _filterKeys;
+            get => _allFlags.HasFlag(CommandBarFlags.CommandFilterKeys);
             set
             {
-                if (value == _filterKeys)
-                    return;
-                _filterKeys = value;
                 SetFlag(CommandBarFlags.CommandFilterKeys, value);
                 OnPropertyChanged();
             }
@@ -144,12 +118,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
         public bool ComboCommitsOnDrop
         {
-            get => _comboCommitsOnDrop;
+            get => _allFlags.HasFlag(CommandBarFlags.CommandFlagComboCommitsOnDrop);
             set
             {
-                if (value == _comboCommitsOnDrop)
-                    return;
-                _comboCommitsOnDrop = value;
                 SetFlag(CommandBarFlags.CommandFlagComboCommitsOnDrop, value);
                 OnPropertyChanged();
             }
@@ -162,37 +133,20 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         public void EnableStyleFlags(CommandBarFlags flagToEnable)
         {
-            switch (flagToEnable)
-            {
-                case CommandBarFlags.CommandFlagNone:
-                    Pict = false;
-                    PictAndText = false;
-                    TextOnly = false;
-                    break;
-                case CommandBarFlags.CommandFlagPict:
-                    Pict = true;
-                    PictAndText = false;
-                    TextOnly = false;
-                    break;
-                case CommandBarFlags.CommandFlagText:
-                    Pict = false;
-                    PictAndText = false;
-                    TextOnly = true;
-                    break;
-                case CommandBarFlags.CommandFlagPictAndText:
-                    Pict = true;
-                    PictAndText = true;
-                    TextOnly = true;
-                    break;
-                case CommandBarFlags.CommandFlagTextIsAnchor:
-                    TextIsAnchor = true;
-                    break;
-                case CommandBarFlags.CommandStretchHorizontally:
-                    StretchHorizontally = true;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            SetFlag(CommandBarFlags.CommandFlagNone, true, false);
+            SetFlag(flagToEnable, true);
+        }
+
+        private void NotifyAll()
+        {
+            OnPropertyChanged(nameof(ComboCommitsOnDrop));
+            OnPropertyChanged(nameof(FilterKeys));
+            OnPropertyChanged(nameof(Pict));
+            OnPropertyChanged(nameof(PictAndText));
+            OnPropertyChanged(nameof(TextOnly));
+            OnPropertyChanged(nameof(TextIsAnchor));
+            OnPropertyChanged(nameof(StretchHorizontally));
+            OnPropertyChanged(nameof(FixMenuController));
         }
 
         [NotifyPropertyChangedInvocator]
@@ -201,11 +155,13 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void SetFlag(CommandBarFlags flag, bool value)
+        private void SetFlag(CommandBarFlags flag, bool value, bool notify = true)
         {
             var allFlags = AllFlags;
-            var commandflags = !value ? allFlags & (uint) ~flag : allFlags | (uint) flag;
+            var commandflags = !value ? allFlags & ~flag : allFlags | flag;
             AllFlags = commandflags;
+            if (notify)
+                NotifyAll();
         }
     }
 }

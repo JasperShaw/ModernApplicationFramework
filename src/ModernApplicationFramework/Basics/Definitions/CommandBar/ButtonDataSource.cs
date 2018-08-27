@@ -8,7 +8,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     /// Simple command bar item
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarItemDefinition" />
-    public class ButtonDataSource : CommandBarItemDataSource
+    internal class ButtonDataSource : CommandBarItemDataSource
     {
         private bool _isChecked;
 
@@ -47,9 +47,10 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         protected void OnCommandChanged(object sender, EventArgs e)
         {
             IsEnabled = InternalCommandDefinition.Command.Enabled;
-            IsVisible = InternalCommandDefinition.Command.Visible;
+            if (!Flags.AllFlags.HasFlag(CommandBarFlags.CommandDefaultInvisible))
+                IsVisible = InternalCommandDefinition.Command.Visible;
             IsChecked = InternalCommandDefinition.Command.Checked;
-            if (((CommandBarFlags) Flags.AllFlags).HasFlag(CommandBarFlags.CommandDynamicVisibility) && !IsEnabled)
+            if (Flags.AllFlags.HasFlag(CommandBarFlags.CommandDynamicVisibility) && !IsEnabled)
                 IsVisible = false;     
         }
     }

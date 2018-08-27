@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
 using ModernApplicationFramework.Extended.CommandBar.CommandDefinitions;
 using ModernApplicationFramework.Extended.CommandBarDefinitions;
 
@@ -8,9 +9,9 @@ namespace ModernApplicationFramework.Extended.CommandBar.MenuDefinitions
 {
     public class MenuBarItemDefinitions
     {
-        [Export] public static CommandBarItemDataSource FullScreenTopMenuItem =
-            new CommandBarCommandItemDataSource<FullScreenCommandDefinition>(new Guid("{53AC01F9-CBA7-49D8-A746-D6FE0B37CF35}"), MainMenuBarDefinition.MainMenuBarGroup,
-                uint.MaxValue, false, true, false, CommandBarFlags.CommandFlagPictAndText);
+        [Export] public static CommandBarItem FullScreenTopMenuItem =
+            new CommandBarCommandItem<FullScreenCommandDefinition>(new Guid("{53AC01F9-CBA7-49D8-A746-D6FE0B37CF35}"), MainMenuBarDefinition.MainMenuBarGroup,
+                uint.MaxValue, CommandBarFlags.CommandFlagPictAndText, false, true);
 
         static MenuBarItemDefinitions()
         {
