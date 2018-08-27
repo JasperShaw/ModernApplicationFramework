@@ -1,4 +1,6 @@
 ﻿using Caliburn.Micro;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.Definitions.CommandBar.Models;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Commands;
 using ModernApplicationFramework.Interfaces.Utilities;
@@ -14,12 +16,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
     {
         public override CommandControlTypes ControlType => CommandControlTypes.SplitDropDown;
 
-        /// <summary>
-        /// The collection of all items of the drop down list
-        /// </summary>
-        public abstract IObservableCollection<IHasTextProperty> Items { get; set; }
-
-        public abstract IStatusStringCreator StatusStringCreator { get; }
+        public abstract SplitButtonModel Model { get; }
     }
 
     public abstract class CommandSplitButtonDefinition<T> : CommandSplitButtonDefinition where T : ICommandDefinitionCommand

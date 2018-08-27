@@ -61,6 +61,7 @@
         <xs:attribute type="xs:byte" name="SortOrder" use="optional"/>
         <xs:attribute type="xs:byte" name="Flags" use="required"/>
         <xs:attribute type="guid" name="Command" use="required"/>
+        <xs:attribute type="xs:string" name="Text" use="optional"/>
         <xs:attribute type="xs:string" name="IsVisible" use="optional"/>
       </xs:extension>
     </xs:simpleContent>
@@ -71,6 +72,7 @@
         <xs:attribute type="guid" name="Id" use="required"/>
         <xs:attribute type="xs:byte" name="SortOrder" use="optional"/>
         <xs:attribute type="xs:byte" name="Flags" use="required"/>
+        <xs:attribute type="xs:string" name="Text" use="optional"/>
         <xs:attribute type="xs:string" name="AnchroItem" use="required"/>
         <xs:attribute type="xs:string" name="IsVisible" use="optional"/>
       </xs:extension>
@@ -97,6 +99,7 @@
     <xs:attribute type="xs:string" name="IsVisible" use="required"/>
     <xs:attribute type="xs:byte" name="PlacementSlot" use="required"/>
     <xs:attribute type="xs:byte" name="SortOrder" use="optional"/>
+    <xs:attribute type="xs:string" name="Text" use="optional"/>
   </xs:complexType>
   <xs:complexType name="ToolbarsType">
     <xs:sequence>

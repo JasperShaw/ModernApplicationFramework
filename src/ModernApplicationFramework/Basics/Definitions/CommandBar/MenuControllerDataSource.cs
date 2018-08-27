@@ -1,69 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
-    /// <inheritdoc />
-    /// <summary>
-    /// Menu controller command bar item definition that contains a <see cref="CommandBarDataSource" />
-    /// </summary>
-    /// <typeparam name="T">The type of the command definition this item should have</typeparam>
-    /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarItemDefinition`1" />
-    public sealed class MenuControllerDataSource<T> : MenuControllerDataSource where T : CommandDefinitionBase
-	{
-	    private string _text;
-	    public override CommandDefinitionBase CommandDefinition { get; }
-
-	    public override string Text
-	    {
-	        get => _text;
-	        set
-	        {
-	            if (value == _text)
-                    return;
-	            IsTextModified = true;
-	            _text = value;
-	            OnPropertyChanged();
-	        }
-	    }
-
-	    public override void Reset()
-	    {
-	        IsTextModified = false;
-	        _text = OriginalText;
-	        UpdateInternalName();
-	        OnPropertyChanged(nameof(Text));
-	        Flags.EnableStyleFlags((CommandBarFlags)OriginalFlagStore.AllFlags);
-        }
-
-        public override Guid Id { get; }
-
-	    public MenuControllerDataSource(Guid id, CommandBarGroup group, uint sortOrder,
-            bool isChecked = false, bool isCustom = false, CommandBarFlags flags = CommandBarFlags.CommandFlagTextIsAnchor)
-            : base(null, sortOrder, group, null, isCustom, isChecked, flags)
-	    {
-	        Id = id;
-
-            CommandDefinition = IoC.Get<ICommandService>().GetCommandDefinition(typeof(T));
-            _text = CommandDefinition.Text;
-            Name = CommandDefinition.Name;
-
-            if (CommandDefinition is CommandMenuControllerDefinition menuControllerDefinition)
-                AnchorItem = menuControllerDefinition.Items.FirstOrDefault();
-        }
-    }
-
-    public abstract class MenuControllerDataSource : CommandBarItemDataSource
+    internal class MenuControllerDataSource : CommandBarItemDataSource
     {
-        private CommandBarItemDataSource _anchorItem;
+        private CommandBarDataSource _anchorItem;
 
-        /// <summary>
-        /// The currently anchored command bar item
-        /// </summary>
-        public CommandBarItemDataSource AnchorItem
+        public CommandBarDataSource AnchorItem
         {
             get => _anchorItem;
             set
@@ -74,9 +20,29 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
-        protected MenuControllerDataSource(string text, uint sortOrder, CommandBarGroup group, CommandDefinitionBase definition, bool isChecked, bool isCustom, CommandBarFlags flags)
-            : base(text, sortOrder, group, definition, isCustom, isChecked, flags)
+        public IEnumerable<CommandBarDataSource> Items { get; }
+
+        public override CommandControlTypes UiType => CommandControlTypes.MenuController;
+
+        public MenuControllerDataSource(Guid id, string text, uint sortOrder, CommandBarGroup group, CommandMenuControllerDefinition itemDefinition,
+            bool isCustom = false, CommandBarFlags flgas = CommandBarFlags.CommandFlagNone)
+            : base(text, sortOrder, group, itemDefinition, isCustom, false, flgas)
         {
+            if (itemDefinition == null)
+                throw new ArgumentNullException(nameof(itemDefinition));
+            Id = id;
+            var items = new List<CommandBarDataSource>();
+            foreach (var valuePair in itemDefinition.Model.Items)
+            {
+                var item = CreateInstance(valuePair.Key);
+                if (valuePair.Value)
+                    item.Flags.FixMenuController = true;
+                items.Add(item);
+            }
+            Items = items;
+            AnchorItem = items.FirstOrDefault();
         }
+
+        public override Guid Id { get; }
     }
 }

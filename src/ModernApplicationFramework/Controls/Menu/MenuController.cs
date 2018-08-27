@@ -73,9 +73,6 @@ namespace ModernApplicationFramework.Controls.Menu
 
         static MenuController()
         {
-            //AnchorItemProperty = DependencyProperty.Register("AnchorItem", typeof(CommandBarItemDataSource),
-            //    typeof(MenuController),
-            //    new FrameworkPropertyMetadata(AnchorItemChanged, CoerceAnchorItemCallback));
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MenuController),
                 new FrameworkPropertyMetadata(typeof(MenuController)));
             EventManager.RegisterClassHandler(typeof(MenuItem), CommandExecutedRoutedEvent,
@@ -162,6 +159,8 @@ namespace ModernApplicationFramework.Controls.Menu
 
         private bool IsAnchorCommandFixed()
         {
+            if (AnchorItem == null)
+                return false;
             return AnchorItem.Flags.FixMenuController;
         }
     }

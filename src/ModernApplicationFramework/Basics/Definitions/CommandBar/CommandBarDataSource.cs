@@ -158,32 +158,6 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
         public abstract Guid Id { get; }
 
-        //protected CommandBarDataSource(CommandBarDataSource inner)
-        //{
-        //    if (inner == null)
-        //        throw new ArgumentNullException(nameof(inner));
-
-        //    _sortOrder = inner.SortOrder;
-        //    _text = inner.Text ?? inner.CommandDefinition.Text;
-        //    OriginalText = inner.Text ?? inner.CommandDefinition.Text;
-        //    _name = inner.Text ?? inner.CommandDefinition.Text;
-        //    CommandDefinition = inner.CommandDefinition;
-        //    IsCustom = inner.IsCustom;
-        //    _isChecked = inner.IsChecked;
-        //    _isVisible = inner.IsVisible;
-        //    IsCustomizable = inner.IsCustomizable;
-        //    ContainedGroups = new List<CommandBarGroupDefinition>();
-        //    Flags.EnableStyleFlags((CommandBarFlags) inner.Flags.AllFlags);
-        //    OriginalFlagStore.EnableStyleFlags((CommandBarFlags) inner.Flags.AllFlags);
-        //    if (inner.CommandDefinition != null)
-        //        inner.CommandDefinition.PropertyChanged += Definition_PropertyChanged;
-        //    if (inner.CommandDefinition is CommandDefinition commandDefinition)
-        //    {
-        //        InternalCommandDefinition = commandDefinition;
-        //        commandDefinition.Command.CommandChanged += OnCommandChanged;
-        //    }
-        //}
-
         protected CommandBarDataSource(string text, uint sortOrder, CommandDefinitionBase definition, bool isCustom, 
             bool isChecked, CommandBarFlags flags = CommandBarFlags.CommandFlagNone)
         {
@@ -207,6 +181,28 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
                 InternalCommandDefinition = commandDefinition;
                 commandDefinition.Command.CommandChanged += OnCommandChanged;
             }
+        }
+
+        internal static CommandBarDataSource CreateInstance<T>(T itemDefinition) where T : CommandDefinitionBase
+        {
+            switch (itemDefinition.ControlType)
+            {
+                case CommandControlTypes.Button:
+                    return new CommandBarCommandItem(Guid.Empty, 0, itemDefinition);
+                case CommandControlTypes.Separator:
+                    return SeparatorDataSource.NewInstance;
+                case CommandControlTypes.SplitDropDown:
+                    return new SplitButtonDataSource(Guid.Empty, itemDefinition.Text, 0, null, itemDefinition as CommandSplitButtonDefinition, false);
+                case CommandControlTypes.Combobox:
+                    return new ComboBoxDataSource(Guid.Empty, itemDefinition.Text, 0, null, itemDefinition as CommandComboBoxDefinition, false);
+                case CommandControlTypes.Menu:
+                    break;
+                case CommandControlTypes.MenuController:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            throw new ArgumentException();
         }
 
         internal CommandDefinition InternalCommandDefinition { get; set; }

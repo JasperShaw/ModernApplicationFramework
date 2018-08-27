@@ -4,9 +4,9 @@ using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using ModernApplicationFramework.Interfaces;
 
-namespace ModernApplicationFramework.Basics.Definitions.CommandBar
+namespace ModernApplicationFramework.Basics.Definitions.CommandBar.Models
 {
-    public class ComboBoxItemModel : IHasTextProperty, IEquatable<IHasTextProperty>
+    public sealed class ComboBoxItemModel : IHasTextProperty, IEquatable<IHasTextProperty>
     {
         private string _text;
 
@@ -29,7 +29,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

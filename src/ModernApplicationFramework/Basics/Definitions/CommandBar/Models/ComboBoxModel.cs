@@ -6,7 +6,7 @@ using JetBrains.Annotations;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Basics.Definitions.CommandBar
+namespace ModernApplicationFramework.Basics.Definitions.CommandBar.Models
 {
     public class ComboBoxModel : INotifyPropertyChanged
     {

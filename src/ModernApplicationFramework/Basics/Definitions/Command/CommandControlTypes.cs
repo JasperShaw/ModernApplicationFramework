@@ -5,11 +5,12 @@
     /// </summary>
     public enum CommandControlTypes
     {
-        Separator,
+        Invalid = -1,
         Button,
+        Separator,
         SplitDropDown,
         Combobox,
         Menu,
-        MenuToolbar
+        MenuController
     }
 }

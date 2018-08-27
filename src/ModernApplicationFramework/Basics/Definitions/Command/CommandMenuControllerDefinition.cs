@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using ModernApplicationFramework.Basics.Definitions.CommandBar;
+﻿using ModernApplicationFramework.Basics.Definitions.CommandBar.Models;
 
 namespace ModernApplicationFramework.Basics.Definitions.Command
 {
@@ -10,12 +9,9 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.Command.CommandDefinitionBase" />
     public abstract class CommandMenuControllerDefinition : CommandDefinitionBase
     {
-        public override CommandControlTypes ControlType => CommandControlTypes.MenuToolbar;
+        public override CommandControlTypes ControlType => CommandControlTypes.MenuController;
 
-        /// <summary>
-        ///     The containing item command definitions
-        /// </summary>
-        public abstract ObservableCollection<CommandBarItemDataSource> Items { get; set; }
+        public abstract MenuControllerModel Model { get; }
 
         public override bool IsList => false;
     }

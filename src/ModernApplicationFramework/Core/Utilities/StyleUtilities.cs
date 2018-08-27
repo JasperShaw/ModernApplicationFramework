@@ -44,7 +44,7 @@ namespace ModernApplicationFramework.Core.Utilities
                 case CommandControlTypes.Menu:
                     key = styleKeySource.MenuStyleKey;
                     break;
-                case CommandControlTypes.MenuToolbar:
+                case CommandControlTypes.MenuController:
                     key = styleKeySource.MenuControllerStyleKey;
                     break;
             }

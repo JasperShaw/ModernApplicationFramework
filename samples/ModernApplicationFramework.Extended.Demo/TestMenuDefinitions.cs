@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Extended.CommandBar.CommandDefinitions;
 using ModernApplicationFramework.Extended.CommandBarDefinitions;
@@ -35,9 +36,11 @@ namespace ModernApplicationFramework.Extended.Demo
         [Export] public static CommandBarItemDataSource TestSubSub =
             new MenuDataSource(new Guid("{BCFA7117-EBEC-4BDB-8FFE-D153F0BF789B}"), TestGroup2, 0, "TestSub", true);
 
-        [Export] public static CommandBarItemDataSource MenuControllerItemMenu =
-            new MenuControllerDataSource<TestMenuControllerDefinition>(
-                new Guid("{A459EAA6-E5B0-474D-8DEB-7353FBB9C15E}"), TestGroup1, uint.MinValue);
+        [Export]
+        public static CommandBarItem MenuControllerItem =
+            new CommandBarMenuController<TestMenuControllerDefinition>(
+                new Guid("{A459EAA6-E5B0-474D-8DEB-7353FBB9C15E}"),
+                TestGroup1, uint.MinValue);
 
         [Export] public static CommandBarGroup TestGroup4 = new CommandBarGroup(TestSubSub, int.MaxValue);
 
@@ -46,9 +49,9 @@ namespace ModernApplicationFramework.Extended.Demo
                 new Guid("{87570FD3-C180-4588-A3BB-418D3A7F6283}"), TestGroup4, 0);
 
 
-        [Export] public static CommandBarItemDataSource SplitItem =
-            new SplitButtonDataSource<MultiUndoCommandDefinition>(
-                new Guid("{D7CBAF7A-724D-427F-8B14-319740835130}"), TestGroup1, 0);
+        //[Export] public static CommandBarItemDataSource SplitItem =
+        //    new SplitButtonDataSource<MultiUndoCommandDefinition>(
+        //        new Guid("{D7CBAF7A-724D-427F-8B14-319740835130}"), TestGroup1, 0);
 
         //[Export] public static CommandBarItemDataSource ComboItem =
         //    new CommandBarComboItem<ComboBoxCommandDefinition>(

@@ -1,15 +1,14 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Globalization;
-using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Creators;
 using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.Definitions.CommandBar.Models;
 using ModernApplicationFramework.Extended.CommandBar.Resources;
 using ModernApplicationFramework.Extended.Commands;
 using ModernApplicationFramework.Extended.UndoRedoManager;
-using ModernApplicationFramework.Interfaces;
-using ModernApplicationFramework.Interfaces.Utilities;
 
 namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
 {
@@ -35,13 +34,12 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
         [ImportingConstructor]
         public MultiUndoCommandDefinition(CommandBarUndoRedoManagerWatcher watcher)
         {
-            Items = watcher.UndoItems;
+            var statusCreator = new NumberStatusStringCreator(Commands_Resources.MultiUndoCommandDefinition_StatusText,
+                Commands_Resources.MultiUndoCommandDefinition_StatusSuffix);
+
+            Model = new SplitButtonModel(watcher.UndoItems,statusCreator);
         }
 
-        public override IObservableCollection<IHasTextProperty> Items { get; set; }
-
-        public override IStatusStringCreator StatusStringCreator =>
-            new NumberStatusStringCreator(Commands_Resources.MultiUndoCommandDefinition_StatusText,
-                Commands_Resources.MultiRedoCommandDefinition_StatusSuffix);
+        public override SplitButtonModel Model { get; }
     }
 }

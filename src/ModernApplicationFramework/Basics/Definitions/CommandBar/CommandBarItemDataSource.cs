@@ -123,31 +123,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
-        public virtual CommandBarItemTypes UiType { get; } = CommandBarItemTypes.Button;
-
-
-        //protected CommandBarItemDataSource(CommandBarItemDataSource inner) : base(inner)
-        //{
-        //    _group = inner.Group;
-        //    _sortOrder = inner.SortOrder;
-        //    _text = inner.Text ?? inner.CommandDefinition.Text;
-
-        //    var internalName = new AccessKeyRemovingConverter()
-        //        .Convert(inner.Text, typeof(string), null, CultureInfo.CurrentCulture)
-        //        ?.ToString();
-
-        //    if (inner.Group?.Parent is IHasInternalName internalNameParent)
-        //    {
-        //        if (string.IsNullOrEmpty(internalNameParent.InternalName))
-        //            return;
-        //        _internalName = internalNameParent.InternalName + " | " + internalName;
-        //        internalNameParent.PropertyChanged += InternalNameParent_PropertyChanged;
-        //    }
-        //    else
-        //    {
-        //        _internalName = internalName;
-        //    }
-        //}
+        public virtual CommandControlTypes UiType { get; } = CommandControlTypes.Button;
 
         protected CommandBarItemDataSource(string text, uint sortOrder, CommandBarGroup group,
             CommandDefinitionBase definition, bool isCustom, bool isChecked, CommandBarFlags flags = CommandBarFlags.CommandFlagNone)

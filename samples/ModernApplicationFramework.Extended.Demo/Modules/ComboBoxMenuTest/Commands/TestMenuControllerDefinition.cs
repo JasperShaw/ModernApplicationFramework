@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.Definitions.CommandBar.Models;
 using ModernApplicationFramework.Extended.CommandBar.CommandDefinitions;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest.Commands
@@ -13,6 +15,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest.Comm
     [Export(typeof(TestMenuControllerDefinition))]
     public sealed class TestMenuControllerDefinition : CommandMenuControllerDefinition
     {
+        private readonly Lazy<MenuControllerModel> _model;
         public override string Name => "MenuController";
         public override string NameUnlocalized => Text;
         public override string Text => "MenuController";
@@ -23,13 +26,14 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest.Comm
 
         public TestMenuControllerDefinition()
         {
-            Items = new ObservableCollection<CommandBarItemDataSource>
+            var items = new List<MenuControllerModel.MenuControllerModelItem>
             {
-                new CommandBarCommandItem(Guid.Empty, int.MaxValue, IoC.Get<UndoCommandDefinition>()),
-                new CommandBarCommandItem(Guid.Empty, 0, IoC.Get<OpenSettingsCommandDefinition>())
+                new MenuControllerModel.MenuControllerModelItem(typeof(UndoCommandDefinition)),
+                new MenuControllerModel.MenuControllerModelItem(typeof(OpenSettingsCommandDefinition))
             };
+            _model = new Lazy<MenuControllerModel>(() => new MenuControllerModel(items));
         }
 
-        public override ObservableCollection<CommandBarItemDataSource> Items { get; set; }
+        public override MenuControllerModel Model => _model.Value;
     }
 }

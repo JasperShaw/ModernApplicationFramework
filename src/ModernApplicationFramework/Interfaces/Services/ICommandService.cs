@@ -35,5 +35,7 @@ namespace ModernApplicationFramework.Interfaces.Services
         ///   The value of  <paramref name="pattern" /> is not <see langword="null" />, an empty string (""), "cl", "cu", "t", "nu", or "nl".
         /// </exception>
         CommandDefinitionBase GetCommandDefinitionBy(string pattern, string input);
+
+        CommandDefinitionBase GetCommandDefinitionById(Guid id);
     }
 }

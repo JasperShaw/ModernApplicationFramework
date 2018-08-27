@@ -18,7 +18,7 @@ namespace ModernApplicationFramework.Basics.Services
         private readonly Dictionary<Type, CommandDefinitionBase> _commandDefinitionsLookup;
 
 #pragma warning disable 649
-        [ImportMany] private CommandDefinitionBase[] _commandDefinitions;
+        [ImportMany] private List<CommandDefinitionBase> _commandDefinitions;
 #pragma warning restore 649
 
         public CommandService()
@@ -34,7 +34,7 @@ namespace ModernApplicationFramework.Basics.Services
         /// <returns></returns>
         public CommandDefinitionBase GetCommandDefinition(Type commandDefinitionType)
         {
-            if (!_commandDefinitionsLookup.TryGetValue(commandDefinitionType, out CommandDefinitionBase commandDefinition))
+            if (!_commandDefinitionsLookup.TryGetValue(commandDefinitionType, out var commandDefinition))
                 commandDefinition = _commandDefinitionsLookup[commandDefinitionType] =
                     _commandDefinitions.First(x => x.GetType() == commandDefinitionType);
             return commandDefinition;
@@ -58,6 +58,12 @@ namespace ModernApplicationFramework.Basics.Services
                     throw new FormatException();
             }
         }
+
+        public CommandDefinitionBase GetCommandDefinitionById(Guid id)
+        {
+            return GetFirst(x => x.Id == id);
+        }
+
 
         private CommandDefinitionBase GetFirst(Func<CommandDefinitionBase, bool> predicate)
         {

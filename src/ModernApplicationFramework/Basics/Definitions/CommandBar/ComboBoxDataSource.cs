@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.CommandBar.Models;
 using ModernApplicationFramework.Controls.ComboBox;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Utilities;
@@ -20,10 +21,10 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         private bool _queryForFocusChange;
         private double _dropDownWidth;
 
-        private ComboBoxModel _model;
         private IHasTextProperty _displayedItem;
         private IObservableCollection<IHasTextProperty> _items;
         private IHasTextProperty _tempItem;
+        private ComboBoxModel _model1;
 
         public string DisplayedText
         {
@@ -115,12 +116,13 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
         public ComboBoxModel Model
         {
-            get => _model;
+            get => _model1;
             set
             {
-                if (Equals(value, _model)) return;
-                _model = value;
+                if (Equals(value, _model1)) return;
+                _model1 = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(Items));
             }
         }
 
@@ -149,28 +151,24 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
-        public override CommandBarItemTypes UiType => CommandBarItemTypes.Combobox;
+        public override CommandControlTypes UiType => CommandControlTypes.Combobox;
 
         public override Guid Id { get; }
 
-        public ComboBoxDataSource(Guid id, string text, uint sortOrder, CommandBarGroup group, CommandDefinitionBase definition, bool isCustom, 
+        public ComboBoxDataSource(Guid id, string text, uint sortOrder, CommandBarGroup group, CommandComboBoxDefinition definition, bool isCustom,
             CommandBarFlags flags = CommandBarFlags.CommandFlagNone) :
             base(text, sortOrder, group, definition, isCustom, false, flags)
         {
-            if (definition is CommandComboBoxDefinition comboBoxDefinition)
-            {
-                Model = comboBoxDefinition.Model;
-                Model.PropertyChanged += ModelOnPropertyChanged;
-                _isEditable = Model.IsEditing;
-                Flags.EnableStyleFlags(flags);
-            }
+            if (definition == null)
+                throw new ArgumentNullException();
+            Model = definition.Model;
+            Model.PropertyChanged += ModelOnPropertyChanged;
+            _isEditable = Model.IsEditing;
             Id = id;
         }
 
         private void ModelOnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            //if (_isUpdating)
-            //    return;
             switch (e.PropertyName)
             {
                 case nameof(Model.SelectedItem):
@@ -249,7 +247,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
                 case FilterKeyMessages.GotFocus:
                     _tempItem = DisplayedItem;
                     return false;
-                case FilterKeyMessages.LostFocus:                      
+                case FilterKeyMessages.LostFocus:
                     return false;
                 case FilterKeyMessages.CharPressed:
                     return Model.FilterTextInput(input);

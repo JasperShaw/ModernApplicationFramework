@@ -6,6 +6,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
 using ModernApplicationFramework.Core.Comparers;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces;
