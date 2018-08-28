@@ -22,7 +22,7 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
         public override string Text => Commands_Resources.CutCommandDefinition_Text;
         public override string ToolTip => Text;
         public override ImageMoniker ImageMonikerSource => Monikers.Cut;
-        public override CommandCategory Category => CommandCategories.EditCommandCategory;
+        public override CommandBarCategory Category => CommandCategories.EditCategory;
         public override Guid Id => new Guid("{E0C9B4B8-C72E-43C4-AE1C-1FF00D3AB4CA}");
 
         public override ReadOnlyCollection<GestureScopeMapping> DefaultGestureScopes => new ReadOnlyCollection<GestureScopeMapping>(new[]

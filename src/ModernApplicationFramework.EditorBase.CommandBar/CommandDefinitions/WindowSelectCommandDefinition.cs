@@ -13,7 +13,7 @@ namespace ModernApplicationFramework.EditorBase.CommandBar.CommandDefinitions
         public override string NameUnlocalized => "Window";
         public override string Text => CommandsResources.WindowSelectCommandText;
         public override string ToolTip => Text;
-        public override CommandCategory Category => CommandCategories.WindowCommandCategory;
+        public override CommandBarCategory Category => CommandCategories.WindowCategory;
         public override Guid Id => new Guid("{40A3EA90-739D-4569-AF50-3C69C7D44438}");
     }
 }

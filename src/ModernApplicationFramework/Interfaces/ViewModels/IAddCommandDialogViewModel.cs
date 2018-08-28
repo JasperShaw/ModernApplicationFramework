@@ -19,7 +19,7 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         /// <summary>
         /// A list of all command categories
         /// </summary>
-		IEnumerable<CommandCategory> Categories { get; }
+		IEnumerable<CommandBarCategory> Categories { get; }
 
         /// <summary>
         /// A list of all available commands
@@ -34,7 +34,7 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         /// <summary>
         /// The currently selected Category
         /// </summary>
-		CommandCategory SelectedCategory { get; set; }
+		CommandBarCategory SelectedCategory { get; set; }
 
         /// <summary>
         /// The currently selected Command

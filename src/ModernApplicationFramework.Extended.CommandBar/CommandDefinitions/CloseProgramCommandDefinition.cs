@@ -28,7 +28,7 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
 
         public override string ToolTip => null;
 
-        public override CommandCategory Category => CommandCategories.FileCommandCategory;
+        public override CommandBarCategory Category => CommandCategories.FileCategory;
         public override Guid Id => new Guid("{78CD7FA8-147F-4464-814B-DB36438145CB}");
 
         public override ReadOnlyCollection<GestureScopeMapping> DefaultGestureScopes => new ReadOnlyCollection<GestureScopeMapping>(new[]

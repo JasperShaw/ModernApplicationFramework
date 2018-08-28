@@ -1,4 +1,5 @@
-﻿using ModernApplicationFramework.Basics.Definitions.CommandBar.Models;
+﻿using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.Definitions.CommandBar.Models;
 
 namespace ModernApplicationFramework.Basics.Definitions.Command
 {

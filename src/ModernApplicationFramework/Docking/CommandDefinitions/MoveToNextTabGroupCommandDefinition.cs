@@ -19,7 +19,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         public override string Text => DockingResources.MoveToNextTabGroupCommandDefinition_Text;
         public override string ToolTip => null;
-        public override CommandCategory Category => CommandCategories.WindowCommandCategory;
+        public override CommandBarCategory Category => CommandCategories.WindowCategory;
         public override Guid Id => new Guid("{5702930A-708C-44EB-9A14-7783FFF3503B}");
     }
 }

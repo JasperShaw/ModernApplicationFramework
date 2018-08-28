@@ -19,7 +19,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         public override string Text => DockingResources.FloatDockedWindowCommandDefinition_Text;
         public override string ToolTip => null;
-        public override CommandCategory Category => CommandCategories.WindowCommandCategory;
+        public override CommandBarCategory Category => CommandCategories.WindowCategory;
         public override Guid Id => new Guid("{A4C7C240-998D-40CF-9BA0-D9BD0AE2BC1D}");
     }
 }

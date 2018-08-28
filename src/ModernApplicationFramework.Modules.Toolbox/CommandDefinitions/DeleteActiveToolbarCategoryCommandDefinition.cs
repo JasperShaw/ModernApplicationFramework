@@ -18,7 +18,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandDefinitions
         public override string Name => ToolboxResources.DeleteCategoryCommand_Name;
         public override string Text => ToolboxResources.DeleteCategoryCommand_Text;
         public override string ToolTip => Text;
-        public override CommandCategory Category => CommandCategories.ToolsCommandCategory;
+        public override CommandBarCategory Category => CommandCategories.ToolsCategory;
         public override Guid Id => new Guid("{2A33CF7A-4C10-4FA7-A766-A45F1661F4DF}");
     }
 }

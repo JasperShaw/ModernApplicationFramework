@@ -24,7 +24,7 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
         public override string ToolTip => Text;
 
         public override ImageMoniker ImageMonikerSource => Monikers.Delete;
-        public override CommandCategory Category => CommandCategories.EditCommandCategory;
+        public override CommandBarCategory Category => CommandCategories.EditCategory;
         public override Guid Id => new Guid("{667CA2DA-8DBD-4D93-8167-007A38A82A2B}");
 
         public override ReadOnlyCollection<GestureScopeMapping> DefaultGestureScopes => new ReadOnlyCollection<GestureScopeMapping>(new[]

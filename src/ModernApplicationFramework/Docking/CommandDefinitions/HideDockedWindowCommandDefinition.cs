@@ -24,7 +24,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         public override ImageMoniker ImageMonikerSource => Monikers.HideToolWindow;
 
-        public override CommandCategory Category => CommandCategories.WindowCommandCategory;
+        public override CommandBarCategory Category => CommandCategories.WindowCategory;
         public override Guid Id => new Guid("{E1BBFA22-EADF-445D-810A-4984E91D17B7}");
     }
 }

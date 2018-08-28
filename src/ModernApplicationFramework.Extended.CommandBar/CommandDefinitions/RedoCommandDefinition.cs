@@ -31,7 +31,7 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
                 CultureInfo.InvariantCulture);
         public override string ToolTip => Text;
 
-        public override CommandCategory Category => CommandCategories.EditCommandCategory;
+        public override CommandBarCategory Category => CommandCategories.EditCategory;
         public override Guid Id => new Guid("{6B8097A9-50BE-4966-83ED-CC3EA25CF5B7}");
     }
 }

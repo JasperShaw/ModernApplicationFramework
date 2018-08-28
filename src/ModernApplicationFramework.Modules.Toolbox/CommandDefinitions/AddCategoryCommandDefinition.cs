@@ -19,7 +19,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandDefinitions
 
         public override string Text => ToolboxResources.AddCategoryCommand_Text;
         public override string ToolTip => Text;
-        public override CommandCategory Category => CommandCategories.ToolsCommandCategory;
+        public override CommandBarCategory Category => CommandCategories.ToolsCategory;
         public override Guid Id => new Guid("{D7D3206E-0BBD-41E4-96DF-07EA57571586}");
     }
 }

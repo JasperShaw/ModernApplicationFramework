@@ -1,5 +1,6 @@
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
+using System.Collections.Generic;
 
 namespace ModernApplicationFramework.Basics.Definitions.Command
 {
@@ -35,6 +36,15 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         {
             return mapping.CommandDefinition == CommandDefinition &&
                    mapping.GestureScopeMapping.Equals(GestureScopeMapping);
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 1580834471;
+            hashCode = hashCode * -1521134295 + EqualityComparer<CommandDefinition>.Default.GetHashCode(CommandDefinition);
+            hashCode = hashCode * -1521134295 + EqualityComparer<GestureScopeMapping>.Default.GetHashCode(GestureScopeMapping);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
+            return hashCode;
         }
     }
 }

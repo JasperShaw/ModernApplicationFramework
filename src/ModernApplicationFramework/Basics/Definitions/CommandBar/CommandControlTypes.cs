@@ -1,4 +1,4 @@
-﻿namespace ModernApplicationFramework.Basics.Definitions.Command
+﻿namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
     /// <summary>
     /// Types of which a definition can be

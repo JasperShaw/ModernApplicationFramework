@@ -23,7 +23,7 @@ namespace ModernApplicationFramework.Editor.Commands
         public override string NameUnlocalized => "CharLeft";
         public override string Text => NameUnlocalized;
         public override string ToolTip => Text;
-        public override CommandCategory Category => CommandCategories.EditCommandCategory;
+        public override CommandBarCategory Category => CommandCategories.EditCategory;
         public override Guid Id => new Guid("{3CBBD74E-9DA9-4D4D-A0BB-77DEB8A6636B}");
 
         public override ReadOnlyCollection<GestureScopeMapping> DefaultGestureScopes => new ReadOnlyCollection<GestureScopeMapping>(new[]

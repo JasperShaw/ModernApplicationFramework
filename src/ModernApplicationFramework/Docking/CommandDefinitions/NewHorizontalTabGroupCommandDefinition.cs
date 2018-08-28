@@ -24,7 +24,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         public override ImageMoniker ImageMonikerSource => Monikers.SplitScreenHorizontal;
 
-        public override CommandCategory Category => CommandCategories.WindowCommandCategory;
+        public override CommandBarCategory Category => CommandCategories.WindowCategory;
         public override Guid Id => new Guid("{4860E5BB-2518-4785-B448-9B8CFE85F13F}");
     }
 }

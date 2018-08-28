@@ -23,7 +23,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
         public override string ToolTip => null;
 
         public override ImageMoniker ImageMonikerSource => Monikers.SplitScreenVertical;
-        public override CommandCategory Category => CommandCategories.WindowCommandCategory;
+        public override CommandBarCategory Category => CommandCategories.WindowCategory;
         public override Guid Id => new Guid("{5667C276-A91F-428A-86A3-7D95814B4B9F}");
     }
 }

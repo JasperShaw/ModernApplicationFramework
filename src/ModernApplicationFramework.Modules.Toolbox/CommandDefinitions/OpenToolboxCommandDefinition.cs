@@ -19,7 +19,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandDefinitions
         public override string NameUnlocalized => "Toolbox";
         public override string Text => ToolboxResources.ToolboxCommandName;
         public override string ToolTip => Text;
-        public override CommandCategory Category => CommandCategories.ViewCommandCategory;
+        public override CommandBarCategory Category => CommandCategories.ViewCategory;
 
         public override ImageMoniker ImageMonikerSource => Monikers.Toolbox;
 

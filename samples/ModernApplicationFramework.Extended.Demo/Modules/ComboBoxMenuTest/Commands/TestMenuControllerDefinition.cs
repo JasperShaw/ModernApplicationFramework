@@ -21,7 +21,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest.Comm
         public override string Text => "MenuController";
         public override string ToolTip => null;
 
-        public override CommandCategory Category => CommandCategories.EditCommandCategory;
+        public override CommandBarCategory Category => CommandCategories.EditCategory;
         public override Guid Id => new Guid("{624FF898-788B-476D-B269-879729431260}");
 
         public TestMenuControllerDefinition()

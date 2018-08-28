@@ -12,7 +12,7 @@ namespace ModernApplicationFramework.WindowManagement.CommandDefinitions
         private string _text;
         public abstract int Index { get; }
 
-        public sealed override CommandCategory Category => CommandCategories.WindowCommandCategory;
+        public sealed override CommandBarCategory Category => CommandCategories.WindowCategory;
 
         public sealed override string Name => string.Format(CultureInfo.CurrentUICulture,
             WindowManagement_Resources.ApplyWindowLayoutCommantDefinition_Name, new object[]

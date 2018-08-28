@@ -17,7 +17,7 @@ namespace ModernApplicationFramework.WindowManagement.CommandDefinitions
             "ApplyWindowLayoutListCommandDefinition_Name",
             CultureInfo.InvariantCulture);
 
-        public override CommandCategory Category => CommandCategories.WindowCommandCategory;
+        public override CommandBarCategory Category => CommandCategories.WindowCategory;
         public override Guid Id => new Guid("{278C1836-FB1F-4B84-920D-86622B1F37C7}");
     }
 }

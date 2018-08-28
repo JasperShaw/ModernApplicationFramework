@@ -16,7 +16,7 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
             Commands_Resources.ResourceManager.GetString("SwitchToDocumentCommandListDefinition_Name",
                 CultureInfo.InvariantCulture);
 
-        public override CommandCategory Category => CommandCategories.WindowCommandCategory;
+        public override CommandBarCategory Category => CommandCategories.WindowCategory;
         public override Guid Id => new Guid("{84279C46-2B2C-4A9B-A06B-6FCFF4487E61}");
     }
 }

@@ -17,7 +17,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandDefinitions
         public override string Name => ToolboxResources.ToolboxNodeUpCommand_Name;
         public override string Text => ToolboxResources.ToolboxNodeUpCommand_Text;
         public override string ToolTip => Text;
-        public override CommandCategory Category => CommandCategories.ToolsCommandCategory;
+        public override CommandBarCategory Category => CommandCategories.ToolsCategory;
         public override Guid Id => new Guid("{3543E589-5D75-4CF5-88BC-254A14578C69}");
     }
 }

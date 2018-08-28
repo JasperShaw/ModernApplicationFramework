@@ -17,7 +17,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.KeyGestureScopeTest
             Command = new LessPriorityCommand();
         }
 
-        public override CommandCategory Category => new CommandCategory("Test");
+        public override CommandBarCategory Category => new CommandBarCategory("Test");
         public override Guid Id => new Guid("{7008D16C-FEE0-421A-AD09-2F299A33987A}");
         public override string Name => "LesserPriorityCommand";
         public override string NameUnlocalized => Name;

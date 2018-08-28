@@ -27,7 +27,7 @@ namespace ModernApplicationFramework.Modules.Output
         public override string Text => "Output";
         public override string ToolTip => "Output";
 
-        public override CommandCategory Category => CommandCategories.ViewCommandCategory;
+        public override CommandBarCategory Category => CommandCategories.ViewCategory;
         public override Guid Id => new Guid("{ED3DC8E1-F15B-4DBD-8C8E-272194C0642D}");
     }
 }

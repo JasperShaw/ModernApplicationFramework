@@ -13,7 +13,7 @@ namespace ModernApplicationFramework.EditorBase.CommandBar.CommandDefinitions
         public override string NameUnlocalized => "Copy Full Path";
         public override string Text => CommandsResources.CopyFullPathCommandText;
         public override string ToolTip => Text;
-        public override CommandCategory Category => CommandCategories.FileCommandCategory;
+        public override CommandBarCategory Category => CommandCategories.FileCategory;
         public override Guid Id => new Guid("{1F2CAB1F-3624-4D2E-9855-4CD6F62F7B13}");
     }
 }

@@ -15,7 +15,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest.Comm
         public override string NameUnlocalized => Name;
         public override string Text => Name;
         public override string ToolTip => "ToolTip Test";
-        public override CommandCategory Category => CommandCategories.FileCommandCategory;
+        public override CommandBarCategory Category => CommandCategories.FileCategory;
         public override Guid Id => new Guid("{832E08A3-3DEB-4E89-913D-798564087985}");
         public override ComboBoxModel Model => TestComboModel.Instance;
     }

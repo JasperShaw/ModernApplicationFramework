@@ -16,7 +16,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandDefinitions
         public override string Name => ToolboxResources.SortItemsAlphabeticallyCommand_Name;
         public override string Text => ToolboxResources.SortItemsAlphabeticallyCommand_Text;
         public override string ToolTip => Text;
-        public override CommandCategory Category => CommandCategories.ToolsCommandCategory;
+        public override CommandBarCategory Category => CommandCategories.ToolsCategory;
         public override Guid Id => new Guid("{A2C9C04A-75EB-44A5-9272-D6B9DEA1D417}");
     }
 }

@@ -11,7 +11,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         public override string Text { get; }
         public override string ToolTip => string.Empty;
 
-        public override CommandCategory Category => null;
+        public override CommandBarCategory Category => null;
         public override Guid Id => Guid.Empty;
 
         public CommandListHandlerDefinition(string text, ICommandDefinitionCommand command)

@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.Globalization;
 using System.Linq;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Commands;

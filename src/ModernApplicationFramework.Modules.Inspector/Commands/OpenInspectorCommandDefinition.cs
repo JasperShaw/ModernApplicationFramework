@@ -29,7 +29,7 @@ namespace ModernApplicationFramework.Modules.Inspector.Commands
         public override string NameUnlocalized => "Inspector";
         public override string ToolTip => "Inspector";
 
-        public override CommandCategory Category => CommandCategories.ViewCommandCategory;
+        public override CommandBarCategory Category => CommandCategories.ViewCategory;
         public override Guid Id => new Guid("{A948FC05-72EF-4309-BF54-E697F42C32D1}");
     }
 

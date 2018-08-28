@@ -8,7 +8,7 @@ namespace ModernApplicationFramework.Core.Comparers
 {
     /// <inheritdoc />
     /// <summary>
-    /// An <see cref="IComparer"/> that compared two <see cref="CommandCategory"/> by name
+    /// An <see cref="IComparer"/> that compared two <see cref="CommandBarCategory"/> by name
     /// </summary>
     /// <seealso cref="T:System.Collections.IComparer" />
     public class CategoryTextComparer : IComparer
@@ -22,7 +22,7 @@ namespace ModernApplicationFramework.Core.Comparers
 
         public int Compare(object x, object y)
         {
-            if (!(x is CommandCategory category1) || !(y is CommandCategory category2))
+            if (!(x is CommandBarCategory category1) || !(y is CommandBarCategory category2))
                 throw new ArgumentException("This converter does not support the provided objects");
             var text1 = category1.Name;
             var text2 = category2.Name;

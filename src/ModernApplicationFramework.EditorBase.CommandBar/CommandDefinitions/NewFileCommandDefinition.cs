@@ -19,7 +19,7 @@ namespace ModernApplicationFramework.EditorBase.CommandBar.CommandDefinitions
     {
         public override ImageMoniker ImageMonikerSource => Monikers.NewFile;
 
-        public override CommandCategory Category => CommandCategories.FileCommandCategory;
+        public override CommandBarCategory Category => CommandCategories.FileCategory;
 
         public override Guid Id => new Guid("{B33B7AA8-2FB6-4F80-88A2-3F97878273F3}");
 

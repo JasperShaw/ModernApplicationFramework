@@ -15,7 +15,7 @@ namespace ModernApplicationFramework.EditorBase.CommandBar.CommandDefinitions
 
         public override string NameUnlocalized =>
             CommandsResources.ResourceManager.GetString("RecentFileListCommand", CultureInfo.InvariantCulture);
-        public override CommandCategory Category => CommandCategories.FileCommandCategory;
+        public override CommandBarCategory Category => CommandCategories.FileCategory;
         public override Guid Id => new Guid("{FFF71602-7C5D-4689-898A-E79D9F1D1AE2}");
     }
 }

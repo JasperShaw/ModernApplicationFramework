@@ -625,8 +625,8 @@
     <Compile Include="Basics\Definitions\CommandBar\ExcludeCommandBarItem.cs" />
     <Compile Include="Basics\Definitions\CommandBar\FlagsDataSource.cs" />
     <Compile Include="Core\Comparers\SortOrderComparer.cs" />
-    <Compile Include="Basics\Definitions\Command\CommandCategory.cs" />
-    <Compile Include="Basics\Definitions\Command\CommandControlTypes.cs" />
+    <Compile Include="Basics\Definitions\Command\CommandBarCategory.cs" />
+    <Compile Include="Basics\Definitions\CommandBar\CommandControlTypes.cs" />
     <Compile Include="Basics\Definitions\CommandBar\SeparatorDataSource.cs" />
     <Compile Include="Basics\Definitions\CommandBar\ContextMenuCategory.cs" />
     <Compile Include="Basics\Definitions\CommandBar\ContextMenuDataSource.cs" />

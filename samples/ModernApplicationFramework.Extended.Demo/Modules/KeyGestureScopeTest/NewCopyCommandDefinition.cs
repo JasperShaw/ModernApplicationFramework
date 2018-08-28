@@ -18,7 +18,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.KeyGestureScopeTest
             Command = new NewCopyCommand();
         }
 
-        public override CommandCategory Category => new CommandCategory("Test");
+        public override CommandBarCategory Category => new CommandBarCategory("Test");
         public override Guid Id => new Guid("{2FBAE249-6E98-463A-AEE8-44B2A106F768}");
         public override string Name => "TestCopyCommand";
         public override string NameUnlocalized => Name;

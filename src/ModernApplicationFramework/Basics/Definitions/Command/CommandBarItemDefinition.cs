@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using JetBrains.Annotations;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Core.Converters.AccessKey;
 
 namespace ModernApplicationFramework.Basics.Definitions.Command
@@ -41,9 +42,9 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         public abstract string ToolTip { get; }
 
         /// <summary>
-        /// The <see cref="CommandCategory"/> of this definition. May be <see langword="null"/>
+        /// The <see cref="CommandBarCategory"/> of this definition. May be <see langword="null"/>
         /// </summary>
-        public abstract CommandCategory Category { get; }
+        public abstract CommandBarCategory Category { get; }
 
         /// <summary>
         /// The type of this definition

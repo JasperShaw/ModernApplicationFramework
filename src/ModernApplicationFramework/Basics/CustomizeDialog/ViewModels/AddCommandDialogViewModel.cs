@@ -23,13 +23,13 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
     [Export(typeof(IAddCommandDialogViewModel))]
     public sealed class AddCommandDialogViewModel : Screen, IAddCommandDialogViewModel
     {
-        private CommandCategory _selectedCategory;
+        private CommandBarCategory _selectedCategory;
         private IEnumerable<CommandBarItemDataSource> _items;
         private CommandBarItemDataSource _selectedItem;
 
         public ICommand OkClickCommand => new Command(ExecuteOkClick);
 
-        public IEnumerable<CommandCategory> Categories { get; }
+        public IEnumerable<CommandBarCategory> Categories { get; }
 
         public IEnumerable<CommandBarItemDefinition> AllCommandDefinitions { get; }
 
@@ -44,7 +44,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             }
         }
 
-        public CommandCategory SelectedCategory
+        public CommandBarCategory SelectedCategory
         {
             get => _selectedCategory;
             set
@@ -73,8 +73,8 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         {
             DisplayName = Customize_Resources.AddCommandPrompt_Title;
 
-            var categories = IoC.GetAll<CommandCategory>();
-            Categories = new List<CommandCategory>(categories);
+            var categories = IoC.GetAll<CommandBarCategory>();
+            Categories = new List<CommandBarCategory>(categories);
             var allCommandDefinitions = IoC.GetAll<CommandBarItemDefinition>();
 
 

@@ -120,7 +120,7 @@ namespace ModernApplicationFramework.WindowManagement.Commands
             public override string NameUnlocalized => string.Empty;
             public override string Text { get; }
             public override string ToolTip => string.Empty;
-            public override CommandCategory Category => null;
+            public override CommandBarCategory Category => null;
             public override Guid Id => new Guid("{16ECEBFA-61B5-4C4E-ABAF-E64D4018B230}");
 
             public ShowLayoutCommandDefinition(string name)
