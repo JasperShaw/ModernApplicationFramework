@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Input;
@@ -93,19 +94,19 @@ namespace ModernApplicationFramework.Basics.CommandBar.Customize.ViewModels
             {
                 if (commandDefinition.Category == SelectedCategory && !(commandDefinition is MenuControllerDefinition))
                 {
-                    //TODO: Split button
-                    //if (commandDefinition.ControlType == CommandControlTypes.SplitDropDown)
-                    //{
-                    //    list.Add(new SplitButtonDataSource(Guid.Empty, commandDefinition.Text, 0, null, commandDefinition, true, false, true));
-                    //}
-                    // TODO: Combobox
-                    //else if (commandDefinition.ControlType == CommandControlTypes.Combobox)
-                    //{
-                    //    list.Add(new CommandBarComboItem(Guid.Empty, commandDefinition.Text, 0, null,
-                    //        commandDefinition, true, false, true));
-                    //}
-                    //else
-                        //list.Add(new ButtonDataSource(Guid.Empty, 0, commandDefinition, true));
+                    if (commandDefinition.ControlType == CommandControlTypes.SplitDropDown)
+                    {
+                        list.Add(new SplitButtonDataSource(Guid.Empty, commandDefinition.Text, 0, null,
+                            commandDefinition as SplitButtonDefinition, true, false));
+                    }
+                    else if (commandDefinition.ControlType == CommandControlTypes.Combobox)
+                    {
+                        list.Add(new ComboBoxDataSource(Guid.Empty, commandDefinition.Text, 0, null,
+                            commandDefinition as ComboBoxDefinition, true));
+                    }
+                    else
+                        list.Add(new ButtonDataSource(Guid.Empty, commandDefinition.Text, 0, null,
+                            commandDefinition as CommandItemDefinitionBase, true, false));
                 }          
             }
             Items = list; //Slower than .ToList but actually fixes the CustomSort not being used
