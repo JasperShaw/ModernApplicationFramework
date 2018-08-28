@@ -7,7 +7,7 @@ using ModernApplicationFramework.Interfaces.Commands;
 
 namespace ModernApplicationFramework.Docking.CommandDefinitions
 {
-    [Export(typeof(CommandDefinitionBase))]
+    [Export(typeof(CommandBarItemDefinition))]
     [Export(typeof(DockWindowCommandDefinition))]
     public sealed class DockWindowCommandDefinition : CommandDefinition<IDockWindowCommand>
     {

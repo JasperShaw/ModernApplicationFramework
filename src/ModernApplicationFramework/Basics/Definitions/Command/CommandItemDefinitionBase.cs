@@ -3,7 +3,7 @@ using ModernApplicationFramework.Imaging.Interop;
 
 namespace ModernApplicationFramework.Basics.Definitions.Command
 {
-    public abstract class CommandItemDefinitionBase : CommandDefinitionBase
+    public abstract class CommandItemDefinitionBase : CommandBarItemDefinition
     {
         /// <summary>
         /// The image moniker of the command definition.

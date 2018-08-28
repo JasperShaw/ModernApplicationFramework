@@ -13,7 +13,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
     /// Basic definition model for command bar elements
     /// </summary>
     /// <seealso cref="T:System.ComponentModel.INotifyPropertyChanged" />
-    public abstract class CommandDefinitionBase : INotifyPropertyChanged
+    public abstract class CommandBarItemDefinition : INotifyPropertyChanged
     {
         protected virtual char Delimiter => '.';
 

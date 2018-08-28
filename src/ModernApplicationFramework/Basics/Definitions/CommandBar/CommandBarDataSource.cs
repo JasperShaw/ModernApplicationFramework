@@ -132,7 +132,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         }
 
         //TODO: Create instance
-        internal static CommandBarDataSource CreateInstance<T>(T itemDefinition) where T : CommandDefinitionBase
+        internal static CommandBarDataSource CreateInstance<T>(T itemDefinition) where T : CommandBarItemDefinition
         {
             switch (itemDefinition.ControlType)
             {

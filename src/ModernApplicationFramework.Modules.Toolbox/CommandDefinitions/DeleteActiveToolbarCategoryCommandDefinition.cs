@@ -8,7 +8,7 @@ using ModernApplicationFramework.Modules.Toolbox.Resources;
 
 namespace ModernApplicationFramework.Modules.Toolbox.CommandDefinitions
 {
-    [Export(typeof(CommandDefinitionBase))]
+    [Export(typeof(CommandBarItemDefinition))]
     [Export(typeof(DeleteActiveToolbarCategoryCommandDefinition))]
     internal class DeleteActiveToolbarCategoryCommandDefinition : CommandDefinition<IDeleteActiveToolbarCategoryCommand>
     {

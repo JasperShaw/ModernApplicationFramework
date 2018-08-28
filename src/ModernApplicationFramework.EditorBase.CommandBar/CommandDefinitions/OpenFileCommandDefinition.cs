@@ -14,7 +14,7 @@ using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.EditorBase.CommandBar.CommandDefinitions
 {
-    [Export(typeof(CommandDefinitionBase))]
+    [Export(typeof(CommandBarItemDefinition))]
     [Export(typeof(NewFileCommandDefinition))]
     public class OpenFileCommandDefinition : CommandDefinition<IOpenFileCommand>
     {

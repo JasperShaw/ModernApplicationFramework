@@ -30,7 +30,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
 
         private readonly List<CommandBarDataSource> _excludedCommandBarItems = new List<CommandBarDataSource>();
-        private readonly List<CommandDefinitionBase> _excludedItemDefinitions = new List<CommandDefinitionBase>();
+        private readonly List<CommandBarItemDefinition> _excludedItemDefinitions = new List<CommandBarItemDefinition>();
 
         internal CommandBarDefinitionHost()
         {
@@ -44,7 +44,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
         public IReadOnlyCollection<CommandBarDataSource> ExcludedItemDefinitions => _excludedCommandBarItems;
 
-        public IReadOnlyCollection<CommandDefinitionBase> ExcludedCommandDefinitions => _excludedItemDefinitions;
+        public IReadOnlyCollection<CommandBarItemDefinition> ExcludedCommandDefinitions => _excludedItemDefinitions;
 
         public IReadOnlyList<CommandBarGroup> GetSortedGroupsOfDefinition(CommandBarDataSource definition, bool onlyGroupsWithVisibleItems = true)
         {

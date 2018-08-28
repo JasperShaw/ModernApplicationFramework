@@ -29,7 +29,7 @@ namespace ModernApplicationFramework.Interfaces
         /// <summary>
         /// Collection of excluded command definitions
         /// </summary>
-        IReadOnlyCollection<CommandDefinitionBase> ExcludedCommandDefinitions { get; }
+        IReadOnlyCollection<CommandBarItemDefinition> ExcludedCommandDefinitions { get; }
 
         IReadOnlyList<CommandBarGroup> GetSortedGroupsOfDefinition(CommandBarDataSource definition, bool onlyGroupsWithVisibleItems = true);
 

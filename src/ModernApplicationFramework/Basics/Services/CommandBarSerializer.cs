@@ -26,7 +26,7 @@ namespace ModernApplicationFramework.Basics.Services
         private readonly List<CommandBarDataSource> _allDefinitions = new List<CommandBarDataSource>();
         private ICommandBarDefinitionHost _definitionHost;
         private IEnumerable<CommandBarDataSource> _allCommandBarItems;
-        private IEnumerable<CommandDefinitionBase> _allCommandDefintions;
+        private IEnumerable<CommandBarItemDefinition> _allCommandDefintions;
 
         protected override string RootNode => "CommandBarDefinitions";
 
@@ -118,7 +118,7 @@ namespace ModernApplicationFramework.Basics.Services
             var allToolBars = IoC.GetAll<ToolBarDataSource>();
             var allcontextMenus = IoC.GetAll<ContextMenuDataSource>();
             _allCommandBarItems = _definitionHost.ItemDefinitions;
-            _allCommandDefintions = IoC.GetAll<CommandDefinitionBase>();
+            _allCommandDefintions = IoC.GetAll<CommandBarItemDefinition>();
 
             _allDefinitions.AddRange(allMenuBars);
             _allDefinitions.AddRange(allToolBars);

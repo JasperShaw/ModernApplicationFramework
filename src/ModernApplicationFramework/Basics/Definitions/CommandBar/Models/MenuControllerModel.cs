@@ -8,18 +8,18 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar.Models
 {
     public sealed class MenuControllerModel
     {
-        public IReadOnlyCollection<KeyValuePair<CommandDefinitionBase, bool>> Items;
+        public IReadOnlyCollection<KeyValuePair<CommandBarItemDefinition, bool>> Items;
 
         public MenuControllerModel(IEnumerable<MenuControllerModelItem> definitionTypes)
         {
             var hashSet = new HashSet<MenuControllerModelItem>(definitionTypes);
-            var items = new List<KeyValuePair<CommandDefinitionBase, bool>>();
+            var items = new List<KeyValuePair<CommandBarItemDefinition, bool>>();
             var handler = IoC.Get<ICommandService>();
             foreach (var entry in hashSet)
             {
                 var command = handler.GetCommandDefinition(entry.Type);
                 if (command != null)
-                    items.Add(new KeyValuePair<CommandDefinitionBase, bool>(command, entry.IsFixed));
+                    items.Add(new KeyValuePair<CommandBarItemDefinition, bool>(command, entry.IsFixed));
             }
             Items = items;
         }
@@ -36,7 +36,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar.Models
 
             public MenuControllerModelItem(Type type, bool isFixed)
             {
-                if (!type.IsSubclassOf(typeof(CommandDefinitionBase)))
+                if (!type.IsSubclassOf(typeof(CommandBarItemDefinition)))
                     throw new ArgumentException();
                 Type = type;
                 IsFixed = isFixed;

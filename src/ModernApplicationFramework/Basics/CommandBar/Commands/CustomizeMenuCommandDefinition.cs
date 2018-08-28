@@ -11,7 +11,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Commands
     /// Implementation of the command to open the command bar customize dialog
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.Command.CommandDefinition" />
-    [Export(typeof(CommandDefinitionBase))]
+    [Export(typeof(CommandBarItemDefinition))]
     [Export(typeof(CustomizeMenuCommandDefinition))]
     public sealed class CustomizeMenuCommandDefinition : CommandDefinition<ICustomizeMenuCommand>
     {

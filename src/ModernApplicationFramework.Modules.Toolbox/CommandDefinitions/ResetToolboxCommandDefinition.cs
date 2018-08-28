@@ -8,7 +8,7 @@ using ModernApplicationFramework.Modules.Toolbox.Resources;
 
 namespace ModernApplicationFramework.Modules.Toolbox.CommandDefinitions
 {
-    [Export(typeof(CommandDefinitionBase))]
+    [Export(typeof(CommandBarItemDefinition))]
     internal class ResetToolboxCommandDefinition : CommandDefinition<IResetToolboxCommand>
     {
         public override string NameUnlocalized => ToolboxResources.ResourceManager.GetString(nameof(ToolboxResources.ResetToolboxCommand_Name),

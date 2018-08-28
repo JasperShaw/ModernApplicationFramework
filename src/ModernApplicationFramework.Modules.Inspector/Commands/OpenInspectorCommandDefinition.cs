@@ -13,7 +13,7 @@ using ModernApplicationFramework.Interfaces.Commands;
 
 namespace ModernApplicationFramework.Modules.Inspector.Commands
 {
-    [Export(typeof(CommandDefinitionBase))]
+    [Export(typeof(CommandBarItemDefinition))]
     public sealed class OpenInspectorCommandDefinition : CommandDefinition<IOpenInspectorCommand>
     {
 

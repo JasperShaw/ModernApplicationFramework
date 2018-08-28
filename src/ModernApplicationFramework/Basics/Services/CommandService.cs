@@ -9,21 +9,21 @@ namespace ModernApplicationFramework.Basics.Services
 {
     /// <inheritdoc />
     /// <summary>
-    /// A service to get a <see cref="CommandDefinitionBase" /> by its actual type
+    /// A service to get a <see cref="CommandBarItemDefinition" /> by its actual type
     /// </summary>
     /// <seealso cref="ICommandService" />
     [Export(typeof(ICommandService))]
     public class CommandService : ICommandService
     {
-        private readonly Dictionary<Type, CommandDefinitionBase> _commandDefinitionsLookup;
+        private readonly Dictionary<Type, CommandBarItemDefinition> _commandDefinitionsLookup;
 
 #pragma warning disable 649
-        [ImportMany] private List<CommandDefinitionBase> _commandDefinitions;
+        [ImportMany] private List<CommandBarItemDefinition> _commandDefinitions;
 #pragma warning restore 649
 
         public CommandService()
         {
-            _commandDefinitionsLookup = new Dictionary<Type, CommandDefinitionBase>();
+            _commandDefinitionsLookup = new Dictionary<Type, CommandBarItemDefinition>();
         }
 
         /// <inheritdoc />
@@ -32,7 +32,7 @@ namespace ModernApplicationFramework.Basics.Services
         /// </summary>
         /// <param name="commandDefinitionType">Type of the command definition.</param>
         /// <returns></returns>
-        public CommandDefinitionBase GetCommandDefinition(Type commandDefinitionType)
+        public CommandBarItemDefinition GetCommandDefinition(Type commandDefinitionType)
         {
             if (!_commandDefinitionsLookup.TryGetValue(commandDefinitionType, out var commandDefinition))
                 commandDefinition = _commandDefinitionsLookup[commandDefinitionType] =
@@ -40,7 +40,7 @@ namespace ModernApplicationFramework.Basics.Services
             return commandDefinition;
         }
 
-        public CommandDefinitionBase GetCommandDefinitionBy(string pattern, string input)
+        public CommandBarItemDefinition GetCommandDefinitionBy(string pattern, string input)
         {
             switch (pattern.ToLowerInvariant())
             {
@@ -59,13 +59,13 @@ namespace ModernApplicationFramework.Basics.Services
             }
         }
 
-        public CommandDefinitionBase GetCommandDefinitionById(Guid id)
+        public CommandBarItemDefinition GetCommandDefinitionById(Guid id)
         {
             return GetFirst(x => x.Id == id);
         }
 
 
-        private CommandDefinitionBase GetFirst(Func<CommandDefinitionBase, bool> predicate)
+        private CommandBarItemDefinition GetFirst(Func<CommandBarItemDefinition, bool> predicate)
         {
             return _commandDefinitions.FirstOrDefault(predicate);
         }

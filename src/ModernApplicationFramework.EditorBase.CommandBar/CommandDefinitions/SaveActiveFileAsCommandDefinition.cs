@@ -9,7 +9,7 @@ using ModernApplicationFramework.Extended.Layout;
 
 namespace ModernApplicationFramework.EditorBase.CommandBar.CommandDefinitions
 {
-    [Export(typeof(CommandDefinitionBase))]
+    [Export(typeof(CommandBarItemDefinition))]
     [Export(typeof(SaveActiveFileAsCommandDefinition))]
     public class SaveActiveFileAsCommandDefinition : CommandDefinition<ISaveActiveFileAsCommand>
     {

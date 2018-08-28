@@ -64,7 +64,7 @@ namespace ModernApplicationFramework.Basics.Services
         }
 
         [ImportingConstructor]
-        public KeyGestureService([ImportMany] CommandDefinitionBase[] keyboardShortcuts, [ImportMany] GestureScope[] gestureScopes,
+        public KeyGestureService([ImportMany] CommandBarItemDefinition[] keyboardShortcuts, [ImportMany] GestureScope[] gestureScopes,
             IKeyboardInputService keyboardInputService, IStatusBarDataModelService statusBarDataModelService)
         {
             _gestureScopes = gestureScopes;

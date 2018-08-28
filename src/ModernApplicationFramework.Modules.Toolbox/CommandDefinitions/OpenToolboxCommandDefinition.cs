@@ -13,7 +13,7 @@ using ModernApplicationFramework.Modules.Toolbox.Resources;
 
 namespace ModernApplicationFramework.Modules.Toolbox.CommandDefinitions
 {
-    [Export(typeof(CommandDefinitionBase))]
+    [Export(typeof(CommandBarItemDefinition))]
     internal class OpenToolboxCommandDefinition : CommandDefinition<IOpenToolboxCommand>
     {
         public override string NameUnlocalized => "Toolbox";

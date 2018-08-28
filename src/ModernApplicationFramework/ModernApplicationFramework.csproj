@@ -640,7 +640,7 @@
     <Compile Include="Input\Command\CommandHandlerWrapper.cs" />
     <Compile Include="Basics\Definitions\Command\CommandListDefintion.cs" />
     <Compile Include="Input\Base\AbstractCommandWrapper.cs" />
-    <Compile Include="Basics\Definitions\Command\CommandDefinitionBase.cs" />
+    <Compile Include="Basics\Definitions\Command\CommandBarItemDefinition.cs" />
     <Compile Include="Basics\Definitions\Command\CommandDefinition.cs" />
     <Compile Include="Input\MultiKeyGesture.cs" />
     <Compile Include="Input\MultiKeyGestureConverter.cs" />
@@ -1407,8 +1407,11 @@
     <EmbeddedResource Include="Resources\split.cur" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Basics\CommandBar\Customize\" />
+    <Folder Include="Basics\CommandBar\Definitions\" />
+    <Folder Include="Basics\CommandBar\Elements\" />
+    <Folder Include="Basics\CommandBar\Models\" />
     <Folder Include="Basics\Definitions\CommandBar\Definitions\" />
-    <Folder Include="Basics\Definitions\ContextMenu\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

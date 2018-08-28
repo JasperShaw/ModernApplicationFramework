@@ -10,7 +10,7 @@ using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.KeyGestureScopeTest
 {
-    [Export(typeof(CommandDefinitionBase))]
+    [Export(typeof(CommandBarItemDefinition))]
     public sealed class NewCopyCommandDefinition : CommandDefinition
     {
         public NewCopyCommandDefinition()

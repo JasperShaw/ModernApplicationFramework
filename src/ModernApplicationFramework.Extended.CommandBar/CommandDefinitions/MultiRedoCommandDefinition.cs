@@ -14,7 +14,7 @@ using ModernApplicationFramework.Imaging.Interop;
 
 namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
 {
-    [Export(typeof(CommandDefinitionBase))]
+    [Export(typeof(CommandBarItemDefinition))]
     [Export(typeof(MultiRedoCommandDefinition))]
     public sealed class MultiRedoCommandDefinition : CommandSplitButtonDefinition<IMultiRedoCommand>
     {

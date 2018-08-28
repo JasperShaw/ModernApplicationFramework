@@ -7,7 +7,7 @@ using ModernApplicationFramework.Extended.CommandBar.Resources;
 
 namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
 {
-    [Export(typeof(CommandDefinitionBase))]
+    [Export(typeof(CommandBarItemDefinition))]
     [Export(typeof(SwitchToDocumentCommandListDefinition))]
     public class SwitchToDocumentCommandListDefinition : CommandListDefinition
     {

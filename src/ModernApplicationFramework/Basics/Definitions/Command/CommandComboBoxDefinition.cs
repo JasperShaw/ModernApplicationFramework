@@ -7,7 +7,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
     ///  Special <see cref="T:ModernApplicationFramework.Basics.Definitions.Command.CommandDefinition" /> for combo box commands
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.Command.CommandDefinitionBase" />
-    public abstract class CommandComboBoxDefinition : CommandDefinitionBase
+    public abstract class CommandComboBoxDefinition : CommandBarItemDefinition
     {
         public override CommandControlTypes ControlType => CommandControlTypes.Combobox;
 

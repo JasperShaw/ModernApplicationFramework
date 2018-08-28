@@ -12,7 +12,7 @@ using ModernApplicationFramework.Extended.UndoRedoManager;
 
 namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
 {
-    [Export(typeof(CommandDefinitionBase))]
+    [Export(typeof(CommandBarItemDefinition))]
     [Export(typeof(MultiUndoCommandDefinition))]
     public sealed class MultiUndoCommandDefinition : CommandSplitButtonDefinition<IMultiUndoCommand>
     {

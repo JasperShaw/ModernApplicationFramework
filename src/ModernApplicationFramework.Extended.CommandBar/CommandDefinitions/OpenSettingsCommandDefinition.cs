@@ -10,7 +10,7 @@ using ModernApplicationFramework.Imaging.Interop;
 
 namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
 {
-    [Export(typeof(CommandDefinitionBase))]
+    [Export(typeof(CommandBarItemDefinition))]
     [Export(typeof(OpenSettingsCommandDefinition))]
     public sealed class OpenSettingsCommandDefinition : CommandDefinition<IOpenSettingsCommand>
     {

@@ -7,7 +7,7 @@ using ModernApplicationFramework.Basics.Definitions.CommandBar.Models;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest.Commands
 {
-    [Export(typeof(CommandDefinitionBase))]
+    [Export(typeof(CommandBarItemDefinition))]
     [Export(typeof(ComboBoxCommandDefinition))]
     public class ComboBoxCommandDefinition : CommandComboBoxDefinition
     {

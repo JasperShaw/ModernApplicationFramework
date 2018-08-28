@@ -11,7 +11,7 @@ using ModernApplicationFramework.Extended.CommandBar.CommandDefinitions;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest.Commands
 {
-    [Export(typeof(CommandDefinitionBase))]
+    [Export(typeof(CommandBarItemDefinition))]
     [Export(typeof(TestMenuControllerDefinition))]
     public sealed class TestMenuControllerDefinition : CommandMenuControllerDefinition
     {

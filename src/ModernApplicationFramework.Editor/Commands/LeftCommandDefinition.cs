@@ -11,7 +11,7 @@ using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.Editor.Commands
 {
-    [Export(typeof(CommandDefinitionBase))]
+    [Export(typeof(CommandBarItemDefinition))]
     internal class LeftCommandDefinition : CommandDefinition
     {
         [ImportingConstructor]

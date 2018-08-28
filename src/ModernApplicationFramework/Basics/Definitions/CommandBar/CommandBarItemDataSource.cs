@@ -57,7 +57,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
         internal CommandDefinition InternalCommandDefinition { get; set; }
 
-        public virtual CommandDefinitionBase CommandDefinition { get; }
+        public virtual CommandBarItemDefinition CommandDefinition { get; }
 
         /// <summary>
         /// Indicates whether this item is first of any other in this sub-tree
@@ -130,7 +130,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         }
 
         protected CommandBarItemDataSource(string text, uint sortOrder, CommandBarGroup group,
-            CommandDefinitionBase definition, bool isCustom, CommandBarFlags flags = CommandBarFlags.CommandFlagNone)
+            CommandBarItemDefinition definition, bool isCustom, CommandBarFlags flags = CommandBarFlags.CommandFlagNone)
             : base(text, isCustom, flags)
         {
             _group = group;

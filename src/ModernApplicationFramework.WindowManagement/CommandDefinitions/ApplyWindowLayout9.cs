@@ -8,7 +8,7 @@ using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.WindowManagement.CommandDefinitions
 {
-    [Export(typeof(CommandDefinitionBase))]
+    [Export(typeof(CommandBarItemDefinition))]
     [Export(typeof(ApplyWindowLayout9))]
     public sealed class ApplyWindowLayout9 : ApplyWindowLayoutBase
     {

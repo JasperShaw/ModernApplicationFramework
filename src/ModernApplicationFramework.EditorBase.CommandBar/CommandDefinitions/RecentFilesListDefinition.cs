@@ -7,7 +7,7 @@ using ModernApplicationFramework.EditorBase.CommandBar.Resources;
 
 namespace ModernApplicationFramework.EditorBase.CommandBar.CommandDefinitions
 {
-    [Export(typeof(CommandDefinitionBase))]
+    [Export(typeof(CommandBarItemDefinition))]
     [Export(typeof(RecentFilesListDefinition))]
     public class RecentFilesListDefinition : CommandListDefinition
     {

@@ -7,7 +7,7 @@ using ModernApplicationFramework.Interfaces.Commands;
 
 namespace ModernApplicationFramework.Docking.CommandDefinitions
 {
-    [Export(typeof(CommandDefinitionBase))]
+    [Export(typeof(CommandBarItemDefinition))]
     [Export(typeof(MoveToPreviousTabGroupCommandDefinition))]
     public sealed class MoveToPreviousTabGroupCommandDefinition : CommandDefinition<IMoveToPreviousTabGroupCommand>
     {

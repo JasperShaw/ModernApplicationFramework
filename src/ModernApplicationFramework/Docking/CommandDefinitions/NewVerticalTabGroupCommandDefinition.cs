@@ -9,7 +9,7 @@ using ModernApplicationFramework.Interfaces.Commands;
 
 namespace ModernApplicationFramework.Docking.CommandDefinitions
 {
-    [Export(typeof(CommandDefinitionBase))]
+    [Export(typeof(CommandBarItemDefinition))]
     [Export(typeof(NewVerticalTabGroupCommandDefinition))]
     public sealed class NewVerticalTabGroupCommandDefinition : CommandDefinition<INewVerticalTabGroupCommand>
     {

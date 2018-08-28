@@ -31,7 +31,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 
         public IEnumerable<CommandCategory> Categories { get; }
 
-        public IEnumerable<CommandDefinitionBase> AllCommandDefinitions { get; }
+        public IEnumerable<CommandBarItemDefinition> AllCommandDefinitions { get; }
 
         public IEnumerable<CommandBarItemDataSource> Items
         {
@@ -75,13 +75,13 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 
             var categories = IoC.GetAll<CommandCategory>();
             Categories = new List<CommandCategory>(categories);
-            var allCommandDefinitions = IoC.GetAll<CommandDefinitionBase>();
+            var allCommandDefinitions = IoC.GetAll<CommandBarItemDefinition>();
 
 
             var definitionHost = IoC.Get<ICommandBarDefinitionHost>();
             var commandToAdd = allCommandDefinitions.Where(x => !definitionHost.ExcludedCommandDefinitions.Contains(x));
 
-            AllCommandDefinitions = new List<CommandDefinitionBase>(commandToAdd);
+            AllCommandDefinitions = new List<CommandBarItemDefinition>(commandToAdd);
             //Items = new List<CommandBarItemDefinition>();
         }
 

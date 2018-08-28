@@ -16,7 +16,7 @@ using Brushes = System.Windows.Media.Brushes;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.Commands
 {
-    [Export(typeof(CommandDefinitionBase))]
+    [Export(typeof(CommandBarItemDefinition))]
     public sealed class TestCommandDefinition : CommandDefinition
     {
         public TestCommandDefinition()

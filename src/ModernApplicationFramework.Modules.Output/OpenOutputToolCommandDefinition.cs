@@ -12,7 +12,7 @@ using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.Modules.Output
 {
-    [Export(typeof(CommandDefinitionBase))]
+    [Export(typeof(CommandBarItemDefinition))]
     public sealed class OpenOutputToolCommandDefinition : CommandDefinition<IOpenOutputToolCommand>
     {
         public override ReadOnlyCollection<GestureScopeMapping> DefaultGestureScopes => new ReadOnlyCollection<GestureScopeMapping>(new[]

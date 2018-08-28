@@ -14,7 +14,7 @@ using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
 {
-    [Export(typeof(CommandDefinitionBase))]
+    [Export(typeof(CommandBarItemDefinition))]
     public class CutCommandDefinition : CommandDefinition<ICutCommand>
     {
         public override string NameUnlocalized => Commands_Resources.ResourceManager.GetString(nameof(Commands_Resources.CutCommandDefinition_Text),

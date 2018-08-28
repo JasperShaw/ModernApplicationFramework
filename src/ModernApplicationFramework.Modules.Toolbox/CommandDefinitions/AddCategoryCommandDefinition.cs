@@ -8,7 +8,7 @@ using ModernApplicationFramework.Modules.Toolbox.Resources;
 
 namespace ModernApplicationFramework.Modules.Toolbox.CommandDefinitions
 {
-    [Export(typeof(CommandDefinitionBase))]
+    [Export(typeof(CommandBarItemDefinition))]
     internal class AddCategoryCommandDefinition : CommandDefinition<IAddCategoryCommand>
     {
         public override string Name => ToolboxResources.AddCategoryCommand_Name;

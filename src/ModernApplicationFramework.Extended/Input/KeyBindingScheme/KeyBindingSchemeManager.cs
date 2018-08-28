@@ -53,7 +53,7 @@ namespace ModernApplicationFramework.Extended.Input.KeyBindingScheme
 
             public override KeyBindingScheme Load()
             {
-                var commands = IoC.GetAll<CommandDefinitionBase>().OfType<CommandDefinition>();
+                var commands = IoC.GetAll<CommandBarItemDefinition>().OfType<CommandDefinition>();
             
 
                 //var possibleCommads = commands.Where(x => x.DefaultKeyGestures != null || x.DefaultGestureScope != null);

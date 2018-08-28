@@ -24,7 +24,7 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         /// <summary>
         /// A list of all available commands
         /// </summary>
-		IEnumerable<CommandDefinitionBase> AllCommandDefinitions { get; }
+		IEnumerable<CommandBarItemDefinition> AllCommandDefinitions { get; }
 
         /// <summary>
         /// A list of all commands fitting to the <see cref="SelectedCategory"/>

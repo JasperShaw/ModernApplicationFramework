@@ -15,7 +15,7 @@ using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.EditorBase.CommandBar.CommandDefinitions
 {
-    [Export(typeof(CommandDefinitionBase))]
+    [Export(typeof(CommandBarItemDefinition))]
     [Export(typeof(SaveActiveFileCommandDefinition))]
     public class SaveActiveFileCommandDefinition : CommandDefinition<ISaveActiveFileCommand>
     {

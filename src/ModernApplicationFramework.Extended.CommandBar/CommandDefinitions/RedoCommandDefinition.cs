@@ -14,7 +14,7 @@ using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
 {
-    [Export(typeof(CommandDefinitionBase))]
+    [Export(typeof(CommandBarItemDefinition))]
     [Export(typeof(RedoCommandDefinition))]
     public sealed class RedoCommandDefinition : CommandDefinition<IRedoCommand>
     {

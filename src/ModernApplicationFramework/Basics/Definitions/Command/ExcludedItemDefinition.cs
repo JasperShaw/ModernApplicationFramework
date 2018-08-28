@@ -1,16 +1,16 @@
 ﻿namespace ModernApplicationFramework.Basics.Definitions.Command
 {
     /// <summary>
-    /// Container that contains a <see cref="CommandDefinitionBase"/> that should be ignored by the application
+    /// Container that contains a <see cref="CommandBarItemDefinition"/> that should be ignored by the application
     /// </summary>
     public class ExcludedItemDefinition
     {
         /// <summary>
         /// The excluded definition
         /// </summary>
-        public CommandDefinitionBase ExcludedDefinition { get; }
+        public CommandBarItemDefinition ExcludedDefinition { get; }
 
-        public ExcludedItemDefinition(CommandDefinitionBase excludedDefinition)
+        public ExcludedItemDefinition(CommandBarItemDefinition excludedDefinition)
         {
             ExcludedDefinition = excludedDefinition;
         }

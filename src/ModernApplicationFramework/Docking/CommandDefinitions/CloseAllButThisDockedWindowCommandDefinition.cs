@@ -7,7 +7,7 @@ using ModernApplicationFramework.Interfaces.Commands;
 
 namespace ModernApplicationFramework.Docking.CommandDefinitions
 {
-    [Export(typeof(CommandDefinitionBase))]
+    [Export(typeof(CommandBarItemDefinition))]
     [Export(typeof(CloseAllButThisDockedWindowCommandDefinition))]
     public sealed class CloseAllButThisDockedWindowCommandDefinition : CommandDefinition<ICloseAllButThisDockedWindowCommand>
     {

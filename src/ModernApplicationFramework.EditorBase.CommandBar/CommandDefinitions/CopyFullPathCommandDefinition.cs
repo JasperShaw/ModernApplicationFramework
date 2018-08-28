@@ -7,7 +7,7 @@ using ModernApplicationFramework.EditorBase.Interfaces.Commands;
 
 namespace ModernApplicationFramework.EditorBase.CommandBar.CommandDefinitions
 {
-    [Export(typeof(CommandDefinitionBase))]
+    [Export(typeof(CommandBarItemDefinition))]
     public class CopyFullPathCommandDefinition : CommandDefinition<ICopyFullPathCommand>
     {
         public override string NameUnlocalized => "Copy Full Path";

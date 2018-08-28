@@ -8,7 +8,7 @@ using ModernApplicationFramework.WindowManagement.Properties;
 
 namespace ModernApplicationFramework.WindowManagement.CommandDefinitions
 {
-    [Export(typeof(CommandDefinitionBase))]
+    [Export(typeof(CommandBarItemDefinition))]
     [Export(typeof(ManageLayoutCommandDefinition))]
     public sealed class ManageLayoutCommandDefinition : CommandDefinition<IManageLayoutCommand>
     {
