@@ -1,4 +1,4 @@
-﻿using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
+﻿using ModernApplicationFramework.Basics.CommandBar.Elements;
 
 namespace ModernApplicationFramework.Interfaces
 {

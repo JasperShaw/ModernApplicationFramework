@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
+using ModernApplicationFramework.Basics.CommandBar.Elements;
 using ModernApplicationFramework.Modules.Toolbox.CommandDefinitions;
 
 namespace ModernApplicationFramework.Modules.Toolbox.CommandBar

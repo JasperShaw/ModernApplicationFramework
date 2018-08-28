@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
+using ModernApplicationFramework.Basics.CommandBar.Elements;
 using ModernApplicationFramework.Basics.InfoBar;
 using ModernApplicationFramework.Basics.Search;
 using ModernApplicationFramework.Docking.Controls;

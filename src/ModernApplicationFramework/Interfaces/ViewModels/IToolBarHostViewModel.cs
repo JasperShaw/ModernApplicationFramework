@@ -1,6 +1,5 @@
 ﻿using System.Windows.Input;
-using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
+using ModernApplicationFramework.Basics.CommandBar.DataSources;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Controls.Menu;
 

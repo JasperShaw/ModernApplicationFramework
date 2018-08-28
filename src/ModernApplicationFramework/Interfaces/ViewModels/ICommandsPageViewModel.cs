@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Input;
+using ModernApplicationFramework.Basics.CommandBar.DataSources;
 using ModernApplicationFramework.Basics.CustomizeDialog.ViewModels;
-using ModernApplicationFramework.Basics.Definitions.CommandBar;
 
 namespace ModernApplicationFramework.Interfaces.ViewModels
 {

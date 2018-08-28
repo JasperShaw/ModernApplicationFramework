@@ -4,9 +4,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
-using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Basics.Definitions.CommandBar.Models;
-using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
+using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
+using ModernApplicationFramework.Basics.CommandBar.Models;
 using ModernApplicationFramework.Extended.CommandBar.CommandDefinitions;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest.Commands

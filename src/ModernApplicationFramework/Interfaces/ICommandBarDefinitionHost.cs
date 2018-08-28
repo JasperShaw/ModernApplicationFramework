@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
+using ModernApplicationFramework.Basics.CommandBar;
+using ModernApplicationFramework.Basics.CommandBar.DataSources;
+using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 
 namespace ModernApplicationFramework.Interfaces
 {

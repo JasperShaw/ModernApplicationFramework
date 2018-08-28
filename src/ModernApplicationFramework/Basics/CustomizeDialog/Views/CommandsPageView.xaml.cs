@@ -1,6 +1,6 @@
 ﻿using System.Windows;
+using ModernApplicationFramework.Basics.CommandBar;
 using ModernApplicationFramework.Basics.CustomizeDialog.ViewModels;
-using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Controls.Buttons;
 using ModernApplicationFramework.Controls.ListBoxes;

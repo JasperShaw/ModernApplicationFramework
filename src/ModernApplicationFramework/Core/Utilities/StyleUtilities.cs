@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.CommandBar;
+using ModernApplicationFramework.Basics.CommandBar.DataSources;
 using ModernApplicationFramework.Interfaces.Controls;
 
 namespace ModernApplicationFramework.Core.Utilities

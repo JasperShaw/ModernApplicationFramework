@@ -2,7 +2,6 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:buttons="clr-namespace:ModernApplicationFramework.Controls.Buttons"
-             xmlns:commandBar="clr-namespace:ModernApplicationFramework.Basics.Definitions.CommandBar"
              xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
              xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
@@ -17,6 +16,7 @@
              xmlns:menu="clr-namespace:ModernApplicationFramework.Controls.Menu"
              xmlns:properties="clr-namespace:ModernApplicationFramework.Properties"
              xmlns:validationRules="clr-namespace:ModernApplicationFramework.Core.ValidationRules"
+             xmlns:commandBar="clr-namespace:ModernApplicationFramework.Basics.CommandBar"
              d:DesignHeight="400"
              d:DesignWidth="360"
              mc:Ignorable="d">

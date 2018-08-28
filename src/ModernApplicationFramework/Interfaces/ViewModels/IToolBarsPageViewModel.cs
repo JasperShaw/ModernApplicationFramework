@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.CommandBar.DataSources;
 
 namespace ModernApplicationFramework.Interfaces.ViewModels
 {

@@ -2,8 +2,9 @@
 using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Data;
-using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
+using ModernApplicationFramework.Basics.CommandBar;
+using ModernApplicationFramework.Basics.CommandBar.DataSources;
+using ModernApplicationFramework.Basics.CommandBar.Elements;
 using ModernApplicationFramework.Controls.Windows;
 using ModernApplicationFramework.Extended.CommandBar.CommandDefinitions;
 using ModernApplicationFramework.Extended.CommandBarDefinitions;

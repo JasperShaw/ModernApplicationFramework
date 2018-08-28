@@ -1,4 +1,4 @@
-using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
+using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 using ModernApplicationFramework.Basics.Services;
 using ModernApplicationFramework.Controls.Utilities;
 using ModernApplicationFramework.Extended.Input.KeyBindingScheme;

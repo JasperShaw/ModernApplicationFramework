@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.CommandBar;
+using ModernApplicationFramework.Basics.CommandBar.DataSources;
 using ContextMenu = ModernApplicationFramework.Controls.Menu.ContextMenu;
 
 namespace ModernApplicationFramework.Interfaces.Utilities

@@ -5,7 +5,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using JetBrains.Annotations;
-using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.CommandBar.DataSources;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Utilities;
 

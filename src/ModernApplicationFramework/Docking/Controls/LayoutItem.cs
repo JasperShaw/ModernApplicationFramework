@@ -25,7 +25,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml.Serialization;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.CommandBar.DataSources;
 using ModernApplicationFramework.Basics.Search;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Controls.InfoBar;

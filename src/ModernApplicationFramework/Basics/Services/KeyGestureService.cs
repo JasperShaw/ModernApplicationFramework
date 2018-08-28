@@ -8,7 +8,7 @@ using System.Media;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
-using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
+using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces;

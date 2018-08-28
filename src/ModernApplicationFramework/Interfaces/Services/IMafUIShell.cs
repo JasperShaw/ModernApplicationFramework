@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Native.Platform.Structs;
 
 namespace ModernApplicationFramework.Interfaces.Services

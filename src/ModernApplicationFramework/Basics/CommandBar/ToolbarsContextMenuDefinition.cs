@@ -1,8 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.CommandBar.Commands;
-using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
+using ModernApplicationFramework.Basics.CommandBar.Elements;
 
 namespace ModernApplicationFramework.Basics.CommandBar
 {

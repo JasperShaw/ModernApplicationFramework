@@ -4,7 +4,7 @@ using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
-using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
+using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 using ModernApplicationFramework.Extended.CommandBar.Resources;
 using ModernApplicationFramework.Extended.Commands;
 using ModernApplicationFramework.ImageCatalog;

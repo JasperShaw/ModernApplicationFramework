@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
+using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 using ModernApplicationFramework.Extended.Demo.Modules.UndoRedoTest;
 using ModernApplicationFramework.Imaging;
 using ModernApplicationFramework.Input;

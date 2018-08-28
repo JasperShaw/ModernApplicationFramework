@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
+using ModernApplicationFramework.Basics.CommandBar.Elements;
 
 namespace ModernApplicationFramework.Modules.Output
 {

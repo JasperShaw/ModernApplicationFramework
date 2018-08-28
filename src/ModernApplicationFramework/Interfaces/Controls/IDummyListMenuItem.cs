@@ -1,4 +1,4 @@
-﻿using ModernApplicationFramework.Basics.Definitions.CommandBar;
+﻿using ModernApplicationFramework.Basics.CommandBar.DataSources;
 using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.Interfaces.Controls

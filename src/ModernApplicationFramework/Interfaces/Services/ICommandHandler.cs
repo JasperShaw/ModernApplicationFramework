@@ -1,4 +1,4 @@
-﻿using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
+﻿using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 
 namespace ModernApplicationFramework.Interfaces.Services
 {

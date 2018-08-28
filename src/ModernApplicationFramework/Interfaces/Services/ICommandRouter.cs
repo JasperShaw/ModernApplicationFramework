@@ -1,4 +1,4 @@
-﻿using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
+﻿using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.Interfaces.Services

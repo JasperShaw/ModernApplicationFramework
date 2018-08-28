@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
-using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
+using ModernApplicationFramework.Basics.CommandBar.DataSources;
+using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 
 namespace ModernApplicationFramework.Core.Converters
 {

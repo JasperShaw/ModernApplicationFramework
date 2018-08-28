@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
+using ModernApplicationFramework.Basics.CommandBar;
+using ModernApplicationFramework.Basics.CommandBar.Elements;
 using ModernApplicationFramework.EditorBase.CommandBar.CommandDefinitions;
-using ModernApplicationFramework.EditorBase.CommandBar.Resources;
+using CommandBarResources = ModernApplicationFramework.EditorBase.CommandBar.Resources.CommandBarResources;
 
 namespace ModernApplicationFramework.EditorBase.CommandBar.MenuDefinitions
 {

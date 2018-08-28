@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Controls;
 using System.Windows.Data;
-using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.CommandBar.DataSources;
 
 namespace ModernApplicationFramework.Core.ValidationRules
 {

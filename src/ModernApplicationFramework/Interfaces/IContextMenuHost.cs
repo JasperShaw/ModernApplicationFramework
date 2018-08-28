@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
+using ModernApplicationFramework.Basics.CommandBar.Elements;
 using ModernApplicationFramework.Controls.Menu;
 using ModernApplicationFramework.Interfaces.ViewModels;
 
