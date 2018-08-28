@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
 

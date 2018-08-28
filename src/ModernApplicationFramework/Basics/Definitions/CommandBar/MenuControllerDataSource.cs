@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
@@ -24,7 +24,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
         public override CommandControlTypes UiType => CommandControlTypes.MenuController;
 
-        public MenuControllerDataSource(Guid id, string text, uint sortOrder, CommandBarGroup group, CommandMenuControllerDefinition itemDefinition,
+        public MenuControllerDataSource(Guid id, string text, uint sortOrder, CommandBarGroup group, MenuControllerDefinition itemDefinition,
             bool isCustom = false, CommandBarFlags flgas = CommandBarFlags.CommandFlagNone)
             : base(text, sortOrder, group, itemDefinition, isCustom, flgas)
         {

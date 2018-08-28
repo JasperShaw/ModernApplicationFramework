@@ -3,9 +3,9 @@ using System.ComponentModel.Composition;
 using System.Globalization;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Creators;
-using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.CommandBar.Models;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 using ModernApplicationFramework.Extended.CommandBar.Resources;
 using ModernApplicationFramework.Extended.Commands;
 using ModernApplicationFramework.Extended.UndoRedoManager;
@@ -13,8 +13,8 @@ using ModernApplicationFramework.Extended.UndoRedoManager;
 namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
 {
     [Export(typeof(CommandBarItemDefinition))]
-    [Export(typeof(MultiUndoCommandDefinition))]
-    public sealed class MultiUndoCommandDefinition : CommandSplitButtonDefinition<IMultiUndoCommand>
+    [Export(typeof(MultiUndoDefinition))]
+    public sealed class MultiUndoDefinition : SplitButtonDefinition<IMultiUndoCommand>
     {
         public override Imaging.Interop.ImageMoniker ImageMonikerSource => ImageCatalog.Monikers.Undo;
 
@@ -32,7 +32,7 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
         public override bool AllowGestureMapping => false;
 
         [ImportingConstructor]
-        public MultiUndoCommandDefinition(CommandBarUndoRedoManagerWatcher watcher)
+        public MultiUndoDefinition(CommandBarUndoRedoManagerWatcher watcher)
         {
             var statusCreator = new NumberStatusStringCreator(Commands_Resources.MultiUndoCommandDefinition_StatusText,
                 Commands_Resources.MultiUndoCommandDefinition_StatusSuffix);

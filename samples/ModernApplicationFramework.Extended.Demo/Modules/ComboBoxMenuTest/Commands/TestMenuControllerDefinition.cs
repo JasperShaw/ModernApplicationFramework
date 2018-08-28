@@ -4,16 +4,16 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
-using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.CommandBar.Models;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 using ModernApplicationFramework.Extended.CommandBar.CommandDefinitions;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest.Commands
 {
     [Export(typeof(CommandBarItemDefinition))]
     [Export(typeof(TestMenuControllerDefinition))]
-    public sealed class TestMenuControllerDefinition : CommandMenuControllerDefinition
+    public sealed class TestMenuControllerDefinition : MenuControllerDefinition
     {
         private readonly Lazy<MenuControllerModel> _model;
         public override string Name => "MenuController";

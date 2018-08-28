@@ -1,5 +1,5 @@
 ﻿using System;
-using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
@@ -47,9 +47,13 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         protected void OnCommandChanged(object sender, EventArgs e)
         {
             IsEnabled = InternalCommandDefinition.Command.Enabled;
+
             if (!Flags.AllFlags.HasFlag(CommandBarFlags.CommandDefaultInvisible))
                 IsVisible = InternalCommandDefinition.Command.Visible;
-            IsChecked = InternalCommandDefinition.Command.Checked;
+
+            if (Checkable)
+                IsChecked = InternalCommandDefinition.Command.Checked;
+
             if (Flags.AllFlags.HasFlag(CommandBarFlags.CommandDynamicVisibility) && !IsEnabled)
                 IsVisible = false;
         }

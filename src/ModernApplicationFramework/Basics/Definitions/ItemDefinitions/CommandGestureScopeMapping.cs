@@ -1,8 +1,8 @@
+using System.Collections.Generic;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
-using System.Collections.Generic;
 
-namespace ModernApplicationFramework.Basics.Definitions.Command
+namespace ModernApplicationFramework.Basics.Definitions.ItemDefinitions
 {
     public class CommandGestureScopeMapping
     {

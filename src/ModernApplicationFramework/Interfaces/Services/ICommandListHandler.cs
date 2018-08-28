@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 
 namespace ModernApplicationFramework.Interfaces.Services
 {
     public interface ICommandListHandler<TCommandDefinition> : ICommandHandler
-        where TCommandDefinition : CommandListDefinition
+        where TCommandDefinition : ListCommandDefinition
     {
         void Populate(Input.Command.Command command, List<CommandItemDefinitionBase> commands);
     }

@@ -102,7 +102,7 @@
     </Compile>
     <Compile Include="Modules\BallonTooltip\BallonTooltipViewModel.cs" />
     <Compile Include="Modules\BallonTooltip\Sample.cs" />
-    <Compile Include="Modules\ComboBoxMenuTest\Commands\ComboBoxCommandDefinition.cs" />
+    <Compile Include="Modules\ComboBoxMenuTest\Commands\ComboBoxDefinition.cs" />
     <Compile Include="Modules\ComboBoxMenuTest\Commands\TestMenuControllerDefinition.cs" />
     <Compile Include="Modules\ComboBoxMenuTest\ToolbarDefinitions.cs" />
     <Compile Include="Modules\CommandOverride\OpenSettingsCommandEx.cs" />

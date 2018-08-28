@@ -1,5 +1,5 @@
 ﻿using System;
-using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.Input

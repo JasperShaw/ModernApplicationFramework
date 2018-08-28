@@ -1,15 +1,15 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics;
-using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.CommandBar.Models;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest.Commands
 {
     [Export(typeof(CommandBarItemDefinition))]
-    [Export(typeof(ComboBoxCommandDefinition))]
-    public class ComboBoxCommandDefinition : CommandComboBoxDefinition
+    [Export(typeof(ComboBoxDefinition))]
+    public class TestComboBoxDefinition : ComboBoxDefinition
     {
         public override string Name => "Combobox";
         public override string NameUnlocalized => Name;

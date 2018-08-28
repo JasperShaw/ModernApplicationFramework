@@ -3,9 +3,9 @@ using System.ComponentModel.Composition;
 using System.Globalization;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Creators;
-using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.CommandBar.Models;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 using ModernApplicationFramework.Extended.CommandBar.Resources;
 using ModernApplicationFramework.Extended.Commands;
 using ModernApplicationFramework.Extended.UndoRedoManager;
@@ -15,8 +15,8 @@ using ModernApplicationFramework.Imaging.Interop;
 namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
 {
     [Export(typeof(CommandBarItemDefinition))]
-    [Export(typeof(MultiRedoCommandDefinition))]
-    public sealed class MultiRedoCommandDefinition : CommandSplitButtonDefinition<IMultiRedoCommand>
+    [Export(typeof(MultiRedoDefinition))]
+    public sealed class MultiRedoDefinition : SplitButtonDefinition<IMultiRedoCommand>
     {
         public override ImageMoniker ImageMonikerSource => Monikers.Redo;
 
@@ -34,7 +34,7 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
         public override bool AllowGestureMapping => false;
 
         [ImportingConstructor]
-        public MultiRedoCommandDefinition(CommandBarUndoRedoManagerWatcher watcher)
+        public MultiRedoDefinition(CommandBarUndoRedoManagerWatcher watcher)
         {
             //Items = watcher.RedoItems;
 

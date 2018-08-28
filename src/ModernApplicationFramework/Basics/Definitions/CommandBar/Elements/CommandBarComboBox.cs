@@ -1,11 +1,11 @@
 ﻿using System;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar.Elements
 {
-    public sealed class CommandBarComboBox<T> : CommandBarComboBox where T : CommandComboBoxDefinition
+    public sealed class CommandBarComboBox<T> : CommandBarComboBox where T : ComboBoxDefinition
     {
         public CommandBarComboBox(Guid id, CommandBarGroup group, uint sortOrder,
             CommandBarFlags flags = CommandBarFlags.CommandFlagNone) :
@@ -24,13 +24,13 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar.Elements
     {
         public override CommandBarDataSource ItemDataSource { get; }
 
-        public CommandBarComboBox(Guid id, CommandComboBoxDefinition itemDefinition, CommandBarGroup group, uint sortOrder, 
+        public CommandBarComboBox(Guid id, ComboBoxDefinition itemDefinition, CommandBarGroup group, uint sortOrder, 
             CommandBarFlags flags = CommandBarFlags.CommandFlagNone) : this(id, itemDefinition.Name, itemDefinition, group, sortOrder, flags, false)
         {
 
         }
 
-        public CommandBarComboBox(Guid id, string name, CommandComboBoxDefinition itemDefinition, CommandBarGroup group, uint sortOrder,
+        public CommandBarComboBox(Guid id, string name, ComboBoxDefinition itemDefinition, CommandBarGroup group, uint sortOrder,
             CommandBarFlags flags, bool isCustom)
         {
             if (itemDefinition == null)

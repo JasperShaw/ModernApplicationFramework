@@ -5,7 +5,6 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Controls;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Controls.Internals;
 using ModernApplicationFramework.Interfaces;

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using ModernApplicationFramework.Basics.Definitions.Command;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {

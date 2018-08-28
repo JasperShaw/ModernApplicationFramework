@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Windows;
-using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 

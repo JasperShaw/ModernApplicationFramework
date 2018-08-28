@@ -2,7 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Globalization;
 using ModernApplicationFramework.Basics;
-using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces.Commands;
 using ModernApplicationFramework.Modules.Toolbox.Resources;
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Globalization;
-using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 using ModernApplicationFramework.Interfaces.Commands;
 
 namespace ModernApplicationFramework.Basics.CommandBar.Commands

@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Input;
-using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 
@@ -13,9 +13,8 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.KeyGestureScopeTest
     [Export(typeof(CommandBarItemDefinition))]
     public sealed class NewCopyCommandDefinition : CommandDefinition
     {
-        public NewCopyCommandDefinition()
+        public NewCopyCommandDefinition() : base(new NewCopyCommand())
         {
-            Command = new NewCopyCommand();
         }
 
         public override CommandBarCategory Category => new CommandBarCategory("Test");

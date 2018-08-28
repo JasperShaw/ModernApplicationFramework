@@ -1,6 +1,6 @@
 ﻿using System;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar.Elements

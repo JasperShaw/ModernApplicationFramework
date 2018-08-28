@@ -2,14 +2,14 @@
 using System.ComponentModel.Composition;
 using System.Globalization;
 using ModernApplicationFramework.Basics;
-using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 using ModernApplicationFramework.Extended.CommandBar.Resources;
 
 namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
 {
     [Export(typeof(CommandBarItemDefinition))]
     [Export(typeof(SwitchToDocumentCommandListDefinition))]
-    public class SwitchToDocumentCommandListDefinition : CommandListDefinition
+    public class SwitchToDocumentCommandListDefinition : ListCommandDefinition
     {
         public override string Name => Commands_Resources.SwitchToDocumentCommandListDefinition_Name;
         public override string NameUnlocalized =>

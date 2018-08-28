@@ -2,7 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Globalization;
 using ModernApplicationFramework.Basics;
-using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 using ModernApplicationFramework.ImageCatalog;
 using ModernApplicationFramework.Imaging.Interop;
 using ModernApplicationFramework.Interfaces.Commands;

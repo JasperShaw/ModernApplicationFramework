@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Globalization;
-using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 using ModernApplicationFramework.Core.Comparers;
 using ModernApplicationFramework.Core.Converters.AccessKey;
 using ModernApplicationFramework.Core.Utilities;

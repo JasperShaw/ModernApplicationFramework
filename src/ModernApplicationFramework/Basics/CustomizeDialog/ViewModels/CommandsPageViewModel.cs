@@ -10,7 +10,6 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Basics.CommandBar;
 using ModernApplicationFramework.Basics.CommandBar.Hosts;
 using ModernApplicationFramework.Basics.CustomizeDialog.Views;
-using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Core.Converters.AccessKey;
 using ModernApplicationFramework.Core.Converters.Customize;

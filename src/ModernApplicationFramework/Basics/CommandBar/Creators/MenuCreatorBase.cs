@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 using ModernApplicationFramework.Controls.Menu;
 using ModernApplicationFramework.Interfaces;
 
@@ -29,7 +29,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
             foreach (var item in topItem)
             {
                 MenuItem menuItemControl;
-                if (item.CommandDefinition is CommandListDefinition)
+                if (item.CommandDefinition is ListCommandDefinition)
                     menuItemControl = new DummyListMenuItem(item, itemsControl);
                 else
                     menuItemControl = new MenuItem(item);
@@ -51,7 +51,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
             foreach (var item in topItem)
             {
                 MenuItem menuItemControl;
-                if (item.CommandDefinition is CommandListDefinition)
+                if (item.CommandDefinition is ListCommandDefinition)
                     menuItemControl = new DummyListMenuItem(item, itemsControl);
                 else
                     menuItemControl = new MenuItem(item);

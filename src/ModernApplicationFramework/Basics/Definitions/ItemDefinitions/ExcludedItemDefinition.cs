@@ -1,4 +1,4 @@
-﻿namespace ModernApplicationFramework.Basics.Definitions.Command
+﻿namespace ModernApplicationFramework.Basics.Definitions.ItemDefinitions
 {
     /// <summary>
     /// Container that contains a <see cref="CommandBarItemDefinition"/> that should be ignored by the application

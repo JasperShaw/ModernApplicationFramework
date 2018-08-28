@@ -7,7 +7,7 @@ using JetBrains.Annotations;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Core.Converters.AccessKey;
 
-namespace ModernApplicationFramework.Basics.Definitions.Command
+namespace ModernApplicationFramework.Basics.Definitions.ItemDefinitions
 {
     /// <inheritdoc />
     /// <summary>

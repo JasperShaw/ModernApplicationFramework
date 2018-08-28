@@ -11,7 +11,7 @@ using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Commands;
 using ModernApplicationFramework.Interfaces.Services;
 
-namespace ModernApplicationFramework.Basics.Definitions.Command
+namespace ModernApplicationFramework.Basics.Definitions.ItemDefinitions
 {
     /// <inheritdoc />
     /// <summary>
@@ -21,12 +21,17 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
     public abstract class CommandDefinition : CommandItemDefinitionBase
     {
         private IKeyGestureService _gestureService;
-        
+
         protected CommandDefinition()
         {
             Gestures = new GestureCollection();
             Gestures.CollectionChanged += Gestures_GestursChanged;
             KeyGestures = new List<MultiKeyGesture>();
+        }
+        
+        protected CommandDefinition(ICommandDefinitionCommand command) : this()
+        {
+            Command = command;
         }
 
         /// <summary>
@@ -102,6 +107,13 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
                     throw new ArgumentOutOfRangeException();
             }          
             OnPropertyChanged(nameof(GestureText));
+        }
+    }
+
+    public abstract class CommandDefinition<T> : CommandDefinition where T : ICommandDefinitionCommand
+    {
+        protected CommandDefinition() : base(IoC.Get<T>())
+        {
         }
     }
 }

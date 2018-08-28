@@ -4,7 +4,7 @@ using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Linq;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;

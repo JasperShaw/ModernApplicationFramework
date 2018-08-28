@@ -2,8 +2,8 @@
 using System.ComponentModel;
 using System.Linq;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar.Models;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 using ModernApplicationFramework.Controls.ComboBox;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Utilities;
@@ -155,7 +155,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
         public override Guid Id { get; }
 
-        public ComboBoxDataSource(Guid id, string text, uint sortOrder, CommandBarGroup group, CommandComboBoxDefinition definition, bool isCustom,
+        public ComboBoxDataSource(Guid id, string text, uint sortOrder, CommandBarGroup group, ComboBoxDefinition definition, bool isCustom,
             CommandBarFlags flags = CommandBarFlags.CommandFlagNone) :
             base(text, sortOrder, group, definition, isCustom, flags)
         {

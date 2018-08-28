@@ -1,7 +1,7 @@
 ﻿using ModernApplicationFramework.Imaging;
 using ModernApplicationFramework.Imaging.Interop;
 
-namespace ModernApplicationFramework.Basics.Definitions.Command
+namespace ModernApplicationFramework.Basics.Definitions.ItemDefinitions
 {
     public abstract class CommandItemDefinitionBase : CommandBarItemDefinition
     {

@@ -17,12 +17,12 @@ namespace ModernApplicationFramework.Extended.CommandBar.ToolbarDefinitions
 		[Export] public static CommandBarGroup StandardUndoRedoGroup = new CommandBarGroup(Standard, 2);
 
 	    [Export] public static CommandBarItem UndoToolbarItem =
-	        new CommandBarSplitButton<MultiUndoCommandDefinition>(new Guid("{34B50654-40D7-4322-A22E-4A3CA14E5810}"),
+	        new CommandBarSplitButton<MultiUndoDefinition>(new Guid("{34B50654-40D7-4322-A22E-4A3CA14E5810}"),
 	            StandardUndoRedoGroup, uint.MinValue);
 
 	    [Export]
 	    public static CommandBarItem RedoToolbarItem =
-	        new CommandBarSplitButton<MultiRedoCommandDefinition>(new Guid("{05843668-186A-43FA-AB89-19DD4DE443E3}"),
+	        new CommandBarSplitButton<MultiRedoDefinition>(new Guid("{05843668-186A-43FA-AB89-19DD4DE443E3}"),
 	            StandardUndoRedoGroup, 1);
 
 

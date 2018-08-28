@@ -6,9 +6,9 @@ using System.Linq;
 using System.Windows.Controls;
 using System.Xml;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
@@ -195,7 +195,7 @@ namespace ModernApplicationFramework.Basics.Services
                 if (commandId == Guid.Empty)
                     throw new NotSupportedException("CommandId cannot be 'Guid.Empty'");
                 var command = _allCommandDefintions.FirstOrDefault(x => x.Id.Equals(commandId));
-                if (!(command is CommandSplitButtonDefinition splitDefinition))
+                if (!(command is SplitButtonDefinition splitDefinition))
                     throw new ArgumentNullException(nameof(parentDefinition));
                 buttonDataSource = new SplitButtonDataSource(guid, text, sortOrder, null, splitDefinition, false, false);
             }
@@ -324,7 +324,7 @@ namespace ModernApplicationFramework.Basics.Services
                 if (commandId == Guid.Empty)
                     throw new NotSupportedException("CommandId cannot be 'Guid.Empty'");
                 var command = _allCommandDefintions.FirstOrDefault(x => x.Id.Equals(commandId));
-                if (!(command is CommandComboBoxDefinition comboBoxDefinition))
+                if (!(command is ComboBoxDefinition comboBoxDefinition))
                     throw new ArgumentNullException(nameof(parentDefinition));
                 comboboxItem = new CommandBarComboBox(guid, comboBoxDefinition, null, sortOrder).ItemDataSource as ComboBoxDataSource;
             }

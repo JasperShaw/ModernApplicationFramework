@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
-using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 using ModernApplicationFramework.EditorBase.CommandBar.Resources;
 using ModernApplicationFramework.EditorBase.Interfaces.Commands;
 using ModernApplicationFramework.Extended.Interfaces;

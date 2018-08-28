@@ -2,14 +2,14 @@
 using System.ComponentModel.Composition;
 using System.Globalization;
 using ModernApplicationFramework.Basics;
-using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 using ModernApplicationFramework.EditorBase.CommandBar.Resources;
 
 namespace ModernApplicationFramework.EditorBase.CommandBar.CommandDefinitions
 {
     [Export(typeof(CommandBarItemDefinition))]
     [Export(typeof(RecentFilesListDefinition))]
-    public class RecentFilesListDefinition : CommandListDefinition
+    public class RecentFilesListDefinition : ListCommandDefinition
     {
         public override string Name => CommandsResources.RecentFileListCommand;
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Globalization;
-using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 using ModernApplicationFramework.Core.Converters.AccessKey;
 
 namespace ModernApplicationFramework.Core.Comparers

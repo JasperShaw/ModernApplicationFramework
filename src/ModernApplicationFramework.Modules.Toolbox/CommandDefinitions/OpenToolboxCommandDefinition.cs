@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
-using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 using ModernApplicationFramework.ImageCatalog;
 using ModernApplicationFramework.Imaging.Interop;
 using ModernApplicationFramework.Input;

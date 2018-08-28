@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
-using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 using ModernApplicationFramework.Editor.Commanding;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
@@ -15,9 +15,8 @@ namespace ModernApplicationFramework.Editor.Commands
     internal class LeftCommandDefinition : CommandDefinition
     {
         [ImportingConstructor]
-        public LeftCommandDefinition([Import] IActiveTextViewState activeTextViewState)
+        public LeftCommandDefinition() : base(new TextEditCommand(MafConstants.EditorCommands.Left))
         {
-            Command = new TextEditCommand(MafConstants.EditorCommands.Left);
         }
 
         public override string NameUnlocalized => "CharLeft";

@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 using ModernApplicationFramework.Extended.Demo.Modules.UndoRedoTest;
 using ModernApplicationFramework.Imaging;
 using ModernApplicationFramework.Input;
@@ -19,9 +19,8 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.Commands
     [Export(typeof(CommandBarItemDefinition))]
     public sealed class TestCommandDefinition : CommandDefinition
     {
-        public TestCommandDefinition()
+        public TestCommandDefinition() : base(new TestCommand())
         {
-            Command = new TestCommand();
         }
 
         public override ReadOnlyCollection<GestureScopeMapping> DefaultGestureScopes => new ReadOnlyCollection<GestureScopeMapping>(new[]

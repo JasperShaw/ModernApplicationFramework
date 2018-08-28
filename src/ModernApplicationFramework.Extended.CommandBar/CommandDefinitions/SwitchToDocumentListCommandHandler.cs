@@ -2,7 +2,7 @@
 using System.ComponentModel.Composition;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
-using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Services;

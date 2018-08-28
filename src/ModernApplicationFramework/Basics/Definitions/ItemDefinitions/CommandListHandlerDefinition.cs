@@ -1,7 +1,7 @@
 ﻿using System;
 using ModernApplicationFramework.Interfaces.Commands;
 
-namespace ModernApplicationFramework.Basics.Definitions.Command
+namespace ModernApplicationFramework.Basics.Definitions.ItemDefinitions
 {
     public sealed class CommandListHandlerDefinition : CommandDefinition
     {
@@ -14,10 +14,9 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         public override CommandBarCategory Category => null;
         public override Guid Id => Guid.Empty;
 
-        public CommandListHandlerDefinition(string text, ICommandDefinitionCommand command)
+        public CommandListHandlerDefinition(string text, ICommandDefinitionCommand command) : base(command)
         {
             Text = text;
-            Command = command;
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics;
-using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 using ModernApplicationFramework.EditorBase.CommandBar.Resources;
 using ModernApplicationFramework.EditorBase.Interfaces.Commands;
 

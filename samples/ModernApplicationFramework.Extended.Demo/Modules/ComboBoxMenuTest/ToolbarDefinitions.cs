@@ -17,12 +17,12 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest
 
         [Export]
         public static CommandBarItem ComboItem3 =
-            new CommandBarComboBox<ComboBoxCommandDefinition>(new Guid("{525CEE81-5407-405B-9A3F-FF6133505495}"),
+            new CommandBarComboBox<TestComboBoxDefinition>(new Guid("{525CEE81-5407-405B-9A3F-FF6133505495}"),
                 Group1, 0);
 
         [Export]
         public static CommandBarItem ComboItem4 =
-            new CommandBarComboBox<ComboBoxCommandDefinition>(new Guid("{28C34A28-06A6-48E9-942F-6659E506B38B}"),
+            new CommandBarComboBox<TestComboBoxDefinition>(new Guid("{28C34A28-06A6-48E9-942F-6659E506B38B}"),
                 Group1, 1);
 
         [Export]

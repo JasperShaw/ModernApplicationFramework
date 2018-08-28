@@ -6,7 +6,6 @@ using System.Windows.Data;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.CustomizeDialog;
 using ModernApplicationFramework.Basics.CustomizeDialog.ViewModels;
-using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Controls.Buttons;
 using ModernApplicationFramework.Core.Converters.AccessKey;

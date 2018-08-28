@@ -1,7 +1,7 @@
 using System;
 using System.Globalization;
 using ModernApplicationFramework.Basics;
-using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 using ModernApplicationFramework.WindowManagement.Commands;
 using ModernApplicationFramework.WindowManagement.Properties;
 

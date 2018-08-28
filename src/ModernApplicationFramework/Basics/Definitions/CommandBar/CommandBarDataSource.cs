@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
-using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 using ModernApplicationFramework.Core.Converters.AccessKey;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Utilities;
@@ -141,9 +141,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
                 case CommandControlTypes.Separator:
                     return SeparatorDataSource.NewInstance;
                 case CommandControlTypes.SplitDropDown:
-                    return new SplitButtonDataSource(Guid.Empty, itemDefinition.Text, 0, null, itemDefinition as CommandSplitButtonDefinition, false, false);
+                    return new SplitButtonDataSource(Guid.Empty, itemDefinition.Text, 0, null, itemDefinition as SplitButtonDefinition, false, false);
                 case CommandControlTypes.Combobox:
-                    return new ComboBoxDataSource(Guid.Empty, itemDefinition.Text, 0, null, itemDefinition as CommandComboBoxDefinition, false);
+                    return new ComboBoxDataSource(Guid.Empty, itemDefinition.Text, 0, null, itemDefinition as ComboBoxDefinition, false);
                 case CommandControlTypes.Menu:
                     break;
                 case CommandControlTypes.MenuController:

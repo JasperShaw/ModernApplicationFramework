@@ -1,4 +1,4 @@
-﻿namespace ModernApplicationFramework.Basics.Definitions.Command
+﻿namespace ModernApplicationFramework.Basics.Definitions.ItemDefinitions
 {
     /// <summary>
     /// Localized category description for commands

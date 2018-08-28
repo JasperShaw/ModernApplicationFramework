@@ -1,5 +1,5 @@
 ﻿using System;
-using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces.Commands;
 
 namespace ModernApplicationFramework.Modules.Toolbox.CommandDefinitions

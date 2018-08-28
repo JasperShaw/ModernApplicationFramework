@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Input;
-using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 
@@ -12,9 +12,8 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.KeyGestureScopeTest
     [Export(typeof(CommandBarItemDefinition))]
     public sealed class SecondScopeCommandDefinition : CommandDefinition
     {
-        public SecondScopeCommandDefinition()
+        public SecondScopeCommandDefinition() : base(new SecondScopeCommand())
         {
-            Command = new SecondScopeCommand();
         }
 
         public override CommandBarCategory Category => new CommandBarCategory("Test");

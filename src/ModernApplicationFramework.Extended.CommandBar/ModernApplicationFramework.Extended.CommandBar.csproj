@@ -54,8 +54,8 @@
     <Compile Include="CommandDefinitions\CutCommandDefinition.cs" />
     <Compile Include="CommandDefinitions\DeleteCommandDefinition.cs" />
     <Compile Include="CommandDefinitions\FullScreenCommandDefinition.cs" />
-    <Compile Include="CommandDefinitions\MultiRedoCommandDefinition.cs" />
-    <Compile Include="CommandDefinitions\MultiUndoCommandDefinition.cs" />
+    <Compile Include="CommandDefinitions\MultiRedoDefinition.cs" />
+    <Compile Include="CommandDefinitions\MultiUndoDefinition.cs" />
     <Compile Include="CommandDefinitions\OpenSettingsCommandDefinition.cs" />
     <Compile Include="CommandDefinitions\PasteCommandDefinition.cs" />
     <Compile Include="CommandDefinitions\RedoCommandDefinition.cs" />

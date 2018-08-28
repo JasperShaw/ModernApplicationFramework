@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Globalization;
-using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 
 namespace ModernApplicationFramework.Basics.CommandBar.Commands
 {
@@ -12,7 +12,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Commands
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.Command.CommandListDefinition" />
     [Export(typeof(CommandBarItemDefinition))]
     [Export(typeof(ListToolBarsCommandListDefinition))]
-    public class ListToolBarsCommandListDefinition : CommandListDefinition
+    public class ListToolBarsCommandListDefinition : ListCommandDefinition
     {
         public override string Name => CommandBarResources.ListToolBarsCommandListDefinition_Name;
 

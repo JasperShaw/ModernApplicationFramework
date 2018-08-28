@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections;
-using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 
 namespace ModernApplicationFramework.Core.Comparers
 {

@@ -1,14 +1,13 @@
-﻿using System;
-using ModernApplicationFramework.Basics.Definitions.CommandBar;
+﻿using ModernApplicationFramework.Basics.Definitions.CommandBar;
 
-namespace ModernApplicationFramework.Basics.Definitions.Command
+namespace ModernApplicationFramework.Basics.Definitions.ItemDefinitions
 {
     /// <inheritdoc />
     /// <summary>
     /// Basic definition model used for application commands providing a list of definitions
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.Command.CommandDefinitionBase" />
-    public abstract class CommandListDefinition : CommandItemDefinitionBase
+    public abstract class ListCommandDefinition : CommandItemDefinitionBase
     {
         public sealed override bool IsList => true;
         public override CommandControlTypes ControlType => CommandControlTypes.Button;

@@ -5,8 +5,8 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
-using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 using ModernApplicationFramework.Controls.AutomationPeer;
 using ModernApplicationFramework.Controls.Utilities;
 using ModernApplicationFramework.Core.Converters;
@@ -183,7 +183,7 @@ namespace ModernApplicationFramework.Controls.Buttons
         {
             var dataContext = (CommandBarItemDataSource) DataContext;
             
-            if (dataContext?.CommandDefinition == null || !(dataContext.CommandDefinition is CommandSplitButtonDefinition splitCommandDefinition))
+            if (dataContext?.CommandDefinition == null || !(dataContext.CommandDefinition is SplitButtonDefinition splitCommandDefinition))
                 return;
             var selectedIndex = SelectedIndex;
             IsSubmenuOpen = false;

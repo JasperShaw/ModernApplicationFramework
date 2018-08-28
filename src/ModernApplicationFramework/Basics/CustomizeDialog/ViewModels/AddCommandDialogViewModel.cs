@@ -5,8 +5,8 @@ using System.Linq;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.CustomizeDialog.Views;
-using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.ViewModels;
@@ -92,7 +92,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             List<CommandBarItemDataSource> list = new List<CommandBarItemDataSource>();
             foreach (var commandDefinition in AllCommandDefinitions)
             {
-                if (commandDefinition.Category == SelectedCategory && !(commandDefinition is CommandMenuControllerDefinition))
+                if (commandDefinition.Category == SelectedCategory && !(commandDefinition is MenuControllerDefinition))
                 {
                     //TODO: Split button
                     //if (commandDefinition.ControlType == CommandControlTypes.SplitDropDown)

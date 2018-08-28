@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar.Models;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Utilities;
 
@@ -60,7 +60,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         public IStatusStringCreator StringCreator { get; }
 
 
-        public SplitButtonDataSource(Guid id, string text, uint sortOrder, CommandBarGroup group, CommandSplitButtonDefinition definition, 
+        public SplitButtonDataSource(Guid id, string text, uint sortOrder, CommandBarGroup group, SplitButtonDefinition definition, 
             bool isCustom, bool isChecked, CommandBarFlags flags = CommandBarFlags.CommandFlagNone) 
             : base(id, text, sortOrder, group, definition, isCustom, isChecked, flags)
         {

@@ -10,7 +10,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.CommandBar.Commands;
-using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
 using ModernApplicationFramework.Core.Exception;

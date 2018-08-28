@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Windows.Input;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 
 namespace ModernApplicationFramework.Interfaces.ViewModels
 {

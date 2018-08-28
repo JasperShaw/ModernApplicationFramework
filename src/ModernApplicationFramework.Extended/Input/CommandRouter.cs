@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.ItemDefinitions;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Services;
@@ -145,7 +145,7 @@ namespace ModernApplicationFramework.Extended.Input
         private static CommandHandlerWrapper CreateCommandHandlerWrapper(
             Type commandDefinitionType, object commandHandler)
         {
-            if (typeof(CommandListDefinition).IsAssignableFrom(commandDefinitionType))
+            if (typeof(ListCommandDefinition).IsAssignableFrom(commandDefinitionType))
                 return CommandHandlerWrapper.FromCommandListHandler(CommandListHandlerInterfaceType.MakeGenericType(commandDefinitionType), commandHandler);
             if (typeof(CommandDefinition).IsAssignableFrom(commandDefinitionType))
                 return CommandHandlerWrapper.FromCommandHandler(CommandHandlerInterfaceType.MakeGenericType(commandDefinitionType), commandHandler);
