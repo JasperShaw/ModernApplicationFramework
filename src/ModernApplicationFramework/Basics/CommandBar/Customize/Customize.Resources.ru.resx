@@ -249,4 +249,19 @@
   <data name="Error_InvalidComboBoxWidthValue" xml:space="preserve">
     <value>Ширина должна быть положительным целочисленным значением или 0 для использования ширины по умолчанию.</value>
   </data>
+  <data name="ModifySelectionDialog_Title" xml:space="preserve">
+    <value>Изменить выбор</value>
+  </data>
+  <data name="DefaultStyleCommandFlag" xml:space="preserve">
+    <value>Стиль по умолчанию</value>
+  </data>
+  <data name="TextOnlyAlwaysCommandFlag" xml:space="preserve">
+    <value>Только текст (всегда)</value>
+  </data>
+  <data name="TextOnlyMenusCommandFlag" xml:space="preserve">
+    <value>Только текст (в меню)</value>
+  </data>
+  <data name="ImageAndTextCommandFlag" xml:space="preserve">
+    <value>Изображение и текст</value>
+  </data>
 </root>

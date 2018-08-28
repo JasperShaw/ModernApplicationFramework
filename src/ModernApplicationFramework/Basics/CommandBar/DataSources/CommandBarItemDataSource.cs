@@ -95,7 +95,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.DataSources
         /// <summary>
         /// The sorting order of the definition
         /// </summary>
-        public uint SortOrder
+        public override uint SortOrder
         {
             get => _sortOrder;
             set

@@ -1,10 +1,7 @@
 ﻿<UserControl x:Class="ModernApplicationFramework.Basics.CommandBar.Customize.Views.CommandsPageView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:buttons="clr-namespace:ModernApplicationFramework.Controls.Buttons"
-             xmlns:commandBar="clr-namespace:ModernApplicationFramework.Basics.CommandBar"
              xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-             xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
              xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
              xmlns:customize="clr-namespace:ModernApplicationFramework.Core.Converters.Customize"
              xmlns:customizeDialog="clr-namespace:ModernApplicationFramework.Basics.CommandBar.Customize"
@@ -14,8 +11,6 @@
              xmlns:listBoxes="clr-namespace:ModernApplicationFramework.Controls.ListBoxes"
              xmlns:local="clr-namespace:ModernApplicationFramework.Basics.CommandBar.Customize.ViewModels"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:menu="clr-namespace:ModernApplicationFramework.Controls.Menu"
-             xmlns:validationRules="clr-namespace:ModernApplicationFramework.Core.ValidationRules"
              d:DesignHeight="400"
              d:DesignWidth="360"
              mc:Ignorable="d">
@@ -25,141 +20,19 @@
                 <ResourceDictionary Source="../../../../Themes/Generic/CustomizeStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <general:AndBooleanConverter x:Key="AndBooleanConverter" />
             <general:OrBooleanConverter x:Key="OrBooleanConverter" />
             <general:NegateBooleanConverter x:Key="NegateBooleanConverter" />
             <general:VisibleIfNotNullConverter x:Key="VisibleIfNotNullConverter" />
-            <converters:TrimSpacesConverter x:Key="TrimSpacesConverter" />
-            <customize:IsCustomizableModelConverter x:Key="IsCustomizableModelConverter" />
             <converters:EnumBooleanConverter x:Key="EnumBooleanConverter" />
             <customize:IsNotSeparatorModelConverter x:Key="IsNotSeparatorModelConverter" />
             <customize:IsSeparatorOrCustomizableModelConverter x:Key="IsSeparatorOrCustomizableModelConverter" />
-            <converters:ResizeMenuItemVisibilityConverter x:Key="ResizeMenuItemVisibilityConverter" />
-            <customize:IsButtonModelConverter x:Key="IsButtonModelConverter" />
-            <customize:BeginGroupIsEnabledConverter x:Key="BeginGroupIsEnabledConverter" />
             <customize:CanMoveUpMultiValueConverter x:Key="CanMoveUpMultiValueConverter" />
             <customize:CanMoveDownMultiValueConverter x:Key="CanMoveDownMultiValueConverter" />
-            <customize:StylingFlagsConverter x:Key="StylingFlagsConverter" />
             <CollectionViewSource x:Key="ToolBarsView" Source="{Binding CustomizableToolBars}">
                 <CollectionViewSource.SortDescriptions>
                     <componentModel:SortDescription PropertyName="InternalName" />
                 </CollectionViewSource.SortDescriptions>
             </CollectionViewSource>
-            <ContextMenu x:Key="ModifySelectionCommandsMenu">
-                <MenuItem Click="HandleResetItem" Header="{x:Static customizeDialog:Customize_Resources.CommandsPage_Reset}">
-                    <UIElement.IsEnabled>
-                        <Binding Converter="{StaticResource IsCustomizableModelConverter}" Mode="OneWay" />
-                    </UIElement.IsEnabled>
-                </MenuItem>
-                <menu:EditableMenuItem Header="{x:Static customizeDialog:Customize_Resources.CommandsPage_Name}">
-                    <menu:EditableMenuItem.Edit>
-                        <Binding Converter="{StaticResource TrimSpacesConverter}"
-                                 Mode="TwoWay"
-                                 Path="Text"
-                                 UpdateSourceTrigger="LostFocus" />
-                    </menu:EditableMenuItem.Edit>
-                    <menu:EditableMenuItem.IsEnabled>
-                        <Binding Converter="{StaticResource IsCustomizableModelConverter}" Mode="OneWay" />
-                    </menu:EditableMenuItem.IsEnabled>
-                    <menu:EditableMenuItem.ValidationRules>
-                        <validationRules:CommandNameNotEmptyValidationRule />
-                    </menu:EditableMenuItem.ValidationRules>
-                </menu:EditableMenuItem>
-                <menu:EditableMenuItem EditMinWidth="100" Header="{x:Static customizeDialog:Customize_Resources.CommandsPage_Width}">
-                    <UIElement.IsEnabled>
-                        <Binding Converter="{StaticResource IsCustomizableModelConverter}" Mode="OneWay" />
-                    </UIElement.IsEnabled>
-                    <UIElement.Visibility>
-                        <Binding Converter="{StaticResource ResizeMenuItemVisibilityConverter}" Mode="OneWay" />
-                    </UIElement.Visibility>
-                    <menu:EditableMenuItem.ValidationRules>
-                        <validationRules:ComboBoxWidthValidationRule />
-                    </menu:EditableMenuItem.ValidationRules>
-                    <FrameworkElement.Style>
-                        <Style BasedOn="{StaticResource {x:Type menu:EditableMenuItem}}" TargetType="{x:Type menu:EditableMenuItem}">
-                            <Style.Triggers>
-                                <Trigger Property="IsVisible" Value="True">
-                                    <Setter Property="Edit">
-                                        <Setter.Value>
-                                            <Binding Mode="TwoWay" Path="VisualSource.DropDownWidth" />
-                                        </Setter.Value>
-                                    </Setter>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </FrameworkElement.Style>
-                </menu:EditableMenuItem>
-                <Separator />
-                <menu:CheckedMenuItem Click="HandleStylingFlagsChange"
-                                      Header="{x:Static customizeDialog:Customize_Resources.CommandsPage_DefaultStyle}"
-                                      Value="{x:Static commandBar:CommandBarFlags.CommandFlagNone}">
-                    <menu:CheckedMenuItem.Link>
-                        <Binding Converter="{StaticResource StylingFlagsConverter}"
-                                 Mode="OneWay"
-                                 Path="Flags.AllFlags" />
-                    </menu:CheckedMenuItem.Link>
-                    <UIElement.IsEnabled>
-                        <MultiBinding Converter="{StaticResource AndBooleanConverter}">
-                            <Binding Converter="{StaticResource IsButtonModelConverter}" />
-                            <Binding Converter="{StaticResource IsCustomizableModelConverter}" />
-                        </MultiBinding>
-                    </UIElement.IsEnabled>
-                </menu:CheckedMenuItem>
-                <menu:CheckedMenuItem Click="HandleStylingFlagsChange"
-                                      Header="{x:Static customizeDialog:Customize_Resources.CommandsPage_TextOnlyAlways}"
-                                      Value="{x:Static commandBar:CommandBarFlags.CommandFlagText}">
-                    <menu:CheckedMenuItem.Link>
-                        <Binding Converter="{StaticResource StylingFlagsConverter}"
-                                 Mode="OneWay"
-                                 Path="Flags.AllFlags" />
-                    </menu:CheckedMenuItem.Link>
-                    <UIElement.IsEnabled>
-                        <MultiBinding Converter="{StaticResource AndBooleanConverter}">
-                            <Binding Converter="{StaticResource IsButtonModelConverter}" />
-                            <Binding Converter="{StaticResource IsCustomizableModelConverter}" />
-                        </MultiBinding>
-                    </UIElement.IsEnabled>
-                </menu:CheckedMenuItem>
-                <menu:CheckedMenuItem Click="HandleStylingFlagsChange"
-                                      Header="{x:Static customizeDialog:Customize_Resources.CommandsPage_TextOnlyMenu}"
-                                      Value="{x:Static commandBar:CommandBarFlags.CommandFlagPict}">
-                    <menu:CheckedMenuItem.Link>
-                        <Binding Converter="{StaticResource StylingFlagsConverter}"
-                                 Mode="OneWay"
-                                 Path="Flags.AllFlags" />
-                    </menu:CheckedMenuItem.Link>
-                    <UIElement.IsEnabled>
-                        <MultiBinding Converter="{StaticResource AndBooleanConverter}">
-                            <Binding Converter="{StaticResource IsButtonModelConverter}" />
-                            <Binding Converter="{StaticResource IsCustomizableModelConverter}" />
-                        </MultiBinding>
-                    </UIElement.IsEnabled>
-                </menu:CheckedMenuItem>
-                <menu:CheckedMenuItem Click="HandleStylingFlagsChange"
-                                      Header="{x:Static customizeDialog:Customize_Resources.CommandsPage_ImageAndText}"
-                                      Value="{x:Static commandBar:CommandBarFlags.CommandFlagPictAndText}">
-                    <menu:CheckedMenuItem.Link>
-                        <Binding Converter="{StaticResource StylingFlagsConverter}"
-                                 Mode="OneWay"
-                                 Path="Flags.AllFlags" />
-                    </menu:CheckedMenuItem.Link>
-                    <UIElement.IsEnabled>
-                        <MultiBinding Converter="{StaticResource AndBooleanConverter}">
-                            <Binding Converter="{StaticResource IsButtonModelConverter}" />
-                            <Binding Converter="{StaticResource IsCustomizableModelConverter}" />
-                        </MultiBinding>
-                    </UIElement.IsEnabled>
-                </menu:CheckedMenuItem>
-                <controls:Separator />
-                <menu:CheckedMenuItem Click="HandleBeginGroup"
-                                      Header="{x:Static customizeDialog:Customize_Resources.CommandsPage_BeginGroup}"
-                                      IsCheckable="True"
-                                      IsChecked="{Binding PrecededBySeparator}">
-                    <UIElement.IsEnabled>
-                        <Binding Converter="{StaticResource BeginGroupIsEnabledConverter}" />
-                    </UIElement.IsEnabled>
-                </menu:CheckedMenuItem>
-            </ContextMenu>
             <Style x:Key="CollectionComboBoxItemStyle" TargetType="{x:Type ComboBoxItem}">
                 <Setter Property="AutomationProperties.Name" Value="{Binding Text}" />
             </Style>
@@ -290,17 +163,7 @@
                                                 IsSynchronizedWithCurrentItem="True"
                                                 ItemsSource="{Binding Items}"
                                                 SelectedIndex="0"
-                                                SelectedItem="{Binding SelectedListBoxItem, Mode=TwoWay}">
-                <!--<ItemsControl.ItemsSource>
-                    <MultiBinding Converter="{StaticResource EnabledFilteringMultiConverter}">
-                        <Binding ElementName="MenuBarCombo" Path="IsEnabled"/>
-                        <Binding ElementName="MenuBarCombo" Path="SelectedItem.Items"/>
-                        <Binding ElementName="ToolBarCombo" Path="IsEnabled"/>
-                        <Binding ElementName="ToolBarCombo" Path="SelectedItem.Items"/>
-                        <Binding ElementName="ContextMenuCombo" Path="SelectedItem.Items"/>
-                    </MultiBinding>
-                </ItemsControl.ItemsSource>-->
-            </listBoxes:CustomizeControlsListBox>
+                                                SelectedItem="{Binding SelectedListBoxItem, Mode=TwoWay}" />
             <StackPanel Grid.Row="1" Grid.Column="1">
                 <FrameworkElement.Resources>
                     <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
@@ -341,14 +204,11 @@
                         </MultiBinding>
                     </UIElement.IsEnabled>
                 </dialogButtons:DialogButton>
-                <buttons:DropDownDialogButton x:Name="DropDownButton"
-                                              Command="{Binding DropDownClickCommand}"
-                                              Content="{x:Static customizeDialog:Customize_Resources.CommandsPage_ModifySelection}"
-                                              DropDownMenu="{DynamicResource ModifySelectionCommandsMenu}">
+                <dialogButtons:DialogButton Command="{Binding ModifySelectionCommand}" Content="{x:Static customizeDialog:Customize_Resources.CommandsPage_ModifySelection}">
                     <UIElement.IsEnabled>
                         <Binding Converter="{StaticResource IsNotSeparatorModelConverter}" Path="SelectedListBoxItem" />
                     </UIElement.IsEnabled>
-                </buttons:DropDownDialogButton>
+                </dialogButtons:DialogButton>
                 <dialogButtons:DialogButton x:Name="ResetAllButton"
                                             Command="{Binding ResetAllCommand}"
                                             Content="{x:Static customizeDialog:Customize_Resources.CommandsPage_ResetAll}">

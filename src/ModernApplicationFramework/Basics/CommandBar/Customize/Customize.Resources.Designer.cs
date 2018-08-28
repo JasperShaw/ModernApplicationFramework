@@ -304,6 +304,15 @@ namespace ModernApplicationFramework.Basics.CommandBar.Customize {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Default style.
+        /// </summary>
+        public static string DefaultStyleCommandFlag {
+            get {
+                return ResourceManager.GetString("DefaultStyleCommandFlag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The toolbar name cannot be blank. Type a name..
         /// </summary>
         public static string Error_AddOrRenameToolbarEmptyName {
@@ -336,6 +345,33 @@ namespace ModernApplicationFramework.Basics.CommandBar.Customize {
         public static string Error_RenameCommandEmptyName {
             get {
                 return ResourceManager.GetString("Error_RenameCommandEmptyName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Image and Text.
+        /// </summary>
+        public static string ImageAndTextCommandFlag {
+            get {
+                return ResourceManager.GetString("ImageAndTextCommandFlag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Style.
+        /// </summary>
+        public static string ModifySelectionDialog_Style {
+            get {
+                return ResourceManager.GetString("ModifySelectionDialog_Style", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Modify Selection.
+        /// </summary>
+        public static string ModifySelectionDialog_Title {
+            get {
+                return ResourceManager.GetString("ModifySelectionDialog_Title", resourceCulture);
             }
         }
         
@@ -417,6 +453,24 @@ namespace ModernApplicationFramework.Basics.CommandBar.Customize {
         public static string Prompt_ToolbarDeleteConfirmation {
             get {
                 return ResourceManager.GetString("Prompt_ToolbarDeleteConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Text Only (Always).
+        /// </summary>
+        public static string TextOnlyAlwaysCommandFlag {
+            get {
+                return ResourceManager.GetString("TextOnlyAlwaysCommandFlag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Text Only (in Menus).
+        /// </summary>
+        public static string TextOnlyMenusCommandFlag {
+            get {
+                return ResourceManager.GetString("TextOnlyMenusCommandFlag", resourceCulture);
             }
         }
         

@@ -45,7 +45,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
             if (!addAboveSeparator)
                 AdjustItemsAfterItemInsertedInGroup(dataSource);
-            DefinitionHost.ItemDefinitions.OfType<ISortable>().ToList().AddSorted(dataSource, new SortOrderComparer<CommandBarDataSource>());
+            DefinitionHost.ItemDefinitions.AddSorted(dataSource, new SortOrderComparer<CommandBarDataSource>());
             RemoveGapsInGroupSortOrder(dataSource.Group.Parent);
             BuildLogical(dataSource);
         }
@@ -114,7 +114,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
                 var precededBySeparator = false;
                 if (i > 0 && i <= groups.Count - 1 && menuItems.Any())
-                    if (menuItems.Any(menuItemDefinition => menuItemDefinition.IsVisible))
+                    //if (menuItems.Any(menuItemDefinition => menuItemDefinition.IsVisible))
                         precededBySeparator = true;
                 uint newSortOrder = 0;
 

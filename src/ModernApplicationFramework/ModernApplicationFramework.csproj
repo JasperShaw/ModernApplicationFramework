@@ -73,6 +73,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Basics\CommandBar\Customize\Views\ModifySelectionDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\Dialogs\TextInputDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -242,6 +246,10 @@
     <Compile Include="Basics\ApplicationEnvironment\AbstractEnvironmentVariables.cs" />
     <Compile Include="Basics\ApplicationEnvironment\FallbackEnvironmentVariables.cs" />
     <Compile Include="Basics\CommandBar\Commands\CustomizeMenuCommand.cs" />
+    <Compile Include="Basics\CommandBar\Customize\ViewModels\ModifySelectionDialogViewModel.cs" />
+    <Compile Include="Basics\CommandBar\Customize\Views\ModifySelectionDialogView.xaml.cs">
+      <DependentUpon>ModifySelectionDialogView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Basics\CommandBar\DataSources\ComboBoxDataSource.cs" />
     <Compile Include="Basics\CommandBar\Elements\CommandBarComboBox.cs" />
     <Compile Include="Basics\CommandBar\Elements\CommandBarCommandItem.cs" />
@@ -257,6 +265,8 @@
     <Compile Include="Basics\CommandBar\Models\MenuControllerModel.cs" />
     <Compile Include="Basics\CommandBar\Models\SplitButtonModel.cs" />
     <Compile Include="Basics\CommandBar\ItemDefinitions\CommandItemDefinitionBase.cs" />
+    <Compile Include="Core\Converters\Customize\ResizeMenuItemVisiblilityConverter.cs" />
+    <Compile Include="Core\Converters\FlagToNameConverter.cs" />
     <Compile Include="Core\Themes\CommonControlsColors.cs" />
     <Compile Include="Interfaces\Commands\ICustomizeMenuCommand.cs" />
     <Compile Include="Basics\Search\Search.Resources.Designer.cs">

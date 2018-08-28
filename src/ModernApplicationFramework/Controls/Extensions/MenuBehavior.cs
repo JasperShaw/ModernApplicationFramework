@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using Caliburn.Micro;
@@ -8,8 +7,6 @@ using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 using ModernApplicationFramework.Core.Exception;
 using ModernApplicationFramework.Interfaces.Controls;
 using ModernApplicationFramework.Interfaces.Services;
-using ModernApplicationFramework.Interfaces.Utilities;
-using ModernApplicationFramework.Interfaces.ViewModels;
 using MenuItem = ModernApplicationFramework.Controls.Menu.MenuItem;
 
 namespace ModernApplicationFramework.Controls.Extensions

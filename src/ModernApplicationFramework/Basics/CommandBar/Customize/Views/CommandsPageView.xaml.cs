@@ -11,7 +11,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Customize.Views
     /// </summary>
     public partial class CommandsPageView : ICommandsPageView
     {
-        public DropDownDialogButton ModifySelectionButton => DropDownButton;
+        //public DropDownDialogButton ModifySelectionButton => DropDownButton;
         public CustomizeControlsListBox CustomizeListBox => ControlsListBox;
 
         public CommandsPageView()
@@ -40,7 +40,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Customize.Views
 
     public interface ICommandsPageView
     {
-        DropDownDialogButton ModifySelectionButton { get; }
+        // DropDownDialogButton ModifySelectionButton { get; }
 
         CustomizeControlsListBox CustomizeListBox { get; }
     }

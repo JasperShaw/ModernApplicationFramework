@@ -98,10 +98,16 @@ namespace ModernApplicationFramework.Basics.CommandBar.Customize.ViewModels
         public ICommand HandleAddNewMenuCommand => new Command(HandleCommandAddNewMenu);
 
         public ICommand HandleAddOrRemoveGroupCommand => new DelegateCommand(HandleCommandAddOrRemoveGroup);
+
         public ICommand HandleDeleteCommand => new Command(HandleCommandDelete);
+
         public ICommand HandleMoveDownCommand => new Command(HandleCommandMoveDown);
+
         public ICommand HandleMoveUpCommand => new Command(HandleCommandMoveUp);
+
         public ICommand HandleResetItemCommand => new Command(HandleResetItem);
+
+        public ICommand ModifySelectionCommand => new Command(HandleModifySelection);
 
         public ICommand HandleStylingFlagChangeCommand => new DelegateCommand(HandleStylingFlagChange);
 
@@ -323,9 +329,9 @@ namespace ModernApplicationFramework.Basics.CommandBar.Customize.ViewModels
 
         private void ExecuteDropDownClick()
         {
-            var dropDownMenu = _control.ModifySelectionButton.DropDownMenu;
-            dropDownMenu.DataContext = SelectedListBoxItem;
-            dropDownMenu.IsOpen = true;
+            //var dropDownMenu = _control.ModifySelectionButton.DropDownMenu;
+            //dropDownMenu.DataContext = SelectedListBoxItem;
+            //dropDownMenu.IsOpen = true;
         }
 
         private CommandBarDataSource GetActiveItem()
@@ -391,9 +397,9 @@ namespace ModernApplicationFramework.Basics.CommandBar.Customize.ViewModels
             var nextSelectedItem = SelectedListBoxItem;
 
             //Needs to be inverted as the Checkbox will be added before this code executes
-            if (!(bool) value)
+            if (!(bool) value && SelectedListBoxItem.PrecededBySeparator)
                 model.DeleteGroup(SelectedListBoxItem.Group, AppendTo.Previous);
-            else
+            else if ((bool) value && !SelectedListBoxItem.PrecededBySeparator)
                 model.AddGroupAt(SelectedListBoxItem);
 
             BuildItemSources(SelectedOption);
@@ -459,6 +465,27 @@ namespace ModernApplicationFramework.Basics.CommandBar.Customize.ViewModels
             var allFlags = SelectedListBoxItem.Flags.AllFlags & ~StylingFlagsConverter.StylingMask | commandFlag;
             var commandflag2 = (allFlags & ~StylingFlagsConverter.StylingMask) | commandFlag;
             SelectedListBoxItem.Flags.EnableStyleFlags(commandflag2);
+        }
+
+        private void HandleModifySelection()
+        {
+            var dialog = IoC.Get<ModifySelectionDialogViewModel>();
+            dialog.Initialize(SelectedListBoxItem);
+            var wm = IoC.Get<IWindowManager>();
+            var result = wm.ShowDialog(dialog);
+            if (!result.HasValue || !result.Value)
+                return;
+            if (dialog.Reset)
+            {
+                HandleResetItem();
+            }
+            else
+            {
+                HandleCommandAddOrRemoveGroup(dialog.BeginGroup);
+                if (dialog.InitialCommandFlag == dialog.SelectedStyle)
+                    return;
+                HandleStylingFlagChange(dialog.SelectedStyle);
+            }
         }
 
         private void InternalAddItem(CommandBarItemDataSource dataSourceToAdd)

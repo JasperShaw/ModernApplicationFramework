@@ -10,8 +10,8 @@
     <xs:simpleContent>
       <xs:extension base="xs:string">
         <xs:attribute type="guid" name="Id" use="required"/>
-        <xs:attribute type="xs:byte" name="SortOrder" use="optional"/>
-        <xs:attribute type="xs:byte" name="Flags" use="required"/>
+        <xs:attribute type="xs:short" name="SortOrder" use="optional"/>
+        <xs:attribute type="xs:short" name="Flags" use="required"/>
         <xs:attribute type="guid" name="Command" use="required"/>
         <xs:attribute type="xs:string" name="Text" use="optional"/>
         <xs:attribute type="xs:string" name="IsVisible" use="optional"/>
@@ -34,8 +34,8 @@
       <xs:element type="GroupDefinitionType" name="GroupDefinition" maxOccurs="unbounded" minOccurs="0"/>
     </xs:sequence>
     <xs:attribute type="guid" name="Id" use="required"/>
-    <xs:attribute type="xs:byte" name="SortOrder" use="optional"/>
-    <xs:attribute type="xs:byte" name="Flags" use="required"/>
+    <xs:attribute type="xs:short" name="SortOrder" use="optional"/>
+    <xs:attribute type="xs:short" name="Flags" use="required"/>
     <xs:attribute type="guid" name="Command" use="optional"/>
     <xs:attribute type="xs:string" name="Text" use="optional"/>
     <xs:attribute type="xs:string" name="IsVisible" use="optional"/>
@@ -44,8 +44,8 @@
     <xs:simpleContent>
       <xs:extension base="xs:string">
         <xs:attribute type="guid" name="Id" use="required"/>
-        <xs:attribute type="xs:byte" name="SortOrder" use="optional"/>
-        <xs:attribute type="xs:byte" name="Flags" use="required"/>
+        <xs:attribute type="xs:short" name="SortOrder" use="optional"/>
+        <xs:attribute type="xs:short" name="Flags" use="required"/>
         <xs:attribute type="guid" name="Command" use="required"/>
         <xs:attribute type="xs:string" name="IsEditable" use="required"/>
         <xs:attribute type="xs:byte" name="DropDownWidth" use="required"/>
@@ -58,8 +58,8 @@
     <xs:simpleContent>
       <xs:extension base="xs:string">
         <xs:attribute type="guid" name="Id" use="required"/>
-        <xs:attribute type="xs:byte" name="SortOrder" use="optional"/>
-        <xs:attribute type="xs:byte" name="Flags" use="required"/>
+        <xs:attribute type="xs:short" name="SortOrder" use="optional"/>
+        <xs:attribute type="xs:short" name="Flags" use="required"/>
         <xs:attribute type="guid" name="Command" use="required"/>
         <xs:attribute type="xs:string" name="Text" use="optional"/>
         <xs:attribute type="xs:string" name="IsVisible" use="optional"/>
@@ -70,8 +70,8 @@
     <xs:simpleContent>
       <xs:extension base="xs:string">
         <xs:attribute type="guid" name="Id" use="required"/>
-        <xs:attribute type="xs:byte" name="SortOrder" use="optional"/>
-        <xs:attribute type="xs:byte" name="Flags" use="required"/>
+        <xs:attribute type="xs:short" name="SortOrder" use="optional"/>
+        <xs:attribute type="xs:short" name="Flags" use="required"/>
         <xs:attribute type="xs:string" name="Text" use="optional"/>
         <xs:attribute type="xs:string" name="AnchroItem" use="required"/>
         <xs:attribute type="xs:string" name="IsVisible" use="optional"/>
@@ -79,8 +79,8 @@
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="MenuBarType">
-    <xs:sequence maxOccurs="1">
-      <xs:element type="GroupDefinitionType" name="GroupDefinition"/>
+    <xs:sequence>
+      <xs:element type="GroupDefinitionType" name="GroupDefinition" maxOccurs="unbounded" minOccurs="0"/>
     </xs:sequence>
     <xs:attribute type="guid" name="Id" use="required"/>
   </xs:complexType>

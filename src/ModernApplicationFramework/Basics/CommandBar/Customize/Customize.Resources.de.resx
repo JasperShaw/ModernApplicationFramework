@@ -261,4 +261,22 @@
   <data name="ToolbarsPage_NewToolbar" xml:space="preserve">
     <value>_Neu...</value>
   </data>
+  <data name="ModifySelectionDialog_Title" xml:space="preserve">
+    <value>Auswahl ändern</value>
+  </data>
+  <data name="ModifySelectionDialog_Style" xml:space="preserve">
+    <value>Stil</value>
+  </data>
+  <data name="DefaultStyleCommandFlag" xml:space="preserve">
+    <value>Standardstil</value>
+  </data>
+  <data name="TextOnlyAlwaysCommandFlag" xml:space="preserve">
+    <value>Nur Text (Immer)</value>
+  </data>
+  <data name="TextOnlyMenusCommandFlag" xml:space="preserve">
+    <value>Nur Text (in Menüs)</value>
+  </data>
+  <data name="ImageAndTextCommandFlag" xml:space="preserve">
+    <value>Schaltflächensymbol und Text</value>
+  </data>
 </root>

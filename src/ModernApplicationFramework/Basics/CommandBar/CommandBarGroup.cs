@@ -44,7 +44,7 @@ namespace ModernApplicationFramework.Basics.CommandBar
             }
         }
 
-        public uint SortOrder
+        public override uint SortOrder
         {
             get => _sortOrder;
             set

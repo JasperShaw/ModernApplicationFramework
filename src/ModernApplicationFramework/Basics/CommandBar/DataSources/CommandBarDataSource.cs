@@ -18,7 +18,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.DataSources
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Interfaces.IHasTextProperty" />
     [DebuggerDisplay("Name = {" + nameof(Name) + "}")]
-    public abstract class CommandBarDataSource : DisposableObject, IHasTextProperty, IHasInternalName
+    public abstract class CommandBarDataSource : DisposableObject, IHasTextProperty, IHasInternalName, ISortable
     {
         private string _text;
         private FlagsDataSource _flagsDataSource;
@@ -29,6 +29,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.DataSources
         private FlagsDataSource _originalFlagStore;
         private bool _isVisible;
         private string _internalName;
+        private uint _sortOrder;
 
         protected internal FlagsDataSource OriginalFlagStore =>
             _originalFlagStore ?? (_originalFlagStore = new FlagsDataSource());
@@ -180,5 +181,16 @@ namespace ModernApplicationFramework.Basics.CommandBar.DataSources
         }
 
         public virtual bool InheritInternalName => true;
+
+        public virtual uint SortOrder
+        {
+            get => _sortOrder;
+            set
+            {
+                if (value == _sortOrder) return;
+                _sortOrder = value;
+                OnPropertyChanged();
+            }
+        }
     }
 }
