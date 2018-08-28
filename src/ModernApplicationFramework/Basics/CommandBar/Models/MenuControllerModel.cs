@@ -14,10 +14,10 @@ namespace ModernApplicationFramework.Basics.CommandBar.Models
         {
             var hashSet = new HashSet<MenuControllerModelItem>(definitionTypes);
             var items = new List<KeyValuePair<CommandBarItemDefinition, bool>>();
-            var handler = IoC.Get<ICommandService>();
+            var handler = IoC.Get<ICommandBarItemService>();
             foreach (var entry in hashSet)
             {
-                var command = handler.GetCommandDefinition(entry.Type);
+                var command = handler.GetItemDefinition(entry.Type);
                 if (command != null)
                     items.Add(new KeyValuePair<CommandBarItemDefinition, bool>(command, entry.IsFixed));
             }

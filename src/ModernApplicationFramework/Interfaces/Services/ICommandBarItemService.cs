@@ -6,7 +6,7 @@ namespace ModernApplicationFramework.Interfaces.Services
     /// <summary>
     /// A service to get a <see cref="CommandBarItemDefinition"/>
     /// </summary>
-    public interface ICommandService
+    public interface ICommandBarItemService
     {
         /// <summary>
         /// Gets a <see cref="CommandBarItemDefinition"/> by type
@@ -16,7 +16,7 @@ namespace ModernApplicationFramework.Interfaces.Services
         /// <exception cref="T:System.InvalidOperationException">
         ///  No <see cref="CommandBarItemDefinition"/> was found
         /// </exception>
-        CommandBarItemDefinition GetCommandDefinition(Type definitionType);
+        CommandBarItemDefinition GetItemDefinition(Type definitionType);
 
         /// <summary>
         ///    Gets a <see cref="CommandBarItemDefinition"/> by the specified format
@@ -34,8 +34,8 @@ namespace ModernApplicationFramework.Interfaces.Services
         /// <exception cref="T:System.FormatException">
         ///   The value of  <paramref name="pattern" /> is not <see langword="null" />, an empty string (""), "cl", "cu", "t", "nu", or "nl".
         /// </exception>
-        CommandBarItemDefinition GetCommandDefinitionBy(string pattern, string input);
+        CommandBarItemDefinition GetItemDefinition(string pattern, string input);
 
-        CommandBarItemDefinition GetCommandDefinitionById(Guid id);
+        CommandBarItemDefinition GetItemDefinitionById(Guid id);
     }
 }

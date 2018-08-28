@@ -643,7 +643,7 @@
     <Compile Include="Basics\CommandBar\ItemDefinitions\CommandDefinition.cs" />
     <Compile Include="Input\MultiKeyGesture.cs" />
     <Compile Include="Input\MultiKeyGestureConverter.cs" />
-    <Compile Include="Basics\Services\CommandService.cs" />
+    <Compile Include="Basics\Services\CommandBarItemService.cs" />
     <Compile Include="Controls\Buttons\CommandDefinitionButton.cs" />
     <Compile Include="Controls\ListBoxes\CustomizeControlsListBox.cs" />
     <Compile Include="Controls\ListBoxes\CustomizeControlsListBoxItem.cs" />
@@ -705,7 +705,7 @@
     <Compile Include="Interfaces\Services\ICommandHandler.cs" />
     <Compile Include="Interfaces\Services\ICommandListHandler.cs" />
     <Compile Include="Interfaces\Services\ICommandRouter.cs" />
-    <Compile Include="Interfaces\Services\ICommandService.cs" />
+    <Compile Include="Interfaces\Services\ICommandBarItemService.cs" />
     <Compile Include="Input\Command\Command.cs" />
     <Compile Include="Input\Base\CommandBase.cs" />
     <Compile Include="Input\Base\CommandT.cs" />
@@ -1405,9 +1405,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\split.cur" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Basics\CustomizeDialog\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

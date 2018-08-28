@@ -15,7 +15,7 @@ namespace ModernApplicationFramework.Extended.Input.KeyBindingScheme
     [Export(typeof(IKeyBindingManager))]
     internal class KeyBindingManager : IKeyBindingManager
     {
-        private readonly ICommandService _commandService;
+        private readonly ICommandBarItemService _commandBarItemService;
         private readonly KeyBindingsSettings _keyBindingsSettings;
         private readonly IApplicationEnvironment _environment;
 
@@ -25,13 +25,13 @@ namespace ModernApplicationFramework.Extended.Input.KeyBindingScheme
         [ImportingConstructor]
         public KeyBindingManager(IKeyGestureService gestureService, IKeyBindingSchemeManager schemeManager,
             KeyBindingsSettings keyBindingsSettings, IApplicationEnvironment environment,
-            ICommandService commandService)
+            ICommandBarItemService commandBarItemService)
         {
             KeyGestureService = gestureService;
             SchemeManager = schemeManager;
             _keyBindingsSettings = keyBindingsSettings;
             _environment = environment;
-            _commandService = commandService;
+            _commandBarItemService = commandBarItemService;
 
             gestureService.Initialize();
             schemeManager.LoadSchemeDefinitions();
@@ -182,7 +182,7 @@ namespace ModernApplicationFramework.Extended.Input.KeyBindingScheme
         private CommandGestureScopeMapping GetCommandMapping(KeyboardShortcutsUserShortcutsData shortcut,
             IEnumerable<GestureScope> allScopes)
         {
-            var cdb = _commandService.GetCommandDefinitionBy("CU", shortcut.Command);
+            var cdb = _commandBarItemService.GetItemDefinition("CU", shortcut.Command);
             if (cdb == null || !(cdb is CommandDefinition cb))
                 return null;
             var mapping = GetMapping(shortcut, allScopes);

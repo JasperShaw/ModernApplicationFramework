@@ -28,12 +28,12 @@ namespace ModernApplicationFramework.Extended.Input.KeyBindingScheme
             var file = new XmlObjectParser<KeyBindingSchemeFile>(filePath).Parse();           
             var list = new List<CommandGestureScopeMapping>();
             var scopes = IoC.GetAll<GestureScope>().ToList();       
-            var service = IoC.Get<ICommandService>();
+            var service = IoC.Get<ICommandBarItemService>();
             if (file.Shortcuts == null)
                 return new KeyBindingScheme(file.Name, list);
             foreach (var shortcut in file.Shortcuts)
             {
-                var cdb = service.GetCommandDefinitionBy("t" ,shortcut.Command);
+                var cdb = service.GetItemDefinition("t" ,shortcut.Command);
                 if (cdb == null || !(cdb is CommandDefinition cd))
                     continue;
                 if (!Guid.TryParse(shortcut.Scope, out var scopeId))

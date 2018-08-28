@@ -11,9 +11,9 @@ namespace ModernApplicationFramework.Basics.Services
     /// <summary>
     /// A service to get a <see cref="CommandBarItemDefinition" /> by its actual type
     /// </summary>
-    /// <seealso cref="ICommandService" />
-    [Export(typeof(ICommandService))]
-    public class CommandService : ICommandService
+    /// <seealso cref="ICommandBarItemService" />
+    [Export(typeof(ICommandBarItemService))]
+    public class CommandBarItemService : ICommandBarItemService
     {
         private readonly Dictionary<Type, CommandBarItemDefinition> _commandDefinitionsLookup;
 
@@ -21,7 +21,7 @@ namespace ModernApplicationFramework.Basics.Services
         [ImportMany] private List<CommandBarItemDefinition> _commandDefinitions;
 #pragma warning restore 649
 
-        public CommandService()
+        public CommandBarItemService()
         {
             _commandDefinitionsLookup = new Dictionary<Type, CommandBarItemDefinition>();
         }
@@ -32,7 +32,7 @@ namespace ModernApplicationFramework.Basics.Services
         /// </summary>
         /// <param name="commandDefinitionType">Type of the command definition.</param>
         /// <returns></returns>
-        public CommandBarItemDefinition GetCommandDefinition(Type commandDefinitionType)
+        public CommandBarItemDefinition GetItemDefinition(Type commandDefinitionType)
         {
             if (!_commandDefinitionsLookup.TryGetValue(commandDefinitionType, out var commandDefinition))
                 commandDefinition = _commandDefinitionsLookup[commandDefinitionType] =
@@ -40,7 +40,7 @@ namespace ModernApplicationFramework.Basics.Services
             return commandDefinition;
         }
 
-        public CommandBarItemDefinition GetCommandDefinitionBy(string pattern, string input)
+        public CommandBarItemDefinition GetItemDefinition(string pattern, string input)
         {
             switch (pattern.ToLowerInvariant())
             {
@@ -59,7 +59,7 @@ namespace ModernApplicationFramework.Basics.Services
             }
         }
 
-        public CommandBarItemDefinition GetCommandDefinitionById(Guid id)
+        public CommandBarItemDefinition GetItemDefinitionById(Guid id)
         {
             return GetFirst(x => x.Id == id);
         }

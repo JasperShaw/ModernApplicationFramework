@@ -15,7 +15,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Elements
         }
 
         public CommandBarCommandItem(Guid id, CommandBarGroup group, uint sortOrder, CommandBarFlags flags, bool isCustom, bool isChecked) : 
-            base(id, null, (T)IoC.Get<ICommandService>().GetCommandDefinition(typeof(T)), group, sortOrder, isCustom, isChecked, flags)
+            base(id, null, (T)IoC.Get<ICommandBarItemService>().GetItemDefinition(typeof(T)), group, sortOrder, isCustom, isChecked, flags)
         {
             
         }
