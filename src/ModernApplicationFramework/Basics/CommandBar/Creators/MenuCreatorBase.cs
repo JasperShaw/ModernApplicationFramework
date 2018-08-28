@@ -29,7 +29,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
             foreach (var item in topItem)
             {
                 MenuItem menuItemControl;
-                if (item.CommandDefinition is ListCommandDefinition)
+                if (item.ItemDefinition is ListCommandDefinition)
                     menuItemControl = new DummyListMenuItem(item, itemsControl);
                 else
                     menuItemControl = new MenuItem(item);
@@ -51,7 +51,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
             foreach (var item in topItem)
             {
                 MenuItem menuItemControl;
-                if (item.CommandDefinition is ListCommandDefinition)
+                if (item.ItemDefinition is ListCommandDefinition)
                     menuItemControl = new DummyListMenuItem(item, itemsControl);
                 else
                     menuItemControl = new MenuItem(item);

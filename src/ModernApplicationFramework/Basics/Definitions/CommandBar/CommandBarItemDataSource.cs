@@ -57,7 +57,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
         internal CommandDefinition InternalCommandDefinition { get; set; }
 
-        public virtual CommandBarItemDefinition CommandDefinition { get; }
+        public virtual CommandBarItemDefinition ItemDefinition { get; }
 
         /// <summary>
         /// Indicates whether this item is first of any other in this sub-tree
@@ -153,7 +153,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             else
                 InternalName = internalName;
 
-            CommandDefinition = definition;
+            ItemDefinition = definition;
             if (definition != null)
                 definition.PropertyChanged += Definition_PropertyChanged;
         }
@@ -226,13 +226,13 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
         private void Definition_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(CommandDefinition.Text))
+            if (e.PropertyName == nameof(ItemDefinition.Text))
                 UpdateText();
         }
 
         protected virtual void UpdateText()
         {
-            Text = CommandDefinition?.Text;
+            Text = ItemDefinition?.Text;
         }
     }
 }

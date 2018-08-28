@@ -92,7 +92,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
                     if (item is CommandBarItemDataSource itemDefinition)
                     {
                         if (ExcludedCommandDefinitions.Any(
-                            x => x.GetType() == itemDefinition.CommandDefinition.GetType()))
+                            x => x.GetType() == itemDefinition.ItemDefinition.GetType()))
                         {
                             ItemDefinitions.Remove(itemDefinition);
                             continue;
@@ -123,7 +123,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             {
                 _excludedItemDefinitions.Add(item.Value.ExcludedDefinition);
                 foreach (var itemDefinition in ItemDefinitions.OfType<CommandBarItemDataSource>())
-                    if (itemDefinition.CommandDefinition.GetType() == item.GetType())
+                    if (itemDefinition.ItemDefinition.GetType() == item.GetType())
                         _excludedCommandBarItems.Add(itemDefinition);
                 if (item.Value.ExcludedDefinition is CommandDefinition commandDefinition)
                     commandDefinition.AllowExecution = false;

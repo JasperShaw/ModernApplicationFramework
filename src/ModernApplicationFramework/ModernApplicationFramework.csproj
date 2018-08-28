@@ -1407,10 +1407,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Basics\CommandBar\Customize\" />
-    <Folder Include="Basics\CommandBar\Definitions\" />
     <Folder Include="Basics\CommandBar\Elements\" />
+    <Folder Include="Basics\CommandBar\ItemDefinitions\" />
     <Folder Include="Basics\CommandBar\Models\" />
-    <Folder Include="Basics\Definitions\CommandBar\Definitions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

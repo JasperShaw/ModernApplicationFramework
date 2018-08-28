@@ -92,7 +92,7 @@ namespace ModernApplicationFramework.Controls.Menu
                 var dataContext = DataContext as CommandBarItemDataSource;
                 if (dataContext == null)
                     return;
-                if (dataContext.CommandDefinition is CommandDefinition commandDefinition)
+                if (dataContext.ItemDefinition is CommandDefinition commandDefinition)
                     commandDefinition.Command.Execute(null);
             }
             else
@@ -128,10 +128,10 @@ namespace ModernApplicationFramework.Controls.Menu
             var anchorItem = e.NewValue as CommandBarItemDataSource;
 
             if (e.OldValue is CommandBarItemDataSource oldAnchorItem)
-                if (oldAnchorItem.CommandDefinition is CommandDefinition commandDefinition)
+                if (oldAnchorItem.ItemDefinition is CommandDefinition commandDefinition)
                     commandDefinition.Command.CanExecuteChanged -= Command_CanExecuteChanged;
             if (anchorItem != null)
-                if (anchorItem.CommandDefinition is CommandDefinition commandDefinition)
+                if (anchorItem.ItemDefinition is CommandDefinition commandDefinition)
                     commandDefinition.Command.CanExecuteChanged += Command_CanExecuteChanged;
         }
 
@@ -144,7 +144,7 @@ namespace ModernApplicationFramework.Controls.Menu
 
         private void Command_CanExecuteChanged(object sender, EventArgs e)
         {
-            if (!(AnchorItem.CommandDefinition is CommandDefinition cd))
+            if (!(AnchorItem.ItemDefinition is CommandDefinition cd))
                 return;
             IsEnabled = cd.Command.CanExecute(null);
         }

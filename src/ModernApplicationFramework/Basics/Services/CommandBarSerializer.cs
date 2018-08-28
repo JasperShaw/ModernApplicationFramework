@@ -403,7 +403,7 @@ namespace ModernApplicationFramework.Basics.Services
                                 element =>
                                 {
                                     element.SetAttribute("AnchroItem",
-                                        menuController.AnchorItem?.CommandDefinition?.Id.ToString("B"));
+                                        menuController.AnchorItem?.ItemDefinition?.Id.ToString("B"));
                                     if (!menuController.IsVisible)
                                         element.SetAttribute("IsVisible", false.ToString());
 
@@ -423,7 +423,7 @@ namespace ModernApplicationFramework.Basics.Services
                                 element =>
                                 {
                                     element.SetAttribute("Command",
-                                        comboItemDefinition.CommandDefinition.Id.ToString("B"));
+                                        comboItemDefinition.ItemDefinition.Id.ToString("B"));
                                     element.SetAttribute("Flags",
                                         ((int)comboItemDefinition.Flags.AllFlags).ToString());
                                     element.SetAttribute("IsEditable",
@@ -439,7 +439,7 @@ namespace ModernApplicationFramework.Basics.Services
                                 element =>
                                 {
                                     element.SetAttribute("Command",
-                                        splitItemDefinition.CommandDefinition.Id.ToString("B"));
+                                        splitItemDefinition.ItemDefinition.Id.ToString("B"));
                                     if (!splitItemDefinition.IsVisible)
                                         element.SetAttribute("IsVisible", false.ToString());
                                 });
@@ -449,7 +449,7 @@ namespace ModernApplicationFramework.Basics.Services
                                 element =>
                             {
                                 element.SetAttribute("Command",
-                                    commandItem.CommandDefinition.Id.ToString("B"));
+                                    commandItem.ItemDefinition.Id.ToString("B"));
                                 if (!commandItem.IsVisible)
                                     element.SetAttribute("IsVisible", false.ToString());
                             });

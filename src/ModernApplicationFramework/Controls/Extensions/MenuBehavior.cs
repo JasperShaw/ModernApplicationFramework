@@ -65,7 +65,7 @@ namespace ModernApplicationFramework.Controls.Extensions
             {
                 var commandRouter = IoC.Get<ICommandRouter>();
                 foreach (var item in menuItems)
-                    item.Update(commandRouter.GetCommandHandler(item.CommandBarItemDefinition.CommandDefinition));
+                    item.Update(commandRouter.GetCommandHandler(item.CommandBarItemDefinition.ItemDefinition));
             }
             catch (ContractNotFoundException)
             {
@@ -87,7 +87,7 @@ namespace ModernApplicationFramework.Controls.Extensions
 
             var commandRouter = IoC.Get<ICommandRouter>();
             foreach (var item in menuItems)
-                item.Update(commandRouter.GetCommandHandler(item.CommandBarItemDefinition.CommandDefinition));
+                item.Update(commandRouter.GetCommandHandler(item.CommandBarItemDefinition.ItemDefinition));
         }
 
         private static void UpdateDefinition(in System.Windows.Controls.MenuItem control)
@@ -127,7 +127,7 @@ namespace ModernApplicationFramework.Controls.Extensions
             foreach (var item in menuItems)
             {
                 if (item.DataContext is ButtonDataSource definition &&
-                    definition.CommandDefinition is CommandDefinition command)
+                    definition.ItemDefinition is CommandDefinition command)
                     definition.IsChecked = command.Command.Checked;
             }
 

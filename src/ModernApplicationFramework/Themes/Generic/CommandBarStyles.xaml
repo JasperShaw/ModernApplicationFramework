@@ -485,7 +485,7 @@
             </MultiTrigger>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding CommandDefinition.ImageMonikerSource, Converter={StaticResource EmptyMonikerToBoolConverter}}" Value="True" />
+                    <Condition Binding="{Binding ItemDefinition.ImageMonikerSource, Converter={StaticResource EmptyMonikerToBoolConverter}}" Value="True" />
                     <Condition Binding="{Binding IsChecked}" Value="true" />
                 </MultiDataTrigger.Conditions>
                 <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
@@ -713,8 +713,8 @@
                     <MultiBinding Converter="{StaticResource ToolTipMultiConverter}">
                         <Binding Converter="{StaticResource AccessKeyRemovingConverter}"
                                  Mode="OneWay"
-                                 Path="CommandDefinition.ToolTip" />
-                        <Binding Mode="OneWay" Path="CommandDefinition.GestureText" />
+                                 Path="ItemDefinition.ToolTip" />
+                        <Binding Mode="OneWay" Path="ItemDefinition.GestureText" />
                     </MultiBinding>
                 </FrameworkElement.ToolTip>
                 <ItemsControl.ItemTemplate>
@@ -772,7 +772,7 @@
         </Setter>
         <Setter Property="AutomationProperties.AcceleratorKey">
             <Setter.Value>
-                <Binding Mode="OneWay" Path="CommandDefinition.GestureText" />
+                <Binding Mode="OneWay" Path="ItemDefinition.GestureText" />
             </Setter.Value>
         </Setter>
         <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarTextActive}}" />
@@ -782,7 +782,7 @@
         <Setter Property="Icon">
             <Setter.Value>
                 <MultiBinding Converter="{StaticResource MonikerSourceToImageConverter}">
-                    <Binding Path="CommandDefinition.ImageMonikerSource" />
+                    <Binding Path="ItemDefinition.ImageMonikerSource" />
                     <Binding Path="IsEnabled" />
                 </MultiBinding>
             </Setter.Value>
@@ -799,7 +799,7 @@
             <Setter.Value>
                 <Binding Converter="{StaticResource AccessKeyRemovingConverter}"
                          Mode="OneWay"
-                         Path="CommandDefinition.ToolTip" />
+                         Path="ItemDefinition.ToolTip" />
             </Setter.Value>
         </Setter>
         <Setter Property="ToolTipService.ShowOnDisabled" Value="true" />
@@ -851,7 +851,7 @@
                         <DataTrigger Binding="{Binding Flags.TextOnly}" Value="True">
                             <Setter TargetName="Text" Property="UIElement.Visibility" Value="Visible" />
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding CommandDefinition.ImageMonikerSource, Converter={StaticResource EmptyMonikerToBoolConverter}}" Value="True">
+                        <DataTrigger Binding="{Binding ItemDefinition.ImageMonikerSource, Converter={StaticResource EmptyMonikerToBoolConverter}}" Value="True">
                             <Setter TargetName="Text" Property="Visibility" Value="Visible" />
                             <Setter TargetName="Image" Property="Visibility" Value="Collapsed" />
                         </DataTrigger>
@@ -1019,7 +1019,7 @@
         </Setter>
         <Setter Property="AutomationProperties.AcceleratorKey">
             <Setter.Value>
-                <Binding Path="CommandDefinition.GestureText" />
+                <Binding Path="ItemDefinition.GestureText" />
             </Setter.Value>
         </Setter>
         <Setter Property="Template" Value="{StaticResource ComboTemplate}" />
@@ -1058,11 +1058,11 @@
                                     <MultiBinding Converter="{StaticResource MultiToolTipMultiConverter}">
                                         <Binding Converter="{StaticResource AccessKeyRemovingConverter}"
                                                  Mode="OneWay"
-                                                 Path="CommandDefinition.ToolTip" />
+                                                 Path="ItemDefinition.ToolTip" />
                                         <Binding Converter="{StaticResource AccessKeyRemovingConverter}"
                                                  Mode="OneWay"
-                                                 Path="AnchorItem.CommandDefinition.ToolTip" />
-                                        <Binding Mode="OneWay" Path="AnchorItem.CommandDefinition.GestureText" />
+                                                 Path="AnchorItem.ItemDefinition.ToolTip" />
+                                        <Binding Mode="OneWay" Path="AnchorItem.ItemDefinition.GestureText" />
                                     </MultiBinding>
                                 </FrameworkElement.ToolTip>
                             </menu:MenuController>
@@ -1109,7 +1109,7 @@
         <Setter Property="Icon">
             <Setter.Value>
                 <MultiBinding Converter="{StaticResource MonikerSourceToImageConverter}">
-                    <Binding Path="AnchorItem.CommandDefinition.ImageMonikerSource" />
+                    <Binding Path="AnchorItem.ItemDefinition.ImageMonikerSource" />
                     <Binding Path="IsEnabled" />
                 </MultiBinding>
             </Setter.Value>
@@ -1173,7 +1173,7 @@
         </Setter>
         <Setter Property="AutomationProperties.AcceleratorKey">
             <Setter.Value>
-                <Binding Mode="OneWay" Path="CommandDefinition.GestureText" />
+                <Binding Mode="OneWay" Path="ItemDefinition.GestureText" />
             </Setter.Value>
         </Setter>
         <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarTextActive}}" />
@@ -1186,7 +1186,7 @@
         </Setter>
         <Setter Property="InputGestureText">
             <Setter.Value>
-                <Binding Mode="OneWay" Path="CommandDefinition.GestureText" />
+                <Binding Mode="OneWay" Path="ItemDefinition.GestureText" />
             </Setter.Value>
         </Setter>
         <Setter Property="IsChecked" Value="{Binding IsChecked}" />
@@ -1197,7 +1197,7 @@
         <Setter Property="Icon">
             <Setter.Value>
                 <MultiBinding Converter="{StaticResource MonikerSourceToImageConverter}">
-                    <Binding Path="CommandDefinition.ImageMonikerSource" />
+                    <Binding Path="ItemDefinition.ImageMonikerSource" />
                     <Binding Path="IsEnabled" RelativeSource="{RelativeSource Self}" />
                 </MultiBinding>
             </Setter.Value>
@@ -1852,7 +1852,7 @@
         </Setter>
         <Setter Property="AutomationProperties.AcceleratorKey">
             <Setter.Value>
-                <Binding Mode="OneWay" Path="CommandDefinition.GestureText" />
+                <Binding Mode="OneWay" Path="ItemDefinition.GestureText" />
             </Setter.Value>
         </Setter>
         <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarTextActive}}" />
@@ -1862,8 +1862,8 @@
                 <MultiBinding Converter="{StaticResource ToolTipMultiConverter}">
                     <Binding Converter="{StaticResource AccessKeyRemovingConverter}"
                              Mode="OneWay"
-                             Path="CommandDefinition.ToolTip" />
-                    <Binding Mode="OneWay" Path="CommandDefinition.GestureText" />
+                             Path="ItemDefinition.ToolTip" />
+                    <Binding Mode="OneWay" Path="ItemDefinition.GestureText" />
                 </MultiBinding>
             </Setter.Value>
         </Setter>
@@ -1915,7 +1915,7 @@
                         <DataTrigger Binding="{Binding Flags.TextOnly}" Value="True">
                             <Setter TargetName="Text" Property="UIElement.Visibility" Value="Visible" />
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding CommandDefinition.ImageMonikerSource, Converter={StaticResource EmptyMonikerToBoolConverter}}" Value="True">
+                        <DataTrigger Binding="{Binding ItemDefinition.ImageMonikerSource, Converter={StaticResource EmptyMonikerToBoolConverter}}" Value="True">
                             <Setter TargetName="Image" Property="UIElement.Visibility" Value="Collapsed" />
                             <Setter TargetName="Text" Property="UIElement.Visibility" Value="Visible" />
                         </DataTrigger>
@@ -2061,7 +2061,7 @@
         <Setter Property="Content">
             <Setter.Value>
                 <MultiBinding Converter="{StaticResource MonikerSourceToImageConverter}">
-                    <Binding Path="CommandDefinition.ImageMonikerSource" />
+                    <Binding Path="ItemDefinition.ImageMonikerSource" />
                     <Binding Path="IsEnabled" RelativeSource="{RelativeSource Self}" />
                 </MultiBinding>
             </Setter.Value>
@@ -2237,11 +2237,11 @@
                                     <MultiBinding Converter="{StaticResource MultiToolTipMultiConverter}">
                                         <Binding Converter="{StaticResource AccessKeyRemovingConverter}"
                                                  Mode="OneWay"
-                                                 Path="CommandDefinition.ToolTip" />
+                                                 Path="ItemDefinition.ToolTip" />
                                         <Binding Converter="{StaticResource AccessKeyRemovingConverter}"
                                                  Mode="OneWay"
-                                                 Path="AnchorItem.CommandDefinition.ToolTip" />
-                                        <Binding Mode="OneWay" Path="AnchorItem.CommandDefinition.GestureText" />
+                                                 Path="AnchorItem.ItemDefinition.ToolTip" />
+                                        <Binding Mode="OneWay" Path="AnchorItem.ItemDefinition.GestureText" />
                                     </MultiBinding>
                                 </FrameworkElement.ToolTip>
                             </menu:MenuController>
@@ -2717,7 +2717,7 @@
                             <Setter Property="ContentControl.Content">
                                 <Setter.Value>
                                     <MultiBinding Converter="{StaticResource MonikerSourceToImageConverter}">
-                                        <Binding Path="CommandDefinition.ImageMonikerSource" />
+                                        <Binding Path="ItemDefinition.ImageMonikerSource" />
                                         <Binding Path="IsEnabled">
                                             <Binding.RelativeSource>
                                                 <RelativeSource AncestorType="{x:Type menu:MenuController}" Mode="FindAncestor" />
@@ -2847,7 +2847,7 @@
         </Setter>
         <Setter Property="AutomationProperties.AcceleratorKey">
             <Setter.Value>
-                <Binding Path="CommandDefinition.GestureText" />
+                <Binding Path="ItemDefinition.GestureText" />
             </Setter.Value>
         </Setter>
         <Setter Property="Template">

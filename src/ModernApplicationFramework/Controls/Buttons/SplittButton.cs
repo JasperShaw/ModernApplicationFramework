@@ -183,7 +183,7 @@ namespace ModernApplicationFramework.Controls.Buttons
         {
             var dataContext = (CommandBarItemDataSource) DataContext;
             
-            if (dataContext?.CommandDefinition == null || !(dataContext.CommandDefinition is SplitButtonDefinition splitCommandDefinition))
+            if (dataContext?.ItemDefinition == null || !(dataContext.ItemDefinition is SplitButtonDefinition splitCommandDefinition))
                 return;
             var selectedIndex = SelectedIndex;
             IsSubmenuOpen = false;

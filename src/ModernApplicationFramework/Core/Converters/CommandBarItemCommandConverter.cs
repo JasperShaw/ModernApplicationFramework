@@ -17,7 +17,7 @@ namespace ModernApplicationFramework.Core.Converters
         {
             if (value is CommandBarItemDataSource definitionBase)
             {
-                var c = definitionBase.CommandDefinition as CommandDefinition;
+                var c = definitionBase.ItemDefinition as CommandDefinition;
                 return c?.Command;
             }
             return null;
