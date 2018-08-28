@@ -14,9 +14,10 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarDefinitionBase" />
     [DebuggerDisplay("<CommandBar Group>")]
-    public class CommandBarGroup : CommandBarDataSource
+    public class CommandBarGroup : CommandBarDataSource, ISortable
     {
         private CommandBarDataSource _parent;
+        private uint _sortOrder;
 
         /// <summary>
         /// Gets the last item of the group.
@@ -42,6 +43,18 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
+        public uint SortOrder
+        {
+            get => _sortOrder;
+            set
+            {
+                if (value == _sortOrder)
+                    return;
+                _sortOrder = value;
+                OnPropertyChanged();
+            }
+        }
+
         /// <summary>
         /// The collection of all containing command bar items
         /// </summary>
@@ -50,15 +63,21 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         public override Guid Id => Guid.Empty;
 
         public CommandBarGroup(CommandBarDataSource parent, uint sortOrder)
-            : base(null, sortOrder, false)
+            : base(null, false)
         {
             _parent = parent;
             Parent?.ContainedGroups?.AddSorted(this, new SortOrderComparer<CommandBarGroup>());
             Items = new List<CommandBarItemDataSource>();
+            _sortOrder = sortOrder;
         }
 
         public CommandBarGroup(CommandBarItem parentItem, uint sortOrder) : this(parentItem.ItemDataSource, sortOrder)
         {
         }
+    }
+
+    public interface ISortable
+    {
+        uint SortOrder { get; set; }
     }
 }

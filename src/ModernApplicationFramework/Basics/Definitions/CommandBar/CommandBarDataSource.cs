@@ -20,7 +20,6 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     [DebuggerDisplay("Name = {" + nameof(Name) + "}")]
     public abstract class CommandBarDataSource : DisposableObject, IHasTextProperty, IHasInternalName
     {
-        private uint _sortOrder;
         private string _text;
         private FlagsDataSource _flagsDataSource;
 	    private string _name;
@@ -118,9 +117,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
         public abstract Guid Id { get; }
 
-        protected CommandBarDataSource(string text, uint sortOrder, bool isCustom, CommandBarFlags flags = CommandBarFlags.CommandFlagNone)
+        protected CommandBarDataSource(string text, bool isCustom, CommandBarFlags flags = CommandBarFlags.CommandFlagNone)
         {
-            _sortOrder = sortOrder;
             _text = text;
             OriginalText = text;
 	        _name = text;
@@ -182,16 +180,5 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         }
 
         public virtual bool InheritInternalName => true;
-
-        public virtual uint SortOrder
-        {
-            get => _sortOrder;
-            set
-            {
-                if (value == _sortOrder) return;
-                _sortOrder = value;
-                OnPropertyChanged();
-            }
-        }
     }
 }

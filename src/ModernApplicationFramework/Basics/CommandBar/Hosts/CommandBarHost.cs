@@ -46,7 +46,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
             if (!addAboveSeparator)
                 AdjustItemsAfterItemInsertedInGroup(dataSource);
-            DefinitionHost.ItemDefinitions.AddSorted(dataSource, new SortOrderComparer<CommandBarDataSource>());
+            DefinitionHost.ItemDefinitions.OfType<ISortable>().ToList().AddSorted(dataSource, new SortOrderComparer<CommandBarDataSource>());
             RemoveGapsInGroupSortOrder(dataSource.Group.Parent);
             BuildLogical(dataSource);
         }
@@ -212,7 +212,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         {
             var list = new List<CommandBarDataSource>();
             IEnumerable<CommandBarDataSource> topDefinitions =
-                TopLevelDefinitions.OrderBy(x => x.SortOrder).ToList();
+                TopLevelDefinitions/*.OrderBy(x => x.SortOrder)*/.ToList();
 
             foreach (var barDefinition in topDefinitions)
             {

@@ -81,8 +81,7 @@ namespace ModernApplicationFramework.Basics.Services
         {
             SerializeCommandBarRoot<IMenuHostViewModel, MenuBarDataSource>(xmlDocument.LastChild, "MenuBars",
                 (document, definition) => document.CreateElement("MenuBar", string.Empty,
-                    new KeyValuePair<string, string>("Id", definition.Id.ToString("B")),
-                    new KeyValuePair<string, string>("SortOrder", definition.SortOrder.ToString())));
+                    new KeyValuePair<string, string>("Id", definition.Id.ToString("B"))));
 
             SerializeCommandBarRoot<IToolBarHostViewModel, ToolBarDataSource>(xmlDocument.LastChild, "Toolbars",
                 (document, definition) =>
@@ -472,9 +471,11 @@ namespace ModernApplicationFramework.Basics.Services
         {
             var element = document.CreateElement(name);
 
-            element.SetAttribute("Id", commandBarDefinition.Id.ToString("B"));
-            element.SetAttribute("SortOrder", commandBarDefinition.SortOrder.ToString());
+            element.SetAttribute("Id", commandBarDefinition.Id.ToString("B")); 
             element.SetAttribute("Flags", ((int)commandBarDefinition.Flags.AllFlags).ToString());
+
+            if (commandBarDefinition is ISortable sortable)
+                element.SetAttribute("SortOrder", sortable.SortOrder.ToString());
 
             if (commandBarDefinition.IsTextModified || commandBarDefinition.IsCustom)
                 element.SetAttribute("Text", commandBarDefinition.Text);

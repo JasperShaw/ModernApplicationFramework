@@ -14,7 +14,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarDefinitionBase" />
     /// <seealso cref="T:ModernApplicationFramework.Interfaces.IHasInternalName" />
-    public abstract class CommandBarItemDataSource : CommandBarDataSource
+    public abstract class CommandBarItemDataSource : CommandBarDataSource, ISortable
     {
         private bool _precededBySeparator;
         private CommandBarGroup _group;
@@ -95,7 +95,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         /// <summary>
         /// The sorting order of the definition
         /// </summary>
-        public override uint SortOrder
+        public uint SortOrder
         {
             get => _sortOrder;
             set
@@ -131,7 +131,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
         protected CommandBarItemDataSource(string text, uint sortOrder, CommandBarGroup group,
             CommandDefinitionBase definition, bool isCustom, CommandBarFlags flags = CommandBarFlags.CommandFlagNone)
-            : base(text, sortOrder, isCustom, flags)
+            : base(text, isCustom, flags)
         {
             _group = group;
             _sortOrder = sortOrder;

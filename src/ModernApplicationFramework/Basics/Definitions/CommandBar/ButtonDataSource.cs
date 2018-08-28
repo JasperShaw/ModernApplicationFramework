@@ -37,7 +37,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
             Checkable = itemDefinition.Checkable;
 
-            if (itemDefinition is CommandDefinition commandDefinition)
+            if (itemDefinition is CommandDefinition commandDefinition && commandDefinition.Command != null)
             {
                 InternalCommandDefinition = commandDefinition;
                 commandDefinition.Command.CommandChanged += OnCommandChanged;
