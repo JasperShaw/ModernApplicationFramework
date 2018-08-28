@@ -130,7 +130,6 @@ namespace ModernApplicationFramework.Basics.Services
         {
             _definitionHost.ItemGroupDefinitions.Clear();
             _definitionHost.ItemDefinitions.Clear();
-            _definitionHost.ExcludedItemDefinitions.Clear();
         }
 
         #region Deserialize

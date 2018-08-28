@@ -313,7 +313,7 @@
     <Compile Include="Input\Command\CommandDefinitionCommand.cs" />
     <Compile Include="Basics\Definitions\Command\CommandDefinitionT.cs" />
     <Compile Include="Basics\Definitions\Command\CommandListHandlerDefinition.cs" />
-    <Compile Include="Basics\Definitions\Command\ExcludedCommandDefinition.cs" />
+    <Compile Include="Basics\Definitions\Command\ExcludedItemDefinition.cs" />
     <Compile Include="Basics\Definitions\Command\CommandGestureScopeMapping.cs" />
     <Compile Include="Interfaces\Commands\ICommandDefinitionCommand.cs" />
     <Compile Include="Interfaces\Services\IMruItem.cs" />
@@ -622,7 +622,7 @@
     <Compile Include="Basics\Definitions\CommandBar\CommandBarFlags.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarGroup.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarItemDataSource.cs" />
-    <Compile Include="Basics\Definitions\CommandBar\ExcludeCommandBarElementDefinition.cs" />
+    <Compile Include="Basics\Definitions\CommandBar\ExcludeCommandBarItem.cs" />
     <Compile Include="Basics\Definitions\CommandBar\FlagsDataSource.cs" />
     <Compile Include="Core\Comparers\SortOrderComparer.cs" />
     <Compile Include="Basics\Definitions\Command\CommandCategory.cs" />

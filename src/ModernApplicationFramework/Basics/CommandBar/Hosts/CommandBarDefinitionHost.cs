@@ -24,36 +24,27 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
         [ImportMany] private List<Lazy<CommandBarItemDataSource>> _items;
         [ImportMany] private List<Lazy<CommandBarItem>> _registeredCommandBarItems;
+        [ImportMany] private List<Lazy<CommandBarGroup>> _registeredCommandBarGroups;
+        [ImportMany] private List<Lazy<ExcludeCommandBarItem>> _excludedItemImports;
+        [ImportMany] private List<Lazy<ExcludedItemDefinition>> _excludedItemDefinitionImports;
 
 
-        [ImportingConstructor]
-        internal CommandBarDefinitionHost([ImportMany] CommandBarGroup[] menuItemGroups,
-            [ImportMany] ExcludeCommandBarElementDefinition[] excludedItems,
-            [ImportMany] ExcludedCommandDefinition[] excludedCommands)
+        private readonly List<CommandBarDataSource> _excludedCommandBarItems = new List<CommandBarDataSource>();
+        private readonly List<CommandDefinitionBase> _excludedItemDefinitions = new List<CommandDefinitionBase>();
+
+        internal CommandBarDefinitionHost()
         {
-            ItemGroupDefinitions =
-                new ObservableCollection<CommandBarGroup>(menuItemGroups.OrderBy(x => x.SortOrder));
+            ItemGroupDefinitions = new ObservableCollection<CommandBarGroup>();
             ItemDefinitions = new ObservableCollection<CommandBarDataSource>();
-            ExcludedItemDefinitions = new ObservableCollection<CommandBarDataSource>();
-            foreach (var item in excludedItems)
-                ExcludedItemDefinitions.Add(item.ExcludedCommandBarDefinition);
-
-
-            ExcludedCommandDefinitions = new ObservableCollection<CommandDefinitionBase>();
-            ExcludedCommandDefinitions.CollectionChanged += ExcludedCommandDefinitions_CollectionChanged;
-            foreach (var item in excludedCommands)
-                ExcludedCommandDefinitions.Add(item.ExcludedDefinition);
-
-            ItemGroupDefinitions.CollectionChanged += ItemGroupDefinitions_CollectionChanged;
         }
 
         public ObservableCollection<CommandBarGroup> ItemGroupDefinitions { get; }
 
         public ObservableCollection<CommandBarDataSource> ItemDefinitions { get; }
 
-        public ObservableCollection<CommandBarDataSource> ExcludedItemDefinitions { get; }
+        public IReadOnlyCollection<CommandBarDataSource> ExcludedItemDefinitions => _excludedCommandBarItems;
 
-        public ObservableCollection<CommandDefinitionBase> ExcludedCommandDefinitions { get; }
+        public IReadOnlyCollection<CommandDefinitionBase> ExcludedCommandDefinitions => _excludedItemDefinitions;
 
         public IReadOnlyList<CommandBarGroup> GetSortedGroupsOfDefinition(CommandBarDataSource definition, bool onlyGroupsWithVisibleItems = true)
         {
@@ -69,34 +60,8 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             var list = ItemDefinitions.OfType<CommandBarItemDataSource>().Where(x => x.Group == group)
                 .Where(x => !ExcludedItemDefinitions.Contains(x))
                 .OrderBy(x => x.SortOrder).ToList();
-
-            //list.RemoveAll(x => x.CommandDefinition is CommandDefinition cd && cd.Command.Status == 16);
-
             return list;
         };
-
-        private void ExcludedCommandDefinitions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (e.NewItems != null)
-                foreach (var item in e.NewItems)
-                {
-                    foreach (var itemDefinition in ItemDefinitions.OfType<CommandBarItemDataSource>())
-                        if (itemDefinition.CommandDefinition.GetType() == item.GetType())
-                            ExcludedItemDefinitions.Add(itemDefinition);
-                    if (item is CommandDefinition commandDefinition)
-                        commandDefinition.AllowExecution = false;
-                }
-
-            if (e.OldItems != null)
-                foreach (var item in e.OldItems)
-                {
-                    foreach (var itemDefinition in ExcludedItemDefinitions.OfType<CommandBarItemDataSource>())
-                        if (itemDefinition.CommandDefinition.GetType() == item.GetType())
-                            ExcludedItemDefinitions.Remove(itemDefinition);
-                    if (item is CommandDefinition commandDefinition)
-                        commandDefinition.AllowExecution = true;
-                }
-        }
 
         private void ItemGroupDefinitions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -145,22 +110,50 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
         public void OnImportsSatisfied()
         {
+            SetupGroups(); 
+            SetupItemDefinitions();
 
+            SetupExcludedItems();
+            SetupExcludedDefinitions();
+        }
+
+        private void SetupExcludedDefinitions()
+        {
+            foreach (var item in _excludedItemDefinitionImports)
+            {
+                _excludedItemDefinitions.Add(item.Value.ExcludedDefinition);
+                foreach (var itemDefinition in ItemDefinitions.OfType<CommandBarItemDataSource>())
+                    if (itemDefinition.CommandDefinition.GetType() == item.GetType())
+                        _excludedCommandBarItems.Add(itemDefinition);
+                if (item.Value.ExcludedDefinition is CommandDefinition commandDefinition)
+                    commandDefinition.AllowExecution = false;
+            }
+        }
+
+        private void SetupExcludedItems()
+        {
+            foreach (var item in _excludedItemImports)
+                _excludedCommandBarItems.Add(item.Value.ExcludedItem.ItemDataSource);
+        }
+
+        private void SetupGroups()
+        {
+            foreach (var lazy in _registeredCommandBarGroups.OrderBy(x => x.Value.SortOrder))
+                ItemGroupDefinitions.Add(lazy.Value);
+            ItemGroupDefinitions.CollectionChanged += ItemGroupDefinitions_CollectionChanged;
+        }
+
+        private void SetupItemDefinitions()
+        {
             var items = _items.Select(x => x.Value).OfType<CommandBarDataSource>().ToList();
             items.AddRange(_registeredCommandBarItems.Select(x => x.Value.ItemDataSource));
-
             foreach (var item in items)
-            {
                 ItemDefinitions.Add(item);
-            }
-
-
             foreach (var itemDefinition in ItemDefinitions.OfType<CommandBarItemDataSource>())
             {
                 var group = ItemGroupDefinitions.FirstOrDefault(x => x == itemDefinition.Group);
                 group?.Items.AddSorted(itemDefinition, new SortOrderComparer<CommandBarDataSource>());
             }
-
             ItemDefinitions.CollectionChanged += ItemDefinitions_CollectionChanged;
         }
     }
