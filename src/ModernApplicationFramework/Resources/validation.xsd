@@ -79,11 +79,10 @@
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="MenuBarType">
-    <xs:sequence>
+    <xs:sequence maxOccurs="1">
       <xs:element type="GroupDefinitionType" name="GroupDefinition"/>
     </xs:sequence>
     <xs:attribute type="guid" name="Id" use="required"/>
-    <xs:attribute type="xs:byte" name="SortOrder"/>
   </xs:complexType>
   <xs:complexType name="MenuBarsType">
     <xs:sequence>

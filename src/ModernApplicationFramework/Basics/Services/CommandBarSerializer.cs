@@ -19,8 +19,6 @@ using static System.Globalization.CultureInfo;
 
 namespace ModernApplicationFramework.Basics.Services
 {
-
-    //TODO: Re-Implement IsVisible and IsCustom for every item type
     [Export(typeof(ICommandBarSerializer))]
     public class CommandBarSerializer : LayoutSerializer<CommandBarDataSource>, ICommandBarSerializer
     {
@@ -394,7 +392,7 @@ namespace ModernApplicationFramework.Basics.Services
                         case MenuDataSource menuDefinition:
                             itemElement = CreateElement(document, "MenuDefinition", menuDefinition, element =>
                             {
-                                if (!menuDefinition.IsVisible)
+                                if (!menuDefinition.IsVisible && !menuDefinition.Flags.AllFlags.HasFlag(CommandBarFlags.CommandDynamicVisibility))
                                     element.SetAttribute("IsVisible", false.ToString());
                             });
                             break;
@@ -407,16 +405,6 @@ namespace ModernApplicationFramework.Basics.Services
                                         menuController.AnchorItem?.ItemDefinition?.Id.ToString("B"));
                                     if (!menuController.IsVisible)
                                         element.SetAttribute("IsVisible", false.ToString());
-
-                                    //if (!(definition.CommandDefinition is CommandMenuControllerDefinition controllerDefinition))
-                                    //    return;
-                                    //foreach (var item in controllerDefinition.Model.Items)
-                                    //{
-                                    //    var innerItemElement = document.CreateElement("ItemDefinition", string.Empty,
-                                    //        new KeyValuePair<string, string>("Command",
-                                    //            item.Key.Id.ToString("B")));
-                                    //    element.AppendChild(innerItemElement);
-                                    //}
                                 });
                             break;
                         case ComboBoxDataSource comboItemDefinition:
@@ -451,7 +439,7 @@ namespace ModernApplicationFramework.Basics.Services
                             {
                                 element.SetAttribute("Command",
                                     commandItem.ItemDefinition.Id.ToString("B"));
-                                if (!commandItem.IsVisible)
+                                if (!commandItem.IsVisible && !commandItem.Flags.AllFlags.HasFlag(CommandBarFlags.CommandDynamicVisibility))
                                     element.SetAttribute("IsVisible", false.ToString());
                             });
                             break;

@@ -159,7 +159,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.DataSources
             IsTextModified = false;
             _text = OriginalText;
             OnPropertyChanged(nameof(Text));
-            Flags.EnableStyleFlags((CommandBarFlags)OriginalFlagStore.AllFlags);
+            Flags.EnableStyleFlags(OriginalFlagStore.AllFlags);
         }
 
         [NotifyPropertyChangedInvocator]

@@ -443,6 +443,8 @@ namespace ModernApplicationFramework.Basics.CommandBar.Customize.ViewModels
             host.Reset(item);
             BuildCheckBoxItems(SelectedOption);
             BuildItemSources(SelectedOption);
+            foreach (var dataSource in Items)
+                dataSource.Reset();
         }
 
         private void HandleResetItem()

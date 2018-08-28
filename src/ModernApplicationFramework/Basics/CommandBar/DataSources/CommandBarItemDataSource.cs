@@ -165,7 +165,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.DataSources
             UpdateInternalName();
             UpdateName();
             OnPropertyChanged(nameof(Text));
-            Flags.EnableStyleFlags((CommandBarFlags)OriginalFlagStore.AllFlags);
+            Flags.EnableStyleFlags(OriginalFlagStore.AllFlags);
         }
 
         /// <summary>
