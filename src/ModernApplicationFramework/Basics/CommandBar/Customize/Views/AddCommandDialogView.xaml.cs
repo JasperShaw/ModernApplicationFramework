@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace ModernApplicationFramework.Basics.CustomizeDialog.Views
+namespace ModernApplicationFramework.Basics.CommandBar.Customize.Views
 {
     public partial class AddCommandDialogView
     {

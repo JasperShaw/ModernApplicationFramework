@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Input;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.CommandBar.Customize.Views;
 using ModernApplicationFramework.Basics.CommandBar.DataSources;
 using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
-using ModernApplicationFramework.Basics.CustomizeDialog.Views;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.ViewModels;
 
-namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
+namespace ModernApplicationFramework.Basics.CommandBar.Customize.ViewModels
 {
     /// <inheritdoc cref="IAddCommandDialogViewModel" />
     /// <summary>

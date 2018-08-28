@@ -1,12 +1,10 @@
 ﻿using System.Windows;
-using ModernApplicationFramework.Basics.CommandBar;
-using ModernApplicationFramework.Basics.CustomizeDialog.ViewModels;
-using ModernApplicationFramework.Controls;
+using ModernApplicationFramework.Basics.CommandBar.Customize.ViewModels;
 using ModernApplicationFramework.Controls.Buttons;
 using ModernApplicationFramework.Controls.ListBoxes;
 using ModernApplicationFramework.Controls.Menu;
 
-namespace ModernApplicationFramework.Basics.CustomizeDialog.Views
+namespace ModernApplicationFramework.Basics.CommandBar.Customize.Views
 {
     /// <summary>
     ///     Interaktionslogik für CommandsPageView.xaml

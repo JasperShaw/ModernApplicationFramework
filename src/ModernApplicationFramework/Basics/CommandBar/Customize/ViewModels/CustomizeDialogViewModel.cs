@@ -3,7 +3,7 @@ using System.Linq;
 using Caliburn.Micro;
 using ModernApplicationFramework.Interfaces.ViewModels;
 
-namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
+namespace ModernApplicationFramework.Basics.CommandBar.Customize.ViewModels
 {
     /// <inheritdoc />
     /// <summary>

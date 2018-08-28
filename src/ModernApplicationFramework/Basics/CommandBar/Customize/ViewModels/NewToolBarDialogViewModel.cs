@@ -7,7 +7,7 @@ using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using ModernApplicationFramework.Interfaces.Views;
 
-namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
+namespace ModernApplicationFramework.Basics.CommandBar.Customize.ViewModels
 {
     /// <inheritdoc />
     /// <summary>

@@ -1,0 +1,48 @@
+﻿<dialogs:DialogWindow x:Class="ModernApplicationFramework.Basics.CommandBar.Customize.Views.NewToolBarDialogView"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:customize="clr-namespace:ModernApplicationFramework.Basics.CommandBar.Customize"
+                      xmlns:dialogButtons="clr-namespace:ModernApplicationFramework.Controls.Buttons.DialogButtons"
+                      xmlns:dialogs="clr-namespace:ModernApplicationFramework.Controls.Dialogs"
+                      Title="New Toolbar"
+                      ResizeMode="NoResize"
+                      ShowInTaskbar="False"
+                      SizeToContent="WidthAndHeight"
+                      WindowStartupLocation="CenterOwner">
+    <FocusManager.FocusedElement>
+        <Binding ElementName="ToolBarNameTextBox" />
+    </FocusManager.FocusedElement>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Label x:Name="ToolBarNameLabel"
+               Grid.Row="0"
+               Margin="10,10,10,6"
+               Padding="0"
+               Content="{x:Static customize:Customize_Resources.NewToolbarPrompt_ToolbarName}" />
+        <Grid Grid.Row="1"
+              MinWidth="290"
+              Margin="10,0,10,10">
+            <Border x:Name="LimitedEditBoxWith" />
+            <TextBox x:Name="ToolBarNameTextBox" Text="{Binding ToolbarName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True}">
+                <FrameworkElement.Width>
+                    <Binding ElementName="LimitedEditBoxWith" Path="ActualWidth" />
+                </FrameworkElement.Width>
+            </TextBox>
+        </Grid>
+        <StackPanel Grid.Row="2"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+            <dialogButtons:DialogButton x:Name="OkButton"
+                                        Command="{Binding OkClickCommand}"
+                                        Content="{x:Static customize:Customize_Resources.Prompt_Ok}"
+                                        IsDefault="True" />
+            <dialogButtons:DialogButton x:Name="Cancel"
+                                        Content="{x:Static customize:Customize_Resources.Prompt_Cancel}"
+                                        IsCancel="True" />
+        </StackPanel>
+    </Grid>
+</dialogs:DialogWindow>

@@ -7,10 +7,9 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics.CommandBar;
+using ModernApplicationFramework.Basics.CommandBar.Customize.Views;
 using ModernApplicationFramework.Basics.CommandBar.DataSources;
 using ModernApplicationFramework.Basics.CommandBar.Hosts;
-using ModernApplicationFramework.Basics.CustomizeDialog.Views;
 using ModernApplicationFramework.Core.Converters.AccessKey;
 using ModernApplicationFramework.Core.Converters.Customize;
 using ModernApplicationFramework.Core.Utilities;
@@ -21,7 +20,7 @@ using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using ModernApplicationFramework.Utilities.Interfaces;
 
-namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
+namespace ModernApplicationFramework.Basics.CommandBar.Customize.ViewModels
 {
     /// <inheritdoc cref="ICommandsPageViewModel" />
     /// <summary>

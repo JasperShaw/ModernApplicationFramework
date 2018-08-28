@@ -65,11 +65,11 @@
     <Resource Include="Resources\top.png" />
     <Resource Include="Resources\topleft.png" />
     <Resource Include="Resources\topright.png" />
-    <Page Include="Basics\CustomizeDialog\Views\CommandsPageView.xaml">
+    <Page Include="Basics\CommandBar\Customize\Views\CommandsPageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Basics\CustomizeDialog\Views\AddCommandDialogView.xaml">
+    <Page Include="Basics\CommandBar\Customize\Views\AddCommandDialogView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -77,15 +77,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Basics\CustomizeDialog\Views\CustomizeDialogView.xaml">
+    <Page Include="Basics\CommandBar\Customize\Views\CustomizeDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Basics\CustomizeDialog\Views\NewToolBarDialogView.xaml">
+    <Page Include="Basics\CommandBar\Customize\Views\NewToolBarDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Basics\CustomizeDialog\Views\ToolBarsPageView.xaml">
+    <Page Include="Basics\CommandBar\Customize\Views\ToolBarsPageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -536,8 +536,8 @@
     <Compile Include="Basics\CommandCategories.cs" />
     <Compile Include="Basics\CommandBar\Hosts\ContextMenuHost.cs" />
     <Compile Include="Basics\CommandBar\Creators\ContextMenuCreator.cs" />
-    <Compile Include="Basics\CustomizeDialog\ViewModels\AddCommandDialogViewModel.cs" />
-    <Compile Include="Basics\CustomizeDialog\ViewModels\CommandsPageViewModel.cs" />
+    <Compile Include="Basics\CommandBar\Customize\ViewModels\AddCommandDialogViewModel.cs" />
+    <Compile Include="Basics\CommandBar\Customize\ViewModels\CommandsPageViewModel.cs" />
     <Compile Include="Basics\EnvironmentGeneralOptions.cs" />
     <Compile Include="Basics\EnvironmentRenderCapabilities.cs" />
     <Compile Include="Controls\Dialogs\DialogResourcesResources.Designer.cs">
@@ -610,10 +610,10 @@
     <Compile Include="Interfaces\Utilities\ICreatorBase.cs" />
     <Compile Include="Interfaces\Utilities\IMainMenuCreator.cs" />
     <Compile Include="Interfaces\ViewModels\ICommandsPageViewModel.cs" />
-    <Compile Include="Basics\CustomizeDialog\Views\CommandsPageView.xaml.cs">
+    <Compile Include="Basics\CommandBar\Customize\Views\CommandsPageView.xaml.cs">
       <DependentUpon>CommandsPageView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Basics\CustomizeDialog\Views\AddCommandDialogView.xaml.cs">
+    <Compile Include="Basics\CommandBar\Customize\Views\AddCommandDialogView.xaml.cs">
       <DependentUpon>AddCommandDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Basics\CommandBar\DataSources\ButtonDataSource.cs" />
@@ -1019,7 +1019,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Basics\CustomizeDialog\Customize.Resources.Designer.cs">
+    <Compile Include="Basics\CommandBar\Customize\Customize.Resources.Designer.cs">
       <DependentUpon>Customize.Resources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1029,21 +1029,21 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Basics\CustomizeDialog\Views\CustomizeDialogView.xaml.cs">
+    <Compile Include="Basics\CommandBar\Customize\Views\CustomizeDialogView.xaml.cs">
       <DependentUpon>CustomizeDialogView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Basics\CustomizeDialog\ViewModels\CustomizeDialogViewModel.cs" />
+    <Compile Include="Basics\CommandBar\Customize\ViewModels\CustomizeDialogViewModel.cs" />
     <Compile Include="Controls\Menu\EditableMenuItem.cs" />
     <Compile Include="Interfaces\Views\INewToolBarView.cs" />
     <Compile Include="Interfaces\ViewModels\IToolBarsPageViewModel.cs" />
-    <Compile Include="Basics\CustomizeDialog\Views\NewToolBarDialogView.xaml.cs">
+    <Compile Include="Basics\CommandBar\Customize\Views\NewToolBarDialogView.xaml.cs">
       <DependentUpon>NewToolBarDialogView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Basics\CustomizeDialog\ViewModels\NewToolBarDialogViewModel.cs" />
-    <Compile Include="Basics\CustomizeDialog\Views\ToolBarsPageView.xaml.cs">
+    <Compile Include="Basics\CommandBar\Customize\ViewModels\NewToolBarDialogViewModel.cs" />
+    <Compile Include="Basics\CommandBar\Customize\Views\ToolBarsPageView.xaml.cs">
       <DependentUpon>ToolBarsPageView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Basics\CustomizeDialog\ViewModels\ToolBarsPageViewModel.cs" />
+    <Compile Include="Basics\CommandBar\Customize\ViewModels\ToolBarsPageViewModel.cs" />
     <Compile Include="Basics\CommandBar\Hosts\MenuHostViewModel.cs" />
     <Compile Include="Basics\CommandBar\Hosts\ToolbarHostViewModel.cs" />
     <Compile Include="Basics\Services\KeyGestureService.cs" />
@@ -1307,7 +1307,7 @@
       <LastGenOutput>CommandBarResources.en.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Basics\CommandBar\CommandBarResources.ru.resx" />
-    <EmbeddedResource Include="Basics\CustomizeDialog\Customize.Resources.ru.resx" />
+    <EmbeddedResource Include="Basics\CommandBar\Customize\Customize.Resources.ru.resx" />
     <EmbeddedResource Include="Basics\Search\Search.Resources.de.resx" />
     <EmbeddedResource Include="Basics\Search\Search.Resources.en.resx" />
     <EmbeddedResource Include="Basics\Search\Search.Resources.resx">
@@ -1350,16 +1350,16 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CommonUI.Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Basics\CustomizeDialog\Customize.Resources.de.resx">
+    <EmbeddedResource Include="Basics\CommandBar\Customize\Customize.Resources.de.resx">
       <LastGenOutput>Customize.Resources.de.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Basics\CustomizeDialog\Customize.Resources.resx">
+    <EmbeddedResource Include="Basics\CommandBar\Customize\Customize.Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Customize.Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Basics\CustomizeDialog\Customize.Resources.en.resx">
+    <EmbeddedResource Include="Basics\CommandBar\Customize\Customize.Resources.en.resx">
       <LastGenOutput>Customize.Resources.en.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -1406,7 +1406,7 @@
     <EmbeddedResource Include="Resources\split.cur" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Basics\CommandBar\Customize\" />
+    <Folder Include="Basics\CustomizeDialog\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

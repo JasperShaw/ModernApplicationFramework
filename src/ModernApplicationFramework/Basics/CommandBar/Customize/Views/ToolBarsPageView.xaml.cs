@@ -1,11 +1,9 @@
-﻿using System.Windows;
-using ModernApplicationFramework.Controls;
-using ModernApplicationFramework.Controls.Buttons;
+﻿using ModernApplicationFramework.Controls.Buttons;
 using ModernApplicationFramework.Controls.ListBoxes;
 using ModernApplicationFramework.Interfaces.Views;
 using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Basics.CustomizeDialog.Views
+namespace ModernApplicationFramework.Basics.CommandBar.Customize.Views
 {
     public partial class ToolBarsPageView : IToolBarsPageView
     {

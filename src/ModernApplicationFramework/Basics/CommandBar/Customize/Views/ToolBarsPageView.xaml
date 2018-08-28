@@ -1,0 +1,165 @@
+﻿<UserControl x:Class="ModernApplicationFramework.Basics.CommandBar.Customize.Views.ToolBarsPageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:buttons="clr-namespace:ModernApplicationFramework.Controls.Buttons"
+             xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+             xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
+             xmlns:customize="clr-namespace:ModernApplicationFramework.Basics.CommandBar.Customize"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dialogButtons="clr-namespace:ModernApplicationFramework.Controls.Buttons.DialogButtons"
+             xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General"
+             xmlns:listBoxes="clr-namespace:ModernApplicationFramework.Controls.ListBoxes"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:menu="clr-namespace:ModernApplicationFramework.Controls.Menu"
+             xmlns:utilities="clr-namespace:ModernApplicationFramework.Controls.Utilities"
+             xmlns:validationRules="clr-namespace:ModernApplicationFramework.Core.ValidationRules"
+             d:DesignHeight="400"
+             d:DesignWidth="360"
+             mc:Ignorable="d">
+    <FrameworkElement.Resources>
+
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../../../Themes/Generic/CustomizeStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
+            <utilities:ToolbarsCollectionViewSource x:Key="ToolBarsView"
+                                                    BoundPropertyName="Text"
+                                                    Source="{Binding Toolbars}">
+                <CollectionViewSource.SortDescriptions>
+                    <componentModel:SortDescription PropertyName="Text" />
+                </CollectionViewSource.SortDescriptions>
+            </utilities:ToolbarsCollectionViewSource>
+
+            <ContextMenu x:Key="ModifySelectionToolBarsMenu">
+
+                <FrameworkElement.Resources>
+                    <converters:TrimSpacesConverter x:Key="TrimSpacesConverter" />
+                    <converters:DockLocationConverter x:Key="DockLocationConverter" />
+                </FrameworkElement.Resources>
+
+                <menu:EditableMenuItem Header="_Name:">
+                    <menu:EditableMenuItem.Edit>
+                        <Binding Converter="{StaticResource TrimSpacesConverter}"
+                                 Mode="TwoWay"
+                                 Path="Text"
+                                 UpdateSourceTrigger="LostFocus" />
+                    </menu:EditableMenuItem.Edit>
+                    <UIElement.Visibility>
+                        <Binding Converter="{StaticResource BooleanToVisibilityConverter}"
+                                 Mode="OneWay"
+                                 Path="IsCustom" />
+                    </UIElement.Visibility>
+                    <menu:EditableMenuItem.ValidationRules>
+                        <validationRules:ToolbarNameNotEmptyValidationRule />
+                        <validationRules:ToolbarNameUniqueValidationRule>
+                            <validationRules:ToolbarNameUniqueValidationRule.DataContext>
+                                <validationRules:ToolbarNameUniqueValidationRuleDataContext>
+                                    <validationRules:ToolbarNameUniqueValidationRuleDataContext.Toolbars>
+                                        <Binding Source="{StaticResource ToolBarsView}" />
+                                    </validationRules:ToolbarNameUniqueValidationRuleDataContext.Toolbars>
+                                </validationRules:ToolbarNameUniqueValidationRuleDataContext>
+                            </validationRules:ToolbarNameUniqueValidationRule.DataContext>
+                        </validationRules:ToolbarNameUniqueValidationRule>
+                    </menu:EditableMenuItem.ValidationRules>
+                </menu:EditableMenuItem>
+                <Separator>
+                    <UIElement.Visibility>
+                        <Binding Converter="{StaticResource BooleanToVisibilityConverter}"
+                                 Mode="OneWay"
+                                 Path="IsCustom" />
+                    </UIElement.Visibility>
+                </Separator>
+                <menu:CheckedMenuItem Header="{x:Static customize:Customize_Resources.ToolbarsPage_DockLocationTop}" Value="{x:Static Dock.Top}">
+                    <menu:CheckedMenuItem.Link>
+                        <Binding Converter="{StaticResource DockLocationConverter}" Path="Position" />
+                    </menu:CheckedMenuItem.Link>
+                </menu:CheckedMenuItem>
+                <menu:CheckedMenuItem Header="{x:Static customize:Customize_Resources.ToolbarsPage_DockLocationLeft}" Value="{x:Static Dock.Left}">
+                    <menu:CheckedMenuItem.Link>
+                        <Binding Converter="{StaticResource DockLocationConverter}" Path="Position" />
+                    </menu:CheckedMenuItem.Link>
+                </menu:CheckedMenuItem>
+                <menu:CheckedMenuItem Header="{x:Static customize:Customize_Resources.ToolbarsPage_DockLocationRight}" Value="{x:Static Dock.Right}">
+                    <menu:CheckedMenuItem.Link>
+                        <Binding Converter="{StaticResource DockLocationConverter}" Path="Position" />
+                    </menu:CheckedMenuItem.Link>
+                </menu:CheckedMenuItem>
+                <menu:CheckedMenuItem Header="{x:Static customize:Customize_Resources.ToolbarsPage_DockLocationButtom}" Value="{x:Static Dock.Bottom}">
+                    <menu:CheckedMenuItem.Link>
+                        <Binding Converter="{StaticResource DockLocationConverter}" Path="Position" />
+                    </menu:CheckedMenuItem.Link>
+                </menu:CheckedMenuItem>
+            </ContextMenu>
+        </ResourceDictionary>
+    </FrameworkElement.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Label x:Name="ToolBarsLabel"
+               Grid.Row="0"
+               Margin="10,0,10,5"
+               Padding="0"
+               Content="{x:Static customize:Customize_Resources.ToolbarsPage_ListBoxTitle}" />
+        <listBoxes:CheckableListBox x:Name="ListBox"
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Margin="10,0,10,10"
+                                    IsSynchronizedWithCurrentItem="True"
+                                    IsTextSearchEnabled="True"
+                                    ScrollViewer.CanContentScroll="False"
+                                    SelectedIndex="0"
+                                    SelectedItem="{Binding SelectedToolbarDefinition, Mode=TwoWay}"
+                                    TextSearch.TextPath="Text">
+            <ItemsControl.ItemsSource>
+                <Binding Source="{StaticResource ToolBarsView}" />
+            </ItemsControl.ItemsSource>
+            <listBoxes:CheckableListBox.ToggleKeys>
+                <x:StaticExtension Member="Key.Space" />
+            </listBoxes:CheckableListBox.ToggleKeys>
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="{x:Type listBoxes:CheckableListBoxItem}">
+                    <Setter Property="IsChecked" Value="{Binding Mode=TwoWay, Path=IsVisible}" />
+                    <Setter Property="Content" Value="{Binding Mode=OneWay, Path=Text}" />
+                    <Setter Property="Padding" Value="5,2,5,2" />
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+        </listBoxes:CheckableListBox>
+        <StackPanel Grid.Row="1"
+                    Grid.Column="1"
+                    HorizontalAlignment="Stretch">
+            <FrameworkElement.Resources>
+                <general:AndBooleanConverter x:Key="AndBooleanConverter" />
+                <general:NotNullConverter x:Key="NotNullConverter" />
+            </FrameworkElement.Resources>
+            <dialogButtons:DialogButton x:Name="NewToolBarButton"
+                                        Command="{Binding CreateNewToolbarCommand}"
+                                        Content="{x:Static customize:Customize_Resources.ToolbarsPage_NewToolbar}" />
+            <dialogButtons:DialogButton Command="{Binding DeleteSelectedToolbarCommand}" Content="{x:Static customize:Customize_Resources.ToolbarsPage_DeleteToolbar}">
+                <UIElement.IsEnabled>
+                    <MultiBinding Converter="{StaticResource AndBooleanConverter}">
+                        <Binding Converter="{StaticResource NotNullConverter}"
+                                 ElementName="ListBox"
+                                 Path="SelectedItem" />
+                        <Binding ElementName="ListBox"
+                                 Mode="OneWay"
+                                 Path="SelectedItem.IsCustom" />
+                    </MultiBinding>
+                </UIElement.IsEnabled>
+            </dialogButtons:DialogButton>
+            <buttons:DropDownDialogButton x:Name="DropDownButton"
+                                          Command="{Binding DropDownClickCommand}"
+                                          Content="{x:Static customize:Customize_Resources.ToolbarsPage_ModifyToolbar}"
+                                          DropDownMenu="{DynamicResource ModifySelectionToolBarsMenu}" />
+        </StackPanel>
+    </Grid>
+</UserControl>

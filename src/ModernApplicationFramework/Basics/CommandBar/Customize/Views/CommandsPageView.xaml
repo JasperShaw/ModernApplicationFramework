@@ -1,29 +1,28 @@
-﻿<UserControl x:Class="ModernApplicationFramework.Basics.CustomizeDialog.Views.CommandsPageView"
+﻿<UserControl x:Class="ModernApplicationFramework.Basics.CommandBar.Customize.Views.CommandsPageView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:buttons="clr-namespace:ModernApplicationFramework.Controls.Buttons"
+             xmlns:commandBar="clr-namespace:ModernApplicationFramework.Basics.CommandBar"
              xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
              xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
              xmlns:customize="clr-namespace:ModernApplicationFramework.Core.Converters.Customize"
-             xmlns:customizeDialog="clr-namespace:ModernApplicationFramework.Basics.CustomizeDialog"
+             xmlns:customizeDialog="clr-namespace:ModernApplicationFramework.Basics.CommandBar.Customize"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:dialogButtons="clr-namespace:ModernApplicationFramework.Controls.Buttons.DialogButtons"
              xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General"
              xmlns:listBoxes="clr-namespace:ModernApplicationFramework.Controls.ListBoxes"
-             xmlns:local="clr-namespace:ModernApplicationFramework.Basics.CustomizeDialog.ViewModels"
+             xmlns:local="clr-namespace:ModernApplicationFramework.Basics.CommandBar.Customize.ViewModels"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:menu="clr-namespace:ModernApplicationFramework.Controls.Menu"
-             xmlns:properties="clr-namespace:ModernApplicationFramework.Properties"
              xmlns:validationRules="clr-namespace:ModernApplicationFramework.Core.ValidationRules"
-             xmlns:commandBar="clr-namespace:ModernApplicationFramework.Basics.CommandBar"
              d:DesignHeight="400"
              d:DesignWidth="360"
              mc:Ignorable="d">
     <FrameworkElement.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../../Themes/Generic/CustomizeStyle.xaml" />
+                <ResourceDictionary Source="../../../../Themes/Generic/CustomizeStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <general:AndBooleanConverter x:Key="AndBooleanConverter" />

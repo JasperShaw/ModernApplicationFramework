@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics.CustomizeDialog.ViewModels;
+using ModernApplicationFramework.Basics.CommandBar.Customize.ViewModels;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Commands;
 

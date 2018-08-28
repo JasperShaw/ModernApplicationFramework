@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 using System.Windows.Controls;
-using ModernApplicationFramework.Basics.CustomizeDialog;
+using ModernApplicationFramework.Basics.CommandBar.Customize;
 
 namespace ModernApplicationFramework.Core.ValidationRules
 {
