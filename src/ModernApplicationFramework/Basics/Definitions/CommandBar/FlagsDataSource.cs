@@ -133,7 +133,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         public void EnableStyleFlags(CommandBarFlags flagToEnable)
         {
-            SetFlag(CommandBarFlags.CommandFlagNone, true, false);
+            _allFlags = CommandBarFlags.CommandFlagNone;
+            //SetFlag(CommandBarFlags.CommandFlagNone, true, false);
             SetFlag(flagToEnable, true);
         }
 

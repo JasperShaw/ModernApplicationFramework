@@ -59,7 +59,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         private CommandBarDataSource _selectedMenuItem;
         private CustomizeRadioButtonOptions _selectedOption;
         private CommandBarDataSource _selectedToolBarItem;
-        private ICommandBarDefinitionHost _definitionHost;
+        private readonly ICommandBarDefinitionHost _definitionHost;
 
         public IEnumerable<CommandBarDataSource> CustomizableContextMenus
         {
@@ -441,7 +441,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
                 MessageBoxResult.No);
             if (result == MessageBoxResult.No)
                 return;   
-            GetModelAndParent(out var host, out var _);
+            GetModelAndParent(out var host, out _);
             host.Reset(item);
             BuildCheckBoxItems(SelectedOption);
             BuildItemSources(SelectedOption);
@@ -456,8 +456,8 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         {
             if (!(value is CommandBarFlags commandFlag))
                 return;
-            var allFlags = SelectedListBoxItem.Flags.AllFlags;
-            var commandflag2 = ((CommandBarFlags) allFlags & ~StylingFlagsConverter.StylingMask) | commandFlag;
+            var allFlags = SelectedListBoxItem.Flags.AllFlags & ~StylingFlagsConverter.StylingMask | commandFlag;
+            var commandflag2 = (allFlags & ~StylingFlagsConverter.StylingMask) | commandFlag;
             SelectedListBoxItem.Flags.EnableStyleFlags(commandflag2);
         }
 

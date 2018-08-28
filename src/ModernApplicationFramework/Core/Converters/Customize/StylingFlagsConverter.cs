@@ -4,7 +4,7 @@ using ModernApplicationFramework.Utilities.Converters;
 
 namespace ModernApplicationFramework.Core.Converters.Customize
 {
-    internal class StylingFlagsConverter : ValueConverter<uint, CommandBarFlags>
+    internal class StylingFlagsConverter : ValueConverter<CommandBarFlags, CommandBarFlags>
     {
         public static CommandBarFlags StylingMask;
 
@@ -13,9 +13,9 @@ namespace ModernApplicationFramework.Core.Converters.Customize
             StylingMask = CommandBarFlags.CommandFlagPictAndText;
         }
 
-        protected override CommandBarFlags Convert(uint value, object parameter, CultureInfo culture)
+        protected override CommandBarFlags Convert(CommandBarFlags value, object parameter, CultureInfo culture)
         {
-            return (CommandBarFlags) value & StylingMask;
+            return value & StylingMask;
         }
     }
 }
