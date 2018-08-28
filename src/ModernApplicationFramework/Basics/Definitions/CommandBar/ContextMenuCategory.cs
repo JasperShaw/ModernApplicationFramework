@@ -1,6 +1,6 @@
 ﻿using ModernApplicationFramework.Properties;
 
-namespace ModernApplicationFramework.Basics.Definitions.ContextMenu
+namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
     /// <summary>
     /// Information to categorize a context menu

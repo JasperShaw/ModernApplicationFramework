@@ -2,7 +2,6 @@
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
-using ModernApplicationFramework.Basics.Definitions.ContextMenu;
 using ModernApplicationFramework.Extended.CommandBar.CommandDefinitions;
 using ModernApplicationFramework.Modules.Toolbox.CommandDefinitions;
 
@@ -11,8 +10,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
     public static class ToolboxContextMenuDefinition
     {
         [Export]
-        public static ContextMenuDataSource ToolboxContextMenu =
-            new ContextMenuDataSource(new Guid("{70967216-21B8-454D-8361-201F127A6D32}"), ContextMenuCategory.OtherContextMenusCategory, "Toolbox");
+        public static CommandBarItem ToolboxContextMenu =
+            new CommandBarConxtexMenu(new Guid("{70967216-21B8-454D-8361-201F127A6D32}"), ContextMenuCategory.OtherContextMenusCategory, "Toolbox");
 
         [Export]
         public static CommandBarGroup BasicEditGroup =

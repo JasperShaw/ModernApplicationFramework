@@ -1,7 +1,7 @@
 ﻿using System;
-using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.Definitions.Command;
 
-namespace ModernApplicationFramework.Basics.Definitions.ContextMenu
+namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
     /// <inheritdoc cref="CommandBarDataSource" />
     /// <summary>
@@ -9,7 +9,7 @@ namespace ModernApplicationFramework.Basics.Definitions.ContextMenu
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarDefinitionBase" />
     /// <seealso cref="T:ModernApplicationFramework.Interfaces.IHasInternalName" />
-    public class ContextMenuDataSource : CommandBarDataSource
+    internal class ContextMenuDataSource : CommandBarDataSource
     {
         /// <summary>
         /// The category of the context menu
@@ -18,7 +18,9 @@ namespace ModernApplicationFramework.Basics.Definitions.ContextMenu
 
         public override Guid Id { get; }
 
-        public ContextMenuDataSource(Guid id, ContextMenuCategory category, string text) : base($"{category.CategoryName} | {text}",  false)
+        public override CommandControlTypes UiType => CommandControlTypes.ContextMenu;
+
+        public ContextMenuDataSource(Guid id, ContextMenuCategory category, string text) : base(text, false)
         {
             Id = id;
             Category = category;

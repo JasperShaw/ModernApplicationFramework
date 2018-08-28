@@ -245,6 +245,7 @@
     <Compile Include="Basics\Definitions\CommandBar\ComboBoxDataSource.cs" />
     <Compile Include="Basics\Definitions\CommandBar\Elements\CommandBarComboBox.cs" />
     <Compile Include="Basics\Definitions\CommandBar\Elements\CommandBarCommandItem.cs" />
+    <Compile Include="Basics\Definitions\CommandBar\Elements\CommandBarConxtexMenu.cs" />
     <Compile Include="Basics\Definitions\CommandBar\Elements\CommandBarItem.cs" />
     <Compile Include="Basics\Definitions\CommandBar\Elements\CommandBarMenuController.cs" />
     <Compile Include="Basics\Definitions\CommandBar\Elements\CommandBarMenuItem.cs" />
@@ -627,8 +628,8 @@
     <Compile Include="Basics\Definitions\Command\CommandCategory.cs" />
     <Compile Include="Basics\Definitions\Command\CommandControlTypes.cs" />
     <Compile Include="Basics\Definitions\CommandBar\SeparatorDataSource.cs" />
-    <Compile Include="Basics\Definitions\ContextMenu\ContextMenuCategory.cs" />
-    <Compile Include="Basics\Definitions\ContextMenu\ContextMenuDataSource.cs" />
+    <Compile Include="Basics\Definitions\CommandBar\ContextMenuCategory.cs" />
+    <Compile Include="Basics\Definitions\CommandBar\ContextMenuDataSource.cs" />
     <Compile Include="Basics\Definitions\CommandBar\MenuBarDataSource.cs" />
     <Compile Include="Basics\Definitions\CommandBar\MenuDataSource.cs" />
     <Compile Include="Basics\Definitions\CommandBar\ToolBarDataSource.cs" />
@@ -1407,7 +1408,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Basics\Definitions\CommandBar\Definitions\" />
-    <Folder Include="Basics\Definitions\Menu\" />
+    <Folder Include="Basics\Definitions\ContextMenu\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

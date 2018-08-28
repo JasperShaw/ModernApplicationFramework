@@ -4,7 +4,9 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
 using ModernApplicationFramework.Controls.Menu;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Utilities;
@@ -20,15 +22,21 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
     [Export(typeof(IContextMenuHost))]
     public sealed class ContextMenuHost : CommandBarHost, IContextMenuHost
     {
-        private readonly Dictionary<Definitions.ContextMenu.ContextMenuDataSource, ContextMenu> _hostedContextMenus;
+        private readonly Dictionary<ContextMenuDataSource, ContextMenu> _hostedContextMenus;
 
         public override ObservableCollection<CommandBarDataSource> TopLevelDefinitions { get; }
 
         [ImportingConstructor]
-        public ContextMenuHost([ImportMany] Definitions.ContextMenu.ContextMenuDataSource[] contextMenuDataSources)
+        public ContextMenuHost([Import] ICommandBarDefinitionHost host)
         {
-            _hostedContextMenus = new Dictionary<Definitions.ContextMenu.ContextMenuDataSource, ContextMenu>();
-            TopLevelDefinitions = new ObservableCollection<CommandBarDataSource>(contextMenuDataSources);
+            _hostedContextMenus = new Dictionary<ContextMenuDataSource, ContextMenu>();
+            TopLevelDefinitions = new ObservableCollection<CommandBarDataSource>();
+
+
+            foreach (var contextMenu in host.ItemDefinitions.Where(x => x.UiType == CommandControlTypes.ContextMenu))
+                TopLevelDefinitions.Add(contextMenu);
+
+
             Build();
         }
 
@@ -36,7 +44,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         {
             _hostedContextMenus.Clear();
             var contextMenus = TopLevelDefinitions.Where(x => !DefinitionHost.ExcludedItemDefinitions.Contains(x))
-                .Cast<Definitions.ContextMenu.ContextMenuDataSource>();
+                .Cast<ContextMenuDataSource>();
 
             foreach (var definition in contextMenus)
                 Build(definition);
@@ -44,7 +52,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
         public override void Build(CommandBarDataSource definition)
         {
-            if (!(definition is Definitions.ContextMenu.ContextMenuDataSource contextMenuDefinition))
+            if (!(definition is ContextMenuDataSource contextMenuDefinition))
                 return;
             BuildLogical(contextMenuDefinition);
 
@@ -56,12 +64,19 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
                 _hostedContextMenus[contextMenuDefinition] = contextMenu;
         }
 
-        public ContextMenu GetContextMenu(Definitions.ContextMenu.ContextMenuDataSource contextMenuDataSource)
+        public ContextMenu GetContextMenu(CommandBarItem commandBarItem)
         {
-            if (!_hostedContextMenus.ContainsKey(contextMenuDataSource))
-                throw new KeyNotFoundException(contextMenuDataSource.Text);
-            Build(contextMenuDataSource);
-            return _hostedContextMenus[contextMenuDataSource];
+            if (!(commandBarItem.ItemDataSource is ContextMenuDataSource contextMenuDataSource))
+                return null;
+            return GetContextMenu(contextMenuDataSource);
+        }
+
+        private ContextMenu GetContextMenu(ContextMenuDataSource dataSource)
+        {
+            if (!_hostedContextMenus.ContainsKey(dataSource))
+                throw new KeyNotFoundException(dataSource.Text);
+            Build(dataSource);
+            return _hostedContextMenus[dataSource];
         }
 
         public ContextMenu GetContextMenu(Guid contextMenuDefinition)

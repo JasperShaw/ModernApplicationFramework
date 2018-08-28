@@ -13,6 +13,7 @@
         Menu,
         MenuController,
         Toolbar,
-        MenuBar
+        MenuBar,
+        ContextMenu
     }
 }

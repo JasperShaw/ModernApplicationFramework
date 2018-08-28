@@ -3,7 +3,6 @@ using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.CommandBar.Commands;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
-using ModernApplicationFramework.Basics.Definitions.ContextMenu;
 
 namespace ModernApplicationFramework.Basics.CommandBar
 {
@@ -12,8 +11,8 @@ namespace ModernApplicationFramework.Basics.CommandBar
     /// </summary>
     public static class ToolbarsContextMenuDefinition
     {
-        [Export] public static ContextMenuDataSource ToolbarsContextMenu =
-            new ContextMenuDataSource(new Guid("{5D9AB983-9755-41A4-89C3-B057572696DC}"), ContextMenuCategory.OtherContextMenusCategory,
+        [Export] public static CommandBarItem ToolbarsContextMenu =
+            new CommandBarConxtexMenu(new Guid("{5D9AB983-9755-41A4-89C3-B057572696DC}"), ContextMenuCategory.OtherContextMenusCategory,
                 CommandBarResources.ToolbarsContextMenu_Name);
 
         [Export] public static CommandBarGroup ToolBarListGroup =

@@ -2,7 +2,6 @@
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
-using ModernApplicationFramework.Basics.Definitions.ContextMenu;
 using ModernApplicationFramework.Docking.CommandDefinitions;
 
 namespace ModernApplicationFramework.Docking.ContextMenuDefinitions
@@ -10,8 +9,8 @@ namespace ModernApplicationFramework.Docking.ContextMenuDefinitions
     public static class DocumentContextMenuDefinition
     {
         [Export]
-        public static ContextMenuDataSource DocumentContextMenu =
-            new ContextMenuDataSource(new Guid("{7EF88CA9-552A-4F28-B850-592FDE415487}"), ContextMenuCategory.OtherContextMenusCategory, DockingResources.DocumentContextMenu_Name);
+        public static CommandBarItem DocumentContextMenu =
+            new CommandBarConxtexMenu(new Guid("{7EF88CA9-552A-4F28-B850-592FDE415487}"), ContextMenuCategory.OtherContextMenusCategory, DockingResources.DocumentContextMenu_Name);
 
         [Export]
         public static CommandBarGroup DocumentCloseContextMenuGroup =

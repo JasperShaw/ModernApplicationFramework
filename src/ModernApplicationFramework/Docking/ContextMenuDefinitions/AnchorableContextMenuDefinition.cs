@@ -2,15 +2,14 @@
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.CommandBar.Elements;
-using ModernApplicationFramework.Basics.Definitions.ContextMenu;
 using ModernApplicationFramework.Docking.CommandDefinitions;
 
 namespace ModernApplicationFramework.Docking.ContextMenuDefinitions
 {
     public class AnchorableContextMenuDefinition
     {
-        [Export] public static ContextMenuDataSource AnchorableContextMenu =
-            new ContextMenuDataSource(new Guid("{B8615A48-C325-46ED-9F3D-135A1DF2E6D6}"), ContextMenuCategory.OtherContextMenusCategory, DockingResources.AnchorableContextMenu_Name);
+        [Export] public static CommandBarItem AnchorableContextMenu =
+            new CommandBarConxtexMenu(new Guid("{B8615A48-C325-46ED-9F3D-135A1DF2E6D6}"), ContextMenuCategory.OtherContextMenusCategory, DockingResources.AnchorableContextMenu_Name);
 
         [Export] public static CommandBarGroup AnchorableContextMenuGroup =
             new CommandBarGroup(AnchorableContextMenu, uint.MinValue);
