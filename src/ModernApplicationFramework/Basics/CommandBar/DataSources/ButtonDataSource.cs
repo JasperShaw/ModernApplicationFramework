@@ -27,7 +27,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.DataSources
 
         public bool Checkable { get; }
 
-        public ButtonDataSource(Guid id, string text, uint sortOrder, CommandBarGroup group, 
+        public ButtonDataSource(Guid id, string text, uint sortOrder, CommandBarGroup group,
             CommandItemDefinitionBase itemDefinition, bool isCustom, bool isChecked, CommandBarFlags flags = CommandBarFlags.CommandFlagNone)
             : base(text, sortOrder, group, itemDefinition, isCustom, flags)
         {
@@ -44,12 +44,18 @@ namespace ModernApplicationFramework.Basics.CommandBar.DataSources
             }
         }
 
+        internal void InvalidateVisibility()
+        {
+            if (Flags.AllFlags.HasFlag(CommandBarFlags.CommandDynamicVisibility))
+            {
+                InternalCommandDefinition.Command.CanExecute(null);
+            }
+        }
+
         protected void OnCommandChanged(object sender, EventArgs e)
         {
             IsEnabled = InternalCommandDefinition.Command.Enabled;
-
-            if (!Flags.AllFlags.HasFlag(CommandBarFlags.CommandDefaultInvisible))
-                IsVisible = InternalCommandDefinition.Command.Visible;
+            IsVisible = InternalCommandDefinition.Command.Visible;
 
             if (Checkable)
                 IsChecked = InternalCommandDefinition.Command.Checked;

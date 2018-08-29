@@ -15,7 +15,7 @@ namespace ModernApplicationFramework.Basics.CommandBar
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarDefinitionBase" />
     [DebuggerDisplay("<CommandBar Group>")]
-    public class CommandBarGroup : CommandBarDataSource, ISortable
+    public class CommandBarGroup : CommandBarDataSource
     {
         private CommandBarDataSource _parent;
         private uint _sortOrder;
@@ -74,6 +74,15 @@ namespace ModernApplicationFramework.Basics.CommandBar
 
         public CommandBarGroup(CommandBarItem parentItem, uint sortOrder) : this(parentItem.ItemDataSource, sortOrder)
         {
+        }
+
+        internal void InvalidateCommandItems()
+        {
+            foreach (var item in Items.OfType<ButtonDataSource>())
+            {
+                item.InvalidateVisibility();
+                //item.InternalCommandDefinition.Command.CanExecute(null);
+            }
         }
     }
 

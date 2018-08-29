@@ -7,6 +7,7 @@ using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 using ModernApplicationFramework.Core.Exception;
 using ModernApplicationFramework.Interfaces.Controls;
 using ModernApplicationFramework.Interfaces.Services;
+using ModernApplicationFramework.Utilities;
 using MenuItem = ModernApplicationFramework.Controls.Menu.MenuItem;
 
 namespace ModernApplicationFramework.Controls.Extensions
@@ -51,9 +52,10 @@ namespace ModernApplicationFramework.Controls.Extensions
 
         private static void ContextMenuOpened(object sender, RoutedEventArgs e)
         {
-            var contextMenu = (ContextMenu)sender;
+            var contextMenu = (ItemsControl)sender;
             if (sender == null)
                 return;
+            UpdateDefinition(in contextMenu);
             UpdateChekcedStatus(contextMenu);
             var menuItems = contextMenu.Items.OfType<IDummyListMenuItem>().ToList();
             if (menuItems.Count == 0)
@@ -71,10 +73,10 @@ namespace ModernApplicationFramework.Controls.Extensions
 
         private static void OnSubmenuOpened(object sender, RoutedEventArgs e)
         {
-            var menuItem = (System.Windows.Controls.MenuItem)sender;
+            var menuItem = (ItemsControl)sender;
             if (sender == null)
                 return;
-
+            
             UpdateDefinition(in menuItem);
 
             UpdateChekcedStatus(menuItem);
@@ -87,35 +89,37 @@ namespace ModernApplicationFramework.Controls.Extensions
                 item.Update(commandRouter.GetCommandHandler(item.CommandBarItemDefinition.ItemDefinition));
         }
 
-        private static void UpdateDefinition(in System.Windows.Controls.MenuItem control)
+        private static void UpdateDefinition(in ItemsControl control)
         {
-            for (var i = 0; i < control.Items.Count; ++i)
-            {
-                var item = control.Items[i];
+            if (!(control.DataContext is CommandBarDataSource dataSource))
+                return;
+            var groups = dataSource.ContainedGroups;
+            var array = new object[control.Items.Count];
+            control.Items.CopyTo(array, 0);
 
-                if (item is FrameworkElement fe && fe.DataContext is CommandBarItemDataSource x && x.PrecededBySeparator && i - 1 > 0)
+            foreach (var group in groups.OrderBy(x => x.SortOrder))
+            {
+                group.InvalidateCommandItems();
+                var first = group.FirstItem;
+                var index = array.OfType<FrameworkElement>().IndexOf(x => x.DataContext == first);
+                if (index > 1 && first is CommandBarItemDataSource item && item.PrecededBySeparator)
                 {
-                    if (!x.IsVisible)
+                    if (!group.Items.Any(x => x.IsVisible))
                     {
-                        var separatorItem = control.Items[i - 1] as FrameworkElement;
+                        var separatorItem = control.Items[index - 1] as FrameworkElement;
                         if (separatorItem?.DataContext is SeparatorDataSource separator)
                             separator.IsVisible = false;
                     }
-                    else if (x.IsVisible)
+                    else
                     {
-                        if (x.PrecededBySeparator && i - 1 > 0)
-                        {
-                            var separatorItem = control.Items[i - 1] as FrameworkElement;
-                            if (separatorItem?.DataContext is SeparatorDataSource separator)
-                                separator.IsVisible = true;
-                        }
-
-                    }                   
+                        var separatorItem = control.Items[index - 1] as FrameworkElement;
+                        if (separatorItem?.DataContext is SeparatorDataSource separator)
+                            separator.IsVisible = true;
+                    }
                 }
             }
         }
 
-        //TODO: Check if still required
         private static void UpdateChekcedStatus(ItemsControl menuItem)
         {
             var menuItems = menuItem.Items.OfType<MenuItem>().ToList();

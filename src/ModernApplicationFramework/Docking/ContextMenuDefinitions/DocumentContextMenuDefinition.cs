@@ -12,6 +12,8 @@ namespace ModernApplicationFramework.Docking.ContextMenuDefinitions
         public static CommandBarItem DocumentContextMenu =
             new CommandBarConxtexMenu(new Guid("{7EF88CA9-552A-4F28-B850-592FDE415487}"), ContextMenuCategory.OtherContextMenusCategory, DockingResources.DocumentContextMenu_Name);
 
+        // ----> Close Group
+
         [Export]
         public static CommandBarGroup DocumentCloseContextMenuGroup =
             new CommandBarGroup(DocumentContextMenu, uint.MinValue);
@@ -30,6 +32,8 @@ namespace ModernApplicationFramework.Docking.ContextMenuDefinitions
             new CommandBarCommandItem<CloseAllButThisDockedWindowCommandDefinition>(new Guid("{E3F22BE8-7F30-4E69-89F5-F58A023FC5D4}"),
                 DocumentCloseContextMenuGroup, 2);
 
+        // ----> Float Group
+
         [Export]
         public static CommandBarGroup DocumentFloatContextMenuGroup =
             new CommandBarGroup(DocumentContextMenu, 2);
@@ -38,6 +42,9 @@ namespace ModernApplicationFramework.Docking.ContextMenuDefinitions
         public static CommandBarItem FloatCommandItem =
             new CommandBarCommandItem<FloatDockedWindowCommandDefinition>(new Guid("{BB537387-9C07-4CF3-9499-2C4D5DC0ABE0}"), DocumentFloatContextMenuGroup, 1);
 
+
+        // ----> Tab Grouping Group
+
         [Export]
         public static CommandBarGroup DocumentTabGroupContextMenuGroup =
             new CommandBarGroup(DocumentContextMenu, 3);
@@ -45,31 +52,31 @@ namespace ModernApplicationFramework.Docking.ContextMenuDefinitions
         [Export]
         public static CommandBarItem NewHorizontalTabGroupItemItem =
             new CommandBarCommandItem<NewHorizontalTabGroupCommandDefinition>(new Guid("{E960B87A-2E65-4189-A3CC-1E307C841382}"),
-                DocumentTabGroupContextMenuGroup, uint.MinValue);
+                DocumentTabGroupContextMenuGroup, uint.MinValue, CommandBarFlags.CommandDynamicVisibility);
 
         [Export]
         public static CommandBarItem NewVerticalTabGroupItemItem =
             new CommandBarCommandItem<NewVerticalTabGroupCommandDefinition>(new Guid("{21F0EA18-53CE-4075-ADB9-BD0E9DD8D6DD}"), DocumentTabGroupContextMenuGroup,
-                1);
+                1, CommandBarFlags.CommandDynamicVisibility);
 
         [Export]
         public static CommandBarItem MoveToNextTabGroupItemItem =
             new CommandBarCommandItem<MoveToNextTabGroupCommandDefinition>(new Guid("{FEB17F72-D79C-49C7-83D4-607E28CDD7D2}"), DocumentTabGroupContextMenuGroup,
-                2);
+                2, CommandBarFlags.CommandDynamicVisibility);
 
         [Export]
         public static CommandBarItem MoveAllToNextTabGroupItemItem =
             new CommandBarCommandItem<MoveAllToNextTabGroupCommandDefinition>(new Guid("{999E6855-0051-4ACA-95F7-A6B44B50CA4D}"),
-                DocumentTabGroupContextMenuGroup, 3);
+                DocumentTabGroupContextMenuGroup, 3, CommandBarFlags.CommandDynamicVisibility);
 
         [Export]
         public static CommandBarItem MoveToPreviousTabGroupItemItem =
             new CommandBarCommandItem<MoveToPreviousTabGroupCommandDefinition>(new Guid("{E4C35551-E7A3-4339-B3C7-C14821566C37}"),
-                DocumentTabGroupContextMenuGroup, 4);
+                DocumentTabGroupContextMenuGroup, 4, CommandBarFlags.CommandDynamicVisibility);
 
         [Export]
         public static CommandBarItem MoveAllToPreviousTabGroupItemItem =
             new CommandBarCommandItem<MoveAllToPreviousTabGroupCommandDefinition>(new Guid("{F1B00ABF-19CE-4B21-BCF9-08913ABBC280}"),
-                DocumentTabGroupContextMenuGroup, 5);
+                DocumentTabGroupContextMenuGroup, 5, CommandBarFlags.CommandDynamicVisibility);
     }
 }
