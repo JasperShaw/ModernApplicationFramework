@@ -154,6 +154,7 @@
       <LastGenOutput>WindowManagement.Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\WindowManagement.Resources.ru.resx" />
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -161,6 +162,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ModernApplicationFramework.Docking\ModernApplicationFramework.Docking.csproj">
+      <Project>{79388073-9D36-49FE-BBEE-3126A1FA9DDE}</Project>
+      <Name>ModernApplicationFramework.Docking</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework.Extended\ModernApplicationFramework.Extended.csproj">
       <Project>{51911695-6cdb-4833-9782-06c8821d1c4e}</Project>
       <Name>ModernApplicationFramework.Extended</Name>

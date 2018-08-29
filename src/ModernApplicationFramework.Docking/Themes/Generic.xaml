@@ -1,0 +1,22 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:ModernApplicationFramework.Docking">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/ModernApplicationFramework.Docking;component/Themes/AnchorablePaneTitle.xaml" />
+        <ResourceDictionary Source="/ModernApplicationFramework.Docking;component/Themes/DockingManager.xaml" />
+        <ResourceDictionary Source="/ModernApplicationFramework.Docking;component/Themes/LayoutAnchorableControl.xaml" />
+        <ResourceDictionary Source="/ModernApplicationFramework.Docking;component/Themes/LayoutAnchorableFloatingWindowControl.xaml" />
+        <ResourceDictionary Source="/ModernApplicationFramework.Docking;component/Themes/LayoutAnchorablePaneControl.xaml" />
+        <ResourceDictionary Source="/ModernApplicationFramework.Docking;component/Themes/LayoutAnchorableTabItem.xaml" />
+        <ResourceDictionary Source="/ModernApplicationFramework.Docking;component/Themes/LayoutAutoHideWindowControl.xaml" />
+        <ResourceDictionary Source="/ModernApplicationFramework.Docking;component/Themes/LayoutDocumentControl.xaml" />
+        <ResourceDictionary Source="/ModernApplicationFramework.Docking;component/Themes/LayoutDocumentFloatingWindowControl.xaml" />
+        <ResourceDictionary Source="/ModernApplicationFramework.Docking;component/Themes/LayoutDocumentPaneControl.xaml" />
+        <ResourceDictionary Source="/ModernApplicationFramework.Docking;component/Themes/LayoutDocumentTabItem.xaml" />
+        <ResourceDictionary Source="/ModernApplicationFramework.Docking;component/Themes/LayoutGridResizerControl.xaml" />
+        <ResourceDictionary Source="/ModernApplicationFramework.Docking;component/Themes/OverlayWindow.xaml" />
+        <ResourceDictionary Source="/ModernApplicationFramework.Docking;component/Themes/NavigatorWindow.xaml" />
+        <ResourceDictionary Source="/ModernApplicationFramework.Docking;component/Themes/DropDownButton.xaml" />
+        <ResourceDictionary Source="/ModernApplicationFramework.Docking;component/Themes/DropDownTitleBarButton.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

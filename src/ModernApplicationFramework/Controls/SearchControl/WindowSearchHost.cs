@@ -39,7 +39,7 @@ namespace ModernApplicationFramework.Controls.SearchControl
 
         public ISearchTask SearchTask { get; private set; }
 
-        internal object SearchParentControl { get; }
+        public object SearchParentControl { get; }
 
         private SearchControlDataSource DataSource { get; set; }
 

@@ -6,7 +6,6 @@ using System.Windows;
 using System.Windows.Media;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Native.Platform.Structs;
-using ModernApplicationFramework.Native.Standard;
 using ModernApplicationFramework.Utilities;
 using Point = System.Windows.Point;
 using RECT = ModernApplicationFramework.Native.Platform.Structs.RECT;

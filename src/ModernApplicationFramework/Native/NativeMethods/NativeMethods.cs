@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Security.Permissions;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
@@ -13,7 +12,6 @@ using Microsoft.Win32.SafeHandles;
 using ModernApplicationFramework.Native.Platform.Enums;
 using ModernApplicationFramework.Native.Platform.Structs;
 using ModernApplicationFramework.Native.Shell;
-using ModernApplicationFramework.Native.Standard;
 using ModernApplicationFramework.Native.TrinetCoreNtfs;
 using Point = System.Windows.Point;
 
@@ -170,15 +168,6 @@ namespace ModernApplicationFramework.Native.NativeMethods
         internal static int GetScWparam(IntPtr wParam)
         {
             return (int) wParam & 65520;
-        }
-
-        internal static IntPtr SetActiveWindow(IntPtr hwnd)
-        {
-            Verify.IsNotDefault(hwnd, "hwnd");
-            var ret = User32.SetActiveWindow(hwnd);
-            if (ret == IntPtr.Zero)
-                Hresult.ThrowLastError();
-            return ret;
         }
 
         private static int MakeHrFromErrorCode(int errorCode)
@@ -482,18 +471,6 @@ namespace ModernApplicationFramework.Native.NativeMethods
             return new IntPtr(User32.GetWindowLong(childHandle, -8));
         }
 
-        internal static RECT GetWindowRect(IntPtr hWnd)
-        {
-            User32.GetWindowRect(hWnd, out RECT result);
-            return result;
-        }
-
-        internal static Point GetMousePosition()
-        {
-            var w32Mouse = new Platform.Structs.Point();
-            User32.GetCursorPos(ref w32Mouse);
-            return new Point(w32Mouse.X, w32Mouse.Y);
-        }
 
         internal static Monitorinfo MonitorInfoFromWindow(Window window)
         {
@@ -576,5 +553,7 @@ namespace ModernApplicationFramework.Native.NativeMethods
         public delegate int HookProc(int code, IntPtr wParam, IntPtr lParam);
 
         public delegate IntPtr WindowsHookProc(CbtHookAction code, IntPtr wParam, IntPtr lParam);
+
+        public delegate IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
     }
 }

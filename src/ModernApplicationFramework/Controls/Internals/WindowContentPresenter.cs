@@ -7,7 +7,7 @@ using ModernApplicationFramework.Native.Platform.Structs;
 
 namespace ModernApplicationFramework.Controls.Internals
 {
-    internal class WindowContentPresenter : Decorator
+    public class WindowContentPresenter : Decorator
     {
         private Size _lastClientSize;
 

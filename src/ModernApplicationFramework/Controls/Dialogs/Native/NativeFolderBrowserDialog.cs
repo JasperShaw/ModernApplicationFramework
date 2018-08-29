@@ -10,7 +10,6 @@ using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Native.Platform.Enums;
 using ModernApplicationFramework.Native.Platform.Structs;
 using ModernApplicationFramework.Native.Shell;
-using ModernApplicationFramework.Native.Standard;
 
 namespace ModernApplicationFramework.Controls.Dialogs.Native
 {
@@ -144,7 +143,7 @@ namespace ModernApplicationFramework.Controls.Dialogs.Native
                 SetDialogProperties(dialog);
                 var result = dialog.Show(owner);
                 if (result < 0)
-                    if ((uint) result == (uint) Hresult.ERROR_CANCELLED.Code)
+                    if ((uint) result == (0x800704C7 & 0xFFFF))
                         return false;
                     else
                         throw Marshal.GetExceptionForHR(result);

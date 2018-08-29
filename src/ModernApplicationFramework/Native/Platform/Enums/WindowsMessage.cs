@@ -1,6 +1,6 @@
 ﻿namespace ModernApplicationFramework.Native.Platform.Enums
 {
-    internal enum WindowsMessage
+    public enum WindowsMessage
     {
         WmNull = 0x0000,
         WmCreate = 0x0001,

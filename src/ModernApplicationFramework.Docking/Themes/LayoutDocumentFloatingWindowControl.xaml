@@ -1,0 +1,181 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:avalonDockControls="clr-namespace:ModernApplicationFramework.Docking.Controls"
+                    xmlns:converters="clr-namespace:ModernApplicationFramework.Docking.Converters"
+                    xmlns:extensions="clr-namespace:ModernApplicationFramework.Controls.Extensions;assembly=ModernApplicationFramework"
+                    xmlns:internals="clr-namespace:ModernApplicationFramework.Controls.Internals;assembly=ModernApplicationFramework"
+                    xmlns:mafc="http://modern.framework.com/controls"
+                    xmlns:services="clr-namespace:ModernApplicationFramework.Basics.Services;assembly=ModernApplicationFramework"
+                    xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework">
+
+    <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    <converters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter" />
+    <converters:AnchorSideToOrientationConverter x:Key="AnchorSideToOrientationConverter" />
+    <converters:AnchorSideToAngleConverter x:Key="AnchorSideToAngleConverter" />
+    <converters:NullToDoNothingConverter x:Key="NullToDoNothingConverter" />
+    <converters:LayoutItemFromLayoutModelConverter x:Key="LayoutItemFromLayoutModelConverter" />
+    <converters:ActivateCommandLayoutItemFromLayoutModelConverter x:Key="ActivateCommandLayoutItemFromLayoutModelConverter" />
+
+    <Style x:Key="{x:Type avalonDockControls:LayoutDocumentFloatingWindowControl}" TargetType="{x:Type avalonDockControls:LayoutDocumentFloatingWindowControl}">
+        <Setter Property="WindowChrome.WindowChrome">
+            <Setter.Value>
+                <WindowChrome CaptionHeight="16"
+                              GlassFrameThickness="1"
+                              ResizeBorderThickness="3"
+                              UseAeroCaptionButtons="False" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="WindowStyle" Value="None" />
+        <Setter Property="AllowDrop" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="InputMethod.IsInputMethodSuspended" Value="True" />
+        <Setter Property="FlowDirection" Value="LeftToRight" />
+        <Setter Property="extensions:WindowStyleHelper.HasMaximizeButton" Value="True" />
+        <Setter Property="extensions:WindowStyleHelper.HasMinimizeButton" Value="True" />
+        <Setter Property="MinWidth" Value="50" />
+        <Setter Property="MinHeight" Value="50" />
+        <Setter Property="Title" Value="{Binding Path=Caption}" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.FloatingWindowBackground}}" />
+        <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
+        <Setter Property="ActiveGlowColor" Value="{DynamicResource {x:Static themes:EnvironmentColors.MainWindowActiveShadowAndBorderColor}}" />
+        <Setter Property="InactiveGlowColor" Value="{DynamicResource {x:Static themes:EnvironmentColors.MainWindowInactiveShadowAndBorderColor}}" />
+        <Setter Property="NonClientFillColor" Value="{Binding Path=Background, RelativeSource={RelativeSource Self}}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type avalonDockControls:LayoutDocumentFloatingWindowControl}">
+                    <internals:WindowContentPresenter>
+                        <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+                            <DockPanel>
+                                <avalonDockControls:FloatingWindowTitleBar x:Name="FloatingWindowTitleBar"
+                                                                           Background="{DynamicResource {x:Static themes:EnvironmentColors.FloatingWindowTitleBarBackground}}"
+                                                                           DockPanel.Dock="Top"
+                                                                           IsWindowTitleBar="True">
+                                    <DockPanel>
+                                        <mafc:SystemMenu x:Name="PART_SystemMenu"
+                                                         Width="32"
+                                                         Height="27"
+                                                         Margin="0,0,12,4"
+                                                         Padding="12,7,0,0"
+                                                         HorizontalAlignment="Left"
+                                                         DockPanel.Dock="Left"
+                                                         Source="{Binding Source={x:Static Application.Current}, Path=MainWindow.Icon}"
+                                                         VectorFill="{Binding Source={x:Static services:InternalApplicationIconService.Instance}, Path=ActiveColor}"
+                                                         WindowChrome.IsHitTestVisibleInChrome="True">
+                                            <mafc:SystemMenu.VectorIcon>
+                                                <Binding Path="VectorIcon" Source="{x:Static services:InternalApplicationIconService.Instance}" />
+                                            </mafc:SystemMenu.VectorIcon>
+                                        </mafc:SystemMenu>
+                                        <StackPanel x:Name="WindowTitleBarButtons"
+                                                    DockPanel.Dock="Right"
+                                                    Orientation="Horizontal">
+                                            <internals:WindowTitleBarButton x:Name="MinimizeButton"
+                                                                            Width="34"
+                                                                            Height="26"
+                                                                            Padding="0,3,0,0"
+                                                                            VerticalAlignment="Top"
+                                                                            AutomationProperties.AutomationId="Minimize"
+                                                                            AutomationProperties.Name="Minimize"
+                                                                            BorderThickness="1,0,1,1"
+                                                                            Command="{x:Static SystemCommands.MinimizeWindowCommand}"
+                                                                            CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                                                                            ToolTip="Minimize"
+                                                                            WindowChrome.IsHitTestVisibleInChrome="True">
+                                                <Path x:Name="MinimizeButtonPath"
+                                                      Width="9"
+                                                      Height="9"
+                                                      Data="F1 M 0,6 L 0,9 9,9 9,6 0,6 Z"
+                                                      Fill="{DynamicResource {x:Static themes:EnvironmentColors.FloatingWindowTitleBarGlyph}}"
+                                                      Stretch="None" />
+                                            </internals:WindowTitleBarButton>
+                                            <internals:WindowTitleBarButton x:Name="MaximizeRestoreButton"
+                                                                            Width="34"
+                                                                            Height="26"
+                                                                            Padding="0,3,0,0"
+                                                                            VerticalAlignment="Top"
+                                                                            AutomationProperties.AutomationId="Maximize"
+                                                                            AutomationProperties.Name="Maximize"
+                                                                            BorderThickness="1,0,1,1"
+                                                                            Command="{x:Static SystemCommands.MaximizeWindowCommand}"
+                                                                            CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                                                                            ToolTip="Maximize"
+                                                                            WindowChrome.IsHitTestVisibleInChrome="True">
+                                                <Path x:Name="MaximizeRestoreButtonPath"
+                                                      Width="9"
+                                                      Height="9"
+                                                      Data="F1 M 0,0 L 0,9 9,9 9,0 0,0 0,3 8,3 8,8 1,8 1,3 Z"
+                                                      Fill="{DynamicResource {x:Static themes:EnvironmentColors.FloatingWindowTitleBarGlyph}}"
+                                                      Stretch="Uniform" />
+                                            </internals:WindowTitleBarButton>
+                                            <internals:WindowTitleBarButton x:Name="CloseButton"
+                                                                            Width="34"
+                                                                            Height="26"
+                                                                            Padding="0,3,0,0"
+                                                                            VerticalAlignment="Top"
+                                                                            AutomationProperties.AutomationId="Close"
+                                                                            AutomationProperties.Name="Close"
+                                                                            BorderThickness="1,0,1,1"
+                                                                            Command="{Binding Path=RootDocumentLayoutItem.CloseCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                            ToolTip="Close"
+                                                                            WindowChrome.IsHitTestVisibleInChrome="True">
+                                                <Path x:Name="CloseButtonPath"
+                                                      Width="10"
+                                                      Height="8"
+                                                      Data="F1 M 0,0 L 2,0 5,3 8,0 10,0 6,4 10,8 8,8 5,5 2,8 0,8 4,4 0,0 Z"
+                                                      Fill="{DynamicResource {x:Static themes:EnvironmentColors.FloatingWindowTitleBarGlyph}}"
+                                                      Stretch="Uniform" />
+                                            </internals:WindowTitleBarButton>
+                                        </StackPanel>
+                                        <TextBlock x:Name="TitleBarText"
+                                                   Margin="4,0,0,0"
+                                                   VerticalAlignment="Center"
+                                                   Foreground="{DynamicResource {x:Static themes:EnvironmentColors.FloatingWindowTitleBarForegroundActive}}"
+                                                   Text="{Binding Path=MainWindow.Title, Source={x:Static Application.Current}}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </DockPanel>
+                                </avalonDockControls:FloatingWindowTitleBar>
+                                <AdornerDecorator>
+                                    <ContentPresenter Margin="4" Content="{TemplateBinding Content}" />
+                                </AdornerDecorator>
+                            </DockPanel>
+                        </Grid>
+                    </internals:WindowContentPresenter>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="WindowState" Value="Maximized">
+                            <Setter TargetName="FloatingWindowTitleBar" Property="Margin" Value="0,0,0,4" />
+                            <Setter TargetName="MaximizeRestoreButtonPath" Property="Data" Value="F1 M 0,10 L 0,3 3,3 3,0 10,0 10,2 4,2 4,3 7,3 7,6 6,6 6,5 1,5 1,10 M 1,10 L 7,10 7,7 10,7 10,2 9,2 9,6 6,6 6,9 1,9 Z" />
+                            <Setter TargetName="MaximizeRestoreButtonPath" Property="Width" Value="10" />
+                            <Setter TargetName="MaximizeRestoreButtonPath" Property="Height" Value="10" />
+                            <Setter TargetName="MaximizeRestoreButton" Property="ToolTip" Value="Restore" />
+                            <Setter TargetName="MaximizeRestoreButton" Property="AutomationProperties.Name" Value="Restore" />
+                            <Setter TargetName="MaximizeRestoreButton" Property="AutomationProperties.AutomationId" Value="Restore" />
+                            <Setter TargetName="MaximizeRestoreButton" Property="Command" Value="{x:Static SystemCommands.RestoreWindowCommand}" />
+                        </Trigger>
+                        <Trigger Property="IsActive" Value="False">
+                            <Setter TargetName="TitleBarText" Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.FloatingWindowTitleBarForeground}}" />
+                            <Setter TargetName="PART_SystemMenu" Property="VectorFill" Value="{Binding Source={x:Static services:InternalApplicationIconService.Instance}, Path=InactiveColor}" />
+                        </Trigger>
+                        <Trigger SourceName="CloseButton" Property="IsMouseOver" Value="True">
+                            <Setter TargetName="CloseButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.FloatingWindowTitleBarGlyphHover}}" />
+                        </Trigger>
+                        <Trigger SourceName="MaximizeRestoreButton" Property="IsMouseOver" Value="True">
+                            <Setter TargetName="MaximizeRestoreButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.FloatingWindowTitleBarGlyphHover}}" />
+                        </Trigger>
+                        <Trigger SourceName="MinimizeButton" Property="IsMouseOver" Value="True">
+                            <Setter TargetName="MinimizeButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.FloatingWindowTitleBarGlyphHover}}" />
+                        </Trigger>
+                        <Trigger SourceName="CloseButton" Property="IsPressed" Value="True">
+                            <Setter TargetName="CloseButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.FloatingWindowTitleBarGlyphDown}}" />
+                        </Trigger>
+                        <Trigger SourceName="MaximizeRestoreButton" Property="IsPressed" Value="True">
+                            <Setter TargetName="MaximizeRestoreButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.FloatingWindowTitleBarGlyphDown}}" />
+                        </Trigger>
+                        <Trigger SourceName="MinimizeButton" Property="IsPressed" Value="True">
+                            <Setter TargetName="MinimizeButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.FloatingWindowTitleBarGlyphDown}}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

@@ -133,6 +133,8 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
         public void BuildLogical(CommandBarDataSource definition, IReadOnlyList<CommandBarGroup> groups, Func<CommandBarGroup, IReadOnlyList<CommandBarItemDataSource>> itemFunc)
         {
+            if (definition == null)
+                return;
             var topGroups = groups.Where(x => x.Parent == definition)
                 .OrderBy(x => x.SortOrder)
                 .ToList();

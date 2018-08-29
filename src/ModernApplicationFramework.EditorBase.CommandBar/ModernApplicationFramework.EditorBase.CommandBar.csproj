@@ -73,6 +73,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ModernApplicationFramework.Docking\ModernApplicationFramework.Docking.csproj">
+      <Project>{79388073-9d36-49fe-bbee-3126a1fa9dde}</Project>
+      <Name>ModernApplicationFramework.Docking</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework.EditorBase\ModernApplicationFramework.EditorBase.csproj">
       <Project>{C5F062E8-48C1-425E-831F-511A541E18D8}</Project>
       <Name>ModernApplicationFramework.EditorBase</Name>
@@ -118,6 +122,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

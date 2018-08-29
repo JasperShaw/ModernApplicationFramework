@@ -3,7 +3,7 @@ using System.Windows.Controls;
 
 namespace ModernApplicationFramework.Controls.Primitives
 {
-    internal class DropDownButtonBase : ContentControl
+    public class DropDownButtonBase : ContentControl
     {
         public static readonly DependencyProperty RenderCheckedProperty = DependencyProperty.Register("RenderChecked",
             typeof(bool), typeof(DropDownButtonBase), new UIPropertyMetadata(false, OnRenderCheckedChanged));

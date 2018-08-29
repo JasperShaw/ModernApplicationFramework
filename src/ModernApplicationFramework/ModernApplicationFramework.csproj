@@ -192,55 +192,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Resource Include="Docking\Themes\Generic\Images\DockBottom.PNG" />
-    <Resource Include="Docking\Themes\Generic\Images\DockLeft.PNG" />
-    <Resource Include="Docking\Themes\Generic\Images\DockPane.PNG" />
-    <Resource Include="Docking\Themes\Generic\Images\DockPaneEmpty.png" />
-    <Resource Include="Docking\Themes\Generic\Images\DockRight.PNG" />
-    <Resource Include="Docking\Themes\Generic\Images\DockTop.PNG" />
-    <Resource Include="Docking\Themes\Generic\Images\HTabGroup.png" />
-    <Resource Include="Docking\Themes\Generic\Images\InnerDockDocPaneBottom.png" />
-    <Resource Include="Docking\Themes\Generic\Images\InnerDockDocPaneLeft.png" />
-    <Resource Include="Docking\Themes\Generic\Images\InnerDockDocPaneRight.png" />
-    <Resource Include="Docking\Themes\Generic\Images\InnerDockDocPaneTop.png" />
-    <Resource Include="Docking\Themes\Generic\Images\InnerDockPaneBottom.png" />
-    <Resource Include="Docking\Themes\Generic\Images\InnerDockPaneInside.png" />
-    <Resource Include="Docking\Themes\Generic\Images\InnerDockPaneLeft.png" />
-    <Resource Include="Docking\Themes\Generic\Images\InnerDockPaneRight.png" />
-    <Resource Include="Docking\Themes\Generic\Images\InnerDockPaneTop.png" />
-    <Resource Include="Docking\Themes\Generic\Images\Locked.png" />
-    <Resource Include="Docking\Themes\Generic\Images\PinAutoHide.png" />
-    <Resource Include="Docking\Themes\Generic\Images\PinClose.png" />
-    <Resource Include="Docking\Themes\Generic\Images\PinDocMenu.png" />
-    <Resource Include="Docking\Themes\Generic\Images\PinMaximize.png" />
-    <Resource Include="Docking\Themes\Generic\Images\PinMenu.png" />
-    <Resource Include="Docking\Themes\Generic\Images\PinRestore.png" />
-    <Resource Include="Docking\Themes\Generic\Images\VTabGroup.png" />
-    <Resource Include="Docking\Themes\Generic\Images\DockAnchorableBottom.png" />
-    <Resource Include="Docking\Themes\Generic\Images\DockAnchorableLeft.png" />
-    <Resource Include="Docking\Themes\Generic\Images\DockAnchorableRight.png" />
-    <Resource Include="Docking\Themes\Generic\Images\DockAnchorableTop.png" />
-    <Resource Include="Docking\Themes\Generic\Images\DockDocumentAsAnchorableBottom.png" />
-    <Resource Include="Docking\Themes\Generic\Images\DockDocumentAsAnchorableLeft.png" />
-    <Resource Include="Docking\Themes\Generic\Images\DockDocumentAsAnchorableRight.png" />
-    <Resource Include="Docking\Themes\Generic\Images\DockDocumentAsAnchorableTop.png" />
-    <Resource Include="Docking\Themes\Generic\Images\DockDocumentBottom.png" />
-    <Resource Include="Docking\Themes\Generic\Images\DockDocumentInside.png" />
-    <Resource Include="Docking\Themes\Generic\Images\DockDocumentLeft.png" />
-    <Resource Include="Docking\Themes\Generic\Images\DockDocumentRight.png" />
-    <Resource Include="Docking\Themes\Generic\Images\DockDocumentTop.png" />
-    <Resource Include="Docking\Themes\Generic\Images\DockPaneLargeEmpty.png" />
-    <Resource Include="Docking\Themes\Generic\Images\PinAutoHide_Black.png" />
-    <Resource Include="Docking\Themes\Generic\Images\PinAutoHide_Dark.png" />
-    <Resource Include="Docking\Themes\Generic\Images\PinClose_Black.png" />
-    <Resource Include="Docking\Themes\Generic\Images\PinClose_Dark.png" />
-    <Resource Include="Docking\Themes\Generic\Images\PinDocMenu_Black.png" />
-    <Resource Include="Docking\Themes\Generic\Images\PinMaximize_Black.png" />
-    <Resource Include="Docking\Themes\Generic\Images\PinMaximize_Dark.png" />
-    <Resource Include="Docking\Themes\Generic\Images\PinMenu_Black.png" />
-    <Resource Include="Docking\Themes\Generic\Images\PinMenu_Dark.png" />
-    <Resource Include="Docking\Themes\Generic\Images\PinRestore_Black.png" />
-    <Resource Include="Docking\Themes\Generic\Images\PinRestore_Dark.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Basics\ApplicationEnvironment\AbstractEnvironmentVariables.cs" />
@@ -268,8 +219,6 @@
     <Compile Include="Core\Converters\Customize\ResizeMenuItemVisiblilityConverter.cs" />
     <Compile Include="Core\Converters\FlagToNameConverter.cs" />
     <Compile Include="Core\Themes\CommonControlsColors.cs" />
-    <Compile Include="Docking\CommandDefinitions\PinActiveDocumentCommandDefinition.cs" />
-    <Compile Include="Docking\Commands\PinActiveDocumentCommand.cs" />
     <Compile Include="Interfaces\Commands\ICustomizeMenuCommand.cs" />
     <Compile Include="Basics\Search\Search.Resources.Designer.cs">
       <DependentUpon>Search.Resources.resx</DependentUpon>
@@ -291,15 +240,6 @@
     <Compile Include="Core\Converters\General\BooleanToHiddenVisibilityConverter.cs" />
     <Compile Include="Core\Themes\ResourceKeys.cs" />
     <Compile Include="Core\Utilities\ScrollBarThemingUtilities.cs" />
-    <Compile Include="Docking\Commands\AutoHideAllWindowsCommand.cs" />
-    <Compile Include="Docking\Commands\AutoHideWindowCommand.cs" />
-    <Compile Include="Docking\Commands\CloseAllButThisDockedWindowCommand.cs" />
-    <Compile Include="Docking\Commands\CloseAllDockedWindowCommand.cs" />
-    <Compile Include="Docking\Commands\CloseDockedWindowCommand.cs" />
-    <Compile Include="Docking\Commands\DockAsTabbedDocumentCommand.cs" />
-    <Compile Include="Docking\Commands\DockWindowCommand.cs" />
-    <Compile Include="Docking\Commands\FloatDockedWindowCommand.cs" />
-    <Compile Include="Docking\Commands\HideDockedWindowCommand.cs" />
     <Compile Include="Input\GestureHelper.cs" />
     <Compile Include="Interfaces\Commands\IAutoHideAllWindowsCommand.cs" />
     <Compile Include="Interfaces\Commands\IAutoHideWindowCommand.cs" />
@@ -316,12 +256,6 @@
     <Compile Include="Interfaces\Commands\IMoveToPreviousTabGroupCommand.cs" />
     <Compile Include="Interfaces\Commands\INewHorizontalTabGroupCommand.cs" />
     <Compile Include="Interfaces\Commands\INewVerticalTabGroupCommand.cs" />
-    <Compile Include="Docking\Commands\MoveAllToNextTabGroupCommand.cs" />
-    <Compile Include="Docking\Commands\MoveAllToPreviousTabGroupCommand.cs" />
-    <Compile Include="Docking\Commands\MoveToNextTabGroupCommand.cs" />
-    <Compile Include="Docking\Commands\MoveToPreviousTabGroupCommand.cs" />
-    <Compile Include="Docking\Commands\NewHorizontalTabGroupCommand.cs" />
-    <Compile Include="Docking\Commands\NewVerticalTabGroupCommand.cs" />
     <Compile Include="Input\Command\CommandDefinitionCommand.cs" />
     <Compile Include="Basics\CommandBar\ItemDefinitions\CommandListHandlerDefinition.cs" />
     <Compile Include="Basics\CommandBar\ItemDefinitions\ExcludedItemDefinition.cs" />
@@ -395,10 +329,6 @@
     <Compile Include="Core\Converters\SearchProgressTypeConverter.cs" />
     <Compile Include="Core\Converters\SearchStatusConverter.cs" />
     <Compile Include="Core\Themes\SearchControlColors.cs" />
-    <Compile Include="Docking\AnchorableCloseMode.cs" />
-    <Compile Include="Docking\AnchorablesClosedEventArgs.cs" />
-    <Compile Include="Docking\AnchorablesClosingEventArgs.cs" />
-    <Compile Include="Docking\Controls\ILayoutItemHost.cs" />
     <Compile Include="Input\Command\CommandHelpers.cs" />
     <Compile Include="Interfaces\Services\ILayoutBackupProvider.cs" />
     <Compile Include="Interfaces\Services\ILayoutSerializer.cs" />
@@ -433,8 +363,6 @@
     <Compile Include="Core\Exception\ContractNotFoundException.cs" />
     <Compile Include="Core\Themes\ColorResources.cs" />
     <Compile Include="Core\WpfSynchronizeInvoke.cs" />
-    <Compile Include="Docking\DocumentsClosedEventArgs.cs" />
-    <Compile Include="Docking\DocumentsClosingEventArgs.cs" />
     <Compile Include="Interfaces\IHasIconSource.cs" />
     <Compile Include="Interfaces\Services\ICommandBarLayoutBackupProvider.cs" />
     <Compile Include="Interfaces\Services\ICommandBarSerializer.cs" />
@@ -447,9 +375,7 @@
     <Compile Include="Interfaces\Services\IWaitDialogFactory.cs" />
     <Compile Include="Interfaces\Controls\IWaitDialog.cs" />
     <Compile Include="Core\Converters\IconToVisibilityConverter.cs" />
-    <Compile Include="Docking\DockingManagerPreferences.cs" />
     <Compile Include="Interfaces\Utilities\ISuspendable.cs" />
-    <Compile Include="Docking\Layout\MoveResult.cs" />
     <Compile Include="Core\Utilities\Suspender.cs" />
     <Compile Include="Interfaces\Services\IInfoBarUiFactory.cs" />
     <Compile Include="Basics\Services\InfoBarUIFactoryService.cs" />
@@ -500,8 +426,6 @@
     <Compile Include="Core\CommandFocus\CommandRestoreFocusScope.cs" />
     <Compile Include="Core\CommandFocus\HwndSourceTracker.cs" />
     <Compile Include="Core\CommandFocus\RestoreFocusScope.cs" />
-    <Compile Include="Docking\Controls\DragUndockHeader.cs" />
-    <Compile Include="Docking\DockPreference.cs" />
     <Compile Include="Input\Command\DelegateCommand.cs" />
     <Compile Include="Input\GestureScopeMapping.cs" />
     <Compile Include="Input\CommandDefinitionGestureMappingStore.cs" />
@@ -580,17 +504,10 @@
     <Compile Include="Core\Converters\StringUppercaseConverter.cs" />
     <Compile Include="Core\DialogProvider\DialogProvider.cs" />
     <Compile Include="Core\ValidationRules\PositiveIntegerValidationRule.cs" />
-    <Compile Include="Docking\CommandDefinitions\AutoHideAllWindowsCommandDefinition.cs" />
-    <Compile Include="Docking\ContextMenuProviders\AnchorableContextMenuProvider.cs" />
     <Compile Include="Interfaces\IContextMenuProvider.cs" />
     <Compile Include="Interfaces\IDialogProvider.cs" />
     <Compile Include="Core\Localization\LanguageInfo.cs" />
     <Compile Include="Core\Localization\LanguageManager.cs" />
-    <Compile Include="Docking\DockingResources.Designer.cs">
-      <DependentUpon>DockingResources.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Interfaces\Services\IMafUIShell.cs" />
     <Compile Include="Interfaces\ViewModels\IAddCommandDialogViewModel.cs" />
     <Compile Include="Basics\CommandBar\DataSources\MenuControllerDataSource.cs" />
@@ -683,7 +600,6 @@
     <Compile Include="Core\Converters\Customize\IsCustomMenuConverter.cs" />
     <Compile Include="Core\Converters\Customize\IsNotSeparatorModelConverter.cs" />
     <Compile Include="Core\Converters\Customize\IsSeparatorOrCustomizableModelConverter.cs" />
-    <Compile Include="Docking\ContextMenuProviders\DocumentTabModelContextMenuProvider.cs" />
     <Compile Include="Core\Converters\MultiCommandToVisibilityConverter.cs" />
     <Compile Include="Core\Converters\General\NegateBooleanConverter.cs" />
     <Compile Include="Core\Converters\General\OrBooleanConverter.cs" />
@@ -697,23 +613,6 @@
     <Compile Include="Core\Utilities\StyleUtilities.cs" />
     <Compile Include="Core\ValidationRules\ComboBoxWidthValidationRule.cs" />
     <Compile Include="Core\ValidationRules\CommandNameNotEmptyValidationRule.cs" />
-    <Compile Include="Docking\CommandDefinitions\AutoHideWindowCommandDefinition.cs" />
-    <Compile Include="Docking\CommandDefinitions\CloseAllButThisDockedWindowCommandDefinition.cs" />
-    <Compile Include="Docking\CommandDefinitions\CloseAllDockedWindowCommandDefinition.cs" />
-    <Compile Include="Docking\CommandDefinitions\DockAsTabbedDocumentCommandDefinition.cs" />
-    <Compile Include="Docking\CommandDefinitions\MoveAllToNextTabGroupCommandDefinition.cs" />
-    <Compile Include="Docking\CommandDefinitions\MoveAllToPreviousTabGroupCommandDefinition.cs" />
-    <Compile Include="Docking\CommandDefinitions\MoveToPreviousTabGroupCommandDefinition.cs" />
-    <Compile Include="Docking\CommandDefinitions\MoveToNextTabGroupCommandDefinition.cs" />
-    <Compile Include="Docking\CommandDefinitions\NewVerticalTabGroupCommandDefinition.cs" />
-    <Compile Include="Docking\CommandDefinitions\NewHorizontalTabGroupCommandDefinition.cs" />
-    <Compile Include="Docking\CommandDefinitions\DockWindowCommandDefinition.cs" />
-    <Compile Include="Docking\CommandDefinitions\FloatDockedWindowCommandDefinition.cs" />
-    <Compile Include="Docking\CommandDefinitions\CloseDockedWindowCommandDefinition.cs" />
-    <Compile Include="Docking\CommandDefinitions\HideDockedWindowCommandDefinition.cs" />
-    <Compile Include="Docking\ContextMenuDefinitions\AnchorableContextMenuDefinition.cs" />
-    <Compile Include="Docking\ContextMenuDefinitions\AnchorableAsDocumentContextMenuDefinition.cs" />
-    <Compile Include="Docking\ContextMenuDefinitions\DocumentContextMenuDefinition.cs" />
     <Compile Include="Interfaces\Services\ICommandHandler.cs" />
     <Compile Include="Interfaces\Services\ICommandListHandler.cs" />
     <Compile Include="Interfaces\Services\ICommandRouter.cs" />
@@ -785,7 +684,6 @@
     <Compile Include="Native\Platform\Enums\HookType.cs" />
     <Compile Include="Native\Platform\Enums\NativeFileAccess.cs" />
     <Compile Include="Native\Platform\Enums\NativeFileFlags.cs" />
-    <Compile Include="Native\Platform\Enums\SystemCommands.cs" />
     <Compile Include="Native\Platform\Enums\WindowsMessage.cs" />
     <Compile Include="Native\Platform\Enums\WindowStyles.cs" />
     <Compile Include="Native\Platform\Structs\BrowseInfo.cs" />
@@ -812,9 +710,7 @@
     <Compile Include="Native\Shell\ShellComInterfaces.cs" />
     <Compile Include="Native\Shell\ShellWrapperDefinitions.cs" />
     <Compile Include="Native\Shell\Win32Resources.cs" />
-    <Compile Include="Native\Standard\ErrorCodes.cs" />
     <Compile Include="Core\Themes\ThemeManager.cs" />
-    <Compile Include="Native\Standard\PrivateErrorHelpers.cs" />
     <Compile Include="Native\TrinetCoreNtfs\AlternateDataStreamInfo.cs" />
     <Compile Include="Native\TrinetCoreNtfs\FileStreamAttributes.cs" />
     <Compile Include="Native\TrinetCoreNtfs\FileStreamType.cs" />
@@ -849,7 +745,6 @@
     <Compile Include="Controls\Windows\MainWindowTitleBar.cs" />
     <Compile Include="Controls\Menu\Menu.cs" />
     <Compile Include="Controls\Menu\MenuItem.cs" />
-    <Compile Include="Core\Comparers\LogicalStringComparer.cs" />
     <Compile Include="Core\Converters\General\AndBooleanConverter.cs" />
     <Compile Include="Core\Converters\BooleanToFlowDirectionConverter.cs" />
     <Compile Include="Core\Converters\DockLocationConverter.cs" />
@@ -881,9 +776,7 @@
     <Compile Include="Native\Platform\Structs\WindowInfo.cs" />
     <Compile Include="Native\Platform\Structs\Windowplacement.cs" />
     <Compile Include="Native\Platform\Structs\Windowpos.cs" />
-    <Compile Include="Native\Standard\Debug.cs" />
     <Compile Include="Native\Shell\ShellProvider.cs" />
-    <Compile Include="Native\Standard\Verify.cs" />
     <Compile Include="Core\Themes\EnvironmentColors.cs" />
     <Compile Include="Interfaces\Services\IThemeManager.cs" />
     <Compile Include="Core\Themes\Theme.cs" />
@@ -894,126 +787,6 @@
     <Compile Include="Native\Screen.cs" />
     <Compile Include="Core\Utilities\VisualUtilities.cs" />
     <Compile Include="Controls\Extensions\WindowStyleHelper.cs" />
-    <Compile Include="Docking\Controls\AnchorablePaneControlOverlayArea.cs" />
-    <Compile Include="Docking\Controls\AnchorablePaneDropTarget.cs" />
-    <Compile Include="Docking\Controls\AnchorablePaneTabPanel.cs" />
-    <Compile Include="Docking\Controls\AnchorablePaneTitle.cs" />
-    <Compile Include="Docking\Controls\AutoHideWindowManager.cs" />
-    <Compile Include="Docking\Controls\BindingHelper.cs" />
-    <Compile Include="Docking\Controls\ContextMenuEx.cs" />
-    <Compile Include="Docking\Controls\DockingManagerDropTarget.cs" />
-    <Compile Include="Docking\Controls\DockingManagerOverlayArea.cs" />
-    <Compile Include="Docking\Controls\DocumentPaneControlOverlayArea.cs" />
-    <Compile Include="Docking\Controls\DocumentPaneDropAsAnchorableTarget.cs" />
-    <Compile Include="Docking\Controls\DocumentPaneDropTarget.cs" />
-    <Compile Include="Docking\Controls\DocumentPaneGroupDropTarget.cs" />
-    <Compile Include="Docking\Controls\DocumentPaneTabPanel.cs" />
-    <Compile Include="Docking\Controls\DragService.cs" />
-    <Compile Include="Docking\Controls\FloatingWindowTitleBar.cs" />
-    <Compile Include="Docking\Controls\DropArea.cs" />
-    <Compile Include="Docking\Controls\DropDownButton.cs" />
-    <Compile Include="Docking\Controls\DropDownControlArea.cs" />
-    <Compile Include="Docking\Controls\DropDownTitleBarButton.cs" />
-    <Compile Include="Docking\Controls\DropTarget.cs" />
-    <Compile Include="Docking\Controls\DropTargetBase.cs" />
-    <Compile Include="Docking\Controls\DropTargetType.cs" />
-    <Compile Include="Docking\Controls\Extentions.cs" />
-    <Compile Include="Docking\Controls\FocusElementManager.cs" />
-    <Compile Include="Docking\Controls\FullWeakDictionary.cs" />
-    <Compile Include="Docking\Controls\IDropTarget.cs" />
-    <Compile Include="Docking\Controls\IOverlayWindow.cs" />
-    <Compile Include="Docking\Controls\IOverlayWindowArea.cs" />
-    <Compile Include="Docking\Controls\IOverlayWindowDropTarget.cs" />
-    <Compile Include="Docking\Controls\IOverlayWindowHost.cs" />
-    <Compile Include="Docking\Controls\LayoutAnchorableControl.cs" />
-    <Compile Include="Docking\Controls\LayoutAnchorableFloatingWindowControl.cs" />
-    <Compile Include="Docking\Controls\LayoutAnchorableItem.cs" />
-    <Compile Include="Docking\Controls\LayoutAnchorablePaneControl.cs" />
-    <Compile Include="Docking\Controls\LayoutAnchorablePaneGroupControl.cs" />
-    <Compile Include="Docking\Controls\LayoutAnchorableTabItem.cs" />
-    <Compile Include="Docking\Controls\LayoutAnchorControl.cs" />
-    <Compile Include="Docking\Controls\LayoutAnchorGroupControl.cs" />
-    <Compile Include="Docking\Controls\LayoutAnchorSideControl.cs" />
-    <Compile Include="Docking\Controls\LayoutAutoHideWindowControl.cs" />
-    <Compile Include="Docking\Controls\LayoutDocumentControl.cs" />
-    <Compile Include="Docking\Controls\LayoutDocumentFloatingWindowControl.cs" />
-    <Compile Include="Docking\Controls\LayoutDocumentItem.cs" />
-    <Compile Include="Docking\Controls\LayoutDocumentPaneControl.cs" />
-    <Compile Include="Docking\Controls\LayoutDocumentPaneGroupControl.cs" />
-    <Compile Include="Docking\Controls\LayoutDocumentTabItem.cs" />
-    <Compile Include="Docking\Controls\LayoutFloatingWindowControl.cs" />
-    <Compile Include="Docking\Controls\LayoutGridControl.cs" />
-    <Compile Include="Docking\Controls\LayoutGridResizerControl.cs" />
-    <Compile Include="Docking\Controls\LayoutItem.cs" />
-    <Compile Include="Docking\Controls\LayoutPanelControl.cs" />
-    <Compile Include="Docking\Controls\MenuItemEx.cs" />
-    <Compile Include="Docking\Controls\NavigatorWindow.cs" />
-    <Compile Include="Docking\Controls\OverlayArea.cs" />
-    <Compile Include="Docking\Controls\OverlayWindow.cs" />
-    <Compile Include="Docking\Controls\OverlayWindowDropTarget.cs" />
-    <Compile Include="Docking\Controls\OverlayWindowDropTargetType.cs" />
-    <Compile Include="Docking\Controls\ReentrantFlag.cs" />
-    <Compile Include="Docking\Controls\TransformExtentions.cs" />
-    <Compile Include="Docking\Controls\WeakDictionary.cs" />
-    <Compile Include="Docking\Controls\WindowActivateEventArgs.cs" />
-    <Compile Include="Docking\Controls\WindowHookHandler.cs" />
-    <Compile Include="Docking\Converters\ActivateCommandLayoutItemFromLayoutModelConverter.cs" />
-    <Compile Include="Docking\Converters\AnchorSideToAngleConverter.cs" />
-    <Compile Include="Docking\Converters\AnchorSideToOrientationConverter.cs" />
-    <Compile Include="Docking\Converters\AutoHideCommandLayoutItemFromLayoutModelConverter.cs" />
-    <Compile Include="Docking\Converters\BoolToVisibilityConverter.cs" />
-    <Compile Include="Docking\Converters\HideCommandLayoutItemFromLayoutModelConverter.cs" />
-    <Compile Include="Docking\Converters\InverseBoolToVisibilityConverter.cs" />
-    <Compile Include="Docking\Converters\LayoutItemFromLayoutModelConverter.cs" />
-    <Compile Include="Docking\Converters\NullToDoNothingConverter.cs" />
-    <Compile Include="Docking\Converters\UriSourceToBitmapImageConverter.cs" />
-    <Compile Include="Docking\DockingManager.cs" />
-    <Compile Include="Docking\DocumentClosedEventArgs.cs" />
-    <Compile Include="Docking\DocumentClosingEventArgs.cs" />
-    <Compile Include="Docking\LayoutEventArgs.cs" />
-    <Compile Include="Docking\Layout\AnchorableShowStrategy.cs" />
-    <Compile Include="Docking\Layout\AnchorSide.cs" />
-    <Compile Include="Docking\Layout\ChildrenTreeChangedEventArgs.cs" />
-    <Compile Include="Docking\Layout\Extentions.cs" />
-    <Compile Include="Docking\Layout\ILayoutAnchorablePane.cs" />
-    <Compile Include="Docking\Layout\ILayoutContainer.cs" />
-    <Compile Include="Docking\Layout\ILayoutContentSelector.cs" />
-    <Compile Include="Docking\Layout\ILayoutControl.cs" />
-    <Compile Include="Docking\Layout\ILayoutDocumentPane.cs" />
-    <Compile Include="Docking\Layout\ILayoutElement.cs" />
-    <Compile Include="Docking\Layout\ILayoutElementWithVisibility.cs" />
-    <Compile Include="Docking\Layout\ILayoutGroup.cs" />
-    <Compile Include="Docking\Layout\ILayoutOrientableElement.cs" />
-    <Compile Include="Docking\Layout\ILayoutPane.cs" />
-    <Compile Include="Docking\Layout\ILayoutPanelElement.cs" />
-    <Compile Include="Docking\Layout\ILayoutPaneSerializable.cs" />
-    <Compile Include="Docking\Layout\ILayoutPositionableElement.cs" />
-    <Compile Include="Docking\Layout\ILayoutPreviousContainer.cs" />
-    <Compile Include="Docking\Layout\ILayoutRoot.cs" />
-    <Compile Include="Docking\Layout\ILayoutUpdateStrategy.cs" />
-    <Compile Include="Docking\Layout\LayoutAnchorable.cs" />
-    <Compile Include="Docking\Layout\LayoutAnchorableFloatingWindow.cs" />
-    <Compile Include="Docking\Layout\LayoutAnchorablePane.cs" />
-    <Compile Include="Docking\Layout\LayoutAnchorablePaneGroup.cs" />
-    <Compile Include="Docking\Layout\LayoutAnchorGroup.cs" />
-    <Compile Include="Docking\Layout\LayoutAnchorSide.cs" />
-    <Compile Include="Docking\Layout\LayoutContent.cs" />
-    <Compile Include="Docking\Layout\LayoutDocument.cs" />
-    <Compile Include="Docking\Layout\LayoutDocumentFloatingWindow.cs" />
-    <Compile Include="Docking\Layout\LayoutDocumentPane.cs" />
-    <Compile Include="Docking\Layout\LayoutDocumentPaneGroup.cs" />
-    <Compile Include="Docking\Layout\LayoutElement.cs" />
-    <Compile Include="Docking\Layout\LayoutElementEventArgs.cs" />
-    <Compile Include="Docking\Layout\LayoutFloatingWindow.cs" />
-    <Compile Include="Docking\Layout\LayoutGroup.cs" />
-    <Compile Include="Docking\Layout\LayoutGroupBase.cs" />
-    <Compile Include="Docking\Layout\LayoutPanel.cs" />
-    <Compile Include="Docking\Layout\LayoutPositionableGroup.cs" />
-    <Compile Include="Docking\Layout\LayoutRoot.cs" />
-    <Compile Include="Docking\Layout\Serialization\LayoutSerializationCallbackEventArgs.cs" />
-    <Compile Include="Docking\Layout\Serialization\LayoutSerializer.cs" />
-    <Compile Include="Docking\Layout\Serialization\XmlLayoutSerializer.cs" />
-    <Compile Include="Core\Utilities\MathHelper.cs" />
     <Compile Include="Native\WindowHelper.cs" />
     <Compile Include="Interfaces\Utilities\IToolbarCreator.cs" />
     <Compile Include="Interfaces\Services\IKeyGestureService.cs" />
@@ -1083,9 +856,6 @@
     </Compile>
     <Compile Include="Themes\BlueTheme.cs" />
     <Compile Include="Themes\GenericTheme.cs" />
-    <Page Include="Themes\Generic\AnchorablePaneTitle.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Themes\Generic\IconTextButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1102,12 +872,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\Generic\DockingManager.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Generic\DropDownTitleBarButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Themes\Generic\GlyphButton.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1123,47 +887,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\Generic\LayoutAnchorableControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Generic\LayoutAnchorableFloatingWindowControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Generic\LayoutAnchorablePaneControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Generic\LayoutAnchorableTabItem.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Generic\LayoutAutoHideWindowControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>
-      </SubType>
-    </Page>
-    <Page Include="Themes\Generic\LayoutDocumentControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Generic\LayoutDocumentFloatingWindowControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Generic\LayoutDocumentPaneControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Generic\LayoutDocumentTabItem.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Generic\LayoutGridResizerControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Themes\Generic\ModernExpander.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Generic\NavigatorWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Generic\OverlayWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\Generic\ScrollViewer.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1197,8 +923,8 @@
     <Reference Include="Caliburn.Micro.Platform.Core, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Caliburn.Micro.3.2.0\lib\net45\Caliburn.Micro.Platform.Core.dll</HintPath>
     </Reference>
-    <Reference Include="JetBrains.Annotations, Version=11.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\JetBrains.Annotations.11.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
+    <Reference Include="JetBrains.Annotations, Version=2018.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JetBrains.Annotations.2018.2.1\lib\net20\JetBrains.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="PresentationCore" />
@@ -1239,10 +965,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\Generic\ContextMenu.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Generic\DropDownButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1337,17 +1059,6 @@
       <LastGenOutput>DialogResourcesResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Dialogs\DialogResourcesResources.ru.resx" />
-    <EmbeddedResource Include="Docking\DockingResources.de.resx">
-      <LastGenOutput>DockingResources.de.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Docking\DockingResources.en.resx">
-      <LastGenOutput>DockingResources.en.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Docking\DockingResources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>DockingResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Docking\DockingResources.ru.resx" />
     <EmbeddedResource Include="Properties\CommonUI.Resources.ru.resx">
       <LastGenOutput>CommonUI.Resources.en.Designer.cs</LastGenOutput>
     </EmbeddedResource>
@@ -1417,7 +1128,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\split.cur" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Native\Standard\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

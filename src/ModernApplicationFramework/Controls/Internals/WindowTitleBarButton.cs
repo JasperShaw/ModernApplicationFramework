@@ -4,7 +4,7 @@ using ModernApplicationFramework.Interfaces.Controls;
 
 namespace ModernApplicationFramework.Controls.Internals
 {
-    internal class WindowTitleBarButton : Button, INonClientArea
+    public class WindowTitleBarButton : Button, INonClientArea
     {
         public static readonly DependencyProperty IsAnchorableFloatingWindowTitleBarButtonProperty = DependencyProperty.Register(
             "IsAnchorableFloatingWindowTitleBarButton", typeof(bool), typeof(WindowTitleBarButton), new PropertyMetadata(default(bool)));

@@ -22,12 +22,9 @@ using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Media;
 using Caliburn.Micro;
-using ModernApplicationFramework.Controls.SearchControl;
-using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Native.Platform.Structs;
-using ModernApplicationFramework.Native.Standard;
 using ModernApplicationFramework.Utilities;
 using Point = System.Windows.Point;
 

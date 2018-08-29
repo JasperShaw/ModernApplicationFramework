@@ -234,6 +234,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ModernApplicationFramework.Docking\ModernApplicationFramework.Docking.csproj">
+      <Project>{79388073-9D36-49FE-BBEE-3126A1FA9DDE}</Project>
+      <Name>ModernApplicationFramework.Docking</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework.Settings\ModernApplicationFramework.Settings.csproj">
       <Project>{240cc7db-f3a0-48e7-a8eb-5785a90128be}</Project>
       <Name>ModernApplicationFramework.Settings</Name>

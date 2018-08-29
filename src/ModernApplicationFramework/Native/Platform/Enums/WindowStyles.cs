@@ -3,7 +3,7 @@
 namespace ModernApplicationFramework.Native.Platform.Enums
 {
     [Flags]
-    internal enum WindowStyles : uint
+    public enum WindowStyles : uint
     {
         WsBorder = 0x800000,
         WsCaption = 0xc00000,

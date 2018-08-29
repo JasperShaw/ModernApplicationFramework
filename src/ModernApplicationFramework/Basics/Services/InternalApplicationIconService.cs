@@ -6,7 +6,7 @@ using ModernApplicationFramework.Interfaces.Services;
 namespace ModernApplicationFramework.Basics.Services
 {
     [Export(typeof(IApplicationIconService))]
-    internal class InternalApplicationIconService : IApplicationIconService
+    public class InternalApplicationIconService : IApplicationIconService
     {
         private static IApplicationIconService _instance;
 

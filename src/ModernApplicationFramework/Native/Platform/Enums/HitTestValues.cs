@@ -1,6 +1,6 @@
 ﻿namespace ModernApplicationFramework.Native.Platform.Enums
 {
-    internal enum HitTestValues
+    public enum HitTestValues
     {
         Hterror = -2,
         Httransparent = -1,

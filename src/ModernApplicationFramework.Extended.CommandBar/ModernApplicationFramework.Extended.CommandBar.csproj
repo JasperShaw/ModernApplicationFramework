@@ -82,6 +82,10 @@
     <Compile Include="ToolbarDefinitions\StandardToolbarDefinition.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ModernApplicationFramework.Docking\ModernApplicationFramework.Docking.csproj">
+      <Project>{79388073-9D36-49FE-BBEE-3126A1FA9DDE}</Project>
+      <Name>ModernApplicationFramework.Docking</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework.Extended\ModernApplicationFramework.Extended.csproj">
       <Project>{51911695-6CDB-4833-9782-06C8821D1C4E}</Project>
       <Name>ModernApplicationFramework.Extended</Name>
@@ -104,6 +108,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

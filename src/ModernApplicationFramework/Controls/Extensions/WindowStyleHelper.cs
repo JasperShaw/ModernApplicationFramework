@@ -6,7 +6,7 @@ using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls.Extensions
 {
-    internal static class WindowStyleHelper
+    public static class WindowStyleHelper
     {
         public static readonly DependencyProperty HasMaximizeButtonProperty =
             DependencyProperty.RegisterAttached("HasMaximizeButton", typeof(bool), typeof(WindowStyleHelper),

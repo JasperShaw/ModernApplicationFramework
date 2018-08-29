@@ -77,6 +77,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ModernApplicationFramework.Docking\ModernApplicationFramework.Docking.csproj">
+      <Project>{79388073-9D36-49FE-BBEE-3126A1FA9DDE}</Project>
+      <Name>ModernApplicationFramework.Docking</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework.Modules.Toolbox\ModernApplicationFramework.Modules.Toolbox.csproj">
       <Project>{13167f2b-93f8-415f-986b-b1d656721dec}</Project>
       <Name>ModernApplicationFramework.Modules.Toolbox</Name>

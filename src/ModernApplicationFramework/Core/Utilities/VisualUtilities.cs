@@ -57,5 +57,16 @@ namespace ModernApplicationFramework.Core.Utilities
                 ? HitTestFilterBehavior.Continue
                 : HitTestFilterBehavior.ContinueSkipSelfAndChildren;
         }
+
+        public static T FindLogicalAncestor<T>(this DependencyObject dependencyObject) where T : class
+        {
+            DependencyObject target = dependencyObject;
+            do
+            {
+                var current = target;
+                target = LogicalTreeHelper.GetParent(target) ?? VisualTreeHelper.GetParent(current);
+            } while (target != null && !(target is T));
+            return target as T;
+        }
     }
 }
