@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Linq;
@@ -483,6 +484,10 @@ namespace ModernApplicationFramework.Basics.Services
                 return true;
             }
             catch (NotSupportedException)
+            {
+                return false;
+            }
+            catch (InvalidEnumArgumentException)
             {
                 return false;
             }
