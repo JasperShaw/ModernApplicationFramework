@@ -144,6 +144,8 @@ namespace ModernApplicationFramework.Editor.Commanding
 
         internal IList<GestureScope> ActiveScopes;
 
+        private readonly List<GestureScope> _gestureScopes = new List<GestureScope>();
+
         public GestureScopeManager(ITextView textView, GestureScopeCreationListener factory)
         {
             if (textView.Properties.ContainsProperty(typeof(ICanHaveInputBindings)))
@@ -157,11 +159,39 @@ namespace ModernApplicationFramework.Editor.Commanding
             var scopes = UpdateScopes(bufferContentTypes);
 
             BindableElement = _textView.VisualElement;
-            GestureScopes = scopes;
+            _gestureScopes.AddRange(scopes);
 
             _factory.GestureService.AddModel(this);
-
+            textView.Closed += OnTextViewClosed;
+            textView.BufferGraph.GraphBufferContentTypeChanged += OnGraphChanged;
+            textView.BufferGraph.GraphBuffersChanged += OnGraphChanged;
             textView.Properties.AddProperty(typeof(ICanHaveInputBindings), this);
+        }
+
+        private void OnTextViewClosed(object sender, EventArgs e)
+        {
+            _textView.Closed -= OnTextViewClosed;
+            _textView.BufferGraph.GraphBufferContentTypeChanged -= OnGraphChanged;
+            _textView.BufferGraph.GraphBuffersChanged -= OnGraphChanged;
+            _factory.GestureService.RemoveModel(this);
+        }
+
+        private void OnGraphChanged(object sender, EventArgs e)
+        {
+            RefreshHandlers();
+        }
+
+        private void RefreshHandlers()
+        {
+            var bufferContentTypes = CollectedContentTypes();
+            var scopes = UpdateScopes(bufferContentTypes);
+            if (scopes != null)
+            {
+                _gestureScopes.Clear();
+                _gestureScopes.AddRange(scopes);
+                _factory.GestureService.RemoveModel(this);
+                _factory.GestureService.AddModel(this);
+            }             
         }
 
         private IEnumerable<GestureScope> UpdateScopes(IEnumerable<IContentType> bufferContentTypes)
@@ -202,7 +232,7 @@ namespace ModernApplicationFramework.Editor.Commanding
             return bufferContentTypes;
         }
 
-        public IEnumerable<GestureScope> GestureScopes { get; }
+        public IEnumerable<GestureScope> GestureScopes => _gestureScopes;
         public UIElement BindableElement { get; }
     }
 
