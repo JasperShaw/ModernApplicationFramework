@@ -34,32 +34,32 @@ namespace ModernApplicationFramework.Extended.CommandBar.MenuDefinitions
         [Export] public static CommandBarItem NewHorizontalTabGroupItemItem =
             new CommandBarCommandItem<NewHorizontalTabGroupCommandDefinition>(
                 new Guid("{92592EF8-5CAA-48AD-A437-A27874151925}"),
-                DocumentToolsGroup, 1);
+                DocumentToolsGroup, 1, CommandBarFlags.CommandDynamicVisibility);
 
         [Export] public static CommandBarItem NewVerticalTabGroupItemItem =
             new CommandBarCommandItem<NewVerticalTabGroupCommandDefinition>(
                 new Guid("{87242890-3A62-430D-9911-571E0A6B6B51}"), DocumentToolsGroup,
-                2);
+                2, CommandBarFlags.CommandDynamicVisibility);
 
         [Export] public static CommandBarItem MoveToNextTabGroupItemItem =
             new CommandBarCommandItem<MoveToNextTabGroupCommandDefinition>(
                 new Guid("{2C9A9AD3-0F6E-4E11-8023-E10A554B7017}"), DocumentToolsGroup,
-                3);
+                3, CommandBarFlags.CommandDynamicVisibility);
 
         [Export] public static CommandBarItem MoveAllToNextTabGroupItemItem =
             new CommandBarCommandItem<MoveAllToNextTabGroupCommandDefinition>(
                 new Guid("{CEF50FE8-AE34-47AE-B0E1-21256A773E53}"),
-                DocumentToolsGroup, 4);
+                DocumentToolsGroup, 4, CommandBarFlags.CommandDynamicVisibility);
 
         [Export] public static CommandBarItem MoveToPreviousTabGroupItemItem =
             new CommandBarCommandItem<MoveToPreviousTabGroupCommandDefinition>(
                 new Guid("{47098EEF-9B31-4B76-AC76-E519529A2598}"),
-                DocumentToolsGroup, 5);
+                DocumentToolsGroup, 5, CommandBarFlags.CommandDynamicVisibility);
 
         [Export] public static CommandBarItem MoveAllToPreviousTabGroupItemItem =
             new CommandBarCommandItem<MoveAllToPreviousTabGroupCommandDefinition>(
                 new Guid("{B8618F41-9AA8-40E0-8CDD-002BBDE4F119}"),
-                DocumentToolsGroup, 6);
+                DocumentToolsGroup, 6, CommandBarFlags.CommandDynamicVisibility);
 
         [Export] public static CommandBarItem CloseAllDocuments =
             new CommandBarCommandItem<CloseAllDockedWindowCommandDefinition>(

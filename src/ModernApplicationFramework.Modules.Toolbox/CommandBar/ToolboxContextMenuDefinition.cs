@@ -19,11 +19,11 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
 
         [Export]
         public static CommandBarItem CutCommandItem =
-            new CommandBarCommandItem<CutCommandDefinition>(new Guid("{7ACF2153-61EB-4C78-84D9-0F4261C13D37}"), BasicEditGroup, 0);
+            new CommandBarCommandItem<CutCommandDefinition>(new Guid("{7ACF2153-61EB-4C78-84D9-0F4261C13D37}"), BasicEditGroup, 0, CommandBarFlags.CommandDynamicVisibility);
 
         [Export]
         public static CommandBarItem CopyCommandItem =
-            new CommandBarCommandItem<CopyCommandDefinition>(new Guid("{913939F3-CED0-4810-8597-DAB9476B5792}"), BasicEditGroup, 1);
+            new CommandBarCommandItem<CopyCommandDefinition>(new Guid("{913939F3-CED0-4810-8597-DAB9476B5792}"), BasicEditGroup, 1, CommandBarFlags.CommandDynamicVisibility);
 
         [Export]
         public static CommandBarItem PasteCommandItem =
@@ -31,11 +31,11 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
 
         [Export]
         public static CommandBarItem DeleteCommandItem =
-            new CommandBarCommandItem<DeleteCommandDefinition>(new Guid("{180D3794-7914-4B4C-BD5E-F4A101FAF831}"), BasicEditGroup, 3);
+            new CommandBarCommandItem<DeleteCommandDefinition>(new Guid("{180D3794-7914-4B4C-BD5E-F4A101FAF831}"), BasicEditGroup, 3, CommandBarFlags.CommandDynamicVisibility);
 
         [Export]
         public static CommandBarItem RenametemItem =
-            new CommandBarCommandItem<RenameToolboxItemCommandDefinition>(new Guid("{61AEA91B-E3EF-40DE-8969-696F4D056003}"), BasicEditGroup, uint.MaxValue);
+            new CommandBarCommandItem<RenameToolboxItemCommandDefinition>(new Guid("{61AEA91B-E3EF-40DE-8969-696F4D056003}"), BasicEditGroup, uint.MaxValue, CommandBarFlags.CommandDynamicVisibility);
 
 
 
@@ -76,15 +76,15 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
 
         [Export]
         public static CommandBarItem AddCategoryItem =
-            new CommandBarCommandItem<AddCategoryCommandDefinition>(new Guid("{AB8D308E-FD87-47B6-AD26-4FCB78CE9CEC}"), CategoryCommandGroup, 0);
+            new CommandBarCommandItem<AddCategoryCommandDefinition>(new Guid("{AB8D308E-FD87-47B6-AD26-4FCB78CE9CEC}"), CategoryCommandGroup, 0, CommandBarFlags.CommandDynamicVisibility);
 
         [Export]
         public static CommandBarItem RemoveCategoryItem =
-            new CommandBarCommandItem<DeleteActiveToolbarCategoryCommandDefinition>(new Guid("{BF87A03B-EAFB-4778-8243-90BE338F67EA}"), CategoryCommandGroup, 1);
+            new CommandBarCommandItem<DeleteActiveToolbarCategoryCommandDefinition>(new Guid("{BF87A03B-EAFB-4778-8243-90BE338F67EA}"), CategoryCommandGroup, 1, CommandBarFlags.CommandDynamicVisibility);
 
         [Export]
         public static CommandBarItem RenameCategoryItem =
-            new CommandBarCommandItem<RenameToolboxCategoryCommandDefinition>(new Guid("{1D6FB604-BF18-44F1-8EE4-50C8015D29C8}"), CategoryCommandGroup, 2);
+            new CommandBarCommandItem<RenameToolboxCategoryCommandDefinition>(new Guid("{1D6FB604-BF18-44F1-8EE4-50C8015D29C8}"), CategoryCommandGroup, 2, CommandBarFlags.CommandDynamicVisibility);
 
         [Export]
         public static CommandBarGroup ItemMoveCommandGroup =
