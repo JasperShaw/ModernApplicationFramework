@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
+using ModernApplicationFramework.Basics.CommandBar;
 using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.ImageCatalog;
@@ -29,7 +30,7 @@ namespace ModernApplicationFramework.Modules.Inspector.Commands
         public override string NameUnlocalized => "Inspector";
         public override string ToolTip => "Inspector";
 
-        public override CommandBarCategory Category => CommandCategories.ViewCategory;
+        public override CommandBarCategory Category => CommandBarCategories.ViewCategory;
         public override Guid Id => new Guid("{A948FC05-72EF-4309-BF54-E697F42C32D1}");
     }
 

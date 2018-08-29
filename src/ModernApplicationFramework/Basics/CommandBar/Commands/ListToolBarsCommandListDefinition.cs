@@ -20,7 +20,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Commands
             CommandBarResources.ResourceManager.GetString("ListToolBarsCommandListDefinition_Name",
                 CultureInfo.InvariantCulture);
 
-        public override CommandBarCategory Category => CommandCategories.ViewCategory;
+        public override CommandBarCategory Category => CommandBarCategories.ViewCategory;
         public override Guid Id => new Guid("{C9D83419-A523-4E38-B2A9-063744C29C8F}");
     }
 }

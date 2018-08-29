@@ -22,7 +22,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Commands
                 CultureInfo.InvariantCulture);
         public override string Text => CommandBarResources.CustomizeMenuCommandDefinition_Text;
         public override string ToolTip => null;
-        public override CommandBarCategory Category => CommandCategories.ViewCategory;
+        public override CommandBarCategory Category => CommandBarCategories.ViewCategory;
         public override Guid Id => new Guid("{3D393097-6CCB-470C-931D-08096338F31A}");
     }
 }

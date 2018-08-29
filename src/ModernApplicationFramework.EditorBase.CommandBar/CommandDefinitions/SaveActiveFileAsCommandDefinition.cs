@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics;
+using ModernApplicationFramework.Basics.CommandBar;
 using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 using ModernApplicationFramework.EditorBase.CommandBar.Resources;
 using ModernApplicationFramework.EditorBase.Interfaces.Commands;
@@ -28,7 +29,7 @@ namespace ModernApplicationFramework.EditorBase.CommandBar.CommandDefinitions
         public override string ToolTip => Text;
 
         public override string Name => CommandsResources.SaveActiveDocumentAsCommandName;
-        public override CommandBarCategory Category => CommandCategories.FileCategory;
+        public override CommandBarCategory Category => CommandBarCategories.FileCategory;
         public override Guid Id => new Guid("{651EA782-BFCB-4ACA-8F98-6798C117F988}");
 
         [ImportingConstructor]

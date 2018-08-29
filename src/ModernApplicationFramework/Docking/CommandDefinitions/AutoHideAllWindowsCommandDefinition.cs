@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Globalization;
 using ModernApplicationFramework.Basics;
+using ModernApplicationFramework.Basics.CommandBar;
 using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 using ModernApplicationFramework.Interfaces.Commands;
 
@@ -19,7 +20,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
         public override string Text => DockingResources.AutoHideAllWindowsCommandDefinition_Text;
         public override string ToolTip => null;
 
-        public override CommandBarCategory Category => CommandCategories.WindowCategory;
+        public override CommandBarCategory Category => CommandBarCategories.WindowCategory;
 
         public override Guid Id => new Guid("{ABF14EC8-CC6D-4B2A-A1A1-9A0F44690266}");
     }

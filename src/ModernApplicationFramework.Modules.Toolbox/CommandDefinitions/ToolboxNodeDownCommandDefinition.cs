@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Globalization;
 using ModernApplicationFramework.Basics;
+using ModernApplicationFramework.Basics.CommandBar;
 using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces.Commands;
 using ModernApplicationFramework.Modules.Toolbox.Resources;
@@ -18,7 +19,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandDefinitions
 
         public override string Text => ToolboxResources.ToolboxNodeDownCommand_Text;
         public override string ToolTip => Text;
-        public override CommandBarCategory Category => CommandCategories.ToolsCategory;
+        public override CommandBarCategory Category => CommandBarCategories.ToolsCategory;
         public override Guid Id => new Guid("{FC1C2BD3-A600-4C0D-BE5A-63DE8EED2EA9}");
     }
 }

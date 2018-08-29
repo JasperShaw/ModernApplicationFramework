@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
+using ModernApplicationFramework.Basics.CommandBar;
 using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 using ModernApplicationFramework.EditorBase.CommandBar.Resources;
 using ModernApplicationFramework.EditorBase.Interfaces.Commands;
@@ -23,7 +24,7 @@ namespace ModernApplicationFramework.EditorBase.CommandBar.CommandDefinitions
         public override string Text => CommandsResources.OpenFileCommandText;
         public override string ToolTip => Text;
         public override ImageMoniker ImageMonikerSource => Monikers.OpenFolder;
-        public override CommandBarCategory Category => CommandCategories.FileCategory;
+        public override CommandBarCategory Category => CommandBarCategories.FileCategory;
         public override Guid Id => new Guid("{47E7AF89-3733-4FBF-A3FA-E8AD5D5C693E}");
 
         public override ReadOnlyCollection<GestureScopeMapping> DefaultGestureScopes => new ReadOnlyCollection<GestureScopeMapping>(new[]

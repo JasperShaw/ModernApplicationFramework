@@ -4,12 +4,12 @@ using System.Resources;
 using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 using ModernApplicationFramework.Properties;
 
-namespace ModernApplicationFramework.Basics
+namespace ModernApplicationFramework.Basics.CommandBar
 {
     /// <summary>
     /// A set of common command categories
     /// </summary>
-    public static class CommandCategories
+    public static class CommandBarCategories
     {
         private static readonly ResourceManager Rm = CommonUI_Resources.ResourceManager;
 

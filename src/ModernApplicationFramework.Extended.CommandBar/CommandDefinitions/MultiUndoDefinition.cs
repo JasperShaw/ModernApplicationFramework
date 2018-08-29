@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Globalization;
 using ModernApplicationFramework.Basics;
+using ModernApplicationFramework.Basics.CommandBar;
 using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 using ModernApplicationFramework.Basics.CommandBar.Models;
 using ModernApplicationFramework.Basics.Creators;
@@ -25,7 +26,7 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
                 CultureInfo.InvariantCulture);
         public override string ToolTip => Commands_Resources.MultiUndoCommandDefinition_ToolTip;
 
-        public override CommandBarCategory Category => CommandCategories.EditCategory;
+        public override CommandBarCategory Category => CommandBarCategories.EditCategory;
         public override Guid Id => new Guid("{D2043E14-F0AF-4C12-933A-F753BA1F9488}");
 
         public override bool AllowGestureMapping => false;

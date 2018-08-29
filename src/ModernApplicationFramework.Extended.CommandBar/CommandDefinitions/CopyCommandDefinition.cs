@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
+using ModernApplicationFramework.Basics.CommandBar;
 using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 using ModernApplicationFramework.Extended.CommandBar.Resources;
 using ModernApplicationFramework.Extended.Interfaces.Commands;
@@ -23,7 +24,7 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
         public override string Text => Commands_Resources.CopyCommandDefinition_Text;
         public override string ToolTip => Text;
         public override ImageMoniker ImageMonikerSource => Monikers.Copy;
-        public override CommandBarCategory Category => CommandCategories.EditCategory;
+        public override CommandBarCategory Category => CommandBarCategories.EditCategory;
         public override Guid Id => new Guid("{E98D986F-AACB-4BC7-A60B-E758CA847BA9}");
 
         public override ReadOnlyCollection<GestureScopeMapping> DefaultGestureScopes => new ReadOnlyCollection<GestureScopeMapping>(new[]

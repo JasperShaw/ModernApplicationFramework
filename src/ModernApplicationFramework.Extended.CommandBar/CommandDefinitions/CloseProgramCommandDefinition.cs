@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
+using ModernApplicationFramework.Basics.CommandBar;
 using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 using ModernApplicationFramework.Extended.CommandBar.Resources;
 using ModernApplicationFramework.Extended.Commands;
@@ -28,7 +29,7 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
 
         public override string ToolTip => null;
 
-        public override CommandBarCategory Category => CommandCategories.FileCategory;
+        public override CommandBarCategory Category => CommandBarCategories.FileCategory;
         public override Guid Id => new Guid("{78CD7FA8-147F-4464-814B-DB36438145CB}");
 
         public override ReadOnlyCollection<GestureScopeMapping> DefaultGestureScopes => new ReadOnlyCollection<GestureScopeMapping>(new[]

@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Globalization;
 using ModernApplicationFramework.Basics;
+using ModernApplicationFramework.Basics.CommandBar;
 using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 using ModernApplicationFramework.ImageCatalog;
 using ModernApplicationFramework.Imaging.Interop;
@@ -24,7 +25,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         public override ImageMoniker ImageMonikerSource => Monikers.HideToolWindow;
 
-        public override CommandBarCategory Category => CommandCategories.WindowCategory;
+        public override CommandBarCategory Category => CommandBarCategories.WindowCategory;
         public override Guid Id => new Guid("{E1BBFA22-EADF-445D-810A-4984E91D17B7}");
     }
 }

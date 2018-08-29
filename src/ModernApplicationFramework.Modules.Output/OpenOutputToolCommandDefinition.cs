@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
+using ModernApplicationFramework.Basics.CommandBar;
 using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 using ModernApplicationFramework.ImageCatalog;
 using ModernApplicationFramework.Imaging.Interop;
@@ -27,7 +28,7 @@ namespace ModernApplicationFramework.Modules.Output
         public override string Text => "Output";
         public override string ToolTip => "Output";
 
-        public override CommandBarCategory Category => CommandCategories.ViewCategory;
+        public override CommandBarCategory Category => CommandBarCategories.ViewCategory;
         public override Guid Id => new Guid("{ED3DC8E1-F15B-4DBD-8C8E-272194C0642D}");
     }
 }

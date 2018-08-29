@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Globalization;
 using ModernApplicationFramework.Basics;
+using ModernApplicationFramework.Basics.CommandBar;
 using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 using ModernApplicationFramework.Interfaces.Commands;
 
@@ -19,7 +20,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         public override string Text => DockingResources.MoveAllToPreviousTabGroupCommandDefinition_Text;
         public override string ToolTip => null;
-        public override CommandBarCategory Category => CommandCategories.WindowCategory;
+        public override CommandBarCategory Category => CommandBarCategories.WindowCategory;
         public override Guid Id => new Guid("{CB3727C1-BD07-4137-BA32-5DB0D55414B4}");
     }
 }

@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Globalization;
 using ModernApplicationFramework.Basics;
+using ModernApplicationFramework.Basics.CommandBar;
 using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 using ModernApplicationFramework.ImageCatalog;
 using ModernApplicationFramework.Imaging.Interop;
@@ -24,7 +25,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         public override ImageMoniker ImageMonikerSource => Monikers.SplitScreenHorizontal;
 
-        public override CommandBarCategory Category => CommandCategories.WindowCategory;
+        public override CommandBarCategory Category => CommandBarCategories.WindowCategory;
         public override Guid Id => new Guid("{4860E5BB-2518-4785-B448-9B8CFE85F13F}");
     }
 }

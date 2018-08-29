@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
+using ModernApplicationFramework.Basics.CommandBar;
 using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 using ModernApplicationFramework.ImageCatalog;
 using ModernApplicationFramework.Imaging.Interop;
@@ -19,7 +20,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandDefinitions
         public override string NameUnlocalized => "Toolbox";
         public override string Text => ToolboxResources.ToolboxCommandName;
         public override string ToolTip => Text;
-        public override CommandBarCategory Category => CommandCategories.ViewCategory;
+        public override CommandBarCategory Category => CommandBarCategories.ViewCategory;
 
         public override ImageMoniker ImageMonikerSource => Monikers.Toolbox;
 

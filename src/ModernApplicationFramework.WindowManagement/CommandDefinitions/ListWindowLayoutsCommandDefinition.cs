@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Globalization;
 using ModernApplicationFramework.Basics;
+using ModernApplicationFramework.Basics.CommandBar;
 using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 using ModernApplicationFramework.WindowManagement.Properties;
 
@@ -17,7 +18,7 @@ namespace ModernApplicationFramework.WindowManagement.CommandDefinitions
             "ApplyWindowLayoutListCommandDefinition_Name",
             CultureInfo.InvariantCulture);
 
-        public override CommandBarCategory Category => CommandCategories.WindowCategory;
+        public override CommandBarCategory Category => CommandBarCategories.WindowCategory;
         public override Guid Id => new Guid("{278C1836-FB1F-4B84-920D-86622B1F37C7}");
     }
 }

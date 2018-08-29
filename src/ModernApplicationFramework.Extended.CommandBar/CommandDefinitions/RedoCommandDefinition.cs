@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
+using ModernApplicationFramework.Basics.CommandBar;
 using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 using ModernApplicationFramework.Extended.CommandBar.Resources;
 using ModernApplicationFramework.Extended.Commands;
@@ -31,7 +32,7 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
                 CultureInfo.InvariantCulture);
         public override string ToolTip => Text;
 
-        public override CommandBarCategory Category => CommandCategories.EditCategory;
+        public override CommandBarCategory Category => CommandBarCategories.EditCategory;
         public override Guid Id => new Guid("{6B8097A9-50BE-4966-83ED-CC3EA25CF5B7}");
     }
 }

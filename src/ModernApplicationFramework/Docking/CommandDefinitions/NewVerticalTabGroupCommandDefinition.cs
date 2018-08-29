@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Globalization;
 using ModernApplicationFramework.Basics;
+using ModernApplicationFramework.Basics.CommandBar;
 using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 using ModernApplicationFramework.ImageCatalog;
 using ModernApplicationFramework.Imaging.Interop;
@@ -23,7 +24,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
         public override string ToolTip => null;
 
         public override ImageMoniker ImageMonikerSource => Monikers.SplitScreenVertical;
-        public override CommandBarCategory Category => CommandCategories.WindowCategory;
+        public override CommandBarCategory Category => CommandBarCategories.WindowCategory;
         public override Guid Id => new Guid("{5667C276-A91F-428A-86A3-7D95814B4B9F}");
     }
 }

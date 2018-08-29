@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
+using ModernApplicationFramework.Basics.CommandBar;
 using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 using ModernApplicationFramework.EditorBase.CommandBar.Resources;
 using ModernApplicationFramework.EditorBase.Interfaces.Commands;
@@ -19,7 +20,7 @@ namespace ModernApplicationFramework.EditorBase.CommandBar.CommandDefinitions
     {
         public override ImageMoniker ImageMonikerSource => Monikers.NewFile;
 
-        public override CommandBarCategory Category => CommandCategories.FileCategory;
+        public override CommandBarCategory Category => CommandBarCategories.FileCategory;
 
         public override Guid Id => new Guid("{B33B7AA8-2FB6-4F80-88A2-3F97878273F3}");
 
