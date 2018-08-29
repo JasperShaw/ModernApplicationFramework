@@ -279,6 +279,9 @@ namespace ModernApplicationFramework.Basics.Services
 
 
                 var i = Keyboard.FocusedElement;
+                var s = _elementMapping.Where(pair => pair.Value.Any(x => x == i))
+                    .Select(pair => pair.Key);
+
                 var currentScopes = GestureHelper.GetScopesFromElement(i as UIElement);
 
                 var breakflag = false;

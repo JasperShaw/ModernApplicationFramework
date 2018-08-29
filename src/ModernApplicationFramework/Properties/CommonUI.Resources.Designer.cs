@@ -124,6 +124,15 @@ namespace ModernApplicationFramework.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Global.
+        /// </summary>
+        public static string GlobalGestureScopeName {
+            get {
+                return ResourceManager.GetString("GlobalGestureScopeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ({0}) was pressed. Waiting for second key of chord....
         /// </summary>
         public static string KeyGestureService_EnterMutliKeyState {

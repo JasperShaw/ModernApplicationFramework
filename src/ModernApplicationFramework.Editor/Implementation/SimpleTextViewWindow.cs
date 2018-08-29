@@ -941,25 +941,36 @@ namespace ModernApplicationFramework.Editor.Implementation
         private void RegisterApplicationCommands()
         {
             CommandHelpers.RegisterCommandHandler(TextView.VisualElement.GetType(), ApplicationCommands.Copy, OnCopy, CanCopy);
-
-
         }
 
-        private void CanCopy(object sender, CanExecuteRoutedEventArgs e)
+        private static void CanCopy(object sender, CanExecuteRoutedEventArgs e)
         {
             var guid = MafConstants.EditorCommandGroup;
             var prgCmds = new[]
             {
                 new Olecmd { cmdID = (uint) MafConstants.EditorCommands.Copy }
             };
-            QueryStatus(guid, (uint)prgCmds.Length, prgCmds, IntPtr.Zero);
+
+            if (!(sender is IPropertyOwner textView))
+                return;
+            var target = GetTarget(textView);
+
+            target?.QueryStatus(guid, (uint)prgCmds.Length, prgCmds, IntPtr.Zero);
             e.CanExecute = prgCmds[0].cmdf.HasFlag(Olecmdf.Supported) && prgCmds[0].cmdf.HasFlag(Olecmdf.Enabled);
         }
 
-        private void OnCopy(object sender, ExecutedRoutedEventArgs e)
+        private static void OnCopy(object sender, ExecutedRoutedEventArgs e)
         {
-            var guid = MafConstants.EditorCommandGroup;
-            Exec(guid, (uint)MafConstants.EditorCommands.Copy, 0, IntPtr.Zero, IntPtr.Zero);
+            if (!(sender is IPropertyOwner textView))
+                return;
+            var target = GetTarget(textView);
+            target?.Exec(MafConstants.EditorCommandGroup, (uint) MafConstants.EditorCommands.Copy, 0, IntPtr.Zero,
+                IntPtr.Zero);
+        }
+
+        private static ICommandTarget GetTarget(IPropertyOwner textView)
+        {
+            return textView.Properties.GetProperty(typeof(ICommandTarget)) as ICommandTarget;
         }
 
         private void SendTextViewCreated()

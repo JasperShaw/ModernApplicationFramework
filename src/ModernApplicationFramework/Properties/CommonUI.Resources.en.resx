@@ -159,4 +159,7 @@
   <data name="KeyGestureService_EnterMutliKeyState" xml:space="preserve">
     <value>({0}) was pressed. Waiting for second key of chord...</value>
   </data>
+  <data name="GlobalGestureScopeName" xml:space="preserve">
+    <value>Global</value>
+  </data>
 </root>

@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
-using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.CommandBar;
 using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 using ModernApplicationFramework.Editor.Commanding;
 using ModernApplicationFramework.Input;
-using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.Editor.Commands
 {
@@ -28,8 +25,8 @@ namespace ModernApplicationFramework.Editor.Commands
 
         public override ReadOnlyCollection<GestureScopeMapping> DefaultGestureScopes => new ReadOnlyCollection<GestureScopeMapping>(new[]
         {
-            new GestureScopeMapping(GestureScopes.GlobalGestureScope, new MultiKeyGesture(Key.Left)),
-            new GestureScopeMapping(GestureScopes.GlobalGestureScope, new MultiKeyGesture(Key.Right))
+            new GestureScopeMapping(TextEditorGestureScope.TextEditorScope, new MultiKeyGesture(Key.Left)),
+            new GestureScopeMapping(TextEditorGestureScope.OutputGestureScope, new MultiKeyGesture(Key.Right))
         });
     }
 }

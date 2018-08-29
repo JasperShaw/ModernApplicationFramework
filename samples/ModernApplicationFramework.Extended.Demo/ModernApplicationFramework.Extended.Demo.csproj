@@ -156,7 +156,8 @@
     <Compile Include="Modules\KeyGestureScopeTest\NewCopyCommandDefinition.cs" />
     <Compile Include="Modules\KeyGestureScopeTest\PrimitiveTextView.cs" />
     <Compile Include="Modules\KeyGestureScopeTest\Sample.cs" />
-    <Compile Include="Modules\KeyGestureScopeTest\TextEditorScope.cs" />
+    <Compile Include="Modules\KeyGestureScopeTest\LesserPriorityScope.cs" />
+    <Compile Include="Modules\KeyGestureScopeTest\SimpleEditorKeyBindingScopeFactory.cs" />
     <Compile Include="Modules\KeyGestureScopeTest\TextView.xaml.cs">
       <DependentUpon>TextView.xaml</DependentUpon>
     </Compile>

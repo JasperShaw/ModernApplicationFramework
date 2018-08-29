@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Windows;
@@ -26,7 +25,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.KeyGestureScopeTest
 
         public override ReadOnlyCollection<GestureScopeMapping> DefaultGestureScopes => new ReadOnlyCollection<GestureScopeMapping>(new[]
         {
-            new GestureScopeMapping(TextEditorScope.TextEditor, new MultiKeyGesture(Key.C, ModifierKeys.Control))
+            new GestureScopeMapping(Editor.TextEditorGestureScope.TextEditorScope, new MultiKeyGesture(Key.C, ModifierKeys.Control))
         });
     }
 

@@ -159,4 +159,7 @@
   <data name="KeyGestureService_MultiKeyNotFound" xml:space="preserve">
     <value>The key combination ({0}) is not a command.</value>
   </data>
+  <data name="GlobalGestureScopeName" xml:space="preserve">
+    <value>Global</value>
+  </data>
 </root>

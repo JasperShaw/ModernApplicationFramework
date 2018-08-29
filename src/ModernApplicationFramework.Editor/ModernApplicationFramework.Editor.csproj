@@ -81,6 +81,12 @@
     <Compile Include="Interop\FontAndColorStorage.cs" />
     <Compile Include="Interop\InstalledFontHelper.cs" />
     <Compile Include="NativeMethods\Gdi32.cs" />
+    <Compile Include="EditorResources.Designer.cs">
+      <DependentUpon>EditorResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="TextEditorGestureScope.cs" />
     <Compile Include="TextManager\ChangeInput.cs" />
     <Compile Include="Interop\ColorableItemInfo.cs" />
     <Compile Include="Commanding\CommandBindingAttribute.cs" />
@@ -273,9 +279,15 @@
     <Compile Include="Implementation\VsTextMarkerGlyphTag.cs" />
     <Compile Include="Implementation\VsTextMarkerTag.cs" />
     <Compile Include="Implementation\WaitContext.cs" />
+    <EmbeddedResource Include="EditorResources.de.resx" />
+    <EmbeddedResource Include="EditorResources.en.resx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditorResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>EditorResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

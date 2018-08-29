@@ -40,7 +40,7 @@ namespace ModernApplicationFramework.Editor.Commanding
 
         protected override void OnExecute(object parameter)
         {
-            _activeTextViewState.ActiveCommandTarget.Exec(MafConstants.EditorCommandGroup, 7, 0, IntPtr.Zero, IntPtr.Zero);
+            _activeTextViewState.ActiveCommandTarget.Exec(MafConstants.EditorCommandGroup, _commandId, 0, IntPtr.Zero, IntPtr.Zero);
         }
     }
 }

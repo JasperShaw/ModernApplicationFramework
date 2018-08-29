@@ -25,7 +25,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.KeyGestureScopeTest
             "keyboard scope which is by default overriding the Copy Command Gesture (Ctrl+C)";
 
 
-        public string ContentTypeName => "text";
+        public string ContentTypeName => "VerySimpleEditor";
 
         private IContentType ContentType
         {

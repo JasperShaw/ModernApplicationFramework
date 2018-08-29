@@ -25,7 +25,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.KeyGestureScopeTest
 
         public override ReadOnlyCollection<GestureScopeMapping> DefaultGestureScopes => new ReadOnlyCollection<GestureScopeMapping>(new[]
         {
-            new GestureScopeMapping(TextEditorScope.LesserPriority, new MultiKeyGesture(Key.M, ModifierKeys.Control))
+            new GestureScopeMapping(LesserPriorityScope.LesserPriority, new MultiKeyGesture(Key.M, ModifierKeys.Control))
         });
     }
 

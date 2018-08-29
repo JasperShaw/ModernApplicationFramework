@@ -6,6 +6,7 @@ using System.Windows.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Utilities;
+using ModernApplicationFramework.Utilities.Core;
 
 namespace ModernApplicationFramework.Input
 {
@@ -46,6 +47,9 @@ namespace ModernApplicationFramework.Input
                 return new List<GestureScope>();
             if (element is ICanHaveInputBindings gestureScopeElement)
                 return gestureScopeElement.GestureScopes.ToList();
+            if (element is IPropertyOwner property &&
+                property.Properties.TryGetProperty(typeof(ICanHaveInputBindings), out ICanHaveInputBindings inputBinding))
+                return inputBinding.GestureScopes;
             if (element is FrameworkElement frameworkElement &&
                 frameworkElement.DataContext is ICanHaveInputBindings dataContext)
                 return dataContext.GestureScopes;
