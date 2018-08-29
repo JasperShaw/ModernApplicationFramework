@@ -286,8 +286,8 @@ namespace ModernApplicationFramework.Basics.Services
                 {
                     if (breakflag)
                         break;
-                    if (currentScope.Equals(GestureScopes.GlobalGestureScope) && _possibleMultiGestures.Count == 0)
-                        return;
+                    //if (currentScope.Equals(GestureScopes.GlobalGestureScope) && _possibleMultiGestures.Count == 0)
+                    //    return;
 
 
                     if (TryCreateKeyGesture(_oldKeySequence, out var inputGesture))
@@ -299,12 +299,12 @@ namespace ModernApplicationFramework.Basics.Services
                                 var t = shortcut.Gestures;
                                 if (t.Contains(new GestureScopeMapping(currentScope, inputGesture)))
                                 {
-                                    shortcut.Command.Execute(null);
+                                    if (shortcut.Command.CanExecute(null))
+                                        shortcut.Command.Execute(null);
 
                                     // Prevents other commands beeing invoked
                                     e.Handled = true;
-                                    breakflag = true;
-                                    break;
+                                    return;
                                 }
                             }
                         }
