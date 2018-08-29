@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Interfaces
 {

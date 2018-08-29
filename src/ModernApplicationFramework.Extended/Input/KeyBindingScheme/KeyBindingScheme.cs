@@ -7,6 +7,7 @@ using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Services;
+using ModernApplicationFramework.Utilities;
 using ModernApplicationFramework.Utilities.Xml;
 
 namespace ModernApplicationFramework.Extended.Input.KeyBindingScheme

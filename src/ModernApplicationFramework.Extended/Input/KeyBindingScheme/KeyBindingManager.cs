@@ -9,6 +9,7 @@ using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Services;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Extended.Input.KeyBindingScheme
 {

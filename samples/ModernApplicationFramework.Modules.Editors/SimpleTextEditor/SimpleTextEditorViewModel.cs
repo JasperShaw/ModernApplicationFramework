@@ -9,6 +9,7 @@ using ModernApplicationFramework.EditorBase;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Modules.Editors.SimpleTextEditor
 {

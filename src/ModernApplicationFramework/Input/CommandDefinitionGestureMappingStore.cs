@@ -1,6 +1,7 @@
 ﻿using System;
 using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Input
 {

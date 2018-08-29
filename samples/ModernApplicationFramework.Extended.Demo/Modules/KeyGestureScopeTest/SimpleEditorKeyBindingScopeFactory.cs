@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Editor.Commanding;
+using ModernApplicationFramework.Editor.KeyGestureScope;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Text.Ui.Editor;
+using ModernApplicationFramework.Utilities;
 using ModernApplicationFramework.Utilities.Attributes;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.KeyGestureScopeTest

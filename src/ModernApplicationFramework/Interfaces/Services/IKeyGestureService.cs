@@ -3,6 +3,7 @@ using System.Windows;
 using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Interfaces.Services
 {

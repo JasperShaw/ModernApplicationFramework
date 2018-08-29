@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Input
 {

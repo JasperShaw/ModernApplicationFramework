@@ -13,6 +13,7 @@ using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Controls.InfoBar;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Interfaces.ViewModels;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Extended.Controls.DockingMainWindow.ViewModels
 {

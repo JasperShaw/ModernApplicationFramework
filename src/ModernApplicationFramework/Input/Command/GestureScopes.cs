@@ -1,5 +1,6 @@
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Properties;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Input.Command
 {

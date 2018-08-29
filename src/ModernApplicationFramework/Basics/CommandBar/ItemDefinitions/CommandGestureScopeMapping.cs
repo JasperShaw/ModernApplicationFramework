@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Basics.CommandBar.ItemDefinitions
 {

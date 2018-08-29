@@ -285,6 +285,7 @@
     <Compile Include="Ui\Editor\IBufferPrimitives.cs" />
     <Compile Include="Ui\Editor\IBufferPrimitivesFactoryService.cs" />
     <Compile Include="Ui\Editor\IEditorPrimitivesFactoryService.cs" />
+    <Compile Include="Ui\Editor\IEdtiorGestureScopeProvider.cs" />
     <Compile Include="Ui\Editor\IGlyphTag.cs" />
     <Compile Include="Ui\Editor\IKeyProcessorProvider.cs" />
     <Compile Include="Ui\Editor\ImeTextComposition.cs" />

@@ -2,6 +2,7 @@
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Extended.Input.KeyBindingScheme
 {

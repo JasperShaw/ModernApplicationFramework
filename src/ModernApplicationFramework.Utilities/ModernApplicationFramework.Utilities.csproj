@@ -104,6 +104,7 @@
     <Compile Include="DataObjectHelper.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="FocusHelper.cs" />
+    <Compile Include="GestureScope.cs" />
     <Compile Include="GZip.cs" />
     <Compile Include="HashHelpers.cs" />
     <Compile Include="HwndWrapper.cs" />

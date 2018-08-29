@@ -7,6 +7,7 @@ using System.Text;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Utilities;
 using File = System.IO.File;
 
 namespace ModernApplicationFramework.Modules.Editors.MyEditor

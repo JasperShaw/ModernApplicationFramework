@@ -73,6 +73,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commanding\ActiveTextViewState.cs" />
+    <Compile Include="KeyGestureScope\DefaultEditorKeyGestureScope.cs" />
+    <Compile Include="KeyGestureScope\GestureScopeCreationListener.cs" />
+    <Compile Include="KeyGestureScope\GestureScopeManager.cs" />
+    <Compile Include="KeyGestureScope\KeyGestureScopeState.cs" />
+    <Compile Include="Implementation\IOrderableContentTypeAndTextViewRoleMetadata.cs" />
+    <Compile Include="Implementation\ExtensionSelector.cs" />
+    <Compile Include="Implementation\GuardedOperations.cs" />
     <Compile Include="Commanding\IActiveTextViewState.cs" />
     <Compile Include="Commands\LeftCommandDefinition.cs" />
     <Compile Include="Commanding\TextEditCommand.cs" />

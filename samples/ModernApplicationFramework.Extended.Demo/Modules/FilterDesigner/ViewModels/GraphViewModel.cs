@@ -13,6 +13,7 @@ using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Modules.Inspector;
 using ModernApplicationFramework.Modules.Toolbox;
+using ModernApplicationFramework.Utilities;
 using ImageSource = ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.ViewModels.Elements.ImageSource;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.ViewModels

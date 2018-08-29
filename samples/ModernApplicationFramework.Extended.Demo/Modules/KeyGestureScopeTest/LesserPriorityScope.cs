@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.KeyGestureScopeTest
 {
