@@ -25,8 +25,7 @@ namespace ModernApplicationFramework.Editor.Commands
 
         public override ReadOnlyCollection<GestureScopeMapping> DefaultGestureScopes => new ReadOnlyCollection<GestureScopeMapping>(new[]
         {
-            new GestureScopeMapping(TextEditorGestureScope.TextEditorScope, new MultiKeyGesture(Key.Left)),
-            new GestureScopeMapping(TextEditorGestureScope.OutputGestureScope, new MultiKeyGesture(Key.Right))
+            new GestureScopeMapping(TextEditorGestureScope.TextEditorScope, new MultiKeyGesture(Key.Left))
         });
     }
 }
