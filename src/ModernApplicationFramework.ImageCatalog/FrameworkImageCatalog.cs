@@ -98,6 +98,9 @@ namespace ModernApplicationFramework.ImageCatalog
                 case ImageIds.Win32Text:
                     imageDefinition = ImageDefinitions.Win32TextDefinition;
                     return true;
+                case ImageIds.PinDocument:
+                    imageDefinition = ImageDefinitions.PicDocumentDefinition;
+                    return true;
                 default:
                     return false;
             }           

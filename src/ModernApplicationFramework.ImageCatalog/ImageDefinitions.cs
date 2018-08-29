@@ -186,5 +186,12 @@ namespace ModernApplicationFramework.ImageCatalog
             Monkier = Monikers.Win32Text,
             Source = UriCreator.Create("Win32TextFile", ImageType.Png)
         };
+
+        public static ImageDefinition PicDocumentDefinition => new ImageDefinition
+        {
+            Type = ImageType.Png,
+            Monkier = Monikers.PinDocument,
+            Source = UriCreator.Create("Pushpin_16x", ImageType.Png)
+        };
     }
 }

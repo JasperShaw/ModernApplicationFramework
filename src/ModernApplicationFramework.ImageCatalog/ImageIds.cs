@@ -28,5 +28,6 @@
         public const int Output = 23;
         public const int Toolbox = 24;
         public const int Win32Text = 25;
+        public const int PinDocument = 26;
     }
 }

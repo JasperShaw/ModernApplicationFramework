@@ -171,4 +171,7 @@
   <data name="NewVerticalTabGroupCommandDefinition_Text" xml:space="preserve">
     <value>New &amp;Vertical Tab Group</value>
   </data>
+  <data name="PinActiveDocumentCommandDefinition_Text" xml:space="preserve">
+    <value>&amp;Pin Tab</value>
+  </data>
 </root>

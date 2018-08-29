@@ -171,4 +171,7 @@
   <data name="NewVerticalTabGroupCommandDefinition_Text" xml:space="preserve">
     <value>&amp;Neue vertikale Registerkartengruppe</value>
   </data>
+  <data name="PinActiveDocumentCommandDefinition_Text" xml:space="preserve">
+    <value>&amp;Registerkarte anheften</value>
+  </data>
 </root>

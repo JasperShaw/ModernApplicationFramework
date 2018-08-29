@@ -90,6 +90,15 @@ namespace ModernApplicationFramework.Extended.CommandBar.MenuDefinitions
             new CommandBarCommandItem<HideDockedWindowCommandDefinition>(
                 new Guid("{E36D11AA-1882-446F-B917-B181D511015F}"), FloatDockGroup, 4);
 
+        //PinGroup
+        [Export]
+        public static CommandBarGroup PinGroup =
+            new CommandBarGroup(TopLevelMenuDefinitions.WindowMenu, 2);
+
+        [Export]
+        public static CommandBarItem Pin =
+            new CommandBarCommandItem<PinActiveDocumentCommandDefinition>(
+                new Guid("{EB6319CE-F580-4C27-8304-1B97A6C5C44C}"), PinGroup, 0, CommandBarFlags.CommandFlagNone, false, true);
 
     }
 }

@@ -183,5 +183,12 @@
                 CatalogGuid = FrameworkImageCatalog.FrameworkImageCatalogGuid,
                 Id = ImageIds.Win32Text
             };
+
+        public static Imaging.Interop.ImageMoniker PinDocument =>
+            new Imaging.Interop.ImageMoniker
+            {
+                CatalogGuid = FrameworkImageCatalog.FrameworkImageCatalogGuid,
+                Id = ImageIds.PinDocument
+            };
     }
 }

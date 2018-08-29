@@ -268,6 +268,8 @@
     <Compile Include="Core\Converters\Customize\ResizeMenuItemVisiblilityConverter.cs" />
     <Compile Include="Core\Converters\FlagToNameConverter.cs" />
     <Compile Include="Core\Themes\CommonControlsColors.cs" />
+    <Compile Include="Docking\CommandDefinitions\PinActiveDocumentCommandDefinition.cs" />
+    <Compile Include="Docking\Commands\PinActiveDocumentCommand.cs" />
     <Compile Include="Interfaces\Commands\ICustomizeMenuCommand.cs" />
     <Compile Include="Basics\Search\Search.Resources.Designer.cs">
       <DependentUpon>Search.Resources.resx</DependentUpon>
@@ -325,6 +327,7 @@
     <Compile Include="Basics\CommandBar\ItemDefinitions\ExcludedItemDefinition.cs" />
     <Compile Include="Basics\CommandBar\ItemDefinitions\CommandGestureScopeMapping.cs" />
     <Compile Include="Interfaces\Commands\ICommandDefinitionCommand.cs" />
+    <Compile Include="Interfaces\Commands\IPinActiveDocumentCommand.cs" />
     <Compile Include="Interfaces\Services\IMruItem.cs" />
     <Compile Include="Basics\MostRecentlyUsedManager\MruItem.cs" />
     <Compile Include="Basics\Search\SearchOptionType.cs" />

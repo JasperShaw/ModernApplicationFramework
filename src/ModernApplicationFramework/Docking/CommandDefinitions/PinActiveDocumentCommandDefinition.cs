@@ -10,21 +10,16 @@ using ModernApplicationFramework.Interfaces.Commands;
 namespace ModernApplicationFramework.Docking.CommandDefinitions
 {
     [Export(typeof(CommandBarItemDefinition))]
-    [Export(typeof(HideDockedWindowCommandDefinition))]
-    public sealed class HideDockedWindowCommandDefinition : CommandDefinition<IHideDockedWindowCommand>
+    public class PinActiveDocumentCommandDefinition : CommandDefinition<IPinActiveDocumentCommand>
     {
-        public override string Name => Text;
-
         public override string NameUnlocalized =>
-            DockingResources.ResourceManager.GetString("HideDockedWindowCommandDefinition_Text",
+            DockingResources.ResourceManager.GetString("PinActiveDocumentCommandDefinition_Text",
                 CultureInfo.InvariantCulture);
-
-        public override string Text => DockingResources.HideDockedWindowCommandDefinition_Text;
-        public override string ToolTip => null;
-
-        public override ImageMoniker ImageMonikerSource => Monikers.HideToolWindow;
-
+        public override string Text => DockingResources.PinActiveDocumentCommandDefinition_Text;
+        public override ImageMoniker ImageMonikerSource => Monikers.PinDocument;
+        public override bool Checkable => true;
+        public override string ToolTip => NameUnlocalized;
         public override CommandBarCategory Category => CommandBarCategories.WindowCategory;
-        public override Guid Id => new Guid("{E1BBFA22-EADF-445D-810A-4984E91D17B7}");
+        public override Guid Id => new Guid("{EE167099-7700-4D02-BB20-C9258F9E2C5B}");
     }
 }
