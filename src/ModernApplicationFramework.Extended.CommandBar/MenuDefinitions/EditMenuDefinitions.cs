@@ -13,11 +13,11 @@ namespace ModernApplicationFramework.Extended.CommandBar.MenuDefinitions
             new CommandBarGroup(TopLevelMenuDefinitions.EditMenu, 1);
 
         [Export] public static CommandBarItem EditUndoMenuItem =
-            new CommandBarCommandItem<UndoCommandDefinition>(
+            new CommandBarCommandItem<MultiUndoDefinition>(
                 new Guid("{809F1237-6427-4F30-83F0-C64C9AC2DD24}"), EditUndoRedoMenuGroup, 0);
 
         [Export] public static CommandBarItem EditRedoMenuItem =
-            new CommandBarCommandItem<RedoCommandDefinition>(
+            new CommandBarCommandItem<MultiRedoDefinition>(
                 new Guid("{F41D3A9C-90CA-41EE-BEE3-D3283BEF1D52}"), EditUndoRedoMenuGroup, 0);
 
 

@@ -120,4 +120,7 @@
   <data name="ToolBarStandard_Name" xml:space="preserve">
     <value>Standard</value>
   </data>
+  <data name="ToolbarsMenu_Name" xml:space="preserve">
+    <value>&amp;Symbolleisten</value>
+  </data>
 </root>
