@@ -127,10 +127,10 @@
     <value>Ausgewählte Ele&amp;mente speichern</value>
   </data>
   <data name="SaveActiveDocumentCommandText" xml:space="preserve">
-    <value>{0} speic&amp;hern</value>
+    <value>{0} Speic&amp;hern</value>
   </data>
   <data name="SaveActiveDocumentAsCommandText" xml:space="preserve">
-    <value>{0} speichern &amp;unter...</value>
+    <value>{0} Speichern &amp;unter...</value>
   </data>
   <data name="SaveActiveDocumentAsCommandName" xml:space="preserve">
     <value>A&amp;usgewählte Elemente speichern unter...</value>
