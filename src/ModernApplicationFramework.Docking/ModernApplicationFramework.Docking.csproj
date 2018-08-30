@@ -72,6 +72,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Themes\AnchorFloatingWindowTitleBarButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\DockingManager.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -81,6 +85,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\DropDownTitleBarButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Colors.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -182,6 +190,7 @@
     <Compile Include="Controls\AnchorablePaneDropTarget.cs" />
     <Compile Include="Controls\AnchorablePaneTabPanel.cs" />
     <Compile Include="Controls\AnchorablePaneTitle.cs" />
+    <Compile Include="Controls\AnchorFloatingWindowTitleBarButton.cs" />
     <Compile Include="Controls\AutoHideWindowManager.cs" />
     <Compile Include="Controls\BindingHelper.cs" />
     <Compile Include="Controls\ContextMenuEx.cs" />
@@ -254,6 +263,7 @@
     <Compile Include="Converters\LayoutItemFromLayoutModelConverter.cs" />
     <Compile Include="Converters\NullToDoNothingConverter.cs" />
     <Compile Include="Converters\UriSourceToBitmapImageConverter.cs" />
+    <Compile Include="DockingColors.cs" />
     <Compile Include="DockingManager.cs" />
     <Compile Include="DockingManagerPreferences.cs" />
     <Compile Include="DockingResources.Designer.cs">

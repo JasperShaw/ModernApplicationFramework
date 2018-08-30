@@ -2,19 +2,19 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:avalonDockControls="clr-namespace:ModernApplicationFramework.Docking.Controls"
                     xmlns:converters="clr-namespace:ModernApplicationFramework.Docking.Converters"
-                    xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework">
+                    xmlns:docking="clr-namespace:ModernApplicationFramework.Docking">
 
     <converters:IsHorizontalResizeGripConverter x:Key="IsHorizontalResizeGripConverter" />
 
     <Style x:Key="{x:Type avalonDockControls:LayoutGridResizerControl}" TargetType="{x:Type avalonDockControls:LayoutGridResizerControl}">
-        <Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.LayoutGridResizerBackground}}" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.LayoutGridResizerBackground}}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type avalonDockControls:LayoutGridResizerControl}">
                     <Border Background="{TemplateBinding Background}" />
                     <ControlTemplate.Triggers>
                         <DataTrigger Binding="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}, Converter={StaticResource IsHorizontalResizeGripConverter}}" Value="true">
-                            <Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.LayoutGridResizerBackgroundHorizontal}}" />
+                            <Setter Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.LayoutGridResizerBackgroundHorizontal}}" />
                         </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

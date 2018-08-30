@@ -1188,8 +1188,7 @@ namespace ModernApplicationFramework.Controls.Windows
 
             public void ChangeOwner(IntPtr newOwner)
             {
-                User32.SetWindowLongPtr(Handle,
-                    (int) Gwlp.Hwndparent, newOwner);
+                User32.SetWindowLongPtr(Handle, Gwlp.Hwndparent, newOwner);
             }
 
             protected override bool IsWindowSubclassed { get; }

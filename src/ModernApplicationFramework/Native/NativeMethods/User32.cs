@@ -168,6 +168,13 @@ namespace ModernApplicationFramework.Native.NativeMethods
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         internal static extern IntPtr SetWindowLongPtr(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
 
+        public static IntPtr SetWindowLongPtr(IntPtr hWnd, Gwlp nIndex, IntPtr dwNewLong)
+        {
+            if (IntPtr.Size == 8)
+                return SetWindowLongPtr(hWnd, (int)nIndex, dwNewLong);
+            return new IntPtr(SetWindowLong(hWnd, (int) nIndex, dwNewLong.ToInt32()));
+        }
+
         [DllImport("user32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool GetWindowPlacement(IntPtr hwnd, Windowplacement lpwndpl);

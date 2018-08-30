@@ -2,6 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:avalonDockControls="clr-namespace:ModernApplicationFramework.Docking.Controls"
                     xmlns:converters="clr-namespace:ModernApplicationFramework.Docking.Converters"
+                    xmlns:docking="clr-namespace:ModernApplicationFramework.Docking"
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework">
 
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
@@ -13,9 +14,9 @@
     <converters:ActivateCommandLayoutItemFromLayoutModelConverter x:Key="ActivateCommandLayoutItemFromLayoutModelConverter" />
 
     <Style x:Key="TabItemStyle" TargetType="{x:Type TabItem}">
-        <Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorTabItemBackground}}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorTabItemBorder}}" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorTabItemText}}" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorTabItemBackground}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorTabItemBorder}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static docking:DockingColors.AnchorTabItemText}}" />
         <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
         <Setter Property="ToolTip" Value="{Binding ToolTip}" />
         <Setter Property="Template">
@@ -38,9 +39,9 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="Selector.IsSelected" Value="true">
-                            <Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorTabItemBackgroundActive}}" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorTabItemBorderActive}}" />
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorTabItemTextActive}}" />
+                            <Setter Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorTabItemBackgroundActive}}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorTabItemBorderActive}}" />
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static docking:DockingColors.AnchorTabItemTextActive}}" />
                             <Setter Property="Panel.ZIndex" Value="1" />
                             <Setter Property="BorderThickness" Value="1,0,1,1" />
                             <Setter Property="Margin" Value="0,-1,0,0" />
@@ -50,15 +51,15 @@
                                 <Condition Property="IsMouseOver" Value="true" />
                                 <Condition Property="Selector.IsSelected" Value="false" />
                             </MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorTabItemBackgroundHover}}" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorTabItemBorderHover}}" />
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorTabItemTextHover}}" />
+                            <Setter Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorTabItemBackgroundHover}}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorTabItemBorderHover}}" />
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static docking:DockingColors.AnchorTabItemTextHover}}" />
                             <Setter Property="Panel.ZIndex" Value="0" />
                         </MultiTrigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorTabItemBackgroundDisabled}}" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorTabItemBorderDisabled}}" />
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorTabItemTextDisabled}}" />
+                            <Setter Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorTabItemBackgroundDisabled}}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorTabItemBorderDisabled}}" />
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static docking:DockingColors.AnchorTabItemTextDisabled}}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -75,7 +76,7 @@
         <Setter Property="TabStripPlacement" Value="Bottom" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneControlBorder}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneControlBorder}}" />
         <Setter Property="Foreground" Value="{Binding Model.Root.Manager.Foreground, RelativeSource={RelativeSource Self}}" />
         <Setter Property="Background" Value="{Binding Model.Root.Manager.Background, RelativeSource={RelativeSource Self}}" />
         <Setter Property="Template">

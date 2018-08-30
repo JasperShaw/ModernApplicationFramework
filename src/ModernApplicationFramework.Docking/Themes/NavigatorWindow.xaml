@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:avalonDockControls="clr-namespace:ModernApplicationFramework.Docking.Controls"
                     xmlns:converters="clr-namespace:ModernApplicationFramework.Docking.Converters"
-                    xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework">
+                    xmlns:docking="clr-namespace:ModernApplicationFramework.Docking">
 
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     <converters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter" />
@@ -13,16 +13,16 @@
     <converters:ActivateCommandLayoutItemFromLayoutModelConverter x:Key="ActivateCommandLayoutItemFromLayoutModelConverter" />
 
     <Style x:Key="ItemStyle" TargetType="{x:Type ListBoxItem}">
-        <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.NavigatorWindowItemForeground}}" />
-        <Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.NavigatorWindowItemBackground}}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.NavigatorWindowItemBorder}}" />
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static docking:DockingColors.NavigatorWindowItemForeground}}" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.NavigatorWindowItemBackground}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.NavigatorWindowItemBorder}}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Cursor" Value="Hand" />
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.NavigatorWindowItemBackgroundChecked}}" />
-                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.NavigatorWindowItemBorderChecked}}" />
-                <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.NavigatorWindowItemForegroundChecked}}" />
+                <Setter Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.NavigatorWindowItemBackgroundChecked}}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.NavigatorWindowItemBorderChecked}}" />
+                <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static docking:DockingColors.NavigatorWindowItemForegroundChecked}}" />
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -47,8 +47,8 @@
                 <ControlTemplate TargetType="{x:Type avalonDockControls:NavigatorWindow}">
                     <Grid>
                         <Border x:Name="WindowBorder"
-                                Background="{DynamicResource {x:Static themes:EnvironmentColors.NavigatorWindowBackground}}"
-                                BorderBrush="{DynamicResource {x:Static themes:EnvironmentColors.NavigatorWindowBorder}}"
+                                Background="{DynamicResource {x:Static docking:DockingColors.NavigatorWindowBackground}}"
+                                BorderBrush="{DynamicResource {x:Static docking:DockingColors.NavigatorWindowBorder}}"
                                 BorderThickness="1"
                                 CornerRadius="6"
                                 SnapsToDevicePixels="True">
@@ -73,12 +73,12 @@
                                                    Margin="4,0,0,0"
                                                    VerticalAlignment="Center"
                                                    FontWeight="Bold"
-                                                   Foreground="{DynamicResource {x:Static themes:EnvironmentColors.NavigatorWindowTitleText}}"
+                                                   Foreground="{DynamicResource {x:Static docking:DockingColors.NavigatorWindowTitleText}}"
                                                    Text="{Binding SelectedDocument.LayoutElement.Title}"
                                                    TextTrimming="CharacterEllipsis" />
                                     </Grid>
                                     <TextBlock VerticalAlignment="Center"
-                                               Foreground="{DynamicResource {x:Static themes:EnvironmentColors.NavigatorWindowTitleText}}"
+                                               Foreground="{DynamicResource {x:Static docking:DockingColors.NavigatorWindowTitleText}}"
                                                Text="{Binding SelectedDocument.LayoutElement.Description}"
                                                TextTrimming="CharacterEllipsis" />
                                 </Grid>
@@ -95,7 +95,7 @@
                                         </Grid.RowDefinitions>
                                         <TextBlock Margin="0,3,0,4"
                                                    FontWeight="Bold"
-                                                   Foreground="{DynamicResource {x:Static themes:EnvironmentColors.NavigatorWindowTextForeground}}"
+                                                   Foreground="{DynamicResource {x:Static docking:DockingColors.NavigatorWindowTextForeground}}"
                                                    Text="Active Tool Windows" />
                                         <ListBox Grid.Row="1"
                                                  MaxHeight="400"
@@ -129,7 +129,7 @@
                                         </Grid.RowDefinitions>
                                         <TextBlock Margin="0,3,0,4"
                                                    FontWeight="Bold"
-                                                   Foreground="{DynamicResource {x:Static themes:EnvironmentColors.NavigatorWindowTextForeground}}"
+                                                   Foreground="{DynamicResource {x:Static docking:DockingColors.NavigatorWindowTextForeground}}"
                                                    Text="Active Files" />
                                         <ListBox Grid.Row="1"
                                                  MaxHeight="400"
@@ -164,7 +164,7 @@
                                 </Grid>
                                 <Grid Grid.Row="2">
                                     <TextBlock VerticalAlignment="Center"
-                                               Foreground="{DynamicResource {x:Static themes:EnvironmentColors.NavigatorWindowTitleText}}"
+                                               Foreground="{DynamicResource {x:Static docking:DockingColors.NavigatorWindowTitleText}}"
                                                Text="{Binding SelectedDocument.LayoutElement.ToolTip}" />
                                 </Grid>
                             </Grid>

@@ -738,7 +738,6 @@
     <Compile Include="Controls\Primitives\WindowBase.cs" />
     <Compile Include="Controls\Internals\WindowContentPresenter.cs" />
     <Compile Include="Controls\Internals\WindowTitleBarButton.cs" />
-    <Compile Include="Controls\Primitives\DropDownButtonBase.cs" />
     <Compile Include="Controls\GridSplitter.cs" />
     <Compile Include="Controls\Windows\MainWindow.cs" />
     <Compile Include="Controls\Windows\MainWindowTitleBar.cs" />
@@ -964,10 +963,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\Generic\ContextMenu.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Generic\DropDownButtonBase.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

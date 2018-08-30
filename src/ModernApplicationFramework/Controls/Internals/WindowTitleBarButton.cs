@@ -6,14 +6,14 @@ namespace ModernApplicationFramework.Controls.Internals
 {
     public class WindowTitleBarButton : Button, INonClientArea
     {
-        public static readonly DependencyProperty IsAnchorableFloatingWindowTitleBarButtonProperty = DependencyProperty.Register(
-            "IsAnchorableFloatingWindowTitleBarButton", typeof(bool), typeof(WindowTitleBarButton), new PropertyMetadata(default(bool)));
+        //public static readonly DependencyProperty IsAnchorableFloatingWindowTitleBarButtonProperty = DependencyProperty.Register(
+        //    "IsAnchorableFloatingWindowTitleBarButton", typeof(bool), typeof(WindowTitleBarButton), new PropertyMetadata(default(bool)));
 
-        public bool IsAnchorableFloatingWindowTitleBarButton
-        {
-            get => (bool) GetValue(IsAnchorableFloatingWindowTitleBarButtonProperty);
-            set => SetValue(IsAnchorableFloatingWindowTitleBarButtonProperty, value);
-        }
+        //public bool IsAnchorableFloatingWindowTitleBarButton
+        //{
+        //    get => (bool) GetValue(IsAnchorableFloatingWindowTitleBarButtonProperty);
+        //    set => SetValue(IsAnchorableFloatingWindowTitleBarButtonProperty, value);
+        //}
 
         static WindowTitleBarButton()
         {

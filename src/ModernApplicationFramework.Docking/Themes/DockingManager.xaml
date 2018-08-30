@@ -4,8 +4,7 @@
                     xmlns:avalonDockControls="clr-namespace:ModernApplicationFramework.Docking.Controls"
                     xmlns:converters="clr-namespace:ModernApplicationFramework.Docking.Converters"
                     xmlns:converters2="clr-namespace:ModernApplicationFramework.Core.Converters;assembly=ModernApplicationFramework"
-                    xmlns:mafc="http://modern.framework.com/controls"
-                    xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework">
+                    xmlns:mafc="http://modern.framework.com/controls">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="LayoutDocumentPaneControl.xaml" />
@@ -51,14 +50,14 @@
         <Border x:Name="Bd"
                 Margin="0,6,12,0"
                 Padding="0,0,0,3"
-                Background="{DynamicResource {x:Static themes:EnvironmentColors.AnchorSideItemBackground}}"
-                BorderBrush="{DynamicResource {x:Static themes:EnvironmentColors.AnchorSideItemBorder}}"
+                Background="{DynamicResource {x:Static avalonDock:DockingColors.AnchorSideItemBackground}}"
+                BorderBrush="{DynamicResource {x:Static avalonDock:DockingColors.AnchorSideItemBorder}}"
                 BorderThickness="0,0,0,6">
             <ContentPresenter x:Name="Content"
                               Content="{Binding Model, RelativeSource={RelativeSource TemplatedParent}}"
                               ContentTemplate="{Binding AnchorableHeaderTemplate, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"
                               ContentTemplateSelector="{Binding AnchorableHeaderTemplateSelector, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"
-                              TextElement.Foreground="{DynamicResource {x:Static themes:EnvironmentColors.AnchorSideItemForeground}}" />
+                              TextElement.Foreground="{DynamicResource {x:Static avalonDock:DockingColors.AnchorSideItemForeground}}" />
         </Border>
         <ControlTemplate.Triggers>
             <Trigger Property="Side" Value="Right">
@@ -81,9 +80,9 @@
                     <Condition Property="IsMouseOver" Value="true" />
                     <Condition Property="Selector.IsSelected" Value="false" />
                 </MultiTrigger.Conditions>
-                <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorSideItemBorderHover}}" />
-                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorSideItemBackgroundHover}}" />
-                <Setter TargetName="Content" Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorSideItemForegroundHover}}" />
+                <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource {x:Static avalonDock:DockingColors.AnchorSideItemBorderHover}}" />
+                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static avalonDock:DockingColors.AnchorSideItemBackgroundHover}}" />
+                <Setter TargetName="Content" Property="TextElement.Foreground" Value="{DynamicResource {x:Static avalonDock:DockingColors.AnchorSideItemForegroundHover}}" />
             </MultiTrigger>
             <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type mafc:MainWindow}}, Path=FullScreen}" Value="true">
                 <Setter Property="Visibility" Value="Collapsed" />
@@ -162,7 +161,7 @@
                             </Grid.ColumnDefinitions>
                             <Border Grid.Row="1"
                                     Grid.Column="1"
-                                    Background="{DynamicResource {x:Static themes:EnvironmentColors.DockingManagerBackground}}">
+                                    Background="{DynamicResource {x:Static avalonDock:DockingColors.DockingManagerBackground}}">
                                 <ContentPresenter Content="{TemplateBinding LayoutRootPanel}" />
                             </Border>
 

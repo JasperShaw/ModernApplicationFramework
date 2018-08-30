@@ -3,8 +3,8 @@
                     xmlns:avalonDockControls="clr-namespace:ModernApplicationFramework.Docking.Controls"
                     xmlns:contextMenuProviders="clr-namespace:ModernApplicationFramework.Docking.ContextMenuProviders"
                     xmlns:converters="clr-namespace:ModernApplicationFramework.Docking.Converters"
-                    xmlns:mafc="http://modern.framework.com/controls"
-                    xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework">
+                    xmlns:docking="clr-namespace:ModernApplicationFramework.Docking"
+                    xmlns:mafc="http://modern.framework.com/controls">
 
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     <converters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter" />
@@ -34,8 +34,8 @@
                                         <avalonDockControls:DropDownButton x:Name="MenuDropDownButton"
                                                                            Width="15"
                                                                            Height="15"
-                                                                           Background="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBackground}}"
-                                                                           BorderBrush="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBorder}}"
+                                                                           Background="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBackground}}"
+                                                                           BorderBrush="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBorder}}"
                                                                            BorderThickness="1"
                                                                            ContextMenuProvider="{StaticResource AnchorableContextMenuProvider}"
                                                                            Focusable="False"
@@ -46,14 +46,14 @@
                                                   HorizontalAlignment="Center"
                                                   VerticalAlignment="Center"
                                                   Data="F1 M 0,0 L 4,4 8,0 0,0 z"
-                                                  Fill="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleGlyph}}" />
+                                                  Fill="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleGlyph}}" />
                                         </avalonDockControls:DropDownButton>
 
                                         <mafc:Button x:Name="PART_AutoHidePin"
                                                      Width="15"
                                                      Height="15"
-                                                     Background="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBackground}}"
-                                                     BorderBrush="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBorder}}"
+                                                     Background="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBackground}}"
+                                                     BorderBrush="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBorder}}"
                                                      BorderThickness="1"
                                                      Command="{Binding Path=LayoutItem.AutoHideCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                      Focusable="False"
@@ -65,14 +65,14 @@
                                                   HorizontalAlignment="Center"
                                                   VerticalAlignment="Center"
                                                   Data="F1 M3,11 L3,7 0,7 0,6 1,6 1,1 1,0 6,0 6,1 6,6 7,6 7,7 4,7 4,11 3,11z M2,1L2,6 4,6 4,1 2,1z"
-                                                  Fill="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleGlyph}}" />
+                                                  Fill="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleGlyph}}" />
                                         </mafc:Button>
 
                                         <mafc:Button x:Name="PART_HidePin"
                                                      Width="15"
                                                      Height="15"
-                                                     Background="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBackground}}"
-                                                     BorderBrush="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBorder}}"
+                                                     Background="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBackground}}"
+                                                     BorderBrush="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBorder}}"
                                                      BorderThickness="1"
                                                      Command="{Binding Path=LayoutItem.HideCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                      Focusable="False"
@@ -82,7 +82,7 @@
                                                   Width="10"
                                                   Height="8"
                                                   Data="F1 M 0,0 L 2,0 5,3 8,0 10,0 6,4 10,8 8,8 5,5 2,8 0,8 4,4 0,0 Z"
-                                                  Fill="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleGlyph}}"
+                                                  Fill="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleGlyph}}"
                                                   Stretch="Uniform" />
                                         </mafc:Button>
                                     </StackPanel>
@@ -91,12 +91,12 @@
                                                       Content="{Binding Model, RelativeSource={RelativeSource TemplatedParent}}"
                                                       ContentTemplate="{Binding Model.Root.Manager.AnchorableTitleTemplate, RelativeSource={RelativeSource TemplatedParent}}"
                                                       ContentTemplateSelector="{Binding Model.Root.Manager.AnchorableTitleTemplateSelector, RelativeSource={RelativeSource TemplatedParent}}"
-                                                      TextElement.Foreground="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleText}}" />
+                                                      TextElement.Foreground="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleText}}" />
                                     <Rectangle x:Name="Grip"
                                                Height="5"
                                                Margin="8,0,4,0"
                                                VerticalAlignment="Center"
-                                               Fill="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleGrip}}"
+                                               Fill="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleGrip}}"
                                                SnapsToDevicePixels="True" />
                                 </DockPanel>
                             </Grid>
@@ -111,47 +111,47 @@
                             </Setter>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Model.IsActive, RelativeSource={RelativeSource Mode=Self}}" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleBackgroundActive}}" />
-                            <Setter TargetName="Header" Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleTextActive}}" />
-                            <Setter TargetName="PinButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleGlyphActive}}" />
-                            <Setter TargetName="CloseButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleGlyphActive}}" />
-                            <Setter TargetName="MenuButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleGlyphActive}}" />
-                            <Setter TargetName="Grip" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleGripActive}}" />
+                            <Setter Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleBackgroundActive}}" />
+                            <Setter TargetName="Header" Property="TextElement.Foreground" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleTextActive}}" />
+                            <Setter TargetName="PinButtonPath" Property="Fill" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleGlyphActive}}" />
+                            <Setter TargetName="CloseButtonPath" Property="Fill" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleGlyphActive}}" />
+                            <Setter TargetName="MenuButtonPath" Property="Fill" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleGlyphActive}}" />
+                            <Setter TargetName="Grip" Property="Fill" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleGripActive}}" />
                         </DataTrigger>
                         <Trigger SourceName="MenuDropDownButton" Property="IsMouseOver" Value="True">
-                            <Setter TargetName="MenuButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleGlyphHover}}" />
-                            <Setter TargetName="MenuDropDownButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBackgroundHover}}" />
-                            <Setter TargetName="MenuDropDownButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBorderHover}}" />
+                            <Setter TargetName="MenuButtonPath" Property="Fill" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleGlyphHover}}" />
+                            <Setter TargetName="MenuDropDownButton" Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBackgroundHover}}" />
+                            <Setter TargetName="MenuDropDownButton" Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBorderHover}}" />
                         </Trigger>
                         <Trigger SourceName="MenuDropDownButton" Property="IsPressed" Value="True">
-                            <Setter TargetName="MenuButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleGlyphDown}}" />
-                            <Setter TargetName="MenuDropDownButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBackgroundDown}}" />
-                            <Setter TargetName="MenuDropDownButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBorderDown}}" />
+                            <Setter TargetName="MenuButtonPath" Property="Fill" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleGlyphDown}}" />
+                            <Setter TargetName="MenuDropDownButton" Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBackgroundDown}}" />
+                            <Setter TargetName="MenuDropDownButton" Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBorderDown}}" />
                         </Trigger>
                         <Trigger SourceName="MenuDropDownButton" Property="IsChecked" Value="True">
-                            <Setter TargetName="MenuButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleGlyphDown}}" />
-                            <Setter TargetName="MenuDropDownButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBackgroundDown}}" />
-                            <Setter TargetName="MenuDropDownButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBorderDown}}" />
+                            <Setter TargetName="MenuButtonPath" Property="Fill" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleGlyphDown}}" />
+                            <Setter TargetName="MenuDropDownButton" Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBackgroundDown}}" />
+                            <Setter TargetName="MenuDropDownButton" Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBorderDown}}" />
                         </Trigger>
                         <Trigger SourceName="PART_AutoHidePin" Property="IsMouseOver" Value="True">
-                            <Setter TargetName="PinButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleGlyphHover}}" />
-                            <Setter TargetName="PART_AutoHidePin" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBackgroundHover}}" />
-                            <Setter TargetName="PART_AutoHidePin" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBorderHover}}" />
+                            <Setter TargetName="PinButtonPath" Property="Fill" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleGlyphHover}}" />
+                            <Setter TargetName="PART_AutoHidePin" Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBackgroundHover}}" />
+                            <Setter TargetName="PART_AutoHidePin" Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBorderHover}}" />
                         </Trigger>
                         <Trigger SourceName="PART_AutoHidePin" Property="IsPressed" Value="True">
-                            <Setter TargetName="PinButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleGlyphDown}}" />
-                            <Setter TargetName="PART_AutoHidePin" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBackgroundDown}}" />
-                            <Setter TargetName="PART_AutoHidePin" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBorderDown}}" />
+                            <Setter TargetName="PinButtonPath" Property="Fill" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleGlyphDown}}" />
+                            <Setter TargetName="PART_AutoHidePin" Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBackgroundDown}}" />
+                            <Setter TargetName="PART_AutoHidePin" Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBorderDown}}" />
                         </Trigger>
                         <Trigger SourceName="PART_HidePin" Property="IsMouseOver" Value="True">
-                            <Setter TargetName="CloseButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleGlyphHover}}" />
-                            <Setter TargetName="PART_HidePin" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBackgroundHover}}" />
-                            <Setter TargetName="PART_HidePin" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBorderHover}}" />
+                            <Setter TargetName="CloseButtonPath" Property="Fill" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleGlyphHover}}" />
+                            <Setter TargetName="PART_HidePin" Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBackgroundHover}}" />
+                            <Setter TargetName="PART_HidePin" Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBorderHover}}" />
                         </Trigger>
                         <Trigger SourceName="PART_HidePin" Property="IsPressed" Value="True">
-                            <Setter TargetName="CloseButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleGlyphDown}}" />
-                            <Setter TargetName="PART_HidePin" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBackgroundDown}}" />
-                            <Setter TargetName="PART_HidePin" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBorderDown}}" />
+                            <Setter TargetName="CloseButtonPath" Property="Fill" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleGlyphDown}}" />
+                            <Setter TargetName="PART_HidePin" Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBackgroundDown}}" />
+                            <Setter TargetName="PART_HidePin" Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBorderDown}}" />
                         </Trigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
@@ -159,9 +159,9 @@
                                 <Condition Binding="{Binding IsMouseOver, ElementName=PART_HidePin}" Value="True" />
                             </MultiDataTrigger.Conditions>
                             <MultiDataTrigger.Setters>
-                                <Setter TargetName="CloseButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleGlyphActiveHover}}" />
-                                <Setter TargetName="PART_HidePin" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBackgroundActiveHover}}" />
-                                <Setter TargetName="PART_HidePin" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBorderActiveHover}}" />
+                                <Setter TargetName="CloseButtonPath" Property="Fill" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleGlyphActiveHover}}" />
+                                <Setter TargetName="PART_HidePin" Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBackgroundActiveHover}}" />
+                                <Setter TargetName="PART_HidePin" Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBorderActiveHover}}" />
                             </MultiDataTrigger.Setters>
                         </MultiDataTrigger>
                         <MultiDataTrigger>
@@ -170,9 +170,9 @@
                                 <Condition Binding="{Binding IsPressed, ElementName=PART_HidePin}" Value="True" />
                             </MultiDataTrigger.Conditions>
                             <MultiDataTrigger.Setters>
-                                <Setter TargetName="CloseButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleGlyphActiveDown}}" />
-                                <Setter TargetName="PART_HidePin" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBackgroundActiveDown}}" />
-                                <Setter TargetName="PART_HidePin" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBorderActiveDown}}" />
+                                <Setter TargetName="CloseButtonPath" Property="Fill" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleGlyphActiveDown}}" />
+                                <Setter TargetName="PART_HidePin" Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBackgroundActiveDown}}" />
+                                <Setter TargetName="PART_HidePin" Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBorderActiveDown}}" />
                             </MultiDataTrigger.Setters>
                         </MultiDataTrigger>
                         <MultiDataTrigger>
@@ -181,9 +181,9 @@
                                 <Condition Binding="{Binding IsMouseOver, ElementName=PART_AutoHidePin}" Value="True" />
                             </MultiDataTrigger.Conditions>
                             <MultiDataTrigger.Setters>
-                                <Setter TargetName="PinButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleGlyphActiveHover}}" />
-                                <Setter TargetName="PART_AutoHidePin" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBackgroundActiveHover}}" />
-                                <Setter TargetName="PART_AutoHidePin" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBorderActiveHover}}" />
+                                <Setter TargetName="PinButtonPath" Property="Fill" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleGlyphActiveHover}}" />
+                                <Setter TargetName="PART_AutoHidePin" Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBackgroundActiveHover}}" />
+                                <Setter TargetName="PART_AutoHidePin" Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBorderActiveHover}}" />
                             </MultiDataTrigger.Setters>
                         </MultiDataTrigger>
                         <MultiDataTrigger>
@@ -192,9 +192,9 @@
                                 <Condition Binding="{Binding IsPressed, ElementName=PART_AutoHidePin}" Value="True" />
                             </MultiDataTrigger.Conditions>
                             <MultiDataTrigger.Setters>
-                                <Setter TargetName="PinButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleGlyphActiveDown}}" />
-                                <Setter TargetName="PART_AutoHidePin" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBackgroundActiveDown}}" />
-                                <Setter TargetName="PART_AutoHidePin" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBorderActiveDown}}" />
+                                <Setter TargetName="PinButtonPath" Property="Fill" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleGlyphActiveDown}}" />
+                                <Setter TargetName="PART_AutoHidePin" Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBackgroundActiveDown}}" />
+                                <Setter TargetName="PART_AutoHidePin" Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBorderActiveDown}}" />
                             </MultiDataTrigger.Setters>
                         </MultiDataTrigger>
                         <MultiDataTrigger>
@@ -203,9 +203,9 @@
                                 <Condition Binding="{Binding IsMouseOver, ElementName=MenuDropDownButton}" Value="True" />
                             </MultiDataTrigger.Conditions>
                             <MultiDataTrigger.Setters>
-                                <Setter TargetName="MenuButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleGlyphActiveHover}}" />
-                                <Setter TargetName="MenuDropDownButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBackgroundActiveHover}}" />
-                                <Setter TargetName="MenuDropDownButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBorderActiveHover}}" />
+                                <Setter TargetName="MenuButtonPath" Property="Fill" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleGlyphActiveHover}}" />
+                                <Setter TargetName="MenuDropDownButton" Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBackgroundActiveHover}}" />
+                                <Setter TargetName="MenuDropDownButton" Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBorderActiveHover}}" />
                             </MultiDataTrigger.Setters>
                         </MultiDataTrigger>
                         <MultiDataTrigger>
@@ -214,9 +214,9 @@
                                 <Condition Binding="{Binding IsPressed, ElementName=MenuDropDownButton}" Value="True" />
                             </MultiDataTrigger.Conditions>
                             <MultiDataTrigger.Setters>
-                                <Setter TargetName="MenuButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleGlyphActiveDown}}" />
-                                <Setter TargetName="MenuDropDownButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBackgroundActiveDown}}" />
-                                <Setter TargetName="MenuDropDownButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBorderActiveDown}}" />
+                                <Setter TargetName="MenuButtonPath" Property="Fill" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleGlyphActiveDown}}" />
+                                <Setter TargetName="MenuDropDownButton" Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBackgroundActiveDown}}" />
+                                <Setter TargetName="MenuDropDownButton" Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBorderActiveDown}}" />
                             </MultiDataTrigger.Setters>
                         </MultiDataTrigger>
                         <MultiDataTrigger>
@@ -225,9 +225,9 @@
                                 <Condition Binding="{Binding IsChecked, ElementName=MenuDropDownButton}" Value="True" />
                             </MultiDataTrigger.Conditions>
                             <MultiDataTrigger.Setters>
-                                <Setter TargetName="MenuButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleGlyphActiveDown}}" />
-                                <Setter TargetName="MenuDropDownButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBackgroundActiveDown}}" />
-                                <Setter TargetName="MenuDropDownButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBorderActiveDown}}" />
+                                <Setter TargetName="MenuButtonPath" Property="Fill" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleGlyphActiveDown}}" />
+                                <Setter TargetName="MenuDropDownButton" Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBackgroundActiveDown}}" />
+                                <Setter TargetName="MenuDropDownButton" Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBorderActiveDown}}" />
                             </MultiDataTrigger.Setters>
                         </MultiDataTrigger>
                     </ControlTemplate.Triggers>

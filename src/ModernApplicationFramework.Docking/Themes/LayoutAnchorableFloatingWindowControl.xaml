@@ -2,6 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:avalonDockControls="clr-namespace:ModernApplicationFramework.Docking.Controls"
                     xmlns:converters="clr-namespace:ModernApplicationFramework.Docking.Converters"
+                    xmlns:docking="clr-namespace:ModernApplicationFramework.Docking"
                     xmlns:extensions="clr-namespace:ModernApplicationFramework.Controls.Extensions;assembly=ModernApplicationFramework"
                     xmlns:internals="clr-namespace:ModernApplicationFramework.Controls.Internals;assembly=ModernApplicationFramework"
                     xmlns:mafc="http://modern.framework.com/controls"
@@ -24,7 +25,6 @@
                               UseAeroCaptionButtons="False" />
             </Setter.Value>
         </Setter>
-        <Setter Property="WindowStyle" Value="None" />
         <Setter Property="AllowDrop" Value="True" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="InputMethod.IsInputMethodSuspended" Value="True" />
@@ -51,7 +51,7 @@
                             <avalonDockControls:FloatingWindowTitleBar x:Name="TitleBar"
                                                                        Grid.Row="0"
                                                                        Padding="2,1,2,3"
-                                                                       Background="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarBackground}}"
+                                                                       Background="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarBackground}}"
                                                                        IsWindowTitleBar="False"
                                                                        Visibility="{Binding Path=Model.IsSinglePane, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <DockPanel>
@@ -64,8 +64,8 @@
                                                                                    VerticalAlignment="Center"
                                                                                    HorizontalContentAlignment="Center"
                                                                                    VerticalContentAlignment="Center"
-                                                                                   Background="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBackground}}"
-                                                                                   BorderBrush="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBorder}}"
+                                                                                   Background="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBackground}}"
+                                                                                   BorderBrush="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBorder}}"
                                                                                    BorderThickness="1"
                                                                                    DropDownContextMenu="{Binding Model.Root.Manager.AnchorableContextMenu, RelativeSource={RelativeSource TemplatedParent}}"
                                                                                    Focusable="False"
@@ -76,7 +76,7 @@
                                                   Width="8"
                                                   Height="4"
                                                   Data="F1 M 0,0 L 4,4 8,0 0,0 z"
-                                                  Fill="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarGlyph}}"
+                                                  Fill="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarGlyph}}"
                                                   Stretch="Uniform" />
                                         </avalonDockControls:DropDownTitleBarButton>
 
@@ -90,8 +90,8 @@
                                                                         VerticalContentAlignment="Center"
                                                                         AutomationProperties.AutomationId="Maximize"
                                                                         AutomationProperties.Name="Maximize"
-                                                                        Background="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBackground}}"
-                                                                        BorderBrush="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBorder}}"
+                                                                        Background="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBackground}}"
+                                                                        BorderBrush="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBorder}}"
                                                                         BorderThickness="1"
                                                                         Command="{x:Static SystemCommands.MaximizeWindowCommand}"
                                                                         CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}}"
@@ -103,7 +103,7 @@
                                                   Width="9"
                                                   Height="9"
                                                   Data="F1 M 0,0 L 0,9 9,9 9,0 0,0 0,3 8,3 8,8 1,8 1,3 Z"
-                                                  Fill="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarGlyph}}"
+                                                  Fill="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarGlyph}}"
                                                   Stretch="Uniform" />
                                         </internals:WindowTitleBarButton>
 
@@ -115,8 +115,8 @@
                                                                         VerticalAlignment="Center"
                                                                         HorizontalContentAlignment="Center"
                                                                         VerticalContentAlignment="Center"
-                                                                        Background="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBackground}}"
-                                                                        BorderBrush="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBorder}}"
+                                                                        Background="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBackground}}"
+                                                                        BorderBrush="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBorder}}"
                                                                         BorderThickness="1"
                                                                         Command="{Binding HideWindowCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                                         Focusable="False"
@@ -127,7 +127,7 @@
                                                   Width="10"
                                                   Height="8"
                                                   Data="F1 M 0,0 L 2,0 5,3 8,0 10,0 6,4 10,8 8,8 5,5 2,8 0,8 4,4 0,0 Z"
-                                                  Fill="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarGlyph}}"
+                                                  Fill="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarGlyph}}"
                                                   Stretch="Uniform" />
                                         </internals:WindowTitleBarButton>
 
@@ -135,7 +135,7 @@
                                     <avalonDockControls:DropDownControlArea x:Name="TextBlock"
                                                                             Margin="2,0,0,0"
                                                                             DropDownContextMenu="{Binding Model.Root.Manager.AnchorableContextMenu, RelativeSource={RelativeSource TemplatedParent}}"
-                                                                            Foreground="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarForeground}}">
+                                                                            Foreground="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarForeground}}">
                                         <DockPanel>
                                             <ContentPresenter Content="{Binding Model.SinglePane.SelectedContent, RelativeSource={RelativeSource TemplatedParent}}"
                                                               ContentTemplate="{Binding Model.Root.Manager.AnchorableTitleTemplate, RelativeSource={RelativeSource TemplatedParent}}"
@@ -146,13 +146,13 @@
                                                Height="5"
                                                Margin="8,0,4,0"
                                                VerticalAlignment="Center"
-                                               Fill="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowGrip}}"
+                                               Fill="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowGrip}}"
                                                SnapsToDevicePixels="True" />
                                 </DockPanel>
                             </avalonDockControls:FloatingWindowTitleBar>
                             <avalonDockControls:FloatingWindowTitleBar x:Name="TitleBarL"
                                                                        Grid.Row="0"
-                                                                       Background="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarBackground}}"
+                                                                       Background="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarBackground}}"
                                                                        IsWindowTitleBar="True"
                                                                        Visibility="{Binding Path=Model.IsSinglePane, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource InverseBoolToVisibilityConverter}}">
 
@@ -169,20 +169,20 @@
 
                                     <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
 
-                                        <internals:WindowTitleBarButton x:Name="MaximizeRestoreButtonL"
-                                                                        Width="34"
-                                                                        Height="26"
-                                                                        Padding="0,3,0,0"
-                                                                        VerticalAlignment="Top"
-                                                                        AutomationProperties.AutomationId="Maximize"
-                                                                        AutomationProperties.Name="Maximize"
-                                                                        BorderThickness="1,0,1,1"
-                                                                        Command="{x:Static SystemCommands.MaximizeWindowCommand}"
-                                                                        CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}}"
-                                                                        IsAnchorableFloatingWindowTitleBarButton="True"
-                                                                        ToolTip="Maximize"
-                                                                        Visibility="{Binding Path=Model.IsSinglePane, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource InverseBoolToVisibilityConverter}}"
-                                                                        WindowChrome.IsHitTestVisibleInChrome="True">
+
+                                        <avalonDockControls:AnchorFloatingWindowTitleBarButton x:Name="MaximizeRestoreButtonL"
+                                                                                               Width="34"
+                                                                                               Height="26"
+                                                                                               Padding="0,3,0,0"
+                                                                                               VerticalAlignment="Top"
+                                                                                               AutomationProperties.AutomationId="Maximize"
+                                                                                               AutomationProperties.Name="Maximize"
+                                                                                               BorderThickness="1,0,1,1"
+                                                                                               Command="{x:Static SystemCommands.MaximizeWindowCommand}"
+                                                                                               CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                                                                                               ToolTip="Maximize"
+                                                                                               Visibility="{Binding Path=Model.IsSinglePane, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource InverseBoolToVisibilityConverter}}"
+                                                                                               WindowChrome.IsHitTestVisibleInChrome="True">
                                             <Path x:Name="MaximizeRestoreButtonPathL"
                                                   Width="9"
                                                   Height="9"
@@ -192,21 +192,20 @@
                                                     <Binding Path="(TextElement.Foreground)" RelativeSource="{RelativeSource Self}" />
                                                 </Shape.Fill>
                                             </Path>
-                                        </internals:WindowTitleBarButton>
+                                        </avalonDockControls:AnchorFloatingWindowTitleBarButton>
 
 
-                                        <internals:WindowTitleBarButton x:Name="CloseButtonL"
-                                                                        Width="34"
-                                                                        Height="26"
-                                                                        Margin="0,0,0,0"
-                                                                        VerticalAlignment="Top"
-                                                                        BorderThickness="1,0,1,1"
-                                                                        Command="{Binding HideWindowCommand, RelativeSource={RelativeSource TemplatedParent}}"
-                                                                        Focusable="False"
-                                                                        IsAnchorableFloatingWindowTitleBarButton="True"
-                                                                        ToolTip="Close"
-                                                                        Visibility="{Binding Path=Model.IsSinglePane, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource InverseBoolToVisibilityConverter}}"
-                                                                        WindowChrome.IsHitTestVisibleInChrome="True">
+                                        <avalonDockControls:AnchorFloatingWindowTitleBarButton x:Name="CloseButtonL"
+                                                                                               Width="34"
+                                                                                               Height="26"
+                                                                                               Margin="0,0,0,0"
+                                                                                               VerticalAlignment="Top"
+                                                                                               BorderThickness="1,0,1,1"
+                                                                                               Command="{Binding HideWindowCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                                               Focusable="False"
+                                                                                               ToolTip="Close"
+                                                                                               Visibility="{Binding Path=Model.IsSinglePane, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource InverseBoolToVisibilityConverter}}"
+                                                                                               WindowChrome.IsHitTestVisibleInChrome="True">
                                             <Path Width="10"
                                                   Height="8"
                                                   Data="F1 M 0,0 L 2,0 5,3 8,0 10,0 6,4 10,8 8,8 5,5 2,8 0,8 4,4 0,0 Z"
@@ -215,12 +214,12 @@
                                                     <Binding Path="(TextElement.Foreground)" RelativeSource="{RelativeSource Self}" />
                                                 </Shape.Fill>
                                             </Path>
-                                        </internals:WindowTitleBarButton>
+                                        </avalonDockControls:AnchorFloatingWindowTitleBarButton>
                                     </StackPanel>
                                     <TextBlock x:Name="TitleBarTextL"
                                                Margin="4,0,0,0"
                                                VerticalAlignment="Center"
-                                               Foreground="{DynamicResource {x:Static themes:EnvironmentColors.FloatingWindowTitleBarForegroundActive}}"
+                                               Foreground="{DynamicResource {x:Static docking:DockingColors.FloatingWindowTitleBarForegroundActive}}"
                                                Text="{Binding Path=MainWindow.Title, Source={x:Static Application.Current}}"
                                                TextTrimming="CharacterEllipsis" />
                                 </DockPanel>
@@ -248,52 +247,52 @@
                             <Setter TargetName="MaximizeRestoreButton" Property="Command" Value="{x:Static SystemCommands.RestoreWindowCommand}" />
                         </Trigger>
                         <Trigger Property="IsActive" Value="True">
-                            <Setter TargetName="TitleBar" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarBackgroundActive}}" />
-                            <Setter TargetName="TextBlock" Property="Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarForegroundActive}}" />
-                            <Setter TargetName="MenuButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarGlyphActive}}" />
-                            <Setter TargetName="MaximizeRestoreButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarGlyphActive}}" />
-                            <Setter TargetName="CloseButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarGlyphActive}}" />
-                            <Setter TargetName="Grip" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowGripActive}}" />
-                            <Setter TargetName="CloseButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBackgroundActive}}" />
-                            <Setter TargetName="CloseButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBorderActive}}" />
-                            <Setter TargetName="MaximizeRestoreButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBackgroundActive}}" />
-                            <Setter TargetName="MaximizeRestoreButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBorderActive}}" />
-                            <Setter TargetName="SinglePaneContextMenu" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBackgroundActive}}" />
-                            <Setter TargetName="SinglePaneContextMenu" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBorderActive}}" />
+                            <Setter TargetName="TitleBar" Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarBackgroundActive}}" />
+                            <Setter TargetName="TextBlock" Property="Foreground" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarForegroundActive}}" />
+                            <Setter TargetName="MenuButtonPath" Property="Fill" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarGlyphActive}}" />
+                            <Setter TargetName="MaximizeRestoreButtonPath" Property="Fill" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarGlyphActive}}" />
+                            <Setter TargetName="CloseButtonPath" Property="Fill" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarGlyphActive}}" />
+                            <Setter TargetName="Grip" Property="Fill" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowGripActive}}" />
+                            <Setter TargetName="CloseButton" Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBackgroundActive}}" />
+                            <Setter TargetName="CloseButton" Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBorderActive}}" />
+                            <Setter TargetName="MaximizeRestoreButton" Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBackgroundActive}}" />
+                            <Setter TargetName="MaximizeRestoreButton" Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBorderActive}}" />
+                            <Setter TargetName="SinglePaneContextMenu" Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBackgroundActive}}" />
+                            <Setter TargetName="SinglePaneContextMenu" Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBorderActive}}" />
                         </Trigger>
                         <Trigger Property="IsActive" Value="False">
-                            <Setter TargetName="TitleBarTextL" Property="Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.FloatingWindowTitleBarForeground}}" />
+                            <Setter TargetName="TitleBarTextL" Property="Foreground" Value="{DynamicResource {x:Static docking:DockingColors.FloatingWindowTitleBarForeground}}" />
                             <Setter TargetName="PART_SystemMenu" Property="Source" Value="{Binding Source={x:Static Application.Current}, Path=MainWindow.(mafc:MainWindow.DeactivatedFloatIcon)}" />
                         </Trigger>
                         <Trigger SourceName="CloseButton" Property="IsMouseOver" Value="true">
-                            <Setter TargetName="CloseButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarGlyphHover}}" />
-                            <Setter TargetName="CloseButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBackgroundHover}}" />
-                            <Setter TargetName="CloseButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBorderHover}}" />
+                            <Setter TargetName="CloseButtonPath" Property="Fill" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarGlyphHover}}" />
+                            <Setter TargetName="CloseButton" Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBackgroundHover}}" />
+                            <Setter TargetName="CloseButton" Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBorderHover}}" />
                         </Trigger>
                         <Trigger SourceName="MaximizeRestoreButton" Property="IsMouseOver" Value="true">
-                            <Setter TargetName="MaximizeRestoreButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarGlyphHover}}" />
-                            <Setter TargetName="MaximizeRestoreButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBackgroundHover}}" />
-                            <Setter TargetName="MaximizeRestoreButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBorderHover}}" />
+                            <Setter TargetName="MaximizeRestoreButtonPath" Property="Fill" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarGlyphHover}}" />
+                            <Setter TargetName="MaximizeRestoreButton" Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBackgroundHover}}" />
+                            <Setter TargetName="MaximizeRestoreButton" Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBorderHover}}" />
                         </Trigger>
                         <Trigger SourceName="SinglePaneContextMenu" Property="IsMouseOver" Value="true">
-                            <Setter TargetName="MenuButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarGlyphHover}}" />
-                            <Setter TargetName="SinglePaneContextMenu" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBackgroundHover}}" />
-                            <Setter TargetName="SinglePaneContextMenu" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBorderHover}}" />
+                            <Setter TargetName="MenuButtonPath" Property="Fill" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarGlyphHover}}" />
+                            <Setter TargetName="SinglePaneContextMenu" Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBackgroundHover}}" />
+                            <Setter TargetName="SinglePaneContextMenu" Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBorderHover}}" />
                         </Trigger>
                         <Trigger SourceName="CloseButton" Property="IsPressed" Value="true">
-                            <Setter TargetName="CloseButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarGlyphDown}}" />
-                            <Setter TargetName="CloseButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBackgroundDown}}" />
-                            <Setter TargetName="CloseButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBorderDown}}" />
+                            <Setter TargetName="CloseButtonPath" Property="Fill" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarGlyphDown}}" />
+                            <Setter TargetName="CloseButton" Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBackgroundDown}}" />
+                            <Setter TargetName="CloseButton" Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBorderDown}}" />
                         </Trigger>
                         <Trigger SourceName="MaximizeRestoreButton" Property="IsPressed" Value="true">
-                            <Setter TargetName="MaximizeRestoreButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarGlyphDown}}" />
-                            <Setter TargetName="MaximizeRestoreButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBackgroundDown}}" />
-                            <Setter TargetName="MaximizeRestoreButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBorderDown}}" />
+                            <Setter TargetName="MaximizeRestoreButtonPath" Property="Fill" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarGlyphDown}}" />
+                            <Setter TargetName="MaximizeRestoreButton" Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBackgroundDown}}" />
+                            <Setter TargetName="MaximizeRestoreButton" Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBorderDown}}" />
                         </Trigger>
                         <Trigger SourceName="SinglePaneContextMenu" Property="IsPressed" Value="true">
-                            <Setter TargetName="MenuButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarGlyphDown}}" />
-                            <Setter TargetName="SinglePaneContextMenu" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBackgroundDown}}" />
-                            <Setter TargetName="SinglePaneContextMenu" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBorderDown}}" />
+                            <Setter TargetName="MenuButtonPath" Property="Fill" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarGlyphDown}}" />
+                            <Setter TargetName="SinglePaneContextMenu" Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBackgroundDown}}" />
+                            <Setter TargetName="SinglePaneContextMenu" Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBorderDown}}" />
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -301,9 +300,9 @@
                                 <Condition SourceName="CloseButton" Property="IsMouseOver" Value="True" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="CloseButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarGlyphActiveHover}}" />
-                                <Setter TargetName="CloseButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBackgroundActiveHover}}" />
-                                <Setter TargetName="CloseButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBorderActiveHover}}" />
+                                <Setter TargetName="CloseButtonPath" Property="Fill" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarGlyphActiveHover}}" />
+                                <Setter TargetName="CloseButton" Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBackgroundActiveHover}}" />
+                                <Setter TargetName="CloseButton" Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBorderActiveHover}}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
                         <MultiTrigger>
@@ -312,9 +311,9 @@
                                 <Condition SourceName="MaximizeRestoreButton" Property="IsMouseOver" Value="True" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="MaximizeRestoreButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarGlyphActiveHover}}" />
-                                <Setter TargetName="MaximizeRestoreButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBackgroundActiveHover}}" />
-                                <Setter TargetName="MaximizeRestoreButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBorderActiveHover}}" />
+                                <Setter TargetName="MaximizeRestoreButtonPath" Property="Fill" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarGlyphActiveHover}}" />
+                                <Setter TargetName="MaximizeRestoreButton" Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBackgroundActiveHover}}" />
+                                <Setter TargetName="MaximizeRestoreButton" Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBorderActiveHover}}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
                         <MultiTrigger>
@@ -323,9 +322,9 @@
                                 <Condition SourceName="SinglePaneContextMenu" Property="IsMouseOver" Value="True" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="MenuButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarGlyphActiveHover}}" />
-                                <Setter TargetName="SinglePaneContextMenu" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBackgroundActiveHover}}" />
-                                <Setter TargetName="SinglePaneContextMenu" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBorderActiveHover}}" />
+                                <Setter TargetName="MenuButtonPath" Property="Fill" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarGlyphActiveHover}}" />
+                                <Setter TargetName="SinglePaneContextMenu" Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBackgroundActiveHover}}" />
+                                <Setter TargetName="SinglePaneContextMenu" Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBorderActiveHover}}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
                         <MultiTrigger>
@@ -334,9 +333,9 @@
                                 <Condition SourceName="CloseButton" Property="IsPressed" Value="True" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="CloseButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarGlyphActiveDown}}" />
-                                <Setter TargetName="CloseButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBackgroundActiveDown}}" />
-                                <Setter TargetName="CloseButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBorderActiveDown}}" />
+                                <Setter TargetName="CloseButtonPath" Property="Fill" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarGlyphActiveDown}}" />
+                                <Setter TargetName="CloseButton" Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBackgroundActiveDown}}" />
+                                <Setter TargetName="CloseButton" Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBorderActiveDown}}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
                         <MultiTrigger>
@@ -345,9 +344,9 @@
                                 <Condition SourceName="MaximizeRestoreButton" Property="IsPressed" Value="True" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="MaximizeRestoreButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarGlyphActiveDown}}" />
-                                <Setter TargetName="MaximizeRestoreButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBackgroundActiveDown}}" />
-                                <Setter TargetName="MaximizeRestoreButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBorderActiveDown}}" />
+                                <Setter TargetName="MaximizeRestoreButtonPath" Property="Fill" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarGlyphActiveDown}}" />
+                                <Setter TargetName="MaximizeRestoreButton" Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBackgroundActiveDown}}" />
+                                <Setter TargetName="MaximizeRestoreButton" Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBorderActiveDown}}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
                         <MultiTrigger>
@@ -356,9 +355,9 @@
                                 <Condition SourceName="SinglePaneContextMenu" Property="IsPressed" Value="True" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="MenuButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarGlyphActiveDown}}" />
-                                <Setter TargetName="SinglePaneContextMenu" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBackgroundActiveDown}}" />
-                                <Setter TargetName="SinglePaneContextMenu" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBorderActiveDown}}" />
+                                <Setter TargetName="MenuButtonPath" Property="Fill" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarGlyphActiveDown}}" />
+                                <Setter TargetName="SinglePaneContextMenu" Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBackgroundActiveDown}}" />
+                                <Setter TargetName="SinglePaneContextMenu" Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBorderActiveDown}}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
                     </ControlTemplate.Triggers>

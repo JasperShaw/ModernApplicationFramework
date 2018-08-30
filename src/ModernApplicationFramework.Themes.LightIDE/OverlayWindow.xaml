@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:mafd="clr-namespace:ModernApplicationFramework.Docking.Controls;assembly=ModernApplicationFramework.Docking"
-                    xmlns:themes1="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework">
+                    xmlns:docking="clr-namespace:ModernApplicationFramework.Docking;assembly=ModernApplicationFramework.Docking"
+                    xmlns:mafd="clr-namespace:ModernApplicationFramework.Docking.Controls;assembly=ModernApplicationFramework.Docking">
 
     <Style TargetType="{x:Type mafd:OverlayWindow}">
         <Setter Property="UseLayoutRounding" Value="True" />
@@ -11,9 +11,9 @@
                 <ControlTemplate TargetType="{x:Type mafd:OverlayWindow}">
                     <Canvas x:Name="PART_DropTargetsContainer" Opacity="0.9">
                         <Path x:Name="PART_PreviewBox"
-                              Fill="{DynamicResource {x:Static themes1:EnvironmentColors.OverlayWindowPreviewBoxBackground}}"
+                              Fill="{DynamicResource {x:Static docking:DockingColors.OverlayWindowPreviewBoxBackground}}"
                               Opacity="0.3"
-                              Stroke="{DynamicResource {x:Static themes1:EnvironmentColors.OverlayWindowPreviewBoxBorder}}"
+                              Stroke="{DynamicResource {x:Static docking:DockingColors.OverlayWindowPreviewBoxBorder}}"
                               StrokeThickness="5" />
                         <Grid x:Name="PART_DockingManagerDropTargets">
                             <Image x:Name="PART_DockingManagerDropTargetLeft"
