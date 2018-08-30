@@ -634,7 +634,7 @@
     <Compile Include="Controls\Menu\ContextMenu.cs" />
     <Compile Include="Controls\Menu\ContextMenuItem.cs" />
     <Compile Include="Controls\Buttons\DialogButtons\DialogButton.cs" />
-    <Compile Include="Controls\Buttons\DropDownDialogButton.cs" />
+    <Compile Include="Controls\Buttons\DialogButtons\DropDownDialogButton.cs" />
     <Compile Include="Controls\Internals\DummyParentMenuItem.cs" />
     <Compile Include="Controls\Buttons\GlyphButton.cs" />
     <Compile Include="Controls\Buttons\IconTextButton.cs" />
@@ -738,7 +738,6 @@
     <Compile Include="Controls\Primitives\WindowBase.cs" />
     <Compile Include="Controls\Internals\WindowContentPresenter.cs" />
     <Compile Include="Controls\Internals\WindowTitleBarButton.cs" />
-    <Compile Include="Controls\Buttons\DropDownButton.cs" />
     <Compile Include="Controls\Primitives\DropDownButtonBase.cs" />
     <Compile Include="Controls\GridSplitter.cs" />
     <Compile Include="Controls\Windows\MainWindow.cs" />

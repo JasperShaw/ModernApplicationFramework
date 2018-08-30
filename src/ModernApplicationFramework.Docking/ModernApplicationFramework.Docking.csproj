@@ -420,8 +420,6 @@
   <ItemGroup>
     <Resource Include="Resources\DockPaneLargeEmpty.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="CommandBar\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

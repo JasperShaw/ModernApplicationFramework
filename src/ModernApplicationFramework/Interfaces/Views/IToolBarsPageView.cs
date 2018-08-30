@@ -1,4 +1,5 @@
 ﻿using ModernApplicationFramework.Controls.Buttons;
+using ModernApplicationFramework.Controls.Buttons.DialogButtons;
 using ModernApplicationFramework.Controls.ListBoxes;
 
 namespace ModernApplicationFramework.Interfaces.Views

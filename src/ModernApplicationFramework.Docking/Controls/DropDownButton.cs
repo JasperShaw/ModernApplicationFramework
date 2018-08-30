@@ -85,8 +85,7 @@ namespace ModernApplicationFramework.Docking.Controls
 
         protected virtual void OnDropDownContextMenuChanged(DependencyPropertyChangedEventArgs e)
         {
-            var oldContextMenu = e.OldValue as ContextMenu;
-            if (oldContextMenu != null && IsChecked.GetValueOrDefault())
+            if (e.OldValue is ContextMenu oldContextMenu && IsChecked.GetValueOrDefault())
                 oldContextMenu.Closed -= OnContextMenuClosed;
         }
 
@@ -103,8 +102,7 @@ namespace ModernApplicationFramework.Docking.Controls
 
         private void OnContextMenuClosed(object sender, RoutedEventArgs e)
         {
-            var ctxMenu = sender as ContextMenu;
-            if (ctxMenu != null)
+            if (sender is ContextMenu ctxMenu)
                 ctxMenu.Closed -= OnContextMenuClosed;
         }
 

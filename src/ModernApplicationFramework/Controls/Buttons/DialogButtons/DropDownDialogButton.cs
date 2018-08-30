@@ -2,9 +2,8 @@
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using ModernApplicationFramework.Controls.Buttons.DialogButtons;
 
-namespace ModernApplicationFramework.Controls.Buttons
+namespace ModernApplicationFramework.Controls.Buttons.DialogButtons
 {
     /// <inheritdoc />
     /// <summary>

@@ -156,7 +156,7 @@
                     </MultiBinding>
                 </UIElement.IsEnabled>
             </dialogButtons:DialogButton>
-            <buttons:DropDownDialogButton x:Name="DropDownButton"
+            <dialogButtons:DropDownDialogButton x:Name="DropDownButton"
                                           Command="{Binding DropDownClickCommand}"
                                           Content="{x:Static customize:Customize_Resources.ToolbarsPage_ModifyToolbar}"
                                           DropDownMenu="{DynamicResource ModifySelectionToolBarsMenu}" />
