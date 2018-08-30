@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using ModernApplicationFramework.Native.NativeMethods;
 
 namespace ModernApplicationFramework.Docking
 {

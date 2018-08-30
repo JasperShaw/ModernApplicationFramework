@@ -15,8 +15,8 @@
              xmlns:newElement="clr-namespace:ModernApplicationFramework.EditorBase.Interfaces.NewElement"
              xmlns:newElementDialog="clr-namespace:ModernApplicationFramework.EditorBase.Dialogs.NewElementDialog"
              xmlns:imaging="clr-namespace:ModernApplicationFramework.Imaging;assembly=ModernApplicationFramework.Imaging"
-             xmlns:imaging1="clr-namespace:ModernApplicationFramework.Utilities.Imaging;assembly=ModernApplicationFramework.Utilities"
              xmlns:converters2="clr-namespace:ModernApplicationFramework.Imaging.Converters;assembly=ModernApplicationFramework.Imaging"
+             xmlns:markupExtensions="clr-namespace:ModernApplicationFramework.Core.MarkupExtensions;assembly=ModernApplicationFramework"
              mc:Ignorable="d" Background="{DynamicResource {x:Static themes:ColorResources.BackgroundBrush}}"
              d:DesignHeight="300" d:DesignWidth="600">
     <imaging:ImageThemingUtilities.ImageBackgroundColor>
@@ -539,7 +539,7 @@
                                    RenderOptions.BitmapScalingMode="NearestNeighbor">
                                 <Image.Source>
                                     <MultiBinding Converter="{StaticResource ThemedImageSourceConverter}">
-                                        <Binding Source="{imaging1:ImageSource ../../../Resources/Images/Medium.png}"/>
+                                        <Binding Source="{markupExtensions:ImageSource ../../../Resources/Images/Medium.png}"/>
                                         <Binding Path="(imaging:ImageThemingUtilities.ImageBackgroundColor)"
                                                  RelativeSource="{RelativeSource Self}"/>
                                         <Binding Source="{x:Static util:Boxes.BooleanTrue}"></Binding>
@@ -555,7 +555,7 @@
                                    RenderOptions.BitmapScalingMode="NearestNeighbor">
                                 <Image.Source>
                                     <MultiBinding Converter="{StaticResource ThemedImageSourceConverter}">
-                                        <Binding Source="{imaging1:ImageSource ../../../Resources/Images/List.png}"/>
+                                        <Binding Source="{markupExtensions:ImageSource ../../../Resources/Images/List.png}"/>
                                         <Binding Path="(imaging:ImageThemingUtilities.ImageBackgroundColor)"
                                                  RelativeSource="{RelativeSource Self}"/>
                                         <Binding Source="{x:Static util:Boxes.BooleanTrue}"/>
@@ -571,7 +571,7 @@
                                    RenderOptions.BitmapScalingMode="NearestNeighbor">
                                 <Image.Source>
                                     <MultiBinding Converter="{StaticResource ThemedImageSourceConverter}">
-                                        <Binding Source="{imaging1:ImageSource ../../../Resources/Images/Details.png}"/>
+                                        <Binding Source="{markupExtensions:ImageSource ../../../Resources/Images/Details.png}"/>
                                         <Binding Path="(imaging:ImageThemingUtilities.ImageBackgroundColor)"
                                                  RelativeSource="{RelativeSource Self}"/>
                                         <Binding Source="{x:Static util:Boxes.BooleanTrue}"></Binding>

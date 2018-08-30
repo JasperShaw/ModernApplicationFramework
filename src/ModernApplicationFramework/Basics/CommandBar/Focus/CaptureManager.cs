@@ -7,7 +7,7 @@ using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces.Controls;
 using ModernApplicationFramework.Native.NativeMethods;
 
-namespace ModernApplicationFramework.Core.MouseCaputreManager
+namespace ModernApplicationFramework.Basics.CommandBar.Focus
 {
     internal static class CaptureManager
     {
@@ -35,7 +35,7 @@ namespace ModernApplicationFramework.Core.MouseCaputreManager
             var num = User32.WindowFromPoint(point);
             if (!User32.IsWindow(num))
                 return;
-            if ((int)User32.GetWindowThreadProcessId(num, out var _) != (int)Kernel32.GetCurrentThreadId())
+            if ((int)User32.GetWindowThreadProcessId(num, out _) != (int)Kernel32.GetCurrentThreadId())
                 return;
             try
             {

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Xml;
+using ModernApplicationFramework.Utilities.Interfaces;
 
-namespace ModernApplicationFramework.Utilities.Interfaces.Settings
+namespace ModernApplicationFramework.Utilities.Settings
 {
     /// <inheritdoc />
     /// <summary>

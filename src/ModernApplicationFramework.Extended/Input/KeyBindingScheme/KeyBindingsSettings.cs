@@ -5,7 +5,7 @@ using ModernApplicationFramework.Settings.Interfaces;
 using ModernApplicationFramework.Settings.SettingDataModel;
 using ModernApplicationFramework.Settings.SettingsManager;
 using ModernApplicationFramework.Utilities.Interfaces;
-using ModernApplicationFramework.Utilities.Interfaces.Settings;
+using ModernApplicationFramework.Utilities.Settings;
 
 namespace ModernApplicationFramework.Extended.Input.KeyBindingScheme
 {

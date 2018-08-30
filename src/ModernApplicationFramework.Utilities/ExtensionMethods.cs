@@ -328,7 +328,7 @@ namespace ModernApplicationFramework.Utilities
         {
             if (textBlock.TextTrimming == TextTrimming.None)
                 return false;
-            TextFormattingMode textFormattingMode = TextOptions.GetTextFormattingMode((DependencyObject)textBlock);
+            TextFormattingMode textFormattingMode = TextOptions.GetTextFormattingMode(textBlock);
             Typeface typeface = new Typeface(textBlock.FontFamily, textBlock.FontStyle, textBlock.FontWeight, textBlock.FontStretch);
             FormattedText formattedText = new FormattedText(textBlock.Text, CultureInfo.CurrentCulture, textBlock.FlowDirection, typeface, textBlock.FontSize, textBlock.Foreground, new NumberSubstitution(), textFormattingMode);
             if (textBlock.SnapsToDevicePixels || textBlock.UseLayoutRounding || textFormattingMode == TextFormattingMode.Display)
@@ -370,6 +370,26 @@ namespace ModernApplicationFramework.Utilities
                 if (resource is IDisposable d)
                     d.Dispose();
             }
+        }
+
+        public static Color ToColorFromArgb(this uint colorValue)
+        {
+            return Color.FromArgb((byte)(colorValue >> 24), (byte)(colorValue >> 16), (byte)(colorValue >> 8), (byte)colorValue);
+        }
+
+        public static Color ToColorFromRgba(this uint colorValue)
+        {
+            return Color.FromArgb((byte)(colorValue >> 24), (byte)colorValue, (byte)(colorValue >> 8), (byte)(colorValue >> 16));
+        }
+
+        public static uint ToRgba(this Color color)
+        {
+            return (uint)(color.A << 24 | color.B << 16 | color.G << 8) | color.R;
+        }
+
+        public static uint ToArgb(this Color color)
+        {
+            return (uint)(color.A << 24 | color.R << 16 | color.G << 8) | color.B;
         }
     }
 }

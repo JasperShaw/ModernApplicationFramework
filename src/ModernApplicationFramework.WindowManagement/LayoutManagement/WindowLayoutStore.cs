@@ -5,7 +5,7 @@ using System.Linq;
 using ModernApplicationFramework.Settings.Interfaces;
 using ModernApplicationFramework.Settings.SettingDataModel;
 using ModernApplicationFramework.Utilities;
-using ModernApplicationFramework.Utilities.Interfaces.Settings;
+using ModernApplicationFramework.Utilities.Settings;
 
 namespace ModernApplicationFramework.WindowManagement.LayoutManagement
 {

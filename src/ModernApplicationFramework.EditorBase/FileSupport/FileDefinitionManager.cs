@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
+using ModernApplicationFramework.EditorBase.Utilities;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.EditorBase.FileSupport

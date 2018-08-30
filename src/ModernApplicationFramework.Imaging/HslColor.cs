@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Media;
 
-namespace ModernApplicationFramework.Utilities.Imaging
+namespace ModernApplicationFramework.Imaging
 {
     public struct HslColor
     {

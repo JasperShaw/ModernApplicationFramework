@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace ModernApplicationFramework.Core.MenuModeHelper
+namespace ModernApplicationFramework.Basics.CommandBar.Focus
 {
     internal class CommandBarNavigationState
     {

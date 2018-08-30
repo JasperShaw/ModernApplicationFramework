@@ -26,12 +26,11 @@ using System.Windows.Media;
 using System.Xml.Serialization;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.CommandBar.DataSources;
+using ModernApplicationFramework.Basics.CommandBar.Focus;
 using ModernApplicationFramework.Basics.Search;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Controls.InfoBar;
 using ModernApplicationFramework.Controls.SearchControl;
-using ModernApplicationFramework.Core.CommandFocus;
-using ModernApplicationFramework.Core.MenuModeHelper;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Input.Command;
@@ -40,6 +39,7 @@ using ModernApplicationFramework.Interfaces.Controls.Search;
 using ModernApplicationFramework.Interfaces.Search;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Utilities;
+using CommandBarNavigationHelper = ModernApplicationFramework.Basics.CommandBar.Focus.CommandBarNavigationHelper;
 
 namespace ModernApplicationFramework.Docking.Controls
 {

@@ -4,13 +4,12 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using ModernApplicationFramework.Controls.InfoBar;
 using ModernApplicationFramework.Controls.SearchControl;
 using ModernApplicationFramework.Interfaces.Controls.InfoBar;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Core.MenuModeHelper
+namespace ModernApplicationFramework.Basics.CommandBar.Focus
 {
     internal static class MenuModeHelper
     {
@@ -177,7 +176,7 @@ namespace ModernApplicationFramework.Core.MenuModeHelper
 
         private static bool TryEnterMenuMode()
         {
-            return MainMenus.Any(TryEnterItemsControl<Controls.Menu.MenuItem>);
+            return MainMenus.Any(TryEnterItemsControl<ModernApplicationFramework.Controls.Menu.MenuItem>);
         }
 
         private static bool TryEnterToolBarMode()

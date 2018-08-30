@@ -38,7 +38,7 @@ namespace ModernApplicationFramework.Utilities.Xml
                 SpecialTypes.Add(type.FullName, Tuple.Create(type, (TypeConverter)null));
         }
 
-        public GetValueResult Deserialize<T>(string str, out T result, T defaultValue = default(T))
+        public GetValueResult Deserialize<T>(string str, out T result, T defaultValue = default)
         {
             result = defaultValue;
             object obj;
@@ -76,9 +76,9 @@ namespace ModernApplicationFramework.Utilities.Xml
                 if (TryReboxAnyIntegralTypeAs<ulong>(ref boxed))
                     return (T)(object)((ulong)boxed > 0UL);
             }
-            if (value is bool && typeof(T) != typeof(bool))
+            if (value is bool b && typeof(T) != typeof(bool))
             {
-                object boxed = (bool)value ? 1 : 0;
+                object boxed = b ? 1 : 0;
                 if (TryReboxInt32As<T>(ref boxed))
                     value = boxed;
             }

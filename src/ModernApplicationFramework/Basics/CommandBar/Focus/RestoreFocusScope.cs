@@ -5,7 +5,7 @@ using System.Windows.Input;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Core.CommandFocus
+namespace ModernApplicationFramework.Basics.CommandBar.Focus
 {
     internal abstract class RestoreFocusScope
     {

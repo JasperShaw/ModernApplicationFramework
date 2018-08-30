@@ -60,6 +60,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BitmapLocker.cs" />
     <Compile Include="Converters\ActualDpiConverter.cs" />
     <Compile Include="Converters\ActualGrayscaleBiasColorConverter.cs" />
     <Compile Include="Converters\ActualHighContrastConverter.cs" />
@@ -68,6 +69,9 @@
     <Compile Include="Converters\CrispImageSourceConverter.cs" />
     <Compile Include="Converters\GrayscaleBitmapSourceConverter.cs" />
     <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="HslColor.cs" />
+    <Compile Include="ImageConverter.cs" />
+    <Compile Include="ImageUtilities.cs" />
     <Compile Include="Interfaces\IImageCatalog.cs" />
     <Compile Include="ImageAttributes.cs" />
     <Compile Include="ImageCache.cs" />

@@ -250,6 +250,7 @@
     <Compile Include="Settings\MruFiles\StorableMruFile.cs" />
     <Compile Include="Settings\MruFiles\StoredMruFiles.cs" />
     <Compile Include="Settings\WindowSelectionDialog\WindowSelectionDialogSettings.cs" />
+    <Compile Include="Utilities\PathUtilities.cs" />
     <EmbeddedResource Include="Dialogs\OpenWithFileDialog\DialogResources.de.resx" />
     <EmbeddedResource Include="Dialogs\OpenWithFileDialog\DialogResources.en.resx" />
     <EmbeddedResource Include="Dialogs\OpenWithFileDialog\DialogResources.resx">

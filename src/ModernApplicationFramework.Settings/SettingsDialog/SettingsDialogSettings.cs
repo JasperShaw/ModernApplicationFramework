@@ -2,7 +2,7 @@
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Settings.Interfaces;
 using ModernApplicationFramework.Settings.SettingDataModel;
-using ModernApplicationFramework.Utilities.Interfaces.Settings;
+using ModernApplicationFramework.Utilities.Settings;
 
 namespace ModernApplicationFramework.Settings.SettingsDialog
 {

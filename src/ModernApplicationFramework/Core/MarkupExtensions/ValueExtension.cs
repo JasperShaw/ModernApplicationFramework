@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Markup;
 
-namespace ModernApplicationFramework.Utilities
+namespace ModernApplicationFramework.Core.MarkupExtensions
 {
     public abstract class ValueExtension<T> : MarkupExtension
     {

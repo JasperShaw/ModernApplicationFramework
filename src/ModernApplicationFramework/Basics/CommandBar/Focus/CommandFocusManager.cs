@@ -5,10 +5,9 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Controls.Menu;
-using ModernApplicationFramework.Core.MenuModeHelper;
 using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Core.CommandFocus
+namespace ModernApplicationFramework.Basics.CommandBar.Focus
 {
     public class CommandFocusManager
     {
@@ -71,7 +70,7 @@ namespace ModernApplicationFramework.Core.CommandFocus
                     _isChecking = true;
 
 
-                    if (MenuModeHelper.MenuModeHelper.CommandModeKind == CommandBarModeKind.SearchControl)
+                    if (MenuModeHelper.CommandModeKind == CommandBarModeKind.SearchControl)
                     {
                         e.CanExecute = routed.CanExecute(e.Parameter, null);
                     }
@@ -101,7 +100,7 @@ namespace ModernApplicationFramework.Core.CommandFocus
             if (!(inputElement is DependencyObject dependencyObject1))
                 return false;
             var dependencyObject2 = dependencyObject1;
-            Func<DependencyObject, DependencyObject> parentEvaluator = ExtensionMethods.GetVisualOrLogicalParent;
+            Func<DependencyObject, DependencyObject> parentEvaluator = Utilities.ExtensionMethods.GetVisualOrLogicalParent;
             Func<DependencyObject, bool> func = IsAttachedCommandFocusElement;
             return dependencyObject2.FindAncestorOrSelf(parentEvaluator, func) != null;
         }
@@ -111,7 +110,7 @@ namespace ModernApplicationFramework.Core.CommandFocus
             if (!(inputElement is DependencyObject dependencyObject1))
                 return false;
             var dependencyObject2 = dependencyObject1;
-            Func<DependencyObject, DependencyObject> parentEvaluator = ExtensionMethods.GetVisualOrLogicalParent;
+            Func<DependencyObject, DependencyObject> parentEvaluator = Utilities.ExtensionMethods.GetVisualOrLogicalParent;
             Func<DependencyObject, bool> func = IsRegisteredCommandFocusElement;
             return dependencyObject2.FindAncestorOrSelf(parentEvaluator, func) != null;
         }

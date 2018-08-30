@@ -14,6 +14,7 @@ using ModernApplicationFramework.Text.Ui.Outlining;
 using ModernApplicationFramework.Text.Utilities;
 using ModernApplicationFramework.TextEditor;
 using ModernApplicationFramework.Utilities;
+using ModernApplicationFramework.Utilities.Core;
 using ModernApplicationFramework.Utilities.Interfaces;
 
 namespace ModernApplicationFramework.Modules.Editor.Implementation

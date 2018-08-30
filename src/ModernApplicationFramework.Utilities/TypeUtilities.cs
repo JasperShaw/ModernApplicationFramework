@@ -1,10 +1,8 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
 
 namespace ModernApplicationFramework.Utilities
 {
@@ -27,7 +25,7 @@ namespace ModernApplicationFramework.Utilities
 
         public static Type GetCommonBaseClass(IEnumerable e)
         {
-            var types = e.Cast<object>().Select(o => o.GetType()).ToArray<Type>();
+            var types = e.Cast<object>().Select(o => o.GetType()).ToArray();
             return GetCommonBaseClass(types);
         }
 

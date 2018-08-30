@@ -3,7 +3,7 @@ using System.Linq;
 using System.Windows;
 using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Core.MenuModeHelper
+namespace ModernApplicationFramework.Basics.CommandBar.Focus
 {
     public static class CommandBarNavigationHelper
     {

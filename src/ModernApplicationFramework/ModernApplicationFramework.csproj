@@ -210,6 +210,17 @@
     <Compile Include="Basics\CommandBar\Elements\CommandBarMenuItem.cs" />
     <Compile Include="Basics\CommandBar\Elements\CommandBarToolbar.cs" />
     <Compile Include="Basics\CommandBar\Elements\MainMenuBar.cs" />
+    <Compile Include="Basics\CommandBar\Focus\CaptureManager.cs" />
+    <Compile Include="Basics\CommandBar\Focus\CommandBarModeKind.cs" />
+    <Compile Include="Basics\CommandBar\Focus\CommandBarModeState.cs" />
+    <Compile Include="Basics\CommandBar\Focus\CommandBarNavigationDirection.cs" />
+    <Compile Include="Basics\CommandBar\Focus\CommandBarNavigationHelper.cs" />
+    <Compile Include="Basics\CommandBar\Focus\CommandBarNavigationState.cs" />
+    <Compile Include="Basics\CommandBar\Focus\CommandFocusManager.cs" />
+    <Compile Include="Basics\CommandBar\Focus\CommandRestoreFocusScope.cs" />
+    <Compile Include="Basics\CommandBar\Focus\HwndSourceTracker.cs" />
+    <Compile Include="Basics\CommandBar\Focus\MenuModeHelper.cs" />
+    <Compile Include="Basics\CommandBar\Focus\RestoreFocusScope.cs" />
     <Compile Include="Basics\CommandBar\Models\ComboBoxItemModel.cs" />
     <Compile Include="Basics\CommandBar\Models\ComboBoxModel.cs" />
     <Compile Include="Basics\CommandBar\Elements\CommandBarSplitButton.cs" />
@@ -218,7 +229,10 @@
     <Compile Include="Basics\CommandBar\ItemDefinitions\CommandItemDefinitionBase.cs" />
     <Compile Include="Core\Converters\Customize\ResizeMenuItemVisiblilityConverter.cs" />
     <Compile Include="Core\Converters\FlagToNameConverter.cs" />
+    <Compile Include="Core\MarkupExtensions\ImageSourceExtension.cs" />
+    <Compile Include="Core\MarkupExtensions\ValueExtension.cs" />
     <Compile Include="Core\Themes\CommonControlsColors.cs" />
+    <Compile Include="Core\Utilities\Splice.cs" />
     <Compile Include="Interfaces\Commands\ICustomizeMenuCommand.cs" />
     <Compile Include="Basics\Search\Search.Resources.Designer.cs">
       <DependentUpon>Search.Resources.resx</DependentUpon>
@@ -415,17 +429,6 @@
     <Compile Include="Basics\InfoBar\Internal\InfoBarViewModel.cs" />
     <Compile Include="Controls\InfoBar\SpacingControls\SpacingStackPanel.cs" />
     <Compile Include="Controls\InfoBar\SpacingControls\SpacingWrapPanel.cs" />
-    <Compile Include="Core\MouseCaputreManager\CaptureManager.cs" />
-    <Compile Include="Core\CommandFocus\CommandFocusManager.cs" />
-    <Compile Include="Core\MenuModeHelper\MenuModeHelper.cs" />
-    <Compile Include="Core\MenuModeHelper\CommandBarModeKind.cs" />
-    <Compile Include="Core\MenuModeHelper\CommandBarModeState.cs" />
-    <Compile Include="Core\MenuModeHelper\CommandBarNavigationDirection.cs" />
-    <Compile Include="Core\MenuModeHelper\CommandBarNavigationHelper.cs" />
-    <Compile Include="Core\MenuModeHelper\CommandBarNavigationState.cs" />
-    <Compile Include="Core\CommandFocus\CommandRestoreFocusScope.cs" />
-    <Compile Include="Core\CommandFocus\HwndSourceTracker.cs" />
-    <Compile Include="Core\CommandFocus\RestoreFocusScope.cs" />
     <Compile Include="Input\Command\DelegateCommand.cs" />
     <Compile Include="Input\GestureScopeMapping.cs" />
     <Compile Include="Input\CommandDefinitionGestureMappingStore.cs" />
@@ -671,7 +674,6 @@
     <Compile Include="Native\Platform\Enums\FormatMessageFlags.cs" />
     <Compile Include="Native\Platform\Enums\HResult.cs" />
     <Compile Include="Native\Platform\Enums\LoadLibraryExFlags.cs" />
-    <Compile Include="Native\Platform\Enums\Sigdn.cs" />
     <Compile Include="Native\Platform\Enums\WindowsHookType.cs" />
     <Compile Include="Native\Platform\Enums\Cdcontrolstate.cs" />
     <Compile Include="Native\Platform\Enums\CombineMode.cs" />
@@ -679,8 +681,6 @@
     <Compile Include="Native\Platform\Enums\FdeOverwriteResponse.cs" />
     <Compile Include="Native\Platform\Enums\FdeShareviolationResponse.cs" />
     <Compile Include="Native\Platform\Enums\Fos.cs" />
-    <Compile Include="Native\Platform\Enums\GetWindowCmd.cs" />
-    <Compile Include="Native\Platform\Enums\HitTestValues.cs" />
     <Compile Include="Native\Platform\Enums\HookType.cs" />
     <Compile Include="Native\Platform\Enums\NativeFileAccess.cs" />
     <Compile Include="Native\Platform\Enums\NativeFileFlags.cs" />
@@ -694,12 +694,12 @@
     <Compile Include="Native\Platform\Structs\ShFileInfo.cs" />
     <Compile Include="Native\Platform\Structs\Win32StreamId.cs" />
     <Compile Include="Native\Platform\Structs\Win32StreamInfo.cs" />
+    <Compile Include="Native\Platform\Structs\WndClass.cs" />
     <Compile Include="Native\Shell\COMGuids.cs" />
     <Compile Include="Native\NativeMethods\Gdi32.cs" />
     <Compile Include="Native\NativeMethods\Kernel32.cs" />
     <Compile Include="Native\NativeMethods\Msimg32.cs" />
     <Compile Include="Native\NativeMethods\Shell32.cs" />
-    <Compile Include="Native\NativeMethods\Shlwapi.cs" />
     <Compile Include="Native\NativeMethods\User32.cs" />
     <Compile Include="Native\Platform\Structs\BitmapInfo.cs" />
     <Compile Include="Native\Platform\Structs\BitmapInfoHeader.cs" />
@@ -1128,9 +1128,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\split.cur" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Native\Standard\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

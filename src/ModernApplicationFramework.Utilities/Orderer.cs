@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using ModernApplicationFramework.Utilities.Interfaces;
+using ModernApplicationFramework.Utilities.Core;
 
 namespace ModernApplicationFramework.Utilities
 {

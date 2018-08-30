@@ -2,10 +2,11 @@
 using System.Globalization;
 using System.IO;
 using System.Text;
+using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Utilities
+namespace ModernApplicationFramework.EditorBase.Utilities
 {
-    public static class PathUtilities
+    internal static class PathUtilities
     {
         private static readonly char[] DirectorySeparators = {
             Path.DirectorySeparatorChar,

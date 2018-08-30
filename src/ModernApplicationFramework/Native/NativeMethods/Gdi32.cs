@@ -17,10 +17,8 @@ namespace ModernApplicationFramework.Native.NativeMethods
         [DllImport("Gdi32.dll", CallingConvention = CallingConvention.StdCall)]
         internal static extern IntPtr CreateRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect);
 
-
         [DllImport("Gdi32.dll", CallingConvention = CallingConvention.StdCall)]
         internal static extern IntPtr CreateRectRgnIndirect(ref RECT lprc);
-
 
         [DllImport("Gdi32.dll", CallingConvention = CallingConvention.StdCall)]
         internal static extern IntPtr CreateRoundRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect,

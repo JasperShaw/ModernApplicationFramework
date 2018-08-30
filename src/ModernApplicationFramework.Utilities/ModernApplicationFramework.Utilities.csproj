@@ -80,7 +80,6 @@
     <Compile Include="Attributes\NameAttribute.cs" />
     <Compile Include="Attributes\OrderAttribute.cs" />
     <Compile Include="Attributes\SingletonBaseMetadataAttribute.cs" />
-    <Compile Include="BaseDictionary.cs" />
     <Compile Include="BindableSelectedItemBehavior.cs" />
     <Compile Include="BitRotator.cs" />
     <Compile Include="Boxes.cs" />
@@ -110,21 +109,15 @@
     <Compile Include="HashHelpers.cs" />
     <Compile Include="HwndWrapper.cs" />
     <Compile Include="ImageScalingMode.cs" />
-    <Compile Include="Imaging\BitmapLocker.cs" />
-    <Compile Include="Imaging\ColorExtensions.cs" />
-    <Compile Include="Imaging\HslColor.cs" />
-    <Compile Include="Imaging\ImageConverter.cs" />
-    <Compile Include="Imaging\ImageSourceExtension.cs" />
-    <Compile Include="Imaging\ImageUtilities.cs" />
     <Compile Include="Interfaces\IDirtyObjectManager.cs" />
     <Compile Include="Interfaces\ICanBeDirty.cs" />
     <Compile Include="Interfaces\IEnvironmentVariables.cs" />
     <Compile Include="Interfaces\IExtendedEnvironmentVariables.cs" />
     <Compile Include="GetValueResult.cs" />
-    <Compile Include="Interfaces\IOrderable.cs" />
+    <Compile Include="Core\IOrderable.cs" />
     <Compile Include="Core\IPropertyOwner.cs" />
-    <Compile Include="Interfaces\Settings\IPropertyValueManager.cs" />
-    <Compile Include="Interfaces\Settings\ISettingsManager.cs" />
+    <Compile Include="Settings\IPropertyValueManager.cs" />
+    <Compile Include="Settings\ISettingsManager.cs" />
     <Compile Include="Converters\LeftMarginMultiplierConverter.cs" />
     <Compile Include="MultiValueHelper.cs" />
     <Compile Include="NativeMethods\Gdi32.cs" />
@@ -135,8 +128,6 @@
     <Compile Include="ObservableCollectionEx.cs" />
     <Compile Include="ObservableObject.cs" />
     <Compile Include="Orderer.cs" />
-    <Compile Include="PathUtilities.cs" />
-    <Compile Include="PrivateErrorHelpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -159,15 +150,11 @@
     <Compile Include="ReusableStringBuilder.cs" />
     <Compile Include="SerializationExtensions.cs" />
     <Compile Include="Settings\SettingsValueSerializer.cs" />
-    <Compile Include="Splice.cs" />
-    <Compile Include="Threading\AsyncEventHandler.cs" />
     <Compile Include="TreeViewItemExtensions.cs" />
     <Compile Include="TypeArray.cs" />
     <Compile Include="TypeUtilities.cs" />
     <Compile Include="UnsafeHelpers.cs" />
     <Compile Include="Validate.cs" />
-    <Compile Include="ValueExtension.cs" />
-    <Compile Include="Verify.cs" />
     <Compile Include="WeakCollectionT.cs" />
     <Compile Include="Xml\XmlObjectParserT.cs" />
     <Compile Include="Xml\XmlUtilities.cs" />

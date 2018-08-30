@@ -8,7 +8,7 @@ using ModernApplicationFramework.Settings;
 using ModernApplicationFramework.Settings.Interfaces;
 using ModernApplicationFramework.Settings.SettingsDialog;
 using ModernApplicationFramework.Utilities.Interfaces;
-using ModernApplicationFramework.Utilities.Interfaces.Settings;
+using ModernApplicationFramework.Utilities.Settings;
 
 namespace ModernApplicationFramework.Extended.Settings.SettingsImportExport
 {

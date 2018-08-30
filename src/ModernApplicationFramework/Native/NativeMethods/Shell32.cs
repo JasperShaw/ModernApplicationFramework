@@ -1,8 +1,6 @@
 ﻿using System;
-using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
-using ModernApplicationFramework.Native.Platform.Enums;
 using ModernApplicationFramework.Native.Platform.Structs;
 using ModernApplicationFramework.Native.Shell;
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
+using ModernApplicationFramework.Utilities.Core;
 using ModernApplicationFramework.Utilities.Interfaces;
 
 namespace ModernApplicationFramework.Modules.Editor.Utilities

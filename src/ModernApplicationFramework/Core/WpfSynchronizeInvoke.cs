@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Threading;
+using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Core
@@ -90,7 +91,7 @@ namespace ModernApplicationFramework.Core
                 }
             }
 
-            void Op_Completed(object sender, EventArgs e)
+            private void Op_Completed(object sender, EventArgs e)
             {
                 lock (_lockObj)
                 {

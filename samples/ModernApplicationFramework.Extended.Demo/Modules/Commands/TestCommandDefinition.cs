@@ -11,7 +11,7 @@ using ModernApplicationFramework.Extended.Demo.Modules.UndoRedoTest;
 using ModernApplicationFramework.Imaging;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
-using ModernApplicationFramework.Utilities.Imaging;
+using ModernApplicationFramework.Utilities;
 using Brushes = System.Windows.Media.Brushes;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.Commands

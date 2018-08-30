@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Xml;
 
-namespace ModernApplicationFramework.Utilities.Interfaces.Settings
+namespace ModernApplicationFramework.Utilities.Settings
 {
     /// <summary>
     /// An <see cref="IPropertyValueManager"/> allows to get or set values of an 'PropertyValue' <see cref="XmlElement"/> in an <see cref="XmlDocument"/>. The 

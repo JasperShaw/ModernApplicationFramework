@@ -28,7 +28,7 @@ namespace ModernApplicationFramework.Utilities.Settings
                 typeof (double),
                 typeof (float),
                 typeof (Guid),
-                typeof (Decimal),
+                typeof (decimal),
                 typeof (DateTime),
                 typeof (DateTimeOffset),
                 typeof (TimeSpan),
@@ -42,18 +42,18 @@ namespace ModernApplicationFramework.Utilities.Settings
         public string Serialize(object obj, Type type)
         {
             if (obj == null)
-                return String.Format(CultureInfo.InvariantCulture, "{0}{1}{2}", '*', "null", '*');
+                return string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}", '*', "null", '*');
             string str = null;
             if (type.IsEnum)
             {
                 type = type.GetEnumUnderlyingType();
                 str = ((Enum)obj).ToString("d");
             }
-            else if (obj is DateTime)
-                str = ((DateTime)obj).ToString("o", CultureInfo.InvariantCulture);
-            else if (obj is DateTimeOffset)
-                str = ((DateTimeOffset)obj).ToString("o", CultureInfo.InvariantCulture);
-            TypeConverter converter = GetConverter(type.FullName);
+            else if (obj is DateTime time)
+                str = time.ToString("o", CultureInfo.InvariantCulture);
+            else if (obj is DateTimeOffset offset)
+                str = offset.ToString("o", CultureInfo.InvariantCulture);
+            var converter = GetConverter(type.FullName);
             if (converter == null)
                 throw new InvalidOperationException();
             if (str == null)
@@ -61,7 +61,7 @@ namespace ModernApplicationFramework.Utilities.Settings
             return string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}{3}", '*', type.FullName, '*', str);
         }
 
-        public GetValueResult Deserialize<T>(string s, out T result, T defaultValue = default (T))
+        public GetValueResult Deserialize<T>(string s, out T result, T defaultValue = default)
         {
             result = defaultValue;
 
@@ -111,9 +111,9 @@ namespace ModernApplicationFramework.Utilities.Settings
                 if (TryReboxAnyIntegralTypeAs<ulong>(ref boxed))
                     return (T)(object)((ulong)boxed > 0UL);
             }
-            if (value is bool && typeof(T) != typeof(bool))
+            if (value is bool b && typeof(T) != typeof(bool))
             {
-                object boxed = (bool)value ? 1 : 0;
+                object boxed = b ? 1 : 0;
                 if (TryReboxInt32As<T>(ref boxed))
                     value = boxed;
             }

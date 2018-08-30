@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Input;
 
-namespace ModernApplicationFramework.Core.CommandFocus
+namespace ModernApplicationFramework.Basics.CommandBar.Focus
 {
     internal class CommandRestoreFocusScope : RestoreFocusScope
     {

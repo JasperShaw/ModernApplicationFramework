@@ -31,9 +31,7 @@ using System.Windows.Markup;
 using System.Windows.Threading;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
-using ModernApplicationFramework.Core.CommandFocus;
 using ModernApplicationFramework.Core.Events;
-using ModernApplicationFramework.Core.MouseCaputreManager;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Docking.ContextMenuDefinitions;
@@ -41,9 +39,6 @@ using ModernApplicationFramework.Docking.Controls;
 using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
-using ModernApplicationFramework.Native;
-using ModernApplicationFramework.Native.NativeMethods;
-using ModernApplicationFramework.Native.Platform.Enums;
 using Action = System.Action;
 
 namespace ModernApplicationFramework.Docking
@@ -579,10 +574,6 @@ namespace ModernApplicationFramework.Docking
                 new FrameworkPropertyMetadata(typeof(DockingManager)));
             FocusableProperty.OverrideMetadata(typeof(DockingManager), new FrameworkPropertyMetadata(false));
             HwndSource.DefaultAcquireHwndFocusInMenuMode = false;
-            //TODO:
-            //CaptureManager.Initialize();
-            CommandFocusManager.Initialize();
-            //HwndSourceTracker.Initialize();
             DocumentPaneTabPanel.SelectedItemHidden += DocumentPaneTabPanel_SelectedItemHidden;
         }
 

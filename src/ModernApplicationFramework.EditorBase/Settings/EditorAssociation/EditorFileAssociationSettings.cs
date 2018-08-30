@@ -5,7 +5,7 @@ using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces.Settings.EditorAssociation;
 using ModernApplicationFramework.Settings.SettingDataModel;
-using ModernApplicationFramework.Utilities.Interfaces.Settings;
+using ModernApplicationFramework.Utilities.Settings;
 
 namespace ModernApplicationFramework.EditorBase.Settings.EditorAssociation
 {

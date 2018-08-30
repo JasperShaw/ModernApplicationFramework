@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media;
 
-namespace ModernApplicationFramework.Utilities.Imaging
+namespace ModernApplicationFramework.Core.MarkupExtensions
 {
     public sealed class ImageSourceExtension : ValueExtension<ImageSource>
     {

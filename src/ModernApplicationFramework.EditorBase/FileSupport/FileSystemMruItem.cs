@@ -1,5 +1,6 @@
 ﻿using System;
 using ModernApplicationFramework.Basics.MostRecentlyUsedManager;
+using ModernApplicationFramework.EditorBase.Utilities;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.EditorBase.FileSupport

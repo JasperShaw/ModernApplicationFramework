@@ -8,7 +8,6 @@ using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using ModernApplicationFramework.Imaging.Converters;
 using ModernApplicationFramework.Imaging.Interfaces;
-using ModernApplicationFramework.Utilities.Imaging;
 
 namespace ModernApplicationFramework.Imaging
 {
@@ -59,15 +58,13 @@ namespace ModernApplicationFramework.Imaging
             if (cachedImage != null)
                 return cachedImage;
 
-
             BitmapSource image;
             try
-            {
-                
+            {            
                 if (imageDefinition.Type == ImageType.Xaml)
                 {
                     var visual = Application.LoadComponent(imageDefinition.Source) as FrameworkElement;
-                    image = ImageUtilities.FrameworkElementToBitmapSource(visual);
+                    image = ImageUtilities.FrameworkElementToBitmapSource(visual, attributes.DeviceSize.ToWindowsSize());
                 }
                 else
                     image = new BitmapImage(imageDefinition.Source);

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
-using ModernApplicationFramework.Core.MenuModeHelper;
+using ModernApplicationFramework.Basics.CommandBar.Focus;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces.Services;
 

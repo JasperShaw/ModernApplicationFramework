@@ -63,10 +63,14 @@ namespace ModernApplicationFramework.Native.NativeMethods
             }
         }
 
-        internal static RECT GetClientRect(IntPtr hWnd)
+        internal static bool IsLeftButtonPressed()
         {
-            User32.GetClientRect(hWnd, out RECT result);
-            return result;
+            return IsKeyPressed(1);
+        }
+
+        internal static bool IsRightButtonPressed()
+        {
+            return IsKeyPressed(2);
         }
 
         internal static IShellItem CreateItemFromParsingName(string path)
@@ -155,14 +159,7 @@ namespace ModernApplicationFramework.Native.NativeMethods
 
         internal static IntPtr MakeParam(int lowWord, int highWord)
         {
-            return new IntPtr((lowWord & UInt16.MaxValue) | (highWord << 16));
-        }
-
-        internal static IntPtr SetWindowLongPtrGwlp(IntPtr hWnd, Gwlp nIndex, IntPtr dwNewLong)
-        {
-            return IntPtr.Size == 8
-                ? User32.SetWindowLongPtr(hWnd, (int) nIndex, dwNewLong)
-                : new IntPtr(User32.SetWindowLong(hWnd, (int) nIndex, dwNewLong.ToInt32()));
+            return new IntPtr((lowWord & ushort.MaxValue) | (highWord << 16));
         }
 
         internal static int GetScWparam(IntPtr wParam)
@@ -194,39 +191,39 @@ namespace ModernApplicationFramework.Native.NativeMethods
                 }
                 case 2: // File not found
                 {
-                    if (String.IsNullOrEmpty(path))
+                    if (string.IsNullOrEmpty(path))
                         throw new FileNotFoundException();
                     throw new FileNotFoundException(null, path);
                 }
                 case 3: // Directory not found
                 {
-                    if (String.IsNullOrEmpty(path))
+                    if (string.IsNullOrEmpty(path))
                         throw new DirectoryNotFoundException();
                     throw new DirectoryNotFoundException($"Could not find a part of the path {path}");
                 }
                 case 5: // Access denied
                 {
-                    if (String.IsNullOrEmpty(path))
+                    if (string.IsNullOrEmpty(path))
                         throw new UnauthorizedAccessException();
                     throw new UnauthorizedAccessException($"Access to the path '{path}' was denied.");
                 }
                 case 15: // Drive not found
                 {
-                    if (String.IsNullOrEmpty(path))
+                    if (string.IsNullOrEmpty(path))
                         throw new DriveNotFoundException();
                     throw new DriveNotFoundException(
                         $"Could not find the drive '{path}'. The drive might not be ready or might not be mapped.");
                 }
                 case 32: // Sharing violation
                 {
-                    if (String.IsNullOrEmpty(path))
+                    if (string.IsNullOrEmpty(path))
                         throw new IOException(GetErrorMessage(errorCode), MakeHrFromErrorCode(errorCode));
                     throw new IOException(
                         $"The process cannot access the file '{path}' because it is being used by another process.");
                 }
                 case 80: // File already exists
                 {
-                    if (!String.IsNullOrEmpty(path))
+                    if (!string.IsNullOrEmpty(path))
                         throw new IOException($"The file '{path}' already exists.");
                     break;
                 }
@@ -236,7 +233,7 @@ namespace ModernApplicationFramework.Native.NativeMethods
                 }
                 case 183: // File or directory already exists
                 {
-                    if (!String.IsNullOrEmpty(path))
+                    if (!string.IsNullOrEmpty(path))
                         throw new IOException(
                             $"Cannot create '{path}' because a file or directory with the same name already exists.");
                     break;
@@ -466,12 +463,6 @@ namespace ModernApplicationFramework.Native.NativeMethods
             return result;
         }
 
-        internal static IntPtr GetOwner(IntPtr childHandle)
-        {
-            return new IntPtr(User32.GetWindowLong(childHandle, -8));
-        }
-
-
         internal static Monitorinfo MonitorInfoFromWindow(Window window)
         {
             var interop = new WindowInteropHelper(window);
@@ -533,17 +524,6 @@ namespace ModernApplicationFramework.Native.NativeMethods
             }
         }
 
-        internal static bool IsLeftButtonPressed()
-        {
-            return IsKeyPressed(1);
-        }
-
-        internal static bool IsRightButtonPressed()
-        {
-            return IsKeyPressed(2);
-        }
-
-
         [return: MarshalAs(UnmanagedType.Bool)]
         internal delegate bool EnumMonitorsDelegate(
             IntPtr hMonitor, IntPtr hdcMonitor, ref RECT lprcMonitor, IntPtr dwData);
@@ -552,8 +532,8 @@ namespace ModernApplicationFramework.Native.NativeMethods
 
         public delegate int HookProc(int code, IntPtr wParam, IntPtr lParam);
 
-        public delegate IntPtr WindowsHookProc(CbtHookAction code, IntPtr wParam, IntPtr lParam);
-
         public delegate IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
+
+        public delegate IntPtr WindowsHookProc(CbtHookAction code, IntPtr wParam, IntPtr lParam);
     }
 }

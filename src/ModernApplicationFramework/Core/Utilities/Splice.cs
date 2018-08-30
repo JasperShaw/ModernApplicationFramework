@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace ModernApplicationFramework.Utilities
+namespace ModernApplicationFramework.Core.Utilities
 {
-    public static class SpliceExtension
+    internal static class SpliceExtension
     {
         /// <summary>
         /// Creates an array containing a part of the array (similar to string.Substring).
@@ -25,7 +25,7 @@ namespace ModernApplicationFramework.Utilities
                 throw new ArgumentOutOfRangeException(nameof(startIndex), startIndex, "Value must be between 0 and " + array.Length);
             if (length < 0 || length > array.Length - startIndex)
                 throw new ArgumentOutOfRangeException(nameof(length), length, "Value must be between 0 and " + (array.Length - startIndex));
-            T[] result = new T[length];
+            var result = new T[length];
             Array.Copy(array, startIndex, result, 0, length);
             return result;
         }

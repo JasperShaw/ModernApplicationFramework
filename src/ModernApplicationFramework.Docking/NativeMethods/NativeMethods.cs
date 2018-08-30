@@ -23,13 +23,11 @@ namespace ModernApplicationFramework.Docking.NativeMethods
 
         internal static IntPtr SetActiveWindow(IntPtr hwnd)
         {
-            Utilities.Verify.IsNotDefault(hwnd, "hwnd");
             var ret = User32.SetActiveWindow(hwnd);
             if (ret == IntPtr.Zero)
                 Hresult.ThrowLastError();
             return ret;
         }
-
 
         internal static void SetOwner(IntPtr childHandle, IntPtr ownerHandle)
         {
@@ -63,21 +61,22 @@ namespace ModernApplicationFramework.Docking.NativeMethods
 
         internal static IntPtr MakeParam(int lowWord, int highWord)
         {
-            return new IntPtr((lowWord & UInt16.MaxValue) | (highWord << 16));
+            return new IntPtr((lowWord & ushort.MaxValue) | (highWord << 16));
         }
 
         internal static RECT GetClientRect(IntPtr hWnd)
         {
-            User32.GetClientRect(hWnd, out RECT result);
+            User32.GetClientRect(hWnd, out var result);
             return result;
         }
 
         internal static RECT GetWindowRect(IntPtr hWnd)
         {
-            User32.GetWindowRect(hWnd, out RECT result);
+            User32.GetWindowRect(hWnd, out var result);
             return result;
         }
 
         public delegate int HookProc(int code, IntPtr wParam, IntPtr lParam);
+
     }
 }

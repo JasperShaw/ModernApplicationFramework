@@ -61,14 +61,11 @@ namespace ModernApplicationFramework.Utilities
         public static char AccessKeySpecifierFromObject(object accessKeySpecifier)
         {
             var ch = '&';
-            if (accessKeySpecifier is char)
-            {
-                ch = (char)accessKeySpecifier;
-            }
+            if (accessKeySpecifier is char c)
+                ch = c;
             else
             {
-                string str = accessKeySpecifier as string;
-                if (str != null && str.Length == 1)
+                if (accessKeySpecifier is string str && str.Length == 1)
                     ch = str[0];
             }
             return ch;

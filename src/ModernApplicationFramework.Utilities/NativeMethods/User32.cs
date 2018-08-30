@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace ModernApplicationFramework.Utilities.NativeMethods
 {
-    public static class User32
+    internal static class User32
     {
         [DllImport("user32.dll")]
         public static extern IntPtr GetFocus();

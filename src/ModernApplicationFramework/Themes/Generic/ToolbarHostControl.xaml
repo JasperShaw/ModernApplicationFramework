@@ -6,7 +6,8 @@
                           xmlns:internals="clr-namespace:ModernApplicationFramework.Controls.Internals"
                           xmlns:window="clr-namespace:ModernApplicationFramework.Controls.Windows"
                           xmlns:infoBar="clr-namespace:ModernApplicationFramework.Controls.InfoBar"
-                          xmlns:menuModeHelper="clr-namespace:ModernApplicationFramework.Core.MenuModeHelper">
+                          xmlns:menuModeHelper="clr-namespace:ModernApplicationFramework.Core.MenuModeHelper"
+                          xmlns:focus="clr-namespace:ModernApplicationFramework.Basics.CommandBar.Focus">
 
 
     <internals:ToolBarHostControl.Resources>
@@ -32,9 +33,9 @@
                 </Border>
                 <infoBar:InfoBarHostControl x:Name="PART_InfoBarHost" Grid.Row="1" Grid.Column="1"
                                             KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.ControlTabNavigation="Cycle"
-                                            menuModeHelper:CommandBarNavigationHelper.CommandFocusMode="Container"
-                                            menuModeHelper:CommandBarNavigationHelper.IsCommandNavigable="True"
-                                            menuModeHelper:CommandBarNavigationHelper.CommandNavigationOrder="608"/>
+                                            focus:CommandBarNavigationHelper.CommandFocusMode="Container"
+                                            focus:CommandBarNavigationHelper.IsCommandNavigable="True"
+                                            focus:CommandBarNavigationHelper.CommandNavigationOrder="608"/>
                 <Border Name="LeftDockBorder" Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type window:MainWindow}}, Path=FullScreen, Converter={StaticResource BooleanToVisibilityConverter}}"
                         Grid.Row="2" Grid.Column="0" Padding="2,0,1,0" Background="{DynamicResource {x:Static themes:EnvironmentColors.CommandShelfBackground}}">
                     <local:ToolBarTray IsMainToolBarTray="True" Background="Transparent" x:Name="LeftDockTray" Orientation="Vertical"/>

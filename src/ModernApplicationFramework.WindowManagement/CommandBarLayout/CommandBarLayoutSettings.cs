@@ -4,7 +4,7 @@ using System.Xml;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Settings.Interfaces;
 using ModernApplicationFramework.Settings.SettingDataModel;
-using ModernApplicationFramework.Utilities.Interfaces.Settings;
+using ModernApplicationFramework.Utilities.Settings;
 
 namespace ModernApplicationFramework.WindowManagement.CommandBarLayout
 {

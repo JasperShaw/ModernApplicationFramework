@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Xml;
 using ModernApplicationFramework.Settings.Interfaces;
-using ModernApplicationFramework.Utilities.Interfaces.Settings;
+using ModernApplicationFramework.Utilities.Settings;
 
 namespace ModernApplicationFramework.Settings.SettingsManager
 {

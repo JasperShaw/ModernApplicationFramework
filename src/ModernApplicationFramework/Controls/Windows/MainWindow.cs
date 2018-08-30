@@ -13,6 +13,7 @@ using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.CommandBar.Focus;
 using ModernApplicationFramework.Controls.AutomationPeer;
 using ModernApplicationFramework.Controls.Internals;
 using ModernApplicationFramework.Core.Utilities;
@@ -21,8 +22,7 @@ using ModernApplicationFramework.Interfaces.ViewModels;
 using ModernApplicationFramework.Native;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Utilities.Converters;
-using ModernApplicationFramework.Utilities.Imaging;
-using ModernApplicationFramework.Utilities.Interfaces.Settings;
+using ModernApplicationFramework.Utilities.Settings;
 
 namespace ModernApplicationFramework.Controls.Windows
 {
@@ -42,6 +42,15 @@ namespace ModernApplicationFramework.Controls.Windows
                 new FrameworkPropertyMetadata(typeof(MainWindow)));
             ImageThemingUtilities.IsImageThemingEnabled = !GetIsImageThemingSuppressed();
             RuntimeHelpers.RunClassConstructor(typeof(ScrollBarThemingUtilities).TypeHandle);
+
+            InitializeCommandBar();
+        }
+
+        private static void InitializeCommandBar()
+        {
+            CaptureManager.Initialize();
+            CommandFocusManager.Initialize();
+            HwndSourceTracker.Initialize();
         }
 
         protected virtual bool ShouldAutoSize { get; set; } = true;

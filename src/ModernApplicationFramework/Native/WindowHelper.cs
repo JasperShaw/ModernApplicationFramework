@@ -1,21 +1,4 @@
-﻿/************************************************************************
-
-   AvalonDock
-
-   Copyright (C) 2007-2013 Xceed Software Inc.
-
-   This program is provided to you under the terms of the New BSD
-   License (BSD) as published at http://avalondock.codeplex.com/license 
-
-   For more features, controls, and fast professional support,
-   pick up AvalonDock in Extended WPF Toolkit Plus at http://xceed.com/wpf_toolkit
-
-   Stay informed: follow @datagrid on Twitter or Like facebook.com/datagrids
-
-  **********************************************************************/
-
-using System;
-using System.Linq;
+﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -55,8 +38,7 @@ namespace ModernApplicationFramework.Native
             }
             else
             {
-                IntPtr parentHwnd;
-                if (GetParentWindowHandle(element, out parentHwnd))
+                if (GetParentWindowHandle(element, out var parentHwnd))
                     NativeMethods.NativeMethods.SetOwner(new WindowInteropHelper(window).EnsureHandle(), parentHwnd);
             }
         }
@@ -80,7 +62,7 @@ namespace ModernApplicationFramework.Native
             var service = IoC.Get<IMafUIShell>();
             if (service == null)
                 throw new COMException("Cannot get IMafUIShell service.", -2147467259);
-            var dialogOwnerHwnd = service.GetDialogOwnerHwnd(out IntPtr handle);
+            var dialogOwnerHwnd = service.GetDialogOwnerHwnd(out var handle);
             if (dialogOwnerHwnd != 0)
                 throw new COMException("Cannot get parent window handle from shell.", dialogOwnerHwnd);
             return handle;
@@ -100,7 +82,7 @@ namespace ModernApplicationFramework.Native
                 if (window.WindowStartupLocation == WindowStartupLocation.CenterOwner)
                     window.SourceInitialized += (param0, param1) =>
                     {
-                        if (!User32.GetWindowRect(parent, out RECT lpRect))
+                        if (!User32.GetWindowRect(parent, out var lpRect))
                             return;
                         var hwndSource = HwndSource.FromHwnd(helper.Handle);
                         if (hwndSource?.CompositionTarget == null)
@@ -126,8 +108,8 @@ namespace ModernApplicationFramework.Native
 
         private static RECT CenterRectOnSingleMonitor(RECT parentRect, int childWidth, int childHeight)
         {
-            NativeMethods.NativeMethods.FindMaximumSingleMonitorRectangle(parentRect, out RECT screenSubRect,
-                out RECT monitorRect);
+            NativeMethods.NativeMethods.FindMaximumSingleMonitorRectangle(parentRect, out var screenSubRect,
+                out var monitorRect);
             return CenterInRect(screenSubRect, childWidth, childHeight, monitorRect);
         }
 

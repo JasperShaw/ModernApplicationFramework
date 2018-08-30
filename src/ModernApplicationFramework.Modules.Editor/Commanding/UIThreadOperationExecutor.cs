@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using ModernApplicationFramework.Text.Utilities;
 using ModernApplicationFramework.Utilities;
 using ModernApplicationFramework.Utilities.Attributes;
+using ModernApplicationFramework.Utilities.Core;
 using ModernApplicationFramework.Utilities.Interfaces;
 
 namespace ModernApplicationFramework.Modules.Editor.Commanding

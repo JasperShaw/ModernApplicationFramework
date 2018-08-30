@@ -190,10 +190,6 @@ namespace ModernApplicationFramework.Native.NativeMethods
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern unsafe bool GetKeyboardState(byte* lpKeyState);
 
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool ShowWindow(IntPtr hwnd, int code);
-
         [DllImport("user32.dll", EntryPoint = "SetActiveWindow", SetLastError = true)]
         internal static extern IntPtr SetActiveWindow(IntPtr hWnd);
 
@@ -203,21 +199,6 @@ namespace ModernApplicationFramework.Native.NativeMethods
         [DllImport("user32.dll")]
         public static extern IntPtr SetFocus(IntPtr hwnd);
 
-        [DllImport("user32.dll")]
-        public static extern IntPtr SetWindowsHookEx(HookType code,
-            NativeMethods.HookProc func,
-            IntPtr hInstance,
-            int threadId);
-
-        [DllImport("user32.dll", SetLastError = true)]
-        public static extern IntPtr SetWindowsHookEx(WindowsHookType hookType, NativeMethods.WindowsHookProc hookProc, IntPtr module, uint threadId);
-
-        [DllImport("user32.dll")]
-        public static extern int CallNextHookEx(IntPtr hhook,
-            int code, IntPtr wParam, IntPtr lParam);
-
-        [DllImport("user32.dll")]
-        public static extern IntPtr CallNextHookEx(IntPtr hhk, CbtHookAction code, IntPtr wParam, IntPtr lParam);
 
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -226,10 +207,6 @@ namespace ModernApplicationFramework.Native.NativeMethods
 
         [DllImport("user32.dll", ExactSpelling = true, CharSet = CharSet.Auto)]
         internal static extern IntPtr GetParent(IntPtr hWnd);
-
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool BringWindowToTop(IntPtr hWnd);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
         internal static extern bool IsChild(IntPtr hWndParent, IntPtr hwnd);
@@ -254,9 +231,6 @@ namespace ModernApplicationFramework.Native.NativeMethods
         [DllImport("user32.dll", CharSet = CharSet.Unicode, ExactSpelling = true)]
         internal static extern int ToUnicodeEx(uint wVirtKey, uint wScanCode, byte[] lpKeyState, [Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder pwszBuff, int cchBuff, uint wFlags, IntPtr dwhkl);
 
-        [DllImport("user32.dll")]
-        internal static extern IntPtr GetAncestor(IntPtr hWnd, int flags);
-
         [SuppressMessage("Microsoft.Portability", "CA1901:PInvokeDeclarationsShouldBePortable")]
         [DllImport("user32.dll")]
         public static extern IntPtr WindowFromPoint(Point pt);
@@ -280,7 +254,6 @@ namespace ModernApplicationFramework.Native.NativeMethods
         [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         public static extern int GetClassName(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
 
-
         [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         public static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
 
@@ -299,9 +272,18 @@ namespace ModernApplicationFramework.Native.NativeMethods
         public static extern bool GetGUIThreadInfo(uint idThread, out GuiThreadInfo lpgui);
 
         [DllImport("user32.dll")]
-        internal static extern uint MapVirtualKey(uint uCode, uint uMapType);
+        internal static extern short VkKeyScan(char ch);
+
 
         [DllImport("user32.dll")]
-        internal static extern short VkKeyScan(char ch);
+        internal static extern IntPtr GetAncestor(IntPtr hWnd, int flags);
+
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern IntPtr SetWindowsHookEx(WindowsHookType hookType, NativeMethods.WindowsHookProc hookProc, IntPtr module, uint threadId);
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr CallNextHookEx(IntPtr hhk, CbtHookAction code, IntPtr wParam, IntPtr lParam);
+
     }
 }

@@ -168,15 +168,15 @@ namespace ModernApplicationFramework.Controls.Dialogs.Native
             {
                 var info = new BrowseInfo
                 {
-                    hwndOwner = owner,
-                    lpfn = BrowseCallbackProc,
-                    lpszTitle = Description,
-                    pidlRoot = rootItemIdList,
-                    pszDisplayName = new string('\0', 260),
-                    ulFlags = BrowseInfoFlags.NewDialogStyle | BrowseInfoFlags.ReturnOnlyFsDirs
+                    HwndOwner = owner,
+                    Lpfn = BrowseCallbackProc,
+                    LpszTitle = Description,
+                    PidlRoot = rootItemIdList,
+                    PszDisplayName = new string('\0', 260),
+                    UlFlags = BrowseInfoFlags.NewDialogStyle | BrowseInfoFlags.ReturnOnlyFsDirs
                 };
                 if (!ShowNewFolderButton)
-                    info.ulFlags |= BrowseInfoFlags.NoNewFolderButton;
+                    info.UlFlags |= BrowseInfoFlags.NoNewFolderButton;
                 resultItemIdList = Shell32.SHBrowseForFolder(ref info);
                 if (resultItemIdList != IntPtr.Zero)
                 {

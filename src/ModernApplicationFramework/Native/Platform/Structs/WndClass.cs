@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace ModernApplicationFramework.Utilities.NativeMethods
+namespace ModernApplicationFramework.Native.Platform.Structs
 {
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     internal struct WndClass

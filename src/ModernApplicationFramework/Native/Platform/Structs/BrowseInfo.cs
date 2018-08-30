@@ -7,13 +7,13 @@ namespace ModernApplicationFramework.Native.Platform.Structs
 
     public struct BrowseInfo
     {
-        public IntPtr hwndOwner;
-        public IntPtr pidlRoot;
-        public string pszDisplayName;
-        public string lpszTitle;
-        public BrowseInfoFlags ulFlags;
-        public BrowseCallbackProc lpfn;
-        public IntPtr lParam;
-        public int iImage;
+        public IntPtr HwndOwner;
+        public IntPtr PidlRoot;
+        public string PszDisplayName;
+        public string LpszTitle;
+        public BrowseInfoFlags UlFlags;
+        public BrowseCallbackProc Lpfn;
+        public IntPtr LParam;
+        public int IImage;
     }
 }

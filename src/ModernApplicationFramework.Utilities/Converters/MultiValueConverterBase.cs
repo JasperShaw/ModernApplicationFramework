@@ -54,7 +54,7 @@ namespace ModernApplicationFramework.Utilities.Converters
                 throw new ArgumentException("Not Supported");
         }
 
-        protected System.Exception MakeConverterFunctionNotDefinedException([CallerMemberName] string functionName = "")
+        protected Exception MakeConverterFunctionNotDefinedException([CallerMemberName] string functionName = "")
         {
             return new NotSupportedException("Not Supported");
         }

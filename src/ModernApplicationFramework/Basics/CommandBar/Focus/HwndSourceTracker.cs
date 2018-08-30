@@ -9,7 +9,7 @@ using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Native.Platform.Enums;
 using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Core.CommandFocus
+namespace ModernApplicationFramework.Basics.CommandBar.Focus
 {
     internal class HwndSourceTracker : DisposableObject
     {
@@ -313,7 +313,7 @@ namespace ModernApplicationFramework.Core.CommandFocus
                 TrackFocusDelegate += value;
                 if (_windowsHookHandle != null && !_windowsHookHandle.IsInvalid)
                     return;
-                _windowsHookHandle = new WindowsHookHandle(WindowsHookType.WH_CBT, _cbtHookProc,
+                _windowsHookHandle = new WindowsHookHandle(WindowsHookType.WhCbt, _cbtHookProc,
                     IntPtr.Zero, Kernel32.GetCurrentThreadId());
             }
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -351,7 +351,7 @@ namespace ModernApplicationFramework.Core.CommandFocus
 
         private IntPtr CbtWindowsHookProc(CbtHookAction code, IntPtr wParam, IntPtr lParam)
         {
-            if (code == CbtHookAction.HCBT_SETFOCUS)
+            if (code == CbtHookAction.HcbtSetfocus)
                 SendFocusChangeNotification(wParam, lParam);
             return User32.CallNextHookEx(IntPtr.Zero, code, wParam, lParam);
         }

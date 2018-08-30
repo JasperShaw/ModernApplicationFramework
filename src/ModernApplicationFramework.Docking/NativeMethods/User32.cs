@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using ModernApplicationFramework.Native.Platform.Enums;
-using ModernApplicationFramework.Native.Platform.Structs;
 
 namespace ModernApplicationFramework.Docking.NativeMethods
 {
@@ -81,5 +80,9 @@ namespace ModernApplicationFramework.Docking.NativeMethods
 
         [DllImport("user32.dll")]
         public static extern IntPtr MonitorFromRect([In] ref RECT lprc, uint dwFlags);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern unsafe bool GetKeyboardState(byte* lpKeyState);
     }
 }

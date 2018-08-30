@@ -17,9 +17,7 @@ namespace ModernApplicationFramework.Utilities.Converters
             ValidateConvertBackParameters(value, targetTypes);
             MultiValueHelper.CheckType<TSource1>(targetTypes, 0);
             MultiValueHelper.CheckType<TSource2>(targetTypes, 1);
-            TSource1 obj1;
-            TSource2 obj2;
-            ConvertBack((TTarget)value, out obj1, out obj2, parameter, culture);
+            ConvertBack((TTarget)value, out var obj1, out var obj2, parameter, culture);
             return new object[] { obj1, obj2 };
         }
 

@@ -10,7 +10,7 @@ namespace ModernApplicationFramework.Native.Platform.Structs
 
         public long ToInt64()
         {
-            return (High * 0x100000000) + Low;
+            return High * 0x100000000 + Low;
         }
     }
 }

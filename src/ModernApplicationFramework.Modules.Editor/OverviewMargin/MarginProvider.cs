@@ -7,6 +7,7 @@ using ModernApplicationFramework.Text.Ui.Classification;
 using ModernApplicationFramework.Text.Ui.Editor;
 using ModernApplicationFramework.Text.Ui.Tagging;
 using ModernApplicationFramework.Utilities;
+using ModernApplicationFramework.Utilities.Core;
 using ModernApplicationFramework.Utilities.Interfaces;
 
 namespace ModernApplicationFramework.Modules.Editor.OverviewMargin

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using ModernApplicationFramework.Utilities.Interfaces;
-using ModernApplicationFramework.Utilities.Interfaces.Settings;
+using ModernApplicationFramework.Utilities.Settings;
 using ISettingsCategory = ModernApplicationFramework.Settings.Interfaces.ISettingsCategory;
 using ISettingsDataModel = ModernApplicationFramework.Settings.Interfaces.ISettingsDataModel;
 

@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Windows;
-using ModernApplicationFramework.Core.MenuModeHelper;
+using ModernApplicationFramework.Basics.CommandBar.Focus;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls

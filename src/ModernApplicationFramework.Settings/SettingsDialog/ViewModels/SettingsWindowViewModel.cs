@@ -7,7 +7,7 @@ using ModernApplicationFramework.Controls.Dialogs;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Properties;
 using ModernApplicationFramework.Settings.Interfaces;
-using ModernApplicationFramework.Utilities.Interfaces.Settings;
+using ModernApplicationFramework.Utilities.Settings;
 using ISettingsPage = ModernApplicationFramework.Settings.Interfaces.ISettingsPage;
 
 namespace ModernApplicationFramework.Settings.SettingsDialog.ViewModels

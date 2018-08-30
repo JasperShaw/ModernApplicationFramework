@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace ModernApplicationFramework.Utilities.Interfaces
+namespace ModernApplicationFramework.Utilities.Core
 {
     public interface IOrderable
     {

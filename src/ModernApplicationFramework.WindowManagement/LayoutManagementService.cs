@@ -5,7 +5,7 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Utilities;
-using ModernApplicationFramework.Utilities.Interfaces.Settings;
+using ModernApplicationFramework.Utilities.Settings;
 using ModernApplicationFramework.WindowManagement.LayoutManagement;
 using ModernApplicationFramework.WindowManagement.LayoutState;
 using ModernApplicationFramework.WindowManagement.WindowProfile;

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ModernApplicationFramework.Utilities.Core;
 using ModernApplicationFramework.Utilities.Interfaces;
 
 namespace ModernApplicationFramework.Text.Ui.Classification

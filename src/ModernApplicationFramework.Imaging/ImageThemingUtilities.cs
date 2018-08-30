@@ -9,7 +9,6 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using ModernApplicationFramework.Utilities;
-using ModernApplicationFramework.Utilities.Imaging;
 using Color = System.Windows.Media.Color;
 
 namespace ModernApplicationFramework.Imaging

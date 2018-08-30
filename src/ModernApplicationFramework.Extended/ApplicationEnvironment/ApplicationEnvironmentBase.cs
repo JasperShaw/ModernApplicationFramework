@@ -4,7 +4,7 @@ using System.IO;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Package;
 using ModernApplicationFramework.Utilities.Interfaces;
-using ModernApplicationFramework.Utilities.Interfaces.Settings;
+using ModernApplicationFramework.Utilities.Settings;
 
 namespace ModernApplicationFramework.Extended.ApplicationEnvironment
 {
