@@ -105,8 +105,8 @@
                         </Border>
                         <avalonDockControls:AnchorablePaneTabPanel x:Name="HeaderPanel"
                                                                    Grid.Row="1"
-                                                                   Margin="0,0,2,2"
                                                                    Panel.ZIndex="1"
+                                                                   ExpandedTearOffMargin="50"
                                                                    IsItemsHost="true"
                                                                    KeyboardNavigation.TabIndex="1" />
                     </Grid>

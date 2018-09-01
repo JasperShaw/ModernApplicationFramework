@@ -30,6 +30,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Markup;
+using System.Windows.Media;
 using System.Windows.Threading;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
@@ -278,6 +279,7 @@ namespace ModernApplicationFramework.Docking
         //private DispatcherOperation _setFocusAsyncOperation;
 
         private bool _suspendLayoutItemCreation;
+        private DragUndockHeader currentDragUndockHeader;
 
         public event EventHandler ActiveContentChanged;
 
@@ -562,6 +564,28 @@ namespace ModernApplicationFramework.Docking
             set => SetValue(TopSidePanelProperty, value);
         }
 
+        internal DragUndockHeader CurrentDragUndockHeader
+        {
+            get => currentDragUndockHeader;
+            set
+            {
+                if (currentDragUndockHeader != null)
+                    PresentationSource.RemoveSourceChangedHandler(currentDragUndockHeader, OnViewHeaderPresentationSourceChanged);
+                currentDragUndockHeader = value;
+                if (currentDragUndockHeader != null)
+                    PresentationSource.AddSourceChangedHandler(currentDragUndockHeader, OnViewHeaderPresentationSourceChanged);
+                KeyboardStateManager.CurrentDragUndockHeader = currentDragUndockHeader;
+            }
+        }
+
+        private void OnViewHeaderPresentationSourceChanged(object sender, SourceChangedEventArgs e)
+        {
+            if (e.NewSource != null || CurrentDragUndockHeader == null)
+                return;
+            IsDragging = false;
+            CurrentDragUndockHeader = null;
+        }
+
         DockingManager IOverlayWindowHost.Manager => this;
 
         protected override IEnumerator LogicalChildren
@@ -579,32 +603,205 @@ namespace ModernApplicationFramework.Docking
             HwndSource.DefaultAcquireHwndFocusInMenuMode = false;
             DocumentPaneTabPanel.SelectedItemHidden += DocumentPaneTabPanel_SelectedItemHidden;
 
+            EventManager.RegisterClassHandler(typeof(DragUndockHeader), DragUndockHeader.DragHeaderClickedEvent,
+                new RoutedEventHandler((sender, args) => Instance.OnViewHeaderClicked(sender, args)));
+            EventManager.RegisterClassHandler(typeof(DragUndockHeader), DragUndockHeader.DragStartedEvent,
+                new RoutedEventHandler((sender, args) => Instance.OnViewHeaderDragStarted(sender, args)));
+            EventManager.RegisterClassHandler(typeof(DragUndockHeader), DragUndockHeader.DragAbsoluteEvent,
+                new RoutedEventHandler((sender, args) => Instance.OnViewHeaderDragAbsolute(sender, args)));
+            EventManager.RegisterClassHandler(typeof(DragUndockHeader), DragUndockHeader.DragCompletedAbsoluteEvent,
+                new RoutedEventHandler((sender, args) => Instance.OnViewHeaderDragCompleted(sender, args)));
 
-            EventManager.RegisterClassHandler(typeof(LayoutDocumentPaneControl), PreviewMouseDownEvent, new RoutedEventHandler((sender, args) => Instance.OnTabControlMouseDown(sender,args)));
-            EventManager.RegisterClassHandler(typeof(LayoutDocumentPaneControl), Selector.SelectionChangedEvent, new RoutedEventHandler((sender, args) => Instance.OnTabControlSelectionChanged(sender,args)));
-            EventManager.RegisterClassHandler(typeof(TabItem), PreviewMouseDownEvent, new RoutedEventHandler((sender, args) => Instance.OnTabItemMouseDown(sender,args)));
-            EventManager.RegisterClassHandler(typeof(TabItem), PreviewMouseUpEvent, new RoutedEventHandler((sender, args) => Instance.OnTabItemMouseUp(sender,args)));
-
+            EventManager.RegisterClassHandler(typeof(ViewPresenter), PreviewMouseDownEvent,
+                new RoutedEventHandler((sender, args) => Instance.OnViewMouseDown(sender, args)));
+            EventManager.RegisterClassHandler(typeof(LayoutDocumentPaneControl), PreviewMouseDownEvent,
+                new RoutedEventHandler((sender, args) => Instance.OnTabControlMouseDown(sender, args)));
+            EventManager.RegisterClassHandler(typeof(LayoutDocumentPaneControl), Selector.SelectionChangedEvent,
+                new RoutedEventHandler((sender, args) => Instance.OnTabControlSelectionChanged(sender, args)));
+            EventManager.RegisterClassHandler(typeof(TabItem), PreviewMouseDownEvent,
+                new RoutedEventHandler((sender, args) => Instance.OnTabItemMouseDown(sender, args)));
         }
 
-        private void OnTabItemMouseUp(object sender, RoutedEventArgs args)
+        internal bool IsDragging { get; set; }
+
+        private void OnViewHeaderDragCompleted(object sender, RoutedEventArgs args)
         {
+            IsDragging = false;
         }
+
+        private void OnViewHeaderDragAbsolute(object sender, RoutedEventArgs args)
+        {
+            DragUndockHeader originalSource = (DragUndockHeader)args.OriginalSource;
+            if (originalSource.IsWindowTitleBar)
+            {
+                //TODO:
+            }
+            else
+            {
+                if (DraggedTabInfo == null)
+                    return;
+                HandleDragAbsoluteMoveTabInPlace(originalSource, args as DragAbsoluteEventArgs);
+            }
+        }
+
+        private void OnViewHeaderDragStarted(object sender, RoutedEventArgs args)
+        {
+            var originalSource = (DragUndockHeader)args.OriginalSource;
+            CurrentDragUndockHeader = originalSource;
+            if (originalSource.Model != null)
+            {
+                originalSource.ReleaseMouseCapture();
+                StartDraggingFloatingWindowForContent(originalSource.Model);
+            }
+
+
+            IsDragging = true;
+        }
+
+        private void HandleDragAbsoluteMoveTabInPlace(DragUndockHeader header, DragAbsoluteEventArgs args)
+        {
+            using (new DraggedTabScope())
+            {
+                var draggedTabInfo = DraggedTabInfo;
+                var index = draggedTabInfo.GetTabIndexAt(args.ScreenPoint);
+                var flag = index == draggedTabInfo.DraggedTabPosition;
+                if (flag)
+                    draggedTabInfo.ClearVirtualTabRect();
+                if (!draggedTabInfo.TabStripRect.Contains(args.ScreenPoint) || draggedTabInfo.VirtualTabRect.Contains(args.ScreenPoint) || flag)
+                    return;
+                if (index != -1)
+                {
+                    draggedTabInfo.SetVirtualTabRect(index);
+                    var element = header.Model;
+                    if (element.IsPinned)
+                    {
+                        if (index < element.Parent.Children.OfType<LayoutContent>().Count(x => x.IsPinned))
+                            MovePinnedTab(element, index);
+                    }
+                    else
+                        MoveTab(element, index);
+
+                    draggedTabInfo.TabStrip.IsNotificationNeeded = true;
+                    draggedTabInfo.DraggedTabPosition = index;
+                }
+                if (draggedTabInfo.HasBeenReordered)
+                    return;
+                draggedTabInfo.HasBeenReordered = true;
+                draggedTabInfo.ExpandTabStrip();
+            }
+        }
+
+        public static void MovePinnedTab(LayoutElement tab, int position)
+        {
+            if (tab == null)
+                throw new ArgumentNullException(nameof(tab));
+            if (!(tab is LayoutContent view))
+                throw new ArgumentException("Tab must be a LayoutContent.");
+            if (!view.IsPinned)
+                throw new ArgumentException("Tab must be pinned.");
+            var parent = tab.Parent;
+            if (parent == null)
+                throw new ArgumentException();
+            if (!(parent is LayoutGroupBase))
+                throw new ArgumentException();
+            if (!(parent is ILayoutPane layoutPane))
+                return;
+            var pinndedViews = view.Parent.Children.OfType<LayoutContent>().Where(x => x.IsPinned).ToList();
+            if (position == pinndedViews.IndexOf(view))
+                return;
+            if (position < 0 || position > pinndedViews.Count - 1)
+                throw new ArgumentOutOfRangeException("position: " + position + " group.PinnedViews: " + pinndedViews.Count);
+
+            using (LayoutSynchronizer.BeginLayoutSynchronization())
+            {
+                var index = pinndedViews.IndexOf(view);
+                layoutPane.MoveChild(index, position);
+            }
+        }
+
+        public static void MoveTab(LayoutElement tab, int newIndex, bool selectAfterMoving = true)
+        {
+            Validate.IsNotNull(tab, nameof(tab));
+            if (!(tab is LayoutContent layoutContent))
+                throw new ArgumentException("Tab must be a LayoutContent");
+            var parent = tab.Parent;
+            if (parent == null)
+                throw new ArgumentException();
+            if (!(parent is LayoutGroupBase))
+                throw new ArgumentException();
+            if (!(parent is ILayoutPane layoutPane))
+                return;
+            if (newIndex < 0 || newIndex > parent.ChildrenCount - 1)
+                throw new ArgumentOutOfRangeException();
+            var position = parent.Children.ToList().IndexOf(tab);
+            if (newIndex == position)
+                return;
+
+            using (LayoutSynchronizer.BeginLayoutSynchronization())
+            {
+                layoutPane.MoveChild(position, newIndex);
+                if (!selectAfterMoving)
+                    return;
+                layoutContent.IsActive = true;
+            }
+        }
+
+        private void OnViewMouseDown(object sender, RoutedEventArgs args)
+        {
+            ViewPresenter presenter = sender as ViewPresenter;
+            if (presenter == null || !ShouldActivateFromClick(presenter, args as MouseButtonEventArgs))
+                return;
+            ActivateViewFromPresenter(presenter);
+        }
+
+        protected virtual void ActivateViewFromPresenter(ViewPresenter presenter)
+        {
+            var dataContext = presenter?.DataContext as LayoutContent;
+            if (dataContext == null || dataContext == Layout.ActiveContent)
+                return;
+            dataContext.IsActive = true;
+        }
+
+        private void OnViewHeaderClicked(object sender, RoutedEventArgs args)
+        {
+            var originalSource = args.OriginalSource as DragUndockHeader;
+            var ancestor = originalSource.FindAncestor<ReorderTabPanel>();
+            if (ancestor != null)
+            {
+                DraggedTabInfo = new DraggedTabInfo
+                {
+                    TabStrip = ancestor,
+                    DraggedViewElement = originalSource.Model
+                };
+                DraggedTabInfo.MeasureTabStrip();
+            }
+            else
+                DraggedTabInfo = null;
+        }
+
+        internal DraggedTabInfo DraggedTabInfo { get; set; }
 
         private void OnTabItemMouseDown(object sender, RoutedEventArgs args)
         {
+            if (!(sender is TabItem tabItem))
+                return;
+            if (!ShouldActivateFromClick(tabItem, args as MouseButtonEventArgs))
+                return;
+            if (!(tabItem.DataContext is LayoutContent layoutContent))
+                return;
+            tabItem.IsSelected = true;
+            if (!tabItem.IsSelected)
+                return;
+            layoutContent.IsActive = true;
         }
 
         private void OnTabControlSelectionChanged(object sender, RoutedEventArgs args)
         {
-            if (!(sender is TabControl tabControl) || !(sender is ILayoutControl layoutControl))
+            if (!(sender is TabControl) || !(sender is ILayoutControl layoutControl))
                 return;
-
             var t = layoutControl.Model.Descendents().OfType<LayoutContent>();
-
             if (!t.Any(x => x == Layout.ActiveContent))
                 return;
-
             if (!(layoutControl.Model is ILayoutContentSelector selector))
                 return;
             var selectedElement = selector.SelectedContent;
@@ -617,25 +814,30 @@ namespace ModernApplicationFramework.Docking
         {
             if (!(sender is TabControl tabControl) || !(sender is ILayoutControl layoutControl))
                 return;
-
-            if (!ShouldActivateFromClick(tabControl, args as MouseButtonEventArgs))
+            if (!ShouldActivateFromClick(tabControl, args as MouseButtonEventArgs) || IsClickWithinTabItem(args as MouseButtonEventArgs))
                 return;
+            if (!(layoutControl.Model is ILayoutContentSelector selector))
+                return;
+            selector.SelectedContent.IsActive = true;
+        }
 
+        private static bool IsClickWithinTabItem(MouseButtonEventArgs args)
+        {
+            var originalSource = args.OriginalSource as Visual;
+            return originalSource?.FindAncestorOrSelf<TabItem>() != null;
         }
 
         private static bool ShouldActivateFromClick(DependencyObject activationElement, MouseButtonEventArgs args)
         {
             switch (args.ChangedButton)
             {
-                //case MouseButton.Left:
-                //    return ShouldActivateFromClick(activationElement, args.OriginalSource, ViewPresenter.CanActivateFromLeftClickProperty);
-                //case MouseButton.Middle:
-                //    return ShouldActivateFromClick(activationElement, args.OriginalSource, ViewPresenter.CanActivateFromMiddleClickProperty);
-                //default:
-                //    return true;
+                case MouseButton.Left:
+                    return ShouldActivateFromClick(activationElement, args.OriginalSource, ViewPresenter.CanActivateFromLeftClickProperty);
+                case MouseButton.Middle:
+                    return ShouldActivateFromClick(activationElement, args.OriginalSource, ViewPresenter.CanActivateFromMiddleClickProperty);
+                default:
+                    return true;
             }
-
-            return true;
         }
 
         private static bool ShouldActivateFromClick(DependencyObject activationElement, object originalSource, DependencyProperty canActivateFromClickProperty)
@@ -2357,10 +2559,10 @@ namespace ModernApplicationFramework.Docking
             //load windows not already loaded!
             foreach (var fw in Layout.FloatingWindows.Where(fw => !_fwList.Any(fwc => Equals(fwc.Model, fw))).ToList())
             {
-                if ( CreateUIElementForModel(fw) is LayoutFloatingWindowControl element && element.EnsureHandled())
+                if (CreateUIElementForModel(fw) is LayoutFloatingWindowControl element && element.EnsureHandled())
                     _fwList.Add(element);
             }
-                
+
 
             //create the overlaywindow if it's possible
             if (IsVisible)
@@ -2593,6 +2795,57 @@ namespace ModernApplicationFramework.Docking
         private void ThemeManager_OnThemeChanged(object sender, ThemeChangedEventArgs e)
         {
             ChangeTheme(e.OldTheme, e.NewTheme);
+        }
+
+        internal void ComputeTabItemLengths(TabItem tabItem)
+        {
+            if (tabItem == null)
+                throw new ArgumentNullException(nameof(tabItem));
+            if (tabItem.DataContext is LayoutContent && tabItem.IsConnectedToPresentationSource())
+            {
+                if (tabItem.GetVisualOrLogicalParent() is ReorderTabPanel visualOrLogicalParent)
+                {
+                    Point point = visualOrLogicalParent.TransformToDescendant(tabItem).Transform(new Point(0.0, 0.0));
+                    double num1;
+                    double num2;
+                    if (visualOrLogicalParent.IsVerticallyOriented)
+                    {
+                        num1 = -point.Y;
+                        num2 = tabItem.ActualHeight;
+                    }
+                    else
+                    {
+                        num1 = -point.X;
+                        num2 = tabItem.ActualWidth;
+                    }
+                    UndockedTabItemOffset = num1;
+                    UndockedTabItemLength = num2;
+                    return;
+                }
+            }
+            UndockedTabItemOffset = 0.0;
+            UndockedTabItemLength = 0.0;
+        }
+
+        internal double UndockedTabItemOffset { get; set; }
+
+        internal double UndockedTabItemLength { get; set; }
+
+        private class DraggedTabScope : DisposableObject
+        {
+            private static int _refCount;
+
+            public DraggedTabScope()
+            {
+                ++_refCount;
+            }
+
+            protected override void DisposeManagedResources()
+            {
+                --_refCount;
+            }
+
+            public static bool IsDraggingTab => _refCount > 0;
         }
     }
 }

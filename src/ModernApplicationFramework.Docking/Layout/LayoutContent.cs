@@ -72,6 +72,20 @@ namespace ModernApplicationFramework.Docking.Layout
             set => SetValue(DocumentTabTitleTemplateProperty, value);
         }
 
+        public static DataTemplate GetTabTitleTemplate(DependencyObject obj)
+        {
+            if (obj == null)
+                throw new ArgumentNullException(nameof(obj));
+            return (DataTemplate)obj.GetValue(TabTitleTemplateProperty);
+        }
+
+        public static void SetTabTitleTemplate(DependencyObject obj, DataTemplate value)
+        {
+            if (obj == null)
+                throw new ArgumentNullException(nameof(obj));
+            obj.SetValue(TabTitleTemplateProperty, value);
+        }
+
         public static DataTemplate GetDocumentTabTitleTemplate(DependencyObject obj)
         {
             if (obj == null)
@@ -85,6 +99,7 @@ namespace ModernApplicationFramework.Docking.Layout
                 throw new ArgumentNullException(nameof(obj));
             obj.SetValue(DocumentTabTitleTemplateProperty, value);
         }
+
 
 
 

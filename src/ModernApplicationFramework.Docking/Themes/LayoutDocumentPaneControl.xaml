@@ -92,6 +92,7 @@
                 <ControlTemplate TargetType="{x:Type TabItem}">
                     <Border x:Name="Bd"
                             Padding="0,1,0,3"
+                            avalonDockControls:ViewPresenter.CanActivateFromMiddleClick="False"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="1,2,1,0"

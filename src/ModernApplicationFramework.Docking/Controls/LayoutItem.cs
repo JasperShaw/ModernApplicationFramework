@@ -692,7 +692,7 @@ namespace ModernApplicationFramework.Docking.Controls
                 {
                     //TODO:
                     _layoutElement.TabTitleTemplate = DefaultDocumentWellDocumentTitleTemplate;
-                    //_layoutElement.DocumentTabTitleTemplate = DefaultDocumentWellDocumentTitleTemplate;
+                    _layoutElement.DocumentTabTitleTemplate = DefaultDocumentWellDocumentTitleTemplate;
                 }
             }
         }

@@ -485,6 +485,36 @@ namespace ModernApplicationFramework.Docking.Controls
             set => SetValue(ExpandedTearOffMarginProperty, value);
         }
 
+        internal bool IsVerticallyOriented
+        {
+            get
+            {
+                if (HasLogicalOrientation)
+                    return LogicalOrientation == Orientation.Vertical;
+                return false;
+            }
+        }
+
+        protected double UndockingOffset
+        {
+            get
+            {
+                //if (FloatingWindow.GetIsUndockingTab(this))
+                //    return DockManager.Instance.UndockedTabItemOffset;
+                return 0.0;
+            }
+        }
+
+        protected double UndockingLength
+        {
+            get
+            {
+                //if (FloatingWindow.GetIsUndockingTab(this))
+                //    return DockManager.Instance.UndockedTabItemLength;
+                return 0.0;
+            }
+        }
+
         public bool IsNotificationNeeded
         {
             get => _layoutUpdatedHandlerAdded;

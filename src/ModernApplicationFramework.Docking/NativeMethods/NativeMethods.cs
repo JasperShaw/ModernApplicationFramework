@@ -21,6 +21,11 @@ namespace ModernApplicationFramework.Docking.NativeMethods
             GwEnabledpopup = 6
         }
 
+        internal static bool IsLeftButtonPressed()
+        {
+            return IsKeyPressed(1);
+        }
+
         internal static IntPtr SetActiveWindow(IntPtr hwnd)
         {
             var ret = User32.SetActiveWindow(hwnd);
@@ -79,6 +84,18 @@ namespace ModernApplicationFramework.Docking.NativeMethods
         {
             User32.GetWindowRect(hWnd, out var result);
             return result;
+        }
+
+        internal static System.Windows.Point GetCursorPos()
+        {
+            var point1 = new Point { X = 0, Y = 0 };
+            var point2 = new System.Windows.Point();
+            if (User32.GetCursorPos(ref point1))
+            {
+                point2.X = point1.X;
+                point2.Y = point1.Y;
+            }
+            return point2;
         }
 
         public delegate int HookProc(int code, IntPtr wParam, IntPtr lParam);

@@ -4,7 +4,6 @@
                     xmlns:controls="clr-namespace:ModernApplicationFramework.Docking.Controls"
                     xmlns:converters="clr-namespace:ModernApplicationFramework.Utilities.Converters;assembly=ModernApplicationFramework.Utilities"
                     xmlns:docking="clr-namespace:ModernApplicationFramework.Docking"
-                    xmlns:imaging="clr-namespace:ModernApplicationFramework.Imaging;assembly=ModernApplicationFramework.Imaging"
                     xmlns:mafc="http://modern.framework.com/controls">
 
     <converters:BrushToColorConverter x:Key="BrushToColorConverter" />
@@ -17,6 +16,7 @@
                         <DockPanel x:Name="TitlePanel" TextElement.Foreground="{DynamicResource {x:Static docking:DockingColors.DocumentTabItemText}}">
                             <mafc:GlyphButton x:Name="HideButton"
                                               Margin="3,0,3,0"
+                                              controls:ViewPresenter.CanActivateFromLeftClick="False"
                                               BorderThickness="1"
                                               Command="{Binding Path=LayoutItem.CloseCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                               DockPanel.Dock="Right"
@@ -41,6 +41,7 @@
                             </mafc:GlyphButton>
                             <mafc:GlyphButton x:Name="PinButton"
                                               Margin="3,0,0,0"
+                                              controls:ViewPresenter.CanActivateFromLeftClick="False"
                                               BorderThickness="1"
                                               Command="{Binding Path=LayoutItem.PinCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                               DockPanel.Dock="Right"
@@ -63,12 +64,22 @@
                                     </Shape.Fill>
                                 </Path>
                             </mafc:GlyphButton>
-                            <ContentPresenter x:Name="Content"
+
+                            <controls:DragUndockHeader x:Name="Content"
+                                                       Margin="4,0,4,0"
+                                                       HorizontalAlignment="Stretch"
+                                                       VerticalAlignment="Stretch"
+                                                       Model="{Binding}">
+                                <ContentControl Content="{Binding Title}" />
+                            </controls:DragUndockHeader>
+
+                            <!--<ContentPresenter x:Name="Content"
                                               Margin="4,0,4,0"
                                               HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Content="{Binding Title}"
-                                              RecognizesAccessKey="True" />
+                                              Content="{Binding}"
+                                              ContentTemplate="{Binding DocumentTabTitleTemplate}"
+                                              RecognizesAccessKey="True" />-->
                         </DockPanel>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -96,6 +107,20 @@
                                 </Condition>
                             </MultiDataTrigger.Conditions>
                             <Setter TargetName="TitlePanel" Property="TextElement.Foreground" Value="{DynamicResource {x:Static docking:DockingColors.DocumentTabItemTextActive}}" />
+                            <Setter TargetName="HideButton" Property="HoverBackground" Value="{DynamicResource {x:Static docking:DockingColors.DocumentTabItemButtonBackgroundActiveHover}}" />
+                            <Setter TargetName="HideButton" Property="HoverBorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.DocumentTabItemButtonBorderActiveHover}}" />
+                            <Setter TargetName="HideButton" Property="HoverForeground" Value="{DynamicResource {x:Static docking:DockingColors.DocumentTabItemGlyphActiveHover}}" />
+                            <Setter TargetName="HideButton" Property="PressedBackground" Value="{DynamicResource {x:Static docking:DockingColors.DocumentTabItemButtonBackgroundActiveDown}}" />
+                            <Setter TargetName="HideButton" Property="PressedBorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.DocumentTabItemButtonBorderActiveDown}}" />
+                            <Setter TargetName="HideButton" Property="PressedForeground" Value="{DynamicResource {x:Static docking:DockingColors.DocumentTabItemGlyphActiveDown}}" />
+                            <Setter TargetName="HideButton" Property="GlyphForeground" Value="{DynamicResource {x:Static docking:DockingColors.DocumentTabItemGlyphActive}}" />
+                            <Setter TargetName="PinButton" Property="HoverBackground" Value="{DynamicResource {x:Static docking:DockingColors.DocumentTabItemButtonBackgroundActiveHover}}" />
+                            <Setter TargetName="PinButton" Property="HoverBorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.DocumentTabItemButtonBorderActiveHover}}" />
+                            <Setter TargetName="PinButton" Property="HoverForeground" Value="{DynamicResource {x:Static docking:DockingColors.DocumentTabItemGlyphActiveHover}}" />
+                            <Setter TargetName="PinButton" Property="PressedBackground" Value="{DynamicResource {x:Static docking:DockingColors.DocumentTabItemButtonBackgroundActiveDown}}" />
+                            <Setter TargetName="PinButton" Property="PressedBorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.DocumentTabItemButtonBorderActiveDown}}" />
+                            <Setter TargetName="PinButton" Property="PressedForeground" Value="{DynamicResource {x:Static docking:DockingColors.DocumentTabItemGlyphActiveDown}}" />
+                            <Setter TargetName="PinButton" Property="GlyphForeground" Value="{DynamicResource {x:Static docking:DockingColors.DocumentTabItemGlyphActive}}" />
                         </MultiDataTrigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
@@ -110,7 +135,7 @@
                                     </Condition.Binding>
                                 </Condition>
                             </MultiDataTrigger.Conditions>
-                            <Setter TargetName="TitlePanel" Property="TextElement.Foreground" Value="Red" />
+                            <Setter TargetName="TitlePanel" Property="TextElement.Foreground" Value="{DynamicResource {x:Static docking:DockingColors.DocumentTabItemTextLastActive}}" />
                             <Setter TargetName="HideButton" Property="HoverBackground" Value="{DynamicResource {x:Static docking:DockingColors.DocumentTabItemButtonBackgroundLastActiveHover}}" />
                             <Setter TargetName="HideButton" Property="HoverBorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.DocumentTabItemButtonBorderLastActiveHover}}" />
                             <Setter TargetName="HideButton" Property="HoverForeground" Value="{DynamicResource {x:Static docking:DockingColors.DocumentTabItemGlyphLastActiveHover}}" />

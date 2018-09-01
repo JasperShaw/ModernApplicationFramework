@@ -408,6 +408,10 @@ namespace ModernApplicationFramework.Docking.Controls
             //Restore focued element after Floating is completed. Do no use any Priority faster than Input 
             Dispatcher.BeginInvoke(DispatcherPriority.Input, (Action)(() =>
             {
+                if (DockingManager.Instance.IsDragging)
+                    return;
+                if (Model?.Root == null)
+                    return;
                 var i = Model.Root.Manager.GetLayoutItemFromModel(Model.Root.ActiveContent);
                 i.EnsureFocused();
             }));
