@@ -44,6 +44,11 @@ namespace ModernApplicationFramework.Docking.NativeMethods
             return new System.Windows.Point(w32Mouse.X, w32Mouse.Y);
         }
 
+        internal static bool IsControlPressed()
+        {
+            return IsKeyPressed(17);
+        }
+
         internal static bool IsKeyPressed(int vKey)
         {
             return User32.GetKeyState(vKey) < 0;

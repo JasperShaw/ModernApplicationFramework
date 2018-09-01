@@ -126,6 +126,18 @@ namespace ModernApplicationFramework.Docking.Controls
 
         }
 
+        public static bool GetIsAdjacentToDocumentWell(LayoutContent view)
+        {
+            Validate.IsNotNull(view, nameof(view));
+            return (bool)view.GetValue(IsAdjacentToDocumentWellProperty);
+        }
+
+        private static void SetIsAdjacentToDocumentWell(LayoutContent view, bool value)
+        {
+            Validate.IsNotNull(view, nameof(view));
+            view.SetValue(IsAdjacentToDocumentWellPropertyKey, Boxes.Box(value));
+        }
+
 
         protected override Size ArrangeOverride(Size finalSize)
         {
@@ -208,9 +220,11 @@ namespace ModernApplicationFramework.Docking.Controls
                 var flag1 = false;
                 var flag2 = Panel.StartNewRowAfterPinnedTabs & (UnpinnedTabs.Count > 0);
                 foreach (var pinnedTab in PinnedTabs)
+                {
                     if (pinnedTab == tabItem && !flag2)
                         flag1 = true;
-                //SetIsAdjacentToDocumentWell(GetView(pinnedTab), flag1);
+                    SetIsAdjacentToDocumentWell(GetView(pinnedTab), flag1);
+                }             
                 if (Panel.StartNewRowAfterPinnedTabs)
                     StartNewRow(num2);
                 var rect = _origin.Y == 0.0
@@ -235,6 +249,7 @@ namespace ModernApplicationFramework.Docking.Controls
                 foreach (var unpinnedTab in UnpinnedTabs)
                 {
                     ArrangeTab(unpinnedTab);
+                    SetIsAdjacentToDocumentWell(GetView(unpinnedTab), true);
                     num = Math.Max(num, unpinnedTab.DesiredSize.Height);
                 }
                 var size = new Size(Math.Max(PanelConstraint.Width - origin.X, 0.0), num);

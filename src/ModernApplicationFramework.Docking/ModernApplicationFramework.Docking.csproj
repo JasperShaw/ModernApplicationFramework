@@ -76,21 +76,25 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Themes\DataTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\DockingManager.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\DropDownButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\DropDownTitleBarButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\Colors.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\DocumentTabItemStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\DragUndockHeader.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -206,7 +210,6 @@
     <Compile Include="Controls\DropArea.cs" />
     <Compile Include="Controls\DropDownButton.cs" />
     <Compile Include="Controls\DropDownControlArea.cs" />
-    <Compile Include="Controls\DropDownTitleBarButton.cs" />
     <Compile Include="Controls\DropTarget.cs" />
     <Compile Include="Controls\DropTargetBase.cs" />
     <Compile Include="Controls\DropTargetType.cs" />
@@ -214,6 +217,7 @@
     <Compile Include="Controls\FloatingWindowTitleBar.cs" />
     <Compile Include="Controls\FocusElementManager.cs" />
     <Compile Include="Controls\FullWeakDictionary.cs" />
+    <Compile Include="Controls\GroupControl.cs" />
     <Compile Include="Controls\IDropTarget.cs" />
     <Compile Include="Controls\ILayoutItemHost.cs" />
     <Compile Include="Controls\IOverlayWindow.cs" />
@@ -241,6 +245,7 @@
     <Compile Include="Controls\LayoutGridResizerControl.cs" />
     <Compile Include="Controls\LayoutItem.cs" />
     <Compile Include="Controls\LayoutPanelControl.cs" />
+    <Compile Include="Controls\LayoutSynchronizedContentControl.cs" />
     <Compile Include="Controls\MenuItemEx.cs" />
     <Compile Include="Controls\NavigatorWindow.cs" />
     <Compile Include="Controls\OverlayArea.cs" />
@@ -249,6 +254,8 @@
     <Compile Include="Controls\OverlayWindowDropTargetType.cs" />
     <Compile Include="Controls\ReentrantFlag.cs" />
     <Compile Include="Controls\TransformExtentions.cs" />
+    <Compile Include="Controls\ViewEventArgs.cs" />
+    <Compile Include="Controls\ViewPresenter.cs" />
     <Compile Include="Controls\WeakDictionary.cs" />
     <Compile Include="Controls\WindowActivateEventArgs.cs" />
     <Compile Include="Controls\WindowHookHandler.cs" />
@@ -345,6 +352,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Themes\DataTemplates.xaml.cs">
+      <DependentUpon>DataTemplates.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UtilityMethods.cs" />
     <Compile Include="WindowHelper.cs" />
     <EmbeddedResource Include="DockingResources.de.resx">
       <LastGenOutput>DockingResources.de.Designer.cs</LastGenOutput>

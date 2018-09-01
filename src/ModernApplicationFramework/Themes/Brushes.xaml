@@ -568,7 +568,7 @@
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, ResourceId=QuickCustomizeButtonGlyphHover}" Color="#FF000000" />
 
     <!--  SystemColors  -->
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, ResourceId=SystemWindow}" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, ResourceId=SystemWindow}" Color="{x:Static SystemColors.WindowColor}" />
 
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, ResourceId=SystemGrayText}" Color="#FF6D6D6D" />
 

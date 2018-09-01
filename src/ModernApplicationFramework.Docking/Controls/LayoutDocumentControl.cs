@@ -17,27 +17,19 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using System.Windows.Controls;
 using JetBrains.Annotations;
 using ModernApplicationFramework.Docking.Layout;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-    public class LayoutDocumentControl : Control, ILayoutItemHost, INotifyPropertyChanged
+    public class LayoutDocumentControl : ViewPresenter, INotifyPropertyChanged
     {
-        public static readonly DependencyProperty ModelProperty =
-            DependencyProperty.Register("Model", typeof (LayoutContent), typeof (LayoutDocumentControl),
-                new FrameworkPropertyMetadata(null, OnModelChanged));
-
         private static readonly DependencyPropertyKey LayoutItemPropertyKey
             = DependencyProperty.RegisterReadOnly("LayoutItem", typeof (LayoutItem), typeof (LayoutDocumentControl),
                 new FrameworkPropertyMetadata((LayoutItem) null));
 
         public static readonly DependencyProperty LayoutItemProperty
             = LayoutItemPropertyKey.DependencyProperty;
-
-        private FrameworkElement _content;
-
 
         static LayoutDocumentControl()
         {
@@ -46,26 +38,9 @@ namespace ModernApplicationFramework.Docking.Controls
             FocusableProperty.OverrideMetadata(typeof (LayoutDocumentControl), new FrameworkPropertyMetadata(false));
         }
 
-        public LayoutItem LayoutItem => (LayoutItem) GetValue(LayoutItemProperty);
+        public override LayoutItem LayoutItem => (LayoutItem) GetValue(LayoutItemProperty);
 
-        public LayoutContent Model
-        {
-            get => (LayoutContent) GetValue(ModelProperty);
-            set => SetValue(ModelProperty, value);
-        }
-
-        public FrameworkElement Content
-        {
-            get => _content;
-            private set
-            {
-                if (Equals(value, _content)) return;
-                _content = value;
-                OnPropertyChanged();
-            }
-        }
-
-        protected virtual void OnModelChanged(DependencyPropertyChangedEventArgs e)
+        protected override void OnModelChanged(DependencyPropertyChangedEventArgs e)
         {
             if (e.OldValue != null)
             {

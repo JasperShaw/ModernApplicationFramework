@@ -155,18 +155,98 @@ namespace ModernApplicationFramework.Docking
         private static ComponentResourceKey _anchorFloatingWindowTitleBarButtonBackgroundPressed;
         private static ComponentResourceKey _anchorFloatingWindowTitleBarButtonBorderPressed;
         private static ComponentResourceKey _anchorableFloatingWindowTitleBarGlyphDisabled;
+        private static ComponentResourceKey _documentPaneControlFileTabBorderInactive;
+        private static ComponentResourceKey _documentPaneControlFileTabBorder;
+        private static ComponentResourceKey _docWellOverflowButtonMouseDownGlyph;
+        private static ComponentResourceKey _docWellOverflowButtonGlyph;
+        private static ComponentResourceKey _docWellOverflowButtonMouseOverBackground;
+        private static ComponentResourceKey _docWellOverflowButtonMouseOverBorder;
+        private static ComponentResourceKey _docWellOverflowButtonMouseOverGlyph;
+        private static ComponentResourceKey _docWellOverflowButtonMouseDownBackground;
+        private static ComponentResourceKey _docWellOverflowButtonMouseDownBorder;
+        private static ComponentResourceKey _documentTabGlyphHot;
+        private static ComponentResourceKey _documentTabGlyphInactive;
+
+
+        public static ComponentResourceKey DocumentTabGlyphInactive
+            =>
+                _documentTabGlyphInactive ??
+                (_documentTabGlyphInactive =
+                    new ComponentResourceKey(typeof(DockingColors), "DocumentTabGlyphInactive"));
+
+        public static ComponentResourceKey DocumentTabGlyphHot
+            =>
+                _documentTabGlyphHot ??
+                (_documentTabGlyphHot =
+                    new ComponentResourceKey(typeof(DockingColors), "DocumentTabGlyphHot"));
+
+
+
+        public static ComponentResourceKey DocWellOverflowButtonGlyph
+            =>
+                _docWellOverflowButtonGlyph ??
+                (_docWellOverflowButtonGlyph =
+                    new ComponentResourceKey(typeof(DockingColors), "DocWellOverflowButtonGlyph"));
+
+        public static ComponentResourceKey DocWellOverflowButtonMouseOverBackground
+            =>
+                _docWellOverflowButtonMouseOverBackground ??
+                (_docWellOverflowButtonMouseOverBackground =
+                    new ComponentResourceKey(typeof(DockingColors), "DocWellOverflowButtonMouseOverBackground"));
+
+        public static ComponentResourceKey DocWellOverflowButtonMouseOverBorder
+            =>
+                _docWellOverflowButtonMouseOverBorder ??
+                (_docWellOverflowButtonMouseOverBorder =
+                    new ComponentResourceKey(typeof(DockingColors), "DocWellOverflowButtonMouseOverBorder"));
+
+        public static ComponentResourceKey DocWellOverflowButtonMouseOverGlyph
+            =>
+                _docWellOverflowButtonMouseOverGlyph ??
+                (_docWellOverflowButtonMouseOverGlyph =
+                    new ComponentResourceKey(typeof(DockingColors), "DocWellOverflowButtonMouseOverGlyph"));
+
+        public static ComponentResourceKey DocWellOverflowButtonMouseDownBackground
+            =>
+                _docWellOverflowButtonMouseDownBackground ??
+                (_docWellOverflowButtonMouseDownBackground =
+                    new ComponentResourceKey(typeof(DockingColors), "DocWellOverflowButtonMouseDownBackground"));
+
+        public static ComponentResourceKey DocWellOverflowButtonMouseDownBorder
+            =>
+                _docWellOverflowButtonMouseDownBorder ??
+                (_docWellOverflowButtonMouseDownBorder =
+                    new ComponentResourceKey(typeof(DockingColors), "DocWellOverflowButtonMouseDownBorder"));
+
+        public static ComponentResourceKey DocWellOverflowButtonMouseDownGlyph
+            =>
+                _docWellOverflowButtonMouseDownGlyph ??
+                (_docWellOverflowButtonMouseDownGlyph =
+                    new ComponentResourceKey(typeof(DockingColors), "DocWellOverflowButtonMouseDownGlyph"));
 
         public static ComponentResourceKey DocumentPaneControlBackground
-    =>
-        _documentPaneControlBackground ??
-        (_documentPaneControlBackground =
-            new ComponentResourceKey(typeof(DockingColors), "DocumentPaneControlBackground"));
+            =>
+                _documentPaneControlBackground ??
+                (_documentPaneControlBackground =
+                    new ComponentResourceKey(typeof(DockingColors), "DocumentPaneControlBackground"));
 
         public static ComponentResourceKey DocumentPaneControlBackgroundLastActive
             =>
                 _documentPaneControlBackgroundLastActive ??
                 (_documentPaneControlBackgroundLastActive =
                     new ComponentResourceKey(typeof(DockingColors), "DocumentPaneControlBackgroundLastActive"));
+
+        public static ComponentResourceKey DocumentPaneControlFileTabBorderInactive
+            =>
+                _documentPaneControlFileTabBorderInactive ??
+                (_documentPaneControlFileTabBorderInactive =
+                    new ComponentResourceKey(typeof(DockingColors), "DocumentPaneControlFileTabBorderInactive"));
+
+        public static ComponentResourceKey DocumentPaneControlFileTabBorder
+            =>
+                _documentPaneControlFileTabBorder ??
+                (_documentPaneControlFileTabBorder =
+                    new ComponentResourceKey(typeof(DockingColors), "DocumentPaneControlFileTabBorder"));
 
         public static ComponentResourceKey DocumentPaneControlGlyph
             =>

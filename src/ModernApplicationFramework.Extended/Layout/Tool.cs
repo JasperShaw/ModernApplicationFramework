@@ -10,6 +10,7 @@ using ModernApplicationFramework.Basics.CommandBar.Elements;
 using ModernApplicationFramework.Basics.InfoBar;
 using ModernApplicationFramework.Basics.Search;
 using ModernApplicationFramework.Docking.Controls;
+using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Utilities.PaneUtilities;
 using ModernApplicationFramework.Input.Command;
@@ -153,9 +154,9 @@ namespace ModernApplicationFramework.Extended.Layout
                 return;
             var layoutControl = uiElement.FindLogicalAncestor<ILayoutItemHost>();
             _frame = layoutControl.LayoutItem;
-            if (layoutControl is LayoutAnchorableControl anchorableControl)
+            if (layoutControl is LayoutAnchorableControl anchorableControl && anchorableControl.Model is LayoutAnchorable layoutAnchorable)
             {
-                anchorableControl.Model.Hiding += Model_Hiding;
+                layoutAnchorable.Hiding += Model_Hiding;
             }
             if (_frame == null)
                 return;

@@ -39,6 +39,57 @@ namespace ModernApplicationFramework.Docking.Layout
             DependencyProperty.Register("Title", typeof (string), typeof (LayoutContent),
                 new UIPropertyMetadata(null, OnTitlePropertyChanged, CoerceTitleValue));
 
+
+
+
+
+
+
+
+
+
+
+        public static readonly DependencyProperty TabTitleTemplateProperty =
+            DependencyProperty.RegisterAttached(nameof(TabTitleTemplate), typeof(DataTemplate), typeof(LayoutContent),
+                new FrameworkPropertyMetadata(null,
+                    FrameworkPropertyMetadataOptions.Inherits));
+
+        public static readonly DependencyProperty DocumentTabTitleTemplateProperty =
+            DependencyProperty.RegisterAttached(nameof(DocumentTabTitleTemplate), typeof(DataTemplate), typeof(LayoutContent),
+                new FrameworkPropertyMetadata( null,
+                    FrameworkPropertyMetadataOptions.Inherits));
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public DataTemplate TabTitleTemplate
+        {
+            get => (DataTemplate)GetValue(TabTitleTemplateProperty);
+            set => SetValue(TabTitleTemplateProperty, value);
+        }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public DataTemplate DocumentTabTitleTemplate
+        {
+            get => (DataTemplate)GetValue(DocumentTabTitleTemplateProperty);
+            set => SetValue(DocumentTabTitleTemplateProperty, value);
+        }
+
+        public static DataTemplate GetDocumentTabTitleTemplate(DependencyObject obj)
+        {
+            if (obj == null)
+                throw new ArgumentNullException(nameof(obj));
+            return (DataTemplate)obj.GetValue(DocumentTabTitleTemplateProperty);
+        }
+
+        public static void SetDocumentTabTitleTemplate(DependencyObject obj, DataTemplate value)
+        {
+            if (obj == null)
+                throw new ArgumentNullException(nameof(obj));
+            obj.SetValue(DocumentTabTitleTemplateProperty, value);
+        }
+
+
+
+
+
         private bool _canClose = true;
         private bool _canFloat = true;
 

@@ -1,29 +1,14 @@
-﻿/************************************************************************
-
-   AvalonDock
-
-   Copyright (C) 2007-2013 Xceed Software Inc.
-
-   This program is provided to you under the terms of the New BSD
-   License (BSD) as published at http://avalondock.codeplex.com/license 
-
-   For more features, controls, and fast professional support,
-   pick up AvalonDock in Extended WPF Toolkit Plus at http://xceed.com/wpf_toolkit
-
-   Stay informed: follow @datagrid on Twitter or Like facebook.com/datagrids
-
-  **********************************************************************/
-
-using System.Windows;
+﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
-using System.Windows.Input;
+using ModernApplicationFramework.Controls.Buttons;
 using ModernApplicationFramework.Interfaces;
 using ContextMenu = System.Windows.Controls.ContextMenu;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-    internal class DropDownButton : ToggleButton
+    internal class DropDownButton : GlyphButton
     {
         public static readonly DependencyProperty DropDownContextMenuProperty =
             DependencyProperty.Register("DropDownContextMenu", typeof (ContextMenu), typeof (DropDownButton),
@@ -36,13 +21,38 @@ namespace ModernApplicationFramework.Docking.Controls
 
         public DropDownButton()
         {
-            Unloaded += DropDownButton_Unloaded;
+            Click += OnClick;
+            ContextMenuOpening += OnContextMenuOpening;
+            SetResourceReference(StyleProperty, typeof(GlyphButton));
         }
 
-        static DropDownButton()
+        private void OnContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof (DropDownButton),
-                new FrameworkPropertyMetadata(typeof (DropDownButton)));
+            ContextMenu.IsOpen = false;
+            e.Handled = true;
+        }
+
+        private void OnClick(object sender, RoutedEventArgs e)
+        {
+            ShowDropDown();
+        }
+
+        private void ShowDropDown()
+        {
+            if (DropDownContextMenu != null)
+                ContextMenu = DropDownContextMenu;
+            else
+            {
+                if (ContextMenuProvider == null)
+                    return;
+                ContextMenu = ContextMenuProvider.Provide(DataContext);
+            }
+            if (ContextMenu == null || ContextMenu.Items.Count == 0 && (ContextMenu.TemplatedParent == null || !(ContextMenu.TemplatedParent as ItemsControl).HasItems))
+                return;
+            (ContextMenu.ItemsSource as CollectionView)?.Refresh();
+            ContextMenu.Placement = PlacementMode.Bottom;
+            ContextMenu.PlacementTarget = this;
+            ContextMenu.IsOpen = true;
         }
 
         public ContextMenu DropDownContextMenu
@@ -57,61 +67,14 @@ namespace ModernApplicationFramework.Docking.Controls
             set => SetValue(ContextMenuProviderProperty, value);
         }
 
-        protected override void OnClick()
-        {
-
-            ContextMenu contextMenu;
-
-            if (DropDownContextMenu != null)
-                contextMenu = DropDownContextMenu;
-            else
-            {
-                if (ContextMenuProvider == null)
-                    return;
-                contextMenu = ContextMenuProvider.Provide(DataContext);
-            }
-
-            if (contextMenu == null)
-                return;
-
-            contextMenu.PlacementTarget = this;
-            contextMenu.Placement = PlacementMode.Bottom;
-            contextMenu.IsOpen = true;
-            contextMenu.Closed += OnContextMenuClosed;
-            IsChecked = true;
-            
-            base.OnClick();
-        }
-
         protected virtual void OnDropDownContextMenuChanged(DependencyPropertyChangedEventArgs e)
         {
-            if (e.OldValue is ContextMenu oldContextMenu && IsChecked.GetValueOrDefault())
-                oldContextMenu.Closed -= OnContextMenuClosed;
+            ContextMenu = DropDownContextMenu;
         }
 
         private static void OnDropDownContextMenuChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ((DropDownButton) d).OnDropDownContextMenuChanged(e);
-        }
-
-        private void DropDownButton_Unloaded(object sender, RoutedEventArgs e)
-        {
-            DropDownContextMenu = null;
-            IsChecked = false;
-        }
-
-        private void OnContextMenuClosed(object sender, RoutedEventArgs e)
-        {
-            if (sender is ContextMenu ctxMenu)
-                ctxMenu.Closed -= OnContextMenuClosed;
-        }
-
-        protected override void OnLostMouseCapture(MouseEventArgs e)
-        {
-            base.OnLostMouseCapture(e);
-            if (e.Handled)
-                return;
-            IsChecked = false;
         }
     }
 }

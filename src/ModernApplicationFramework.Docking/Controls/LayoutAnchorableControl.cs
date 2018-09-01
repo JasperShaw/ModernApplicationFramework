@@ -15,7 +15,6 @@
   **********************************************************************/
 
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Markup;
 using ModernApplicationFramework.Docking.Layout;
@@ -23,12 +22,8 @@ using ModernApplicationFramework.Docking.Layout;
 namespace ModernApplicationFramework.Docking.Controls
 {
     [ContentProperty(nameof(Content))]
-    public class LayoutAnchorableControl : Control, ILayoutItemHost
+    public class LayoutAnchorableControl : ViewPresenter
     {
-        public static readonly DependencyProperty ModelProperty =
-            DependencyProperty.Register("Model", typeof (LayoutAnchorable), typeof (LayoutAnchorableControl),
-                new FrameworkPropertyMetadata(null, OnModelChanged));
-
         private static readonly DependencyPropertyKey LayoutItemPropertyKey
             = DependencyProperty.RegisterReadOnly("LayoutItem", typeof (LayoutItem), typeof (LayoutAnchorableControl),
                 new FrameworkPropertyMetadata((LayoutItem) null));
@@ -36,15 +31,7 @@ namespace ModernApplicationFramework.Docking.Controls
         public static readonly DependencyProperty LayoutItemProperty
             = LayoutItemPropertyKey.DependencyProperty;
       
-        public FrameworkElement Content { get; private set; }
-
-        public LayoutItem LayoutItem => (LayoutItem)GetValue(LayoutItemProperty);
-
-        public LayoutAnchorable Model
-        {
-            get => (LayoutAnchorable)GetValue(ModelProperty);
-            set => SetValue(ModelProperty, value);
-        }
+        public override LayoutItem LayoutItem => (LayoutItem)GetValue(LayoutItemProperty);
 
         static LayoutAnchorableControl()
         {
@@ -61,7 +48,7 @@ namespace ModernApplicationFramework.Docking.Controls
             base.OnGotKeyboardFocus(e);
         }
 
-        protected virtual void OnModelChanged(DependencyPropertyChangedEventArgs e)
+        protected override void OnModelChanged(DependencyPropertyChangedEventArgs e)
         {
             if (e.OldValue != null)
                 ((LayoutContent)e.OldValue).PropertyChanged -= Model_PropertyChanged;

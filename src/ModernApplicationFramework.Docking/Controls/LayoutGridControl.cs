@@ -431,7 +431,10 @@ namespace ModernApplicationFramework.Docking.Controls
                 if (foundContainedChild != null)
                     Children.Add(foundContainedChild as UIElement);
                 else
-                    Children.Add(manager.CreateUIElementForModel(child));
+                {
+                    var c = manager.CreateUIElementForModel(child);
+                    Children.Add(c);
+                }
             }
 
             CreateSplitters();

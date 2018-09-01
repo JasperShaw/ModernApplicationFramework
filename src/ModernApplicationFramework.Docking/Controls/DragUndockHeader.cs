@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Automation.Peers;
 using System.Windows.Controls;
 using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Interfaces.Controls;
@@ -27,6 +28,11 @@ namespace ModernApplicationFramework.Docking.Controls
             set => SetValue(ModelProperty, value);
         }
 
+        static DragUndockHeader()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(DragUndockHeader),
+                new FrameworkPropertyMetadata(typeof(DragUndockHeader)));
+        }
 
         public int HitTest(Point point)
         {

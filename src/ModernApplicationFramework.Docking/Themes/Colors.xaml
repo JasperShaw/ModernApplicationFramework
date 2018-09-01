@@ -401,6 +401,22 @@
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:DockingColors}, ResourceId=AnchorableFloatingWindowTitleBarGlyphDisabled}" Color="Transparent" />
 
 
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:DockingColors}, ResourceId=DocumentPaneControlFileTabBorder}" Color="#FFFFF29D" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:DockingColors}, ResourceId=DocumentPaneControlFileTabBorderInactive}" Color="#FF4D6082" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:DockingColors}, ResourceId=DocWellOverflowButtonGlyph}" Color="#FFCED4DD" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:DockingColors}, ResourceId=DocWellOverflowButtonMouseOverBackground}" Color="#FFFFFCF4" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:DockingColors}, ResourceId=DocWellOverflowButtonMouseOverBorder}" Color="#FFE5C365" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:DockingColors}, ResourceId=DocWellOverflowButtonMouseOverGlyph}" Color="#FF000000" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:DockingColors}, ResourceId=DocWellOverflowButtonMouseDownBackground}" Color="#FFFFE8A6" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:DockingColors}, ResourceId=DocWellOverflowButtonMouseDownBorder}" Color="#FFE5C365" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:DockingColors}, ResourceId=DocWellOverflowButtonMouseDownGlyph}" Color="#FF000000" />
+
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:DockingColors}, ResourceId=DocumentTabGlyphHot}" Color="#FFCED4DD" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:DockingColors}, ResourceId=DocumentTabGlyphInactive}" Color="#FFCED4DD" />
+
+
 
 
 </ResourceDictionary>

@@ -22,8 +22,10 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -39,6 +41,7 @@ using ModernApplicationFramework.Docking.Controls;
 using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
+using ModernApplicationFramework.Utilities;
 using Action = System.Action;
 
 namespace ModernApplicationFramework.Docking
@@ -575,7 +578,76 @@ namespace ModernApplicationFramework.Docking
             FocusableProperty.OverrideMetadata(typeof(DockingManager), new FrameworkPropertyMetadata(false));
             HwndSource.DefaultAcquireHwndFocusInMenuMode = false;
             DocumentPaneTabPanel.SelectedItemHidden += DocumentPaneTabPanel_SelectedItemHidden;
+
+
+            EventManager.RegisterClassHandler(typeof(LayoutDocumentPaneControl), PreviewMouseDownEvent, new RoutedEventHandler((sender, args) => Instance.OnTabControlMouseDown(sender,args)));
+            EventManager.RegisterClassHandler(typeof(LayoutDocumentPaneControl), Selector.SelectionChangedEvent, new RoutedEventHandler((sender, args) => Instance.OnTabControlSelectionChanged(sender,args)));
+            EventManager.RegisterClassHandler(typeof(TabItem), PreviewMouseDownEvent, new RoutedEventHandler((sender, args) => Instance.OnTabItemMouseDown(sender,args)));
+            EventManager.RegisterClassHandler(typeof(TabItem), PreviewMouseUpEvent, new RoutedEventHandler((sender, args) => Instance.OnTabItemMouseUp(sender,args)));
+
         }
+
+        private void OnTabItemMouseUp(object sender, RoutedEventArgs args)
+        {
+        }
+
+        private void OnTabItemMouseDown(object sender, RoutedEventArgs args)
+        {
+        }
+
+        private void OnTabControlSelectionChanged(object sender, RoutedEventArgs args)
+        {
+            if (!(sender is TabControl tabControl) || !(sender is ILayoutControl layoutControl))
+                return;
+
+            var t = layoutControl.Model.Descendents().OfType<LayoutContent>();
+
+            if (!t.Any(x => x == Layout.ActiveContent))
+                return;
+
+            if (!(layoutControl.Model is ILayoutContentSelector selector))
+                return;
+            var selectedElement = selector.SelectedContent;
+            if (selectedElement == null || selectedElement == Layout.ActiveContent)
+                return;
+            selectedElement.IsActive = true;
+        }
+
+        private void OnTabControlMouseDown(object sender, RoutedEventArgs args)
+        {
+            if (!(sender is TabControl tabControl) || !(sender is ILayoutControl layoutControl))
+                return;
+
+            if (!ShouldActivateFromClick(tabControl, args as MouseButtonEventArgs))
+                return;
+
+        }
+
+        private static bool ShouldActivateFromClick(DependencyObject activationElement, MouseButtonEventArgs args)
+        {
+            switch (args.ChangedButton)
+            {
+                //case MouseButton.Left:
+                //    return ShouldActivateFromClick(activationElement, args.OriginalSource, ViewPresenter.CanActivateFromLeftClickProperty);
+                //case MouseButton.Middle:
+                //    return ShouldActivateFromClick(activationElement, args.OriginalSource, ViewPresenter.CanActivateFromMiddleClickProperty);
+                //default:
+                //    return true;
+            }
+
+            return true;
+        }
+
+        private static bool ShouldActivateFromClick(DependencyObject activationElement, object originalSource, DependencyProperty canActivateFromClickProperty)
+        {
+            for (var sourceElement = originalSource as DependencyObject; sourceElement != null && sourceElement != activationElement; sourceElement = sourceElement.GetVisualOrLogicalParent())
+            {
+                if (!(bool)sourceElement.GetValue(canActivateFromClickProperty))
+                    return false;
+            }
+            return true;
+        }
+
 
         public DockingManager()
         {
@@ -587,10 +659,20 @@ namespace ModernApplicationFramework.Docking
             Unloaded += DockingManager_Unloaded;
             var themeManager = IoC.Get<IThemeManager>();
             themeManager.OnThemeChanged += ThemeManager_OnThemeChanged;
-
-
             _contextMenuHost = IoC.Get<IContextMenuHost>();
             Instance = this;
+
+            MergeResources();
+        }
+
+        private void MergeResources()
+        {
+            Application.Current.Resources.MergedDictionaries.Add(LoadResourceValue<ResourceDictionary>("Themes/DataTemplates.xaml"));
+        }
+
+        internal static T LoadResourceValue<T>(string xamlName)
+        {
+            return (T)Application.LoadComponent(new Uri(Assembly.GetExecutingAssembly().GetName().Name + ";component/" + xamlName, UriKind.Relative));
         }
 
 
@@ -2107,6 +2189,8 @@ namespace ModernApplicationFramework.Docking
 
         private void ChangeTheme(Theme oldValue, Theme newValue)
         {
+            MergeResources();
+
             var oldTheme = oldValue;
             var newTheme = newValue;
             var resources = Resources;

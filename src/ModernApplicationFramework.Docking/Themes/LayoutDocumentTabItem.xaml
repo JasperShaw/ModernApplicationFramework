@@ -3,8 +3,7 @@
                     xmlns:avalonDock="clr-namespace:ModernApplicationFramework.Docking"
                     xmlns:avalonDockControls="clr-namespace:ModernApplicationFramework.Docking.Controls"
                     xmlns:contextMenuProviders="clr-namespace:ModernApplicationFramework.Docking.ContextMenuProviders"
-                    xmlns:mafc="http://modern.framework.com/controls"
-                    xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework">
+                    xmlns:mafc="http://modern.framework.com/controls">
 
     <contextMenuProviders:DocumentTabModelContextMenuProvider x:Key="DocumentTabModelToContextMenuConverter" />
 

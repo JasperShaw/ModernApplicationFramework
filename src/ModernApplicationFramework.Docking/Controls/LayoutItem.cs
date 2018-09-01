@@ -18,6 +18,7 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -171,6 +172,35 @@ namespace ModernApplicationFramework.Docking.Controls
         private ICommand _defaultNewVerticalTabGroupCommand;
         private ICommand _defaultPinCommand;
         private ContentPresenter _view;
+
+
+
+
+        private static DataTemplate _defaultDocumentWellDocumentTitleTemplate;
+
+
+        private static DataTemplate DefaultDocumentWellDocumentTitleTemplate
+        {
+            get
+            {
+                if (_defaultDocumentWellDocumentTitleTemplate == null)
+                    LoadTemplates();
+                return _defaultDocumentWellDocumentTitleTemplate;
+            }
+        }
+
+        private static void LoadTemplates()
+        {
+            var resourceDictionary = LoadResourceValue<ResourceDictionary>("Themes/DataTemplates.xaml");
+            _defaultDocumentWellDocumentTitleTemplate = resourceDictionary["DocumentWellDocumentTitleTemplate"] as DataTemplate;
+        }
+
+        internal static T LoadResourceValue<T>(string xamlName)
+        {
+            return (T) Application.LoadComponent(new Uri(
+                "/" + Assembly.GetExecutingAssembly().GetName().Name + ";component/" + xamlName, UriKind.Relative));
+        }
+
 
         private SearchPlacement _searchControlPlacement = SearchPlacement.Dynamic;
         private uint _searchControlMaxWidth = uint.MaxValue;
@@ -652,7 +682,21 @@ namespace ModernApplicationFramework.Docking.Controls
             set => SetValue(IsSelectedProperty, value);
         }
 
-        public LayoutContent LayoutElement { get; private set; }
+        public LayoutContent LayoutElement
+        {
+            get => _layoutElement;
+            private set
+            {
+                _layoutElement = value;
+                if (_layoutElement is LayoutDocument)
+                {
+                    //TODO:
+                    _layoutElement.TabTitleTemplate = DefaultDocumentWellDocumentTitleTemplate;
+                    //_layoutElement.DocumentTabTitleTemplate = DefaultDocumentWellDocumentTitleTemplate;
+                }
+            }
+        }
+
         public object Model { get; private set; }
 
         public ICommand MoveToNextTabGroupCommand
@@ -1374,6 +1418,7 @@ namespace ModernApplicationFramework.Docking.Controls
 
 
         private FrameworkElement _contentControl;
+        private LayoutContent _layoutElement;
 
 
         [XmlIgnore]

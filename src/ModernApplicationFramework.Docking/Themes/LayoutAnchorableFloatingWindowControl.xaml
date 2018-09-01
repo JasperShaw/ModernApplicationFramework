@@ -56,7 +56,7 @@
                                                                        Visibility="{Binding Path=Model.IsSinglePane, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <DockPanel>
                                     <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-                                        <avalonDockControls:DropDownTitleBarButton x:Name="SinglePaneContextMenu"
+                                        <avalonDockControls:DropDownButton x:Name="SinglePaneContextMenu"
                                                                                    Width="15"
                                                                                    Height="15"
                                                                                    Margin="0,0,2,0"
@@ -78,7 +78,7 @@
                                                   Data="F1 M 0,0 L 4,4 8,0 0,0 z"
                                                   Fill="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarGlyph}}"
                                                   Stretch="Uniform" />
-                                        </avalonDockControls:DropDownTitleBarButton>
+                                        </avalonDockControls:DropDownButton>
 
                                         <internals:WindowTitleBarButton x:Name="MaximizeRestoreButton"
                                                                         Width="15"

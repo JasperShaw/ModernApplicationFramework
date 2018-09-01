@@ -128,11 +128,11 @@
                             <Setter TargetName="MenuDropDownButton" Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBackgroundDown}}" />
                             <Setter TargetName="MenuDropDownButton" Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBorderDown}}" />
                         </Trigger>
-                        <Trigger SourceName="MenuDropDownButton" Property="IsChecked" Value="True">
+                        <!--<Trigger SourceName="MenuDropDownButton" Property="IsChecked" Value="True">
                             <Setter TargetName="MenuButtonPath" Property="Fill" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleGlyphDown}}" />
                             <Setter TargetName="MenuDropDownButton" Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBackgroundDown}}" />
                             <Setter TargetName="MenuDropDownButton" Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBorderDown}}" />
-                        </Trigger>
+                        </Trigger>-->
                         <Trigger SourceName="PART_AutoHidePin" Property="IsMouseOver" Value="True">
                             <Setter TargetName="PinButtonPath" Property="Fill" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleGlyphHover}}" />
                             <Setter TargetName="PART_AutoHidePin" Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneTitleButtonBackgroundHover}}" />
