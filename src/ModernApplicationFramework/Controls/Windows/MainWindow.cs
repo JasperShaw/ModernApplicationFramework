@@ -41,9 +41,7 @@ namespace ModernApplicationFramework.Controls.Windows
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MainWindow),
                 new FrameworkPropertyMetadata(typeof(MainWindow)));
             ImageThemingUtilities.IsImageThemingEnabled = !GetIsImageThemingSuppressed();
-            RuntimeHelpers.RunClassConstructor(typeof(ScrollBarThemingUtilities).TypeHandle);
-
-            InitializeCommandBar();
+            RuntimeHelpers.RunClassConstructor(typeof(ScrollBarThemingUtilities).TypeHandle);            
         }
 
         private static void InitializeCommandBar()
@@ -67,6 +65,8 @@ namespace ModernApplicationFramework.Controls.Windows
                 Application.Current.MainWindow = this;
 
             //DataContext = new MainWindowViewModel(this);
+
+            InitializeCommandBar();
         }
 
         public BitmapImage ActivatedFloatIcon { get; set; }
