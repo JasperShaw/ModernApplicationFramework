@@ -74,7 +74,8 @@ namespace ModernApplicationFramework.Extended.Layout
             {
                 var attributes = GetType().GetCustomAttributes(typeof(GuidAttribute), true);
                 if (attributes.Length == 0)
-                    throw new InvalidOperationException("The Tool does not have a Guid attribteassociated");
+                    return Guid.Empty;
+                    //throw new InvalidOperationException("The Tool does not have a Guid attribteassociated");
                 return new Guid(((GuidAttribute)attributes[0]).Value);
             }
         }

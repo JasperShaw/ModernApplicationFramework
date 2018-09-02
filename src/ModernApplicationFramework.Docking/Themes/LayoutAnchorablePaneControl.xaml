@@ -2,7 +2,11 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:avalonDockControls="clr-namespace:ModernApplicationFramework.Docking.Controls"
                     xmlns:converters="clr-namespace:ModernApplicationFramework.Docking.Converters"
+                    xmlns:converters1="clr-namespace:ModernApplicationFramework.Utilities.Converters;assembly=ModernApplicationFramework.Utilities"
                     xmlns:docking="clr-namespace:ModernApplicationFramework.Docking"
+                    xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General;assembly=ModernApplicationFramework"
+                    xmlns:imaging="clr-namespace:ModernApplicationFramework.Imaging;assembly=ModernApplicationFramework.Imaging"
+                    xmlns:layout="clr-namespace:ModernApplicationFramework.Docking.Layout"
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework">
 
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
@@ -12,65 +16,9 @@
     <converters:NullToDoNothingConverter x:Key="NullToDoNothingConverter" />
     <converters:LayoutItemFromLayoutModelConverter x:Key="LayoutItemFromLayoutModelConverter" />
     <converters:ActivateCommandLayoutItemFromLayoutModelConverter x:Key="ActivateCommandLayoutItemFromLayoutModelConverter" />
-
-    <Style x:Key="TabItemStyle" TargetType="{x:Type TabItem}">
-        <Setter Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorTabItemBackground}}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorTabItemBorder}}" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static docking:DockingColors.AnchorTabItemText}}" />
-        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-        <Setter Property="ToolTip" Value="{Binding ToolTip}" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type TabItem}">
-                    <Grid SnapsToDevicePixels="True">
-                        <Border x:Name="Bd"
-                                Padding="{TemplateBinding Padding}"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="1,0,1,1">
-                            <ContentPresenter x:Name="Content"
-                                              Margin="0,1,0,0"
-                                              HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
-                                              VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
-                                              ContentSource="Header"
-                                              RecognizesAccessKey="True"
-                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                        </Border>
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="Selector.IsSelected" Value="true">
-                            <Setter Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorTabItemBackgroundActive}}" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorTabItemBorderActive}}" />
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static docking:DockingColors.AnchorTabItemTextActive}}" />
-                            <Setter Property="Panel.ZIndex" Value="1" />
-                            <Setter Property="BorderThickness" Value="1,0,1,1" />
-                            <Setter Property="Margin" Value="0,-1,0,0" />
-                        </Trigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsMouseOver" Value="true" />
-                                <Condition Property="Selector.IsSelected" Value="false" />
-                            </MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorTabItemBackgroundHover}}" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorTabItemBorderHover}}" />
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static docking:DockingColors.AnchorTabItemTextHover}}" />
-                            <Setter Property="Panel.ZIndex" Value="0" />
-                        </MultiTrigger>
-                        <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.AnchorTabItemBackgroundDisabled}}" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorTabItemBorderDisabled}}" />
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static docking:DockingColors.AnchorTabItemTextDisabled}}" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TabControl}}, Path=Items.Count}" Value="1">
-                <Setter Property="Visibility" Value="Collapsed" />
-            </DataTrigger>
-        </Style.Triggers>
-    </Style>
+    <converters1:BrushToColorConverter x:Key="BrushToColorConverter" />
+    <converters:BooleanOrConverter x:Key="BooleanOrConverter" />
+    <general:NegateBooleanConverter x:Key="NegateBooleanConverter" />
 
     <Style x:Key="AnchorablePaneControlStyle" TargetType="{x:Type avalonDockControls:LayoutAnchorablePaneControl}">
         <Setter Property="TabStripPlacement" Value="Bottom" />
@@ -78,18 +26,55 @@
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorPaneControlBorder}}" />
         <Setter Property="Foreground" Value="{Binding Model.Root.Manager.Foreground, RelativeSource={RelativeSource Self}}" />
-        <Setter Property="Background" Value="{Binding Model.Root.Manager.Background, RelativeSource={RelativeSource Self}}" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.SystemWindow}}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type avalonDockControls:LayoutAnchorablePaneControl}">
-                    <Grid ClipToBounds="true"
+                    <Border Background="Transparent">
+                        <Grid KeyboardNavigation.TabNavigation="Local" SnapsToDevicePixels="True">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Border x:Name="PART_ContentPanel"
+                                    Grid.Row="0"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{DynamicResource {x:Static docking:DockingColors.AnchorPaneControlBorder}}"
+                                    BorderThickness="1,1,1,0">
+                                <ContentPresenter x:Name="PART_SelectedContentHost"
+                                                  Margin="{TemplateBinding Padding}"
+                                                  ContentSource="SelectedContent"
+                                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            </Border>
+                            <Rectangle Grid.Row="1"
+                                       Height="1"
+                                       HorizontalAlignment="Stretch"
+                                       VerticalAlignment="Top"
+                                       Fill="{DynamicResource {x:Static docking:DockingColors.AnchorPaneControlBorder}}" />
+                            <Border x:Name="TabPanelTarget"
+                                    Grid.Row="1"
+                                    Background="Transparent">
+                                <avalonDockControls:AnchorablePaneTabPanel x:Name="PART_TabPanel"
+                                                                           Panel.ZIndex="1"
+                                                                           ExpandedTearOffMargin="50"
+                                                                           IsItemsHost="true"
+                                                                           KeyboardNavigation.TabIndex="1" />
+                            </Border>
+                        </Grid>
+                    </Border>
+
+
+
+                    <!--<Grid ClipToBounds="true"
                           KeyboardNavigation.TabNavigation="Local"
                           SnapsToDevicePixels="true">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <!--  Following border is required to catch mouse events  -->
+                    -->
+                    <!--  Following border is required to catch mouse events  -->
+                    <!--
                         <Border Grid.RowSpan="2" Background="Transparent" />
                         <Border x:Name="ContentPanel"
                                 Grid.Row="0"
@@ -109,27 +94,35 @@
                                                                    ExpandedTearOffMargin="50"
                                                                    IsItemsHost="true"
                                                                    KeyboardNavigation.TabIndex="1" />
-                    </Grid>
+                    </Grid>-->
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter Property="Foreground" Value="White" />
                         </Trigger>
-                        <DataTrigger Binding="{Binding Items.Count, RelativeSource={RelativeSource Self}}" Value="1">
-                            <Setter TargetName="HeaderPanel" Property="Margin" Value="0" />
-                        </DataTrigger>
+                        <!--<DataTrigger Binding="{Binding Items.Count, RelativeSource={RelativeSource Self}}" Value="1">
+                            <Setter TargetName="TabPanelTarget" Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>-->
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
-        <Setter Property="ItemContainerStyle" Value="{StaticResource TabItemStyle}" />
         <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate DataType="{x:Type layout:LayoutContent}">
+                    <avalonDockControls:DragUndockHeader Model="{Binding}">
+                        <ContentControl Content="{Binding Title}" />
+                    </avalonDockControls:DragUndockHeader>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <!--<Setter Property="ItemContainerStyle" Value="{StaticResource TabItemStyle}" />-->
+        <!--<Setter Property="ItemTemplate">
             <Setter.Value>
                 <DataTemplate>
                     <avalonDockControls:LayoutAnchorableTabItem Model="{Binding}" />
                 </DataTemplate>
             </Setter.Value>
-        </Setter>
+        </Setter>-->
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>

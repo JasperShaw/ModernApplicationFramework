@@ -10,12 +10,12 @@
 
     <DataTemplate x:Key="DocumentGroupControlItemTemplate" DataType="{x:Type layout:LayoutContent}">
 
-        <controls:DocumentTabItemEx Model="{Binding}">
+        <controls:DocumentTabItemWrapper Model="{Binding}">
             <!--<ContentControl Content="{Binding Title}" ContentTemplate="{Binding DocumentTabTitleTemplate}"/>-->
             <!--<TextBlock x:Name="TextBlock"
                        Foreground="Red"
                        Text="{Binding Title}" />-->
-        </controls:DocumentTabItemEx>
+        </controls:DocumentTabItemWrapper>
 
         <!--<TextBlock x:Name="TextBlock"
                    Text="{Binding Title}" />-->

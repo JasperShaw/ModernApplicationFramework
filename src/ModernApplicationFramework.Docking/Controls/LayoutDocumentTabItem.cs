@@ -173,49 +173,4 @@ namespace ModernApplicationFramework.Docking.Controls
             }).ToList();
         }
     }
-
-    public class DocumentTabItemEx : ContentControl
-    {
-        public static readonly DependencyProperty ModelProperty =
-            DependencyProperty.Register("Model", typeof(LayoutContent), typeof(DocumentTabItemEx),
-                new FrameworkPropertyMetadata(null, OnModelChanged));
-
-        private static readonly DependencyPropertyKey LayoutItemPropertyKey
-            = DependencyProperty.RegisterReadOnly("LayoutItem", typeof(LayoutItem), typeof(DocumentTabItemEx),
-                new FrameworkPropertyMetadata((LayoutItem)null));
-
-        public static readonly DependencyProperty LayoutItemProperty
-            = LayoutItemPropertyKey.DependencyProperty;
-
-
-        public LayoutItem LayoutItem => (LayoutItem)GetValue(LayoutItemProperty);
-
-        public LayoutContent Model
-        {
-            get => (LayoutContent)GetValue(ModelProperty);
-            set => SetValue(ModelProperty, value);
-        }
-
-        static DocumentTabItemEx()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(DocumentTabItemEx),
-                new FrameworkPropertyMetadata(typeof(DocumentTabItemEx)));
-        }
-
-        protected virtual void OnModelChanged(DependencyPropertyChangedEventArgs e)
-        {
-            SetLayoutItem(Model?.Root.Manager.GetLayoutItemFromModel(Model));
-        }
-
-        protected void SetLayoutItem(LayoutItem value)
-        {
-            SetValue(LayoutItemPropertyKey, value);
-        }
-
-
-        private static void OnModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((DocumentTabItemEx)d).OnModelChanged(e);
-        }
-    }
 }

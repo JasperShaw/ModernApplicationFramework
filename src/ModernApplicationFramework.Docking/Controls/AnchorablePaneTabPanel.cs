@@ -266,9 +266,19 @@ namespace ModernApplicationFramework.Docking.Controls
             element.SetValue(IsFirstPropertyKey, Boxes.Box(value));
         }
 
+        public static bool GetIsFirst(UIElement element)
+        {
+            return (bool)element.GetValue(IsFirstProperty);
+        }
+
         private static void SetIsLast(DependencyObject element, bool value)
         {
             element.SetValue(IsLastPropertyKey, Boxes.Box(value));
+        }
+
+        public static bool GetIsLast(UIElement element)
+        {
+            return (bool)element.GetValue(IsLastProperty);
         }
 
         private static void SetIsImmediatelyBeforeSelection(DependencyObject element, bool value)
@@ -294,6 +304,36 @@ namespace ModernApplicationFramework.Docking.Controls
         private static Size GetCalculatedTabSize(DependencyObject element)
         {
             return (Size)element.GetValue(CalculatedTabSizeProperty);
+        }
+
+        public static bool GetIsImmediatelyBeforeSelection(UIElement element)
+        {
+            return (bool)element.GetValue(IsImmediatelyBeforeSelectionProperty);
+        }
+
+        public static bool GetIsImmediatelyAfterSelection(UIElement element)
+        {
+            return (bool)element.GetValue(IsImmediatelyAfterSelectionProperty);
+        }
+
+        public static bool GetIsTruncatingTabs(UIElement element)
+        {
+            return (bool)element.GetValue(IsTruncatingTabsProperty);
+        }
+
+        public static bool GetUseCompressedTabStyle(UIElement element)
+        {
+            return (bool)element.GetValue(UseCompressedTabStyleProperty);
+        }
+
+        private static Size GetCalculatedTabSize(UIElement element)
+        {
+            return (Size)element.GetValue(CalculatedTabSizeProperty);
+        }
+
+        private static void SetCalculatedTabSize(UIElement element, Size size)
+        {
+            element.SetValue(CalculatedTabSizeProperty, size);
         }
     }
 }

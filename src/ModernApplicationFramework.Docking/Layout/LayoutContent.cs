@@ -20,12 +20,10 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Xml;
 using System.Xml.Serialization;
-using ModernApplicationFramework.Core.Comparers;
 using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Docking.Layout

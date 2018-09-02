@@ -6,6 +6,8 @@ namespace ModernApplicationFramework.Docking.ContextMenuProviders
 {
     public class DocumentTabModelContextMenuProvider : IContextMenuProvider
     {
+        public static IContextMenuProvider Instance { get; } = new DocumentTabModelContextMenuProvider();
+
         public ContextMenu Provide(object dataContext)
         {
             if (dataContext is LayoutAnchorable)

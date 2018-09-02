@@ -38,6 +38,7 @@ using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Docking.ContextMenuDefinitions;
+using ModernApplicationFramework.Docking.ContextMenuProviders;
 using ModernApplicationFramework.Docking.Controls;
 using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Interfaces;
@@ -294,6 +295,8 @@ namespace ModernApplicationFramework.Docking
         public event EventHandler LayoutChanged;
 
         public event EventHandler LayoutChanging;
+
+        public static event EventHandler<FloatingWindowEventArgs> FloatingWindowShown;
 
 
         public event EventHandler<ThemeChangedEventArgs> OnThemeChanged;
@@ -620,18 +623,89 @@ namespace ModernApplicationFramework.Docking
                 new RoutedEventHandler((sender, args) => Instance.OnTabControlSelectionChanged(sender, args)));
             EventManager.RegisterClassHandler(typeof(TabItem), PreviewMouseDownEvent,
                 new RoutedEventHandler((sender, args) => Instance.OnTabItemMouseDown(sender, args)));
+
+            EventManager.RegisterClassHandler(typeof(LayoutDocumentPaneControl), DragUndockHeader.DragHeaderContextMenuEvent,
+                new EventHandler<DragUndockHeaderContextMenuEventArgs>(OnDocumentTabContextMenu));
+            EventManager.RegisterClassHandler(typeof(TabGroupControl), DragUndockHeader.DragHeaderContextMenuEvent,
+                new EventHandler<DragUndockHeaderContextMenuEventArgs>(OnTabGroupTabContextMenu));
+            EventManager.RegisterClassHandler(typeof(AnchorablePaneTitle), DragUndockHeader.DragHeaderContextMenuEvent,
+                new EventHandler<DragUndockHeaderContextMenuEventArgs>(OnViewHeaderContextMenu));
+
+        }
+
+        private static void OnViewHeaderContextMenu(object sender, DragUndockHeaderContextMenuEventArgs args)
+        {
+            var originalSource = args.OriginalSource as DragUndockHeader;
+            var screen = originalSource.PointToScreen(args.HeaderPoint);
+            var model = originalSource.Model;
+
+            ShowShellContextMenu(model, screen, AnchorableContextMenuProvider.Instance);
+        }
+
+        private static void OnTabGroupTabContextMenu(object sender, DragUndockHeaderContextMenuEventArgs e)
+        {
+            var originalSource = e.OriginalSource as DragUndockHeader;
+            var screen = originalSource.PointToScreen(e.HeaderPoint);
+
+            foreach (var layoutItem in Instance._layoutItems)
+            {
+                if (layoutItem == originalSource.LayoutItem)
+                {
+                    layoutItem.EnsureFocused();
+                    layoutItem.ActivateCommand.Execute(null);
+                    ShowShellContextMenu(originalSource.Model, screen, AnchorableContextMenuProvider.Instance);
+                    e.Handled = true;
+                }
+            }
+        }
+
+        private static void OnDocumentTabContextMenu(object sender, DragUndockHeaderContextMenuEventArgs e)
+        {
+            var originalSource = e.OriginalSource as DragUndockHeader;
+            var screen = originalSource.PointToScreen(e.HeaderPoint);
+
+            foreach (var layoutItem in Instance._layoutItems)
+            {
+                if (layoutItem == originalSource.LayoutItem)
+                {
+                    layoutItem.EnsureFocused();
+                    layoutItem.ActivateCommand.Execute(null);
+                    ShowShellContextMenu(originalSource.Model, screen, DocumentTabModelContextMenuProvider.Instance);
+                    e.Handled = true;
+                }
+            }
+        }
+
+        private static void ShowShellContextMenu(LayoutContent layout, Point screenPoint, IContextMenuProvider provider)
+        {
+            var shell = IoC.Get<IMafUIShell>();
+            Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Input,
+                (Action) (() => { shell.ShowContextMenu(screenPoint, null, provider, layout); }));
+
         }
 
         internal bool IsDragging { get; set; }
 
         private void OnViewHeaderDragCompleted(object sender, RoutedEventArgs args)
         {
-            IsDragging = false;
+            if (!(args is DragAbsoluteCompletedEventArgs e))
+                return;
+            if (((DragUndockHeader) args.OriginalSource).IsWindowTitleBar && e.IsCompleted &&
+                !NativeMethods.NativeMethods.IsKeyPressed(17))
+            {
+                //PerformDrop((DragAbsoluteEventArgs)args);
+            }
+
+            if (!DraggedTabScope.IsDraggingTab)
+            {
+                DraggedTabInfo = null;
+                IsDragging = false;
+            }
         }
 
         private void OnViewHeaderDragAbsolute(object sender, RoutedEventArgs args)
         {
-            DragUndockHeader originalSource = (DragUndockHeader)args.OriginalSource;
+            var originalSource = (DragUndockHeader)args.OriginalSource;
             if (originalSource.IsWindowTitleBar)
             {
                 //TODO:
@@ -650,8 +724,35 @@ namespace ModernApplicationFramework.Docking
             CurrentDragUndockHeader = originalSource;
             if (originalSource.Model != null)
             {
-                originalSource.ReleaseMouseCapture();
                 StartDraggingFloatingWindowForContent(originalSource.Model);
+            }
+
+            if (!originalSource.IsWindowTitleBar && originalSource.Model != null)
+            {
+                originalSource.CancelDrag();
+                DraggedTabInfo = null;
+                var undockedPosition = Rect.Empty;
+                var frameworkElement = originalSource.LayoutItem;
+                if (frameworkElement != null && frameworkElement.IsConnectedToPresentationSource())
+                    undockedPosition = new Rect(frameworkElement.PointToScreen(new Point(0, 0)), frameworkElement.RenderSize.LogicalToDeviceUnits());
+
+                void EventHandler(object localSender, FloatingWindowEventArgs localArgs)
+                {
+                    var logicalUnits = undockedPosition.Size.DeviceToLogicalUnits();
+                    var val11 = localArgs.Window.Width + (logicalUnits.Width - frameworkElement.RenderSize.Width);
+                    var val12 = localArgs.Window.Height + (logicalUnits.Height - frameworkElement.RenderSize.Height);
+                    localArgs.Window.Width = Math.Max(val11, 0.0);
+                    localArgs.Window.Height = Math.Max(val12, 0.0);
+                }
+                try
+                {
+                    if (undockedPosition != Rect.Empty)
+                        FloatingWindowShown += EventHandler;
+                }
+                finally
+                {
+                    FloatingWindowShown -= EventHandler;
+                }
             }
 
 
@@ -748,7 +849,7 @@ namespace ModernApplicationFramework.Docking
 
         private void OnViewMouseDown(object sender, RoutedEventArgs args)
         {
-            ViewPresenter presenter = sender as ViewPresenter;
+            var presenter = sender as ViewPresenter;
             if (presenter == null || !ShouldActivateFromClick(presenter, args as MouseButtonEventArgs))
                 return;
             ActivateViewFromPresenter(presenter);
@@ -1272,6 +1373,9 @@ namespace ModernApplicationFramework.Docking
 
                 newFw.ShowInTaskbar = false;
                 newFw.Show();
+
+                FloatingWindowShown?.RaiseEvent(this, new FloatingWindowEventArgs(newFw));
+
                 // Do not set the WindowState before showing or it will be lost
                 if (paneForExtensions != null && paneForExtensions.IsMaximized)
                     newFw.WindowState = WindowState.Maximized;
@@ -1300,6 +1404,8 @@ namespace ModernApplicationFramework.Docking
 
                 newFw.ShowInTaskbar = true;
                 newFw.Show();
+
+                FloatingWindowShown?.RaiseEvent(this, new FloatingWindowEventArgs(newFw));
                 // Do not set the WindowState before showing or it will be lost
                 if (paneForExtensions != null && paneForExtensions.IsMaximized)
                     newFw.WindowState = WindowState.Maximized;
@@ -1424,6 +1530,8 @@ namespace ModernApplicationFramework.Docking
                 contentModelAsAnchorable.ToggleAutoHide();
 
             var parentPane = contentModel.Parent as ILayoutPane;
+            if (parentPane == null)
+                return;
             var parentPaneAsPositionableElement = contentModel.Parent as ILayoutPositionableElement;
             var parentPaneAsWithActualSize = contentModel.Parent as ILayoutPositionableElementWithActualSize;
             // ReSharper disable once PossibleNullReferenceException
@@ -1520,6 +1628,7 @@ namespace ModernApplicationFramework.Docking
                 if (startDrag)
                     fwc.AttachDrag();
                 fwc.Show();
+                FloatingWindowShown?.RaiseEvent(this, new FloatingWindowEventArgs(fwc));
             }), DispatcherPriority.Send);
         }
 
@@ -1601,6 +1710,7 @@ namespace ModernApplicationFramework.Docking
 
             fwc.AttachDrag();
             fwc.Show();
+            FloatingWindowShown?.RaiseEvent(this, new FloatingWindowEventArgs(fwc));
         }
 
         protected override Size ArrangeOverride(Size arrangeBounds)
@@ -2805,7 +2915,7 @@ namespace ModernApplicationFramework.Docking
             {
                 if (tabItem.GetVisualOrLogicalParent() is ReorderTabPanel visualOrLogicalParent)
                 {
-                    Point point = visualOrLogicalParent.TransformToDescendant(tabItem).Transform(new Point(0.0, 0.0));
+                    var point = visualOrLogicalParent.TransformToDescendant(tabItem).Transform(new Point(0.0, 0.0));
                     double num1;
                     double num2;
                     if (visualOrLogicalParent.IsVerticallyOriented)

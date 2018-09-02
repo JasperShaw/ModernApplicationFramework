@@ -29,8 +29,13 @@
                             <Border x:Name="Header" Background="{DynamicResource {x:Static docking:DockingColors.AnchorableControlBackground}}">
                                 <avalonDockControls:AnchorablePaneTitle Model="{Binding Model, RelativeSource={RelativeSource TemplatedParent}}" />
                             </Border>
-                            <Border x:Name="ToolWindowBorder" Grid.Row="1">
-                                <ContentPresenter Content="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}" FlowDirection="{TemplateBinding FlowDirection}" />
+                            <Border x:Name="ToolWindowBorder"
+                                    Grid.Row="1">
+                                <ContentPresenter Content="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}"
+                                                  FlowDirection="{TemplateBinding FlowDirection}"
+                                                  KeyboardNavigation.DirectionalNavigation="Contained"
+                                                  KeyboardNavigation.TabIndex="2"
+                                                  KeyboardNavigation.TabNavigation="Local" />
                             </Border>
 
                         </Grid>

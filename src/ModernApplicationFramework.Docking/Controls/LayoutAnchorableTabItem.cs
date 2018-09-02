@@ -33,89 +33,89 @@ namespace ModernApplicationFramework.Docking.Controls
                 new FrameworkPropertyMetadata(typeof (LayoutAnchorableTabItem)));
         }
 
-        protected override void OnMouseEnter(MouseEventArgs e)
-        {
-            base.OnMouseEnter(e);
+        //protected override void OnMouseEnter(MouseEventArgs e)
+        //{
+        //    base.OnMouseEnter(e);
 
-            if (_draggingItem == null || Equals(_draggingItem, this) || e.LeftButton != MouseButtonState.Pressed)
-                return;
-            var model = Model;
-            var container = model.Parent;
-            var containerPane = model.Parent as ILayoutPane;
-            var childrenList = container.Children.ToList();
-            containerPane?.MoveChild(childrenList.IndexOf(_draggingItem.Model), childrenList.IndexOf(model));
-        }
+        //    if (_draggingItem == null || Equals(_draggingItem, this) || e.LeftButton != MouseButtonState.Pressed)
+        //        return;
+        //    var model = Model;
+        //    var container = model.Parent;
+        //    var containerPane = model.Parent as ILayoutPane;
+        //    var childrenList = container.Children.ToList();
+        //    containerPane?.MoveChild(childrenList.IndexOf(_draggingItem.Model), childrenList.IndexOf(model));
+        //}
 
 
-        protected override void OnMouseDown(MouseButtonEventArgs e)
-        {
-            if (e.ChangedButton == MouseButton.Middle)
-            {
-                if (LayoutItem.CloseCommand.CanExecute(null))
-                    LayoutItem.CloseCommand.Execute(null);
-            }
-            else
-                Model.IsActive = true;
-            base.OnMouseDown(e);
-        }
+        //protected override void OnMouseDown(MouseButtonEventArgs e)
+        //{
+        //    if (e.ChangedButton == MouseButton.Middle)
+        //    {
+        //        if (LayoutItem.CloseCommand.CanExecute(null))
+        //            LayoutItem.CloseCommand.Execute(null);
+        //    }
+        //    else
+        //        Model.IsActive = true;
+        //    base.OnMouseDown(e);
+        //}
 
-        protected override void OnMouseLeave(MouseEventArgs e)
-        {
-            base.OnMouseLeave(e);
-            if (_isMouseDown && e.LeftButton == MouseButtonState.Pressed)
-                _draggingItem = this;
-            _isMouseDown = false;
-        }
+        //protected override void OnMouseLeave(MouseEventArgs e)
+        //{
+        //    base.OnMouseLeave(e);
+        //    if (_isMouseDown && e.LeftButton == MouseButtonState.Pressed)
+        //        _draggingItem = this;
+        //    _isMouseDown = false;
+        //}
 
-        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
-        {
-            base.OnMouseLeftButtonDown(e);
+        //protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        //{
+        //    base.OnMouseLeftButtonDown(e);
 
-            if (e.ClickCount == 2)
-            {
-                if (NativeMethods.NativeMethods.IsKeyPressed(17))
-                    Model.Float();
-            }
-            _isMouseDown = true;
-            _draggingItem = this;
-        }
+        //    if (e.ClickCount == 2)
+        //    {
+        //        if (NativeMethods.NativeMethods.IsKeyPressed(17))
+        //            Model.Float();
+        //    }
+        //    _isMouseDown = true;
+        //    _draggingItem = this;
+        //}
 
-        protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
-        {
-            _isMouseDown = false;
-            base.OnMouseLeftButtonUp(e);
-        }
+        //protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
+        //{
+        //    _isMouseDown = false;
+        //    base.OnMouseLeftButtonUp(e);
+        //}
 
-        protected override void OnMouseMove(MouseEventArgs e)
-        {
-            base.OnMouseMove(e);
+        //protected override void OnMouseMove(MouseEventArgs e)
+        //{
+        //    base.OnMouseMove(e);
 
-            if (e.LeftButton != MouseButtonState.Pressed)
-            {
-                _isMouseDown = false;
-                _draggingItem = null;
-            }
-        }
+        //    if (e.LeftButton != MouseButtonState.Pressed)
+        //    {
+        //        _isMouseDown = false;
+        //        _draggingItem = null;
+        //    }
+        //}
 
-        protected override void OnPreviewDragEnter(DragEventArgs e)
-        {
-            Model.IsActive = true;
-            base.OnPreviewDragEnter(e);
-        }
+        //protected override void OnPreviewDragEnter(DragEventArgs e)
+        //{
+        //    Model.IsActive = true;
+        //    base.OnPreviewDragEnter(e);
+        //}
 
-        internal static LayoutAnchorableTabItem GetDraggingItem()
-        {
-            return _draggingItem;
-        }
+        //internal static LayoutAnchorableTabItem GetDraggingItem()
+        //{
+        //    return _draggingItem;
+        //}
 
-        internal static bool IsDraggingItem()
-        {
-            return _draggingItem != null;
-        }
+        //internal static bool IsDraggingItem()
+        //{
+        //    return _draggingItem != null;
+        //}
 
-        internal static void ResetDraggingItem()
-        {
-            _draggingItem = null;
-        }
+        //internal static void ResetDraggingItem()
+        //{
+        //    _draggingItem = null;
+        //}
     }
 }

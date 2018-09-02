@@ -17,12 +17,24 @@ namespace ModernApplicationFramework.Docking.Controls
     public class DragUndockHeader : ContentControl, INonClientArea
     {
 
-        public static readonly RoutedEvent DragStartedEvent = EventManager.RegisterRoutedEvent("DragStarted", RoutingStrategy.Bubble, typeof(EventHandler<DragAbsoluteEventArgs>), typeof(DragUndockHeader));
-        public static readonly RoutedEvent DragAbsoluteEvent = EventManager.RegisterRoutedEvent("DragAbsolute", RoutingStrategy.Bubble, typeof(EventHandler<DragAbsoluteEventArgs>), typeof(DragUndockHeader));
-        public static readonly RoutedEvent DragCompletedAbsoluteEvent = EventManager.RegisterRoutedEvent("DragCompletedAbsolute", RoutingStrategy.Bubble, typeof(EventHandler<DragAbsoluteCompletedEventArgs>), typeof(DragUndockHeader));
+        public static readonly RoutedEvent DragStartedEvent = EventManager.RegisterRoutedEvent("DragStarted",
+            RoutingStrategy.Bubble, typeof(EventHandler<DragAbsoluteEventArgs>), typeof(DragUndockHeader));
+
+        public static readonly RoutedEvent DragAbsoluteEvent = EventManager.RegisterRoutedEvent("DragAbsolute",
+            RoutingStrategy.Bubble, typeof(EventHandler<DragAbsoluteEventArgs>), typeof(DragUndockHeader));
+
+        public static readonly RoutedEvent DragCompletedAbsoluteEvent =
+            EventManager.RegisterRoutedEvent("DragCompletedAbsolute", RoutingStrategy.Bubble,
+                typeof(EventHandler<DragAbsoluteCompletedEventArgs>), typeof(DragUndockHeader));
         public static readonly RoutedEvent DragDeltaEvent = Thumb.DragDeltaEvent.AddOwner(typeof(DragUndockHeader));
-        public static readonly RoutedEvent DragHeaderClickedEvent = EventManager.RegisterRoutedEvent("DragHeaderClicked", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(DragUndockHeader));
-        //public static readonly RoutedEvent DragHeaderContextMenuEvent = EventManager.RegisterRoutedEvent("DragHeaderContextMenu", RoutingStrategy.Bubble, typeof(EventHandler<DragUndockHeaderContextMenuEventArgs>), typeof(DragUndockHeader));
+
+        public static readonly RoutedEvent DragHeaderClickedEvent =
+            EventManager.RegisterRoutedEvent("DragHeaderClicked", RoutingStrategy.Bubble, typeof(RoutedEventHandler),
+                typeof(DragUndockHeader));
+
+        public static readonly RoutedEvent DragHeaderContextMenuEvent =
+            EventManager.RegisterRoutedEvent("DragHeaderContextMenu", RoutingStrategy.Bubble,
+                typeof(EventHandler<DragUndockHeaderContextMenuEventArgs>), typeof(DragUndockHeader));
 
 
 
@@ -210,8 +222,8 @@ namespace ModernApplicationFramework.Docking.Controls
                 {
                     if (ShouldShowWindowMenu())
                         ModernChromeWindow.ShowWindowMenu(source, this, e.GetPosition(this), RenderSize);
-                    //else
-                    //    RaiseEvent((RoutedEventArgs)new DragUndockHeaderContextMenuEventArgs(DragUndockHeader.DragHeaderContextMenuEvent, e.GetPosition(this)));
+                    else
+                        RaiseEvent(new DragUndockHeaderContextMenuEventArgs(DragHeaderContextMenuEvent, e.GetPosition(this)));
                 }
                 e.Handled = true;
             }
@@ -369,5 +381,16 @@ namespace ModernApplicationFramework.Docking.Controls
         }
 
         public bool IsCompleted { get; set; }
+    }
+
+    public class DragUndockHeaderContextMenuEventArgs : RoutedEventArgs
+    {
+        public DragUndockHeaderContextMenuEventArgs(RoutedEvent evt, Point headerPoint)
+            : base(evt)
+        {
+            HeaderPoint = headerPoint;
+        }
+
+        public Point HeaderPoint { get; }
     }
 }

@@ -78,6 +78,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Themes\AnchorTabItemStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\DataTemplates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -207,6 +211,7 @@
     <Compile Include="Controls\DocumentPaneDropTarget.cs" />
     <Compile Include="Controls\DocumentPaneGroupDropTarget.cs" />
     <Compile Include="Controls\DocumentPaneTabPanel.cs" />
+    <Compile Include="Controls\DocumentTabItemWrapper.cs" />
     <Compile Include="Controls\DragService.cs" />
     <Compile Include="Controls\DragUndockHeader.cs" />
     <Compile Include="Controls\DropArea.cs" />
@@ -220,6 +225,7 @@
     <Compile Include="Controls\FocusElementManager.cs" />
     <Compile Include="Controls\FullWeakDictionary.cs" />
     <Compile Include="Controls\GroupControl.cs" />
+    <Compile Include="Controls\GroupControlTabItem.cs" />
     <Compile Include="Controls\IDropTarget.cs" />
     <Compile Include="Controls\ILayoutItemHost.cs" />
     <Compile Include="Controls\IOverlayWindow.cs" />
@@ -248,6 +254,8 @@
     <Compile Include="Controls\LayoutItem.cs" />
     <Compile Include="Controls\LayoutPanelControl.cs" />
     <Compile Include="Controls\LayoutSynchronizedContentControl.cs" />
+    <Compile Include="Controls\LayoutSynchronizedTabControl.cs" />
+    <Compile Include="Controls\LayoutSynchronizer.cs" />
     <Compile Include="Controls\MenuItemEx.cs" />
     <Compile Include="Controls\NavigatorWindow.cs" />
     <Compile Include="Controls\OverlayArea.cs" />
@@ -265,6 +273,7 @@
     <Compile Include="Converters\AnchorSideToAngleConverter.cs" />
     <Compile Include="Converters\AnchorSideToOrientationConverter.cs" />
     <Compile Include="Converters\AutoHideCommandLayoutItemFromLayoutModelConverter.cs" />
+    <Compile Include="Converters\BooleanOrConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\HideCommandLayoutItemFromLayoutModelConverter.cs" />
     <Compile Include="Converters\InverseBoolToVisibilityConverter.cs" />
@@ -288,6 +297,7 @@
     <Compile Include="DpiHelper.cs" />
     <Compile Include="DraggedTabInfo.cs" />
     <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="FloatingWindowEventArgs.cs" />
     <Compile Include="KeyboardStateManager.cs" />
     <Compile Include="LayoutEventArgs.cs" />
     <Compile Include="Layout\AnchorableShowStrategy.cs" />
@@ -357,8 +367,14 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Themes\AnchorTabItemStyle.xaml.cs">
+      <DependentUpon>AnchorTabItemStyle.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Themes\DataTemplates.xaml.cs">
       <DependentUpon>DataTemplates.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Themes\DocumentTabItemStyle.xaml.cs">
+      <DependentUpon>DocumentTabItemStyle.xaml</DependentUpon>
     </Compile>
     <Compile Include="UtilityMethods.cs" />
     <Compile Include="WindowHelper.cs" />

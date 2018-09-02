@@ -18,11 +18,25 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking.Layout;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-    public class LayoutAnchorablePaneControl : TabControl, ILayoutControl //, ILogicalChildrenContainer
+   public class TabGroupControl : GroupControl
+    {
+        private static ResourceKey _tabItemStyleKey;
+
+        public static ResourceKey TabItemStyleKey => _tabItemStyleKey ?? (_tabItemStyleKey = new StyleKey<TabGroupControl>());
+
+        protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
+        {
+            base.PrepareContainerForItemOverride(element, item);
+            ((FrameworkElement)element).SetResourceReference(StyleProperty, TabItemStyleKey);
+        }
+    }
+
+    public class LayoutAnchorablePaneControl : TabGroupControl, ILayoutControl //, ILogicalChildrenContainer
     {
         private readonly LayoutAnchorablePane _model;
 
@@ -33,45 +47,40 @@ namespace ModernApplicationFramework.Docking.Controls
             SetBinding(ItemsSourceProperty, new Binding("Model.Children") {Source = this});
             SetBinding(FlowDirectionProperty, new Binding("Model.Root.Manager.FlowDirection") {Source = this});
 
-            LayoutUpdated += OnLayoutUpdated;
+            //LayoutUpdated += OnLayoutUpdated;
         }
 
-        static LayoutAnchorablePaneControl()
-        {
-            FocusableProperty.OverrideMetadata(typeof (LayoutAnchorablePaneControl),
-                new FrameworkPropertyMetadata(false));
-        }
 
         public ILayoutElement Model => _model;
 
-        protected override void OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e)
-        {
-            _model.SelectedContent.IsActive = true;
+        //protected override void OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e)
+        //{
+        //    _model.SelectedContent.IsActive = true;
 
-            base.OnGotKeyboardFocus(e);
-        }
+        //    base.OnGotKeyboardFocus(e);
+        //}
 
-        protected override void OnMouseLeftButtonDown(System.Windows.Input.MouseButtonEventArgs e)
-        {
-            base.OnMouseLeftButtonDown(e);
+        //protected override void OnMouseLeftButtonDown(System.Windows.Input.MouseButtonEventArgs e)
+        //{
+        //    base.OnMouseLeftButtonDown(e);
 
-            if (!e.Handled && _model.SelectedContent != null)
-                _model.SelectedContent.IsActive = true;
-        }
+        //    if (!e.Handled && _model.SelectedContent != null)
+        //        _model.SelectedContent.IsActive = true;
+        //}
 
-        protected override void OnMouseRightButtonDown(System.Windows.Input.MouseButtonEventArgs e)
-        {
-            base.OnMouseRightButtonDown(e);
+        //protected override void OnMouseRightButtonDown(System.Windows.Input.MouseButtonEventArgs e)
+        //{
+        //    base.OnMouseRightButtonDown(e);
 
-            if (!e.Handled && _model.SelectedContent != null)
-                _model.SelectedContent.IsActive = true;
-        }
+        //    if (!e.Handled && _model.SelectedContent != null)
+        //        _model.SelectedContent.IsActive = true;
+        //}
 
-        private void OnLayoutUpdated(object sender, EventArgs e)
-        {
-            var modelWithActualSize = _model as ILayoutPositionableElementWithActualSize;
-            modelWithActualSize.ActualWidth = ActualWidth;
-            modelWithActualSize.ActualHeight = ActualHeight;
-        }
+        //private void OnLayoutUpdated(object sender, EventArgs e)
+        //{
+        //    var modelWithActualSize = _model as ILayoutPositionableElementWithActualSize;
+        //    modelWithActualSize.ActualWidth = ActualWidth;
+        //    modelWithActualSize.ActualHeight = ActualHeight;
+        //}
     }
 }

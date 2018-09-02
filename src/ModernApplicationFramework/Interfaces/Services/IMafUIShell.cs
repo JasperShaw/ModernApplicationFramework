@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using ModernApplicationFramework.Native.Platform.Structs;
+using Point = System.Windows.Point;
 
 namespace ModernApplicationFramework.Interfaces.Services
 {
@@ -45,6 +46,8 @@ namespace ModernApplicationFramework.Interfaces.Services
         /// <param name="position">The absolte position.</param>
         /// <param name="contextMenu">The Id of the Context Menu</param>
         /// <param name="element">Placement Target</param>
-        void ShowContextMenu(System.Windows.Point position, Guid contextMenu, UIElement element);
+        void ShowContextMenu(Point position, Guid contextMenu, UIElement element);
+
+        void ShowContextMenu(Point position, UIElement target, IContextMenuProvider provider, object data);
     }
 }

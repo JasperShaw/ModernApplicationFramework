@@ -211,12 +211,6 @@
 
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:DockingColors}, ResourceId=AnchorTabItemBackgroundDisabled}" Color="#FF4B5C74" />
 
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:DockingColors}, ResourceId=AnchorTabItemBorder}" Color="#FF4D6082" />
-
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:DockingColors}, ResourceId=AnchorTabItemBorderHover}" Color="#FF5B7199" />
-
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:DockingColors}, ResourceId=AnchorTabItemBorderActive}" Color="#FF8E9BBC" />
-
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:DockingColors}, ResourceId=AnchorTabItemBorderDisabled}" Color="#FF4B5C74" />
 
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:DockingColors}, ResourceId=AnchorTabItemText}" Color="#FFFFFFFF" />
@@ -416,7 +410,10 @@
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:DockingColors}, ResourceId=DocumentTabGlyphHot}" Color="#FFCED4DD" />
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:DockingColors}, ResourceId=DocumentTabGlyphInactive}" Color="#FFCED4DD" />
 
-
+    <!--  Recolor  -->
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:DockingColors}, ResourceId=AnchorTabItemBorder}" Color="#FF4B5C74" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:DockingColors}, ResourceId=AnchorTabItemBorderHover}" Color="#FF5B7199" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:DockingColors}, ResourceId=AnchorTabItemBorderActive}" Color="#FFFFFFFF" />
 
 
 </ResourceDictionary>

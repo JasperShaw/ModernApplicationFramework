@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using ModernApplicationFramework.Docking.Layout;
 
 namespace ModernApplicationFramework.Docking
 {
@@ -24,6 +25,17 @@ namespace ModernApplicationFramework.Docking
             }
 
             PresentationSource.AddSourceChangedHandler(element, RelayHandler);
+        }
+
+        public static void OnTabItemDragOver(object sender, DragEventArgs e)
+        {
+            if (sender is FrameworkElement frameworkElement)
+            {
+                if (frameworkElement.DataContext is LayoutContent dataContext)
+                    dataContext.IsSelected = true;
+            }
+            e.Effects = DragDropEffects.None;
+            e.Handled = true;
         }
     }
 }

@@ -140,8 +140,23 @@ namespace ModernApplicationFramework.Basics.Services
             }
             catch (KeyNotFoundException e)
             {
-            }        
+            }
         }
+
+
+        public void ShowContextMenu(Point position, UIElement target, IContextMenuProvider provider, object data)
+        {
+            var contextMenu = provider.Provide(data);
+            if (contextMenu == null)
+                return;
+
+            contextMenu.Placement = PlacementMode.Absolute;
+            contextMenu.HorizontalOffset = position.X;
+            contextMenu.VerticalOffset = position.Y;
+            contextMenu.PlacementTarget = target;
+            contextMenu.IsOpen = true;
+        }
+
 
         /// <summary>
         /// Gets the pointer to the active window.
@@ -190,3 +205,4 @@ namespace ModernApplicationFramework.Basics.Services
         }
     }
 }
+

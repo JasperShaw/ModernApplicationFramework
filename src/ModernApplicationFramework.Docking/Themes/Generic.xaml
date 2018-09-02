@@ -18,5 +18,6 @@
         <ResourceDictionary Source="/ModernApplicationFramework.Docking;component/Themes/Colors.xaml" />
         <ResourceDictionary Source="/ModernApplicationFramework.Docking;component/Themes/DragUndockHeader.xaml" />
         <ResourceDictionary Source="/ModernApplicationFramework.Docking;component/Themes/DocumentTabItemStyle.xaml" />
+        <ResourceDictionary Source="/ModernApplicationFramework.Docking;component/Themes/AnchorTabItemStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

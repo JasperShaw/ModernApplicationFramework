@@ -30,10 +30,7 @@ using System.Windows.Threading;
 using ModernApplicationFramework.Controls.Windows;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking.Layout;
-using ModernApplicationFramework.Native;
-using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Native.Platform.Enums;
-using ModernApplicationFramework.Utilities;
 using HitTestValues = ModernApplicationFramework.Docking.NativeMethods.HitTestValues;
 using SystemCommands = System.Windows.SystemCommands;
 
