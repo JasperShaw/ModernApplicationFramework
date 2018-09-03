@@ -178,6 +178,16 @@ namespace ModernApplicationFramework.Docking.Controls
 
         private static DataTemplate _defaultDocumentWellDocumentTitleTemplate;
 
+        
+        private static DataTemplate DefaultDocumentWellToolTitleTemplate
+        {
+            get
+            {
+                if (_defaultDocumentWellToolTitleTemplate == null)
+                    LoadTemplates();
+                return _defaultDocumentWellToolTitleTemplate;
+            }
+        }
 
         private static DataTemplate DefaultDocumentWellDocumentTitleTemplate
         {
@@ -193,6 +203,7 @@ namespace ModernApplicationFramework.Docking.Controls
         {
             var resourceDictionary = LoadResourceValue<ResourceDictionary>("Themes/DataTemplates.xaml");
             _defaultDocumentWellDocumentTitleTemplate = resourceDictionary["DocumentWellDocumentTitleTemplate"] as DataTemplate;
+            _defaultDocumentWellToolTitleTemplate = resourceDictionary["DocumentWellToolTitleTemplate"] as DataTemplate;
         }
 
         internal static T LoadResourceValue<T>(string xamlName)
@@ -687,14 +698,69 @@ namespace ModernApplicationFramework.Docking.Controls
             get => _layoutElement;
             private set
             {
+                if (_layoutElement != null && _layoutElement != value)
+                    _layoutElement.IsActiveChanged -= LayoutElementOnIsActiveChanged;
+                if (_layoutElement == value)
+                    return;
+                if (_layoutElement != null && value != null && value.Title == null)
+                    value.Title = _layoutElement.Title;
                 _layoutElement = value;
+                if (_layoutElement == null)
+                    return;
+                _layoutElement.IsActiveChanged += LayoutElementOnIsActiveChanged;
+
+                if (_layoutElement.TitleTemplate != null && _layoutElement.TabTitleTemplate != null && _layoutElement.DocumentTabTitleTemplate != null)
+                    return;
+
                 if (_layoutElement is LayoutDocument)
                 {
-                    //TODO:
+                    //_layoutElement.TitleTemplate = DefaultFloatingDocumentTitleTemplate;
                     _layoutElement.TabTitleTemplate = DefaultDocumentWellDocumentTitleTemplate;
                     _layoutElement.DocumentTabTitleTemplate = DefaultDocumentWellDocumentTitleTemplate;
                 }
+                //else
+                {
+                    //_layoutElement.TitleTemplate = DefaultToolTitleTemplate;
+                    //_layoutElement.TabTitleTemplate = DefaultTabbedToolTitleTemplate;
+                    _layoutElement.DocumentTabTitleTemplate = DefaultDocumentWellToolTitleTemplate;
+                }
             }
+        }
+
+        private void PreloadOnScreenContent(LayoutContent view)
+        {
+            //TODO:
+            EnsureContentConstructed();
+        }
+
+        private void EnsureContentConstructed()
+        {
+            //TODO:
+            EnsureFocused();
+            EnsureTitleBound();
+        }
+
+        private void EnsureTitleBound()
+        {
+            if (LayoutElement == null)
+                return;
+            //var title = LayoutElement.Title as WindowFrameTitle;
+            //if (title != null && title.IsBound && (title.IsBoundToFrame(this) && title.Culture.Equals((object)WindowManagementPackage.VSCulture)))
+            //    return;
+            //LayoutElement.Title = (object)new WindowFrameTitle(this);
+        }
+
+        internal bool EnsureTitle()
+        {
+            if (LayoutElement == null)
+                return false;
+            EnsureTitleBound();
+            return true;
+        }
+
+        private void LayoutElementOnIsActiveChanged(object sender, EventArgs e)
+        {
+            EnsureTitle();
         }
 
         public object Model { get; private set; }
@@ -1419,6 +1485,7 @@ namespace ModernApplicationFramework.Docking.Controls
 
         private FrameworkElement _contentControl;
         private LayoutContent _layoutElement;
+        private static DataTemplate _defaultDocumentWellToolTitleTemplate;
 
 
         [XmlIgnore]

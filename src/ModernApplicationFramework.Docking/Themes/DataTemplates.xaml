@@ -4,8 +4,22 @@
                     xmlns:controls="clr-namespace:ModernApplicationFramework.Docking.Controls"
                     xmlns:layout="clr-namespace:ModernApplicationFramework.Docking.Layout">
 
+
+
+    <DataTemplate x:Key="DocumentWellToolTitleTemplate">
+        <StackPanel Orientation="Horizontal">
+            <controls:TabItemTextControl MaxWidth="215"
+                                         VerticalAlignment="Center"
+                                         Text="{Binding}" />
+        </StackPanel>
+    </DataTemplate>
+
     <DataTemplate x:Key="DocumentWellDocumentTitleTemplate">
-        <TextBlock Text="123" />
+        <StackPanel Orientation="Horizontal">
+            <controls:TabItemTextControl MaxWidth="215"
+                                         VerticalAlignment="Center"
+                                         Text="{Binding}" />
+        </StackPanel>
     </DataTemplate>
 
     <DataTemplate x:Key="DocumentGroupControlItemTemplate" DataType="{x:Type layout:LayoutContent}">

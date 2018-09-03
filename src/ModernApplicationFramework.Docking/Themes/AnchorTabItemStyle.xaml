@@ -68,6 +68,7 @@
                             <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource {x:Static docking:DockingColors.AnchorTabItemBorderActive}}" />
                             <Setter TargetName="Border" Property="BorderThickness" Value="0,0,0,2" />
                             <Setter TargetName="TabBorder" Property="BorderThickness" Value="1,0,1,1" />
+                            <Setter TargetName="Border" Property="Padding" Value="0,1,0,0" />
                             <Setter Property="Focusable" Value="false" />
                         </Trigger>
                         <MultiDataTrigger>

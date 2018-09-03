@@ -37,16 +37,6 @@ namespace ModernApplicationFramework.Docking.Layout
             DependencyProperty.Register("Title", typeof (string), typeof (LayoutContent),
                 new UIPropertyMetadata(null, OnTitlePropertyChanged, CoerceTitleValue));
 
-
-
-
-
-
-
-
-
-
-
         public static readonly DependencyProperty TabTitleTemplateProperty =
             DependencyProperty.RegisterAttached(nameof(TabTitleTemplate), typeof(DataTemplate), typeof(LayoutContent),
                 new FrameworkPropertyMetadata(null,
@@ -55,6 +45,11 @@ namespace ModernApplicationFramework.Docking.Layout
         public static readonly DependencyProperty DocumentTabTitleTemplateProperty =
             DependencyProperty.RegisterAttached(nameof(DocumentTabTitleTemplate), typeof(DataTemplate), typeof(LayoutContent),
                 new FrameworkPropertyMetadata( null,
+                    FrameworkPropertyMetadataOptions.Inherits));
+
+        public static readonly DependencyProperty TitleTemplateProperty =
+            DependencyProperty.RegisterAttached(nameof(TitleTemplate), typeof(DataTemplate), typeof(LayoutContent),
+                new FrameworkPropertyMetadata(null,
                     FrameworkPropertyMetadataOptions.Inherits));
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -68,6 +63,12 @@ namespace ModernApplicationFramework.Docking.Layout
         {
             get => (DataTemplate)GetValue(DocumentTabTitleTemplateProperty);
             set => SetValue(DocumentTabTitleTemplateProperty, value);
+        }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public DataTemplate TitleTemplate
+        {
+            get => (DataTemplate)GetValue(TitleTemplateProperty);
+            set => this.SetValue(TitleTemplateProperty, (object)value);
         }
 
         public static DataTemplate GetTabTitleTemplate(DependencyObject obj)
@@ -96,6 +97,20 @@ namespace ModernApplicationFramework.Docking.Layout
             if (obj == null)
                 throw new ArgumentNullException(nameof(obj));
             obj.SetValue(DocumentTabTitleTemplateProperty, value);
+        }
+
+        public static DataTemplate GetTitleTemplate(DependencyObject obj)
+        {
+            if (obj == null)
+                throw new ArgumentNullException(nameof(obj));
+            return (DataTemplate)obj.GetValue(TitleTemplateProperty);
+        }
+
+        public static void SetTitleTemplate(DependencyObject obj, DataTemplate value)
+        {
+            if (obj == null)
+                throw new ArgumentNullException(nameof(obj));
+            obj.SetValue(TitleTemplateProperty, value);
         }
 
 

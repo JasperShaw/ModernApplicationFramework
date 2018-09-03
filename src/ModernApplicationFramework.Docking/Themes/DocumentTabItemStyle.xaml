@@ -70,7 +70,7 @@
                                                        HorizontalAlignment="Stretch"
                                                        VerticalAlignment="Stretch"
                                                        Model="{Binding}">
-                                <ContentControl Content="{Binding Title}" />
+                                <ContentControl Content="{Binding Title}" ContentTemplate="{Binding DocumentTabTitleTemplate}" />
                             </controls:DragUndockHeader>
 
                             <!--<ContentPresenter x:Name="Content"

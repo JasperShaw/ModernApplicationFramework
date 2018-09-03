@@ -263,11 +263,13 @@
     <Compile Include="Controls\OverlayWindowDropTarget.cs" />
     <Compile Include="Controls\OverlayWindowDropTargetType.cs" />
     <Compile Include="Controls\ReentrantFlag.cs" />
+    <Compile Include="Controls\TabItemTextControl.cs" />
     <Compile Include="Controls\TransformExtentions.cs" />
     <Compile Include="Controls\ViewEventArgs.cs" />
     <Compile Include="Controls\ViewPresenter.cs" />
     <Compile Include="Controls\WeakDictionary.cs" />
     <Compile Include="Controls\WindowActivateEventArgs.cs" />
+    <Compile Include="Controls\WindowFrameTitle.cs" />
     <Compile Include="Controls\WindowHookHandler.cs" />
     <Compile Include="Converters\ActivateCommandLayoutItemFromLayoutModelConverter.cs" />
     <Compile Include="Converters\AnchorSideToAngleConverter.cs" />
