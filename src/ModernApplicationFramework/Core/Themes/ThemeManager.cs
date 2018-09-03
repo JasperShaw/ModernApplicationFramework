@@ -97,8 +97,6 @@ namespace ModernApplicationFramework.Core.Themes
         private void ChangeTheme(Theme oldTheme, Theme theme)
         {
             var resources = Application.Current.Resources;
-            resources.Clear();
-            resources.MergedDictionaries.Clear();
             if (oldTheme != null)
             {
                 var resourceDictionaryToRemove =
