@@ -16,11 +16,12 @@
 
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using ModernApplicationFramework.Docking.Layout;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-    public class AnchorablePaneTitle : Control //DragUndockHeader
+    public class AnchorablePaneTitle : Control
     {
         public static readonly DependencyProperty ModelProperty =
             DependencyProperty.Register("Model", typeof(LayoutContent), typeof(AnchorablePaneTitle),
@@ -41,98 +42,23 @@ namespace ModernApplicationFramework.Docking.Controls
             set => SetValue(ModelProperty, value);
         }
 
-        private bool _isMouseDown;
-
         static AnchorablePaneTitle()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof (AnchorablePaneTitle),
                 new FrameworkPropertyMetadata(typeof (AnchorablePaneTitle)));
         }
 
-        //protected override void OnMouseLeave(MouseEventArgs e)
-        //{
-        //    base.OnMouseLeave(e);
-
-        //    if (_isMouseDown && e.LeftButton == MouseButtonState.Pressed)
-        //    {
-        //        var pane = this.FindVisualAncestor<LayoutAnchorablePaneControl>();
-        //        if (pane?.Model is LayoutAnchorablePane paneModel)
-        //        {
-        //            var manager = paneModel.Root.Manager;
-
-        //            manager.StartDraggingFloatingWindowForPane(paneModel);
-        //        }
-        //    }
-
-        //    _isMouseDown = false;
-        //}
-
-        //protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
-        //{
-        //    base.OnPreviewMouseLeftButtonDown(e);
-        //    if (e.Handled)
-        //        return;
-        //    Model.IsActive = true;
-        //    Model.IsSelected = true;
-        //}
-
-        //protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
-        //{
-        //    base.OnMouseLeftButtonDown(e);
-        //    if (e.Handled)
-        //        return;
-
-        //    bool attachFloatingWindow = false;
-        //    var parentFloatingWindow = Model.FindParent<LayoutAnchorableFloatingWindow>();
-        //    if (parentFloatingWindow != null)
-        //        attachFloatingWindow = parentFloatingWindow.Descendents().OfType<LayoutAnchorablePane>().Count() == 1;
-
-
-        //    if (parentFloatingWindow != null)
-        //    {
-        //        if (e.ClickCount == 2)
-        //        {
-        //            if (NativeMethods.NativeMethods.IsKeyPressed(17))
-        //                Model.Root.Manager.GetLayoutItemFromModel(Model).DockAsDocumentCommand.Execute(null);
-        //            return;
-        //        }
-
-        //    }
-
-        //    if (attachFloatingWindow)
-        //    {
-        //        //the pane is hosted inside a floating window that contains only an anchorable pane so drag the floating window itself
-        //        var floatingWndControl =
-        //            Model.Root.Manager.FloatingWindows.Single(fwc => Equals(fwc.Model, parentFloatingWindow));
-        //        floatingWndControl.AttachDrag(false);
-        //    }
-        //    else
-        //    {
-        //        _isMouseDown = true; //normal drag
-
-        //        if (e.ClickCount != 2)
-        //            return;
-        //        if (NativeMethods.NativeMethods.IsKeyPressed(17))
-        //            Model.Float();
-        //    }
-        //}
-
-        //protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
-        //{
-        //    _isMouseDown = false;
-        //    base.OnMouseLeftButtonUp(e);
-
-        //    if (Model != null)
-        //        Model.IsActive = true; //FocusElementManager.SetFocusOnLastElement(Model);
-        //}
-
-        //protected override void OnMouseMove(MouseEventArgs e)
-        //{
-        //    if (e.LeftButton != MouseButtonState.Pressed)
-        //        _isMouseDown = false;
-
-        //    base.OnMouseMove(e);
-        //}
+        protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                if (!NativeMethods.NativeMethods.IsKeyPressed(17))
+                    return;
+                Model.Float();
+                e.Handled = true;
+            }
+            base.OnMouseDoubleClick(e);
+        }
 
         private static void OnModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

@@ -18,7 +18,6 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Native.Platform.Enums;
 using HitTestValues = ModernApplicationFramework.Docking.NativeMethods.HitTestValues;
@@ -230,21 +229,6 @@ namespace ModernApplicationFramework.Docking.Controls
         private void LayoutDocumentFloatingWindowControl_Loaded(object sender, RoutedEventArgs e)
         {
            Owner = null;
-        }
-
-        private bool OpenContextMenu()
-        {
-            var ctxMenu = _model.Root.Manager.DocumentContextMenu;
-            if (ctxMenu != null && RootDocumentLayoutItem != null)
-            {
-                ctxMenu.PlacementTarget = null;
-                ctxMenu.Placement = PlacementMode.MousePoint;
-                ctxMenu.DataContext = RootDocumentLayoutItem;
-                ctxMenu.IsOpen = true;
-                return true;
-            }
-
-            return false;
         }
     }
 }
