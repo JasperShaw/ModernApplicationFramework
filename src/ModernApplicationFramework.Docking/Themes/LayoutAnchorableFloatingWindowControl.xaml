@@ -2,8 +2,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:avalonDockControls="clr-namespace:ModernApplicationFramework.Docking.Controls"
                     xmlns:converters="clr-namespace:ModernApplicationFramework.Docking.Converters"
+                    xmlns:converters1="clr-namespace:ModernApplicationFramework.Utilities.Converters;assembly=ModernApplicationFramework.Utilities"
                     xmlns:docking="clr-namespace:ModernApplicationFramework.Docking"
                     xmlns:extensions="clr-namespace:ModernApplicationFramework.Controls.Extensions;assembly=ModernApplicationFramework"
+                    xmlns:imaging="clr-namespace:ModernApplicationFramework.Imaging;assembly=ModernApplicationFramework.Imaging"
                     xmlns:internals="clr-namespace:ModernApplicationFramework.Controls.Internals;assembly=ModernApplicationFramework"
                     xmlns:mafc="http://modern.framework.com/controls"
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework">
@@ -15,6 +17,7 @@
     <converters:NullToDoNothingConverter x:Key="NullToDoNothingConverter" />
     <converters:LayoutItemFromLayoutModelConverter x:Key="LayoutItemFromLayoutModelConverter" />
     <converters:ActivateCommandLayoutItemFromLayoutModelConverter x:Key="ActivateCommandLayoutItemFromLayoutModelConverter" />
+    <converters1:BrushToColorConverter x:Key="BrushToColorConverter" />
 
     <Style x:Key="{x:Type avalonDockControls:LayoutAnchorableFloatingWindowControl}" TargetType="{x:Type avalonDockControls:LayoutAnchorableFloatingWindowControl}">
         <Setter Property="WindowChrome.WindowChrome">
@@ -39,6 +42,14 @@
         <Setter Property="ActiveGlowColor" Value="{DynamicResource {x:Static themes:EnvironmentColors.MainWindowActiveShadowAndBorderColor}}" />
         <Setter Property="InactiveGlowColor" Value="{DynamicResource {x:Static themes:EnvironmentColors.MainWindowInactiveShadowAndBorderColor}}" />
         <Setter Property="NonClientFillColor" Value="{Binding Path=Background, RelativeSource={RelativeSource Self}}" />
+        <Setter Property="imaging:ImageThemingUtilities.ImageBackgroundColor">
+            <Setter.Value>
+                <Binding Converter="{StaticResource BrushToColorConverter}"
+                         Path="Background"
+                         RelativeSource="{RelativeSource Self}" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="imaging:ImageThemingUtilities.ThemeScrollBars" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type avalonDockControls:LayoutAnchorableFloatingWindowControl}">
@@ -57,21 +68,21 @@
                                 <DockPanel>
                                     <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
                                         <avalonDockControls:DropDownButton x:Name="SinglePaneContextMenu"
-                                                                                   Width="15"
-                                                                                   Height="15"
-                                                                                   Margin="0,0,2,0"
-                                                                                   HorizontalAlignment="Center"
-                                                                                   VerticalAlignment="Center"
-                                                                                   HorizontalContentAlignment="Center"
-                                                                                   VerticalContentAlignment="Center"
-                                                                                   Background="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBackground}}"
-                                                                                   BorderBrush="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBorder}}"
-                                                                                   BorderThickness="1"
-                                                                                   DropDownContextMenu="{Binding Model.Root.Manager.AnchorableContextMenu, RelativeSource={RelativeSource TemplatedParent}}"
-                                                                                   Focusable="False"
-                                                                                   ToolTip="Window Position"
-                                                                                   Visibility="{Binding Path=Model.IsSinglePane, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}"
-                                                                                   WindowChrome.IsHitTestVisibleInChrome="True">
+                                                                           Width="15"
+                                                                           Height="15"
+                                                                           Margin="0,0,2,0"
+                                                                           HorizontalAlignment="Center"
+                                                                           VerticalAlignment="Center"
+                                                                           HorizontalContentAlignment="Center"
+                                                                           VerticalContentAlignment="Center"
+                                                                           Background="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBackground}}"
+                                                                           BorderBrush="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBorder}}"
+                                                                           BorderThickness="1"
+                                                                           DropDownContextMenu="{Binding Model.Root.Manager.AnchorableContextMenu, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                           Focusable="False"
+                                                                           ToolTip="Window Position"
+                                                                           Visibility="{Binding Path=Model.IsSinglePane, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}"
+                                                                           WindowChrome.IsHitTestVisibleInChrome="True">
                                             <Path x:Name="MenuButtonPath"
                                                   Width="8"
                                                   Height="4"

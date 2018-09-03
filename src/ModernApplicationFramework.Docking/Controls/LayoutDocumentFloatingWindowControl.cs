@@ -42,6 +42,14 @@ namespace ModernApplicationFramework.Docking.Controls
             _model = model;
             ShowInTaskbar = true;
             Loaded += LayoutDocumentFloatingWindowControl_Loaded;
+
+            DataContextChanged += OnDataContextChanged;
+        }
+
+        private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            
+
         }
 
         static LayoutDocumentFloatingWindowControl()

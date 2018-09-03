@@ -585,7 +585,8 @@ namespace ModernApplicationFramework.Docking
         {
             if (e.NewSource != null || CurrentDragUndockHeader == null)
                 return;
-            IsDragging = false;
+            ClearAdorners();
+             IsDragging = false;
             CurrentDragUndockHeader = null;
         }
 
@@ -690,17 +691,14 @@ namespace ModernApplicationFramework.Docking
         {
             if (!(args is DragAbsoluteCompletedEventArgs e))
                 return;
-            if (((DragUndockHeader) args.OriginalSource).IsWindowTitleBar && e.IsCompleted &&
-                !NativeMethods.NativeMethods.IsKeyPressed(17))
-            {
-                //PerformDrop((DragAbsoluteEventArgs)args);
-            }
-
+            ClearAdorners();
             if (!DraggedTabScope.IsDraggingTab)
             {
                 DraggedTabInfo = null;
                 IsDragging = false;
             }
+
+            CurrentDragUndockHeader = null;
         }
 
         private void OnViewHeaderDragAbsolute(object sender, RoutedEventArgs args)
@@ -708,7 +706,8 @@ namespace ModernApplicationFramework.Docking
             var originalSource = (DragUndockHeader)args.OriginalSource;
             if (originalSource.IsWindowTitleBar)
             {
-                //TODO:
+                if (NativeMethods.NativeMethods.IsKeyPressed(17))
+                    ClearAdorners();
             }
             else
             {
@@ -717,6 +716,7 @@ namespace ModernApplicationFramework.Docking
                 HandleDragAbsoluteMoveTabInPlace(originalSource, args as DragAbsoluteEventArgs);
             }
         }
+
 
         private void OnViewHeaderDragStarted(object sender, RoutedEventArgs args)
         {
@@ -2956,6 +2956,11 @@ namespace ModernApplicationFramework.Docking
             }
 
             public static bool IsDraggingTab => _refCount > 0;
+        }
+
+        public void ClearAdorners()
+        {
+            _overlayWindow.HideDropTargets();
         }
     }
 }

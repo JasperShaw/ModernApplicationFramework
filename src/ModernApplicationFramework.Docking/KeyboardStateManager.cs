@@ -56,7 +56,7 @@ namespace ModernApplicationFramework.Docking
                 if (!_isControlPressed)
                     CurrentDragUndockHeader?.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Action) (() =>
                     {
-                        //DockingManager.Instance.ClearAdorners();
+                        DockingManager.Instance.ClearAdorners();
                     }));
                 _isControlPressed = true;
             }

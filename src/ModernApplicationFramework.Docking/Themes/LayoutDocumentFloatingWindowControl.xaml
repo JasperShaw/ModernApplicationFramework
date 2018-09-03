@@ -2,8 +2,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:avalonDockControls="clr-namespace:ModernApplicationFramework.Docking.Controls"
                     xmlns:converters="clr-namespace:ModernApplicationFramework.Docking.Converters"
+                    xmlns:converters1="clr-namespace:ModernApplicationFramework.Utilities.Converters;assembly=ModernApplicationFramework.Utilities"
                     xmlns:docking="clr-namespace:ModernApplicationFramework.Docking"
                     xmlns:extensions="clr-namespace:ModernApplicationFramework.Controls.Extensions;assembly=ModernApplicationFramework"
+                    xmlns:imaging="clr-namespace:ModernApplicationFramework.Imaging;assembly=ModernApplicationFramework.Imaging"
                     xmlns:internals="clr-namespace:ModernApplicationFramework.Controls.Internals;assembly=ModernApplicationFramework"
                     xmlns:mafc="http://modern.framework.com/controls"
                     xmlns:services="clr-namespace:ModernApplicationFramework.Basics.Services;assembly=ModernApplicationFramework"
@@ -16,6 +18,7 @@
     <converters:NullToDoNothingConverter x:Key="NullToDoNothingConverter" />
     <converters:LayoutItemFromLayoutModelConverter x:Key="LayoutItemFromLayoutModelConverter" />
     <converters:ActivateCommandLayoutItemFromLayoutModelConverter x:Key="ActivateCommandLayoutItemFromLayoutModelConverter" />
+    <converters1:BrushToColorConverter x:Key="BrushToColorConverter" />
 
     <Style x:Key="{x:Type avalonDockControls:LayoutDocumentFloatingWindowControl}" TargetType="{x:Type avalonDockControls:LayoutDocumentFloatingWindowControl}">
         <Setter Property="WindowChrome.WindowChrome">
@@ -38,19 +41,28 @@
         <Setter Property="Title" Value="{Binding Path=Caption}" />
         <Setter Property="Background" Value="{DynamicResource {x:Static docking:DockingColors.FloatingWindowBackground}}" />
         <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
+        <Setter Property="imaging:ImageThemingUtilities.ThemeScrollBars" Value="True" />
         <Setter Property="ActiveGlowColor" Value="{DynamicResource {x:Static themes:EnvironmentColors.MainWindowActiveShadowAndBorderColor}}" />
         <Setter Property="InactiveGlowColor" Value="{DynamicResource {x:Static themes:EnvironmentColors.MainWindowInactiveShadowAndBorderColor}}" />
         <Setter Property="NonClientFillColor" Value="{Binding Path=Background, RelativeSource={RelativeSource Self}}" />
+        <Setter Property="imaging:ImageThemingUtilities.ImageBackgroundColor">
+            <Setter.Value>
+                <Binding Converter="{StaticResource BrushToColorConverter}"
+                         Path="Background"
+                         RelativeSource="{RelativeSource Self}" />
+            </Setter.Value>
+        </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type avalonDockControls:LayoutDocumentFloatingWindowControl}">
                     <internals:WindowContentPresenter>
                         <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
                             <DockPanel>
-                                <avalonDockControls:FloatingWindowTitleBar x:Name="FloatingWindowTitleBar"
-                                                                           Background="{DynamicResource {x:Static docking:DockingColors.FloatingWindowTitleBarBackground}}"
-                                                                           DockPanel.Dock="Top"
-                                                                           IsWindowTitleBar="True">
+                                <avalonDockControls:DragUndockHeader x:Name="FloatingWindowTitleBar"
+                                                                     Background="{DynamicResource {x:Static docking:DockingColors.FloatingWindowTitleBarBackground}}"
+                                                                     DockPanel.Dock="Top"
+                                                                     IsWindowTitleBar="True"
+                                                                     Model="{Binding Path=Model.RootDocument, RelativeSource={RelativeSource TemplatedParent}}">
                                     <DockPanel>
                                         <mafc:SystemMenu x:Name="PART_SystemMenu"
                                                          Width="32"
@@ -133,7 +145,7 @@
                                                    Text="{Binding Path=MainWindow.Title, Source={x:Static Application.Current}}"
                                                    TextTrimming="CharacterEllipsis" />
                                     </DockPanel>
-                                </avalonDockControls:FloatingWindowTitleBar>
+                                </avalonDockControls:DragUndockHeader>
                                 <AdornerDecorator>
                                     <ContentPresenter Margin="4" Content="{TemplateBinding Content}" />
                                 </AdornerDecorator>
