@@ -30,6 +30,7 @@ using System.Windows.Threading;
 using ModernApplicationFramework.Controls.Windows;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking.Layout;
+using ModernApplicationFramework.Docking.NativeMethods;
 using ModernApplicationFramework.Native.Platform.Enums;
 using HitTestValues = ModernApplicationFramework.Docking.NativeMethods.HitTestValues;
 using SystemCommands = System.Windows.SystemCommands;
@@ -40,8 +41,7 @@ namespace ModernApplicationFramework.Docking.Controls
     {
         private static readonly DependencyPropertyKey IsDraggingPropertyKey
             = DependencyProperty.RegisterReadOnly("IsDragging", typeof (bool), typeof (LayoutFloatingWindowControl),
-                new FrameworkPropertyMetadata(false,
-                    OnIsDraggingChanged));
+                new FrameworkPropertyMetadata(false));
 
         public static readonly DependencyProperty IsDraggingProperty
             = IsDraggingPropertyKey.DependencyProperty;
@@ -111,11 +111,11 @@ namespace ModernApplicationFramework.Docking.Controls
 
         internal static bool ModifyStyle(IntPtr hWnd, int styleToRemove, int styleToAdd)
         {
-            var windowLong = NativeMethods.User32.GetWindowLong(hWnd, -16);
+            var windowLong = User32.GetWindowLong(hWnd, -16);
             var dwNewLong = windowLong & ~styleToRemove | styleToAdd;
             if (dwNewLong == windowLong)
                 return false;
-            NativeMethods.User32.SetWindowLong(hWnd, -16, dwNewLong);
+            User32.SetWindowLong(hWnd, -16, dwNewLong);
             return true;
         }
 
@@ -215,16 +215,16 @@ namespace ModernApplicationFramework.Docking.Controls
                 if (WindowState == WindowState.Maximized)
                 {
                     ShowActivated = true;
-                    NativeMethods.User32.ShowWindow(hwnd, 3);
+                    User32.ShowWindow(hwnd, 3);
                 }
                 else
-                    NativeMethods.User32.ShowWindow(hwnd, 9);
+                    User32.ShowWindow(hwnd, 9);
             }
             else
             {
                 if (lParam.ToInt32() != 1)
                     return;
-                NativeMethods.User32.ShowWindow(hwnd, 6);
+                User32.ShowWindow(hwnd, 6);
             }
         }
 
@@ -297,17 +297,13 @@ namespace ModernApplicationFramework.Docking.Controls
             Dispatcher.BeginInvoke(DispatcherPriority.Send, (Action)(() =>
            {
                var handle = new WindowInteropHelper(this).Handle;
-               var pos = NativeMethods.User32.GetMessagePos();
+               var pos = User32.GetMessagePos();
                var p = new Point(NativeMethods.NativeMethods.LoWord(pos), NativeMethods.NativeMethods.HiWord(pos));
-               NativeMethods.User32.SendMessage(handle, 161, new IntPtr(2), NativeMethods.NativeMethods.MakeParam((int)p.X, (int)p.Y));
+               User32.SendMessage(handle, 161, new IntPtr(2), NativeMethods.NativeMethods.MakeParam((int)p.X, (int)p.Y));
            }));
 
         }
 
-        protected virtual void OnIsDraggingChanged(DependencyPropertyChangedEventArgs e)
-        {
-            //Trace.WriteLine("IsDragging={0}", e.NewValue);
-        }
 
         protected override void OnStateChanged(EventArgs e)
         {
@@ -347,7 +343,7 @@ namespace ModernApplicationFramework.Docking.Controls
             {
                 var windowHandle = new WindowInteropHelper(this).EnsureHandle();
                 var lParam = new IntPtr(((int) Left & 0xFFFF) | (((int) Top) << 16));
-                NativeMethods.User32.SendMessage(windowHandle, (int)WindowsMessage.WmNclbuttondown, new IntPtr((int)HitTestValues.Htcaption),
+                User32.SendMessage(windowHandle, (int)WindowsMessage.WmNclbuttondown, new IntPtr((int)HitTestValues.Htcaption),
                     lParam);
             }
         }
@@ -368,11 +364,6 @@ namespace ModernApplicationFramework.Docking.Controls
             return new FloatingWindowContentHost(sender as LayoutFloatingWindowControl) {Content = content as UIElement};
         }
 
-        private static void OnIsDraggingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((LayoutFloatingWindowControl) d).OnIsDraggingChanged(e);
-        }
-
         [DebuggerStepThrough]
         private void OnActivated(object sender, EventArgs e)
         {
@@ -390,7 +381,7 @@ namespace ModernApplicationFramework.Docking.Controls
             _attachDrag = false;
 
             var lParam = new IntPtr(((int) mousePosition.X & 0xFFFF) | (((int) mousePosition.Y) << 16));
-            NativeMethods.User32.SendMessage(windowHandle, (int)WindowsMessage.WmNclbuttondown, new IntPtr((int)HitTestValues.Htcaption), lParam);
+            User32.SendMessage(windowHandle, (int)WindowsMessage.WmNclbuttondown, new IntPtr((int)HitTestValues.Htcaption), lParam);
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)

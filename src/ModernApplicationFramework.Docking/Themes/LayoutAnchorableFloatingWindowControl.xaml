@@ -59,113 +59,118 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
-                            <avalonDockControls:FloatingWindowTitleBar x:Name="TitleBar"
-                                                                       Grid.Row="0"
-                                                                       Padding="2,1,2,3"
-                                                                       Background="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarBackground}}"
-                                                                       IsWindowTitleBar="False"
-                                                                       Visibility="{Binding Path=Model.IsSinglePane, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <DockPanel>
-                                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-                                        <avalonDockControls:DropDownButton x:Name="SinglePaneContextMenu"
-                                                                           Width="15"
-                                                                           Height="15"
-                                                                           Margin="0,0,2,0"
-                                                                           HorizontalAlignment="Center"
-                                                                           VerticalAlignment="Center"
-                                                                           HorizontalContentAlignment="Center"
-                                                                           VerticalContentAlignment="Center"
-                                                                           Background="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBackground}}"
-                                                                           BorderBrush="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBorder}}"
-                                                                           BorderThickness="1"
-                                                                           DropDownContextMenu="{Binding Model.Root.Manager.AnchorableContextMenu, RelativeSource={RelativeSource TemplatedParent}}"
-                                                                           Focusable="False"
-                                                                           ToolTip="Window Position"
-                                                                           Visibility="{Binding Path=Model.IsSinglePane, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}"
-                                                                           WindowChrome.IsHitTestVisibleInChrome="True">
-                                            <Path x:Name="MenuButtonPath"
-                                                  Width="8"
-                                                  Height="4"
-                                                  Data="F1 M 0,0 L 4,4 8,0 0,0 z"
-                                                  Fill="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarGlyph}}"
-                                                  Stretch="Uniform" />
-                                        </avalonDockControls:DropDownButton>
+                            <Border x:Name="TitleBar"
+                                    Grid.Row="0"
+                                    Padding="2,1,2,3"
+                                    Background="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarBackground}}"
+                                    Visibility="{Binding Path=Model.IsSinglePane, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <avalonDockControls:AnchorFloatingWindowTitleBar IsWindowTitleBar="True"
+                                                                                 Model="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Model.Children[0]}"
+                                                                                 UseLargeTitleBarStyle="False">
+                                    <DockPanel>
+                                        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                                            <avalonDockControls:DropDownButton x:Name="SinglePaneContextMenu"
+                                                                               Width="15"
+                                                                               Height="15"
+                                                                               Margin="0,0,2,0"
+                                                                               HorizontalAlignment="Center"
+                                                                               VerticalAlignment="Center"
+                                                                               HorizontalContentAlignment="Center"
+                                                                               VerticalContentAlignment="Center"
+                                                                               Background="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBackground}}"
+                                                                               BorderBrush="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBorder}}"
+                                                                               BorderThickness="1"
+                                                                               DropDownContextMenu="{Binding Model.Root.Manager.AnchorableContextMenu, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                               Focusable="False"
+                                                                               ToolTip="Window Position"
+                                                                               Visibility="{Binding Path=Model.IsSinglePane, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}"
+                                                                               WindowChrome.IsHitTestVisibleInChrome="True">
+                                                <Path x:Name="MenuButtonPath"
+                                                      Width="8"
+                                                      Height="4"
+                                                      Data="F1 M 0,0 L 4,4 8,0 0,0 z"
+                                                      Fill="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarGlyph}}"
+                                                      Stretch="Uniform" />
+                                            </avalonDockControls:DropDownButton>
 
-                                        <internals:WindowTitleBarButton x:Name="MaximizeRestoreButton"
-                                                                        Width="15"
-                                                                        Height="15"
-                                                                        Margin="0,0,2,0"
-                                                                        HorizontalAlignment="Center"
-                                                                        VerticalAlignment="Center"
-                                                                        HorizontalContentAlignment="Center"
-                                                                        VerticalContentAlignment="Center"
-                                                                        AutomationProperties.AutomationId="Maximize"
-                                                                        AutomationProperties.Name="Maximize"
-                                                                        Background="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBackground}}"
-                                                                        BorderBrush="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBorder}}"
-                                                                        BorderThickness="1"
-                                                                        Command="{x:Static SystemCommands.MaximizeWindowCommand}"
-                                                                        CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}}"
-                                                                        Focusable="False"
-                                                                        ToolTip="Maximize"
-                                                                        Visibility="{Binding Path=Model.IsSinglePane, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}"
-                                                                        WindowChrome.IsHitTestVisibleInChrome="True">
-                                            <Path x:Name="MaximizeRestoreButtonPath"
-                                                  Width="9"
-                                                  Height="9"
-                                                  Data="F1 M 0,0 L 0,9 9,9 9,0 0,0 0,3 8,3 8,8 1,8 1,3 Z"
-                                                  Fill="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarGlyph}}"
-                                                  Stretch="Uniform" />
-                                        </internals:WindowTitleBarButton>
+                                            <internals:WindowTitleBarButton x:Name="MaximizeRestoreButton"
+                                                                            Width="15"
+                                                                            Height="15"
+                                                                            Margin="0,0,2,0"
+                                                                            HorizontalAlignment="Center"
+                                                                            VerticalAlignment="Center"
+                                                                            HorizontalContentAlignment="Center"
+                                                                            VerticalContentAlignment="Center"
+                                                                            AutomationProperties.AutomationId="Maximize"
+                                                                            AutomationProperties.Name="Maximize"
+                                                                            Background="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBackground}}"
+                                                                            BorderBrush="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBorder}}"
+                                                                            BorderThickness="1"
+                                                                            Command="{x:Static SystemCommands.MaximizeWindowCommand}"
+                                                                            CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                                                                            Focusable="False"
+                                                                            ToolTip="Maximize"
+                                                                            Visibility="{Binding Path=Model.IsSinglePane, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}"
+                                                                            WindowChrome.IsHitTestVisibleInChrome="True">
+                                                <Path x:Name="MaximizeRestoreButtonPath"
+                                                      Width="9"
+                                                      Height="9"
+                                                      Data="F1 M 0,0 L 0,9 9,9 9,0 0,0 0,3 8,3 8,8 1,8 1,3 Z"
+                                                      Fill="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarGlyph}}"
+                                                      Stretch="Uniform" />
+                                            </internals:WindowTitleBarButton>
 
-                                        <internals:WindowTitleBarButton x:Name="CloseButton"
-                                                                        Width="15"
-                                                                        Height="15"
-                                                                        Margin="0,0,2,0"
-                                                                        HorizontalAlignment="Center"
-                                                                        VerticalAlignment="Center"
-                                                                        HorizontalContentAlignment="Center"
-                                                                        VerticalContentAlignment="Center"
-                                                                        Background="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBackground}}"
-                                                                        BorderBrush="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBorder}}"
-                                                                        BorderThickness="1"
-                                                                        Command="{Binding HideWindowCommand, RelativeSource={RelativeSource TemplatedParent}}"
-                                                                        Focusable="False"
-                                                                        ToolTip="Close"
-                                                                        Visibility="{Binding Path=Model.IsSinglePane, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}"
-                                                                        WindowChrome.IsHitTestVisibleInChrome="True">
-                                            <Path x:Name="CloseButtonPath"
-                                                  Width="10"
-                                                  Height="8"
-                                                  Data="F1 M 0,0 L 2,0 5,3 8,0 10,0 6,4 10,8 8,8 5,5 2,8 0,8 4,4 0,0 Z"
-                                                  Fill="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarGlyph}}"
-                                                  Stretch="Uniform" />
-                                        </internals:WindowTitleBarButton>
+                                            <internals:WindowTitleBarButton x:Name="CloseButton"
+                                                                            Width="15"
+                                                                            Height="15"
+                                                                            Margin="0,0,2,0"
+                                                                            HorizontalAlignment="Center"
+                                                                            VerticalAlignment="Center"
+                                                                            HorizontalContentAlignment="Center"
+                                                                            VerticalContentAlignment="Center"
+                                                                            Background="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBackground}}"
+                                                                            BorderBrush="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarButtonBorder}}"
+                                                                            BorderThickness="1"
+                                                                            Command="{Binding HideWindowCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                            Focusable="False"
+                                                                            ToolTip="Close"
+                                                                            Visibility="{Binding Path=Model.IsSinglePane, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}"
+                                                                            WindowChrome.IsHitTestVisibleInChrome="True">
+                                                <Path x:Name="CloseButtonPath"
+                                                      Width="10"
+                                                      Height="8"
+                                                      Data="F1 M 0,0 L 2,0 5,3 8,0 10,0 6,4 10,8 8,8 5,5 2,8 0,8 4,4 0,0 Z"
+                                                      Fill="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarGlyph}}"
+                                                      Stretch="Uniform" />
+                                            </internals:WindowTitleBarButton>
 
-                                    </StackPanel>
-                                    <avalonDockControls:DropDownControlArea x:Name="TextBlock"
-                                                                            Margin="2,0,0,0"
-                                                                            DropDownContextMenu="{Binding Model.Root.Manager.AnchorableContextMenu, RelativeSource={RelativeSource TemplatedParent}}"
-                                                                            Foreground="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarForeground}}">
-                                        <DockPanel>
-                                            <ContentPresenter Content="{Binding Model.SinglePane.SelectedContent, RelativeSource={RelativeSource TemplatedParent}}"
-                                                              ContentTemplate="{Binding Model.Root.Manager.AnchorableTitleTemplate, RelativeSource={RelativeSource TemplatedParent}}"
-                                                              ContentTemplateSelector="{Binding Model.Root.Manager.AnchorableTitleTemplateSelector, RelativeSource={RelativeSource TemplatedParent}}" />
-                                        </DockPanel>
-                                    </avalonDockControls:DropDownControlArea>
-                                    <Rectangle x:Name="Grip"
-                                               Height="5"
-                                               Margin="8,0,4,0"
-                                               VerticalAlignment="Center"
-                                               Fill="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowGrip}}"
-                                               SnapsToDevicePixels="True" />
-                                </DockPanel>
-                            </avalonDockControls:FloatingWindowTitleBar>
-                            <avalonDockControls:FloatingWindowTitleBar x:Name="TitleBarL"
-                                                                       Grid.Row="0"
-                                                                       Background="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarBackground}}"
-                                                                       IsWindowTitleBar="True"
-                                                                       Visibility="{Binding Path=Model.IsSinglePane, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource InverseBoolToVisibilityConverter}}">
+                                        </StackPanel>
+                                        <avalonDockControls:DropDownControlArea x:Name="TextBlock"
+                                                                                Margin="2,0,0,0"
+                                                                                DropDownContextMenu="{Binding Model.Root.Manager.AnchorableContextMenu, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                                Foreground="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarForeground}}">
+                                            <DockPanel>
+                                                <ContentPresenter Content="{Binding Model.SinglePane.SelectedContent, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                  ContentTemplate="{Binding Model.Root.Manager.AnchorableTitleTemplate, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                  ContentTemplateSelector="{Binding Model.Root.Manager.AnchorableTitleTemplateSelector, RelativeSource={RelativeSource TemplatedParent}}" />
+                                            </DockPanel>
+                                        </avalonDockControls:DropDownControlArea>
+                                        <Rectangle x:Name="Grip"
+                                                   Height="5"
+                                                   Margin="8,0,4,0"
+                                                   VerticalAlignment="Center"
+                                                   Fill="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowGrip}}"
+                                                   SnapsToDevicePixels="True" />
+                                    </DockPanel>
+                                </avalonDockControls:AnchorFloatingWindowTitleBar>
+                            </Border>
+
+                            <avalonDockControls:AnchorFloatingWindowTitleBar x:Name="TitleBarL"
+                                                                             Grid.Row="0"
+                                                                             Background="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarBackground}}"
+                                                                             IsWindowTitleBar="True"
+                                                                             UseLargeTitleBarStyle="True"
+                                                                             Visibility="{Binding Path=Model.IsSinglePane, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource InverseBoolToVisibilityConverter}}">
 
                                 <DockPanel>
                                     <mafc:SystemMenu x:Name="PART_SystemMenu"
@@ -236,7 +241,7 @@
                                 </DockPanel>
 
 
-                            </avalonDockControls:FloatingWindowTitleBar>
+                            </avalonDockControls:AnchorFloatingWindowTitleBar>
                             <ContentPresenter Grid.Row="1" />
                         </Grid>
                     </internals:WindowContentPresenter>

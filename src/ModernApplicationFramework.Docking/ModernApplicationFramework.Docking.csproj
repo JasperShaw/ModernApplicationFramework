@@ -221,7 +221,7 @@
     <Compile Include="Controls\DropTargetBase.cs" />
     <Compile Include="Controls\DropTargetType.cs" />
     <Compile Include="Controls\Extentions.cs" />
-    <Compile Include="Controls\FloatingWindowTitleBar.cs" />
+    <Compile Include="Controls\AnchorFloatingWindowTitleBar.cs" />
     <Compile Include="Controls\FocusElementManager.cs" />
     <Compile Include="Controls\FullWeakDictionary.cs" />
     <Compile Include="Controls\GroupControl.cs" />

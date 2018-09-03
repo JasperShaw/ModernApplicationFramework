@@ -231,7 +231,7 @@ namespace ModernApplicationFramework.Docking.Controls
                 base.OnMouseRightButtonUp(e);
         }
 
-        private bool ShouldShowWindowMenu()
+        protected virtual bool ShouldShowWindowMenu()
         {
             return IsWindowTitleBar && !IsInTabItem && LayoutItem == null;
         }

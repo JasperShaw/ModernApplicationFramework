@@ -631,7 +631,16 @@ namespace ModernApplicationFramework.Docking
                 new EventHandler<DragUndockHeaderContextMenuEventArgs>(OnTabGroupTabContextMenu));
             EventManager.RegisterClassHandler(typeof(AnchorablePaneTitle), DragUndockHeader.DragHeaderContextMenuEvent,
                 new EventHandler<DragUndockHeaderContextMenuEventArgs>(OnViewHeaderContextMenu));
+            EventManager.RegisterClassHandler(typeof(LayoutAnchorableFloatingWindowControl), DragUndockHeader.DragHeaderContextMenuEvent,
+                new EventHandler<DragUndockHeaderContextMenuEventArgs>(OnAnchorFloatingWindowContextMenu));
 
+        }
+
+        private static void OnAnchorFloatingWindowContextMenu(object sender, DragUndockHeaderContextMenuEventArgs args)
+        {
+            var originalSource = args.OriginalSource as DragUndockHeader;
+            var screen = originalSource.PointToScreen(args.HeaderPoint);
+            ShowShellContextMenu(Instance.Layout.ActiveContent, screen, AnchorableContextMenuProvider.Instance);
         }
 
         private static void OnViewHeaderContextMenu(object sender, DragUndockHeaderContextMenuEventArgs args)
@@ -709,7 +718,7 @@ namespace ModernApplicationFramework.Docking
                 if (NativeMethods.NativeMethods.IsKeyPressed(17))
                     ClearAdorners();
                 else
-                    _overlayWindow.EnableDropTargets();
+                    UpdateTargets();
             }
             else
             {
@@ -717,6 +726,13 @@ namespace ModernApplicationFramework.Docking
                     return;
                 HandleDragAbsoluteMoveTabInPlace(originalSource, args as DragAbsoluteEventArgs);
             }
+        }
+
+        private void UpdateTargets()
+        {
+            foreach (var host in _fwList.OfType<IOverlayWindowHost>())
+                host.ShowOverlayWindow(host as LayoutFloatingWindowControl);
+            _overlayWindow.EnableDropTargets();
         }
 
 
@@ -2922,6 +2938,8 @@ namespace ModernApplicationFramework.Docking
 
         public void ClearAdorners()
         {
+            foreach (var overlayWindowHost in _fwList.OfType<IOverlayWindowHost>())
+                overlayWindowHost.HideOverlayWindow();
             _overlayWindow.HideDropTargets();
         }
     }

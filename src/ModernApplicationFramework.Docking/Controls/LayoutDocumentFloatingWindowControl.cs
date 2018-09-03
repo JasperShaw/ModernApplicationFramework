@@ -89,6 +89,8 @@ namespace ModernApplicationFramework.Docking.Controls
 
         void IOverlayWindowHost.HideOverlayWindow()
         {
+            if (_overlayWindow == null)
+                return;
             _dropAreas = null;
             _overlayWindow.Owner = null;
             _overlayWindow.HideDropTargets();

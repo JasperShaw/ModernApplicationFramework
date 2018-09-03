@@ -692,6 +692,7 @@ namespace ModernApplicationFramework.Docking.Controls
             //Trace.WriteLine("EnableDropTargets()");
             if (_mainCanvasPanel != null)
                 _mainCanvasPanel.Visibility = Visibility.Visible;
+            Topmost = true;
         }
 
         internal void HideDropTargets()
