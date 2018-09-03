@@ -210,47 +210,6 @@ namespace ModernApplicationFramework.Core.Themes
         private static ComponentResourceKey _windowBaseBackground;
         private static ComponentResourceKey _windowBaseForeground;
 
-        //LayoutAutoHideWindowControl
-        private static ComponentResourceKey _layoutAutoHideWindowBackground;
-        private static ComponentResourceKey _layoutAutoHideWindowBorder;
-
-        //LayoutGridResizer
-        private static ComponentResourceKey _layoutGridResizerBackground;
-        private static ComponentResourceKey _layoutGridResizerBackgroundHorizontal;
-
-        //DockingManager
-        private static ComponentResourceKey _dockingManagerBackground;
-
-        //OverlayWindow
-        private static ComponentResourceKey _overlayWindowPreviewBoxBackground;
-        private static ComponentResourceKey _overlayWindowPreviewBoxBorder;
-
-        //NavigatorWindow
-        private static ComponentResourceKey _navigatorWindowBackground;
-        private static ComponentResourceKey _navigatorWindowBorder;
-        private static ComponentResourceKey _navigatorWindowTitleText;
-        private static ComponentResourceKey _navigatorWindowTextForeground;
-        private static ComponentResourceKey _navigatorWindowItemBackground;
-        private static ComponentResourceKey _navigatorWindowItemBorder;
-        private static ComponentResourceKey _navigatorWindowItemForeground;
-        private static ComponentResourceKey _navigatorWindowItemBackgroundChecked;
-        private static ComponentResourceKey _navigatorWindowItemBorderChecked;
-        private static ComponentResourceKey _navigatorWindowItemForegroundChecked;
-
-        //DocumentPaneControl
-        private static ComponentResourceKey _documentPaneControlBackground;
-        private static ComponentResourceKey _documentPaneControlBackgroundLastActive;
-        private static ComponentResourceKey _documentPaneControlBorder;
-        private static ComponentResourceKey _documentPaneControlGlyph;
-        private static ComponentResourceKey _documentPaneControlGlyphHover;
-        private static ComponentResourceKey _documentPaneControlGlyphDown;
-        private static ComponentResourceKey _documentPaneControlButtonBackground;
-        private static ComponentResourceKey _documentPaneControlButtonBackgroundHover;
-        private static ComponentResourceKey _documentPaneControlButtonBackgroundDown;
-        private static ComponentResourceKey _documentPaneControlButtonBorder;
-        private static ComponentResourceKey _documentPaneControlButtonBorderHover;
-        private static ComponentResourceKey _documentPaneControlButtonBorderDown;
-
         //WaitDialog
         private static ComponentResourceKey _waitDialogActiveShadowAndBorder;
         private static ComponentResourceKey _waitDialogTitleBarBackground;
