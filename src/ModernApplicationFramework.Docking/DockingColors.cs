@@ -166,6 +166,27 @@ namespace ModernApplicationFramework.Docking
         private static ComponentResourceKey _docWellOverflowButtonMouseDownBorder;
         private static ComponentResourceKey _documentTabGlyphHot;
         private static ComponentResourceKey _documentTabGlyphInactive;
+        private static ComponentResourceKey _anchorFloatingWindowTitleBarButtonGlyph;
+        private static ComponentResourceKey _anchorFloatingWindowTitleBarButtonGlyphHover;
+        private static ComponentResourceKey _anchorFloatingWindowTitleBarButtonGlyphPressed;
+
+        public static ComponentResourceKey AnchorFloatingWindowTitleBarButtonGlyph
+            =>
+                _anchorFloatingWindowTitleBarButtonGlyph ??
+                (_anchorFloatingWindowTitleBarButtonGlyph =
+                    new ComponentResourceKey(typeof(DockingColors), "AnchorFloatingWindowTitleBarButtonGlyph"));
+
+        public static ComponentResourceKey AnchorFloatingWindowTitleBarButtonGlyphHover
+            =>
+                _anchorFloatingWindowTitleBarButtonGlyphHover ??
+                (_anchorFloatingWindowTitleBarButtonGlyphHover =
+                    new ComponentResourceKey(typeof(DockingColors), "AnchorFloatingWindowTitleBarButtonGlyphHover"));
+
+        public static ComponentResourceKey AnchorFloatingWindowTitleBarButtonGlyphPressed
+            =>
+                _anchorFloatingWindowTitleBarButtonGlyphPressed ??
+                (_anchorFloatingWindowTitleBarButtonGlyphPressed =
+                    new ComponentResourceKey(typeof(DockingColors), "AnchorFloatingWindowTitleBarButtonGlyphPressed"));
 
 
         public static ComponentResourceKey DocumentTabGlyphInactive
@@ -1009,7 +1030,7 @@ namespace ModernApplicationFramework.Docking
             =>
                 _anchorPaneTitleButtonBorderDown ??
                 (_anchorPaneTitleButtonBorderDown =
-                    new ComponentResourceKey(typeof(DockingColors), "AnchorPaneTitleButtonBorderHover"));
+                    new ComponentResourceKey(typeof(DockingColors), "AnchorPaneTitleButtonBorderDown"));
 
         public static ComponentResourceKey AnchorPaneTitleButtonBorderActive
             =>

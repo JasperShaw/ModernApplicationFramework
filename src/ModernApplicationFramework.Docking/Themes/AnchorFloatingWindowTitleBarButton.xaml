@@ -6,7 +6,7 @@
         <Setter Property="Visibility" Value="Visible" />
         <Setter Property="Background" Value="{DynamicResource {x:Static themes:DockingColors.AnchorFloatingWindowTitleBarButtonBackground}}" />
         <Setter Property="Focusable" Value="false" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:DockingColors.FloatingWindowTitleBarGlyph}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:DockingColors.AnchorFloatingWindowTitleBarButtonGlyph}}" />
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:DockingColors.AnchorFloatingWindowTitleBarButtonBorder}}" />
         <Setter Property="Padding" Value="0,1,0,0" />
         <Setter Property="Template">
@@ -24,10 +24,10 @@
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource {x:Static themes:DockingColors.AnchorFloatingWindowTitleBarButtonBackgroundHover}}" />
                             <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:DockingColors.AnchorFloatingWindowTitleBarButtonBorderHover}}" />
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:DockingColors.AnchorableFloatingWindowTitleBarGlyphActiveHover}}" />
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:DockingColors.AnchorFloatingWindowTitleBarButtonGlyphHover}}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:DockingColors.AnchorableFloatingWindowTitleBarGlyphActiveDown}}" />
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:DockingColors.AnchorFloatingWindowTitleBarButtonGlyphPressed}}" />
                             <Setter Property="Background" Value="{DynamicResource {x:Static themes:DockingColors.AnchorFloatingWindowTitleBarButtonBackgroundPressed}}" />
                             <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:DockingColors.AnchorFloatingWindowTitleBarButtonBorderPressed}}" />
                         </Trigger>

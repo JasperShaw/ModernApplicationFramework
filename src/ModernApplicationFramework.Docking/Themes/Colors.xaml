@@ -393,7 +393,9 @@
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:DockingColors}, ResourceId=AnchorFloatingWindowTitleBarButtonBackgroundPressed}" Color="#FFFFE8A6" />
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:DockingColors}, ResourceId=AnchorFloatingWindowTitleBarButtonBorderPressed}" Color="#FFE5C365" />
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:DockingColors}, ResourceId=AnchorableFloatingWindowTitleBarGlyphDisabled}" Color="Transparent" />
-
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:DockingColors}, ResourceId=AnchorFloatingWindowTitleBarButtonGlyph}" Color="#FFCED4DD" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:DockingColors}, ResourceId=AnchorFloatingWindowTitleBarButtonGlyphHover}" Color="#FF000000" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:DockingColors}, ResourceId=AnchorFloatingWindowTitleBarButtonGlyphPressed}" Color="#FF000000" />
 
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:DockingColors}, ResourceId=DocumentPaneControlFileTabBorder}" Color="#FFFFF29D" />
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:DockingColors}, ResourceId=DocumentPaneControlFileTabBorderInactive}" Color="#FF4D6082" />

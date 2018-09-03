@@ -708,6 +708,8 @@ namespace ModernApplicationFramework.Docking
             {
                 if (NativeMethods.NativeMethods.IsKeyPressed(17))
                     ClearAdorners();
+                else
+                    _overlayWindow.EnableDropTargets();
             }
             else
             {
@@ -960,15 +962,12 @@ namespace ModernApplicationFramework.Docking
             };
             Loaded += DockingManager_Loaded;
             Unloaded += DockingManager_Unloaded;
-            var themeManager = IoC.Get<IThemeManager>();
-            themeManager.OnThemeChanged += ThemeManager_OnThemeChanged;
             _contextMenuHost = IoC.Get<IContextMenuHost>();
             Instance = this;
-
             MergeResources();
         }
 
-        private void MergeResources()
+        private static void MergeResources()
         {
             Application.Current.Resources.MergedDictionaries.Add(LoadResourceValue<ResourceDictionary>("Themes/DataTemplates.xaml"));
         }
@@ -2499,38 +2498,6 @@ namespace ModernApplicationFramework.Docking
             Layout.ElementRemoved += Layout_ElementRemoved;
         }
 
-        private void ChangeTheme(Theme oldValue, Theme newValue)
-        {
-            MergeResources();
-
-            var oldTheme = oldValue;
-            var newTheme = newValue;
-            var resources = Resources;
-            if (oldTheme != null)
-            {
-                var resourceDictionaryToRemove =
-                    resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldTheme.GetResourceUri());
-                if (resourceDictionaryToRemove != null)
-                    resources.MergedDictionaries.Remove(
-                        resourceDictionaryToRemove);
-            }
-
-            if (newTheme != null)
-                resources.MergedDictionaries.Add(new ResourceDictionary { Source = newTheme.GetResourceUri() });
-
-            foreach (var floatingWindowControl in _fwList)
-                floatingWindowControl.ChangeTheme(oldValue, newValue);
-
-            _overlayWindow?.ChangeTheme(oldValue, newValue);
-            _navigatorWindow?.ChangeTheme(oldValue, newValue);
-            ((ModernApplicationFramework.Controls.Menu.ContextMenu)DocumentContextMenu)?.ChangeTheme(oldValue,
-                newValue);
-            ((ModernApplicationFramework.Controls.Menu.ContextMenu)AnchorableContextMenu)?.ChangeTheme(oldValue,
-                newValue);
-            ((ModernApplicationFramework.Controls.Menu.ContextMenu)AnchorableAsDocumentContextMenu)?.ChangeTheme(
-                oldValue, newValue);
-        }
-
         private void ClearLogicalChildrenList()
         {
             foreach (var child in _logicalChildren.Select(ch => ch.GetValueOrDefault<object>()).ToArray())
@@ -2900,11 +2867,6 @@ namespace ModernApplicationFramework.Docking
             _navigatorWindow = null;
 
             Trace.WriteLine("ShowNavigatorWindow()");
-        }
-
-        private void ThemeManager_OnThemeChanged(object sender, ThemeChangedEventArgs e)
-        {
-            ChangeTheme(e.OldTheme, e.NewTheme);
         }
 
         internal void ComputeTabItemLengths(TabItem tabItem)

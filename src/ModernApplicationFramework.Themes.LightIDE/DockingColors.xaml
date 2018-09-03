@@ -1,0 +1,420 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:docking="clr-namespace:ModernApplicationFramework.Docking;assembly=ModernApplicationFramework.Docking"
+                    xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework">
+
+    <!--  LayoutAutoHideWindowControl  -->
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=LayoutAutoHideWindowBackground}" Color="#FFF5F5F5" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=LayoutAutoHideWindowBorder}" Color="#FFCCCEDB" />
+
+    <!--  LayoutGridResizer  -->
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=LayoutGridResizerBackground}" Color="#FFEEEEF2" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=LayoutGridResizerBackgroundHorizontal}" Color="#FFCCCEDB" />
+
+    <!--  DockingManager  -->
+    <LinearGradientBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DockingManagerBackground}" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Offset="0" Color="#FFEEEEF2" />
+        <GradientStop Offset="0.4" Color="#FFEEEEF2" />
+        <GradientStop Offset="0.6" Color="#FFEEEEF2" />
+        <GradientStop Offset="1" Color="#FFEEEEF2" />
+    </LinearGradientBrush>
+
+    <!--  OverlayWindow  -->
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=OverlayWindowPreviewBoxBackground}" Color="#609AFF" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=OverlayWindowPreviewBoxBorder}" Color="#609AFF" />
+
+    <!--  NavigatorWindow  -->
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=NavigatorWindowBackground}" Color="#FFEEEEF2" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=NavigatorWindowBorder}" Color="#FFCCCEDB" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=NavigatorWindowTextForeground}" Color="#FF1E1E1E" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=NavigatorWindowItemBackground}" Color="Transparent" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=NavigatorWindowItemForeground}" Color="#FF1E1E1E" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=NavigatorWindowItemBackgroundChecked}" Color="#FF007ACC" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=NavigatorWindowItemForegroundChecked}" Color="White" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=NavigatorWindowTitleText}" Color="#FF1E1E1E" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=NavigatorWindowItemBorder}" Color="Transparent" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=NavigatorWindowItemBorderChecked}" Color="#FFCBCDBC" />
+
+    <!--  AnchorFloatingWindow  -->
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorableFloatingWindowTitleBarBackground}" Color="#FFEEEEF2" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorableFloatingWindowTitleBarBackgroundActive}" Color="#FF007ACC" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorableFloatingWindowTitleBarGlyph}" Color="#FF1E1E1E" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorableFloatingWindowTitleBarGlyphHover}" Color="#FF717171" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorableFloatingWindowTitleBarGlyphDown}" Color="#FFFFFFFF" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorableFloatingWindowTitleBarGlyphActive}" Color="#FFFFFFFF" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorableFloatingWindowTitleBarGlyphActiveHover}" Color="#FFFFFFFF" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorableFloatingWindowTitleBarGlyphActiveDown}" Color="#FFFFFFFF" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorableFloatingWindowTitleBarForeground}" Color="#FF444444" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorableFloatingWindowTitleBarForegroundActive}" Color="#FFFFFFFF" />
+
+    <DrawingBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors},
+                                               ResourceId=AnchorableFloatingWindowGrip}"
+                  TileMode="Tile"
+                  Viewbox="0,0,4,5"
+                  ViewboxUnits="Absolute"
+                  Viewport="0,0,4,5"
+                  ViewportUnits="Absolute">
+        <DrawingBrush.Drawing>
+            <GeometryDrawing Brush="#FF999999">
+                <GeometryDrawing.Geometry>
+                    <GeometryGroup>
+                        <GeometryGroup.Children>
+                            <RectangleGeometry Rect="0,0,1,1" />
+                            <RectangleGeometry Rect="0,4,1,1" />
+                            <RectangleGeometry Rect="2,2,1,1" />
+                        </GeometryGroup.Children>
+                    </GeometryGroup>
+                </GeometryDrawing.Geometry>
+            </GeometryDrawing>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+
+    <DrawingBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors},
+                                               ResourceId=AnchorableFloatingWindowGripActive}"
+                  TileMode="Tile"
+                  Viewbox="0,0,4,5"
+                  ViewboxUnits="Absolute"
+                  Viewport="0,0,4,5"
+                  ViewportUnits="Absolute">
+        <DrawingBrush.Drawing>
+            <GeometryDrawing Brush="#FF59A8DE">
+                <GeometryDrawing.Geometry>
+                    <GeometryGroup>
+                        <GeometryGroup.Children>
+                            <RectangleGeometry Rect="0,0,1,1" />
+                            <RectangleGeometry Rect="0,4,1,1" />
+                            <RectangleGeometry Rect="2,2,1,1" />
+                        </GeometryGroup.Children>
+                    </GeometryGroup>
+                </GeometryDrawing.Geometry>
+            </GeometryDrawing>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorableFloatingWindowTitleBarButtonBackground}" Color="Transparent" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorableFloatingWindowTitleBarButtonBackgroundHover}" Color="#FFF7F7F9" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorableFloatingWindowTitleBarButtonBackgroundDown}" Color="#FF0E6198" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorableFloatingWindowTitleBarButtonBorder}" Color="Transparent" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorableFloatingWindowTitleBarButtonBorderHover}" Color="#FFF7F7F9" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorableFloatingWindowTitleBarButtonBorderDown}" Color="#FF0E6198" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorableFloatingWindowTitleBarButtonBackgroundActive}" Color="Transparent" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorableFloatingWindowTitleBarButtonBackgroundActiveHover}" Color="#FF52B0EF" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorableFloatingWindowTitleBarButtonBackgroundActiveDown}" Color="#FF0E6198" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorableFloatingWindowTitleBarButtonBorderActive}" Color="Transparent" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorableFloatingWindowTitleBarButtonBorderActiveHover}" Color="#FF52B0EF" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorableFloatingWindowTitleBarButtonBorderActiveDown}" Color="#FF0E6198" />
+
+
+    <!--  FloatingWindow  -->
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=FloatingWindowBackground}" Color="#FFEEEEF2" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=FloatingWindowTitleBarBackground}" Color="#FFEEEEF2" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=FloatingWindowTitleBarGlyph}" Color="#FF1E1E1E" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=FloatingWindowTitleBarGlyphHover}" Color="#FF007ACC" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=FloatingWindowTitleBarGlyphDown}" Color="#FFFFFFFF" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=FloatingWindowTitleBarForeground}" Color="#99525252" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=FloatingWindowTitleBarForegroundActive}" Color="#FF525252" />
+
+    <!--  DocumentTabItem  -->
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemText}" Color="#FF1E1E1E" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemTextHover}" Color="#FFFFFFFF" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemTextActive}" Color="#FFFFFFFF" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemTextLastActive}" Color="#FF717171" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemGlyph}" Color="#FFFFFFFF" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemGlyphHover}" Color="#FFFFFFFF" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemGlyphDown}" Color="#FFFFFFFF" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemGlyphActive}" Color="#FFD0E6F5" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemGlyphActiveHover}" Color="#FFFFFFFF" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemGlyphActiveDown}" Color="#FFFFFFFF" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemGlyphLastActive}" Color="#FF6D6D70" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemGlyphLastActiveHover}" Color="#FF717171" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemGlyphLastActiveDown}" Color="#FF2D2D2D" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemButtonBackground}" Color="Transparent" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemButtonBackgroundHover}" Color="#FF52B0EF" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemButtonBackgroundDown}" Color="#FF0E6198" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemButtonBorder}" Color="Transparent" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemButtonBorderHover}" Color="#FF52B0EF" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemButtonBorderDown}" Color="#FF0E6198" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemButtonBackgroundActive}" Color="Transparent" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemButtonBackgroundActiveHover}" Color="#FF1C97EA" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemButtonBackgroundActiveDown}" Color="#FF0E6198" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemButtonBorderActive}" Color="Transparent" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemButtonBorderActiveHover}" Color="#FF1C97EA" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemButtonBorderActiveDown}" Color="#FF0E6198" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemButtonBackgroundLastActive}" Color="Transparent" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemButtonBackgroundLastActiveHover}" Color="#FFE6E7ED" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemButtonBackgroundLastActiveDown}" Color="#FFB7B9C5" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemButtonBorderLastActive}" Color="Transparent" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemButtonBorderLastActiveHover}" Color="#FFE6E7ED" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemButtonBorderLastActiveDown}" Color="#FFB7B9C5" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemBackground}" Color="Transparent" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemBackgroundHover}" Color="#FF1C97EA" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemBackgroundActive}" Color="#FF007ACC" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemBackgroundLastActive}" Color="#FFCCCEDB" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemBackgroundDisabled}" Color="#FFEEEEF2" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemBorder}" Color="Transparent" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemBorderHover}" Color="#FF1C97EA" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemBorderActive}" Color="#FF007ACC" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemBorderLastActive}" Color="#FFCCCEDB" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabItemBorderDisabled}" Color="#FFEEEEF2" />
+
+    <!--  AnchorControl  -->
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorableControlBackground}" Color="#FFEEEEF2" />
+
+    <!--  AnchorSideItem  -->
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorSideItemBackground}" Color="#FFEEEEF2" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorSideItemBorder}" Color="#FFCCCEDB" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorSideItemForeground}" Color="#FF444444" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorSideItemBackgroundHover}" Color="#FFEEEEF2" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorSideItemBorderHover}" Color="#FF007ACC" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorSideItemForegroundHover}" Color="#FF0E70C0" />
+
+    <!--  DocumentPaneControl  -->
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentPaneControlBackground}" Color="#FF007ACC" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentPaneControlBackgroundLastActive}" Color="#FFCCCEDB" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentPaneControlBorder}" Color="#FFCCCEDB" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentPaneControlGlyph}" Color="#FF717171" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentPaneControlGlyphHover}" Color="#FF007ACC" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentPaneControlGlyphDown}" Color="#FFFFFFFF" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentPaneControlButtonBackground}" Color="Transparent" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentPaneControlButtonBackgroundHover}" Color="#FFC9DEF5" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentPaneControlButtonBackgroundDown}" Color="#FF007ACC" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentPaneControlButtonBorder}" Color="Transparent" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentPaneControlButtonBorderHover}" Color="#FFC9DEF5" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentPaneControlButtonBorderDown}" Color="#FF007ACC" />
+
+    <!--  AnchorTabItem  -->
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorTabItemBackground}" Color="#FFEEEEF2" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorTabItemBackgroundHover}" Color="#FFC9DEF5" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorTabItemBackgroundActive}" Color="#FFF5F5F5" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorTabItemBackgroundDisabled}" Color="#FFEEEEF2" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorTabItemBorder}" Color="#FFEEEEF2" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorTabItemBorderHover}" Color="#FFC9DEF5" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorTabItemBorderActive}" Color="#FFF5F5F5" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorTabItemBorderDisabled}" Color="#FFEEEEF2" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorTabItemText}" Color="#FF444444" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorTabItemTextHover}" Color="#FF1E1E1E" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorTabItemTextActive}" Color="#FF0E70C0" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorTabItemTextDisabled}" Color="#FF717171" />
+
+    <!--  AnchorPaneControl  -->
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorPaneControlBorder}" Color="#FFCCCEDB" />
+
+    <!--  AnchorPaneTitle  -->
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorPaneTitleBackgroundActive}" Color="#FF007ACC" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorPaneTitleGlyph}" Color="#FF1E1E1E" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorPaneTitleGlyphHover}" Color="#FF717171" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorPaneTitleGlyphDown}" Color="#FFFFFFFF" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorPaneTitleGlyphActive}" Color="#FFFFFFFF" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorPaneTitleGlyphActiveHover}" Color="#FFFFFFFF" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorPaneTitleGlyphActiveDown}" Color="#FFFFFFFF" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorPaneTitleButtonBackground}" Color="Transparent" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorPaneTitleButtonBackgroundHover}" Color="#FFF7F7F9" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorPaneTitleButtonBackgroundDown}" Color="#FF0E6198" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorPaneTitleButtonBackgroundActive}" Color="Transparent" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorPaneTitleButtonBackgroundActiveHover}" Color="#FF52B0EF" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorPaneTitleButtonBackgroundActiveDown}" Color="#FF0E6198" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorPaneTitleButtonBorder}" Color="Transparent" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorPaneTitleButtonBorderHover}" Color="#FFF7F7F9" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorPaneTitleButtonBorderDown}" Color="#FF0E6198" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorPaneTitleButtonBorderActive}" Color="Transparent" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorPaneTitleButtonBorderActiveHover}" Color="#FF52B0EF" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorPaneTitleButtonBorderActiveDown}" Color="#FF0E6198" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorPaneTitleText}" Color="#FF444444" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorPaneTitleTextActive}" Color="#FFFFFFFF" />
+
+    <DrawingBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors},
+                                               ResourceId=AnchorPaneTitleGrip}"
+                  TileMode="Tile"
+                  Viewbox="0,0,4,5"
+                  ViewboxUnits="Absolute"
+                  Viewport="0,0,4,5"
+                  ViewportUnits="Absolute">
+        <DrawingBrush.Drawing>
+            <GeometryDrawing Brush="#FF999999">
+                <GeometryDrawing.Geometry>
+                    <GeometryGroup>
+                        <GeometryGroup.Children>
+                            <RectangleGeometry Rect="0,0,1,1" />
+                            <RectangleGeometry Rect="0,4,1,1" />
+                            <RectangleGeometry Rect="2,2,1,1" />
+                        </GeometryGroup.Children>
+                    </GeometryGroup>
+                </GeometryDrawing.Geometry>
+            </GeometryDrawing>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+
+    <DrawingBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors},
+                                               ResourceId=AnchorPaneTitleGripActive}"
+                  TileMode="Tile"
+                  Viewbox="0,0,4,5"
+                  ViewboxUnits="Absolute"
+                  Viewport="0,0,4,5"
+                  ViewportUnits="Absolute">
+        <DrawingBrush.Drawing>
+            <GeometryDrawing Brush="#FF59A8DE">
+                <GeometryDrawing.Geometry>
+                    <GeometryGroup>
+                        <GeometryGroup.Children>
+                            <RectangleGeometry Rect="0,0,1,1" />
+                            <RectangleGeometry Rect="0,4,1,1" />
+                            <RectangleGeometry Rect="2,2,1,1" />
+                        </GeometryGroup.Children>
+                    </GeometryGroup>
+                </GeometryDrawing.Geometry>
+            </GeometryDrawing>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorFloatingWindowTitleBarButtonBackground}" Color="Transparent" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorFloatingWindowTitleBarButtonBorder}" Color="Transparent" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorFloatingWindowTitleBarButtonBackgroundHover}" Color="#D8FFFFFF" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorFloatingWindowTitleBarButtonBorderHover}" Color="#D8FFFFFF" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorFloatingWindowTitleBarButtonBackgroundPressed}" Color="#FF007ACC" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorFloatingWindowTitleBarButtonBorderPressed}" Color="#FF007ACC" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorableFloatingWindowTitleBarGlyphDisabled}" Color="Transparent" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorFloatingWindowTitleBarButtonGlyph}" Color="#FF1E1E1E" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorFloatingWindowTitleBarButtonGlyphHover}" Color="#FF007ACC" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=AnchorFloatingWindowTitleBarButtonGlyphPressed}" Color="#FFFFFFFF" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentPaneControlFileTabBorder}" Color="#FF007ACC" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentPaneControlFileTabBorderInactive}" Color="#FFCCCEDB" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocWellOverflowButtonGlyph}" Color="#FF717171" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocWellOverflowButtonMouseOverBackground}" Color="#FFC9DEF5" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocWellOverflowButtonMouseOverBorder}" Color="#FFC9DEF5" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocWellOverflowButtonMouseOverGlyph}" Color="#FF007ACC" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocWellOverflowButtonMouseDownBackground}" Color="#FF007ACC" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocWellOverflowButtonMouseDownBorder}" Color="#FF007ACC" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocWellOverflowButtonMouseDownGlyph}" Color="#FFFFFFFF" />
+
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabGlyphHot}" Color="#FFD0E6F5" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type docking:DockingColors}, ResourceId=DocumentTabGlyphInactive}" Color="#FF717171" />
+
+</ResourceDictionary>
