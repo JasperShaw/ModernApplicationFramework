@@ -30,23 +30,33 @@ namespace ModernApplicationFramework.Core.Themes
         public static object CustomGridViewScrollViewerStyleKey => _customGridViewScrollViewerStyleKey ?? (_customGridViewScrollViewerStyleKey =
                                                                        GetResourceKey(nameof(CustomGridViewScrollViewerStyleKey)));
 
-        public static object ComboBoxStyleKey => _comboBoxStyleKey ?? (_comboBoxStyleKey =
-                                                     GetResourceKey(nameof(ComboBoxStyleKey)));
+        public static string ComboBoxStyleKey => "MafComboBoxStyleKey";
 
-        public static object ThemedDialogButtonStyleKey => _themedDialogButtonStyleKey ??
-                                                                         (_themedDialogButtonStyleKey = GetResourceKey(nameof(ThemedDialogButtonStyleKey)));
+        public static string ThemedDialogButtonStyleKey => nameof(ThemedDialogButtonStyleKey);
 
-        public static object ThemedListViewStyleKey => _themedListViewStyleKey ??
-                                                                     (_themedListViewStyleKey = GetResourceKey(nameof(ThemedListViewStyleKey)));
+        public static string ThemedListViewStyleKey => nameof(ThemedListViewStyleKey);
 
-        public static object ThemedListViewItemStyleKey => _themedListViewItemStyleKey ??
-                                                                         (_themedListViewItemStyleKey = GetResourceKey(nameof(ThemedListViewItemStyleKey)));
+        public static string ThemedListViewItemStyleKey => nameof(ThemedListViewItemStyleKey);
 
-        public static object FormsListViewItemStyleKey => _formsListViewItemStyleKey ??
-                                                                        (_formsListViewItemStyleKey = GetResourceKey(nameof(FormsListViewItemStyleKey)));
+        public static string FormsListViewItemStyleKey => nameof(FormsListViewItemStyleKey);
 
-        public static object FormsCheckBoxStyle => _formsCheckBoxStyle ??
-                                                                 (_formsCheckBoxStyle = GetResourceKey(nameof(FormsCheckBoxStyle)));
+        public static string FormsCheckBoxStyle => nameof(FormsCheckBoxStyle);
+
+
+        //public static object ThemedDialogButtonStyleKey => _themedDialogButtonStyleKey ??
+        //                                                                 (_themedDialogButtonStyleKey = GetResourceKey(nameof(ThemedDialogButtonStyleKey)));
+
+        //public static object ThemedListViewStyleKey => _themedListViewStyleKey ??
+        //                                                             (_themedListViewStyleKey = GetResourceKey(nameof(ThemedListViewStyleKey)));
+
+        //public static object ThemedListViewItemStyleKey => _themedListViewItemStyleKey ??
+        //                                                                 (_themedListViewItemStyleKey = GetResourceKey(nameof(ThemedListViewItemStyleKey)));
+
+        //public static object FormsListViewItemStyleKey => _formsListViewItemStyleKey ??
+        //                                                                (_formsListViewItemStyleKey = GetResourceKey(nameof(FormsListViewItemStyleKey)));
+
+        //public static object FormsCheckBoxStyle => _formsCheckBoxStyle ??
+        //                                                         (_formsCheckBoxStyle = GetResourceKey(nameof(FormsCheckBoxStyle)));
 
         public static object GetScrollBarStyleKey(bool themed)
         {

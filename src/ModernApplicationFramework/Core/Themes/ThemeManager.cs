@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using Caliburn.Micro;
 using ModernApplicationFramework.Core.Events;
@@ -72,9 +73,15 @@ namespace ModernApplicationFramework.Core.Themes
         }
 
         [ImportingConstructor]
-        public ThemeManager([ImportMany] Theme[] themes)
+        public ThemeManager([ImportMany] Theme[] themes) : this()
         {
             _themes = themes;
+        }
+
+        private ThemeManager()
+        {
+            Application.Current.Resources.MergedDictionaries.Add(
+                LoadResourceValue<ResourceDictionary>("Themes/Generic.xaml"));
         }
 
         /// <inheritdoc />
@@ -106,6 +113,11 @@ namespace ModernApplicationFramework.Core.Themes
             }
             if (theme != null)
                 resources.MergedDictionaries.Add(new ResourceDictionary { Source = theme.GetResourceUri() });
+        }
+
+        internal static T LoadResourceValue<T>(string xamlName)
+        {
+            return (T)Application.LoadComponent(new Uri("/" + Assembly.GetExecutingAssembly().GetName().Name + ";component/" + xamlName, UriKind.Relative));
         }
     }
 }
