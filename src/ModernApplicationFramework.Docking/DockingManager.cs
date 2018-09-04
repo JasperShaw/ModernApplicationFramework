@@ -708,6 +708,9 @@ namespace ModernApplicationFramework.Docking
             }
 
             CurrentDragUndockHeader = null;
+
+
+            Trace.WriteLine("Finished dragging");
         }
 
         private void OnViewHeaderDragAbsolute(RoutedEventArgs args)

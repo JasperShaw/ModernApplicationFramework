@@ -406,7 +406,11 @@ namespace ModernApplicationFramework.Docking.Controls
             Dispatcher.BeginInvoke(DispatcherPriority.Input, (Action)(() =>
             {
                 if (DockingManager.Instance.IsDragging)
+                {
+                    var header = this.FindVisualChildren<DragUndockHeader>().FirstOrDefault();
+                    header?.AddHandler(DragUndockHeader.DragCompletedAbsoluteEvent, (RoutedEventHandler)AssureFocusHanlder);
                     return;
+                }
                 if (Model?.Root == null)
                     return;
                 var i = Model.Root.Manager.GetLayoutItemFromModel(Model.Root.ActiveContent);
@@ -414,6 +418,17 @@ namespace ModernApplicationFramework.Docking.Controls
             }));
 
         }
+
+        private void AssureFocusHanlder(object sender, RoutedEventArgs e)
+        {
+            if (!(sender is DragUndockHeader dragUndockHeader))
+                return;
+            dragUndockHeader.RemoveHandler(DragUndockHeader.DragCompletedAbsoluteEvent,
+                (RoutedEventHandler) AssureFocusHanlder);
+            var i = Model.Root.Manager.GetLayoutItemFromModel(Model.Root.ActiveContent);
+            i.EnsureFocused();
+        }
+
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
         {
