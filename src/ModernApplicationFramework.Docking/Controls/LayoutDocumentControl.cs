@@ -89,11 +89,6 @@ namespace ModernApplicationFramework.Docking.Controls
             SetValue(LayoutItemPropertyKey, value);
         }
 
-        private static void OnModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((LayoutDocumentControl) d).OnModelChanged(e);
-        }
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]

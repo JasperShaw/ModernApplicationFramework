@@ -15,7 +15,6 @@
   **********************************************************************/
 
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Markup;
 using ModernApplicationFramework.Docking.Layout;
 
@@ -38,14 +37,6 @@ namespace ModernApplicationFramework.Docking.Controls
             DefaultStyleKeyProperty.OverrideMetadata(typeof (LayoutAnchorableControl),
                 new FrameworkPropertyMetadata(typeof (LayoutAnchorableControl)));
             FocusableProperty.OverrideMetadata(typeof (LayoutAnchorableControl), new FrameworkPropertyMetadata(false));
-        }
-
-        protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
-        {
-            if (Model != null)
-                Model.IsActive = true;
-
-            base.OnGotKeyboardFocus(e);
         }
 
         protected override void OnModelChanged(DependencyPropertyChangedEventArgs e)

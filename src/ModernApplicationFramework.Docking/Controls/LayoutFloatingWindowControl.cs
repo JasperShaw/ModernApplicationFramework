@@ -70,6 +70,8 @@ namespace ModernApplicationFramework.Docking.Controls
             _model = model;
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
+
+            var active = DockingManager.Instance.Layout.ActiveContent;
         }
 
         static LayoutFloatingWindowControl()
@@ -425,7 +427,7 @@ namespace ModernApplicationFramework.Docking.Controls
                 return;
             dragUndockHeader.RemoveHandler(DragUndockHeader.DragCompletedAbsoluteEvent,
                 (RoutedEventHandler) AssureFocusHanlder);
-            var i = Model.Root.Manager.GetLayoutItemFromModel(Model.Root.ActiveContent);
+            var i = DockingManager.Instance.GetLayoutItemFromModel(Model.Root.ActiveContent);
             i.EnsureFocused();
         }
 
