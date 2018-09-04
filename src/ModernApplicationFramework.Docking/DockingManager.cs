@@ -608,22 +608,22 @@ namespace ModernApplicationFramework.Docking
             DocumentPaneTabPanel.SelectedItemHidden += DocumentPaneTabPanel_SelectedItemHidden;
 
             EventManager.RegisterClassHandler(typeof(DragUndockHeader), DragUndockHeader.DragHeaderClickedEvent,
-                new RoutedEventHandler((sender, args) => Instance.OnViewHeaderClicked(sender, args)));
+                new RoutedEventHandler((sender, args) => Instance.OnViewHeaderClicked(args)));
             EventManager.RegisterClassHandler(typeof(DragUndockHeader), DragUndockHeader.DragStartedEvent,
-                new RoutedEventHandler((sender, args) => Instance.OnViewHeaderDragStarted(sender, args)));
+                new RoutedEventHandler((sender, args) => Instance.OnViewHeaderDragStarted(args)));
             EventManager.RegisterClassHandler(typeof(DragUndockHeader), DragUndockHeader.DragAbsoluteEvent,
-                new RoutedEventHandler((sender, args) => Instance.OnViewHeaderDragAbsolute(sender, args)));
+                new RoutedEventHandler((sender, args) => Instance.OnViewHeaderDragAbsolute(args)));
             EventManager.RegisterClassHandler(typeof(DragUndockHeader), DragUndockHeader.DragCompletedAbsoluteEvent,
-                new RoutedEventHandler((sender, args) => Instance.OnViewHeaderDragCompleted(sender, args)));
+                new RoutedEventHandler((sender, args) => Instance.OnViewHeaderDragCompleted(args)));
 
             EventManager.RegisterClassHandler(typeof(ViewPresenter), PreviewMouseDownEvent,
                 new RoutedEventHandler((sender, args) => Instance.OnViewMouseDown(sender, args)));
             EventManager.RegisterClassHandler(typeof(LayoutDocumentPaneControl), PreviewMouseDownEvent,
-                new RoutedEventHandler((sender, args) => Instance.OnTabControlMouseDown(sender, args)));
+                new RoutedEventHandler(OnTabControlMouseDown));
             EventManager.RegisterClassHandler(typeof(LayoutDocumentPaneControl), Selector.SelectionChangedEvent,
-                new RoutedEventHandler((sender, args) => Instance.OnTabControlSelectionChanged(sender, args)));
+                new RoutedEventHandler((sender, args) => Instance.OnTabControlSelectionChanged(sender)));
             EventManager.RegisterClassHandler(typeof(TabItem), PreviewMouseDownEvent,
-                new RoutedEventHandler((sender, args) => Instance.OnTabItemMouseDown(sender, args)));
+                new RoutedEventHandler(OnTabItemMouseDown));
 
             EventManager.RegisterClassHandler(typeof(LayoutDocumentPaneControl), DragUndockHeader.DragHeaderContextMenuEvent,
                 new EventHandler<DragUndockHeaderContextMenuEventArgs>(OnDocumentTabContextMenu));
@@ -696,7 +696,7 @@ namespace ModernApplicationFramework.Docking
 
         internal bool IsDragging { get; set; }
 
-        private void OnViewHeaderDragCompleted(object sender, RoutedEventArgs args)
+        private void OnViewHeaderDragCompleted(RoutedEventArgs args)
         {
             if (!(args is DragAbsoluteCompletedEventArgs e))
                 return;
@@ -710,7 +710,7 @@ namespace ModernApplicationFramework.Docking
             CurrentDragUndockHeader = null;
         }
 
-        private void OnViewHeaderDragAbsolute(object sender, RoutedEventArgs args)
+        private void OnViewHeaderDragAbsolute(RoutedEventArgs args)
         {
             var originalSource = (DragUndockHeader)args.OriginalSource;
             if (originalSource.IsWindowTitleBar)
@@ -718,7 +718,7 @@ namespace ModernApplicationFramework.Docking
                 if (NativeMethods.NativeMethods.IsKeyPressed(17))
                     ClearAdorners();
                 else
-                    UpdateTargets();
+                    UpdateTargets(args as DragAbsoluteEventArgs);
             }
             else
             {
@@ -728,15 +728,16 @@ namespace ModernApplicationFramework.Docking
             }
         }
 
-        private void UpdateTargets()
+        private void UpdateTargets(RoutedEventArgs args)
         {
-            foreach (var host in _fwList.OfType<IOverlayWindowHost>())
-                host.ShowOverlayWindow(host as LayoutFloatingWindowControl);
+            var fw = ((Visual)args.OriginalSource).FindAncestor<LayoutFloatingWindowControl>();
+            if (fw is IOverlayWindowHost overlayHost)
+                overlayHost.ShowOverlayWindow(fw);
             _overlayWindow.EnableDropTargets();
         }
 
 
-        private void OnViewHeaderDragStarted(object sender, RoutedEventArgs args)
+        private void OnViewHeaderDragStarted(RoutedEventArgs args)
         {
             var originalSource = (DragUndockHeader)args.OriginalSource;
             CurrentDragUndockHeader = originalSource;
@@ -881,7 +882,7 @@ namespace ModernApplicationFramework.Docking
             dataContext.IsActive = true;
         }
 
-        private void OnViewHeaderClicked(object sender, RoutedEventArgs args)
+        private void OnViewHeaderClicked(RoutedEventArgs args)
         {
             var originalSource = args.OriginalSource as DragUndockHeader;
             var ancestor = originalSource.FindAncestor<ReorderTabPanel>();
@@ -900,7 +901,7 @@ namespace ModernApplicationFramework.Docking
 
         internal DraggedTabInfo DraggedTabInfo { get; set; }
 
-        private void OnTabItemMouseDown(object sender, RoutedEventArgs args)
+        private static void OnTabItemMouseDown(object sender, RoutedEventArgs args)
         {
             if (!(sender is TabItem tabItem))
                 return;
@@ -914,7 +915,7 @@ namespace ModernApplicationFramework.Docking
             layoutContent.IsActive = true;
         }
 
-        private void OnTabControlSelectionChanged(object sender, RoutedEventArgs args)
+        private void OnTabControlSelectionChanged(object sender)
         {
             if (!(sender is TabControl) || !(sender is ILayoutControl layoutControl))
                 return;
@@ -929,7 +930,7 @@ namespace ModernApplicationFramework.Docking
             selectedElement.IsActive = true;
         }
 
-        private void OnTabControlMouseDown(object sender, RoutedEventArgs args)
+        private static void OnTabControlMouseDown(object sender, RoutedEventArgs args)
         {
             if (!(sender is TabControl tabControl) || !(sender is ILayoutControl layoutControl))
                 return;

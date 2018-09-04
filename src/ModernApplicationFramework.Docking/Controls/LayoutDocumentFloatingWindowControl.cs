@@ -15,7 +15,6 @@
   **********************************************************************/
 
 using System;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using ModernApplicationFramework.Docking.Layout;
@@ -24,7 +23,7 @@ using HitTestValues = ModernApplicationFramework.Docking.NativeMethods.HitTestVa
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-    public class LayoutDocumentFloatingWindowControl : LayoutFloatingWindowControl, IOverlayWindowHost
+    public class LayoutDocumentFloatingWindowControl : LayoutFloatingWindowControl
     {
         public static readonly DependencyProperty SingleContentLayoutItemProperty =
             DependencyProperty.Register("SingleContentLayoutItem", typeof (LayoutItem),
@@ -32,8 +31,6 @@ namespace ModernApplicationFramework.Docking.Controls
                 new FrameworkPropertyMetadata(null, OnSingleContentLayoutItemChanged));
 
         private readonly LayoutDocumentFloatingWindow _model;
-        private List<IDropArea> _dropAreas;
-        private OverlayWindow _overlayWindow;
 
         internal LayoutDocumentFloatingWindowControl(LayoutDocumentFloatingWindow model)
             : base(model)
@@ -57,65 +54,8 @@ namespace ModernApplicationFramework.Docking.Controls
                 new FrameworkPropertyMetadata(typeof (LayoutDocumentFloatingWindowControl)));
         }
 
-        IEnumerable<IDropArea> IOverlayWindowHost.GetDropAreas(LayoutFloatingWindowControl draggingWindow)
-        {
-            if (_dropAreas != null)
-                return _dropAreas;
-            _dropAreas = new List<IDropArea>();
-
-            if (draggingWindow.Model is LayoutAnchorableFloatingWindow)
-                return _dropAreas;
-
-            if (Content is FloatingWindowContentHost floatingWindowContentHost)
-            {
-                var rootVisual = floatingWindowContentHost.RootVisual;
-
-                foreach (var areaHost in rootVisual.FindVisualChildren<LayoutAnchorablePaneControl>())
-                {
-                    _dropAreas.Add(new DropArea<LayoutAnchorablePaneControl>(
-                        areaHost,
-                        DropAreaType.AnchorablePane));
-                }
-                foreach (var areaHost in rootVisual.FindVisualChildren<LayoutDocumentPaneControl>())
-                {
-                    _dropAreas.Add(new DropArea<LayoutDocumentPaneControl>(
-                        areaHost,
-                        DropAreaType.DocumentPane));
-                }
-            }
-
-            return _dropAreas;
-        }
-
-        void IOverlayWindowHost.HideOverlayWindow()
-        {
-            if (_overlayWindow == null)
-                return;
-            _dropAreas = null;
-            _overlayWindow.Owner = null;
-            _overlayWindow.HideDropTargets();
-        }
-
-        bool IOverlayWindowHost.HitTest(Point dragPoint)
-        {
-            Rect detectionRect = new Rect(this.PointToScreenDpiWithoutFlowDirection(new Point()),
-                this.TransformActualSizeToAncestor());
-            return detectionRect.Contains(dragPoint);
-        }
-
-        DockingManager IOverlayWindowHost.Manager => _model.Root.Manager;
-
-        IOverlayWindow IOverlayWindowHost.ShowOverlayWindow(LayoutFloatingWindowControl draggingWindow)
-        {
-            CreateOverlayWindow();
-            _overlayWindow.Owner = draggingWindow;
-            _overlayWindow.EnableDropTargets();
-            _overlayWindow.Show();
-
-            return _overlayWindow;
-        }
-
         public override ILayoutElement Model => _model;
+
         public LayoutItem RootDocumentLayoutItem => _model.Root.Manager.GetLayoutItemFromModel(_model.RootDocument);
 
         public LayoutItem SingleContentLayoutItem
@@ -216,17 +156,6 @@ namespace ModernApplicationFramework.Docking.Controls
             }
         }
 
-        private void CreateOverlayWindow()
-        {
-            if (_overlayWindow == null)
-                _overlayWindow = new OverlayWindow(this);
-            var rectWindow = new Rect(this.PointToScreenDpiWithoutFlowDirection(new Point()),
-                this.TransformActualSizeToAncestor());
-            _overlayWindow.Left = rectWindow.Left;
-            _overlayWindow.Top = rectWindow.Top;
-            _overlayWindow.Width = rectWindow.Width;
-            _overlayWindow.Height = rectWindow.Height;
-        }
 
         private void LayoutDocumentFloatingWindowControl_Loaded(object sender, RoutedEventArgs e)
         {

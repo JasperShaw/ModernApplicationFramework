@@ -15,7 +15,6 @@
   **********************************************************************/
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls.Primitives;
@@ -29,7 +28,7 @@ using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-    public class LayoutAnchorableFloatingWindowControl : LayoutFloatingWindowControl, IOverlayWindowHost
+    public class LayoutAnchorableFloatingWindowControl : LayoutFloatingWindowControl
     {
         public static readonly DependencyProperty SingleContentLayoutItemProperty =
             DependencyProperty.Register("SingleContentLayoutItem", typeof(LayoutItem),
@@ -37,8 +36,6 @@ namespace ModernApplicationFramework.Docking.Controls
                 new FrameworkPropertyMetadata(null, OnSingleContentLayoutItemChanged));
 
         private readonly LayoutAnchorableFloatingWindow _model;
-        private List<IDropArea> _dropAreas;
-        private OverlayWindow _overlayWindow;
 
         internal LayoutAnchorableFloatingWindowControl(LayoutAnchorableFloatingWindow model)
             : base(model)
@@ -54,66 +51,8 @@ namespace ModernApplicationFramework.Docking.Controls
                 new FrameworkPropertyMetadata(typeof(LayoutAnchorableFloatingWindowControl)));
         }
 
-        IEnumerable<IDropArea> IOverlayWindowHost.GetDropAreas(LayoutFloatingWindowControl draggingWindow)
-        {
-            if (_dropAreas != null)
-                return _dropAreas;
-
-            _dropAreas = new List<IDropArea>();
-
-            if (draggingWindow.Model is LayoutDocumentFloatingWindow)
-                return _dropAreas;
-
-            if (Content is FloatingWindowContentHost floatingWindowContentHost)
-            {
-                var rootVisual = floatingWindowContentHost.RootVisual;
-
-                foreach (var areaHost in rootVisual.FindVisualChildren<LayoutAnchorablePaneControl>())
-                {
-                    _dropAreas.Add(new DropArea<LayoutAnchorablePaneControl>(
-                        areaHost,
-                        DropAreaType.AnchorablePane));
-                }
-                foreach (var areaHost in rootVisual.FindVisualChildren<LayoutDocumentPaneControl>())
-                {
-                    _dropAreas.Add(new DropArea<LayoutDocumentPaneControl>(
-                        areaHost,
-                        DropAreaType.DocumentPane));
-                }
-            }
-
-            return _dropAreas;
-        }
-
-        void IOverlayWindowHost.HideOverlayWindow()
-        {
-            if (_overlayWindow == null)
-                return;
-            _dropAreas = null;
-            _overlayWindow.Owner = null;
-            _overlayWindow.HideDropTargets();
-        }
-
-        bool IOverlayWindowHost.HitTest(Point dragPoint)
-        {
-            Rect detectionRect = new Rect(this.PointToScreenDpiWithoutFlowDirection(new Point()),
-                this.TransformActualSizeToAncestor());
-            return detectionRect.Contains(dragPoint);
-        }
-
-        DockingManager IOverlayWindowHost.Manager => _model.Root.Manager;
-
-        IOverlayWindow IOverlayWindowHost.ShowOverlayWindow(LayoutFloatingWindowControl draggingWindow)
-        {
-            CreateOverlayWindow();
-            _overlayWindow.Owner = draggingWindow;
-            _overlayWindow.EnableDropTargets();
-            _overlayWindow.Show();
-
-            return _overlayWindow;
-        }
-
         public override ILayoutElement Model => _model;
+
         public ICommand HideWindowCommand { get; }
 
         public LayoutItem SingleContentLayoutItem
@@ -145,17 +84,9 @@ namespace ModernApplicationFramework.Docking.Controls
             var root = Model.Root;
             root.Manager.RemoveFloatingWindow(this);
             root.CollectGarbage();
-            if (_overlayWindow != null)
-            {
-                _overlayWindow.Close();
-                _overlayWindow = null;
-            }
-
             base.OnClosed(e);
-
             if (!CloseInitiatedByUser)
                 root.FloatingWindows.Remove(_model);
-
             _model.PropertyChanged -= _model_PropertyChanged;
         }
 
@@ -260,18 +191,6 @@ namespace ModernApplicationFramework.Docking.Controls
             return canExecute;
         }
 
-        private void CreateOverlayWindow()
-        {
-            if (_overlayWindow == null)
-                _overlayWindow = new OverlayWindow(this);
-            var rectWindow = new Rect(this.PointToScreenDpiWithoutFlowDirection(new Point()),
-                this.TransformActualSizeToAncestor());
-            _overlayWindow.Left = rectWindow.Left;
-            _overlayWindow.Top = rectWindow.Top;
-            _overlayWindow.Width = rectWindow.Width;
-            _overlayWindow.Height = rectWindow.Height;
-        }
-
         private void KeepOnTop(object sender, EventArgs e)
         {
             Topmost = true;
@@ -303,21 +222,6 @@ namespace ModernApplicationFramework.Docking.Controls
             {
                 anchorableLayoutItem?.HideCommand.Execute(parameter);
             }
-        }
-
-        private bool OpenContextMenu()
-        {
-            var ctxMenu = _model.Root.Manager.AnchorableContextMenu;
-            if (ctxMenu != null && SingleContentLayoutItem != null)
-            {
-                ctxMenu.PlacementTarget = null;
-                ctxMenu.Placement = PlacementMode.MousePoint;
-                ctxMenu.DataContext = SingleContentLayoutItem;
-                ctxMenu.IsOpen = true;
-                return true;
-            }
-
-            return false;
         }
     }
 }
