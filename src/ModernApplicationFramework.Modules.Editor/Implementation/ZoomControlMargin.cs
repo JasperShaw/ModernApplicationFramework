@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.Composition.Hosting;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -68,8 +69,23 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
                     _view.ZoomLevelChanged -= OnZoomLevelChanged;
                 }
             };
-            SetResourceReference(StyleProperty, typeof(ZoomControl));
             InitializeComponents();
+            if (!(Application.Current.TryFindResource("MafComboBoxStyleKey") is Style bs))
+                SetResourceReference(StyleProperty, typeof(ZoomControl));
+            else
+            {
+                var originalStyle = Application.Current.TryFindResource(typeof(ZoomControl)) as Style;
+                if (originalStyle == null)
+                {
+                    SetResourceReference(StyleProperty, typeof(ZoomControl));
+                    return;
+                }
+
+                var ns = new Style(typeof(ZoomControl), bs);
+                foreach (var originalStyleSetter in originalStyle.Setters)
+                    ns.Setters.Add(originalStyleSetter);
+                SetValue(StyleProperty, ns);
+            }
         }
 
         public void Dispose()

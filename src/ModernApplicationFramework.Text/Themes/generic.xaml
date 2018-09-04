@@ -3,30 +3,49 @@
                     xmlns:editor="clr-namespace:ModernApplicationFramework.Text.Ui.Editor"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
+
+    <sys:String x:Key="AppName">MafComboBoxStyleKey</sys:String>
+
+
     <Style TargetType="{x:Type editor:OutliningMarginHeaderControl}">
-        <Setter Property="Focusable" Value="false"/>
+        <Setter Property="Focusable" Value="false" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type editor:OutliningMarginHeaderControl}">
                     <Grid>
-                        <Border x:Name="WhitePadding" Height="11" Width="9" BorderBrush="{DynamicResource ViewBackgroundBrush}"
-                                Background="{DynamicResource ViewBackgroundBrush}" BorderThickness="0,1,0,1"
-                                VerticalAlignment="Center">
-                            <Border x:Name="TheSquare" Height="9" Width="9"
+                        <Border x:Name="WhitePadding"
+                                Width="9"
+                                Height="11"
+                                VerticalAlignment="Center"
+                                Background="{DynamicResource ViewBackgroundBrush}"
+                                BorderBrush="{DynamicResource ViewBackgroundBrush}"
+                                BorderThickness="0,1,0,1">
+                            <Border x:Name="TheSquare"
+                                    Width="9"
+                                    Height="9"
+                                    Background="{DynamicResource outlining.square.background}"
                                     BorderBrush="{DynamicResource outlining.verticalrule.foreground}"
-                                    Background="{DynamicResource outlining.square.background}" BorderThickness="1">
+                                    BorderThickness="1">
                                 <Canvas>
-                                    <Line X1="1" Y1="3.5" X2="6" Y2="3.5" Stroke="{DynamicResource outlining.square.foreground}"/>
-                                    <Line x:Name="Vertical" X1="3.5" Y1="1" X2="3.5" Y2="6"
-                                          Stroke="{DynamicResource outlining.square.foreground}"/>
+                                    <Line Stroke="{DynamicResource outlining.square.foreground}"
+                                          X1="1"
+                                          X2="6"
+                                          Y1="3.5"
+                                          Y2="3.5" />
+                                    <Line x:Name="Vertical"
+                                          Stroke="{DynamicResource outlining.square.foreground}"
+                                          X1="3.5"
+                                          X2="3.5"
+                                          Y1="1"
+                                          Y2="6" />
                                 </Canvas>
                             </Border>
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="editor:OutliningMarginHeaderControl.IsExpanded" Value="true">
-                            <Setter TargetName="Vertical" Property="UIElement.Visibility" Value="Hidden"/>
-                            <Setter TargetName="TheSquare" Value="{DynamicResource ViewBackgroundBrush}" Property="Border.Background"/>
+                            <Setter TargetName="Vertical" Property="UIElement.Visibility" Value="Hidden" />
+                            <Setter TargetName="TheSquare" Property="Border.Background" Value="{DynamicResource ViewBackgroundBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -36,31 +55,34 @@
 
 
     <Style TargetType="{x:Type editor:OutliningMarginBracketControl}">
-        <Setter Property="Focusable" Value="false"/>
+        <Setter Property="Focusable" Value="false" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type editor:OutliningMarginBracketControl}">
                     <Grid>
                         <DockPanel>
-                            <FrameworkElement Height="{TemplateBinding editor:OutliningMarginBracketControl.FirstLineOffset}"
-                                              DockPanel.Dock="Top"/>
+                            <FrameworkElement Height="{TemplateBinding editor:OutliningMarginBracketControl.FirstLineOffset}" DockPanel.Dock="Top" />
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
-                                <Border BorderThickness="0,0,1,0" BorderBrush="{DynamicResource outlining.verticalrule.foreground}"
-                                        Margin="0,0,-1,0"/>
-                                <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource outlining.verticalrule.foreground}"
-                                        Grid.Column="1"/>
+                                <Border Margin="0,0,-1,0"
+                                        BorderBrush="{DynamicResource outlining.verticalrule.foreground}"
+                                        BorderThickness="0,0,1,0" />
+                                <Border Grid.Column="1"
+                                        BorderBrush="{DynamicResource outlining.verticalrule.foreground}"
+                                        BorderThickness="0,0,0,1" />
                             </Grid>
                         </DockPanel>
-                        <Canvas Name="Highlight" Opacity="0.0"
-                                Background="{DynamicResource outlining.collapsehintadornment.foreground}" Margin="0,0,0,0"/>
+                        <Canvas Name="Highlight"
+                                Margin="0,0,0,0"
+                                Background="{DynamicResource outlining.collapsehintadornment.foreground}"
+                                Opacity="0.0" />
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="editor:OutliningMarginBracketControl.IsHighlighted" Value="true">
-                            <Setter TargetName="Highlight" Property="UIElement.Opacity" Value="0.5"/>
+                            <Setter TargetName="Highlight" Property="UIElement.Opacity" Value="0.5" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -69,33 +91,36 @@
     </Style>
 
     <Style TargetType="{x:Type editor:OutliningMarginControl}">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="SnapsToDevicePixels" Value="true"/>
-        <Setter Property="Width" Value="9"/>
-        <Setter Property="Focusable" Value="false"/>
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="Width" Value="9" />
+        <Setter Property="Focusable" Value="false" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type editor:OutliningMarginControl}">
-                    <ContentPresenter/>
+                    <ContentPresenter />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
     <Style TargetType="{x:Type editor:CollapseHintAdornmentControl}">
-        <Setter Property="Focusable" Value="false"/>
+        <Setter Property="Focusable" Value="false" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type editor:CollapseHintAdornmentControl}">
-                    <Border Name="border" Background="{DynamicResource outlining.collapsehintadornment.background}"
-                            BorderBrush="{DynamicResource outlining.collapsehintadornment.background}" BorderThickness="2.0"
-                            Visibility="Collapsed" IsHitTestVisible="false"/>
+                    <Border Name="border"
+                            Background="{DynamicResource outlining.collapsehintadornment.background}"
+                            BorderBrush="{DynamicResource outlining.collapsehintadornment.background}"
+                            BorderThickness="2.0"
+                            IsHitTestVisible="false"
+                            Visibility="Collapsed" />
                     <ControlTemplate.Triggers>
                         <Trigger Property="editor:CollapseHintAdornmentControl.IsHighlighted" Value="true">
-                            <Setter TargetName="border" Property="UIElement.Visibility" Value="Visible"/>
+                            <Setter TargetName="border" Property="UIElement.Visibility" Value="Visible" />
                         </Trigger>
                         <Trigger Property="editor:CollapseHintAdornmentControl.IsHighContrast" Value="true">
-                            <Setter TargetName="border" Property="Border.Background" Value="Transparent"/>
+                            <Setter TargetName="border" Property="Border.Background" Value="Transparent" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -104,29 +129,36 @@
     </Style>
 
     <Style TargetType="{x:Type editor:OutliningCollapsedAdornmentControl}">
-        <Setter Property="Focusable" Value="false"/>
-        <Setter Property="ToolTipService.ShowDuration" Value="600000"/>
+        <Setter Property="Focusable" Value="false" />
+        <Setter Property="ToolTipService.ShowDuration" Value="600000" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type editor:OutliningCollapsedAdornmentControl}">
-                    <Border x:Name="border" BorderThickness="1" Padding="0" Margin="0.0, 0.0, 0.0, -4.0" Cursor="Arrow"
-                            Background="Transparent" SnapsToDevicePixels="true"
+                    <Border x:Name="border"
+                            Margin="0.0,0.0,0.0,-4.0"
+                            Padding="0"
+                            Background="Transparent"
                             BorderBrush="{DynamicResource CollapsedTextForeground}"
-                            TextBlock.Foreground="{DynamicResource CollapsedTextForeground}"
+                            BorderThickness="1"
+                            Cursor="Arrow"
+                            SnapsToDevicePixels="true"
+                            TextBlock.FontFamily="{DynamicResource CollapsedTextFontFamily}"
                             TextBlock.FontSize="{DynamicResource CollapsedTextSize}"
-                            TextBlock.FontFamily="{DynamicResource CollapsedTextFontFamily}">
+                            TextBlock.Foreground="{DynamicResource CollapsedTextForeground}">
                         <Grid>
-                            <ContentPresenter/>
-                            <TextBlock x:Name="defaultContent" Text="..." Visibility="Collapsed"/>
+                            <ContentPresenter />
+                            <TextBlock x:Name="defaultContent"
+                                       Text="..."
+                                       Visibility="Collapsed" />
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Value="{x:Null}" Property="ContentControl.Content">
-                            <Setter TargetName="defaultContent" Property="UIElement.Visibility" Value="Visible"/>
+                        <Trigger Property="ContentControl.Content" Value="{x:Null}">
+                            <Setter TargetName="defaultContent" Property="UIElement.Visibility" Value="Visible" />
                         </Trigger>
                         <Trigger Property="editor:IntraTextAdornment.IsSelected" Value="true">
-                            <Setter TargetName="defaultContent" Property="TextBlock.Foreground" Value="DarkBlue"/>
-                            <Setter TargetName="border" Property="Border.BorderBrush" Value="DarkBlue"/>
+                            <Setter TargetName="defaultContent" Property="TextBlock.Foreground" Value="DarkBlue" />
+                            <Setter TargetName="border" Property="Border.BorderBrush" Value="DarkBlue" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -136,7 +168,7 @@
 
     <Style BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="{x:Type editor:ZoomControl}">
         <Style.Resources>
-            <x:Array x:Type="{x:Type sys:Double}" x:Key="DefaultZoomLevels">
+            <x:Array x:Key="DefaultZoomLevels" x:Type="{x:Type sys:Double}">
                 <sys:Double>20</sys:Double>
                 <sys:Double>50</sys:Double>
                 <sys:Double>70</sys:Double>
@@ -145,24 +177,24 @@
                 <sys:Double>200</sys:Double>
                 <sys:Double>400</sys:Double>
             </x:Array>
-            <editor:ZoomLevelConverter x:Key="DisplayZoomValueConverter"/>
+            <editor:ZoomLevelConverter x:Key="DisplayZoomValueConverter" />
         </Style.Resources>
-        <Setter Property="Focusable" Value="True"/>
-        <Setter Property="IsEditable" Value="True"/>
-        <Setter Property="ClipToBounds" Value="True"/>
-        <Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Setter Property="Width" Value="70"/>
-        <Setter Property="FontSize" Value="11"/>
-        <Setter Property="FontFamily" Value="Tahoma"/>
-        <Setter Property="ItemsSource" Value="{StaticResource DefaultZoomLevels}"/>
+        <Setter Property="Focusable" Value="True" />
+        <Setter Property="IsEditable" Value="True" />
+        <Setter Property="ClipToBounds" Value="True" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Width" Value="70" />
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="FontFamily" Value="Tahoma" />
+        <Setter Property="ItemsSource" Value="{StaticResource DefaultZoomLevels}" />
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
                 <Style TargetType="{x:Type ComboBoxItem}">
-                    <Setter Property="Content" Value="{Binding Converter={StaticResource DisplayZoomValueConverter}}"/>
+                    <Setter Property="Content" Value="{Binding Converter={StaticResource DisplayZoomValueConverter}}" />
                 </Style>
             </Setter.Value>
         </Setter>
-        <Setter Property="Validation.ErrorTemplate" Value="{x:Null}"/>
+        <Setter Property="Validation.ErrorTemplate" Value="{x:Null}" />
     </Style>
 
 
