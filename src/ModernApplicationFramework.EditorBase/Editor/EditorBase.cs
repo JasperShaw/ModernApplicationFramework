@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Threading;
-using ModernApplicationFramework.Core;
 using ModernApplicationFramework.EditorBase.Core.OpenSaveDialogFilters;
 using ModernApplicationFramework.EditorBase.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
@@ -29,8 +28,10 @@ namespace ModernApplicationFramework.EditorBase.Editor
             get => _isReadOnly;
             protected set
             {
-                if (value == _isReadOnly) return;
+                if (value == _isReadOnly)
+                    return;
                 _isReadOnly = value;
+                MarkAsReadOnly = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -139,14 +140,6 @@ namespace ModernApplicationFramework.EditorBase.Editor
         {
         }
 
-        protected virtual void DirtyDisplayName(bool isDirty)
-        {
-            if (isDirty)
-                DisplayName = Document.FileName + "*";
-            else
-                DisplayName = Document.FileName;
-        }
-
         protected virtual void UpdateIconSource()
         {
             IconSource = OpenedFileDefinition.SmallThumbnailImage;
@@ -176,7 +169,9 @@ namespace ModernApplicationFramework.EditorBase.Editor
 
         private void StorableFile_DirtyChanged(object sender, EventArgs e)
         {
-            DirtyDisplayName(((IStorableFile)Document).IsDirty);
+            if (!(sender is IStorableFile storableFile))
+                return;
+            IsStateDirty = storableFile.IsDirty;
         }
     }
 }

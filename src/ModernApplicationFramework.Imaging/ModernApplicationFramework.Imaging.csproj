@@ -68,6 +68,8 @@
     <Compile Include="CrispImage.cs" />
     <Compile Include="Converters\CrispImageSourceConverter.cs" />
     <Compile Include="Converters\GrayscaleBitmapSourceConverter.cs" />
+    <Compile Include="DpiPrescaleImageSourceConverter.cs" />
+    <Compile Include="DpiPrescaleThemedImageSourceConverter.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="HslColor.cs" />
     <Compile Include="ImageConverter.cs" />

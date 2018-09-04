@@ -110,7 +110,7 @@
             <Setter.Value>
                 <DataTemplate DataType="{x:Type layout:LayoutContent}">
                     <avalonDockControls:DragUndockHeader Model="{Binding}">
-                        <ContentControl Content="{Binding Title}" />
+                        <ContentControl Content="{Binding Title}" ContentTemplate="{Binding TabTitleTemplate}" />
                     </avalonDockControls:DragUndockHeader>
                 </DataTemplate>
             </Setter.Value>

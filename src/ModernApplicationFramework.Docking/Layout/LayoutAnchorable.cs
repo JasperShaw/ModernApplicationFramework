@@ -36,9 +36,6 @@ namespace ModernApplicationFramework.Docking.Layout
 
         private double _autohideWidth;
 
-
-        private bool _showOnMouseOver;
-
         public event EventHandler<CancelEventArgs> Hiding;
 
         public event EventHandler IsVisibleChanged;
@@ -50,7 +47,7 @@ namespace ModernApplicationFramework.Docking.Layout
         public bool IsAutoHidden => Parent is LayoutAnchorGroup;
 
         [XmlIgnore]
-        public bool IsHidden => (Parent is LayoutRoot);
+        public bool IsHidden => Parent is LayoutRoot;
 
         public double AutoHideHeight
         {
@@ -321,8 +318,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
             if (IsAutoHidden)
             {
-                var parentGroup = Parent as LayoutAnchorGroup;
-                if (parentGroup != null)
+                if (Parent is LayoutAnchorGroup parentGroup)
                 {
                     var parentSide = parentGroup.Parent as LayoutAnchorSide;
                     var previousContainer =
@@ -330,8 +326,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
                     if (previousContainer == null)
                     {
-                        var layoutAnchorSide = parentGroup.Parent as LayoutAnchorSide;
-                        if (layoutAnchorSide != null)
+                        if (parentGroup.Parent is LayoutAnchorSide layoutAnchorSide)
                         {
                             AnchorSide side = layoutAnchorSide.Side;
                             switch (side)

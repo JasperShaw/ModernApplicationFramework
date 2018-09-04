@@ -56,6 +56,8 @@
                             <Setter Property="IconSource" Value="{Binding Model.IconSource, Converter={StaticResource NullableValueConverter}}" />
                             <Setter Property="IsSelected" Value="{Binding Model.IsSelected, Mode=TwoWay}" />
                             <Setter Property="ToolTip" Value="{Binding Model.ToolTip, Mode=TwoWay}" />
+                            <Setter Property="IsDirty" Value="{Binding Model.IsStateDirty, Mode=OneWay}" />
+                            <Setter Property="IsReadonly" Value="{Binding Model.MarkAsReadOnly, Mode=OneWay}" />
                         </Style>
                     </paneUtilities:PanesStyleSelector.DocumentStyle>
                     <paneUtilities:PanesStyleSelector.ToolStyle>

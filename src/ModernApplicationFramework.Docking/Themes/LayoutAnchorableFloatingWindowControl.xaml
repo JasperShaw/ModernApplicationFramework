@@ -8,6 +8,7 @@
                     xmlns:imaging="clr-namespace:ModernApplicationFramework.Imaging;assembly=ModernApplicationFramework.Imaging"
                     xmlns:internals="clr-namespace:ModernApplicationFramework.Controls.Internals;assembly=ModernApplicationFramework"
                     xmlns:mafc="http://modern.framework.com/controls"
+                    xmlns:services="clr-namespace:ModernApplicationFramework.Basics.Services;assembly=ModernApplicationFramework"
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework">
 
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
@@ -150,9 +151,7 @@
                                                                                 DropDownContextMenu="{Binding Model.Root.Manager.AnchorableContextMenu, RelativeSource={RelativeSource TemplatedParent}}"
                                                                                 Foreground="{DynamicResource {x:Static docking:DockingColors.AnchorableFloatingWindowTitleBarForeground}}">
                                             <DockPanel>
-                                                <ContentPresenter Content="{Binding Model.SinglePane.SelectedContent, RelativeSource={RelativeSource TemplatedParent}}"
-                                                                  ContentTemplate="{Binding Model.Root.Manager.AnchorableTitleTemplate, RelativeSource={RelativeSource TemplatedParent}}"
-                                                                  ContentTemplateSelector="{Binding Model.Root.Manager.AnchorableTitleTemplateSelector, RelativeSource={RelativeSource TemplatedParent}}" />
+                                                <ContentPresenter Content="{Binding Model.SinglePane.SelectedContent.Title, RelativeSource={RelativeSource TemplatedParent}}" ContentTemplate="{Binding Model.SinglePane.SelectedContent.TitleTemplate, RelativeSource={RelativeSource TemplatedParent}}" />
                                             </DockPanel>
                                         </avalonDockControls:DropDownControlArea>
                                         <Rectangle x:Name="Grip"
@@ -181,11 +180,15 @@
                                                      HorizontalAlignment="Left"
                                                      DockPanel.Dock="Left"
                                                      Source="{Binding Source={x:Static Application.Current}, Path=MainWindow.(mafc:MainWindow.ActivatedFloatIcon)}"
-                                                     WindowChrome.IsHitTestVisibleInChrome="True" />
+                                                     VectorFill="{Binding Source={x:Static services:InternalApplicationIconService.Instance}, Path=ActiveColor}"
+                                                     WindowChrome.IsHitTestVisibleInChrome="True">
+                                        <mafc:SystemMenu.VectorIcon>
+                                            <Binding Path="VectorIcon" Source="{x:Static services:InternalApplicationIconService.Instance}" />
+                                        </mafc:SystemMenu.VectorIcon>
+                                    </mafc:SystemMenu>
+
 
                                     <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-
-
                                         <avalonDockControls:AnchorFloatingWindowTitleBarButton x:Name="MaximizeRestoreButtonL"
                                                                                                Width="34"
                                                                                                Height="26"

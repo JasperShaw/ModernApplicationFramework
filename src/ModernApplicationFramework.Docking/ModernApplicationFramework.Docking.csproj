@@ -464,6 +464,8 @@
   <ItemGroup>
     <Resource Include="Resources\DockPaneLargeEmpty.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\Lock.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

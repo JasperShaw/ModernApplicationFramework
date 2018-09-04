@@ -150,6 +150,24 @@ namespace ModernApplicationFramework.Docking.Controls
                     OnPinCommandChanged,
                     CoercePinCommandValue));
 
+        public static readonly DependencyProperty IsReadonlyProperty = DependencyProperty.Register(
+            "IsReadonly", typeof(bool), typeof(LayoutItem), new PropertyMetadata(default(bool)));
+
+        public static readonly DependencyProperty IsDirtyProperty = DependencyProperty.Register(
+            "IsDirty", typeof(bool), typeof(LayoutItem), new PropertyMetadata(default(bool), OnIsDirtyChanged));
+
+
+        public bool IsDirty
+        {
+            get => (bool) GetValue(IsDirtyProperty);
+            set => SetValue(IsDirtyProperty, value);
+        }
+
+        public bool IsReadonly
+        {
+            get => (bool) GetValue(IsReadonlyProperty);
+            set => SetValue(IsReadonlyProperty, value);
+        }
 
 
         public static readonly DependencyProperty IsFloatingProperty = DependencyProperty.Register("IsFloating",
@@ -199,11 +217,33 @@ namespace ModernApplicationFramework.Docking.Controls
             }
         }
 
+        private static DataTemplate DefaultTabbedToolTitleTemplate
+        {
+            get
+            {
+                if (_defaultTabbedToolTitleTemplate == null)
+                    LoadTemplates();
+                return _defaultTabbedToolTitleTemplate;
+            }
+        }
+
+        private static DataTemplate DefaultToolTitleTemplate
+        {
+            get
+            {
+                if (_defaultToolTitleTemplate == null)
+                    LoadTemplates();
+                return _defaultToolTitleTemplate;
+            }
+        }
+
         private static void LoadTemplates()
         {
             var resourceDictionary = LoadResourceValue<ResourceDictionary>("Themes/DataTemplates.xaml");
             _defaultDocumentWellDocumentTitleTemplate = resourceDictionary["DocumentWellDocumentTitleTemplate"] as DataTemplate;
             _defaultDocumentWellToolTitleTemplate = resourceDictionary["DocumentWellToolTitleTemplate"] as DataTemplate;
+            _defaultTabbedToolTitleTemplate = resourceDictionary["TabbedToolTitleTemplate"] as DataTemplate;
+            _defaultToolTitleTemplate = resourceDictionary["ToolTitleTemplate"] as DataTemplate;
         }
 
         internal static T LoadResourceValue<T>(string xamlName)
@@ -699,7 +739,7 @@ namespace ModernApplicationFramework.Docking.Controls
             private set
             {
                 if (_layoutElement != null && _layoutElement != value)
-                    _layoutElement.IsActiveChanged -= LayoutElementOnIsActiveChanged;
+                    DisconnectEvents();
                 if (_layoutElement == value)
                     return;
                 if (_layoutElement != null && value != null && value.Title == null)
@@ -707,8 +747,8 @@ namespace ModernApplicationFramework.Docking.Controls
                 _layoutElement = value;
                 if (_layoutElement == null)
                     return;
-                _layoutElement.IsActiveChanged += LayoutElementOnIsActiveChanged;
-
+                ConnectEvents();
+                PreloadOnScreenContent(_layoutElement);
                 if (_layoutElement.TitleTemplate != null && _layoutElement.TabTitleTemplate != null && _layoutElement.DocumentTabTitleTemplate != null)
                     return;
 
@@ -718,24 +758,51 @@ namespace ModernApplicationFramework.Docking.Controls
                     _layoutElement.TabTitleTemplate = DefaultDocumentWellDocumentTitleTemplate;
                     _layoutElement.DocumentTabTitleTemplate = DefaultDocumentWellDocumentTitleTemplate;
                 }
-                //else
+                else
                 {
-                    //_layoutElement.TitleTemplate = DefaultToolTitleTemplate;
-                    //_layoutElement.TabTitleTemplate = DefaultTabbedToolTitleTemplate;
+                    _layoutElement.TitleTemplate = DefaultToolTitleTemplate;
+                    _layoutElement.TabTitleTemplate = DefaultTabbedToolTitleTemplate;
                     _layoutElement.DocumentTabTitleTemplate = DefaultDocumentWellToolTitleTemplate;
                 }
             }
         }
 
+        private bool TryLoadViewTitle(LayoutContent view)
+        {
+            if (IsViewTitleCachedAndCurrent(view))
+                return true;
+            return AssignNewWindowTitle(view);
+        }
+
+        private bool AssignNewWindowTitle(LayoutContent view)
+        {
+            if (view == null)
+                return false;
+            if (string.IsNullOrEmpty(view.XmlSeriallizedTitle))
+                return false;
+            view.Title = new WindowFrameTitle
+            {
+                Title = view.XmlSeriallizedTitle
+            };
+            return true;
+        }
+
+        private bool IsViewTitleCachedAndCurrent(LayoutContent view)
+        {
+            if (view == null)
+                return false;
+            return view.Title is WindowFrameTitle title && !string.IsNullOrEmpty(title.Title);
+        }
+
         private void PreloadOnScreenContent(LayoutContent view)
         {
-            //TODO:
+            if (TryLoadViewTitle(view))
+                return;
             EnsureContentConstructed();
         }
 
         private void EnsureContentConstructed()
         {
-            //TODO:
             EnsureFocused();
             EnsureTitleBound();
         }
@@ -744,23 +811,20 @@ namespace ModernApplicationFramework.Docking.Controls
         {
             if (LayoutElement == null)
                 return;
-            //var title = LayoutElement.Title as WindowFrameTitle;
-            //if (title != null && title.IsBound && (title.IsBoundToFrame(this) && title.Culture.Equals((object)WindowManagementPackage.VSCulture)))
-            //    return;
-            //LayoutElement.Title = (object)new WindowFrameTitle(this);
+            var title = LayoutElement.Title;
+            if (title != null && title.IsBound && title.IsBoundToFrame(this))
+                return;
+            LayoutElement.Title = new WindowFrameTitle(this);
         }
 
         internal bool EnsureTitle()
         {
             if (LayoutElement == null)
                 return false;
+            if (TryLoadViewTitle(LayoutElement))
+                return true;
             EnsureTitleBound();
             return true;
-        }
-
-        private void LayoutElementOnIsActiveChanged(object sender, EventArgs e)
-        {
-            EnsureTitle();
         }
 
         public object Model { get; private set; }
@@ -962,8 +1026,12 @@ namespace ModernApplicationFramework.Docking.Controls
 
         protected virtual void OnTitleChanged(DependencyPropertyChangedEventArgs e)
         {
-            if (LayoutElement != null)
-                LayoutElement.Title = (string)e.NewValue;
+            EnsureTitleBound();
+        }
+
+        protected virtual void OnIsDirtyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            EnsureTitleBound();
         }
 
         protected virtual void OnVisibilityChanged()
@@ -1020,8 +1088,6 @@ namespace ModernApplicationFramework.Docking.Controls
             LayoutElement = model;
             Model = model.Content;
             InitDefaultCommands();
-            LayoutElement.IsSelectedChanged += LayoutElement_IsSelectedChanged;
-            LayoutElement.IsActiveChanged += LayoutElement_IsActiveChanged;
             DataContext = this;
             Trace.WriteLine($"Attach({LayoutElement.Title})");
         }
@@ -1029,10 +1095,27 @@ namespace ModernApplicationFramework.Docking.Controls
         internal virtual void Detach()
         {
             Trace.WriteLine($"Detach({LayoutElement.Title})");
-            LayoutElement.IsSelectedChanged -= LayoutElement_IsSelectedChanged;
-            LayoutElement.IsActiveChanged -= LayoutElement_IsActiveChanged;
+            LayoutElement.Content = null;
             LayoutElement = null;
             Model = null;
+        }
+
+        private void ConnectEvents()
+        {
+            if (_layoutElement != null)
+            {
+                LayoutElement.IsSelectedChanged += LayoutElement_IsSelectedChanged;
+                LayoutElement.IsActiveChanged += LayoutElement_IsActiveChanged;
+            }
+        }
+
+        private void DisconnectEvents()
+        {
+            if (_layoutElement != null)
+            {
+                LayoutElement.IsSelectedChanged += LayoutElement_IsSelectedChanged;
+                LayoutElement.IsActiveChanged += LayoutElement_IsActiveChanged;
+            }
         }
 
         private static object CoerceActivateCommandValue(DependencyObject d, object value)
@@ -1165,6 +1248,11 @@ namespace ModernApplicationFramework.Docking.Controls
         private static void OnTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ((LayoutItem)d).OnTitleChanged(e);
+        }
+
+        private static void OnIsDirtyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((LayoutItem)d).OnIsDirtyChanged(e);
         }
 
         private static void OnToolTipChanged(DependencyObject s, DependencyPropertyChangedEventArgs e)
@@ -1444,6 +1532,7 @@ namespace ModernApplicationFramework.Docking.Controls
                 if (IsActive)
                 {
                     EnsureFocused();
+                    EnsureTitle();
                 }
             }
         }
@@ -1486,6 +1575,8 @@ namespace ModernApplicationFramework.Docking.Controls
         private FrameworkElement _contentControl;
         private LayoutContent _layoutElement;
         private static DataTemplate _defaultDocumentWellToolTitleTemplate;
+        private static DataTemplate _defaultTabbedToolTitleTemplate;
+        private static DataTemplate _defaultToolTitleTemplate;
 
 
         [XmlIgnore]

@@ -24,6 +24,7 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using System.Xml;
 using System.Xml.Serialization;
+using ModernApplicationFramework.Docking.Controls;
 using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Docking.Layout
@@ -34,7 +35,7 @@ namespace ModernApplicationFramework.Docking.Layout
         IComparable<LayoutContent>, ILayoutPreviousContainer, IHasIconSource
     {
         public static readonly DependencyProperty TitleProperty =
-            DependencyProperty.Register("Title", typeof (string), typeof (LayoutContent),
+            DependencyProperty.Register("Title", typeof (WindowFrameTitle), typeof (LayoutContent),
                 new UIPropertyMetadata(null, OnTitlePropertyChanged, CoerceTitleValue));
 
         public static readonly DependencyProperty TabTitleTemplateProperty =
@@ -164,7 +165,7 @@ namespace ModernApplicationFramework.Docking.Layout
         {
             if (Content is IComparable contentAsComparable)
                 return contentAsComparable.CompareTo(other.Content);
-            return _comparer.Compare(Title, other.Title);
+            return _comparer.Compare(Title?.Title, other.Title?.Title);
         }
 
         public double FloatingHeight
@@ -261,7 +262,9 @@ namespace ModernApplicationFramework.Docking.Layout
         public virtual void ReadXml(XmlReader reader)
         {
             if (reader.MoveToAttribute("Title"))
-                Title = reader.Value;
+                XmlSeriallizedTitle = reader.Value;
+            //if (reader.MoveToAttribute("Title"))
+            //    Title = new WindowFrameTitle(reader.Value);
             //if (reader.MoveToAttribute("IconSource"))
             //    IconSource = new Uri(reader.Value, UriKind.RelativeOrAbsolute);
 
@@ -300,8 +303,8 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public virtual void WriteXml(XmlWriter writer)
         {
-            if (!string.IsNullOrWhiteSpace(Title))
-                writer.WriteAttributeString("Title", Title);
+            if (!string.IsNullOrWhiteSpace(Title.Title))
+                writer.WriteAttributeString("Title", Title.Title);
 
             //if (IconSource != null)
             //    writer.WriteAttributeString("IconSource", IconSource.ToString());
@@ -518,9 +521,9 @@ namespace ModernApplicationFramework.Docking.Layout
             }
         }
 
-        public string Title
+        public WindowFrameTitle Title
         {
-            get => (string) GetValue(TitleProperty);
+            get => (WindowFrameTitle) GetValue(TitleProperty);
             set => SetValue(TitleProperty, value);
         }
 
@@ -535,6 +538,12 @@ namespace ModernApplicationFramework.Docking.Layout
                 RaisePropertyChanged("ToolTip");
             }
         }
+
+        [XmlIgnore]
+        internal LayoutItem LayoutItem => DockingManager.Instance.GetLayoutItemFromModel(this);
+
+        [XmlIgnore]
+        internal string XmlSeriallizedTitle { get; private set; }
 
         protected ILayoutContainer PreviousContainer
         {
@@ -597,8 +606,7 @@ namespace ModernApplicationFramework.Docking.Layout
                 InternalDock();
             ShowMainWindow();
 
-            var layoutItem = Root.Manager.GetLayoutItemFromModel(this);
-            layoutItem.EnsureFocused();
+            LayoutItem.EnsureFocused();
 
             Root.CollectGarbage();
         }
@@ -755,7 +763,7 @@ namespace ModernApplicationFramework.Docking.Layout
             switch (name)
             {
                 case "Title":
-                    Title = valueString;
+                    XmlSeriallizedTitle = valueString;
                     break;
                 case "ToolTip":
                     ToolTip = valueString;
@@ -845,7 +853,7 @@ namespace ModernApplicationFramework.Docking.Layout
         private static object CoerceTitleValue(DependencyObject obj, object value)
         {
             var lc = (LayoutContent) obj;
-            if (((string) value) != lc.Title)
+            if ((WindowFrameTitle) value != lc.Title)
             {
                 lc.RaisePropertyChanging(TitleProperty.Name);
             }

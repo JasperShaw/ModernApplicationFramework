@@ -109,12 +109,10 @@
                                             </Shape.Fill>
                                         </Path>
                                     </avalonDockControls:DropDownButton>
-
                                     <ContentPresenter x:Name="Content"
                                                       Margin="2,0,0,0"
-                                                      Content="{Binding Model, RelativeSource={RelativeSource TemplatedParent}}"
-                                                      ContentTemplate="{Binding Model.Root.Manager.AnchorableTitleTemplate, RelativeSource={RelativeSource TemplatedParent}}"
-                                                      ContentTemplateSelector="{Binding Model.Root.Manager.AnchorableTitleTemplateSelector, RelativeSource={RelativeSource TemplatedParent}}" />
+                                                      Content="{Binding Model.Title, RelativeSource={RelativeSource TemplatedParent}}"
+                                                      ContentTemplate="{Binding Model.TitleTemplate, RelativeSource={RelativeSource TemplatedParent}}" />
                                     <Rectangle x:Name="Grip"
                                                Height="5"
                                                Margin="8,0,4,0"

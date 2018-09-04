@@ -233,7 +233,7 @@ namespace ModernApplicationFramework.Docking.Controls
 
         protected virtual bool ShouldShowWindowMenu()
         {
-            return IsWindowTitleBar && !IsInTabItem && LayoutItem == null;
+            return IsWindowTitleBar && !IsInTabItem;
         }
 
         private bool IsOutsideSensitivity(Point point)

@@ -21,7 +21,6 @@ namespace ModernApplicationFramework.Extended.Layout
         private string _toolTip;
         private ImageSource _iconSource;
         private LayoutContent _frame;
-        private IContextMenuProvider _contextMenuProvider;
         private IUndoRedoManager _undoRedoManager;
 
         [Browsable(false)]
@@ -54,18 +53,6 @@ namespace ModernApplicationFramework.Extended.Layout
                 NotifyOfPropertyChange(() => IsSelected);
             }
         }
-
-        //[Browsable(false)]
-        //public IContextMenuProvider ContextMenuProvider
-        //{
-        //    get => _contextMenuProvider;
-        //    set
-        //    {
-        //        if (Equals(value, _contextMenuProvider)) return;
-        //        _contextMenuProvider = value;
-        //        NotifyOfPropertyChange();
-        //    }
-        //}
 
         public virtual Guid ContextMenuId => Guid.Empty;
 

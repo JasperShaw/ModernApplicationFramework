@@ -39,12 +39,6 @@ namespace ModernApplicationFramework.Extended.Interfaces
         /// </summary>
         bool IsSelected { get; set; }
 
-
-        ///// <summary>
-        ///// Gets or sets an <see cref="IContextMenuProvider"/>.
-        ///// </summary>
-        //IContextMenuProvider ContextMenuProvider { get; set; }
-
         /// <summary>
         /// The context menu definition identifier.
         /// </summary>
