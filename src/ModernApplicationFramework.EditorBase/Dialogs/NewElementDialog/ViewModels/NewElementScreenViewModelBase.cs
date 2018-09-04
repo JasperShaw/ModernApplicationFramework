@@ -9,7 +9,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using Caliburn.Micro;
-using ModernApplicationFramework.Controls.ComboBox;
 using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.EditorBase.Core;
 using ModernApplicationFramework.EditorBase.Interfaces;
@@ -25,7 +24,6 @@ namespace ModernApplicationFramework.EditorBase.Dialogs.NewElementDialog.ViewMod
     {
         private int _selectedIndex;
         private IExtensionDefinition _selectedItem;
-        //private ComboBoxDataSource _sortDataSource;
         private IEnumerable<IExtensionDefinition> _itemSource;
         private EventHandler<ItemDoubleClickedEventArgs> _itemDoubleClicked;
         private INewElementExtensionsProvider _selectedProvider;
@@ -33,6 +31,7 @@ namespace ModernApplicationFramework.EditorBase.Dialogs.NewElementDialog.ViewMod
 
         private TreeView _providerTreeView;
         private INewElementExtensionTreeNode _selectedCategory;
+        private ISortingComboboxItem _selectedSortItem;
 
         // ReSharper disable once StaticMemberInGenericType
         private static readonly Func<IExtensionDefinition, IExtensionDefinition, int> NameCompare = (s, t) =>
@@ -167,26 +166,32 @@ namespace ModernApplicationFramework.EditorBase.Dialogs.NewElementDialog.ViewMod
         public virtual ObservableCollection<ISortingComboboxItem> SortItems { get; set; } =
             new ObservableCollection<ISortingComboboxItem>
             {
-                new SortingComboboxItem(NewElementDialogResources.NewElementSortDefault, ListSortDirection.Ascending, (s, t) =>
+                new SortingComboboxItem(NewElementDialogResources.NewElementSortDefault, ListSortDirection.Ascending,
+                    (s, t) =>
                     {
-                        if ( s.SortOrder == t.SortOrder && s.Name != null && t.Name != null)
+                        if (s.SortOrder == t.SortOrder && s.Name != null && t.Name != null)
                             return string.Compare(s.Name, t.Name, StringComparison.CurrentCulture);
                         return s.SortOrder.CompareTo(t.SortOrder);
                     }),
-                new SortingComboboxItem(NewElementDialogResources.NewElementSortNameAsc, ListSortDirection.Ascending, NameCompare),
-                new SortingComboboxItem(NewElementDialogResources.NewElementSortNameDesc, ListSortDirection.Descending, NameCompare)
+                new SortingComboboxItem(NewElementDialogResources.NewElementSortNameAsc, ListSortDirection.Ascending,
+                    NameCompare),
+                new SortingComboboxItem(NewElementDialogResources.NewElementSortNameDesc, ListSortDirection.Descending,
+                    NameCompare)
             };
 
-        //public ComboBoxDataSource SortDataSource
-        //{
-        //    get => _sortDataSource;
-        //    set
-        //    {
-        //        if (Equals(value, _sortDataSource)) return;
-        //        _sortDataSource = value;
-        //        NotifyOfPropertyChange();
-        //    }
-        //}
+
+        public ISortingComboboxItem SelectedSortItem
+        {
+            get => _selectedSortItem;
+            set
+            {
+                if (Equals(value, _selectedSortItem))
+                    return;
+                _selectedSortItem = value;
+                NotifyOfPropertyChange();
+                ChangeSorting(value);
+            }
+        }
 
         protected NewElementScreenViewModelBase()
         {
@@ -210,11 +215,8 @@ namespace ModernApplicationFramework.EditorBase.Dialogs.NewElementDialog.ViewMod
 
             if (view is NewElementPresenterView presenterView)
                 _providerTreeView = presenterView.ProvidersTreeView;
-
-            //SortDataSource = new ComboBoxDataSource(SortItems);
-            //if (SortItems != null && SortItems.Count > 0 && SortDataSource.SelectedIndex < 0)
-            //    SortDataSource.ChangeDisplayedItem(0);
-            //SortDataSource.PropertyChanged += SortDataSource_PropertyChanged;
+            if (SortItems != null && SortItems.Count > 0)
+                SelectedSortItem = SortItems[0];
         }
 
         protected override void OnViewLoaded(object view)
@@ -258,7 +260,7 @@ namespace ModernApplicationFramework.EditorBase.Dialogs.NewElementDialog.ViewMod
         protected virtual void OnCategorySelectionChanged(RoutedPropertyChangedEventArgs<object> e)
         {
             CategorySelectionChanged?.Invoke(this, e);
-            //ChangeSorting(SortDataSource.DisplayedItem as ISortingComboboxItem);
+            ChangeSorting(SelectedSortItem);
             OnUIThread(() =>
             {
                 if (Extensions.Any() && SelectedExtensionIndex < 0)
@@ -269,18 +271,12 @@ namespace ModernApplicationFramework.EditorBase.Dialogs.NewElementDialog.ViewMod
         protected virtual void OnProviderSelectionChanged(RoutedPropertyChangedEventArgs<object> e)
         {
             ProviderSelectionChanged?.Invoke(this, e);
-            //ChangeSorting(SortDataSource.DisplayedItem as ISortingComboboxItem);
+            ChangeSorting(SelectedSortItem);
             OnUIThread(() =>
             {
                 if (Extensions.Any() && SelectedExtensionIndex < 0)
                     SelectedExtensionIndex = 0;
             });
-        }
-
-        private void SortDataSource_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            //if (e.PropertyName == nameof(SortDataSource.DisplayedItem))
-            //    ChangeSorting(SortDataSource.DisplayedItem as ISortingComboboxItem);
         }
 
         private void ChangeSorting(IComparer sortOrder)

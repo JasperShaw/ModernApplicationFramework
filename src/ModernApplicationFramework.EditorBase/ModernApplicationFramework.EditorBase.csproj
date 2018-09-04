@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\CopyFullPathCommand.cs" />
+    <Compile Include="Controls\SortCombo.cs" />
     <Compile Include="Core\Converters\MonospaceToBoldConverter.cs" />
     <Compile Include="Interfaces\Commands\ICopyFullPathCommand.cs" />
     <Compile Include="Interfaces\Commands\INewFileCommand.cs" />

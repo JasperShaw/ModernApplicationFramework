@@ -3,7 +3,7 @@ using System.Collections.Specialized;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics.CommandBar;
+using ModernApplicationFramework.Core;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Interfaces;
@@ -76,13 +76,13 @@ namespace ModernApplicationFramework.Extended.UndoRedoManager
             if (_undoRedoManager == null)
                 return;
             foreach (var t in _undoRedoManager.UndoStack.Reverse())
-                UndoItems.Add(new TextCommandBarItemDefinition(t.Description));
+                UndoItems.Add(new TextDataModel(t.Description));
 
             RedoItems.Clear();
             if (_undoRedoManager == null)
                 return;
             foreach (var t in _undoRedoManager.RedoStack.Reverse())
-                RedoItems.Add(new TextCommandBarItemDefinition(t.Description));
+                RedoItems.Add(new TextDataModel(t.Description));
         }
 
         private void OnUndoStackChanged(object sender, NotifyCollectionChangedEventArgs e)

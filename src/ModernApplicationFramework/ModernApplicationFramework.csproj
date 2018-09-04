@@ -516,7 +516,7 @@
     <Compile Include="Basics\CommandBar\DataSources\MenuControllerDataSource.cs" />
     <Compile Include="Basics\CommandBar\DataSources\SplitButtonDataSource.cs" />
     <Compile Include="Basics\Creators\NumberStatusStringCreator.cs" />
-    <Compile Include="Basics\CommandBar\TextCommandBarItemDefinition.cs" />
+    <Compile Include="Core\TextDataModel.cs" />
     <Compile Include="Core\Converters\FormattedLocalizableStringConverter.cs" />
     <Compile Include="Interfaces\IHasTextProperty.cs" />
     <Compile Include="Interfaces\Utilities\IStatusStringCreator.cs" />

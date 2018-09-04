@@ -1,12 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
-using ModernApplicationFramework.Basics.CommandBar;
+using ModernApplicationFramework.Core;
 using ModernApplicationFramework.EditorBase.Interfaces;
 using ModernApplicationFramework.EditorBase.Interfaces.NewElement;
 
 namespace ModernApplicationFramework.EditorBase.Core
 {
-    public class SortingComboboxItem : TextCommandBarItemDefinition, ISortingComboboxItem
+    public class SortingComboboxItem : TextDataModel, ISortingComboboxItem
     {
         public delegate int CompareTemplates(IExtensionDefinition source, IExtensionDefinition target);
 

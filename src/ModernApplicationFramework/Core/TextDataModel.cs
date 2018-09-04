@@ -1,20 +1,17 @@
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using JetBrains.Annotations;
 using ModernApplicationFramework.Interfaces;
 
-namespace ModernApplicationFramework.Basics.CommandBar
+namespace ModernApplicationFramework.Core
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="IHasTextProperty" />
     /// <summary>
     /// Simple text command bar item
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Interfaces.IHasTextProperty" />
-    public class TextCommandBarItemDefinition : IHasTextProperty
+    public class TextDataModel : ViewModelBase, IHasTextProperty
     {
         private string _text;
 
-        public TextCommandBarItemDefinition(string text)
+        public TextDataModel(string text)
         {
             _text = text;
         }
@@ -32,14 +29,6 @@ namespace ModernApplicationFramework.Basics.CommandBar
                 _text = value;
                 OnPropertyChanged();
             }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
