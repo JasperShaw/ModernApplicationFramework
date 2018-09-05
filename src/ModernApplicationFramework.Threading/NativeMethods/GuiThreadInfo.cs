@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ModernApplicationFramework.Native.Platform.Structs
+namespace ModernApplicationFramework.Threading.NativeMethods
 {
     internal struct GuiThreadInfo
     {

@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.Services.WaitDialog;
 using ModernApplicationFramework.Basics.Threading;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Services;

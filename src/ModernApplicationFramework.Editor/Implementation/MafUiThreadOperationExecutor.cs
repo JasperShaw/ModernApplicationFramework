@@ -1,23 +1,23 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Linq;
+using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Text.Utilities;
 using ModernApplicationFramework.Utilities.Attributes;
 
 namespace ModernApplicationFramework.Editor.Implementation
 {
-    //[ExportImplementation(typeof(IUiThreadOperationExecutor))]
+    [ExportImplementation(typeof(IUiThreadOperationExecutor))]
     [Name("UI thread operation executor")]
     [Order(Before = "default")]
     internal sealed class MafUiThreadOperationExecutor : IUiThreadOperationExecutor
     {
-        //TODO: Implement Wait window stuff
-
-        //private IVsThreadedWaitDialogFactory _vsThreadedWaitDialogFactory;
+        private readonly IWaitDialogFactory _waitDialogFactory;
 
         [ImportingConstructor]
-        public MafUiThreadOperationExecutor()
+        public MafUiThreadOperationExecutor(IWaitDialogFactory waitDialogFactory)
         {
+            _waitDialogFactory = waitDialogFactory;
         }
 
         public UiThreadOperationStatus Execute(string title, string defaultDescription, bool allowCancellation, bool showProgress, Action<IUiThreadOperationContext> action)
@@ -42,14 +42,11 @@ namespace ModernApplicationFramework.Editor.Implementation
 
         public IUiThreadOperationContext BeginExecute(string title, string defaultDescription, bool allowCancellation, bool showProgress)
         {
-            //if (this._vsThreadedWaitDialogFactory == null)
-            //{
-            //    this._vsThreadedWaitDialogFactory = (IVsThreadedWaitDialogFactory)this._serviceProvider.GetService(typeof(SVsThreadedWaitDialogFactory));
-            //    if (this._vsThreadedWaitDialogFactory == null)
-            //        throw new InvalidOperationException("Cannot get IVsThreadedWaitDialogFactory");
-            //}
 
-            return new UiThreadOperationContext(/*_vsThreadedWaitDialogFactory,*/ title,
+            if (_waitDialogFactory == null)
+                throw new InvalidOperationException("Cannot get IVsThreadedWaitDialogFactory");
+
+            return new UiThreadOperationContext(_waitDialogFactory, title,
                 defaultDescription, allowCancellation, showProgress);
         }
     }

@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.Composition;
-using ModernApplicationFramework.Basics.Threading;
 using ModernApplicationFramework.Interfaces.Controls;
 using ModernApplicationFramework.Interfaces.Services;
 
-namespace ModernApplicationFramework.Basics.Services
+namespace ModernApplicationFramework.Basics.Services.WaitDialog
 {
     [Export(typeof(IWaitDialogFactory))]
     internal class WaitDialogFactory : IWaitDialogFactory

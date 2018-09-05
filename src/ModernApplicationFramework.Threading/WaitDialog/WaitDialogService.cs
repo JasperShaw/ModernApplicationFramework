@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Windows.Threading;
-using ModernApplicationFramework.Controls.Windows;
-using ModernApplicationFramework.Core;
-using ModernApplicationFramework.Utilities; 
+using ModernApplicationFramework.Threading.Controls;
+using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Basics.Threading
+namespace ModernApplicationFramework.Threading.WaitDialog
 {
-    internal class WaitDialogService : DisposableObject
+    internal class WaitDialogService : DisposableObject, IWaitDialogService
     {
         private readonly Action _onCancelAction;
         private bool _isDialogAcquired;
@@ -96,5 +95,18 @@ namespace ModernApplicationFramework.Basics.Threading
             var action = _onCancelAction;
             action?.Invoke();
         }
+    }
+
+    public interface IWaitDialogService
+    {
+        void CloseDialog();
+        void Initialize(DialogInitializationArguments args);
+        void ShowDialog(DialogShowArguments args);
+        void UpdateDialog(DialogUpdateArguments args);
+    }
+
+    public interface ICancelHandler
+    {
+        void OnCancel();
     }
 }

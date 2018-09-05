@@ -1,4 +1,4 @@
-﻿namespace ModernApplicationFramework.Native.Platform.Enums
+﻿namespace ModernApplicationFramework.Threading.NativeMethods
 {
     internal enum Gwl
     {

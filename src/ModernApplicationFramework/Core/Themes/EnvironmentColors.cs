@@ -778,20 +778,7 @@ namespace ModernApplicationFramework.Core.Themes
 
         #region WaitDialog
 
-        public static ComponentResourceKey WaitDialogActiveShadowAndBorder => _waitDialogActiveShadowAndBorder ??
-                                                            (_waitDialogActiveShadowAndBorder = new ComponentResourceKey(typeof(EnvironmentColors), "WaitDialogActiveShadowAndBorder"));
-
-        public static ComponentResourceKey WaitDialogTitleBarBackground => _waitDialogTitleBarBackground ??
-                                                            (_waitDialogTitleBarBackground = new ComponentResourceKey(typeof(EnvironmentColors), "WaitDialogTitleBarBackground"));
-
-        public static ComponentResourceKey WaitDialogTitleBarForeground => _waitDialogTitleBarForeground ??
-                                                            (_waitDialogTitleBarForeground = new ComponentResourceKey(typeof(EnvironmentColors), "WaitDialogTitleBarForeground"));
-
-        public static ComponentResourceKey WaitDialogMessageForeground => _waitDialogMessageForeground ??
-                                                            (_waitDialogMessageForeground = new ComponentResourceKey(typeof(EnvironmentColors), "WaitDialogMessageForeground"));
-
-        public static ComponentResourceKey WaitDialogBackground => _waitDialogBackground ??
-                                                            (_waitDialogBackground = new ComponentResourceKey(typeof(EnvironmentColors), "WaitDialogBackground"));
+        
 
         #endregion
 

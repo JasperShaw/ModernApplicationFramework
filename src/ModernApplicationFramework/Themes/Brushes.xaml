@@ -349,19 +349,6 @@
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, ResourceId=WindowBaseForeground}" Color="#FF000000" />
 
 
-    <!--  WaitDialog  -->
-
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, ResourceId=WaitDialogActiveShadowAndBorder}" Color="#FF293955" />
-
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, ResourceId=WaitDialogTitleBarBackground}" Color="#FFD6DBE9" />
-
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, ResourceId=WaitDialogTitleBarForeground}" Color="#FF000000" />
-
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, ResourceId=WaitDialogMessageForeground}" Color="#FF000000" />
-
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, ResourceId=WaitDialogBackground}" Color="#FEFEFE" />
-
-
     <!--  Modern Expander  -->
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, ResourceId=ModernExpanderBackground}" Color="#FFEDEDF1" />
 

@@ -8,6 +8,7 @@
         <ResourceDictionary Source="/ModernApplicationFramework.Themes.LightIDE;component/SearchControlColors.xaml" />
         <ResourceDictionary Source="/ModernApplicationFramework.Themes.LightIDE;component/CommonControlColors.xaml" />
         <ResourceDictionary Source="/ModernApplicationFramework.Themes.LightIDE;component/DockingColors.xaml" />
+        <ResourceDictionary Source="/ModernApplicationFramework.Themes.LightIDE;component/WaitDialogColors.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

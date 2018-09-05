@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Services;
+using ModernApplicationFramework.Basics.Services.StatusBar;
 using ModernApplicationFramework.Editor.OutputClassifier;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Package;

@@ -18,9 +18,6 @@ namespace ModernApplicationFramework.Native.NativeMethods
             IntPtr hMenu, IntPtr hInstance, IntPtr lpParam);
 
         [DllImport("user32.dll")]
-        public static extern IntPtr GetDesktopWindow();
-
-        [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool EnumThreadWindows(uint dwThreadId, NativeMethods.EnumWindowsProc lpfn, IntPtr lParam);
 
@@ -251,16 +248,6 @@ namespace ModernApplicationFramework.Native.NativeMethods
         [DllImport("user32.dll")]
         public static extern IntPtr GetCapture();
 
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool SetProp(IntPtr hwnd, string propName, IntPtr value);
-
-        [DllImport("user32.dll")]
-        public static extern IntPtr GetForegroundWindow();
-
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-        public static extern int GetClassName(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
-
         [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         public static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
 
@@ -273,10 +260,6 @@ namespace ModernApplicationFramework.Native.NativeMethods
             GetWindowText(hwnd, lpString, lpString.Capacity);
             return lpString.ToString();
         }
-
-        [DllImport("user32.dll", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetGUIThreadInfo(uint idThread, out GuiThreadInfo lpgui);
 
         [DllImport("user32.dll")]
         internal static extern short VkKeyScan(char ch);
@@ -291,6 +274,5 @@ namespace ModernApplicationFramework.Native.NativeMethods
 
         [DllImport("user32.dll")]
         public static extern IntPtr CallNextHookEx(IntPtr hhk, CbtHookAction code, IntPtr wParam, IntPtr lParam);
-
     }
 }

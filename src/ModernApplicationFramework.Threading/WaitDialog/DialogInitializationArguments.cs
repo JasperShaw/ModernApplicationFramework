@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace ModernApplicationFramework.Basics.Threading
+namespace ModernApplicationFramework.Threading.WaitDialog
 {
-    internal class DialogInitializationArguments
+    public class DialogInitializationArguments
     {
         public string AppName { get; set; }
 

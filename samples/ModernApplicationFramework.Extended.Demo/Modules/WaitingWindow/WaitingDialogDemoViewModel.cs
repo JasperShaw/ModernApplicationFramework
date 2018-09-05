@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.Services.WaitDialog;
 using ModernApplicationFramework.Basics.Threading;
 using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Input.Command;

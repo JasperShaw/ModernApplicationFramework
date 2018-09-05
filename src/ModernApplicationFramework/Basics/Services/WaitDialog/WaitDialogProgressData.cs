@@ -1,6 +1,6 @@
 ﻿using ModernApplicationFramework.Interfaces.Controls;
 
-namespace ModernApplicationFramework.Basics.Threading
+namespace ModernApplicationFramework.Basics.Services.WaitDialog
 {
     /// <summary>
     /// Data Model for an <see cref="IWaitDialog"/>

@@ -1,6 +1,6 @@
 ﻿using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Basics.Threading
+namespace ModernApplicationFramework.Threading.WaitDialog
 {
     internal class WaitDialogDataSource : ObservableObject
     {

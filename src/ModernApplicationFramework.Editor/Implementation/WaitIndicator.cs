@@ -1,49 +1,53 @@
-﻿namespace ModernApplicationFramework.Editor.Implementation
+﻿using System;
+using System.ComponentModel.Composition;
+using ModernApplicationFramework.Interfaces.Services;
+using ModernApplicationFramework.Text.Utilities;
+
+namespace ModernApplicationFramework.Editor.Implementation
 {
-    //TODO: Implement
+    [Export(typeof(IWaitIndicator))]
+    internal sealed class WaitIndicator : IWaitIndicator
+    {
+        private readonly IWaitDialogFactory _serviceProvider;
 
-    //[Export(typeof(IWaitIndicator))]
-    //internal sealed class WaitIndicator : IWaitIndicator
-    //{
-    //    [ImportingConstructor]
-    //    public WaitIndicator(IWaitDialogFactory serviceProvider)
-    //    {
-    //        this.serviceProvider = serviceProvider;
-    //    }
+        [ImportingConstructor]
+        public WaitIndicator(IWaitDialogFactory serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+        }
 
-    //    public WaitIndicatorResult Wait(string title, string message, bool allowCancel, Action<IWaitContext> action)
-    //    {
-    //        using (WaitContext studioWaitContext = StartWait(title, message, allowCancel))
-    //        {
-    //            try
-    //            {
-    //                action(studioWaitContext);
-    //                return WaitIndicatorResult.Completed;
-    //            }
-    //            catch (OperationCanceledException)
-    //            {
-    //                return WaitIndicatorResult.Canceled;
-    //            }
-    //            catch (AggregateException ex)
-    //            {
-    //                if (ex.InnerExceptions[0] is OperationCanceledException)
-    //                    return WaitIndicatorResult.Canceled;
-    //                throw;
-    //            }
-    //        }
-    //    }
+        public WaitIndicatorResult Wait(string title, string message, bool allowCancel, Action<IWaitContext> action)
+        {
+            using (var studioWaitContext = StartWait(title, message, allowCancel))
+            {
+                try
+                {
+                    action(studioWaitContext);
+                    return WaitIndicatorResult.Completed;
+                }
+                catch (OperationCanceledException)
+                {
+                    return WaitIndicatorResult.Canceled;
+                }
+                catch (AggregateException ex)
+                {
+                    if (ex.InnerExceptions[0] is OperationCanceledException)
+                        return WaitIndicatorResult.Canceled;
+                    throw;
+                }
+            }
+        }
 
-    //    private WaitContext StartWait(string title, string message, bool allowCancel)
-    //    {
-    //        var service = GetService(typeof(IWaitDialogFactory));
-    //        if (service == null)
-    //            throw new InvalidOperationException("Cannot get IVsThreadedWaitDialogFactory");
-    //        return new WaitContext(service, title, message, allowCancel);
-    //    }
+        private WaitContext StartWait(string title, string message, bool allowCancel)
+        {
+            if (_serviceProvider == null)
+                throw new InvalidOperationException("Cannot get IVsThreadedWaitDialogFactory");
+            return new WaitContext(_serviceProvider, title, message, allowCancel);
+        }
 
-    //    IWaitContext IWaitIndicator.StartWait(string title, string message, bool allowCancel)
-    //    {
-    //        return StartWait(title, message, allowCancel);
-    //    }
-    //}
+        IWaitContext IWaitIndicator.StartWait(string title, string message, bool allowCancel)
+        {
+            return StartWait(title, message, allowCancel);
+        }
+    }
 }

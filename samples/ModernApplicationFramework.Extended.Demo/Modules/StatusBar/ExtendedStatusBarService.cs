@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Services;
+using ModernApplicationFramework.Basics.Services.StatusBar;
 using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.StatusBar

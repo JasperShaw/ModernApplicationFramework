@@ -8,7 +8,7 @@ using JetBrains.Annotations;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Properties;
 
-namespace ModernApplicationFramework.Basics.Services
+namespace ModernApplicationFramework.Basics.Services.StatusBar
 {
     /// <inheritdoc />
     /// <summary>

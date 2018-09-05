@@ -5,7 +5,7 @@ using System.Linq;
 using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 using ModernApplicationFramework.Interfaces.Services;
 
-namespace ModernApplicationFramework.Basics.Services
+namespace ModernApplicationFramework.Basics.Services.CommandBar
 {
     /// <inheritdoc />
     /// <summary>

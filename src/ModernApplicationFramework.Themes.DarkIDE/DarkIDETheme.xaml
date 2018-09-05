@@ -1,13 +1,14 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-    
-   <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/ModernApplicationFramework.Themes.DarkIDE;component/Brushes.xaml"/>
-        <ResourceDictionary Source="/ModernApplicationFramework.Themes.DarkIDE;component/OverlayWindow.xaml"/>
-        <ResourceDictionary Source="/ModernApplicationFramework.Themes.DarkIDE;component/ColorResources.xaml"/>
-        <ResourceDictionary Source="/ModernApplicationFramework.Themes.DarkIDE;component/ToolboxColorResources.xaml"/>
-        <ResourceDictionary Source="/ModernApplicationFramework.Themes.DarkIDE;component/SearchControlColors.xaml"/>
-        <ResourceDictionary Source="/ModernApplicationFramework.Themes.DarkIDE;component/CommonControlColors.xaml"/>
-        <ResourceDictionary Source="/ModernApplicationFramework.Themes.DarkIDE;component/DockingColors.xaml"/>
-    </ResourceDictionary.MergedDictionaries>	
-    
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/ModernApplicationFramework.Themes.DarkIDE;component/Brushes.xaml" />
+        <ResourceDictionary Source="/ModernApplicationFramework.Themes.DarkIDE;component/OverlayWindow.xaml" />
+        <ResourceDictionary Source="/ModernApplicationFramework.Themes.DarkIDE;component/ColorResources.xaml" />
+        <ResourceDictionary Source="/ModernApplicationFramework.Themes.DarkIDE;component/ToolboxColorResources.xaml" />
+        <ResourceDictionary Source="/ModernApplicationFramework.Themes.DarkIDE;component/SearchControlColors.xaml" />
+        <ResourceDictionary Source="/ModernApplicationFramework.Themes.DarkIDE;component/CommonControlColors.xaml" />
+        <ResourceDictionary Source="/ModernApplicationFramework.Themes.DarkIDE;component/DockingColors.xaml" />
+        <ResourceDictionary Source="/ModernApplicationFramework.Themes.DarkIDE;component/WaitDialogColors.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
 </ResourceDictionary>

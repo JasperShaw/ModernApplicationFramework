@@ -11,7 +11,8 @@
                     xmlns:properties="clr-namespace:ModernApplicationFramework.Properties"
                     xmlns:services="clr-namespace:ModernApplicationFramework.Basics.Services"
                     xmlns:this="clr-namespace:ModernApplicationFramework.Controls"
-                    xmlns:window="clr-namespace:ModernApplicationFramework.Controls.Windows">
+                    xmlns:window="clr-namespace:ModernApplicationFramework.Controls.Windows"
+                    xmlns:statusBar="clr-namespace:ModernApplicationFramework.Basics.Services.StatusBar">
 
     <Style TargetType="{x:Type window:MainWindow}">
         <Style.Resources>
@@ -170,7 +171,7 @@
                             <internals:ToolBarHostControl x:Name="ToolbarHostControl" Grid.Row="2" />
                             <DockPanel x:Name="StatusBarPanel"
                                        Grid.Row="3"
-                                       Background="{Binding Source={x:Static services:AbstractStatusBarService.Instance}, Path=Background}">
+                                       Background="{Binding Source={x:Static statusBar:AbstractStatusBarService.Instance}, Path=Background}">
                                 <imaging:ImageThemingUtilities.ImageBackgroundColor>
                                     <Binding Converter="{StaticResource BrushToColorConverter}"
                                              Path="Background"
@@ -179,7 +180,7 @@
                                 <UIElement.Visibility>
                                     <Binding Converter="{StaticResource BooleanToVisibilityConverter}"
                                              Path="IsVisible"
-                                             Source="{x:Static services:AbstractStatusBarService.Instance}" />
+                                             Source="{x:Static statusBar:AbstractStatusBarService.Instance}" />
                                 </UIElement.Visibility>
                                 <primitives:ResizeGrip x:Name="ResizeGrip"
                                                        Padding="0"
@@ -188,7 +189,7 @@
                                                        DockPanel.Dock="Right" />
                                 <this:StatusBarContainer x:Name="StatusBar">
                                     <FrameworkElement.DataContext>
-                                        <Binding Source="{x:Static services:AbstractStatusBarService.Instance}" />
+                                        <Binding Source="{x:Static statusBar:AbstractStatusBarService.Instance}" />
                                     </FrameworkElement.DataContext>
                                 </this:StatusBarContainer>
                             </DockPanel>

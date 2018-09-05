@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:themes="clr-namespace:ModernApplicationFramework.Threading.WaitDialog">
+
+    <!--  WaitDialog  -->
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:WaitDialogColors}, ResourceId=WaitDialogActiveShadowAndBorder}" Color="#FF293955" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:WaitDialogColors}, ResourceId=WaitDialogTitleBarBackground}" Color="#FFD6DBE9" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:WaitDialogColors}, ResourceId=WaitDialogTitleBarForeground}" Color="#FF000000" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:WaitDialogColors}, ResourceId=WaitDialogMessageForeground}" Color="#FF000000" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:WaitDialogColors}, ResourceId=WaitDialogBackground}" Color="#FEFEFE" />
+
+</ResourceDictionary>

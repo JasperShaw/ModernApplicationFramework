@@ -5,7 +5,7 @@ using ModernApplicationFramework.Interfaces.Controls;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Basics.Threading
+namespace ModernApplicationFramework.Basics.Services.WaitDialog
 {
     public static class WaitDialogHelper
     {

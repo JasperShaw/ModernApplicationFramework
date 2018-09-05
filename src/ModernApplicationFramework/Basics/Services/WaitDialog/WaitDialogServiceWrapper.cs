@@ -2,12 +2,14 @@
 using System.Runtime.InteropServices;
 using System.Threading;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.Threading;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Controls;
 using ModernApplicationFramework.Interfaces.Services;
+using ModernApplicationFramework.Threading.WaitDialog;
 using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Basics.Threading
+namespace ModernApplicationFramework.Basics.Services.WaitDialog
 {
     internal sealed class WaitDialogServiceWrapper : DisposableObject, IWaitDialog
     {

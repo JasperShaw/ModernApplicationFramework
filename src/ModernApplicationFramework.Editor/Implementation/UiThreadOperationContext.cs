@@ -1,43 +1,90 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
+using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Controls;
+using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Text.Utilities;
-using ModernApplicationFramework.Utilities.Core;
 
 namespace ModernApplicationFramework.Editor.Implementation
 {
-
-    //TODO: Implement from VSUIThreadOperationContext
-    internal sealed class UiThreadOperationContext : IUiThreadOperationContext
+    internal sealed class UiThreadOperationContext : AbstractUiThreadOperationContext
     {
-        public UiThreadOperationContext(string title, string defaultDescription, bool allowCancellation, bool showProgress)
+        private readonly string _title;
+        private readonly CancellationTokenSource _cancellationTokenSource;
+        private readonly IWaitDialog _dialog;
+        private bool _disposed;
+
+        public UiThreadOperationContext(IWaitDialogFactory waitDialogFactory , string title, string defaultDescription, bool allowCancellation, bool showProgress)
+        : base(allowCancellation, defaultDescription)
         {
-            throw new NotImplementedException();
+            _title = title;
+            _cancellationTokenSource = new CancellationTokenSource();
+            _dialog = CreateDialog(waitDialogFactory, showProgress);
         }
 
-        public PropertyCollection Properties { get; }
-        public void Dispose()
+        private IWaitDialog CreateDialog(IWaitDialogFactory waitDialogFactory, bool showProgress)
         {
-            throw new NotImplementedException();
+            waitDialogFactory.CreateInstance(out var waitDialog);
+            if (waitDialog == null)
+                throw new InvalidOperationException();
+            var callback = new Callback(this);
+            waitDialog.StartWaitDialogWithCallback(_title, Description, null, null, AllowCancellation, 2, showProgress,
+                TotalItems, CompletedItems, callback);
+            return waitDialog;
         }
 
-        public CancellationToken UserCancellationToken { get; }
-        public bool AllowCancellation { get; }
-        public string Description { get; }
-        public IEnumerable<IUiThreadOperationScope> Scopes { get; }
-        public IUiThreadOperationScope AddScope(bool allowCancellation, string description)
+        public override void Dispose()
         {
-            throw new NotImplementedException();
+            if (_disposed)
+                return;
+            _disposed = true;
+            _dialog.EndWaitDialog(out _);
         }
 
-        public void TakeOwnership()
+        public override CancellationToken UserCancellationToken => !AllowCancellation ? CancellationToken.None : _cancellationTokenSource.Token;
+
+        public override void TakeOwnership()
         {
-            throw new NotImplementedException();
+            Dispose();
+        }
+
+        protected override void OnScopesChanged()
+        {
+            UpdateDialog();
+        }
+
+        protected override void OnScopeProgressChanged(IUiThreadOperationScope scope)
+        {
+            UpdateDialog();
+        }
+
+        private void UpdateDialog()
+        {
+            if (_disposed)
+                return;
+            _dialog.UpdateProgress(Description, null, null, CompletedItems, TotalItems, !AllowCancellation, out _);
+        }
+
+        private void OnCanceled()
+        {
+            if (!AllowCancellation)
+                return;
+            _cancellationTokenSource.Cancel();
+        }
+
+        private class Callback : IWaitDialogCallback
+        {
+            private readonly UiThreadOperationContext _waitContext;
+
+            public Callback(UiThreadOperationContext waitContext)
+            {
+                _waitContext = waitContext;
+            }
+
+            public void OnCanceled()
+            {
+                _waitContext.OnCanceled();
+            }
         }
     }
-
-    //internal sealed class UiThreadOperationContext : AbstractUiThreadOperationContext
-    //{
-        // TODO: Implement
-    //}
 }

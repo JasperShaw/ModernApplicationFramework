@@ -1,6 +1,6 @@
-﻿namespace ModernApplicationFramework.Basics.Threading
+﻿namespace ModernApplicationFramework.Threading.WaitDialog
 {
-    internal class DialogUpdateArguments
+    public class DialogUpdateArguments
     {
         public string WaitMessage { get; set; }
 

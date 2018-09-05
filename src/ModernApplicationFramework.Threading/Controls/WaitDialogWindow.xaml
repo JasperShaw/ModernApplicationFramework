@@ -1,0 +1,107 @@
+﻿<Window x:Class="ModernApplicationFramework.Threading.Controls.WaitDialogWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:waitDialog="clr-namespace:ModernApplicationFramework.Threading.WaitDialog"
+        Width="468"
+        Height="Auto"
+        MinHeight="52"
+        Background="{DynamicResource {x:Static waitDialog:WaitDialogColors.WaitDialogBackground}}"
+        Foreground="{DynamicResource {x:Static waitDialog:WaitDialogColors.WaitDialogMessageForeground}}"
+        Loaded="WaitDialogWindow_OnLoaded"
+        ResizeMode="NoResize"
+        ShowActivated="False"
+        ShowInTaskbar="False"
+        SizeToContent="Height"
+        WindowStyle="None">
+    <Window.Title>
+        <Binding Path="Caption" />
+    </Window.Title>
+    <FrameworkElement.Resources>
+        <BooleanToVisibilityConverter x:Key="VisibilityConverter" />
+    </FrameworkElement.Resources>
+    <Border BorderBrush="{DynamicResource {x:Static waitDialog:WaitDialogColors.WaitDialogActiveShadowAndBorder}}" BorderThickness="1">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0"
+                   MinHeight="34"
+                   Padding="8,0,8,0"
+                   HorizontalAlignment="Stretch"
+                   VerticalAlignment="Stretch"
+                   HorizontalContentAlignment="Left"
+                   VerticalContentAlignment="Center"
+                   Background="{DynamicResource {x:Static waitDialog:WaitDialogColors.WaitDialogTitleBarBackground}}"
+                   FontFamily="{x:Static SystemFonts.CaptionFontFamily}"
+                   FontSize="{x:Static SystemFonts.CaptionFontSize}"
+                   FontStyle="{x:Static SystemFonts.CaptionFontStyle}"
+                   Foreground="{DynamicResource {x:Static waitDialog:WaitDialogColors.WaitDialogTitleBarForeground}}"
+                   MouseLeftButtonDown="CaptionArea_MouseLeftButtonDown">
+                <Label.Content>
+                    <Binding Path="Caption" />
+                </Label.Content>
+            </Label>
+            <TextBlock Grid.Row="1"
+                       MaxHeight="60"
+                       Padding="8,6,8,6"
+                       Foreground="{DynamicResource {x:Static waitDialog:WaitDialogColors.WaitDialogMessageForeground}}"
+                       TextTrimming="WordEllipsis"
+                       TextWrapping="WrapWithOverflow">
+                <TextBlock.Text>
+                    <Binding Path="WaitMessage" />
+                </TextBlock.Text>
+            </TextBlock>
+            <TextBlock Grid.Row="2"
+                       MaxHeight="60"
+                       Padding="8,6,8,6"
+                       Foreground="{DynamicResource {x:Static waitDialog:WaitDialogColors.WaitDialogMessageForeground}}"
+                       TextTrimming="WordEllipsis"
+                       TextWrapping="WrapWithOverflow">
+                <TextBlock.Text>
+                    <Binding Path="ProgressMessage" />
+                </TextBlock.Text>
+            </TextBlock>
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <ProgressBar x:Name="ProgressBar"
+                             Grid.Column="0"
+                             Height="16"
+                             Margin="8"
+                             VerticalAlignment="Bottom"
+                             HorizontalContentAlignment="Stretch">
+                    <UIElement.Visibility>
+                        <Binding Converter="{StaticResource VisibilityConverter}" Path="IsProgressVisible" />
+                    </UIElement.Visibility>
+                    <RangeBase.Value>
+                        <Binding Path="CurrentStep" />
+                    </RangeBase.Value>
+                    <RangeBase.Maximum>
+                        <Binding Path="TotalSteps" />
+                    </RangeBase.Maximum>
+                    <ProgressBar.IsIndeterminate>
+                        <Binding Path="ShowMarqueeProgress" />
+                    </ProgressBar.IsIndeterminate>
+                </ProgressBar>
+                <Button Grid.Column="1"
+                        MinWidth="80"
+                        Margin="8"
+                        Padding="3"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Click="OnCancelClick"
+                        IsDefault="True">
+                    <UIElement.Visibility>
+                        <Binding Converter="{StaticResource VisibilityConverter}" Path="IsCancellable" />
+                    </UIElement.Visibility>
+                    Abbrechen
+                </Button>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

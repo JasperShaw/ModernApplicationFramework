@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace ModernApplicationFramework.Basics.Threading
+namespace ModernApplicationFramework.Threading.WaitDialog
 {
-    internal class DialogShowArguments : DialogUpdateArguments
+    public class DialogShowArguments : DialogUpdateArguments
     {
         public string Caption { get; set; }
 

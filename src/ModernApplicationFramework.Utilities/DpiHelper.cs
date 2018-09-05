@@ -18,8 +18,6 @@ namespace ModernApplicationFramework.Utilities
         private ImageScalingMode _imageScalingMode;
         private BitmapScalingMode _bitmapScalingMode;
         private bool? _usePreScaledImages;
-        private readonly MatrixTransform _transformFromDevice;
-        private readonly MatrixTransform _transformToDevice;
         private double _preScaledImageLayoutTransformScaleX;
         private double _preScaledImageLayoutTransformScaleY;
 
@@ -31,8 +29,8 @@ namespace ModernApplicationFramework.Utilities
             {
                 if (_imageScalingMode == ImageScalingMode.Default)
                 {
-                    int dpiScalePercentX = DpiScalePercentX;
-                    ImageScalingMode imageScalingMode = GetDefaultImageScalingMode(dpiScalePercentX);
+                    var dpiScalePercentX = DpiScalePercentX;
+                    var imageScalingMode = GetDefaultImageScalingMode(dpiScalePercentX);
                     _imageScalingMode = GetImageScalingModeOverride(dpiScalePercentX, imageScalingMode);
                     if (!Enum.IsDefined(typeof(ImageScalingMode), _imageScalingMode) || _imageScalingMode == ImageScalingMode.Default)
                         _imageScalingMode = imageScalingMode;
@@ -47,8 +45,8 @@ namespace ModernApplicationFramework.Utilities
             {
                 if (_bitmapScalingMode == BitmapScalingMode.Unspecified)
                 {
-                    int dpiScalePercentX = DpiScalePercentX;
-                    BitmapScalingMode bitmapScalingMode = GetDefaultBitmapScalingMode(dpiScalePercentX);
+                    var dpiScalePercentX = DpiScalePercentX;
+                    var bitmapScalingMode = GetDefaultBitmapScalingMode(dpiScalePercentX);
                     _bitmapScalingMode = GetBitmapScalingModeOverride(dpiScalePercentX, bitmapScalingMode);
                     if (!Enum.IsDefined(typeof(BitmapScalingMode), _bitmapScalingMode) || _bitmapScalingMode == BitmapScalingMode.Unspecified)
                         _bitmapScalingMode = bitmapScalingMode;
@@ -67,9 +65,9 @@ namespace ModernApplicationFramework.Utilities
             }
         }
 
-        public MatrixTransform TransformFromDevice => _transformFromDevice;
+        public MatrixTransform TransformFromDevice { get; }
 
-        public MatrixTransform TransformToDevice => _transformToDevice;
+        public MatrixTransform TransformToDevice { get; }
 
         public double DeviceDpiX { get; }
 
@@ -113,7 +111,7 @@ namespace ModernApplicationFramework.Utilities
                     }
                     else
                     {
-                        int dpiScalePercentX = DpiScalePercentX;
+                        var dpiScalePercentX = DpiScalePercentX;
                         _preScaledImageLayoutTransformScaleX = dpiScalePercentX >= 200 ? 1.0 / (dpiScalePercentX / 100) : 1.0;
                     }
                 }
@@ -133,7 +131,7 @@ namespace ModernApplicationFramework.Utilities
                     }
                     else
                     {
-                        int dpiScalePercentY = DpiScalePercentY;
+                        var dpiScalePercentY = DpiScalePercentY;
                         _preScaledImageLayoutTransformScaleY = dpiScalePercentY >= 200 ? 1.0 / (dpiScalePercentY / 100) : 1.0;
                     }
                 }
@@ -145,7 +143,7 @@ namespace ModernApplicationFramework.Utilities
         {
             LogicalDpiX = logicalDpi;
             LogicalDpiY = logicalDpi;
-            IntPtr dc = NativeMethods.User32.GetDC(IntPtr.Zero);
+            var dc = NativeMethods.User32.GetDC(IntPtr.Zero);
             if (dc != IntPtr.Zero)
             {
                 DeviceDpiX = NativeMethods.Gdi32.GetDeviceCaps(dc, 88);
@@ -157,14 +155,14 @@ namespace ModernApplicationFramework.Utilities
                 DeviceDpiX = LogicalDpiX;
                 DeviceDpiY = LogicalDpiY;
             }
-            System.Windows.Media.Matrix identity1 = System.Windows.Media.Matrix.Identity;
-            System.Windows.Media.Matrix identity2 = System.Windows.Media.Matrix.Identity;
+            var identity1 = System.Windows.Media.Matrix.Identity;
+            var identity2 = System.Windows.Media.Matrix.Identity;
             identity1.Scale(DeviceDpiX / LogicalDpiX, DeviceDpiY / LogicalDpiY);
             identity2.Scale(LogicalDpiX / DeviceDpiX, LogicalDpiY / DeviceDpiY);
-            _transformFromDevice = new MatrixTransform(identity2);
-            _transformFromDevice.Freeze();
-            _transformToDevice = new MatrixTransform(identity1);
-            _transformToDevice.Freeze();
+            TransformFromDevice = new MatrixTransform(identity2);
+            TransformFromDevice.Freeze();
+            TransformToDevice = new MatrixTransform(identity1);
+            TransformToDevice.Freeze();
         }
 
         public static DpiHelper GetHelper(int zoomPercent)
@@ -305,7 +303,7 @@ namespace ModernApplicationFramework.Utilities
 
         public Rect LogicalToDeviceUnits(Rect logicalRect)
         {
-            Rect rect = logicalRect;
+            var rect = logicalRect;
             rect.Transform(TransformToDevice.Matrix);
             return rect;
         }
@@ -327,7 +325,7 @@ namespace ModernApplicationFramework.Utilities
 
         public Rect DeviceToLogicalUnits(Rect deviceRect)
         {
-            Rect rect = deviceRect;
+            var rect = deviceRect;
             rect.Transform(TransformFromDevice.Matrix);
             return rect;
         }
@@ -384,8 +382,7 @@ namespace ModernApplicationFramework.Utilities
 
         public Rect GetDeviceRect(Window window)
         {
-            RECT lpRect;
-            NativeMethods.User32.GetWindowRect(new WindowInteropHelper(window).Handle, out lpRect);
+            NativeMethods.User32.GetWindowRect(new WindowInteropHelper(window).Handle, out var lpRect);
             return new Rect(new System.Windows.Point(lpRect.Left, lpRect.Top), new System.Windows.Size(lpRect.Width, lpRect.Height));
         }
 
@@ -446,7 +443,7 @@ namespace ModernApplicationFramework.Utilities
             Validate.IsNotNull(image, "image");
             if (!IsScalingRequired)
                 return;
-            Image fromLogicalImage = CreateDeviceFromLogicalImage(image, backgroundColor, scalingMode);
+            var fromLogicalImage = CreateDeviceFromLogicalImage(image, backgroundColor, scalingMode);
             image.Dispose();
             image = fromLogicalImage;
         }
@@ -463,15 +460,15 @@ namespace ModernApplicationFramework.Utilities
 
         private void ProcessBitmapPixels(Bitmap image, PixelProcessor pixelProcessor)
         {
-            Rectangle rect = new Rectangle(0, 0, image.Width, image.Height);
-            BitmapData bitmapdata = image.LockBits(rect, ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            var rect = new Rectangle(0, 0, image.Width, image.Height);
+            var bitmapdata = image.LockBits(rect, ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             try
             {
-                IntPtr scan0 = bitmapdata.Scan0;
-                int length = Math.Abs(bitmapdata.Stride) * bitmapdata.Height;
-                byte[] numArray = new byte[length];
+                var scan0 = bitmapdata.Scan0;
+                var length = Math.Abs(bitmapdata.Stride) * bitmapdata.Height;
+                var numArray = new byte[length];
                 Marshal.Copy(scan0, numArray, 0, length);
-                int index = 0;
+                var index = 0;
                 while (index < numArray.Length)
                 {
                     pixelProcessor(ref numArray[index + 3], ref numArray[index + 2], ref numArray[index + 1], ref numArray[index]);
@@ -488,17 +485,17 @@ namespace ModernApplicationFramework.Utilities
         public ImageSource ScaleLogicalImageForDeviceSize(ImageSource image, System.Windows.Size deviceImageSize, BitmapScalingMode scalingMode)
         {
             Validate.IsNotNull(image, "image");
-            DrawingGroup drawingGroup = new DrawingGroup();
+            var drawingGroup = new DrawingGroup();
             drawingGroup.Children.Add(new ImageDrawing(image, new Rect(deviceImageSize)));
-            DrawingVisual drawingVisual = new DrawingVisual();
-            using (DrawingContext drawingContext = drawingVisual.RenderOpen())
+            var drawingVisual = new DrawingVisual();
+            using (var drawingContext = drawingVisual.RenderOpen())
             {
                 RenderOptions.SetBitmapScalingMode(drawingGroup, scalingMode);
                 drawingContext.DrawDrawing(drawingGroup);
             }
-            RenderTargetBitmap renderTargetBitmap = new RenderTargetBitmap((int)deviceImageSize.Width, (int)deviceImageSize.Height, LogicalDpiX, LogicalDpiY, PixelFormats.Default);
+            var renderTargetBitmap = new RenderTargetBitmap((int)deviceImageSize.Width, (int)deviceImageSize.Height, LogicalDpiX, LogicalDpiY, PixelFormats.Default);
             renderTargetBitmap.Render(drawingVisual);
-            BitmapFrame bitmapFrame = BitmapFrame.Create(renderTargetBitmap);
+            var bitmapFrame = BitmapFrame.Create(renderTargetBitmap);
             bitmapFrame.Freeze();
             return bitmapFrame;
         }
@@ -506,12 +503,12 @@ namespace ModernApplicationFramework.Utilities
         public Image CreateDeviceFromLogicalImage(Image logicalImage, System.Drawing.Color backgroundColor, ImageScalingMode scalingMode = ImageScalingMode.Default)
         {
             Validate.IsNotNull(logicalImage, "logicalImage");
-            ImageScalingMode scalingMode1 = GetActualScalingMode(scalingMode);
-            System.Drawing.Size size = logicalImage.Size;
-            System.Drawing.Size deviceUnits = LogicalToDeviceUnits(size);
+            var scalingMode1 = GetActualScalingMode(scalingMode);
+            var size = logicalImage.Size;
+            var deviceUnits = LogicalToDeviceUnits(size);
             if (scalingMode1 == ImageScalingMode.MixedNearestNeighborHighQualityBicubic)
             {
-                System.Drawing.Size prescaledImageSize = GetPrescaledImageSize(size);
+                var prescaledImageSize = GetPrescaledImageSize(size);
                 if (prescaledImageSize == size)
                     scalingMode1 = ImageScalingMode.HighQualityBicubic;
                 else if (prescaledImageSize == deviceUnits)
@@ -522,7 +519,7 @@ namespace ModernApplicationFramework.Utilities
                 }
                 else
                 {
-                    Image image = ScaleLogicalImageForDeviceSize(logicalImage, prescaledImageSize, backgroundColor, ImageScalingMode.NearestNeighbor);
+                    var image = ScaleLogicalImageForDeviceSize(logicalImage, prescaledImageSize, backgroundColor, ImageScalingMode.NearestNeighbor);
                     scalingMode1 = ImageScalingMode.HighQualityBicubic;
                     logicalImage = image;
                 }
@@ -533,18 +530,17 @@ namespace ModernApplicationFramework.Utilities
         private Image ScaleLogicalImageForDeviceSize(Image logicalImage, System.Drawing.Size deviceImageSize, System.Drawing.Color backgroundColor, ImageScalingMode scalingMode)
         {
             Validate.IsNotNull(logicalImage, "logicalImage");
-            InterpolationMode interpolationMode = GetInterpolationMode(scalingMode);
-            System.Drawing.Imaging.PixelFormat pixelFormat = logicalImage.PixelFormat;
-            System.Drawing.Color clrMagenta = System.Drawing.Color.FromArgb(byte.MaxValue, 0, byte.MaxValue);
-            System.Drawing.Color clrNearGreen = System.Drawing.Color.FromArgb(0, 254, 0);
-            System.Drawing.Color clrTransparentHalo = System.Drawing.Color.FromArgb(0, 246, 246, 246);
-            System.Drawing.Color clrActualBackground = backgroundColor;
-            Bitmap image1 = logicalImage as Bitmap;
-            if (scalingMode != ImageScalingMode.NearestNeighbor && image1 != null)
+            var interpolationMode = GetInterpolationMode(scalingMode);
+            var pixelFormat = logicalImage.PixelFormat;
+            var clrMagenta = System.Drawing.Color.FromArgb(byte.MaxValue, 0, byte.MaxValue);
+            var clrNearGreen = System.Drawing.Color.FromArgb(0, 254, 0);
+            var clrTransparentHalo = System.Drawing.Color.FromArgb(0, 246, 246, 246);
+            var clrActualBackground = backgroundColor;
+            if (scalingMode != ImageScalingMode.NearestNeighbor && logicalImage is Bitmap image1)
             {
                 if (pixelFormat != System.Drawing.Imaging.PixelFormat.Format32bppArgb)
                 {
-                    Rectangle rect = new Rectangle(0, 0, logicalImage.Width, logicalImage.Height);
+                    var rect = new Rectangle(0, 0, logicalImage.Width, logicalImage.Height);
                     logicalImage = image1.Clone(rect, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
                     image1 = (Bitmap) logicalImage;
                     if (backgroundColor != System.Drawing.Color.Transparent && backgroundColor.A != byte.MaxValue)
@@ -593,7 +589,7 @@ namespace ModernApplicationFramework.Utilities
             {
                 if (!(logicalImage is Metafile))
                     throw new ArgumentException("Unsupported image type for High DPI conversion", nameof(logicalImage));
-                IntPtr dc = NativeMethods.User32.GetDC(IntPtr.Zero);
+                var dc = NativeMethods.User32.GetDC(IntPtr.Zero);
                 try
                 {
                     image2 = new Metafile(dc, EmfType.EmfPlusDual);
@@ -603,13 +599,13 @@ namespace ModernApplicationFramework.Utilities
                     NativeMethods.User32.ReleaseDC(IntPtr.Zero, dc);
                 }
             }
-            using (Graphics graphics = Graphics.FromImage(image2))
+            using (var graphics = Graphics.FromImage(image2))
             {
                 graphics.InterpolationMode = interpolationMode;
                 graphics.Clear(backgroundColor);
-                RectangleF srcRect = new RectangleF(0.0f, 0.0f, logicalImage.Size.Width, logicalImage.Size.Height);
+                var srcRect = new RectangleF(0.0f, 0.0f, logicalImage.Size.Width, logicalImage.Size.Height);
                 srcRect.Offset(-0.5f, -0.5f);
-                RectangleF destRect = new RectangleF(0.0f, 0.0f, deviceImageSize.Width, deviceImageSize.Height);
+                var destRect = new RectangleF(0.0f, 0.0f, deviceImageSize.Width, deviceImageSize.Height);
                 if (scalingMode == ImageScalingMode.BorderOnly)
                 {
                     destRect = new RectangleF(0.0f, 0.0f, srcRect.Width, srcRect.Height);
@@ -617,8 +613,8 @@ namespace ModernApplicationFramework.Utilities
                 }
                 graphics.DrawImage(logicalImage, destRect, srcRect, GraphicsUnit.Pixel);
             }
-            Bitmap image3 = image2 as Bitmap;
-            if (scalingMode != ImageScalingMode.NearestNeighbor && image3 != null)
+
+            if (scalingMode != ImageScalingMode.NearestNeighbor && image2 is Bitmap image3)
             {
                 ProcessBitmapPixels(image3, (ref byte alpha, ref byte red, ref byte green, ref byte blue) =>
                 {
@@ -631,7 +627,7 @@ namespace ModernApplicationFramework.Utilities
                 });
                 if (pixelFormat != System.Drawing.Imaging.PixelFormat.Format32bppArgb)
                 {
-                    Rectangle rect = new Rectangle(0, 0, image2.Width, image2.Height);
+                    var rect = new Rectangle(0, 0, image2.Width, image2.Height);
                     image2 = image3.Clone(rect, pixelFormat);
                 }
             }
@@ -648,7 +644,7 @@ namespace ModernApplicationFramework.Utilities
             Validate.IsNotNull(imageStrip, "imageStrip");
             if (!IsScalingRequired)
                 return;
-            Bitmap fromLogicalImage = CreateDeviceFromLogicalImage(imageStrip, logicalImageSize, backgroundColor, scalingMode);
+            var fromLogicalImage = CreateDeviceFromLogicalImage(imageStrip, logicalImageSize, backgroundColor, scalingMode);
             imageStrip.Dispose();
             imageStrip = fromLogicalImage;
         }
@@ -664,20 +660,20 @@ namespace ModernApplicationFramework.Utilities
             Validate.IsNotNull(logicalImageSize, "logicalImageSize");
             if (logicalImageSize.Width == 0 || logicalBitmapStrip.Height % logicalImageSize.Width != 0 || logicalImageSize.Height != logicalBitmapStrip.Height)
                 throw new ArgumentException("logicalImageSize not matching the logicalBitmap size");
-            int num = logicalBitmapStrip.Width / logicalImageSize.Width;
-            int deviceUnitsX = LogicalToDeviceUnitsX(logicalImageSize.Width);
-            int deviceUnitsY = LogicalToDeviceUnitsY(logicalImageSize.Height);
-            Bitmap bitmap = new Bitmap(num * deviceUnitsX, deviceUnitsY, logicalBitmapStrip.PixelFormat);
-            using (Graphics graphics1 = Graphics.FromImage(bitmap))
+            var num = logicalBitmapStrip.Width / logicalImageSize.Width;
+            var deviceUnitsX = LogicalToDeviceUnitsX(logicalImageSize.Width);
+            var deviceUnitsY = LogicalToDeviceUnitsY(logicalImageSize.Height);
+            var bitmap = new Bitmap(num * deviceUnitsX, deviceUnitsY, logicalBitmapStrip.PixelFormat);
+            using (var graphics1 = Graphics.FromImage(bitmap))
             {
                 graphics1.InterpolationMode = InterpolationMode.NearestNeighbor;
-                for (int index = 0; index < num; ++index)
+                for (var index = 0; index < num; ++index)
                 {
-                    RectangleF srcRect = new RectangleF(index * logicalImageSize.Width, 0.0f, logicalImageSize.Width, logicalImageSize.Height);
+                    var srcRect = new RectangleF(index * logicalImageSize.Width, 0.0f, logicalImageSize.Width, logicalImageSize.Height);
                     srcRect.Offset(-0.5f, -0.5f);
-                    RectangleF destRect = new RectangleF(0.0f, 0.0f, logicalImageSize.Width, logicalImageSize.Height);
-                    Bitmap bitmapImage = new Bitmap(logicalImageSize.Width, logicalImageSize.Height, logicalBitmapStrip.PixelFormat);
-                    using (Graphics graphics2 = Graphics.FromImage(bitmapImage))
+                    var destRect = new RectangleF(0.0f, 0.0f, logicalImageSize.Width, logicalImageSize.Height);
+                    var bitmapImage = new Bitmap(logicalImageSize.Width, logicalImageSize.Height, logicalBitmapStrip.PixelFormat);
+                    using (var graphics2 = Graphics.FromImage(bitmapImage))
                     {
                         graphics2.InterpolationMode = InterpolationMode.NearestNeighbor;
                         graphics2.DrawImage(logicalBitmapStrip, destRect, srcRect, GraphicsUnit.Pixel);
@@ -697,7 +693,7 @@ namespace ModernApplicationFramework.Utilities
             Validate.IsNotNull(icon, "icon");
             if (!IsScalingRequired)
                 return;
-            Icon fromLogicalImage = CreateDeviceFromLogicalImage(icon, scalingMode);
+            var fromLogicalImage = CreateDeviceFromLogicalImage(icon, scalingMode);
             icon.Dispose();
             icon = fromLogicalImage;
         }
@@ -705,11 +701,11 @@ namespace ModernApplicationFramework.Utilities
         public Icon CreateDeviceFromLogicalImage(Icon logicalIcon, ImageScalingMode scalingMode = ImageScalingMode.Default)
         {
             Validate.IsNotNull(logicalIcon, "logicalIcon");
-            System.Drawing.Size deviceUnits = LogicalToDeviceUnits(logicalIcon.Size);
-            Icon icon = new Icon(logicalIcon, deviceUnits);
+            var deviceUnits = LogicalToDeviceUnits(logicalIcon.Size);
+            var icon = new Icon(logicalIcon, deviceUnits);
             if (icon.Size.Width != deviceUnits.Width && icon.Size.Width != 0)
             {
-                IntPtr hicon = ((Bitmap)CreateDeviceFromLogicalImage(icon.ToBitmap(), System.Drawing.Color.Transparent, scalingMode)).GetHicon();
+                var hicon = ((Bitmap)CreateDeviceFromLogicalImage(icon.ToBitmap(), System.Drawing.Color.Transparent, scalingMode)).GetHicon();
                 icon = Icon.FromHandle(hicon).Clone() as Icon;
                 NativeMethods.User32.DestroyIcon(hicon);
             }
@@ -726,7 +722,7 @@ namespace ModernApplicationFramework.Utilities
             Validate.IsNotNull(imageList, "imageList");
             if (!IsScalingRequired)
                 return;
-            ImageList fromLogicalImage = CreateDeviceFromLogicalImage(imageList, backgroundColor, scalingMode);
+            var fromLogicalImage = CreateDeviceFromLogicalImage(imageList, backgroundColor, scalingMode);
             imageList.Dispose();
             imageList = fromLogicalImage;
         }
@@ -739,7 +735,7 @@ namespace ModernApplicationFramework.Utilities
         public ImageList CreateDeviceFromLogicalImage(ImageList logicalImageList, System.Drawing.Color backgroundColor, ImageScalingMode scalingMode = ImageScalingMode.Default)
         {
             Validate.IsNotNull(logicalImageList, "logicalImageList");
-            ImageList imageList = new ImageList
+            var imageList = new ImageList
             {
                 Site = logicalImageList.Site,
                 Tag = logicalImageList.Tag,
@@ -747,14 +743,14 @@ namespace ModernApplicationFramework.Utilities
                 TransparentColor = logicalImageList.TransparentColor,
                 ImageSize = LogicalToDeviceUnits(logicalImageList.ImageSize)
             };
-            for (int index = 0; index < logicalImageList.Images.Count; ++index)
+            for (var index = 0; index < logicalImageList.Images.Count; ++index)
             {
-                Image fromLogicalImage = CreateDeviceFromLogicalImage(logicalImageList.Images[index], backgroundColor, scalingMode);
+                var fromLogicalImage = CreateDeviceFromLogicalImage(logicalImageList.Images[index], backgroundColor, scalingMode);
                 imageList.Images.Add(fromLogicalImage);
             }
-            foreach (string key in logicalImageList.Images.Keys)
+            foreach (var key in logicalImageList.Images.Keys)
             {
-                int index = logicalImageList.Images.IndexOfKey(key);
+                var index = logicalImageList.Images.IndexOfKey(key);
                 if (index != -1)
                     imageList.Images.SetKeyName(index, key);
             }

@@ -5,12 +5,9 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Threading;
-using ModernApplicationFramework.Native;
-using ModernApplicationFramework.Native.NativeMethods;
-using ModernApplicationFramework.Native.Platform.Enums;
-using ModernApplicationFramework.Native.Platform.Structs;
+using ModernApplicationFramework.Threading.NativeMethods;
 
-namespace ModernApplicationFramework.Controls.Windows
+namespace ModernApplicationFramework.Threading.Controls
 {
     public partial class WaitDialogWindow
     {

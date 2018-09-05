@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Controls;
@@ -15,9 +16,8 @@ using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using ModernApplicationFramework.Utilities.Xml;
-using static System.Globalization.CultureInfo;
 
-namespace ModernApplicationFramework.Basics.Services
+namespace ModernApplicationFramework.Basics.Services.CommandBar
 {
     [Export(typeof(ICommandBarSerializer))]
     public class CommandBarSerializer : LayoutSerializer<CommandBarDataSource>, ICommandBarSerializer
@@ -417,7 +417,7 @@ namespace ModernApplicationFramework.Basics.Services
                                         ((int)comboItemDefinition.Flags.AllFlags).ToString());
                                     element.SetAttribute("IsEditable",
                                         comboItemDefinition.IsEditable.ToString());
-                                    element.SetAttribute("DropDownWidth", comboItemDefinition.DropDownWidth.ToString(InvariantCulture));
+                                    element.SetAttribute("DropDownWidth", comboItemDefinition.DropDownWidth.ToString(CultureInfo.InvariantCulture));
                                     if (!comboItemDefinition.IsVisible)
                                         element.SetAttribute("IsVisible", false.ToString());
                                 });

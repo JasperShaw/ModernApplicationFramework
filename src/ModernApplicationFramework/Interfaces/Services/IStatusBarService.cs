@@ -1,5 +1,6 @@
 using System.Windows.Media;
 using ModernApplicationFramework.Basics.Services;
+using ModernApplicationFramework.Basics.Services.StatusBar;
 
 namespace ModernApplicationFramework.Interfaces.Services
 {

@@ -93,10 +93,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Windows\WaitDialogWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Themes\BlueTheme.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -239,18 +235,10 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Basics\Threading\DialogInitializationArguments.cs" />
-    <Compile Include="Basics\Threading\DialogShowArguments.cs" />
-    <Compile Include="Basics\Threading\DialogUpdateArguments.cs" />
     <Compile Include="Basics\Threading\GenericThreadHelper.cs" />
     <Compile Include="Basics\Threading\ThreadHelper.cs" />
-    <Compile Include="Basics\Threading\WaitDialog.cs" />
-    <Compile Include="Basics\Threading\WaitDialogDataSource.cs" />
-    <Compile Include="Basics\Threading\WaitDialogService.cs" />
-    <Compile Include="Basics\Threading\WaitDialogServiceWrapper.cs" />
-    <Compile Include="Controls\Windows\WaitDialogWindow.xaml.cs">
-      <DependentUpon>WaitDialogWindow.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Basics\Services\WaitDialog\WaitDialog.cs" />
+    <Compile Include="Basics\Services\WaitDialog\WaitDialogServiceWrapper.cs" />
     <Compile Include="Core\Converters\General\BooleanToHiddenVisibilityConverter.cs" />
     <Compile Include="Core\Themes\ResourceKeys.cs" />
     <Compile Include="Core\Utilities\ScrollBarThemingUtilities.cs" />
@@ -348,8 +336,8 @@
     <Compile Include="Interfaces\Services\ILayoutSerializer.cs" />
     <Compile Include="Interfaces\Services\IMruManager.cs" />
     <Compile Include="Basics\MostRecentlyUsedManager\MruManager.cs" />
-    <Compile Include="Basics\Services\CommandBarLayoutBackupProvider.cs" />
-    <Compile Include="Basics\Services\CommandBarSerializer.cs" />
+    <Compile Include="Basics\Services\CommandBar\CommandBarLayoutBackupProvider.cs" />
+    <Compile Include="Basics\Services\CommandBar\CommandBarSerializer.cs" />
     <Compile Include="Basics\Threading\TaskResult.cs" />
     <Compile Include="Basics\WindowModels\MainWindowViewModelConductorAllActive.cs" />
     <Compile Include="Basics\WindowModels\MainWindowViewModelConductorOneActive.cs" />
@@ -381,9 +369,9 @@
     <Compile Include="Interfaces\Services\ICommandBarLayoutBackupProvider.cs" />
     <Compile Include="Interfaces\Services\ICommandBarSerializer.cs" />
     <Compile Include="Basics\Threading\MafTaskHelper.cs" />
-    <Compile Include="Basics\Services\WaitDialogFactory.cs" />
-    <Compile Include="Basics\Threading\WaitDialogHelper.cs" />
-    <Compile Include="Basics\Threading\WaitDialogProgressData.cs" />
+    <Compile Include="Basics\Services\WaitDialog\WaitDialogFactory.cs" />
+    <Compile Include="Basics\Services\WaitDialog\WaitDialogHelper.cs" />
+    <Compile Include="Basics\Services\WaitDialog\WaitDialogProgressData.cs" />
     <Compile Include="Core\Utilities\StringExtensions.cs" />
     <Compile Include="Interfaces\IWaitDialogCallback.cs" />
     <Compile Include="Interfaces\Services\IWaitDialogFactory.cs" />
@@ -434,7 +422,7 @@
     <Compile Include="Input\CommandDefinitionGestureMappingStore.cs" />
     <Compile Include="Input\GestureCollection.cs" />
     <Compile Include="Basics\Services\InternalApplicationIconService.cs" />
-    <Compile Include="Basics\Services\BasicStatusBarService.cs" />
+    <Compile Include="Basics\Services\StatusBar\BasicStatusBarService.cs" />
     <Compile Include="Input\Command\GestureScopes.cs" />
     <Compile Include="Input\ValidCheckMode.cs" />
     <Compile Include="Interfaces\ICanHaveInputBindings.cs" />
@@ -454,7 +442,7 @@
     <Compile Include="Interfaces\Services\IStatusBarDataModelService.cs" />
     <Compile Include="Interfaces\Services\IStatusBarService.cs" />
     <Compile Include="Basics\Services\MafUIShell.cs" />
-    <Compile Include="Basics\Services\AbstractStatusBarService.cs" />
+    <Compile Include="Basics\Services\StatusBar\AbstractStatusBarService.cs" />
     <Compile Include="Core\BackgroundDispatcher.cs" />
     <Compile Include="Controls\ElementContainer.cs" />
     <Compile Include="Controls\VisualTargetPresentationSource.cs" />
@@ -575,7 +563,7 @@
     <Compile Include="Basics\CommandBar\ItemDefinitions\CommandDefinition.cs" />
     <Compile Include="Input\MultiKeyGesture.cs" />
     <Compile Include="Input\MultiKeyGestureConverter.cs" />
-    <Compile Include="Basics\Services\CommandBarItemService.cs" />
+    <Compile Include="Basics\Services\CommandBar\CommandBarItemService.cs" />
     <Compile Include="Controls\Buttons\CommandDefinitionButton.cs" />
     <Compile Include="Controls\ListBoxes\CustomizeControlsListBox.cs" />
     <Compile Include="Controls\ListBoxes\CustomizeControlsListBoxItem.cs" />
@@ -688,7 +676,6 @@
     <Compile Include="Native\Platform\Enums\WindowStyles.cs" />
     <Compile Include="Native\Platform\Structs\BrowseInfo.cs" />
     <Compile Include="Native\Platform\Structs\ComdlgFilterspec.cs" />
-    <Compile Include="Native\Platform\Structs\GuiThreadInfo.cs" />
     <Compile Include="Native\Platform\Structs\LargeInteger.cs" />
     <Compile Include="Native\Platform\Structs\Propertykey.cs" />
     <Compile Include="Native\Platform\Structs\ShFileInfo.cs" />
@@ -1113,6 +1100,10 @@
     <ProjectReference Include="..\ModernApplicationFramework.Imaging\ModernApplicationFramework.Imaging.csproj">
       <Project>{D8B696A7-BA7D-4762-8C34-13B7F212074F}</Project>
       <Name>ModernApplicationFramework.Imaging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModernApplicationFramework.Threading\ModernApplicationFramework.Threading.csproj">
+      <Project>{F6B73506-4197-49A6-9F57-6E83827D415C}</Project>
+      <Name>ModernApplicationFramework.Threading</Name>
     </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework.Utilities\ModernApplicationFramework.Utilities.csproj">
       <Project>{2b388979-5b07-4f0a-a302-0c575aaa21c0}</Project>

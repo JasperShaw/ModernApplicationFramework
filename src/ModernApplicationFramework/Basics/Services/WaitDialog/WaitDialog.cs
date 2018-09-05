@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.Threading;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Native.NativeMethods;
+using ModernApplicationFramework.Threading.WaitDialog;
 using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Basics.Threading
+namespace ModernApplicationFramework.Basics.Services.WaitDialog
 {
     internal class WaitDialog : DisposableObject
     {
@@ -23,15 +25,31 @@ namespace ModernApplicationFramework.Basics.Threading
         private CancellationTokenSource _queueCancellationTokenSource;
         private DialogInitializationArguments _initializationArguments;
 
-        private readonly WaitDialogService _service;
+        private readonly Lazy<IWaitDialogService> _service;
+        private readonly CancelHandler _cancelHandler;
 
         public bool IsCancelled { get; private set; }
 
         public WaitDialog()
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            var cancelHandler = new CancelHandler(this);
-            _service = new WaitDialogService(cancelHandler);
+            _cancelHandler = new CancelHandler(this);
+            _service = new Lazy<IWaitDialogService>(GetService);
+        }
+
+        //TODO: Use AsyncLazy
+        private IWaitDialogService GetService()
+        {
+            try
+            {
+                var provider = WaitDialogServiceProvider.CreateServiceProvider(_cancelHandler);
+                provider.Service?.Initialize(_initializationArguments);
+                return provider.Service;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public static void ReleaseInstance(WaitDialog instance)
@@ -55,19 +73,21 @@ namespace ModernApplicationFramework.Basics.Threading
             return _sharedInstance;
         }
 
+
+        //TODO: use operation queue
         public async void UpdateDialog(DialogUpdateArguments dialogUpdateArguments)
         {
             if (!_isDialogActive)
                 _dialogArguments?.Merge(dialogUpdateArguments);
             else
-                await ThreadHelper.Generic.InvokeAsync(() => _service.UpdateDialog(dialogUpdateArguments));
+                await ThreadHelper.Generic.InvokeAsync(() => _service.Value.UpdateDialog(dialogUpdateArguments));
         }
 
 
         public async void CloseDialog()
         {
             if (_isDialogActive)
-                await ThreadHelper.Generic.InvokeAsync(() => _service.CloseDialog());
+                await ThreadHelper.Generic.InvokeAsync(() => _service.Value.CloseDialog());
         }
 
         public void Show(TimeSpan delayToShowDialog, DialogShowArguments args, IWaitDialogCallback callback)
@@ -91,7 +111,7 @@ namespace ModernApplicationFramework.Basics.Threading
             if (instanceId != _currentInstanceId || !_isInstanceAcquired)
                 return;
             _isDialogActive = true;
-            await ThreadHelper.Generic.InvokeAsync(() => _service.ShowDialog(showArguments));
+            await ThreadHelper.Generic.InvokeAsync(() => _service.Value.ShowDialog(showArguments));
         }
 
         protected override void DisposeNativeResources()
@@ -115,7 +135,6 @@ namespace ModernApplicationFramework.Basics.Threading
                 _initializationArguments.AppName = appName;
             }
             _queueCancellationTokenSource = new CancellationTokenSource();
-            _service.Initialize(_initializationArguments);
         }
 
 
@@ -154,10 +173,5 @@ namespace ModernApplicationFramework.Basics.Threading
             }
             return handle;
         }
-    }
-
-    internal interface ICancelHandler
-    {
-        void OnCancel();
     }
 }
