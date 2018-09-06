@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.Services;
 using ModernApplicationFramework.Basics.Services.WaitDialog;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Utilities;
@@ -14,6 +15,10 @@ namespace ModernApplicationFramework.Basics.Threading
     /// </summary>
     public static class MafTaskHelper
     {
+        private static IMafTaskSchedulerService _cachedServiceInstance;
+
+        public static IMafTaskSchedulerService ServiceInstance => _cachedServiceInstance ?? (_cachedServiceInstance = new MafTaskSchedulerService());
+
         internal static async Task<TaskResult> Run<T>(string title, WaitDialogProgressData progressData, Func<T, IProgress<WaitDialogProgressData>, CancellationToken, Task> a, T param,
             bool cancelable, TimeSpan delayToShowDialog = default)
         {

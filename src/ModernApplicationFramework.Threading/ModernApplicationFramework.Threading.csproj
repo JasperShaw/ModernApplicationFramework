@@ -22,6 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <LangVersion>7.1</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,6 +32,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <LangVersion>7.1</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Caliburn.Micro, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
@@ -55,15 +57,48 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AsyncLazy.cs" />
+    <Compile Include="AsyncLocal.cs" />
+    <Compile Include="AsyncManualResetEvent.cs" />
+    <Compile Include="AsyncQueue.cs" />
+    <Compile Include="AsyncReaderWriterLock.cs" />
+    <Compile Include="AwaitExtensions.cs" />
     <Compile Include="BackgroundDispatcher.cs" />
     <Compile Include="Controls\WaitDialogWindow.xaml.cs">
       <DependentUpon>WaitDialogWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dgml.cs" />
+    <Compile Include="EmptyStruct.cs" />
+    <Compile Include="ExecutionQueue.cs" />
+    <Compile Include="HangReportContribution.cs" />
+    <Compile Include="IHangReportContributor.cs" />
+    <Compile Include="InlineResumable.cs" />
+    <Compile Include="InternalUtilities.cs" />
+    <Compile Include="JoinableTask.cs" />
+    <Compile Include="JoinableTaskCollection.cs" />
+    <Compile Include="JoinableTaskContext.cs" />
+    <Compile Include="JoinableTaskContextException.cs" />
+    <Compile Include="JoinableTaskContextNode.cs" />
+    <Compile Include="JoinableTaskCreationOptions.cs" />
+    <Compile Include="JoinableTaskFactory.cs" />
+    <Compile Include="JoinableTaskSynchronizationContext.cs" />
+    <Compile Include="JoinableTask`1.cs" />
+    <Compile Include="LightUps.cs" />
+    <Compile Include="LightUps`1.cs" />
+    <Compile Include="ListOfOftenOne.cs" />
     <Compile Include="NativeMethods\DpiHelper.cs" />
     <Compile Include="NativeMethods\GuiThreadInfo.cs" />
     <Compile Include="NativeMethods\Gwl.cs" />
+    <Compile Include="NativeMethods\Kernel32.cs" />
     <Compile Include="NativeMethods\RECT.cs" />
     <Compile Include="NativeMethods\User32.cs" />
+    <Compile Include="NoMessagePumpSyncContext.cs" />
+    <Compile Include="SpecializedSyncContext.cs" />
+    <Compile Include="TaskCompletionSourceWithoutInlining.cs" />
+    <Compile Include="ThreadingEventSource.cs" />
+    <Compile Include="ThreadingTools.cs" />
+    <Compile Include="ThreadPool.cs" />
+    <Compile Include="TplExtensions.cs" />
     <Compile Include="WaitDialog\DialogInitializationArguments.cs" />
     <Compile Include="WaitDialog\DialogShowArguments.cs" />
     <Compile Include="WaitDialog\DialogUpdateArguments.cs" />
@@ -85,6 +120,7 @@
     <Compile Include="WaitDialog\WaitDialogProgressData.cs" />
     <Compile Include="WaitDialog\WaitDialogService.cs" />
     <Compile Include="WaitDialog\WaitDialogServiceProvider.cs" />
+    <Compile Include="WeakKeyDictionary.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

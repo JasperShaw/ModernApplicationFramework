@@ -70,6 +70,8 @@ namespace ModernApplicationFramework.Basics.Services.WaitDialog
         {
             if (ThreadHelper.CheckAccess())
                 HideDialogAndResetStatusBar();
+            else
+                ReleaseDialogInstance();
             base.DisposeNativeResources();
         }
 

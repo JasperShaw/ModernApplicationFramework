@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using Caliburn.Micro;
+using ModernApplicationFramework.Interfaces.Services;
+using ModernApplicationFramework.Threading;
 using Action = System.Action;
 
 namespace ModernApplicationFramework.Basics.Threading
@@ -14,6 +16,7 @@ namespace ModernApplicationFramework.Basics.Threading
     {
         private static ThreadHelper _generic;
         private static Dispatcher _uiThreadDispatcher;
+        private static JoinableTaskContext _joinableTaskContextCache;
 
         public static ThreadHelper Generic => _generic ?? (_generic = new GenericThreadHelper());
 
@@ -30,6 +33,18 @@ namespace ModernApplicationFramework.Basics.Threading
                 if (_uiThreadDispatcher == null && Application.Current != null)
                     _uiThreadDispatcher = Application.Current.Dispatcher;
                 return _uiThreadDispatcher;
+            }
+        }
+
+        public static JoinableTaskFactory JoinableTaskFactory => JoinableTaskContext.Factory;
+
+        public static JoinableTaskContext JoinableTaskContext
+        {
+            get
+            {
+                if (_joinableTaskContextCache == null)
+                    _joinableTaskContextCache = (MafTaskHelper.ServiceInstance).GetAsyncTaskContext();
+                return _joinableTaskContextCache;
             }
         }
 

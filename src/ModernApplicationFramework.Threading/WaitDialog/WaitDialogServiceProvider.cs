@@ -1,4 +1,5 @@
-﻿using ModernApplicationFramework.Utilities;
+﻿using System.Threading.Tasks;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Threading.WaitDialog
 {
@@ -13,11 +14,11 @@ namespace ModernApplicationFramework.Threading.WaitDialog
             Service = new WaitDialogService(handler);
         }
 
-        public static WaitDialogServiceProvider CreateServiceProvider(ICancelHandler hanlder)
+        public static async Task<WaitDialogServiceProvider> CreateServiceProvider(ICancelHandler hanlder)
         {
             if (_instace != null)
                 return _instace;
-            _instace = new WaitDialogServiceProvider(hanlder);
+            await Task.Run(() => _instace = new WaitDialogServiceProvider(hanlder));
             return _instace;
         }
 

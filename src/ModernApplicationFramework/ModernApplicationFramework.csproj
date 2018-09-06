@@ -223,6 +223,7 @@
     <Compile Include="Basics\CommandBar\Models\MenuControllerModel.cs" />
     <Compile Include="Basics\CommandBar\Models\SplitButtonModel.cs" />
     <Compile Include="Basics\CommandBar\ItemDefinitions\CommandItemDefinitionBase.cs" />
+    <Compile Include="Basics\Services\VsTaskSchedulerService.cs" />
     <Compile Include="Core\Converters\Customize\ResizeMenuItemVisiblilityConverter.cs" />
     <Compile Include="Core\Converters\FlagToNameConverter.cs" />
     <Compile Include="Core\MarkupExtensions\ImageSourceExtension.cs" />
@@ -264,6 +265,7 @@
     <Compile Include="Basics\CommandBar\ItemDefinitions\CommandGestureScopeMapping.cs" />
     <Compile Include="Interfaces\Commands\ICommandDefinitionCommand.cs" />
     <Compile Include="Interfaces\Commands\IPinActiveDocumentCommand.cs" />
+    <Compile Include="Interfaces\Services\IMafTaskSchedulerService.cs" />
     <Compile Include="Interfaces\Services\IMruItem.cs" />
     <Compile Include="Basics\MostRecentlyUsedManager\MruItem.cs" />
     <Compile Include="Basics\Search\SearchOptionType.cs" />
