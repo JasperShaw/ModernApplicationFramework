@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -46,6 +47,12 @@ namespace ModernApplicationFramework.Threading
             public ExecuteContinuationSynchronouslyAwaiter<T> GetAwaiter() => new ExecuteContinuationSynchronouslyAwaiter<T>(_antecedent);
         }
 
+        public static TaskSchedulerAwaitable SwitchTo(this TaskScheduler scheduler, bool alwaysYield = false)
+        {
+            Validate.IsNotNull(scheduler, nameof(scheduler));
+            return new TaskSchedulerAwaitable(scheduler, alwaysYield);
+        }
+
         public struct ExecuteContinuationSynchronouslyAwaiter : INotifyCompletion
         {
             private readonly Task _antecedent;
@@ -69,6 +76,72 @@ namespace ModernApplicationFramework.Threading
                     CancellationToken.None,
                     TaskContinuationOptions.ExecuteSynchronously,
                     TaskScheduler.Default);
+            }
+        }
+
+        public struct TaskSchedulerAwaitable
+        {
+            private readonly TaskScheduler _taskScheduler;
+            private readonly bool _alwaysYield;
+
+            public TaskSchedulerAwaitable(TaskScheduler taskScheduler, bool alwaysYield = false)
+            {
+                Validate.IsNotNull(taskScheduler, nameof(taskScheduler));
+                _taskScheduler = taskScheduler;
+                _alwaysYield = alwaysYield;
+            }
+
+            [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
+            public TaskSchedulerAwaiter GetAwaiter()
+            {
+                return new TaskSchedulerAwaiter(_taskScheduler, _alwaysYield);
+            }
+        }
+
+        public struct TaskSchedulerAwaiter : ICriticalNotifyCompletion
+        {
+            private readonly TaskScheduler _scheduler;
+            private readonly bool _alwaysYield;
+
+            public TaskSchedulerAwaiter(TaskScheduler scheduler, bool alwaysYield = false)
+            {
+                _scheduler = scheduler;
+                _alwaysYield = alwaysYield;
+            }
+
+            public bool IsCompleted
+            {
+                get
+                {
+                    if (_alwaysYield)
+                        return false;
+                    if (_scheduler == TaskScheduler.Default & Thread.CurrentThread.IsThreadPoolThread)
+                        return true;
+                    if (_scheduler == TaskScheduler.Current)
+                        return TaskScheduler.Current != TaskScheduler.Default;
+                    return false;
+                }
+            }
+
+            public void OnCompleted(Action continuation)
+            {
+                if (_scheduler == TaskScheduler.Default)
+                    System.Threading.ThreadPool.QueueUserWorkItem(state => ((Action)state)(), continuation);
+                else
+                    Task.Factory.StartNew(continuation, CancellationToken.None, TaskCreationOptions.None, _scheduler);
+            }
+
+            public void UnsafeOnCompleted(Action continuation)
+            {
+                if (_scheduler == TaskScheduler.Default)
+                    System.Threading.ThreadPool.UnsafeQueueUserWorkItem(state => ((Action)state)(), continuation);
+                else
+                    Task.Factory.StartNew(continuation, CancellationToken.None, TaskCreationOptions.None, _scheduler);
+            }
+
+            [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
+            public void GetResult()
+            {
             }
         }
 

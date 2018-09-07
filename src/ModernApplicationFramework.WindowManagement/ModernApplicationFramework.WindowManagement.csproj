@@ -182,6 +182,10 @@
       <Project>{240cc7db-f3a0-48e7-a8eb-5785a90128be}</Project>
       <Name>ModernApplicationFramework.Settings</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ModernApplicationFramework.Threading\ModernApplicationFramework.Threading.csproj">
+      <Project>{F6B73506-4197-49A6-9F57-6E83827D415C}</Project>
+      <Name>ModernApplicationFramework.Threading</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework.Utilities\ModernApplicationFramework.Utilities.csproj">
       <Project>{2B388979-5B07-4F0A-A302-0C575AAA21C0}</Project>
       <Name>ModernApplicationFramework.Utilities</Name>

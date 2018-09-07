@@ -41,12 +41,11 @@ namespace ModernApplicationFramework.Basics.Services.WaitDialog
 
         private async Task<IWaitDialogService> GetServiceAsync()
         {
+            var dialog = this;
             try
             {
                 var provider = await WaitDialogServiceProvider.CreateServiceProvider(_cancelHandler);
-
-                await Execute.OnUIThreadAsync(() => provider.Service?.Initialize(_initializationArguments));
-
+                await Execute.OnUIThreadAsync(() => provider.Service?.Initialize(dialog._initializationArguments)).ConfigureAwait(true);
                 return provider.Service;
             }
             catch (Exception e)
@@ -103,6 +102,7 @@ namespace ModernApplicationFramework.Basics.Services.WaitDialog
             args.SetActiveWindowArgs(text, activeWindow);
             IsCancelled = false;
             _cancellationCallback = callback;
+
             ShowDialogInternalAsync(delayToShowDialog, args).Forget();
         }
 
@@ -137,6 +137,8 @@ namespace ModernApplicationFramework.Basics.Services.WaitDialog
                 shell.GetAppName(out var appName);
                 _initializationArguments.AppName = appName;
             }
+            if (_operationQueue != null)
+                return;
             _operationQueue = new AsyncQueue<Func<IWaitDialogService, Task>>();
             _queueCancellationTokenSource = new CancellationTokenSource();
             StartProcessMessageQueue(); 

@@ -82,7 +82,7 @@ namespace ModernApplicationFramework.Threading
                         {
                             if (_jobFactory != null)
                             {
-                                _joinableTask = _jobFactory.RunAsync((Func<Task<T>>) ValueFactory);
+                                _joinableTask = _jobFactory.RunAsync(ValueFactory);
                                 _value = _joinableTask.Task;
                             }
                             else

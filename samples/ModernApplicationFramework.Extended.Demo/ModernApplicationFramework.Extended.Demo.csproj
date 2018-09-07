@@ -383,6 +383,10 @@
       <Project>{845de7c9-6217-479c-9f4f-d98e6a3b436b}</Project>
       <Name>ModernApplicationFramework.Themes.LightIDE</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\ModernApplicationFramework.Threading\ModernApplicationFramework.Threading.csproj">
+      <Project>{F6B73506-4197-49A6-9F57-6E83827D415C}</Project>
+      <Name>ModernApplicationFramework.Threading</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\ModernApplicationFramework.Utilities\ModernApplicationFramework.Utilities.csproj">
       <Project>{2b388979-5b07-4f0a-a302-0c575aaa21c0}</Project>
       <Name>ModernApplicationFramework.Utilities</Name>

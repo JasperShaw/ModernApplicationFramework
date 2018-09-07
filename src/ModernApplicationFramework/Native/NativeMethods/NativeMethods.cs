@@ -535,5 +535,30 @@ namespace ModernApplicationFramework.Native.NativeMethods
         public delegate IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
 
         public delegate IntPtr WindowsHookProc(CbtHookAction code, IntPtr wParam, IntPtr lParam);
+
+        internal enum ThreadPriority
+        {
+            THREAD_PRIORITY_IDLE = -15, // -0x0000000F
+            THREAD_PRIORITY_LOWEST = -2,
+            THREAD_PRIORITY_BELOW_NORMAL = -1,
+            THREAD_PRIORITY_NORMAL = 0,
+            THREAD_PRIORITY_ABOVE_NORMAL = 1,
+            THREAD_PRIORITY_HIGHEST = 2,
+            THREAD_PRIORITY_TIME_CRITICAL = 15, // 0x0000000F
+            THREAD_MODE_BACKGROUND_BEGIN = 65536, // 0x00010000
+            THREAD_MODE_BACKGROUND_END = 131072, // 0x00020000
+        }
+
+        private static int _vsmProcessUiBackgroundPriorityTaskQueue;
+
+        public static int ProcessUiBackgroundTask
+        {
+            get
+            {
+                if (_vsmProcessUiBackgroundPriorityTaskQueue == 0)
+                    _vsmProcessUiBackgroundPriorityTaskQueue = User32.RegisterWindowMessage("ProcessUiBackgroundTask{A982313C-756C-4da9-8BD0-0C375A45784B}");
+                return _vsmProcessUiBackgroundPriorityTaskQueue;
+            }
+        }
     }
 }

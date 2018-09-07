@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using ModernApplicationFramework.EditorBase.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Interfaces;
@@ -19,11 +18,11 @@ namespace ModernApplicationFramework.EditorBase.Interfaces.Editor
 
         bool IsReadOnly { get; }
 
-        Task LoadFile(IFile document, string name);
+        void LoadFile(IFile document, string name);
 
         Task Reload();
 
-        Task SaveFile(bool saveAs = false);
+        void SaveFile(bool saveAs = false);
 
         bool CanHandleFile(ISupportedFileDefinition fileDefinition);
     }

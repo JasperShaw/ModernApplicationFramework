@@ -5,13 +5,16 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading.Tasks;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.Threading;
 using ModernApplicationFramework.EditorBase.FileSupport;
 using ModernApplicationFramework.EditorBase.FileSupport.Exceptions;
 using ModernApplicationFramework.EditorBase.Interfaces;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.Threading;
 
 namespace ModernApplicationFramework.EditorBase.Editor
 {
@@ -77,7 +80,9 @@ namespace ModernApplicationFramework.EditorBase.Editor
                 return;
             }
             var file = _fileService.OpenExistingFile(args);
-            await editor.LoadFile(file, args.Name);
+
+
+            Task.Run(() => { editor.LoadFile(file, args.Name); });
             _dockingMainWindow.DockingHost.OpenLayoutItem(editor);
         }
 

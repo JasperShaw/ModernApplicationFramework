@@ -240,4 +240,10 @@ Löschen Sie vor dem Speichern mindestens ein Layout.</value>
   <data name="ErrorLoadCommandBarLayout" xml:space="preserve">
     <value>Das gespeicherte Kommandoleistenlayout konnte nicht geladen werden. Das Standardlayout wurde angewendet.  </value>
   </data>
+  <data name="WaitDialogLoading" xml:space="preserve">
+    <value>Loading Window Layout...</value>
+  </data>
+  <data name="WaitDialogSaving" xml:space="preserve">
+    <value>Saving Window Layout...</value>
+  </data>
 </root>

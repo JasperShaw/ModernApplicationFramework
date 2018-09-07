@@ -22,6 +22,8 @@ namespace ModernApplicationFramework.Threading.WaitDialog
 
         public void Initialize(DialogInitializationArguments args)
         {
+            if (_dispatcher != null)
+                return;
             _dispatcher = BackgroundDispatcher.GetBackgroundDispatcher("WaitDialog-" + args.AppProcessId);
             _dispatcher.Invoke(() =>
             {
@@ -48,7 +50,7 @@ namespace ModernApplicationFramework.Threading.WaitDialog
         public void ShowDialog(DialogShowArguments args)
         {
             ThrowIfDisposed();
-            _dispatcher.Invoke(() =>
+            _dispatcher?.Invoke(() =>
             {
                 if (_dataSource == null)
                     return;

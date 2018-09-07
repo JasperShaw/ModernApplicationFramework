@@ -12,6 +12,7 @@ using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
+using ModernApplicationFramework.Threading;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.WaitingWindow
@@ -20,14 +21,11 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.WaitingWindow
     [Export(typeof(WaitingDialogDemoViewModel))]
     public sealed class WaitingDialogDemoViewModel : LayoutItem
     {
-        public ICommand ActionCommand => new Command(ActionMode);
-
         public ICommand MafCancelCommand => new Command(MafTaskHelperCancel);
+
         public ICommand MafCommand => new Command(MafTaskHelperNormal);
 
         public ICommand ManualCommand => new Command(ManualMode);
-
-        public ICommand UpdateMessageCommand => new Command(UpdateMessage);
 
         [ImportingConstructor]
         public WaitingDialogDemoViewModel()
@@ -57,18 +55,6 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.WaitingWindow
             }
         }
 
-        private static async Task AsyncMethod(CancellationToken token)
-        {
-            try
-            {
-                await Task.Delay(5000, token);
-                MessageBox.Show("Completed");
-            }
-            catch (TaskCanceledException)
-            {
-            }
-        }
-
         private void ActionMode()
         {
             var f = IoC.Get<IWaitDialogFactory>(); ;
@@ -77,30 +63,36 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.WaitingWindow
         }
 
 
-        private async Task AsyncMethodCancel(IProgress<WaitDialogProgressData> progress,
-            CancellationToken cancellationToken)
+        private void MafTaskHelperCancel()
         {
-            try
+            ThreadHelper.JoinableTaskFactory.Run("Wait", async (_, token) =>
             {
-                await Task.Delay(5000, cancellationToken);
+                try
+                {
+                    await Task.Delay(10000, token);
+                    MessageBox.Show("Completed");
+                }
+                catch (TaskCanceledException)
+                {
+                    MessageBox.Show("Canceled");
+                }
+            });
+        }
+
+
+        private void MafTaskHelperNormal()
+        {
+            ThreadHelper.JoinableTaskFactory.Run("Wait", async progress =>
+            {
+                var data = new WaitDialogProgressData("Wait", "Counting", null, false, 0, 10);
+                progress.Report(data);
+                for (int i = 0; i < 10; i++)
+                {
+                    await Task.Delay(1000);
+                    progress.Report(data.NextStep());
+                }
                 MessageBox.Show("Completed");
-            }
-            catch (TaskCanceledException)
-            {
-                MessageBox.Show("Canceled");
-            }
-
-        }
-
-        private async void MafTaskHelperCancel()
-        {
-            await MafTaskHelper.Run("Wait", "", AsyncMethodCancel);
-        }
-
-
-        private async void MafTaskHelperNormal()
-        {
-            await MafTaskHelper.Run("Wait", "", AsyncMethod);
+            });
         }
 
         private async void ManualMode()
@@ -109,7 +101,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.WaitingWindow
             f.CreateInstance(out var window);
 
             var cancellationTokenSource = new CancellationTokenSource();
-            window.StartWaitDialogWithCallback("Wait", "Wait", "Wait", string.Empty, true, 2, true, 0, 0,
+            window.StartWaitDialogWithCallback("Wait", "Wait", "Wait", string.Empty, true, 2, true, 5, 0,
                 new PrivateCallback(cancellationTokenSource));
             await Task.Run(() => AsyncMethod2(WaitDialogHelper.CreateSession(window).Progress, cancellationTokenSource.Token), cancellationTokenSource.Token);
             window.EndWaitDialog(out var canceled);
@@ -117,24 +109,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.WaitingWindow
                 MessageBox.Show("Canceled");
         }
 
-        private void NormalMethod()
-        {
-            try
-            {
-                Thread.Sleep(5000);
-                MessageBox.Show("Completed");
-            }
-            catch (ThreadInterruptedException)
-            {
-            }
-        }
-
-        private async void UpdateMessage()
-        {
-            await MafTaskHelper.Run("Wait", "" , UpdatingMethodCancel);
-        }
-
-
+ 
         private async Task UpdatingMethodCancel(IProgress<WaitDialogProgressData> progress,
             CancellationToken cancellationToken)
         {
@@ -153,7 +128,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.WaitingWindow
                 progress.Report(new WaitDialogProgressData("Wait", "5", "Working", true, 5, 5));
                 MessageBox.Show("Completed");
             }
-            catch (TaskCanceledException )
+            catch (TaskCanceledException)
             {
                 MessageBox.Show("Canceled");
             }

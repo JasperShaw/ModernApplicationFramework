@@ -24,7 +24,7 @@
         /// <param name="delayToShowDialog">The delay to show dialog.</param>
         /// <param name="isCancelable">if set to <see langword="true"/> the task can be canceled by the user.</param>
         /// <param name="showMarqueeProgress">if set to <see langword="true"/> the progress bar shows indeterminate.</param>
-        void StartWaitDialog(string caption, string waitMessage, string progressText, string statusBarText,
+        bool StartWaitDialog(string caption, string waitMessage, string progressText, string statusBarText,
             int delayToShowDialog, bool isCancelable, bool showMarqueeProgress);
 
         /// <summary>

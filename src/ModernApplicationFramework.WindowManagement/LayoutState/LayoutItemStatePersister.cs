@@ -5,7 +5,9 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.Threading;
 using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.WindowManagement.Properties;
 
 namespace ModernApplicationFramework.WindowManagement.LayoutState
 {
@@ -35,24 +37,40 @@ namespace ModernApplicationFramework.WindowManagement.LayoutState
 
         public void SaveToStream(Stream stream, ProcessStateOption option)
         {
-            InternalSaveState(option, stream);
+            ThreadHelper.JoinableTaskFactory.Run(WindowManagement_Resources.WaitDialogSaving, async _ =>
+            {
+                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+                InternalSaveState(option, stream);
+            }, TimeSpan.Zero);
         }
 
         public void SaveToFile(string filePath, ProcessStateOption option)
         {
-            var stream = CreateFileStream(FileHandleMode.Create, filePath);
-            InternalSaveState(option, stream);
+            ThreadHelper.JoinableTaskFactory.Run(WindowManagement_Resources.WaitDialogSaving, async _ =>
+            {
+                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+                var stream = CreateFileStream(FileHandleMode.Create, filePath);
+                InternalSaveState(option, stream);
+            }, TimeSpan.Zero);
         }
 
         public void LoadFromStream(Stream stream, ProcessStateOption option)
         {
-            InternalLoadState(option, stream);
+            ThreadHelper.JoinableTaskFactory.Run(WindowManagement_Resources.WaitDialogLoading, async _ =>
+            {
+                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+                InternalLoadState(option, stream);
+            }, TimeSpan.Zero);
         }
 
         public void LoadFromFile(string filePath, ProcessStateOption option)
         {
-            var stream = CreateFileStream(FileHandleMode.Open, filePath);
-            InternalLoadState(option, stream);
+            ThreadHelper.JoinableTaskFactory.Run(WindowManagement_Resources.WaitDialogLoading, async _ =>
+            {
+                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+                var stream = CreateFileStream(FileHandleMode.Open, filePath);
+                InternalLoadState(option, stream);
+            }, TimeSpan.Zero);
         }
 
         private void InternalLoadState(ProcessStateOption processOption, Stream inputStream)

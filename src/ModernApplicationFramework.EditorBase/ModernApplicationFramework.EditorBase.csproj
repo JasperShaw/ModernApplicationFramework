@@ -328,6 +328,10 @@
       <Project>{27e9b710-9584-4fad-93ff-ebf2a9600da7}</Project>
       <Name>ModernApplicationFramework.Text</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ModernApplicationFramework.Threading\ModernApplicationFramework.Threading.csproj">
+      <Project>{F6B73506-4197-49A6-9F57-6E83827D415C}</Project>
+      <Name>ModernApplicationFramework.Threading</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework.Utilities\ModernApplicationFramework.Utilities.csproj">
       <Project>{2b388979-5b07-4f0a-a302-0c575aaa21c0}</Project>
       <Name>ModernApplicationFramework.Utilities</Name>

@@ -57,6 +57,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AsyncAutoResetEvent.cs" />
     <Compile Include="AsyncLazy.cs" />
     <Compile Include="AsyncLocal.cs" />
     <Compile Include="AsyncManualResetEvent.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Controls\WaitDialogWindow.xaml.cs">
       <DependentUpon>WaitDialogWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DelegatingJoinableTaskFactory.cs" />
     <Compile Include="Dgml.cs" />
     <Compile Include="EmptyStruct.cs" />
     <Compile Include="ExecutionQueue.cs" />

@@ -2,10 +2,10 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Windows.Interop;
 using ModernApplicationFramework.Native.Platform.Enums;
 using ModernApplicationFramework.Native.Platform.Structs;
 using ModernApplicationFramework.Native.Shell;
-using ModernApplicationFramework.Utilities.NativeMethods;
 using RECT = ModernApplicationFramework.Native.Platform.Structs.RECT;
 
 namespace ModernApplicationFramework.Native.NativeMethods
@@ -16,6 +16,15 @@ namespace ModernApplicationFramework.Native.NativeMethods
         internal static extern IntPtr CreateWindowEx(int dwExStyle, IntPtr classAtom, string lpWindowName, int dwStyle,
             int x, int y, int nWidth, int nHeight, IntPtr hWndParent,
             IntPtr hMenu, IntPtr hInstance, IntPtr lpParam);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool PeekMessage(out MSG lpMsg, IntPtr hWnd, uint wMsgFilterMin, uint wMsgFilterMax, uint wRemoveMsg);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool PostThreadMessage(uint threadId, uint msg, IntPtr wParam, IntPtr lParam);
+
 
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -274,5 +283,9 @@ namespace ModernApplicationFramework.Native.NativeMethods
 
         [DllImport("user32.dll")]
         public static extern IntPtr CallNextHookEx(IntPtr hhk, CbtHookAction code, IntPtr wParam, IntPtr lParam);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern int MsgWaitForMultipleObjectsEx(int nCount, IntPtr[] pHandles, int dwMilliseconds, int dwWakeMask, int dwFlags);
+
     }
 }

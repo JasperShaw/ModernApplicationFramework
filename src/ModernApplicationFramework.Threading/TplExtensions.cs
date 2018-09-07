@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using ModernApplicationFramework.Utilities;
@@ -26,6 +27,20 @@ namespace ModernApplicationFramework.Threading
                 taskCompletionSource.TrySetResult(completedTask.Result);
         }
 
+        private static void ApplyCompletedTaskResultTo<T>(Task completedTask, TaskCompletionSource<T> taskCompletionSource, T valueOnRanToCompletion)
+        {
+            Validate.IsNotNull(completedTask, nameof(completedTask));
+            if (!(completedTask.IsCompleted))
+                throw new Exception();
+            Validate.IsNotNull(taskCompletionSource, nameof(taskCompletionSource));
+            if (completedTask.IsCanceled)
+                taskCompletionSource.TrySetCanceled();
+            else if (completedTask.IsFaulted)
+                taskCompletionSource.TrySetException(completedTask.Exception.InnerExceptions);
+            else
+                taskCompletionSource.TrySetResult(valueOnRanToCompletion);
+        }
+
         internal static void ApplyResultTo<T>(this Task<T> task, TaskCompletionSource<T> tcs, bool inlineSubsequentCompletion)
         {
             Validate.IsNotNull(task, nameof(task));
@@ -42,6 +57,25 @@ namespace ModernApplicationFramework.Threading
                         ? TaskContinuationOptions.ExecuteSynchronously
                         : TaskContinuationOptions.None,
                     TaskScheduler.Default);
+        }
+
+        public static void ApplyResultTo<T>(this Task task, TaskCompletionSource<T> tcs)
+        {
+            Validate.IsNotNull(task, nameof(task));
+            Validate.IsNotNull(tcs, nameof(tcs));
+            if (task.IsCompleted)
+            {
+                ApplyCompletedTaskResultTo(task, tcs, default);
+            }
+            else
+            {
+                task.ContinueWith(
+                    (t, s) => ApplyCompletedTaskResultTo(t, (TaskCompletionSource<T>)s, default),
+                    tcs,
+                    CancellationToken.None,
+                    TaskContinuationOptions.ExecuteSynchronously,
+                    TaskScheduler.Default);
+            }
         }
 
         public static void Forget(this Task task)

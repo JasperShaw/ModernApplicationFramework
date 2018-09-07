@@ -13,9 +13,7 @@
         <StackPanel Orientation="Vertical" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top">
             <Button Content="Show Dialog (MafTaskHelper)" Margin="20,0,20,0" Command="{Binding MafCommand}"/>
             <Button Content="Show Dialog (MafTaskHelper | Cancelable)" Margin="20,0,20,0" Command="{Binding MafCancelCommand}"/>
-            <Button Content="Show Dialog (Sync Action)" Margin="20,0,20,0" Command="{Binding ActionCommand}"/>
             <Button Content="Show Dialog (Manual Method Invokation)" Margin="20,0,20,0" Command="{Binding ManualCommand}"/>
-            <Button Content="Show Dialog (Update Messages)" Margin="20,0,20,0" Command="{Binding UpdateMessageCommand}"/>
         </StackPanel>
     </Grid>
 </UserControl>

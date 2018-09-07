@@ -12,6 +12,7 @@
         ShowActivated="False"
         ShowInTaskbar="False"
         SizeToContent="Height"
+        TextOptions.TextFormattingMode="Display"
         WindowStyle="None">
     <Window.Title>
         <Binding Path="Caption" />

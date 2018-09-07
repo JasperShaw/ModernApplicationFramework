@@ -124,5 +124,14 @@ namespace ModernApplicationFramework.Basics.Threading
                     callerMemberName
                 }), -2147417842);
         }
+
+        public static void ThrowIfOnUIThread([CallerMemberName] string callerMemberName = "")
+        {
+            if (CheckAccess())
+                throw new COMException(string.Format(CultureInfo.CurrentCulture, "{0} must be called on a background thread.", new object[]
+                {
+                    callerMemberName
+                }), -2147417842);
+        }
     }
 }

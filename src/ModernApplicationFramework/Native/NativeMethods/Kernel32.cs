@@ -17,6 +17,9 @@ namespace ModernApplicationFramework.Native.NativeMethods
         internal static extern int GetDriveTypeW(string nDrive);
 
         [DllImport("kernel32.dll")]
+        internal static extern IntPtr GetCurrentThread();
+
+        [DllImport("kernel32.dll")]
         public static extern uint GetCurrentThreadId();
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, BestFitMapping = false, ThrowOnUnmappableChar = true)]
@@ -104,5 +107,8 @@ namespace ModernApplicationFramework.Native.NativeMethods
 
         [DllImport("kernel32.dll"), ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
         public static extern void ReleaseActCtx(IntPtr hActCtx);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        internal static extern bool SetThreadPriority(IntPtr hThread, NativeMethods.ThreadPriority nPriority);
     }
 }

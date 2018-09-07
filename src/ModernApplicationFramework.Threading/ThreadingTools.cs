@@ -44,6 +44,13 @@ namespace ModernApplicationFramework.Threading
             return TaskFromCanceled<EmptyStruct>(cancellationToken);
         }
 
+        internal static bool TrySetCanceled<T>(this TaskCompletionSource<T> tcs, CancellationToken cancellationToken)
+        {
+            if (LightUps<T>.TrySetCanceled == null)
+                return tcs.TrySetCanceled();
+            return LightUps<T>.TrySetCanceled(tcs, cancellationToken);
+        }
+
         private static async Task WithCancellationSlow(this Task task, bool continueOnCapturedContext, CancellationToken cancellationToken)
         {
             Validate.IsNotNull(task, nameof(task));

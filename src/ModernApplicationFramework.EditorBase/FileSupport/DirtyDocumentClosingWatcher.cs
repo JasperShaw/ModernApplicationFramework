@@ -63,7 +63,7 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
             {
                 case MessageBoxResult.Yes:
                     foreach (var item in storableDocuments)
-                        await item.SaveFile();
+                        await Task.Run(() => item.SaveFile());
                     return false;
                 case MessageBoxResult.No:
                     return false;

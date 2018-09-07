@@ -240,4 +240,10 @@ Please delete one or more layouts before saving.</value>
   <data name="ErrorLoadCommandBarLayout" xml:space="preserve">
     <value>Could not load Commandbar layout from settings. Restored default layout.</value>
   </data>
+  <data name="WaitDialogLoading" xml:space="preserve">
+    <value>Lade gespeichertes Fensterlayout</value>
+  </data>
+  <data name="WaitDialogSaving" xml:space="preserve">
+    <value>Fensterlayout speichern...</value>
+  </data>
 </root>

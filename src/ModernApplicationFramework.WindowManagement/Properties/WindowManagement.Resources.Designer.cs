@@ -423,5 +423,23 @@ namespace ModernApplicationFramework.WindowManagement.Properties {
                 return ResourceManager.GetString("SaveLayoutTitle", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Loading Window Layout... ähnelt.
+        /// </summary>
+        public static string WaitDialogLoading {
+            get {
+                return ResourceManager.GetString("WaitDialogLoading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Saving Window Layout... ähnelt.
+        /// </summary>
+        public static string WaitDialogSaving {
+            get {
+                return ResourceManager.GetString("WaitDialogSaving", resourceCulture);
+            }
+        }
     }
 }

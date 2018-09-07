@@ -33,11 +33,13 @@ namespace ModernApplicationFramework.Basics.Services.WaitDialog
             canceled = instance != null && instance.IsCancelled;
         }
 
-        public void StartWaitDialog(string caption, string waitMessage, string progressText, string statusBarText,
+        public bool StartWaitDialog(string caption, string waitMessage, string progressText, string statusBarText,
             int delayToShowDialog, bool isCancelable, bool showMarqueeProgress)
         {
+            var isDialogStarted = _isDialogStarted;
             StartWaitDialogHelper(caption, waitMessage, progressText, delayToShowDialog, null, statusBarText,
                 isCancelable, showMarqueeProgress);
+            return !isDialogStarted && _isDialogStarted;
         }
 
         public void StartWaitDialogWithCallback(string caption, string waitMessage, string progressText,
@@ -186,6 +188,7 @@ namespace ModernApplicationFramework.Basics.Services.WaitDialog
 
         private static bool IsUiSupressed()
         {
+            ThreadHelper.ThrowIfNotOnUIThread(nameof(IsUiSupressed));
             return false;
         }
 

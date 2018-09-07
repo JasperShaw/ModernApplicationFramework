@@ -22,7 +22,7 @@ namespace ModernApplicationFramework.Threading.WaitDialog
             : base(waitMessage, progressMessage, isCancellable, currentStepCount, totalStepCount)
         {
             IsProgressVisible = showProgress;
-            ShowMarqueeProgress = totalStepCount < 0;
+            ShowMarqueeProgress = totalStepCount <= 0;
             Caption = caption;
         }
 

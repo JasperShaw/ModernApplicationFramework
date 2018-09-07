@@ -65,10 +65,10 @@ namespace ModernApplicationFramework.EditorBase.Editor
 
         public virtual async Task Reload()
         {
-            await LoadFile(Document, Document.FileName);
+            LoadFile(Document, Document.FileName);
         }
 
-        public async Task SaveFile(bool saveAs)
+        public void SaveFile(bool saveAs)
         {
             if (!(Document is IStorableFile storableDocument))
                 return;
@@ -94,30 +94,33 @@ namespace ModernApplicationFramework.EditorBase.Editor
                 args = new SaveFileArguments(Document.FullFilePath, Document.FileName,
                     fdm.GetDefinitionByFilePath(Document.FileName));
 
-            await MafTaskHelper.Run(IoC.Get<IEnvironmentVariables>().ApplicationName, EditorBaseResources.SavingProgressMessage, async () =>
-            {
-                FileChangeService.Instance.UnadviseFileChange(Document);
-                await storableDocument.Save(args, SaveFile);
-                await Task.Delay(TimeSpan.FromSeconds(0.5)).ConfigureAwait(false);
-                FileChangeService.Instance.AdviseFileChange(Document);
-            });
+            ThreadHelper.JoinableTaskFactory.Run(IoC.Get<IEnvironmentVariables>().ApplicationName,
+                EditorBaseResources.SavingProgressMessage,
+                async progress =>
+                {
+                    FileChangeService.Instance.UnadviseFileChange(Document);
+                    await storableDocument.Save(args, SaveFile);
+                    await Task.Delay(TimeSpan.FromSeconds(0.5)).ConfigureAwait(false);
+                    FileChangeService.Instance.AdviseFileChange(Document);
+                });
+
             IoC.Get<IMruFilePackage>().Manager.AddItem($"{args.FullFilePath}|{EditorId:B}");
             OpenedFileDefinition = args.FileDefinition;
             DisplayName = Document.FileName;
             UpdateIconSource();
         }
 
-        public async Task LoadFile(IFile document, string name)
+        public void LoadFile(IFile document, string name)
         {
             Document = document;
             OpenedFileDefinition = IoC.Get<IFileDefinitionManager>().GetDefinitionByFilePath(Document.FileName);
             if (document is IStorableFile storableFile)
                 storableFile.DirtyChanged += StorableFile_DirtyChanged;
             IsReadOnly = !(document is IStorableFile);
-            await MafTaskHelper.Run(IoC.Get<IEnvironmentVariables>().ApplicationName, EditorBaseResources.OpeningProgressMessage, async () =>
-            {
-                await Document.Load(LoadFile);
-            });
+
+            ThreadHelper.JoinableTaskFactory.Run(IoC.Get<IEnvironmentVariables>().ApplicationName,
+                EditorBaseResources.SavingProgressMessage,
+                async progress => { await Document.Load(LoadFile); });
             DisplayName = name;
             UpdateIconSource();
         }
