@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commanding\ActiveTextViewState.cs" />
+    <Compile Include="Commands\RightCommandDefinition.cs" />
     <Compile Include="KeyGestureScope\DefaultEditorKeyGestureScope.cs" />
     <Compile Include="KeyGestureScope\GestureScopeCreationListener.cs" />
     <Compile Include="KeyGestureScope\GestureScopeManager.cs" />

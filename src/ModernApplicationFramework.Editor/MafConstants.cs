@@ -14,6 +14,7 @@ namespace ModernApplicationFramework.Editor
             Backspace = 2,
             Return = 3,
             Left = 7,
+            Right = 9,
             Copy = 59,
             SelectCurrentWord = 90,
             ShowContextMenu = 102,
