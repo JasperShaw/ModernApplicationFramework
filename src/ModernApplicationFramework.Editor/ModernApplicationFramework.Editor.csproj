@@ -74,6 +74,8 @@
   <ItemGroup>
     <Compile Include="Commanding\ActiveTextViewState.cs" />
     <Compile Include="Commands\RightCommandDefinition.cs" />
+    <Compile Include="Implementation\CommandHandlerServiceAdapter_Execute.cs" />
+    <Compile Include="Implementation\CommandHandlerServiceAdapter_Query.cs" />
     <Compile Include="KeyGestureScope\DefaultEditorKeyGestureScope.cs" />
     <Compile Include="KeyGestureScope\GestureScopeCreationListener.cs" />
     <Compile Include="KeyGestureScope\GestureScopeManager.cs" />

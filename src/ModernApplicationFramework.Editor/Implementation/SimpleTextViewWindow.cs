@@ -6,7 +6,6 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -50,12 +49,6 @@ namespace ModernApplicationFramework.Editor.Implementation
         public event KillFocusEventHandler OnKillFocus;
 
         public event SetFocusEventHandler OnSetFocus;
-
-        private static Exception LastCreatedButNotInitializedException = null;
-        private static string LastCreatedButNotInitializedExceptionStackTrace = null;
-
-        private static Exception LastInitializingException;
-        private static string LastInitializingExceptionStackTrace;
 
         private static int _execCount = 0;
         private static int _innerExecCount = 0;
@@ -762,7 +755,7 @@ namespace ModernApplicationFramework.Editor.Implementation
         {
             if (!e.ChangedItems.Contains("TextView Background"))
                 return;
-            this.ApplyBackgroundColor();
+            ApplyBackgroundColor();
         }
 
         private void CloseBufferRelatedResources()
@@ -823,55 +816,33 @@ namespace ModernApplicationFramework.Editor.Implementation
 
         private void Init_InitializeWpfTextView()
         {
-            FontsAndColorsCategory andColorsCategory;
-            ITextView textView;
-            ITextViewHost textViewHost;
-            try
-            {
-                CurrentInitializationState = InitializationState.TextViewInitializing;
-                if (_initialRoles == null)
-                    _initialRoles = EditorParts.TextEditorFactoryService.DefaultRoles;
-                SetViewOptions();
-                andColorsCategory = FontsAndColorsCategory.SetLanguageService(TextDocData.ActualLanguageServiceID);
-                _editorOptions.SetOptionValue(DefaultViewOptions.AppearanceCategory, andColorsCategory.AppearanceCategory);
+            CurrentInitializationState = InitializationState.TextViewInitializing;
+            if (_initialRoles == null)
+                _initialRoles = EditorParts.TextEditorFactoryService.DefaultRoles;
+            SetViewOptions();
+            var andColorsCategory = FontsAndColorsCategory.SetLanguageService(TextDocData.ActualLanguageServiceID);
+            _editorOptions.SetOptionValue(DefaultViewOptions.AppearanceCategory, andColorsCategory.AppearanceCategory);
 
-                if (_textViewHostPrivate != null)
-                    return;
+            if (_textViewHostPrivate != null)
+                return;
 
-                textView = EditorParts.TextEditorFactoryService.CreateTextViewWithoutInitialization(
-                    _textDocData.TextDataModel, _initialRoles, _editorOptions);
-                textViewHost =
-                    EditorParts.TextEditorFactoryService.CreateTextViewHostWithoutInitialization(textView, false);
-                _editorOptions = textView.Options;
-                EmbeddedObjectHelper.SetOleCommandTarget(textViewHost.HostControl, this);
-                //TODO: UserContext Stuff
-                _textViewHostPrivate = textViewHost;
-                textView.Properties.AddProperty(typeof(IMafTextView), this);
-                textView.Properties.AddProperty(typeof(ICommandTarget), this);
-            }
-            catch (Exception ex)
-            {
-                LastInitializingException = ex;
-                LastInitializingExceptionStackTrace = ex.StackTrace;
-                throw;
-            }
+            var textView = EditorParts.TextEditorFactoryService.CreateTextViewWithoutInitialization(
+                _textDocData.TextDataModel, _initialRoles, _editorOptions);
+            var textViewHost = EditorParts.TextEditorFactoryService.CreateTextViewHostWithoutInitialization(textView, false);
+            _editorOptions = textView.Options;
+            EmbeddedObjectHelper.SetOleCommandTarget(textViewHost.HostControl, this);
+            //TODO: UserContext Stuff
+            _textViewHostPrivate = textViewHost;
+            textView.Properties.AddProperty(typeof(IMafTextView), this);
+            textView.Properties.AddProperty(typeof(ICommandTarget), this);
 
-            try
-            {
-                CurrentInitializationState = InitializationState.TextViewCreatedButNotInitialized;
-                EditorParts.TextEditorFactoryService.InitializeTextView(textView);
-                EditorParts.TextEditorFactoryService.InitializeTextViewHost(textViewHost);
-                var handlerServiceFilter = new CommandHandlerServiceFilter(this);
-                Marshal.ThrowExceptionForHR(AddCommandFilter(handlerServiceFilter, out var ppNextCmdTarg));
-                handlerServiceFilter.Initialize(ppNextCmdTarg);
-                CurrentInitializationState = InitializationState.TextViewAvailable;
-            }
-            catch (Exception ex)
-            {
-                LastCreatedButNotInitializedException = ex;
-                LastCreatedButNotInitializedExceptionStackTrace = ex.StackTrace;
-                throw;
-            }
+            CurrentInitializationState = InitializationState.TextViewCreatedButNotInitialized;
+            EditorParts.TextEditorFactoryService.InitializeTextView(textView);
+            EditorParts.TextEditorFactoryService.InitializeTextViewHost(textViewHost);
+            var handlerServiceFilter = new CommandHandlerServiceFilter(this);
+            Marshal.ThrowExceptionForHR(AddCommandFilter(handlerServiceFilter, out var ppNextCmdTarg));
+            handlerServiceFilter.Initialize(ppNextCmdTarg);
+            CurrentInitializationState = InitializationState.TextViewAvailable;
             ViewLoadedHandler.OnViewCreated(_textViewHostPrivate);
             ThemeTextViewHostScrollBars(_textViewHostPrivate);
             CommandRouting.SetInterceptsCommandRouting(textView.VisualElement, false);
@@ -964,7 +935,7 @@ namespace ModernApplicationFramework.Editor.Implementation
             if (!(sender is IPropertyOwner textView))
                 return;
             var target = GetTarget(textView);
-            target?.Exec(MafConstants.EditorCommandGroup, (uint) MafConstants.EditorCommands.Copy, 0, IntPtr.Zero,
+            target?.Exec(MafConstants.EditorCommandGroup, (uint)MafConstants.EditorCommands.Copy, 0, IntPtr.Zero,
                 IntPtr.Zero);
         }
 
@@ -1531,8 +1502,9 @@ namespace ModernApplicationFramework.Editor.Implementation
                     PresentationSource.RemoveSourceChangedHandler(_contentPresenter, OnSourceChanged);
                 if (CreateHwnd && HwndSource != null)
                     HwndSource.Dispose();
-                else if (_forwardFocusPanel != null)
-                    _forwardFocusPanel.Dispose();
+                else
+                    _forwardFocusPanel?.Dispose();
+
                 GC.SuppressFinalize(this);
             }
 

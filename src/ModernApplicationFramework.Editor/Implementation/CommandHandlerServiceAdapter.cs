@@ -14,7 +14,7 @@ using Action = System.Action;
 
 namespace ModernApplicationFramework.Editor.Implementation
 {
-    internal class CommandHandlerServiceAdapter : ICommandHandlerServiceAdapter
+    internal partial class CommandHandlerServiceAdapter : ICommandHandlerServiceAdapter
     {
         private readonly IEditorCommandHandlerService _commandHandlerService;
         private static Dictionary<ValueTuple<Guid, uint>, string> _commandBindings;
@@ -66,8 +66,8 @@ namespace ModernApplicationFramework.Editor.Implementation
         public int QueryStatus(Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
         {
             var num = !(pguidCmdGroup == MafConstants.EditorCommandGroup)
-                ? QueryCustomCommandStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText)
-                : QueryEditorCommandGroup(ref pguidCmdGroup, commandCount, prgCmds, commandText);
+                ? QueryCustomCommandStatus(pguidCmdGroup, commandCount, prgCmds, commandText)
+                : QueryEditorCommandGroup(pguidCmdGroup, commandCount, prgCmds, commandText);
             if (num == 0)
                 return num;
             if (NextCommandTarget == null)
@@ -88,14 +88,14 @@ namespace ModernApplicationFramework.Editor.Implementation
             var nextTargetResult = new int?();
             var guidCmdGroup = pguidCmdGroup;
             var num2 = !(guidCmdGroup == MafConstants.EditorCommandGroup)
-                ? ExecuteCustomCommand(ref guidCmdGroup, nCmdId, pvaIn, pvaOut, () =>
+                ? ExecuteCustomCommand(guidCmdGroup, nCmdId, pvaIn, pvaOut, () =>
                 {
                     var nextCommandTarget = NextCommandTarget;
                     nextTargetResult =
                         nextCommandTarget?.Exec(guidCmdGroup, nCmdId, nCmdexecopt, pvaIn, pvaOut) ??
                         -2147467259;
                 })
-                : ExecuteVisualStudio2000(ref guidCmdGroup, nCmdId, pvaIn, pvaOut, () =>
+                : ExecuteEditorCommand(guidCmdGroup, (MafConstants.EditorCommands) nCmdId, pvaIn, pvaOut, () =>
                 {
                     var nextCommandTarget = NextCommandTarget;
                     nextTargetResult = nextCommandTarget?.Exec(guidCmdGroup, nCmdId, nCmdexecopt, pvaIn, pvaOut) ??
@@ -122,19 +122,19 @@ namespace ModernApplicationFramework.Editor.Implementation
             return num2;
         }
 
-        private int ExecuteVisualStudio2000(ref Guid pguidCmdGroup, uint commandId, IntPtr pvaIn, IntPtr pvaOut,
+        private int ExecuteEditorCommand(Guid pguidCmdGroup, MafConstants.EditorCommands commandId, IntPtr pvaIn, IntPtr pvaOut,
             Action next)
         {
             switch (commandId)
             {
-                case (uint) MafConstants.EditorCommands.TypeChar:
+                case MafConstants.EditorCommands.TypeChar:
                     var forNativeVariant = (char)(ushort)Marshal.GetObjectForNativeVariant(pvaIn);
                     ExecuteTypeCharCommand(next, forNativeVariant);
                     return 0;
-                case (uint) MafConstants.EditorCommands.Backspace:
+                case MafConstants.EditorCommands.Backspace:
                     ExecuteBackspaceKeyCommand(next);
                     return 0;
-                case (uint )MafConstants.EditorCommands.Return:
+                case MafConstants.EditorCommands.Return:
                     ExecuteReturnKeyCommand(next);
                     return 0;
                 //case VSConstants.VSStd2KCmdID.TAB:
@@ -146,12 +146,12 @@ namespace ModernApplicationFramework.Editor.Implementation
                 //case VSConstants.VSStd2KCmdID.DELETE:
                 //    ExecuteDeleteKeyCommand(next);
                 //    return 0;
-                case (uint) MafConstants.EditorCommands.Left:
+                case MafConstants.EditorCommands.Left:
                     ExecuteLeftKeyCommand(next);
                     return 0;
-                //case VSConstants.VSStd2KCmdID.RIGHT:
-                //    ExecuteRightKeyCommand(next);
-                //    return 0;
+                case MafConstants.EditorCommands.Right:
+                    ExecuteRightKeyCommand(next);
+                    return 0;
                 //case VSConstants.VSStd2KCmdID.UP:
                 //    ExecuteUpKeyCommand(next);
                 //    return 0;
@@ -188,7 +188,7 @@ namespace ModernApplicationFramework.Editor.Implementation
                 //case VSConstants.VSStd2KCmdID.CUT:
                 //    ExecuteCutCommand(next);
                 //    return 0;
-                case (uint)MafConstants.EditorCommands.Copy:
+                case MafConstants.EditorCommands.Copy:
                     ExecuteCopyCommand(next);
                     return 0;
                 //case VSConstants.VSStd2KCmdID.PASTE:
@@ -294,7 +294,7 @@ namespace ModernApplicationFramework.Editor.Implementation
             }
         }
 
-        private int ExecuteCustomCommand(ref Guid pguidCmdGroup, uint commandId, IntPtr pvaIn, IntPtr pvaOut,
+        private int ExecuteCustomCommand(Guid pguidCmdGroup, uint commandId, IntPtr pvaIn, IntPtr pvaOut,
             Action next)
         {
             var key = new ValueTuple<Guid, uint>(pguidCmdGroup, commandId);
@@ -330,15 +330,15 @@ namespace ModernApplicationFramework.Editor.Implementation
                 (view, buffer) => TryCreateCustomCommandArgs<T>(commandArgsType, view, buffer), nextCommandHandler);
         }
 
-        private int QueryEditorCommandGroup(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds,
+        private int QueryEditorCommandGroup(Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds,
             IntPtr commandText)
         {
             switch (prgCmds[0].cmdID)
             {
                 case (uint)MafConstants.EditorCommands.Backspace:
-                    return QueryBackspaceKeyStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
+                    return QueryBackspaceKeyStatus(pguidCmdGroup, commandCount, prgCmds, commandText);
                 case (uint)MafConstants.EditorCommands.Return:
-                    return QueryReturnKeyStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
+                    return QueryReturnKeyStatus(pguidCmdGroup, commandCount, prgCmds, commandText);
                 //case VSConstants.VSStd2KCmdID.TAB:
                 //    return QueryTabKeyStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
                 //case VSConstants.VSStd2QueryLeftKeyStatusKCmdID.BACKTAB:
@@ -346,9 +346,9 @@ namespace ModernApplicationFramework.Editor.Implementation
                 //case VSConstants.VSStd2KCmdID.DELETE:
                 //    return QueryDeleteKeyStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
                 case (uint) MafConstants.EditorCommands.Left:
-                    return QueryLeftKeyStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
-                //case VSConstants.VSStd2KCmdID.RIGHT:
-                //    return QueryRightKeyStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
+                    return QueryLeftKeyStatus(pguidCmdGroup, commandCount, prgCmds, commandText);
+                case (uint) MafConstants.EditorCommands.Right:
+                    return QueryRightKeyStatus(pguidCmdGroup, commandCount, prgCmds, commandText);
                 //case VSConstants.VSStd2KCmdID.UP:
                 //    return QueryUpKeyStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
                 //case VSConstants.VSStd2KCmdID.DOWN:
@@ -374,7 +374,7 @@ namespace ModernApplicationFramework.Editor.Implementation
                 //case VSConstants.VSStd2KCmdID.CUT:
                 //    return QueryCutStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
                 case (uint)MafConstants.EditorCommands.Copy:
-                    return QueryCopyStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
+                    return QueryCopyStatus(pguidCmdGroup, commandCount, prgCmds, commandText);
                 //case VSConstants.VSStd2KCmdID.PASTE:
                 //    return QueryPasteStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
                 //case VSConstants.VSStd2KCmdID.OPENLINEABOVE:
@@ -450,7 +450,7 @@ namespace ModernApplicationFramework.Editor.Implementation
             }
         }
 
-        private int QueryCustomCommandStatus(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds,
+        private int QueryCustomCommandStatus(Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds,
             IntPtr commandText)
         {
             var key = new ValueTuple<Guid, uint>(pguidCmdGroup, prgCmds[0].cmdID);
@@ -473,14 +473,14 @@ namespace ModernApplicationFramework.Editor.Implementation
             return 1;
         }
 
-        private int GetCommandStateHelper<T>(Type commandArgsType, ref Guid pguidCmdGroup, uint commandCount,
+        private int GetCommandStateHelper<T>(Type commandArgsType, Guid pguidCmdGroup, uint commandCount,
             Olecmd[] prgCmds, IntPtr commandText) where T : EditorCommandArgs
         {
             return GetCommandState((view, buffer) => TryCreateCustomCommandArgs<T>(commandArgsType, view, buffer),
-                ref pguidCmdGroup, commandCount, prgCmds, commandText);
+                pguidCmdGroup, commandCount, prgCmds, commandText);
         }
 
-        private int GetCommandState<T>(Func<ITextView, ITextBuffer, T> argsFactory, ref Guid pguidCmdGroup,
+        private int GetCommandState<T>(Func<ITextView, ITextBuffer, T> argsFactory, Guid pguidCmdGroup,
             uint commandCount, Olecmd[] prgCmds, IntPtr commandText) where T : EditorCommandArgs
         {
             var guidCmdGroup = pguidCmdGroup;
@@ -500,69 +500,9 @@ namespace ModernApplicationFramework.Editor.Implementation
                 Utilities.Utilities.SetCmdText(commandText, commandState.DisplayText);
             return 0;
         }
-
-
-        private int QueryLeftKeyStatus(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
-        {
-            return GetCommandState((view, buffer) => new LeftKeyCommandArgs(view, buffer), ref pguidCmdGroup,
-                commandCount, prgCmds, commandText);
-        }
-
-        private int QueryBackspaceKeyStatus(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
-        {
-            return GetCommandState((view, buffer) => new BackspaceKeyCommandArgs(view, buffer), ref pguidCmdGroup, commandCount, prgCmds, commandText);
-        }
-
-        private int QueryCopyStatus(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
-        {
-            return GetCommandState((view, buffer) => new CopyCommandArgs(view, buffer), ref pguidCmdGroup, commandCount, prgCmds, commandText);
-        }
-
-        private int QueryReturnKeyStatus(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
-        {
-            return GetCommandState((view, buffer) => new ReturnKeyCommandArgs(view, buffer), ref pguidCmdGroup, commandCount, prgCmds, commandText);
-        }
-
-
-        private void ExecuteTypeCharCommand(Action next, char typedChar)
-        {
-            _commandHandlerService.Execute((textView, subjectBuffer) => new TypeCharCommandArgs(TextView, subjectBuffer, typedChar), next);
-        }
-
-        private void ExecuteBackspaceKeyCommand(Action next)
-        {
-            var commandHandlerService = _commandHandlerService;
-            var nextCommandHandler = next;
-            commandHandlerService.Execute((view, buffer) => new BackspaceKeyCommandArgs(view, buffer), nextCommandHandler);
-        }
-
-        private void ExecuteReturnKeyCommand(Action next)
-        {
-            var commandHandlerService = _commandHandlerService;
-            var nextCommandHandler = next;
-            commandHandlerService.Execute((view, buffer) => new ReturnKeyCommandArgs(view, buffer), nextCommandHandler);
-        }
-
-        private void ExecuteLeftKeyCommand(Action next)
-        {
-            var commandHandlerService = _commandHandlerService;
-            var nextCommandHandler = next;
-            commandHandlerService.Execute((view, buffer) => new LeftKeyCommandArgs(view, buffer), nextCommandHandler);
-        }
-
-        private void ExecuteCopyCommand(Action next)
-        {
-            var commandHandlerService = _commandHandlerService;
-            var nextCommandHandler = next;
-            commandHandlerService.Execute((view, buffer) => new CopyCommandArgs(view, buffer), nextCommandHandler);
-        }
     }
 
-    public sealed class ReturnKeyCommandArgs : EditorCommandArgs
+    internal partial class CommandHandlerServiceAdapter
     {
-        public ReturnKeyCommandArgs(ITextView textView, ITextBuffer subjectBuffer)
-            : base(textView, subjectBuffer)
-        {
-        }
     }
 }

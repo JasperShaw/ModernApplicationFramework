@@ -251,6 +251,8 @@
     <Compile Include="Ui\Editor\CaretPositionChangedEventArgs.cs" />
     <Compile Include="Ui\Editor\ChangeTrackingMarginEnabled.cs" />
     <Compile Include="Ui\Editor\Commanding\Commands\BackspaceKeyCommandArgs.cs" />
+    <Compile Include="Ui\Editor\Commanding\Commands\ReturnKeyCommandArgs.cs" />
+    <Compile Include="Ui\Editor\Commanding\Commands\RightKeyCommandArgs.cs" />
     <Compile Include="Ui\Editor\Commanding\Commands\LeftKeyCommandArgs.cs" />
     <Compile Include="Ui\Editor\Commanding\Commands\TypeCharCommandArgs.cs" />
     <Compile Include="Ui\Editor\Commanding\EditorCommandArgs.cs" />
