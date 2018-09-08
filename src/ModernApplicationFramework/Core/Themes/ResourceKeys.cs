@@ -8,12 +8,6 @@ namespace ModernApplicationFramework.Core.Themes
         private static object _scrollBarStyleKey;
         private static object _scrollViewerStyleKey;
         private static object _customGridViewScrollViewerStyleKey;
-        private static object _comboBoxStyleKey;
-        private static object _themedDialogButtonStyleKey;
-        private static object _themedListViewStyleKey;
-        private static object _themedListViewItemStyleKey;
-        private static object _formsListViewItemStyleKey;
-        private static object _formsCheckBoxStyle;
 
         public static object UnthemedScrollBarStyleKey => "ResourceKeys.UnthemedScrollBarStyleKey";
 
@@ -42,21 +36,6 @@ namespace ModernApplicationFramework.Core.Themes
 
         public static string FormsCheckBoxStyle => nameof(FormsCheckBoxStyle);
 
-
-        //public static object ThemedDialogButtonStyleKey => _themedDialogButtonStyleKey ??
-        //                                                                 (_themedDialogButtonStyleKey = GetResourceKey(nameof(ThemedDialogButtonStyleKey)));
-
-        //public static object ThemedListViewStyleKey => _themedListViewStyleKey ??
-        //                                                             (_themedListViewStyleKey = GetResourceKey(nameof(ThemedListViewStyleKey)));
-
-        //public static object ThemedListViewItemStyleKey => _themedListViewItemStyleKey ??
-        //                                                                 (_themedListViewItemStyleKey = GetResourceKey(nameof(ThemedListViewItemStyleKey)));
-
-        //public static object FormsListViewItemStyleKey => _formsListViewItemStyleKey ??
-        //                                                                (_formsListViewItemStyleKey = GetResourceKey(nameof(FormsListViewItemStyleKey)));
-
-        //public static object FormsCheckBoxStyle => _formsCheckBoxStyle ??
-        //                                                         (_formsCheckBoxStyle = GetResourceKey(nameof(FormsCheckBoxStyle)));
 
         public static object GetScrollBarStyleKey(bool themed)
         {

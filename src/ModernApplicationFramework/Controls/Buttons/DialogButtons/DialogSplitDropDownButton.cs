@@ -30,7 +30,7 @@ namespace ModernApplicationFramework.Controls.Buttons.DialogButtons
         public DialogSplitDropDownButton()
         {
             InitializeComponent();
-            Click += DialogSplitDropDownButton_Click;
+            Click += DropDownButton_Click;
         }
 
         public void Connect(int connectionId, object target)
@@ -97,7 +97,7 @@ namespace ModernApplicationFramework.Controls.Buttons.DialogButtons
             return default;
         }
 
-        private void DialogSplitDropDownButton_Click(object sender, RoutedEventArgs e)
+        private void DropDownButton_Click(object sender, RoutedEventArgs e)
         {
             if (!IsDropDownButtonVisible)
                 return;

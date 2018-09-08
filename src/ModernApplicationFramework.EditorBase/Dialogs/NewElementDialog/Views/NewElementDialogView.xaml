@@ -1,95 +1,146 @@
 ﻿<mafc:DialogWindow x:Class="ModernApplicationFramework.EditorBase.Dialogs.NewElementDialog.Views.NewElementDialogView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mafc="http://modern.framework.com/controls"
-             xmlns:textBoxes="clr-namespace:ModernApplicationFramework.Controls.TextBoxes;assembly=ModernApplicationFramework"
-             xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework"
-             xmlns:dialogButtons="clr-namespace:ModernApplicationFramework.Controls.Buttons.DialogButtons;assembly=ModernApplicationFramework"
-             xmlns:newElementDialog="clr-namespace:ModernApplicationFramework.EditorBase.Dialogs.NewElementDialog"
-             MinWidth="800" MinHeight="450" Background="{DynamicResource {x:Static themes:ColorResources.BackgroundLowerRegionBrush}}"
-                   HasMaximizeButton="false" HasMinimizeButton="false" ResizeMode="CanResize" ShowInTaskbar="false"
-                    SnapsToDevicePixels="true" WindowStartupLocation="Manual" Width="900" Height="600" Icon="{x:Null}"
-                   FocusManager.FocusedElement="{Binding ElementName=OkButton}">
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:dialogButtons="clr-namespace:ModernApplicationFramework.Controls.Buttons.DialogButtons;assembly=ModernApplicationFramework"
+                   xmlns:mafc="http://modern.framework.com/controls"
+                   xmlns:newElementDialog="clr-namespace:ModernApplicationFramework.EditorBase.Dialogs.NewElementDialog"
+                   xmlns:textBoxes="clr-namespace:ModernApplicationFramework.Controls.TextBoxes;assembly=ModernApplicationFramework"
+                   xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework"
+                   Width="900"
+                   Height="600"
+                   MinWidth="800"
+                   MinHeight="450"
+                   Background="{DynamicResource {x:Static themes:ColorResources.BackgroundLowerRegionBrush}}"
+                   FocusManager.FocusedElement="{Binding ElementName=OkButton}"
+                   HasMaximizeButton="false"
+                   HasMinimizeButton="false"
+                   Icon="{x:Null}"
+                   ResizeMode="CanResize"
+                   ShowInTaskbar="false"
+                   SnapsToDevicePixels="true"
+                   WindowStartupLocation="Manual">
     <mafc:DialogWindow.Resources>
         <ResourceDictionary>
-            <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+            <BooleanToVisibilityConverter x:Key="BoolToVis" />
         </ResourceDictionary>
     </mafc:DialogWindow.Resources>
     <Grid SnapsToDevicePixels="True">
         <Grid.RowDefinitions>
-            <RowDefinition Height="54"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="54" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
 
-        <ContentControl x:Name="ActiveItem" Grid.Row="0" Grid.RowSpan="2" SnapsToDevicePixels="True" Padding="0,0,0,3"
-                            HorizontalAlignment="Stretch"/>
+        <ContentControl x:Name="ActiveItem"
+                        Grid.Row="0"
+                        Grid.RowSpan="2"
+                        Padding="0,0,0,3"
+                        HorizontalAlignment="Stretch"
+                        SnapsToDevicePixels="True" />
 
-        <Grid x:Name="PropertyGrid" Row="2" ShowGridLines="False" Background="{Binding RelativeSource={RelativeSource AncestorType={x:Type mafc:DialogWindow}}, Path=Background}">
+        <Grid x:Name="PropertyGrid"
+              Background="{Binding RelativeSource={RelativeSource AncestorType={x:Type mafc:DialogWindow}}, Path=Background}"
+              Row="2"
+              ShowGridLines="False">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" MinWidth="130"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto" MinWidth="272"/>
+                <ColumnDefinition Width="Auto" MinWidth="130" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" MinWidth="272" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition  Height="3"/>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition Height="3" />
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Visibility="{Binding ItemPresenter.UsesNameProperty, Converter={StaticResource BoolToVis}}">
+            <Grid Grid.Row="0"
+                  Grid.Column="0"
+                  Grid.ColumnSpan="3"
+                  Visibility="{Binding ItemPresenter.UsesNameProperty, Converter={StaticResource BoolToVis}}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" MinWidth="130"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto" MinWidth="272"/>
+                    <ColumnDefinition Width="Auto" MinWidth="130" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" MinWidth="272" />
                 </Grid.ColumnDefinitions>
-                <Label VerticalAlignment="Center" Margin="7,0,0,0" Foreground="{DynamicResource {x:Static themes:ColorResources.BackgroundLowerRegionTextBrush}}" 
-                       Content="{x:Static newElementDialog:NewElementDialogResources.NewElementNameLabel}">
+                <Label Margin="7,0,0,0"
+                       VerticalAlignment="Center"
+                       Content="{x:Static newElementDialog:NewElementDialogResources.NewElementNameLabel}"
+                       Foreground="{DynamicResource {x:Static themes:ColorResources.BackgroundLowerRegionTextBrush}}">
                     <Label.Target>
-                        <Binding ElementName="CmbName"/>
+                        <Binding ElementName="CmbName" />
                     </Label.Target>
                 </Label>
-                <textBoxes:ModernTextBox x:Name="CmbName" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
-                                         VerticalContentAlignment="Center" TextWrapping="NoWrap" AllowDrop="True" 
-                                         Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+                <textBoxes:ModernTextBox x:Name="CmbName"
+                                         Grid.Column="1"
+                                         HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         AllowDrop="True"
+                                         Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+                                         TextWrapping="NoWrap" />
             </Grid>
 
-            <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Visibility="{Binding ItemPresenter.UsesPathProperty, Converter={StaticResource BoolToVis}}">
+            <Grid Grid.Row="1"
+                  Grid.Column="0"
+                  Grid.ColumnSpan="3"
+                  Visibility="{Binding ItemPresenter.UsesPathProperty, Converter={StaticResource BoolToVis}}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" MinWidth="130"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto" MinWidth="272"/>
+                    <ColumnDefinition Width="Auto" MinWidth="130" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" MinWidth="272" />
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Margin="7,0,0,0" Foreground="{DynamicResource {x:Static themes:ColorResources.BackgroundLowerRegionTextBrush}}" 
-                       Content="{x:Static newElementDialog:NewElementDialogResources.NewElementDestinationLabel}">
+                <Label Grid.Column="0"
+                       Margin="7,0,0,0"
+                       Content="{x:Static newElementDialog:NewElementDialogResources.NewElementDestinationLabel}"
+                       Foreground="{DynamicResource {x:Static themes:ColorResources.BackgroundLowerRegionTextBrush}}">
                     <Label.Target>
-                        <Binding ElementName="CmbLocation"/>
+                        <Binding ElementName="CmbLocation" />
                     </Label.Target>
                 </Label>
-                <textBoxes:ModernTextBox x:Name="CmbLocation" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
-                                         Text="{Binding Path, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <textBoxes:ModernTextBox x:Name="CmbLocation"
+                                         Grid.Column="1"
+                                         HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Center"
+                                         Text="{Binding Path, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                <Button Grid.Column="2" MinWidth="85" Margin="14,0,6,0" Padding="6,2,6,2" 
-                    VerticalAlignment="Center" HorizontalAlignment="Left" Command="{Binding BrowseCommand}"
-                        Content="{x:Static newElementDialog:NewElementDialogResources.NewElementBrowseButton}"/>
+                <Button Grid.Column="2"
+                        MinWidth="85"
+                        Margin="14,0,6,0"
+                        Padding="6,2,6,2"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Command="{Binding BrowseCommand}"
+                        Content="{x:Static newElementDialog:NewElementDialogResources.NewElementBrowseButton}" />
             </Grid>
         </Grid>
-        <StackPanel Background="{Binding RelativeSource={RelativeSource AncestorType={x:Type mafc:DialogWindow}}, Path=Background}" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-            <dialogButtons:DialogSplitDropDownButton x:Name="OkButton" MinWidth="75" MinHeight="23" Margin="0,3,6,6" IsDefault="true" Command="{Binding ApplyCommand}"
-                                            IsDropDownButtonVisible="{Binding ItemPresenter.CanOpenWith}" Content="{Binding OkButtonText}">
+        <StackPanel Grid.Row="3"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Background="{Binding RelativeSource={RelativeSource AncestorType={x:Type mafc:DialogWindow}}, Path=Background}"
+                    Orientation="Horizontal">
+            <dialogButtons:DialogSplitDropDownButton x:Name="OkButton"
+                                                     MinWidth="75"
+                                                     MinHeight="23"
+                                                     Margin="0,3,6,6"
+                                                     Command="{Binding ApplyCommand}"
+                                                     Content="{Binding OkButtonText}"
+                                                     IsDefault="true"
+                                                     IsDropDownButtonVisible="{Binding ItemPresenter.CanOpenWith}">
                 <dialogButtons:DialogSplitDropDownButton.DropDownMenu>
                     <ContextMenu>
-                        <MenuItem Header="{x:Static newElementDialog:NewElementDialogResources.NewElementOpenButtonItem}" 
-                                  Command="{Binding ApplyCommand}"/>
-                        <MenuItem Header="{x:Static newElementDialog:NewElementDialogResources.NewElementOpenWithButtonItem}" 
-                                  Command="{Binding OpenWithCommand}"/>
+                        <MenuItem Command="{Binding ApplyCommand}" Header="{x:Static newElementDialog:NewElementDialogResources.NewElementOpenButtonItem}" />
+                        <MenuItem Command="{Binding OpenWithCommand}" Header="{x:Static newElementDialog:NewElementDialogResources.NewElementOpenWithButtonItem}" />
                     </ContextMenu>
                 </dialogButtons:DialogSplitDropDownButton.DropDownMenu>
             </dialogButtons:DialogSplitDropDownButton>
-            <Button MinWidth="75" MinHeight="23" Margin="0,3,12,6" Padding="6,2,6,2" IsCancel="true"
-                    Style="{DynamicResource {x:Static themes:ResourceKeys.ThemedDialogButtonStyleKey}}"
-                    Content="{x:Static newElementDialog:NewElementDialogResources.NewElementCancelButton}"/>
+            <Button MinWidth="75"
+                    MinHeight="23"
+                    Margin="0,3,12,6"
+                    Padding="6,2,6,2"
+                    Content="{x:Static newElementDialog:NewElementDialogResources.NewElementCancelButton}"
+                    IsCancel="true"
+                    Style="{DynamicResource {x:Static themes:ResourceKeys.ThemedDialogButtonStyleKey}}" />
         </StackPanel>
     </Grid>
 </mafc:DialogWindow>

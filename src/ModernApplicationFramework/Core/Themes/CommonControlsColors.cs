@@ -4,6 +4,25 @@ namespace ModernApplicationFramework.Core.Themes
 {
     public static class CommonControlsColors
     {
+        private static ComponentResourceKey _buttonBackground;
+        private static ComponentResourceKey _buttonText;
+        private static ComponentResourceKey _buttonBorder;
+        private static ComponentResourceKey _buttonBorderDefault;
+        private static ComponentResourceKey _buttonBorderDisabled;
+        private static ComponentResourceKey _buttonBorderFocused;
+        private static ComponentResourceKey _buttonBorderHover;
+        private static ComponentResourceKey _buttonBorderPressed;
+        private static ComponentResourceKey _buttonDefault;
+        private static ComponentResourceKey _buttonDefaultText;
+        private static ComponentResourceKey _buttonDisabled;
+        private static ComponentResourceKey _buttonDisabledText;
+        private static ComponentResourceKey _buttonFocused;
+        private static ComponentResourceKey _buttonFocusedText;
+        private static ComponentResourceKey _buttonHover;
+        private static ComponentResourceKey _buttonHoverText;
+        private static ComponentResourceKey _buttonPressed;
+        private static ComponentResourceKey _buttonPressedText;
+
         private static ComponentResourceKey _comboBoxBackground;
         private static ComponentResourceKey _comboBoxBackgroundDisabled;
         private static ComponentResourceKey _comboBoxBackgroundFocused;
@@ -43,6 +62,60 @@ namespace ModernApplicationFramework.Core.Themes
         private static ComponentResourceKey _comboBoxTextHover;
         private static ComponentResourceKey _comboBoxTextInputSelection;
         private static ComponentResourceKey _comboBoxTextPressed;
+
+        public static ComponentResourceKey ButtonBackground => _buttonBackground ??
+                                                                 (_buttonBackground = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ButtonBackground)));
+
+        public static ComponentResourceKey ButtonText => _buttonText ??
+                                                                 (_buttonText = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ButtonText)));
+
+        public static ComponentResourceKey ButtonBorder => _buttonBorder ??
+                                                                 (_buttonBorder = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ButtonBorder)));
+
+        public static ComponentResourceKey ButtonBorderDefault => _buttonBorderDefault ??
+                                                                 (_buttonBorderDefault = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ButtonBorderDefault)));
+
+        public static ComponentResourceKey ButtonBorderDisabled => _buttonBorderDisabled ??
+                                                                 (_buttonBorderDisabled = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ButtonBorderDisabled)));
+
+        public static ComponentResourceKey ButtonBorderFocused => _buttonBorderFocused ??
+                                                                 (_buttonBorderFocused = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ButtonBorderFocused)));
+
+        public static ComponentResourceKey ButtonBorderHover => _buttonBorderHover ??
+                                                                 (_buttonBorderHover = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ButtonBorderHover)));
+
+        public static ComponentResourceKey ButtonBorderPressed => _buttonBorderPressed ??
+                                                                 (_buttonBorderPressed = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ButtonBorderPressed)));
+
+        public static ComponentResourceKey ButtonDefault => _buttonDefault ??
+                                                                 (_buttonDefault = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ButtonDefault)));
+
+        public static ComponentResourceKey ButtonDefaultText => _buttonDefaultText ??
+                                                                 (_buttonDefaultText = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ButtonDefaultText)));
+
+        public static ComponentResourceKey ButtonDisabled => _buttonDisabled ??
+                                                                 (_buttonDisabled = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ButtonDisabled)));
+
+        public static ComponentResourceKey ButtonDisabledText => _buttonDisabledText ??
+                                                                 (_buttonDisabledText = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ButtonDisabledText)));
+
+        public static ComponentResourceKey ButtonFocused => _buttonFocused ??
+                                                                 (_buttonFocused = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ButtonFocused)));
+
+        public static ComponentResourceKey ButtonFocusedText => _buttonFocusedText ??
+                                                                 (_buttonFocusedText = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ButtonFocusedText)));
+
+        public static ComponentResourceKey ButtonHover => _buttonHover ??
+                                                                 (_buttonHover = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ButtonHover)));
+
+        public static ComponentResourceKey ButtonHoverText => _buttonHoverText ??
+                                                                 (_buttonHoverText = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ButtonHoverText)));
+
+        public static ComponentResourceKey ButtonPressed => _buttonPressed ??
+                                                                 (_buttonPressed = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ButtonPressed)));
+
+        public static ComponentResourceKey ButtonPressedText => _buttonPressedText ??
+                                                                 (_buttonPressedText = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ButtonPressedText)));
 
         public static ComponentResourceKey ComboBoxBackground => _comboBoxBackground ??
                                                                          (_comboBoxBackground = new ComponentResourceKey(typeof(CommonControlsColors), nameof(ComboBoxBackground)));
