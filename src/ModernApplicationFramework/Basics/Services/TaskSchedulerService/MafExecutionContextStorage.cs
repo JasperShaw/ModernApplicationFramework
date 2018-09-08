@@ -8,11 +8,18 @@ namespace ModernApplicationFramework.Basics.Services.TaskSchedulerService
         private static readonly MafExecutionContextStorage EmptyContext = new MafExecutionContextStorage();
         private readonly List<Tuple<Guid, Guid>> _elements;
 
-        public MafExecutionContextStorage PreviousContext { get; }
-
         public bool IsEmpty => _elements == null;
 
         public bool IsNoFlowContext { get; set; }
+
+        public MafExecutionContextStorage PreviousContext { get; }
+
+        public MafExecutionContextStorage(MafExecutionContextStorage previousContext,
+            MafExecutionContextStorage newContext)
+        {
+            _elements = newContext._elements;
+            PreviousContext = previousContext;
+        }
 
         private MafExecutionContextStorage()
         {
@@ -25,10 +32,9 @@ namespace ModernApplicationFramework.Basics.Services.TaskSchedulerService
             _elements = elements;
         }
 
-        public MafExecutionContextStorage(MafExecutionContextStorage previousContext, MafExecutionContextStorage newContext)
+        public static MafExecutionContextStorage GetEmptyContext()
         {
-            _elements = newContext._elements;
-            PreviousContext = previousContext;
+            return EmptyContext;
         }
 
         public Guid GetElement(Guid elementType)
@@ -36,10 +42,8 @@ namespace ModernApplicationFramework.Basics.Services.TaskSchedulerService
             if (_elements == null)
                 return Guid.Empty;
             foreach (var element in _elements)
-            {
                 if (element.Item1 == elementType)
                     return element.Item2;
-            }
             return Guid.Empty;
         }
 
@@ -53,21 +57,12 @@ namespace ModernApplicationFramework.Basics.Services.TaskSchedulerService
             if (value != Guid.Empty)
                 elements.Add(Tuple.Create(elementType, value));
             if (_elements != null)
-            {
                 foreach (var element in _elements)
-                {
                     if (element.Item1 != elementType)
                         elements.Add(element);
                     else
                         previousValue = element.Item2;
-                }
-            }
             return new MafExecutionContextStorage(PreviousContext, elements);
-        }
-
-        public static MafExecutionContextStorage GetEmptyContext()
-        {
-            return EmptyContext;
         }
     }
 }

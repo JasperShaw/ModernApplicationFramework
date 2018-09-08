@@ -2,14 +2,24 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ModernApplicationFramework.Basics.Threading;
+using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Basics.Services.TaskSchedulerService
 {
     public class MafUiThreadScheduler : TaskScheduler, IMafTaskScheduler
     {
-        public MafTaskRunContext SchedulerContext => MafTaskRunContext.UIThreadSend;
+        public bool IsUiThreadScheduler => true;
+        public MafTaskRunContext SchedulerContext => MafTaskRunContext.UiThreadSend;
 
-        public bool IsUIThreadScheduler => true;
+        internal static async void ExecuteTaskInRpcPriority(Task task, Action executeAction)
+        {
+            await ThreadHelper.Generic.InvokeAsync(executeAction, () =>
+            {
+                if (MafRunningTasksManager.IsBlockingTask(task))
+                    MafRunningTasksManager.GetCurrentTaskWaitedOnUiThread()?.AbortWait();
+                return false;
+            });
+        }
 
         protected override IEnumerable<Task> GetScheduledTasks()
         {
@@ -18,7 +28,7 @@ namespace ModernApplicationFramework.Basics.Services.TaskSchedulerService
 
         protected override void QueueTask(Task task)
         {
-            ExecuteTaskInRPCPriority(task, () => TryExecuteTask(task));
+            ExecuteTaskInRpcPriority(task, () => TryExecuteTask(task));
         }
 
         protected override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)
@@ -26,16 +36,6 @@ namespace ModernApplicationFramework.Basics.Services.TaskSchedulerService
             if (ThreadHelper.CheckAccess())
                 return TryExecuteTask(task);
             return false;
-        }
-
-        internal static async void ExecuteTaskInRPCPriority(Task task, Action executeAction)
-        {
-            await ThreadHelper.Generic.InvokeAsync(executeAction, () =>
-            {
-                if (MafRunningTasksManager.IsBlockingTask(task))
-                    MafRunningTasksManager.GetCurrentTaskWaitedOnUiThread()?.AbortWait();
-                return false;
-            });
         }
     }
 }

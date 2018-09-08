@@ -1,6 +1,7 @@
 ﻿using System;
+using ModernApplicationFramework.Basics.Services.TaskSchedulerService;
 
-namespace ModernApplicationFramework.Basics.Services.TaskSchedulerService
+namespace ModernApplicationFramework.Basics.Threading
 {
     internal class InvokableAction : InvokableBase
     {

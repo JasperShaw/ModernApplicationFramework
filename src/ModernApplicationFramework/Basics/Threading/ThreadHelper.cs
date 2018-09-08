@@ -6,25 +6,38 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using Caliburn.Micro;
-using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Threading;
 using Action = System.Action;
 
 namespace ModernApplicationFramework.Basics.Threading
 {
+    /// <summary>
+    ///     Provides a generic dispatcher helper to ensure that a method is invoked on the application's main thread.
+    /// </summary>
     public abstract class ThreadHelper
     {
         private static ThreadHelper _generic;
-        private static Dispatcher _uiThreadDispatcher;
         private static JoinableTaskContext _joinableTaskContextCache;
+        private static Dispatcher _uiThreadDispatcher;
 
+        /// <summary>
+        ///     Gets a generic <see cref="ThreadHelper" />
+        /// </summary>
         public static ThreadHelper Generic => _generic ?? (_generic = new GenericThreadHelper());
 
+        /// <summary>
+        ///     Gets the singleton <see cref="ModernApplicationFramework.Threading.JoinableTaskContext" /> instance for the
+        ///     application
+        /// </summary>
+        public static JoinableTaskContext JoinableTaskContext => _joinableTaskContextCache ??
+                                                                 (_joinableTaskContextCache =
+                                                                     MafTaskHelper.ServiceInstance
+                                                                         .GetAsyncTaskContext());
 
-        static ThreadHelper()
-        {
-            SetUiThread();
-        }
+        /// <summary>
+        ///     Gets the joinable task factory for the application.
+        /// </summary>
+        public static JoinableTaskFactory JoinableTaskFactory => JoinableTaskContext.Factory;
 
         private static Dispatcher DispatcherForUiThread
         {
@@ -36,23 +49,67 @@ namespace ModernApplicationFramework.Basics.Threading
             }
         }
 
-        public static JoinableTaskFactory JoinableTaskFactory => JoinableTaskContext.Factory;
 
-        public static JoinableTaskContext JoinableTaskContext
+        static ThreadHelper()
         {
-            get
-            {
-                if (_joinableTaskContextCache == null)
-                    _joinableTaskContextCache = (MafTaskHelper.ServiceInstance).GetAsyncTaskContext();
-                return _joinableTaskContextCache;
-            }
+            SetUiThread();
         }
 
+        /// <summary>
+        ///     Determines whether the call is being made on the UI thread.
+        /// </summary>
+        /// <returns>Returns <see langword="true" /> if the call is on the UI thread, otherwise returns <see langword="false" />.</returns>
+        public static bool CheckAccess()
+        {
+            var dispatcherForUiThread = DispatcherForUiThread;
+            return dispatcherForUiThread != null && dispatcherForUiThread.CheckAccess();
+        }
+
+        /// <summary>
+        ///     Determines whether the call is being made on the UI thread, and throws COMException(RPC_E_WRONG_THREAD) if it is
+        ///     not.
+        /// </summary>
+        /// <param name="callerMemberName">The optional name of caller if a Debug Assert is desired if not on the UI thread.</param>
+        /// <exception cref="COMException">Thrown with RPC_E_WRONG_THREAD when called on any thread other than the main UI thread.</exception>
+        public static void ThrowIfNotOnUIThread([CallerMemberName] string callerMemberName = "")
+        {
+            if (!CheckAccess())
+                throw new COMException(string.Format(CultureInfo.CurrentCulture, "{0} must be called on the UI thread.",
+                    new object[]
+                    {
+                        callerMemberName
+                    }), -2147417842);
+        }
+
+        /// <summary>
+        ///     Determines whether the call is being made on the UI thread ,and throws COMException(RPC_E_WRONG_THREAD) if it is.
+        /// </summary>
+        /// <param name="callerMemberName">The optional name of caller if a Debug Assert is desired if on the UI thread.</param>
+        /// <exception cref="COMException">Thrown with RPC_E_WRONG_THREAD when called on any thread other than the main UI thread.</exception>
+        public static void ThrowIfOnUIThread([CallerMemberName] string callerMemberName = "")
+        {
+            if (CheckAccess())
+                throw new COMException(string.Format(CultureInfo.CurrentCulture,
+                    "{0} must be called on a background thread.", new object[]
+                    {
+                        callerMemberName
+                    }), -2147417842);
+        }
+
+        /// <summary>
+        ///     Schedules an action for execution on the UI thread asynchronously.
+        /// </summary>
+        /// <param name="action">The action to run.</param>
         public void BeginInvoke(Action action)
         {
             BeginInvoke(DispatcherPriority.Normal, action);
         }
 
+        /// <summary>
+        ///     Schedules an action for execution on the UI thread asynchronously.
+        /// </summary>
+        /// <param name="priority">The priority at which to run the action.</param>
+        /// <param name="action">The action to run.</param>
         public void BeginInvoke(DispatcherPriority priority, Action action)
         {
             var dispatcherForUiThread = DispatcherForUiThread;
@@ -92,46 +149,20 @@ namespace ModernApplicationFramework.Basics.Threading
                         if (ex.HResult != -2147417856)
                             throw;
                         if (onRpcCallFailed != null)
-                        {
                             if (onRpcCallFailed())
                                 break;
-                        }
                     }
+
                     await Task.Delay(100);
                 }
             });
         }
-
-
-        protected abstract IDisposable GetInvocationWrapper();
 
         internal static void SetUiThread()
         {
             _uiThreadDispatcher = Dispatcher.CurrentDispatcher;
         }
 
-        public static bool CheckAccess()
-        {
-            var dispatcherForUiThread = DispatcherForUiThread;
-            return dispatcherForUiThread != null && dispatcherForUiThread.CheckAccess();
-        }
-
-        public static void ThrowIfNotOnUIThread([CallerMemberName] string callerMemberName = "")
-        {
-            if (!CheckAccess())
-                throw new COMException(string.Format(CultureInfo.CurrentCulture, "{0} must be called on the UI thread.", new object[]
-                {
-                    callerMemberName
-                }), -2147417842);
-        }
-
-        public static void ThrowIfOnUIThread([CallerMemberName] string callerMemberName = "")
-        {
-            if (CheckAccess())
-                throw new COMException(string.Format(CultureInfo.CurrentCulture, "{0} must be called on a background thread.", new object[]
-                {
-                    callerMemberName
-                }), -2147417842);
-        }
+        protected abstract IDisposable GetInvocationWrapper();
     }
 }

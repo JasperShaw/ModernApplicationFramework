@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Threading;
 using ModernApplicationFramework.Basics.Threading;
 using ModernApplicationFramework.Native.NativeMethods;
@@ -8,10 +9,10 @@ namespace ModernApplicationFramework.Basics.Services.TaskSchedulerService
     internal sealed class MafUiBackgroundPriorityScheduler : MafUiThreadBlockableTaskScheduler
     {
         private readonly TimeSpan _defaultTimerInterval = TimeSpan.FromMilliseconds(300.0);
-        private readonly TimeSpan _yieldInterval = TimeSpan.FromMilliseconds(1.0);
         private readonly DispatcherTimer _timerObject;
+        private readonly TimeSpan _yieldInterval = TimeSpan.FromMilliseconds(1.0);
 
-        public override MafTaskRunContext SchedulerContext => MafTaskRunContext.UIThreadBackgroundPriority;
+        public override MafTaskRunContext SchedulerContext => MafTaskRunContext.UiThreadBackgroundPriority;
 
         public MafUiBackgroundPriorityScheduler()
         {
@@ -19,16 +20,11 @@ namespace ModernApplicationFramework.Basics.Services.TaskSchedulerService
             _timerObject.Tick += OnTimerTick;
         }
 
-        protected override void OnTaskQueued(System.Threading.Tasks.Task task)
-        {
-            ThreadHelper.Generic.BeginInvoke(DispatcherPriority.Render, (() => ProcessQueue("DispatchAfterTaskQueue")));
-        }
-
         internal void ProcessQueue(string caller)
         {
             if (!TryGetTicksSinceLastInput(out var ticks))
                 ticks = 300;
-            bool flag = true;
+            var flag = true;
             if (ticks < 300)
             {
                 _timerObject.Interval = TimeSpan.FromMilliseconds(300 - ticks);
@@ -48,12 +44,25 @@ namespace ModernApplicationFramework.Basics.Services.TaskSchedulerService
             else
             {
                 _timerObject.Interval = _yieldInterval;
-                if (!DoOneTask(out _))
-                {
-                    flag = false;
-                }
+                if (!DoOneTask(out _)) flag = false;
             }
+
             _timerObject.IsEnabled = flag;
+        }
+
+        protected override void OnTaskQueued(Task task)
+        {
+            ThreadHelper.Generic.BeginInvoke(DispatcherPriority.Render, () => ProcessQueue("DispatchAfterTaskQueue"));
+        }
+
+        private static bool IsInputPending(int dwQsFlags)
+        {
+            return User32.MsgWaitForMultipleObjectsEx(0, null, 0, dwQsFlags, 4) == 0;
+        }
+
+        private static bool IsSystemCommandPending()
+        {
+            return User32.PeekMessage(out _, IntPtr.Zero, 274U, 274U, 0U);
         }
 
         private void OnTimerTick(object sender, EventArgs e)
@@ -65,16 +74,6 @@ namespace ModernApplicationFramework.Basics.Services.TaskSchedulerService
         {
             ticks = 0;
             return false;
-        }
-
-        private static bool IsInputPending(int dwQsFlags)
-        {
-            return User32.MsgWaitForMultipleObjectsEx(0, null, 0, dwQsFlags, 4) == 0;
-        }
-
-        private static bool IsSystemCommandPending()
-        {
-            return User32.PeekMessage(out _, IntPtr.Zero, 274U, 274U, 0U);
         }
     }
 }

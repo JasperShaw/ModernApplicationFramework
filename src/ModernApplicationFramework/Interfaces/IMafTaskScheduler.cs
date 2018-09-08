@@ -1,11 +1,11 @@
 ﻿using ModernApplicationFramework.Basics.Threading;
 
-namespace ModernApplicationFramework.Basics.Services.TaskSchedulerService
+namespace ModernApplicationFramework.Interfaces
 {
     internal interface IMafTaskScheduler
     {
         MafTaskRunContext SchedulerContext { get; }
 
-        bool IsUIThreadScheduler { get; }
+        bool IsUiThreadScheduler { get; }
     }
 }

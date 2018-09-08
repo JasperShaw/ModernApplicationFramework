@@ -1,11 +1,11 @@
 ﻿using System;
-using ModernApplicationFramework.Basics.Threading;
+using ModernApplicationFramework.Interfaces.Threading;
 
-namespace ModernApplicationFramework.Basics.Services.TaskSchedulerService
+namespace ModernApplicationFramework.Basics.Threading
 {
     internal abstract class InvokableBase : IMafInvokablePrivate
     {
-        protected abstract void InvokeMethod();
+        public Exception Exception { get; private set; }
 
         public int Invoke()
         {
@@ -18,10 +18,11 @@ namespace ModernApplicationFramework.Basics.Services.TaskSchedulerService
             {
                 Exception = ex;
             }
+
             return 0;
         }
 
-        public Exception Exception { get; private set; }
+        protected abstract void InvokeMethod();
 
         private static void VerifyAccess()
         {

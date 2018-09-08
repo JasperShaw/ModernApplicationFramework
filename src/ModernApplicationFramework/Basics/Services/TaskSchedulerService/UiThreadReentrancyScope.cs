@@ -16,42 +16,63 @@ namespace ModernApplicationFramework.Basics.Services.TaskSchedulerService
         private static readonly Queue<PendingRequest> Queue = new Queue<PendingRequest>();
         private static TaskCompletionSource<object> _queueHasElement = new TaskCompletionSource<object>();
 
-        private static bool ExecuteOne()
+        private static Task RequestWaiter
         {
-            ThreadHelper.ThrowIfNotOnUIThread(nameof(ExecuteOne));
-            TaskCompletionSource<bool> completeEvent = null;
-            InvokableBase action = null;
-            lock (LockObj)
+            get
             {
-                PendingRequest pendingRequest = null;
-                while (Queue.Count > 0 && pendingRequest == null)
+                lock (LockObj)
                 {
-                    pendingRequest = Queue.Dequeue();
-                    if (pendingRequest.Revoked)
-                        pendingRequest = null;
-                }
-                pendingRequest?.InitiateExecute(out completeEvent, out action);
-                if (Queue.Count == 0)
-                {
-                    _queueHasElement.TrySetResult(null);
-                    _queueHasElement = new TaskCompletionSource<object>();
+                    return _queueHasElement.Task;
                 }
             }
-            if (completeEvent == null)
-                return false;
-            var num = action.Invoke();
-            if (num >= 0)
-                completeEvent.TrySetResult(true);
-            else
-                completeEvent.TrySetException(Marshal.GetExceptionForHR(num));
-            return true;
         }
 
-        private static void Flush()
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static async Task EnqueueActionAsync(Action action)
         {
-            do
-                ;
-            while (ExecuteOne());
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
+            if (ThreadHelper.CheckAccess())
+                await TaskScheduler.Default.SwitchTo();
+            var pendingRequest = new PendingRequest(new InvokableAction(action), false);
+            lock (LockObj)
+            {
+                Queue.Enqueue(pendingRequest);
+                _queueHasElement.TrySetResult(null);
+            }
+        }
+
+        public static bool WaitOnTaskComplete(Task task, CancellationToken cancel, int ms)
+        {
+            if (!ThreadHelper.CheckAccess())
+                return task.Wait(ms, cancel);
+            return WaitOnTaskCompleteInternal(task, cancel, ms);
+        }
+
+        internal static async Task<bool> TryExecuteActionAsyncInternal(InvokableBase action, int timeout = -1)
+        {
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
+            ThreadHelper.ThrowIfOnUIThread(nameof(TryExecuteActionAsyncInternal));
+            var pr = new PendingRequest(action, true);
+            lock (LockObj)
+            {
+                Queue.Enqueue(pr);
+                _queueHasElement.TrySetResult(null);
+            }
+
+            if (timeout != -1)
+            {
+                var delayCancellation = new CancellationTokenSource();
+                await Task.WhenAny(pr.Waiter, Task.Delay(timeout, delayCancellation.Token));
+                delayCancellation.Cancel();
+            }
+            else
+            {
+                var num = await pr.Waiter ? 1 : 0;
+            }
+
+            return await Dequeue(pr);
         }
 
         private static void ClearQueue()
@@ -71,14 +92,18 @@ namespace ModernApplicationFramework.Basics.Services.TaskSchedulerService
                         pendingRequestList.Add(pendingRequest);
                     }
                     else
+                    {
                         pendingRequest.SkipExecution().Forget();
+                    }
                 }
+
                 if (pendingRequestList != null)
                 {
                     pendingRequestList.Reverse();
                     foreach (var pendingRequest in pendingRequestList)
                         Queue.Enqueue(pendingRequest);
                 }
+
                 if (Queue.Count != 0)
                     return;
                 _queueHasElement.TrySetResult(null);
@@ -100,62 +125,49 @@ namespace ModernApplicationFramework.Basics.Services.TaskSchedulerService
                     _queueHasElement = new TaskCompletionSource<object>();
                 }
             }
+
             return task;
         }
 
-        private static Task RequestWaiter
+        private static bool ExecuteOne()
         {
-            get
-            {
-                lock (LockObj)
-                    return _queueHasElement.Task;
-            }
-        }
-
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public static async Task EnqueueActionAsync(Action action)
-        {
-            if (action == null)
-                throw new ArgumentNullException(nameof(action));
-            if (ThreadHelper.CheckAccess())
-                await TaskScheduler.Default.SwitchTo();
-            var pendingRequest = new PendingRequest(new InvokableAction(action), false);
+            ThreadHelper.ThrowIfNotOnUIThread(nameof(ExecuteOne));
+            TaskCompletionSource<bool> completeEvent = null;
+            InvokableBase action = null;
             lock (LockObj)
             {
-                Queue.Enqueue(pendingRequest);
-                _queueHasElement.TrySetResult(null);
-            }
-        }
+                PendingRequest pendingRequest = null;
+                while (Queue.Count > 0 && pendingRequest == null)
+                {
+                    pendingRequest = Queue.Dequeue();
+                    if (pendingRequest.Revoked)
+                        pendingRequest = null;
+                }
 
-        internal static async Task<bool> TryExecuteActionAsyncInternal(InvokableBase action, int timeout = -1)
-        {
-            if (action == null)
-                throw new ArgumentNullException(nameof(action));
-            ThreadHelper.ThrowIfOnUIThread(nameof(TryExecuteActionAsyncInternal));
-            var pr = new PendingRequest(action, true);
-            lock (LockObj)
-            {
-                Queue.Enqueue(pr);
-                _queueHasElement.TrySetResult(null);
+                pendingRequest?.InitiateExecute(out completeEvent, out action);
+                if (Queue.Count == 0)
+                {
+                    _queueHasElement.TrySetResult(null);
+                    _queueHasElement = new TaskCompletionSource<object>();
+                }
             }
-            if (timeout != -1)
-            {
-                var delayCancellation = new CancellationTokenSource();
-                await Task.WhenAny(pr.Waiter, Task.Delay(timeout, delayCancellation.Token));
-                delayCancellation.Cancel();
-            }
+
+            if (completeEvent == null)
+                return false;
+            var num = action.Invoke();
+            if (num >= 0)
+                completeEvent.TrySetResult(true);
             else
-            {
-                var num = await pr.Waiter ? 1 : 0;
-            }
-            return await Dequeue(pr);
+                completeEvent.TrySetException(Marshal.GetExceptionForHR(num));
+            return true;
         }
 
-        public static bool WaitOnTaskComplete(Task task, CancellationToken cancel, int ms)
+        private static void Flush()
         {
-            if (!ThreadHelper.CheckAccess())
-                return task.Wait(ms, cancel);
-            return WaitOnTaskCompleteInternal(task, cancel, ms);
+            do
+            {
+                ;
+            } while (ExecuteOne());
         }
 
         private static bool WaitOnTaskCompleteInternal(Task task, CancellationToken cancel, int ms)
@@ -182,6 +194,7 @@ namespace ModernApplicationFramework.Basics.Services.TaskSchedulerService
                     default:
                         break;
                 }
+
                 stopwatch.Stop();
                 var elapsedMilliseconds = stopwatch.ElapsedMilliseconds;
                 if (ms != -1)
@@ -191,9 +204,11 @@ namespace ModernApplicationFramework.Basics.Services.TaskSchedulerService
                         flag2 = false;
                         goto label_11;
                     }
-                    ms -= (int)elapsedMilliseconds;
+
+                    ms -= (int) elapsedMilliseconds;
                 }
             }
+
             task.GetAwaiter().GetResult();
             flag2 = true;
             label_11:
@@ -203,13 +218,16 @@ namespace ModernApplicationFramework.Basics.Services.TaskSchedulerService
 
         internal class PendingRequest
         {
-            private TaskCompletionSource<bool> WorkCompleteEvent { get; }
+            internal bool AllowCleanup { get; }
+
+            internal bool Revoked => InvokeAction == null;
+
+            internal Task<bool> Waiter => WorkCompleteEvent.Task;
 
             private InvokableBase InvokeAction { get; set; }
 
             private bool Started { get; set; }
-
-            internal bool AllowCleanup { get; }
+            private TaskCompletionSource<bool> WorkCompleteEvent { get; }
 
             internal PendingRequest(InvokableBase action, bool guaranteeExecution)
             {
@@ -218,8 +236,6 @@ namespace ModernApplicationFramework.Basics.Services.TaskSchedulerService
                 WorkCompleteEvent = new TaskCompletionSource<bool>();
                 AllowCleanup = !guaranteeExecution;
             }
-
-            internal bool Revoked => InvokeAction == null;
 
             internal void InitiateExecute(out TaskCompletionSource<bool> completeEvent, out InvokableBase action)
             {
@@ -234,6 +250,7 @@ namespace ModernApplicationFramework.Basics.Services.TaskSchedulerService
                     completeEvent = null;
                     action = null;
                 }
+
                 InvokeAction = null;
             }
 
@@ -244,34 +261,9 @@ namespace ModernApplicationFramework.Basics.Services.TaskSchedulerService
                     WorkCompleteEvent.TrySetResult(false);
                     InvokeAction = null;
                 }
+
                 return Waiter;
             }
-
-            internal Task<bool> Waiter => WorkCompleteEvent.Task;
         }
-    }
-
-    public interface IMafExecutionContextTracker
-    {
-        void SetContextElement(Guid contextTypeGuid, Guid contextElementGuid);
-
-        Guid SetAndGetContextElement(Guid contextTypeGuid, Guid contextElementGuid);
-
-        Guid GetContextElement(Guid contextTypeGuid);
-
-        void PushContext(uint contextCookie);
-
-        void PopContext( uint contextCookie);
-
-        uint GetCurrentContext();
-
-        void ReleaseContext( uint contextCookie);
-
-        void PushContextEx(uint contextCookie, bool fDontTrackAsyncWork);
-    }
-
-    public interface IMafInvokablePrivate
-    {
-        int Invoke();
     }
 }

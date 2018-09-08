@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using ModernApplicationFramework.Basics.Threading;
@@ -12,11 +11,15 @@ namespace ModernApplicationFramework.Basics.Services.TaskSchedulerService
         private readonly uint _mainThreadId;
         private int _idleTriggered;
 
-        public override MafTaskRunContext SchedulerContext => MafTaskRunContext.UIThreadIdlePriority;
+        public override MafTaskRunContext SchedulerContext => MafTaskRunContext.UiThreadIdlePriority;
 
         public MafIdleTimeScheduler()
         {
             _mainThreadId = Kernel32.GetCurrentThreadId();
+        }
+
+        public void Dispose()
+        {
         }
 
         protected override void OnTaskQueued(Task task)
@@ -24,33 +27,6 @@ namespace ModernApplicationFramework.Basics.Services.TaskSchedulerService
             if (Interlocked.CompareExchange(ref _idleTriggered, 1, 0) != 0)
                 return;
             User32.PostThreadMessage(_mainThreadId, 0U, IntPtr.Zero, IntPtr.Zero);
-        }
-
-        public void Dispose()
-        {
-        } 
-    }
-
-    [Serializable]
-    public class TaskSchedulingException : Exception
-    {
-        public const int VsETaskschedulerfail = -2147213304;
-
-        public TaskSchedulingException()
-            : this("Task scheduling could not be completed in the requested context.")
-        {
-        }
-
-        public TaskSchedulingException(string message)
-            : base(message)
-        {
-            HResult = -2147213304;
-        }
-
-        protected TaskSchedulingException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-            HResult = -2147213304;
         }
     }
 }

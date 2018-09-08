@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
-using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Services.TaskSchedulerService;
+using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Controls;
 using ModernApplicationFramework.Interfaces.Services;
+using ModernApplicationFramework.Interfaces.Threading;
 using ModernApplicationFramework.Threading;
 using ModernApplicationFramework.Utilities;
 using Action = System.Action;
@@ -20,24 +20,88 @@ namespace ModernApplicationFramework.Basics.Threading
 {
     internal class MafTask : IMafTaskEvents, INotifyPropertyChanged, IMafTask
     {
-        private static readonly PropertyChangedEventArgs TaskStatePropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(TaskState));
-        private static readonly PropertyChangedEventArgs IsCanceledPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(IsCanceled));
-        private static readonly PropertyChangedEventArgs IsFaultedPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(IsFaulted));
-        private static readonly PropertyChangedEventArgs IsCompletedPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(IsCompleted));
-        private MafTaskState _taskState;
+        private static readonly PropertyChangedEventArgs IsCanceledPropertyChangedEventArgs =
+            new PropertyChangedEventArgs(nameof(IsCanceled));
+
+        private static readonly PropertyChangedEventArgs IsCompletedPropertyChangedEventArgs =
+            new PropertyChangedEventArgs(nameof(IsCompleted));
+
+        private static readonly PropertyChangedEventArgs IsFaultedPropertyChangedEventArgs =
+            new PropertyChangedEventArgs(nameof(IsFaulted));
+
+        private static readonly PropertyChangedEventArgs TaskStatePropertyChangedEventArgs =
+            new PropertyChangedEventArgs(nameof(TaskState));
+
+        private List<MafTask> _attachedTasks;
+        private JoinableTask _dependencyJoinableTask;
+        private string _description;
         private Task<object> _internalTask;
         private JoinableTask _joinableTask;
-        private JoinableTask _dependencyJoinableTask;
-        private List<MafTask> _attachedTasks;
         private AsyncAutoResetEvent _newDependencyWaiter;
+        private MafTaskState _taskState;
         private CancellationTokenSource _uiThreadWaitAbortToken;
-        private string _description;
         private string _waitMessage;
 
         public event EventHandler OnBlockingWaitBegin;
         public event EventHandler OnBlockingWaitEnd;
         public event EventHandler<BlockingTaskEventArgs> OnMarkedAsBlocking;
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public object AsyncState { get; }
+
+        public DateTime CreationTime { get; }
+
+        public IMafTask[] DependentTasks { get; private set; }
+
+        public int DependentTasksCount { get; }
+
+        public string Description
+        {
+            get => _description;
+            set
+            {
+                if (_description == value)
+                    return;
+                _description = value;
+                RaisePropertyChanged(nameof(Description));
+            }
+        }
+
+        public bool IsCanceled
+        {
+            get
+            {
+                if (InternalTask != null && InternalTask.Status == TaskStatus.Canceled)
+                    return true;
+                if (IsCancelable)
+                    return TaskCancellationTokenSource.IsCancellationRequested;
+                return false;
+            }
+        }
+
+        public bool IsCompleted
+        {
+            get
+            {
+                if (InternalTask == null)
+                    return false;
+                if (!InternalTask.IsCompleted)
+                    return InternalTask.IsFaulted;
+                return true;
+            }
+        }
+
+        public bool IsFaulted
+        {
+            get
+            {
+                if (InternalTask != null)
+                    return InternalTask.IsFaulted;
+                return false;
+            }
+        }
+
+        public MafTaskRunContext TaskContext { get; }
 
         public MafTaskState TaskState
         {
@@ -58,9 +122,19 @@ namespace ModernApplicationFramework.Basics.Threading
             }
         }
 
-        public int DependentTasksCount { get; }
+        public string WaitMessage
+        {
+            get => _waitMessage;
+            set
+            {
+                if (_waitMessage == value)
+                    return;
+                _waitMessage = value;
+                RaisePropertyChanged(nameof(WaitMessage));
+            }
+        }
 
-        public DateTime CreationTime { get; }
+        CancellationToken IMafTask.CancellationToken => TaskCancellationToken;
 
         internal Task<object> InternalTask
         {
@@ -79,9 +153,7 @@ namespace ModernApplicationFramework.Basics.Threading
             }
         }
 
-        public IMafTask[] DependentTasks { get; private set; }
-
-        protected CancellationTokenSource TaskCancellationTokenSource { get; }
+        protected bool IsCancelable { get; }
 
         protected CancellationToken TaskCancellationToken
         {
@@ -93,81 +165,21 @@ namespace ModernApplicationFramework.Basics.Threading
             }
         }
 
-        CancellationToken IMafTask.CancellationToken => TaskCancellationToken;
+        protected CancellationTokenSource TaskCancellationTokenSource { get; }
 
-        protected bool IsCancelable { get; }
-
-        public MafTaskRunContext TaskContext { get; }
+        private static bool IsCallerInJoinableTask =>
+            MafTaskSchedulerService.Instance.JoinableTaskContext.IsWithinJoinableTask;
 
         private TaskScheduler AssignedScheduler => GetSchedulerFromContext(TaskContext);
 
-        public bool IsCanceled
+
+        internal MafTask(IMafTaskBody action, MafTaskRunContext context, MafTaskCreationOptions options,
+            object asyncState)
+            : this(null, context, asyncState, !OptionsHasFlag(options, MafTaskCreationOptions.NotCancelable),
+                OptionsHasFlag(options, MafTaskCreationOptions.CancelWithParent), false)
         {
-            get
-            {
-                if (InternalTask != null && InternalTask.Status == TaskStatus.Canceled)
-                    return true;
-                if (IsCancelable)
-                    return TaskCancellationTokenSource.IsCancellationRequested;
-                return false;
-            }
-        }
-
-        public bool IsFaulted
-        {
-            get
-            {
-                if (InternalTask != null)
-                    return InternalTask.IsFaulted;
-                return false;
-            }
-        }
-
-        public bool IsCompleted
-        {
-            get
-            {
-                if (InternalTask == null)
-                    return false;
-                if (!InternalTask.IsCompleted)
-                    return InternalTask.IsFaulted;
-                return true;
-            }
-        }
-
-        public string Description
-        {
-            get => _description;
-            set
-            {
-                if (_description == value)
-                    return;
-                _description = value;
-                RaisePropertyChanged(nameof(Description));
-            }
-        }
-
-        public string WaitMessage
-        {
-            get => _waitMessage;
-            set
-            {
-                if (_waitMessage == value)
-                    return;
-                _waitMessage = value;
-                RaisePropertyChanged(nameof(WaitMessage));
-            }
-        }
-
-        public object AsyncState { get; }
-
-        private static bool IsCallerInJoinableTask => MafTaskSchedulerService.Instance.JoinableTaskContext.IsWithinJoinableTask;
-
-
-        internal MafTask(IMafTaskBody action, MafTaskRunContext context, MafTaskCreationOptions options, object asyncState)
-            : this(null, context, asyncState, !OptionsHasFlag(options, MafTaskCreationOptions.NotCancelable), OptionsHasFlag(options, MafTaskCreationOptions.CancelWithParent), false)
-        {
-            InternalTask = new Task<object>(GetCallback(action, this, context), TaskCancellationToken, GetTplOptions(options));
+            InternalTask = new Task<object>(GetCallback(action, this, context), TaskCancellationToken,
+                GetTplOptions(options));
         }
 
         internal MafTask(TaskCompletionSource<object> completionSource)
@@ -176,7 +188,8 @@ namespace ModernApplicationFramework.Basics.Threading
             InternalTask = completionSource.Task;
         }
 
-        protected MafTask(IMafTask[] dependentTasks, MafTaskRunContext context, object asyncState, bool isCancelable, bool isCanceledWithParent, bool isIndependentlyCanceled)
+        protected MafTask(IMafTask[] dependentTasks, MafTaskRunContext context, object asyncState, bool isCancelable,
+            bool isCanceledWithParent, bool isIndependentlyCanceled)
         {
             DependentTasks = dependentTasks;
             DependentTasksCount = dependentTasks?.Length ?? 0;
@@ -187,10 +200,69 @@ namespace ModernApplicationFramework.Basics.Threading
             IsCancelable = isCancelable;
             if (!IsCancelable)
                 return;
-            TaskCancellationTokenSource = isIndependentlyCanceled || DependentTasks == null || (DependentTasks.Length != 1 || !(DependentTasks[0] is MafTask)) || !((MafTask)DependentTasks[0]).IsCancelable ? new CancellationTokenSource() : ((MafTask)DependentTasks[0]).TaskCancellationTokenSource;
+            TaskCancellationTokenSource =
+                isIndependentlyCanceled || DependentTasks == null || DependentTasks.Length != 1 ||
+                !(DependentTasks[0] is MafTask) || !((MafTask) DependentTasks[0]).IsCancelable
+                    ? new CancellationTokenSource()
+                    : ((MafTask) DependentTasks[0]).TaskCancellationTokenSource;
             if (!isCanceledWithParent)
                 return;
             MafRunningTasksManager.GetCurrentTask()?.TaskCancellationToken.Register(Cancel);
+        }
+
+        public void AbortIfCanceled()
+        {
+            if (!IsCanceled)
+                return;
+            TaskCancellationTokenSource.Token.ThrowIfCancellationRequested();
+        }
+
+        public void Cancel()
+        {
+            if (!IsCancelable)
+                throw new InvalidOperationException();
+            TaskCancellationTokenSource.Cancel();
+            TaskState = MafTaskState.Canceled;
+        }
+
+        public IMafTask ContinueWith(uint context, IMafTaskBody pTaskBody)
+        {
+            return ContinueWithEx(context, 262144U, pTaskBody, null);
+        }
+
+        public IMafTask ContinueWithEx(uint context, uint options, IMafTaskBody pTaskBody, object pAsyncState)
+        {
+            var options1 = (MafTaskContinuationOptions) options;
+            var isCancelable = !OptionsHasFlag(options1, MafTaskContinuationOptions.NotCancelable);
+            var isCanceledWithParent = OptionsHasFlag(options1, MafTaskContinuationOptions.CancelWithParent);
+            var isIndependentlyCanceled = OptionsHasFlag(options1, MafTaskContinuationOptions.IndependentlyCanceled);
+            var mafTask = new MafTask(new[]
+            {
+                (IMafTask) this
+            }, (MafTaskRunContext) context, pAsyncState, isCancelable, isCanceledWithParent, isIndependentlyCanceled);
+            mafTask.InternalTask = InternalTask.ContinueWith(
+                GetCallbackForSingleParent(pTaskBody, mafTask, mafTask.TaskContext), mafTask.TaskCancellationToken,
+                GetTplOptions(options1), mafTask.AssignedScheduler);
+            mafTask.TaskState = MafTaskState.Scheduled;
+            MafTaskSchedulerService.Instance.RaiseOnTaskCreatedEvent(mafTask);
+            if (OptionsHasFlag(options1, MafTaskContinuationOptions.AttachedToParent))
+                EnsureTaskIsNotBlocking(mafTask);
+            JoinAntecedentJoinableTasks(mafTask);
+            return mafTask;
+        }
+
+        public object GetResult()
+        {
+            return InternalGetResult(false);
+        }
+
+        public void Start()
+        {
+            TaskState = MafTaskState.Scheduled;
+            InternalTask.Start(AssignedScheduler);
+            if ((InternalTask.CreationOptions & TaskCreationOptions.AttachedToParent) == TaskCreationOptions.None)
+                return;
+            EnsureTaskIsNotBlocking(this);
         }
 
 
@@ -205,63 +277,176 @@ namespace ModernApplicationFramework.Basics.Threading
             return InternalWait(false, millisecondsTimeout, abortOnCancel);
         }
 
-        public IMafTask ContinueWith(uint context, IMafTaskBody pTaskBody)
-        {
-            return ContinueWithEx(context, 262144U, pTaskBody, null);
-        }
-
-        public IMafTask ContinueWithEx(uint context, uint options, IMafTaskBody pTaskBody, object pAsyncState)
-        {
-            var options1 = (MafTaskContinuationOptions)options;
-            var isCancelable = !OptionsHasFlag(options1, MafTaskContinuationOptions.NotCancelable);
-            var isCanceledWithParent = OptionsHasFlag(options1, MafTaskContinuationOptions.CancelWithParent);
-            var isIndependentlyCanceled = OptionsHasFlag(options1, MafTaskContinuationOptions.IndependentlyCanceled);
-            var mafTask = new MafTask(new[]
-            {
-                (IMafTask) this
-            }, (MafTaskRunContext)context, pAsyncState, isCancelable, isCanceledWithParent, isIndependentlyCanceled);
-            mafTask.InternalTask = InternalTask.ContinueWith(
-                GetCallbackForSingleParent(pTaskBody, mafTask, mafTask.TaskContext), mafTask.TaskCancellationToken,
-                GetTplOptions(options1), mafTask.AssignedScheduler);
-            mafTask.TaskState = MafTaskState.Scheduled;
-            MafTaskSchedulerService.Instance.RaiseOnTaskCreatedEvent(mafTask);
-            if (OptionsHasFlag(options1, MafTaskContinuationOptions.AttachedToParent))
-                EnsureTaskIsNotBlocking(mafTask);
-            JoinAntecedentJoinableTasks(mafTask);
-            return mafTask;
-        }
-
-        public void Cancel()
-        {
-            if (!IsCancelable)
-                throw new InvalidOperationException();
-            TaskCancellationTokenSource.Cancel();
-            TaskState = MafTaskState.Canceled;
-        }
-
-        public void AbortIfCanceled()
-        {
-            if (!IsCanceled)
-                return;
-            TaskCancellationTokenSource.Token.ThrowIfCancellationRequested();
-        }
-
         void IMafTask.AssociateJoinableTask(object joinableTask)
         {
             Validate.IsNotNull(joinableTask, nameof(joinableTask));
             if (_joinableTask != null)
                 throw new InvalidOperationException();
-            _joinableTask = (JoinableTask)joinableTask;
+            _joinableTask = (JoinableTask) joinableTask;
         }
 
-        public object GetResult()
+        internal static MafTaskRunContext CalculateTaskRunContext(MafTaskRunContext inputContext)
         {
-            return InternalGetResult(false);
+            var mafTaskRunContext = inputContext;
+            if (inputContext == MafTaskRunContext.CurrentContext)
+            {
+                var flag = ThreadHelper.CheckAccess();
+                mafTaskRunContext =
+                    !(TaskScheduler.Current is IMafTaskScheduler current) || flag != current.IsUiThreadScheduler
+                        ? (flag ? MafTaskRunContext.UiThreadNormalPriority : MafTaskRunContext.BackgroundThread)
+                        : current.SchedulerContext;
+            }
+
+            return mafTaskRunContext;
         }
 
-        internal void InternalWait(bool ignoreUiThreadCheck)
+        internal static MafTask ContinueWhenAllCompleted(IMafTask[] tasks, IMafTaskBody taskBody,
+            MafTaskRunContext context, MafTaskContinuationOptions options, object asyncState)
         {
-            InternalWait(ignoreUiThreadCheck, -1, false);
+            var tasks1 = new Task<object>[tasks.Length];
+            for (var index = 0; index < tasks.Length; ++index)
+                tasks1[index] = ((MafTask) tasks[index]).InternalTask;
+            var isCancelable = !OptionsHasFlag(options, MafTaskContinuationOptions.NotCancelable);
+            var isCanceledWithParent = OptionsHasFlag(options, MafTaskContinuationOptions.CancelWithParent);
+            var isIndependentlyCanceled = OptionsHasFlag(options, MafTaskContinuationOptions.IndependentlyCanceled);
+            var mafTask = new MafTask(tasks, context, asyncState, isCancelable, isCanceledWithParent,
+                isIndependentlyCanceled);
+            var taskFactory = new TaskFactory<object>(mafTask.AssignedScheduler);
+            mafTask.InternalTask = taskFactory.ContinueWhenAll(tasks1,
+                GetCallbackForMultipleParent(taskBody, mafTask, context), mafTask.TaskCancellationToken,
+                GetTplOptions(options), mafTask.AssignedScheduler);
+            MafTaskSchedulerService.Instance.RaiseOnTaskCreatedEvent(mafTask);
+            if (OptionsHasFlag(options, MafTaskContinuationOptions.AttachedToParent))
+                EnsureTaskIsNotBlocking(mafTask);
+            mafTask.TaskState = MafTaskState.Scheduled;
+            return mafTask;
+        }
+
+        internal static Func<object> GetCallback(IMafTaskBody taskBody, MafTask task, MafTaskRunContext context)
+        {
+            if (task.DependentTasks != null && task.DependentTasks.Length != 0)
+                throw new ArgumentException("Invalid number of parent tasks", nameof(task));
+            return () => GetCallbackForMultipleParent(taskBody, task, context)(null);
+        }
+
+        internal static Func<Task<object>[], object> GetCallbackForMultipleParent(IMafTaskBody taskBody, MafTask task,
+            MafTaskRunContext context)
+        {
+            return _ =>
+            {
+                MafRunningTasksManager.PushCurrentTask(task);
+                task.TaskState = MafTaskState.Running;
+                object pResult;
+                try
+                {
+                    if (MafTaskSchedulerService.Instance.TryAdaptTaskBody(task, taskBody, out var adaptedBody))
+                        taskBody = adaptedBody;
+                    taskBody.DoWork(task, task.DependentTasks != null ? (uint) task.DependentTasks.Length : 0U,
+                        task.DependentTasks, out pResult);
+                    task.TaskState = MafTaskState.Completed;
+                }
+                catch (Exception)
+                {
+                    task.TaskState = MafTaskState.Faulted;
+                    throw;
+                }
+                finally
+                {
+                    if (Marshal.IsComObject(taskBody))
+                        Marshal.ReleaseComObject(taskBody);
+                    task.DependentTasks = null;
+                    MafRunningTasksManager.PopCurrentTask();
+                }
+
+                return pResult;
+            };
+        }
+
+        internal static Func<Task<object>, object> GetCallbackForSingleParent(IMafTaskBody taskBody, MafTask task,
+            MafTaskRunContext context)
+        {
+            if (task.DependentTasks == null || task.DependentTasks.Length != 1)
+                throw new ArgumentException("Invalid number of parent tasks", nameof(task));
+            return internalTask => GetCallbackForMultipleParent(taskBody, task, context)(new Task<object>[1]
+            {
+                internalTask
+            });
+        }
+
+        internal static TaskScheduler GetSchedulerFromContext(MafTaskRunContext context)
+        {
+            switch (context)
+            {
+                case MafTaskRunContext.BackgroundThread:
+                    return TaskScheduler.Default;
+                case MafTaskRunContext.UiThreadSend:
+                    return MafTaskSchedulerService.Instance.UiContextScheduler;
+                case MafTaskRunContext.UiThreadBackgroundPriority:
+                    return MafTaskSchedulerService.Instance.UiContextBackgroundPriorityScheduler;
+                case MafTaskRunContext.UiThreadIdlePriority:
+                    return MafTaskSchedulerService.Instance.UiContextIdleTimeScheduler;
+                case MafTaskRunContext.CurrentContext:
+                    if (ThreadHelper.CheckAccess())
+                    {
+                        var taskRunContext = CalculateTaskRunContext(context);
+                        if (taskRunContext != MafTaskRunContext.CurrentContext)
+                            return GetSchedulerFromContext(taskRunContext);
+                        return MafTaskSchedulerService.Instance.UiContextNormalPriorityScheduler;
+                    }
+
+                    if (SynchronizationContext.Current != null)
+                        return TaskScheduler.FromCurrentSynchronizationContext();
+                    return TaskScheduler.Default;
+                case MafTaskRunContext.BackgroundThreadLowIoPriority:
+                    return MafTaskSchedulerService.Instance.BackgroundThreadLowIoPriorityScheduler;
+                case MafTaskRunContext.UiThreadNormalPriority:
+                    return MafTaskSchedulerService.Instance.UiContextNormalPriorityScheduler;
+                default:
+                    throw new ArgumentException("Unknown task run context", nameof(context));
+            }
+        }
+
+        internal static TaskCreationOptions GetTplOptions(MafTaskCreationOptions options)
+        {
+            return (TaskCreationOptions) (options & ~(MafTaskCreationOptions.CancelWithParent |
+                                                      MafTaskCreationOptions.NotCancelable));
+        }
+
+        internal static TaskContinuationOptions GetTplOptions(MafTaskContinuationOptions options)
+        {
+            return (TaskContinuationOptions) (options & ~(MafTaskContinuationOptions.CancelWithParent |
+                                                          MafTaskContinuationOptions.IndependentlyCanceled |
+                                                          MafTaskContinuationOptions.NotCancelable) &
+                                              ~MafTaskContinuationOptions.ExecuteSynchronously);
+        }
+
+        internal static void JoinAntecedentJoinableTasks(IMafTask task)
+        {
+            if (task is MafTask mafTask && IsCallerInJoinableTask)
+                foreach (var allDependentVsTask in mafTask.GetAllDependentMafTasks(false))
+                    if (allDependentVsTask._joinableTask != null)
+                        allDependentVsTask._joinableTask.JoinAsync().Forget();
+                    else if (allDependentVsTask._dependencyJoinableTask != null)
+                        allDependentVsTask._dependencyJoinableTask.JoinAsync().Forget();
+                    else
+                        allDependentVsTask._dependencyJoinableTask =
+                            MafTaskSchedulerService.Instance.JoinableTaskContext.Factory.RunAsync(async delegate
+                            {
+                                if (allDependentVsTask.AssignedScheduler is MafUiThreadBlockableTaskScheduler
+                                    vsUiThreadBlockableTaskScheduler)
+                                    vsUiThreadBlockableTaskScheduler
+                                        .TryExecuteTaskAsync(allDependentVsTask.InternalTask).Forget();
+                                var lastNotifiedAttachedTaskIndex = 0;
+                                IEnumerable<MafTask> enumerable;
+                                while ((enumerable = await allDependentVsTask
+                                           .WaitForNewDependenciesAsync(lastNotifiedAttachedTaskIndex)
+                                           .ConfigureAwait(false)) != null)
+                                    foreach (var item in enumerable)
+                                    {
+                                        lastNotifiedAttachedTaskIndex++;
+                                        JoinAntecedentJoinableTasks(item);
+                                    }
+                            });
         }
 
         internal void AbortWait()
@@ -272,69 +457,21 @@ namespace ModernApplicationFramework.Basics.Threading
             IgnoreObjectDisposedException(threadWaitAbortToken.Cancel);
         }
 
-        internal static void JoinAntecedentJoinableTasks(IMafTask task)
+        internal IEnumerable<Task> GetAllDependentInternalTasks()
         {
-            if (task is MafTask mafTask && IsCallerInJoinableTask)
-            {
-                foreach (var allDependentVsTask in mafTask.GetAllDependentMafTasks(false))
-                {
-                    if (allDependentVsTask._joinableTask != null)
-                        allDependentVsTask._joinableTask.JoinAsync().Forget();
-                    else if (allDependentVsTask._dependencyJoinableTask != null)
-                        allDependentVsTask._dependencyJoinableTask.JoinAsync().Forget();
-                    else
-                    {
-                        allDependentVsTask._dependencyJoinableTask = MafTaskSchedulerService.Instance.JoinableTaskContext.Factory.RunAsync(async delegate
-                        {
-                            if (allDependentVsTask.AssignedScheduler is MafUiThreadBlockableTaskScheduler vsUiThreadBlockableTaskScheduler)
-                            {
-                                vsUiThreadBlockableTaskScheduler.TryExecuteTaskAsync(allDependentVsTask.InternalTask).Forget();
-                            }
-                            var lastNotifiedAttachedTaskIndex = 0;
-                            IEnumerable<MafTask> enumerable;
-                            while ((enumerable = await allDependentVsTask.WaitForNewDependenciesAsync(lastNotifiedAttachedTaskIndex).ConfigureAwait(false)) != null)
-                            {
-                                foreach (var item in enumerable)
-                                {
-                                    lastNotifiedAttachedTaskIndex++;
-                                    JoinAntecedentJoinableTasks(item);
-                                }
-                            }
-                        });
-                    }
-                }
-            }
-        }
-
-        private async Task<IEnumerable<MafTask>> WaitForNewDependenciesAsync(int lastNotifiedAttachedTaskIndex)
-        {
-            if (!IsCompleted && !IsCanceled)
-            {
-                var val = LazyInitializer.EnsureInitialized(ref _newDependencyWaiter, () => new AsyncAutoResetEvent(true));
-                if (lastNotifiedAttachedTaskIndex == 0)
-                {
-                    var newDependenciesSinceLastCheck = GetNewDependenciesSinceLastCheck(lastNotifiedAttachedTaskIndex);
-                    if (newDependenciesSinceLastCheck != null)
-                    {
-                        return newDependenciesSinceLastCheck;
-                    }
-                }
-                var resetEventTask = val.WaitAsync();
-                if (await Task.WhenAny(_internalTask, resetEventTask).ConfigureAwait(false) == resetEventTask)
-                    return GetNewDependenciesSinceLastCheck(lastNotifiedAttachedTaskIndex) ?? Enumerable.Empty<MafTask>();
-            }
-            return null;
+            foreach (var allDependentMafTask in GetAllDependentMafTasks())
+                yield return allDependentMafTask.InternalTask;
         }
 
         internal IEnumerable<MafTask> GetAllDependentMafTasks(bool ignoreCanceledTasks = true)
         {
             var isActive = ignoreCanceledTasks
-                ? (Func<IMafTask, bool>)(t =>
-               {
-                   if (!t.IsCompleted)
-                       return !t.IsCanceled;
-                   return false;
-               })
+                ? (Func<IMafTask, bool>) (t =>
+                {
+                    if (!t.IsCompleted)
+                        return !t.IsCanceled;
+                    return false;
+                })
                 : t => !t.IsCompleted;
             var seenSet = new HashSet<MafTask>();
             var remaining = new Stack<MafTask>();
@@ -351,53 +488,9 @@ namespace ModernApplicationFramework.Basics.Threading
                     var taskArray = dependentTasks;
                     var second = taskArray ?? Enumerable.Empty<IMafTask>();
                     foreach (var task1 in attachedTasks.Union(second).Where(isActive))
-                    {
                         if (task1 is MafTask task2 && seenSet.Add(task2))
                             remaining.Push(task2);
-                    }
                 }
-            }
-        }
-
-        internal bool InternalWait(bool ignoreUiThreadCheck, int millisecondTimeout, bool abortOnCancel)
-        {
-            if (!EnsureTaskIsNotBlocking(this, MafTaskDependency.WaitForExecution))
-                throw new CircularTaskDependencyException();
-            try
-            {
-                if (!ignoreUiThreadCheck && ThreadHelper.CheckAccess() && !IsCompleted)
-                    return InvokeWithWaitDialog(() =>
-                    {
-                        try
-                        {
-                            var abortTokenSource = InitializeUiThreadWaitAbortToken();
-                            if (abortOnCancel)
-                                TaskCancellationToken.Register(() => IgnoreObjectDisposedException(abortTokenSource.Cancel));
-                            var result = false;
-                            try
-                            {
-                                IgnoreObjectDisposedException(() => result = UiThreadReentrancyScope.WaitOnTaskComplete(InternalTask, abortTokenSource.Token, millisecondTimeout));
-                            }
-                            catch (OperationCanceledException)
-                            {
-                                var waitAbortRequested = false;
-                                IgnoreObjectDisposedException(() => waitAbortRequested = abortTokenSource.IsCancellationRequested);
-                                if (waitAbortRequested && (!abortOnCancel || !TaskCancellationToken.IsCancellationRequested))
-                                    throw new TaskSchedulingException();
-                                throw;
-                            }
-                            return result;
-                        }
-                        finally
-                        {
-                            ClearUiThreadWaitAbortToken();
-                        }
-                    });
-                return UiThreadReentrancyScope.WaitOnTaskComplete(InternalTask, abortOnCancel ? TaskCancellationToken : CancellationToken.None, millisecondTimeout);
-            }
-            catch (AggregateException ex)
-            {
-                throw RethrowException(ex);
             }
         }
 
@@ -410,7 +503,7 @@ namespace ModernApplicationFramework.Basics.Threading
                 throw new OperationCanceledException();
             if (!EnsureTaskIsNotBlocking(this, MafTaskDependency.WaitForExecution))
                 throw new CircularTaskDependencyException();
-            var taskResult = (object)null;
+            var taskResult = (object) null;
             try
             {
                 var flag = ThreadHelper.CheckAccess() && !IsCompleted;
@@ -423,15 +516,19 @@ namespace ModernApplicationFramework.Basics.Threading
                             var abortTokenSource = InitializeUiThreadWaitAbortToken();
                             try
                             {
-                                IgnoreObjectDisposedException(() => UiThreadReentrancyScope.WaitOnTaskComplete(InternalTask, abortTokenSource.Token, -1));
+                                IgnoreObjectDisposedException(() =>
+                                    UiThreadReentrancyScope.WaitOnTaskComplete(InternalTask, abortTokenSource.Token,
+                                        -1));
                             }
                             catch (OperationCanceledException)
                             {
                                 var waitAbortRequested = false;
-                                IgnoreObjectDisposedException(() => waitAbortRequested = abortTokenSource.IsCancellationRequested);
+                                IgnoreObjectDisposedException(() =>
+                                    waitAbortRequested = abortTokenSource.IsCancellationRequested);
                                 if (waitAbortRequested)
                                     throw new TaskSchedulingException();
                             }
+
                             taskResult = InternalTask.Result;
                         }
                         finally
@@ -451,7 +548,102 @@ namespace ModernApplicationFramework.Basics.Threading
             {
                 RethrowException(ex);
             }
+
             return taskResult;
+        }
+
+        internal void InternalWait(bool ignoreUiThreadCheck)
+        {
+            InternalWait(ignoreUiThreadCheck, -1, false);
+        }
+
+        internal bool InternalWait(bool ignoreUiThreadCheck, int millisecondTimeout, bool abortOnCancel)
+        {
+            if (!EnsureTaskIsNotBlocking(this, MafTaskDependency.WaitForExecution))
+                throw new CircularTaskDependencyException();
+            try
+            {
+                if (!ignoreUiThreadCheck && ThreadHelper.CheckAccess() && !IsCompleted)
+                    return InvokeWithWaitDialog(() =>
+                    {
+                        try
+                        {
+                            var abortTokenSource = InitializeUiThreadWaitAbortToken();
+                            if (abortOnCancel)
+                                TaskCancellationToken.Register(() =>
+                                    IgnoreObjectDisposedException(abortTokenSource.Cancel));
+                            var result = false;
+                            try
+                            {
+                                IgnoreObjectDisposedException(() =>
+                                    result = UiThreadReentrancyScope.WaitOnTaskComplete(InternalTask,
+                                        abortTokenSource.Token, millisecondTimeout));
+                            }
+                            catch (OperationCanceledException)
+                            {
+                                var waitAbortRequested = false;
+                                IgnoreObjectDisposedException(() =>
+                                    waitAbortRequested = abortTokenSource.IsCancellationRequested);
+                                if (waitAbortRequested &&
+                                    (!abortOnCancel || !TaskCancellationToken.IsCancellationRequested))
+                                    throw new TaskSchedulingException();
+                                throw;
+                            }
+
+                            return result;
+                        }
+                        finally
+                        {
+                            ClearUiThreadWaitAbortToken();
+                        }
+                    });
+                return UiThreadReentrancyScope.WaitOnTaskComplete(InternalTask,
+                    abortOnCancel ? TaskCancellationToken : CancellationToken.None, millisecondTimeout);
+            }
+            catch (AggregateException ex)
+            {
+                throw RethrowException(ex);
+            }
+        }
+
+        internal bool TryAddDependentTask(IMafTask task, bool checkForCycle)
+        {
+            Validate.IsNotNull(task, nameof(task));
+            if (task is MafTask mafTask)
+            {
+                if (checkForCycle && mafTask.GetAllDependentMafTasks().Contains(this))
+                    return false;
+                lock (LazyInitializer.EnsureInitialized(ref _attachedTasks))
+                {
+                    _attachedTasks.Add((MafTask) task);
+                }
+
+                _newDependencyWaiter?.Set();
+                if (MafRunningTasksManager.IsBlockingTask(InternalTask))
+                {
+                    foreach (var mafTask2 in mafTask.GetAllDependentMafTasks().Distinct())
+                        mafTask2.RaiseOnMarkedAsBlockingEvent(
+                            MafRunningTasksManager.GetCurrentTaskWaitedOnUiThread() ?? this);
+                    MafRunningTasksManager.PromoteTaskIfBlocking((MafTask) task, this);
+                }
+            }
+
+            return true;
+        }
+
+
+        private static bool EnsureTaskIsNotBlocking(MafTask taskToUnblock,
+            MafTaskDependency dependencyType = MafTaskDependency.AttachedTask)
+        {
+            var currentTask = MafRunningTasksManager.GetCurrentTask();
+            if (currentTask != null)
+            {
+                var checkForCycle = dependencyType == MafTaskDependency.WaitForExecution;
+                if (!currentTask.TryAddDependentTask(taskToUnblock, checkForCycle))
+                    return false;
+            }
+
+            return true;
         }
 
         private static void IgnoreObjectDisposedException(Action action)
@@ -465,11 +657,34 @@ namespace ModernApplicationFramework.Basics.Threading
             }
         }
 
+        private static bool OptionsHasFlag(MafTaskCreationOptions options, MafTaskCreationOptions flag)
+        {
+            return (uint) (options & flag) > 0U;
+        }
+
+        private static bool OptionsHasFlag(MafTaskContinuationOptions options, MafTaskContinuationOptions flag)
+        {
+            return (uint) (options & flag) > 0U;
+        }
+
+        private static Exception RethrowException(AggregateException e)
+        {
+            var aggregateException = e.Flatten();
+            ExceptionDispatchInfo
+                .Capture(aggregateException.InnerExceptions.Count == 1 ? aggregateException.InnerExceptions[0] : e)
+                .Throw();
+            throw new InvalidOperationException("Unreachable");
+        }
+
+        private void ClearUiThreadWaitAbortToken()
+        {
+            _uiThreadWaitAbortToken = null;
+        }
+
         private List<MafTask> GetNewDependenciesSinceLastCheck(int lastIndexChecked)
         {
-            var mafTaskList = (List<MafTask>)null;
+            var mafTaskList = (List<MafTask>) null;
             if (_attachedTasks != null)
-            {
                 lock (_attachedTasks)
                 {
                     for (; lastIndexChecked < _attachedTasks.Count; ++lastIndexChecked)
@@ -479,8 +694,13 @@ namespace ModernApplicationFramework.Basics.Threading
                         mafTaskList.Add(_attachedTasks[lastIndexChecked]);
                     }
                 }
-            }
+
             return mafTaskList;
+        }
+
+        private CancellationTokenSource InitializeUiThreadWaitAbortToken()
+        {
+            return _uiThreadWaitAbortToken = new CancellationTokenSource();
         }
 
         private T InvokeWithWaitDialog<T>(Func<T> function)
@@ -491,9 +711,7 @@ namespace ModernApplicationFramework.Basics.Threading
                 var service = IoC.Get<IWaitDialogFactory>();
                 IWaitDialog dialog;
                 if (service != null)
-                {
                     service.CreateInstance(out dialog);
-                }
                 else
                     dialog = null;
 
@@ -503,8 +721,8 @@ namespace ModernApplicationFramework.Basics.Threading
                     var waitMessage = _waitMessage;
                     if (!string.IsNullOrWhiteSpace(waitMessage))
                         flag = dialog.StartWaitDialog(null, waitMessage, null, "Wait", 2, false, true);
-
                 }
+
                 try
                 {
                     RaiseOnBlockingWaitEndEvent();
@@ -530,197 +748,8 @@ namespace ModernApplicationFramework.Basics.Threading
             InvokeWithWaitDialog(() =>
             {
                 action();
-                return (object)null;
+                return (object) null;
             });
-        }
-
-        internal IEnumerable<Task> GetAllDependentInternalTasks()
-        {
-            foreach (var allDependentMafTask in GetAllDependentMafTasks())
-                yield return allDependentMafTask.InternalTask;
-        }
-
-        internal bool TryAddDependentTask(IMafTask task, bool checkForCycle)
-        {
-            Validate.IsNotNull(task, nameof(task));
-            if (task is MafTask mafTask)
-            {
-                if (checkForCycle && mafTask.GetAllDependentMafTasks().Contains(this))
-                    return false;
-                lock (LazyInitializer.EnsureInitialized(ref _attachedTasks))
-                    _attachedTasks.Add((MafTask)task);
-                _newDependencyWaiter?.Set();
-                if (MafRunningTasksManager.IsBlockingTask(InternalTask))
-                {
-                    foreach (var mafTask2 in mafTask.GetAllDependentMafTasks().Distinct())
-                        mafTask2.RaiseOnMarkedAsBlockingEvent(MafRunningTasksManager.GetCurrentTaskWaitedOnUiThread() ?? this);
-                    MafRunningTasksManager.PromoteTaskIfBlocking((MafTask)task, this);
-                }
-            }
-            return true;
-        }
-
-        private static Exception RethrowException(AggregateException e)
-        {
-            var aggregateException = e.Flatten();
-            ExceptionDispatchInfo.Capture(aggregateException.InnerExceptions.Count == 1 ? aggregateException.InnerExceptions[0] : e).Throw();
-            throw new InvalidOperationException("Unreachable");
-        }
-
-        internal static TaskCreationOptions GetTplOptions(MafTaskCreationOptions options)
-        {
-            return (TaskCreationOptions)(options & ~(MafTaskCreationOptions.CancelWithParent | MafTaskCreationOptions.NotCancelable));
-        }
-
-        internal static TaskContinuationOptions GetTplOptions(MafTaskContinuationOptions options)
-        {
-            return (TaskContinuationOptions)(options & ~(MafTaskContinuationOptions.CancelWithParent | MafTaskContinuationOptions.IndependentlyCanceled | MafTaskContinuationOptions.NotCancelable) & ~MafTaskContinuationOptions.ExecuteSynchronously);
-        }
-
-        internal static MafTaskRunContext CalculateTaskRunContext(MafTaskRunContext inputContext)
-        {
-            var mafTaskRunContext = inputContext;
-            if (inputContext == MafTaskRunContext.CurrentContext)
-            {
-                var flag = ThreadHelper.CheckAccess();
-                mafTaskRunContext = !(TaskScheduler.Current is IMafTaskScheduler current) || flag != current.IsUIThreadScheduler ? (flag ? MafTaskRunContext.UIThreadNormalPriority : MafTaskRunContext.BackgroundThread) : current.SchedulerContext;
-            }
-            return mafTaskRunContext;
-        }
-
-        internal static TaskScheduler GetSchedulerFromContext(MafTaskRunContext context)
-        {
-            switch (context)
-            {
-                case MafTaskRunContext.BackgroundThread:
-                    return TaskScheduler.Default;
-                case MafTaskRunContext.UIThreadSend:
-                    return MafTaskSchedulerService.Instance.UiContextScheduler;
-                case MafTaskRunContext.UIThreadBackgroundPriority:
-                    return MafTaskSchedulerService.Instance.UiContextBackgroundPriorityScheduler;
-                case MafTaskRunContext.UIThreadIdlePriority:
-                    return MafTaskSchedulerService.Instance.UiContextIdleTimeScheduler;
-                case MafTaskRunContext.CurrentContext:
-                    if (ThreadHelper.CheckAccess())
-                    {
-                        var taskRunContext = CalculateTaskRunContext(context);
-                        if (taskRunContext != MafTaskRunContext.CurrentContext)
-                            return GetSchedulerFromContext(taskRunContext);
-                        return MafTaskSchedulerService.Instance.UiContextNormalPriorityScheduler;
-                    }
-                    if (SynchronizationContext.Current != null)
-                        return TaskScheduler.FromCurrentSynchronizationContext();
-                    return TaskScheduler.Default;
-                case MafTaskRunContext.BackgroundThreadLowIOPriority:
-                    return MafTaskSchedulerService.Instance.BackgroundThreadLowIoPriorityScheduler;
-                case MafTaskRunContext.UIThreadNormalPriority:
-                    return MafTaskSchedulerService.Instance.UiContextNormalPriorityScheduler;
-                default:
-                    throw new ArgumentException("Unknown task run context", nameof(context));
-            }
-        }
-
-        internal static Func<Task<object>[], object> GetCallbackForMultipleParent(IMafTaskBody taskBody, MafTask task, MafTaskRunContext context)
-        {
-            return _ =>
-            {
-                MafRunningTasksManager.PushCurrentTask(task);
-                task.TaskState = MafTaskState.Running;
-                object pResult;
-                try
-                {
-                    if (MafTaskSchedulerService.Instance.TryAdaptTaskBody(task, taskBody, out var adaptedBody))
-                        taskBody = adaptedBody;
-                    taskBody.DoWork(task, task.DependentTasks != null ? (uint)task.DependentTasks.Length : 0U, task.DependentTasks, out pResult);
-                    task.TaskState = MafTaskState.Completed;
-                }
-                catch (Exception)
-                {
-                    task.TaskState = MafTaskState.Faulted;
-                    throw;
-                }
-                finally
-                {
-                    if (Marshal.IsComObject(taskBody))
-                        Marshal.ReleaseComObject(taskBody);
-                    task.DependentTasks = null;
-                    MafRunningTasksManager.PopCurrentTask();
-                }
-                return pResult;
-            };
-        }
-
-        internal static Func<Task<object>, object> GetCallbackForSingleParent(IMafTaskBody taskBody, MafTask task, MafTaskRunContext context)
-        {
-            if (task.DependentTasks == null || task.DependentTasks.Length != 1)
-                throw new ArgumentException("Invalid number of parent tasks", nameof(task));
-            return internalTask => GetCallbackForMultipleParent(taskBody, task, context)(new Task<object>[1]
-            {
-                internalTask
-            });
-        }
-
-        internal static Func<object> GetCallback(IMafTaskBody taskBody, MafTask task, MafTaskRunContext context)
-        {
-            if (task.DependentTasks != null && task.DependentTasks.Length != 0)
-                throw new ArgumentException("Invalid number of parent tasks", nameof(task));
-            return () => GetCallbackForMultipleParent(taskBody, task, context)(null);
-        }
-
-        internal static MafTask ContinueWhenAllCompleted(IMafTask[] tasks, IMafTaskBody taskBody, MafTaskRunContext context, MafTaskContinuationOptions options, object asyncState)
-        {
-            var tasks1 = new Task<object>[tasks.Length];
-            for (var index = 0; index < tasks.Length; ++index)
-                tasks1[index] = ((MafTask)tasks[index]).InternalTask;
-            var isCancelable = !OptionsHasFlag(options, MafTaskContinuationOptions.NotCancelable);
-            var isCanceledWithParent = OptionsHasFlag(options, MafTaskContinuationOptions.CancelWithParent);
-            var isIndependentlyCanceled = OptionsHasFlag(options, MafTaskContinuationOptions.IndependentlyCanceled);
-            var mafTask = new MafTask(tasks, context, asyncState, isCancelable, isCanceledWithParent, isIndependentlyCanceled);
-            var taskFactory = new TaskFactory<object>(mafTask.AssignedScheduler);
-            mafTask.InternalTask = taskFactory.ContinueWhenAll(tasks1, GetCallbackForMultipleParent(taskBody, mafTask, context), mafTask.TaskCancellationToken, GetTplOptions(options), mafTask.AssignedScheduler);
-            MafTaskSchedulerService.Instance.RaiseOnTaskCreatedEvent(mafTask);
-            if (OptionsHasFlag(options, MafTaskContinuationOptions.AttachedToParent))
-                EnsureTaskIsNotBlocking(mafTask);
-            mafTask.TaskState = MafTaskState.Scheduled;
-            return mafTask;
-        }
-
-
-        private static bool EnsureTaskIsNotBlocking(MafTask taskToUnblock, MafTaskDependency dependencyType = MafTaskDependency.AttachedTask)
-        {
-            var currentTask = MafRunningTasksManager.GetCurrentTask();
-            if (currentTask != null)
-            {
-                var checkForCycle = dependencyType == MafTaskDependency.WaitForExecution;
-                if (!currentTask.TryAddDependentTask(taskToUnblock, checkForCycle))
-                    return false;
-            }
-            return true;
-        }
-
-        private CancellationTokenSource InitializeUiThreadWaitAbortToken()
-        {
-            return _uiThreadWaitAbortToken = new CancellationTokenSource();
-        }
-
-        private void ClearUiThreadWaitAbortToken()
-        {
-            _uiThreadWaitAbortToken = null;
-        }
-
-        private static bool OptionsHasFlag(MafTaskCreationOptions options, MafTaskCreationOptions flag)
-        {
-            return (uint)(options & flag) > 0U;
-        }
-
-        private static bool OptionsHasFlag(MafTaskContinuationOptions options, MafTaskContinuationOptions flag)
-        {
-            return (uint)(options & flag) > 0U;
-        }
-
-        private void RaisePropertyChanged(string propertyName)
-        {
-            PropertyChanged.RaiseEvent(this, propertyName);
         }
 
         private void RaiseOnBlockingWaitBeginEvent()
@@ -765,87 +794,30 @@ namespace ModernApplicationFramework.Basics.Threading
             }
         }
 
-
-
-    }
-
-    public interface IMafTask
-    {
-        CancellationToken CancellationToken { get; }
-
-        bool IsFaulted { get; }
-
-        bool IsCompleted { get; }
-
-        bool IsCanceled { get; }
-
-        object AsyncState { get; }
-
-        string Description { get; set; }
-
-        void AssociateJoinableTask(object joinableTask);
-
-        IMafTask ContinueWith(uint context, IMafTaskBody pTaskBody);
-    }
-
-    public interface IMafTaskEvents
-    {
-        event EventHandler OnBlockingWaitBegin;
-
-        event EventHandler OnBlockingWaitEnd;
-
-        event EventHandler<BlockingTaskEventArgs> OnMarkedAsBlocking;
-    }
-
-    public class BlockingTaskEventArgs : EventArgs
-    {
-        public IMafTask BlockedTask { get; }
-
-        public IMafTask BlockingTask { get; }
-
-        public BlockingTaskEventArgs(IMafTask blockingTask, IMafTask blockedTask)
+        private void RaisePropertyChanged(string propertyName)
         {
-            BlockedTask = blockedTask;
-            BlockingTask = blockingTask;
-        }
-    }
-
-    public enum MafTaskState
-    {
-        Created,
-        Scheduled,
-        Running,
-        Canceled,
-        Faulted,
-        Completed,
-    }
-
-    internal enum MafTaskDependency
-    {
-        Continuation = 1,
-        AttachedTask = 2,
-        WaitForExecution = 3,
-    }
-
-    [Serializable]
-    public class CircularTaskDependencyException : Exception
-    {
-        public CircularTaskDependencyException()
-            : this("Requested operation would result in circular task dependency causing a deadlock.")
-        {
+            PropertyChanged.RaiseEvent(this, propertyName);
         }
 
-        public CircularTaskDependencyException(string message)
-            : base(message)
+        private async Task<IEnumerable<MafTask>> WaitForNewDependenciesAsync(int lastNotifiedAttachedTaskIndex)
         {
-            HResult = -2147213305;
-        }
+            if (!IsCompleted && !IsCanceled)
+            {
+                var val = LazyInitializer.EnsureInitialized(ref _newDependencyWaiter,
+                    () => new AsyncAutoResetEvent(true));
+                if (lastNotifiedAttachedTaskIndex == 0)
+                {
+                    var newDependenciesSinceLastCheck = GetNewDependenciesSinceLastCheck(lastNotifiedAttachedTaskIndex);
+                    if (newDependenciesSinceLastCheck != null) return newDependenciesSinceLastCheck;
+                }
 
-        protected CircularTaskDependencyException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-            HResult = -2147213305;
+                var resetEventTask = val.WaitAsync();
+                if (await Task.WhenAny(_internalTask, resetEventTask).ConfigureAwait(false) == resetEventTask)
+                    return GetNewDependenciesSinceLastCheck(lastNotifiedAttachedTaskIndex) ??
+                           Enumerable.Empty<MafTask>();
+            }
+
+            return null;
         }
     }
 }
-

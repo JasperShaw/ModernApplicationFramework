@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ModernApplicationFramework.Basics.Services.TaskSchedulerService
+namespace ModernApplicationFramework.Interfaces
 {
     public interface IMafExecutionContextTrackerListener
     {

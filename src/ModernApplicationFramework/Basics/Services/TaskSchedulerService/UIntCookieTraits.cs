@@ -6,6 +6,8 @@ namespace ModernApplicationFramework.Basics.Services.TaskSchedulerService
     {
         public static UIntCookieTraits Default = new UIntCookieTraits();
 
+        public override uint UniqueCookies => (uint) ((int) MaxCookie - (int) MinCookie + 1);
+
         public UIntCookieTraits()
             : this(1U, uint.MaxValue, 0U)
         {
@@ -20,7 +22,5 @@ namespace ModernApplicationFramework.Basics.Services.TaskSchedulerService
         {
             return checked(current + 1U);
         }
-
-        public override uint UniqueCookies => (uint)((int)MaxCookie - (int)MinCookie + 1);
     }
 }

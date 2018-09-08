@@ -1,4 +1,4 @@
-﻿namespace ModernApplicationFramework.Basics.Services.TaskSchedulerService
+﻿namespace ModernApplicationFramework.Interfaces
 {
     internal interface IMafUiThreadBlockableTaskScheduler : IMafTaskScheduler
     {

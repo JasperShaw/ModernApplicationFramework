@@ -2,23 +2,23 @@
 using System.Collections.Generic;
 using System.Threading;
 using ModernApplicationFramework.Core.InfoBarUtilities;
+using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Threading;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Basics.Services.TaskSchedulerService
 {
     internal sealed class MafExecutionContextTracker : DisposableObject, IMafExecutionContextTracker
     {
-        private readonly AsyncLocal<MafExecutionContextStorage> _vsExecutionContextStore;
         private readonly CookieTable<uint, MafExecutionContextStorage> _contextCookies;
-        private volatile HashSet<Tuple<Guid, IMafExecutionContextTrackerListener>> _listeners;
-        private readonly ThreadLocal<List<PendingNotification>> _pendingNotifications;
         private readonly ThreadLocal<MafExecutionContextStorage> _noFlowContext;
+        private readonly ThreadLocal<List<PendingNotification>> _pendingNotifications;
         private readonly object _syncLock;
-        private static MafExecutionContextTracker _instance;
+        private readonly AsyncLocal<MafExecutionContextStorage> _vsExecutionContextStore;
+        private volatile HashSet<Tuple<Guid, IMafExecutionContextTrackerListener>> _listeners;
 
         public MafExecutionContextTracker()
         {
-            _instance = this;
             _contextCookies = new CookieTable<uint, MafExecutionContextStorage>(UIntCookieTraits.Default);
             _noFlowContext = new ThreadLocal<MafExecutionContextStorage> {Value = null};
             _pendingNotifications = new ThreadLocal<List<PendingNotification>>();
@@ -27,46 +27,10 @@ namespace ModernApplicationFramework.Basics.Services.TaskSchedulerService
             _syncLock = new object();
         }
 
-        private void OnExecutionContextValueChanged(AsyncLocalValueChangedArgs<MafExecutionContextStorage> args)
+        public Guid GetContextElement(Guid contextTypeGuid)
         {
-            if (IsDisposed)
-                return;
-            var previousValue = args.PreviousValue;
-            if (_noFlowContext.Value != null)
-                previousValue = _noFlowContext.Value;
-            RaiseNotificationForContextChange(previousValue, args.CurrentValue);
-        }
-
-        private MafExecutionContextStorage GetCurrentContextInternal()
-        {
-            if (IsDisposed)
-                return MafExecutionContextStorage.GetEmptyContext();
-            if (_noFlowContext.Value != null)
-                return _noFlowContext.Value;
-            return _vsExecutionContextStore.Value;
-        }
-
-        private void RaiseNotificationForContextChange(MafExecutionContextStorage oldContext, MafExecutionContextStorage newContext)
-        {
-            var listeners = _listeners;
-            if (listeners == null || listeners.Count == 0)
-                return;
-            foreach (var tuple in listeners)
-            {
-                var oldValue = oldContext?.GetElement(tuple.Item1) ?? Guid.Empty;
-                var newValue = newContext?.GetElement(tuple.Item1) ?? Guid.Empty;
-                if (oldValue != newValue)
-                {
-                    if (!_pendingNotifications.IsValueCreated)
-                        _pendingNotifications.Value = new List<PendingNotification>();
-                    _pendingNotifications.Value.Add(new PendingNotification(tuple.Item1, oldValue, newValue, tuple.Item2));
-                }
-            }
-            if (!_pendingNotifications.IsValueCreated)
-                return;
-            foreach (var pendingNotification in _pendingNotifications.Value)
-                pendingNotification.Notify();
-            _pendingNotifications.Value.Clear();
+            return (GetCurrentContextInternal() ?? MafExecutionContextStorage.GetEmptyContext()).GetElement(
+                contextTypeGuid);
         }
 
         public uint GetCurrentContext()
@@ -92,7 +56,8 @@ namespace ModernApplicationFramework.Basics.Services.TaskSchedulerService
             }
             else
             {
-                if (_vsExecutionContextStore.Value == previousContext && currentContextInternal != null && currentContextInternal.IsNoFlowContext)
+                if (_vsExecutionContextStore.Value == previousContext && currentContextInternal != null &&
+                    currentContextInternal.IsNoFlowContext)
                     RaiseNotificationForContextChange(currentContextInternal, previousContext);
                 else
                     _vsExecutionContextStore.Value = previousContext;
@@ -126,26 +91,15 @@ namespace ModernApplicationFramework.Basics.Services.TaskSchedulerService
             }
         }
 
-        public Guid SetAndGetContextElement(Guid contextTypeGuid, Guid contextElementGuid)
+        public void Register(Guid contextValueType, IMafExecutionContextTrackerListener listener)
         {
-            if (IsDisposed)
-                return Guid.Empty;
-            var executionContextStorage1 = GetCurrentContextInternal() ?? MafExecutionContextStorage.GetEmptyContext();
-            var previousValue = Guid.Empty;
-            var executionContextStorage2 = executionContextStorage1.UpdateElement(contextTypeGuid, contextElementGuid, out previousValue);
-            _vsExecutionContextStore.Value = executionContextStorage2.IsEmpty ? null : executionContextStorage2;
-            _noFlowContext.Value = null;
-            return previousValue;
-        }
-
-        public void SetContextElement(Guid contextTypeGuid, Guid contextElementGuid)
-        {
-            SetAndGetContextElement(contextTypeGuid, contextElementGuid);
-        }
-
-        public Guid GetContextElement(Guid contextTypeGuid)
-        {
-            return (GetCurrentContextInternal() ?? MafExecutionContextStorage.GetEmptyContext()).GetElement(contextTypeGuid);
+            lock (_syncLock)
+            {
+                _listeners = new HashSet<Tuple<Guid, IMafExecutionContextTrackerListener>>(_listeners)
+                {
+                    Tuple.Create(contextValueType, listener)
+                };
+            }
         }
 
         public void ReleaseContext(uint cookieContext)
@@ -155,13 +109,22 @@ namespace ModernApplicationFramework.Basics.Services.TaskSchedulerService
             _contextCookies.Remove(cookieContext);
         }
 
-        public void Register(Guid contextValueType, IMafExecutionContextTrackerListener listener)
+        public Guid SetAndGetContextElement(Guid contextTypeGuid, Guid contextElementGuid)
         {
-            lock (_syncLock)
-                _listeners = new HashSet<Tuple<Guid, IMafExecutionContextTrackerListener>>(_listeners)
-                {
-                    Tuple.Create(contextValueType, listener)
-                };
+            if (IsDisposed)
+                return Guid.Empty;
+            var executionContextStorage1 = GetCurrentContextInternal() ?? MafExecutionContextStorage.GetEmptyContext();
+            var previousValue = Guid.Empty;
+            var executionContextStorage2 =
+                executionContextStorage1.UpdateElement(contextTypeGuid, contextElementGuid, out previousValue);
+            _vsExecutionContextStore.Value = executionContextStorage2.IsEmpty ? null : executionContextStorage2;
+            _noFlowContext.Value = null;
+            return previousValue;
+        }
+
+        public void SetContextElement(Guid contextTypeGuid, Guid contextElementGuid)
+        {
+            SetAndGetContextElement(contextTypeGuid, contextElementGuid);
         }
 
         public void Unregister(Guid contextValueType, IMafExecutionContextTrackerListener listener)
@@ -174,14 +137,60 @@ namespace ModernApplicationFramework.Basics.Services.TaskSchedulerService
             }
         }
 
+        private MafExecutionContextStorage GetCurrentContextInternal()
+        {
+            if (IsDisposed)
+                return MafExecutionContextStorage.GetEmptyContext();
+            if (_noFlowContext.Value != null)
+                return _noFlowContext.Value;
+            return _vsExecutionContextStore.Value;
+        }
+
+        private void OnExecutionContextValueChanged(AsyncLocalValueChangedArgs<MafExecutionContextStorage> args)
+        {
+            if (IsDisposed)
+                return;
+            var previousValue = args.PreviousValue;
+            if (_noFlowContext.Value != null)
+                previousValue = _noFlowContext.Value;
+            RaiseNotificationForContextChange(previousValue, args.CurrentValue);
+        }
+
+        private void RaiseNotificationForContextChange(MafExecutionContextStorage oldContext,
+            MafExecutionContextStorage newContext)
+        {
+            var listeners = _listeners;
+            if (listeners == null || listeners.Count == 0)
+                return;
+            foreach (var tuple in listeners)
+            {
+                var oldValue = oldContext?.GetElement(tuple.Item1) ?? Guid.Empty;
+                var newValue = newContext?.GetElement(tuple.Item1) ?? Guid.Empty;
+                if (oldValue != newValue)
+                {
+                    if (!_pendingNotifications.IsValueCreated)
+                        _pendingNotifications.Value = new List<PendingNotification>();
+                    _pendingNotifications.Value.Add(new PendingNotification(tuple.Item1, oldValue, newValue,
+                        tuple.Item2));
+                }
+            }
+
+            if (!_pendingNotifications.IsValueCreated)
+                return;
+            foreach (var pendingNotification in _pendingNotifications.Value)
+                pendingNotification.Notify();
+            _pendingNotifications.Value.Clear();
+        }
+
         private struct PendingNotification
         {
             private readonly Guid _contextType;
-            private readonly Guid _oldValue;
-            private readonly Guid _newValue;
             private readonly IMafExecutionContextTrackerListener _listener;
+            private readonly Guid _newValue;
+            private readonly Guid _oldValue;
 
-            public PendingNotification(Guid type, Guid oldValue, Guid newValue, IMafExecutionContextTrackerListener listener)
+            public PendingNotification(Guid type, Guid oldValue, Guid newValue,
+                IMafExecutionContextTrackerListener listener)
             {
                 Validate.IsNotNull(listener, nameof(listener));
                 _contextType = type;

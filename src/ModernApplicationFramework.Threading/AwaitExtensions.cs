@@ -9,6 +9,12 @@ namespace ModernApplicationFramework.Threading
 {
     public static class AwaitExtensions
     {
+        public static TaskSchedulerAwaiter GetAwaiter(this TaskScheduler scheduler)
+        {
+            Validate.IsNotNull(scheduler, nameof(scheduler));
+            return new TaskSchedulerAwaiter(scheduler);
+        }
+
         public static ExecuteContinuationSynchronouslyAwaitable ConfigureAwaitRunInline(this Task antecedent)
         {
             Validate.IsNotNull(antecedent, nameof(antecedent));
