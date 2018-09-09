@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using ModernApplicationFramework.Modules.Editor.Text;
+using ModernApplicationFramework.Modules.Editor.Utilities;
 using ModernApplicationFramework.Text.Logic.Editor;
 using ModernApplicationFramework.Text.Logic.Operations;
 using ModernApplicationFramework.Text.Ui.Editor;
@@ -10,8 +11,8 @@ using ModernApplicationFramework.Utilities.Core;
 namespace ModernApplicationFramework.Modules.Editor.MultiSelection
 {
     [Export(typeof(IMultiSelectionBrokerFactory))]
-    //[Export(typeof(IFeatureController))]
-    internal class MultiSelectionBrokerFactory : IMultiSelectionBrokerFactory//, IFeatureController
+    [Export(typeof(IFeatureController))]
+    internal class MultiSelectionBrokerFactory : IMultiSelectionBrokerFactory, IFeatureController
     {
         [Import]
         internal ISmartIndentationService SmartIndentationService { get; set; }
@@ -25,8 +26,8 @@ namespace ModernApplicationFramework.Modules.Editor.MultiSelection
         //[Import(AllowDefault = true)]
         //internal ILoggingServiceInternal LoggingService { get; set; }
 
-        //[Import]
-        //internal IFeatureServiceFactory FeatureServiceFactory { get; set; }
+        [Import]
+        internal IFeatureServiceFactory FeatureServiceFactory { get; set; }
 
         [Import]
         internal IEditorOptionsFactoryService EditorOptionsFactoryService { get; set; }

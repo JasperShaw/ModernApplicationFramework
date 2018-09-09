@@ -145,6 +145,12 @@
     <Compile Include="Logic\Classification\IClassifier.cs" />
     <Compile Include="Logic\Classification\IClassifierAggregatorService.cs" />
     <Compile Include="Logic\Classification\IClassifierProvider.cs" />
+    <Compile Include="Logic\Differencing\DifferenceMappingMode.cs" />
+    <Compile Include="Logic\Differencing\IDifferenceTrackingSpanCollection.cs" />
+    <Compile Include="Logic\Differencing\IgnoreDifferencePredicate.cs" />
+    <Compile Include="Logic\Differencing\ISnapshotDifference.cs" />
+    <Compile Include="Logic\Differencing\SnapshotDifferenceChangeEventArgs.cs" />
+    <Compile Include="Logic\Differencing\SnapshotLineTransform.cs" />
     <Compile Include="Logic\Document\ChangeTag.cs" />
     <Compile Include="Logic\Document\ChangeTypes.cs" />
     <Compile Include="Logic\Editor\ConvertTabsToSpaces.cs" />
@@ -235,8 +241,23 @@
     <Compile Include="Ui\Commanding\CommandHandlerExtensions.cs" />
     <Compile Include="Ui\Commanding\CommandState.cs" />
     <Compile Include="Ui\Commanding\ITextEditCommand.cs" />
+    <Compile Include="Ui\Differencing\CreateTextViewHostCallback.cs" />
+    <Compile Include="Ui\Differencing\DifferenceHighlightMode.cs" />
+    <Compile Include="Ui\Differencing\DifferenceViewMode.cs" />
+    <Compile Include="Ui\Differencing\DifferenceViewType.cs" />
+    <Compile Include="Ui\Differencing\IDifferenceBuffer.cs" />
+    <Compile Include="Ui\Differencing\IDifferenceTextViewModel.cs" />
+    <Compile Include="Ui\Differencing\IDifferenceViewerFactoryService.cs" />
     <Compile Include="Ui\Editor\CaretWidthOption.cs" />
     <Compile Include="Ui\Editor\CollapseHintAdornmentControl.cs" />
+    <Compile Include="Ui\Editor\Commanding\Commands\DeleteKeyCommandArgs.cs" />
+    <Compile Include="Ui\Editor\Commanding\Commands\BackTabKeyCommandArgs.cs" />
+    <Compile Include="Ui\Editor\Commanding\Commands\DocumentEndCommandArgs.cs" />
+    <Compile Include="Ui\Editor\Commanding\Commands\DocumentStartCommandArgs.cs" />
+    <Compile Include="Ui\Editor\Commanding\Commands\DownKeyCommandArgs.cs" />
+    <Compile Include="Ui\Editor\Commanding\Commands\LineStartCommandArgs.cs" />
+    <Compile Include="Ui\Editor\Commanding\Commands\LineStartExtendCommandArgs.cs" />
+    <Compile Include="Ui\Editor\Commanding\Commands\TabKeyCommandArgs.cs" />
     <Compile Include="Ui\Editor\Commanding\Commands\CopyCommandArgs.cs" />
     <Compile Include="Ui\Commanding\IChainedTextEditCommand.cs" />
     <Compile Include="Ui\Editor\AdornmentLayerDefinition.cs" />
@@ -255,6 +276,7 @@
     <Compile Include="Ui\Editor\Commanding\Commands\RightKeyCommandArgs.cs" />
     <Compile Include="Ui\Editor\Commanding\Commands\LeftKeyCommandArgs.cs" />
     <Compile Include="Ui\Editor\Commanding\Commands\TypeCharCommandArgs.cs" />
+    <Compile Include="Ui\Editor\Commanding\Commands\UpKeyCommandArgs.cs" />
     <Compile Include="Ui\Editor\Commanding\EditorCommandArgs.cs" />
     <Compile Include="Ui\Editor\Commanding\ICommandingTextBufferResolver.cs" />
     <Compile Include="Ui\Editor\Commanding\ICommandingTextBufferResolverProvider.cs" />
@@ -290,12 +312,16 @@
     <Compile Include="Ui\Editor\IEdtiorGestureScopeProvider.cs" />
     <Compile Include="Ui\Editor\IGlyphTag.cs" />
     <Compile Include="Ui\Editor\IKeyProcessorProvider.cs" />
+    <Compile Include="Ui\Editor\IMapEditToData.cs" />
     <Compile Include="Ui\Editor\ImeTextComposition.cs" />
     <Compile Include="Ui\Editor\IMouseProcessor.cs" />
     <Compile Include="Ui\Editor\IMouseProcessorProvider.cs" />
+    <Compile Include="Ui\Editor\ReplacesAttribute.cs" />
     <Compile Include="Ui\Editor\ShouldCaretsBeRendered.cs" />
     <Compile Include="Ui\Editor\ShouldSelectionsBeRendered.cs" />
     <Compile Include="Ui\Editor\TextViewExtensions.cs" />
+    <Compile Include="Ui\Differencing\IDifferenceViewer.cs" />
+    <Compile Include="Ui\Formatting\IViewSynchronizationManager.cs" />
     <Compile Include="Ui\Text\AbstractSelectionPresentationProperties.cs" />
     <Compile Include="Ui\Text\IMultiSelectionBroker.cs" />
     <Compile Include="Ui\Editor\InterLineAdornmentFactory.cs" />
@@ -433,6 +459,7 @@
     <Compile Include="Utilities\IUiThreadOperationScope.cs" />
     <Compile Include="Utilities\IWaitContext.cs" />
     <Compile Include="Utilities\IWaitIndicator.cs" />
+    <Compile Include="Utilities\JoinableTaskHelper.cs" />
     <Compile Include="Utilities\LineBuffer.cs" />
     <Compile Include="Utilities\ProgressInfo.cs" />
     <Compile Include="Utilities\TrackingSpanNode.cs" />
@@ -451,6 +478,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ModernApplicationFramework.Threading\ModernApplicationFramework.Threading.csproj">
+      <Project>{F6B73506-4197-49A6-9F57-6E83827D415C}</Project>
+      <Name>ModernApplicationFramework.Threading</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework.Utilities\ModernApplicationFramework.Utilities.csproj">
       <Project>{2b388979-5b07-4f0a-a302-0c575aaa21c0}</Project>
       <Name>ModernApplicationFramework.Utilities</Name>

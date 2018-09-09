@@ -5,7 +5,7 @@ using ModernApplicationFramework.Text.Ui.Editor;
 
 namespace ModernApplicationFramework.Modules.Editor.Implementation
 {
-    internal class TextViewRoleSet : ITextViewRoleSet, IEnumerable<string>
+    internal class TextViewRoleSet : ITextViewRoleSet
     {
         private readonly List<string> _roles;
 

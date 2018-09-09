@@ -137,39 +137,39 @@ namespace ModernApplicationFramework.Editor.Implementation
                 case MafConstants.EditorCommands.Return:
                     ExecuteReturnKeyCommand(next);
                     return 0;
-                //case VSConstants.VSStd2KCmdID.TAB:
-                //    ExecuteTabKeyCommand(next);
-                //    return 0;
-                //case VSConstants.VSStd2KCmdID.BACKTAB:
-                //    ExecuteBackTabKeyCommand(next);
-                //    return 0;
-                //case VSConstants.VSStd2KCmdID.DELETE:
-                //    ExecuteDeleteKeyCommand(next);
-                //    return 0;
+                case MafConstants.EditorCommands.Tab:
+                    ExecuteTabKeyCommand(next);
+                    return 0;
+                case MafConstants.EditorCommands.BackTab:
+                    ExecuteBackTabKeyCommand(next);
+                    return 0;
+                case MafConstants.EditorCommands.Delete:
+                    ExecuteDeleteKeyCommand(next);
+                    return 0;
                 case MafConstants.EditorCommands.Left:
                     ExecuteLeftKeyCommand(next);
                     return 0;
                 case MafConstants.EditorCommands.Right:
                     ExecuteRightKeyCommand(next);
                     return 0;
-                //case VSConstants.VSStd2KCmdID.UP:
-                //    ExecuteUpKeyCommand(next);
-                //    return 0;
-                //case VSConstants.VSStd2KCmdID.DOWN:
-                //    ExecuteDownKeyCommand(next);
-                //    return 0;
-                //case VSConstants.VSStd2KCmdID.HOME:
-                //    ExecuteDocumentStartCommand(next);
-                //    return 0;
-                //case VSConstants.VSStd2KCmdID.END:
-                //    ExecuteDocumentEndCommand(next);
-                //    return 0;
-                //case VSConstants.VSStd2KCmdID.BOL:
-                //    ExecuteLineStartCommand(next);
-                //    return 0;
-                //case VSConstants.VSStd2KCmdID.BOL_EXT:
-                //    ExecuteLineStartExtendCommand(next);
-                //    return 0;
+                case MafConstants.EditorCommands.Up:
+                    ExecuteUpKeyCommand(next);
+                    return 0;
+                case MafConstants.EditorCommands.Down:
+                    ExecuteDownKeyCommand(next);
+                    return 0;
+                case MafConstants.EditorCommands.Home:
+                    ExecuteDocumentStartCommand(next);
+                    return 0;
+                case MafConstants.EditorCommands.End:
+                    ExecuteDocumentEndCommand(next);
+                    return 0;
+                case MafConstants.EditorCommands.BeginOfLine:
+                    ExecuteLineStartCommand(next);
+                    return 0;
+                case MafConstants.EditorCommands.BeginOfLineExt:
+                    ExecuteLineStartExtendCommand(next);
+                    return 0;
                 //case VSConstants.VSStd2KCmdID.EOL:
                 //    ExecuteLineEndCommand(next);
                 //    return 0;
@@ -339,28 +339,28 @@ namespace ModernApplicationFramework.Editor.Implementation
                     return QueryBackspaceKeyStatus(pguidCmdGroup, commandCount, prgCmds, commandText);
                 case (uint)MafConstants.EditorCommands.Return:
                     return QueryReturnKeyStatus(pguidCmdGroup, commandCount, prgCmds, commandText);
-                //case VSConstants.VSStd2KCmdID.TAB:
-                //    return QueryTabKeyStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
-                //case VSConstants.VSStd2QueryLeftKeyStatusKCmdID.BACKTAB:
-                //    return QueryBackTabKeyStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
-                //case VSConstants.VSStd2KCmdID.DELETE:
-                //    return QueryDeleteKeyStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
+                case (uint)MafConstants.EditorCommands.Tab:
+                    return QueryTabKeyStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
+                case (uint)MafConstants.EditorCommands.BackTab:
+                    return QueryBackTabKeyStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
+                case (uint)MafConstants.EditorCommands.Delete:
+                    return QueryDeleteKeyStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
                 case (uint) MafConstants.EditorCommands.Left:
                     return QueryLeftKeyStatus(pguidCmdGroup, commandCount, prgCmds, commandText);
                 case (uint) MafConstants.EditorCommands.Right:
                     return QueryRightKeyStatus(pguidCmdGroup, commandCount, prgCmds, commandText);
-                //case VSConstants.VSStd2KCmdID.UP:
-                //    return QueryUpKeyStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
-                //case VSConstants.VSStd2KCmdID.DOWN:
-                //    return QueryDownKeyStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
-                //case VSConstants.VSStd2KCmdID.HOME:
-                //    return QueryDocumentStartStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
-                //case VSConstants.VSStd2KCmdID.END:
-                //    return QueryDocumentEndStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
-                //case VSConstants.VSStd2KCmdID.BOL:
-                //    return QueryLineStartStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
-                //case VSConstants.VSStd2KCmdID.BOL_EXT:
-                //    return QueryLineStartExtendStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
+                case (uint)MafConstants.EditorCommands.Up:
+                    return QueryUpKeyStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
+                case (uint)MafConstants.EditorCommands.Down:
+                    return QueryDownKeyStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
+                case (uint)MafConstants.EditorCommands.Home:
+                    return QueryDocumentStartStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
+                case (uint)MafConstants.EditorCommands.End:
+                    return QueryDocumentEndStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
+                case (uint)MafConstants.EditorCommands.BeginOfLine:
+                    return QueryLineStartStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
+                case (uint)MafConstants.EditorCommands.BeginOfLineExt:
+                    return QueryLineStartExtendStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
                 //case VSConstants.VSStd2KCmdID.EOL:
                 //    return QueryLineEndStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
                 //case VSConstants.VSStd2KCmdID.EOL_EXT:

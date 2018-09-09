@@ -142,6 +142,7 @@ namespace ModernApplicationFramework.Editor.Implementation
     public enum MafUserDataFormat
     {
         TextViewHost,
+        TextViewRoles,
         ContextMenuId
     }
 }

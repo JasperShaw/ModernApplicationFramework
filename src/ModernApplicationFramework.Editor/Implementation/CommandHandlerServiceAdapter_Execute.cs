@@ -1,4 +1,7 @@
 ﻿using System;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Ui.Editor;
+using ModernApplicationFramework.Text.Ui.Editor.Commanding;
 using ModernApplicationFramework.Text.Ui.Editor.Commanding.Commands;
 
 namespace ModernApplicationFramework.Editor.Implementation
@@ -26,6 +29,27 @@ namespace ModernApplicationFramework.Editor.Implementation
             commandHandlerService.Execute((view, buffer) => new ReturnKeyCommandArgs(view, buffer), nextCommandHandler);
         }
 
+        private void ExecuteTabKeyCommand(Action next)
+        {
+            var commandHandlerService = _commandHandlerService;
+            var nextCommandHandler = next;
+            commandHandlerService.Execute((view, buffer) => new TabKeyCommandArgs(view, buffer), nextCommandHandler);
+        }
+
+        private void ExecuteBackTabKeyCommand(Action next)
+        {
+            var commandHandlerService = _commandHandlerService;
+            var nextCommandHandler = next;
+            commandHandlerService.Execute((view, buffer) => new BackTabKeyCommandArgs(view, buffer), nextCommandHandler);
+        }
+
+        private void ExecuteDeleteKeyCommand(Action next)
+        {
+            var commandHandlerService = _commandHandlerService;
+            var nextCommandHandler = next;
+            commandHandlerService.Execute((view, buffer) => new DeleteKeyCommandArgs(view, buffer), nextCommandHandler);
+        }
+
         private void ExecuteLeftKeyCommand(Action next)
         {
             var commandHandlerService = _commandHandlerService;
@@ -38,6 +62,48 @@ namespace ModernApplicationFramework.Editor.Implementation
             var commandHandlerService = _commandHandlerService;
             var nextCommandHandler = next;
             commandHandlerService.Execute((view, buffer) => new RightKeyCommandArgs(view, buffer), nextCommandHandler);
+        }
+
+        private void ExecuteUpKeyCommand(Action next)
+        {
+            var commandHandlerService = _commandHandlerService;
+            var nextCommandHandler = next;
+            commandHandlerService.Execute((view, buffer) => new UpKeyCommandArgs(view, buffer), nextCommandHandler);
+        }
+
+        private void ExecuteDownKeyCommand(Action next)
+        {
+            var commandHandlerService = _commandHandlerService;
+            var nextCommandHandler = next;
+            commandHandlerService.Execute((view, buffer) => new DownKeyCommandArgs(view, buffer), nextCommandHandler);
+        }
+
+        private void ExecuteDocumentEndCommand(Action next)
+        {
+            var commandHandlerService = _commandHandlerService;
+            var nextCommandHandler = next;
+            commandHandlerService.Execute((view, buffer) => new DocumentEndCommandArgs(view, buffer), nextCommandHandler);
+        }
+
+        private void ExecuteDocumentStartCommand(Action next)
+        {
+            var commandHandlerService = _commandHandlerService;
+            var nextCommandHandler = next;
+            commandHandlerService.Execute((view, buffer) => new DocumentStartCommandArgs(view, buffer), nextCommandHandler);
+        }
+
+        private void ExecuteLineStartCommand(Action next)
+        {
+            var commandHandlerService = _commandHandlerService;
+            var nextCommandHandler = next;
+            commandHandlerService.Execute((view, buffer) => new LineStartCommandArgs(view, buffer), nextCommandHandler);
+        }
+
+        private void ExecuteLineStartExtendCommand(Action next)
+        {
+            var commandHandlerService = _commandHandlerService;
+            var nextCommandHandler = next;
+            commandHandlerService.Execute((view, buffer) => new LineStartExtendCommandArgs(view, buffer), nextCommandHandler);
         }
 
         private void ExecuteCopyCommand(Action next)

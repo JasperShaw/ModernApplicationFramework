@@ -7,6 +7,7 @@ using ModernApplicationFramework.Text.Ui.Commanding;
 using ModernApplicationFramework.Text.Ui.Editor;
 using ModernApplicationFramework.Text.Ui.Editor.Commanding;
 using ModernApplicationFramework.Text.Utilities;
+using ModernApplicationFramework.Threading;
 using ModernApplicationFramework.Utilities.Core;
 
 namespace ModernApplicationFramework.Modules.Editor.Commanding
@@ -26,15 +27,16 @@ namespace ModernApplicationFramework.Modules.Editor.Commanding
         private readonly Dictionary<(Type, IContentType), IReadOnlyList<Lazy<ITextEditCommand, ICommandHandlerMetadata>>>
             _commandHandlersByTypeAndContentType;
 
-        private readonly StableContentTypeComparer _contentTypesComparer;
+        private readonly IComparer<IEnumerable<string>> _contentTypesComparer;
         private readonly IGuardedOperations _guardedOperations;
         private readonly ITextView _textView;
         private readonly IUiThreadOperationExecutor _uiThreadOperationExecutor;
+        private readonly JoinableTaskContext _joinableTaskContext;
 
-        public EditorCommandHandlerService(ITextView textView,
-            IEnumerable<Lazy<ITextEditCommand, ICommandHandlerMetadata>> commandHandlers,
-            IUiThreadOperationExecutor operationExecutor, StableContentTypeComparer contentTypesComparer,
-            ICommandingTextBufferResolver bufferResolver, IGuardedOperations guardedOperations)
+        public EditorCommandHandlerService(ITextView textView, IEnumerable<Lazy<ITextEditCommand, ICommandHandlerMetadata>> commandHandlers, 
+            IUiThreadOperationExecutor operationExecutor, JoinableTaskContext joinableTaskContext, 
+            IComparer<IEnumerable<string>> contentTypesComparer, ICommandingTextBufferResolver bufferResolver, 
+            IGuardedOperations guardedOperations)
         {
             var lazies = commandHandlers;
             _commandHandlers = lazies ?? throw new ArgumentNullException(nameof(lazies));
@@ -46,6 +48,7 @@ namespace ModernApplicationFramework.Modules.Editor.Commanding
             _commandHandlersByTypeAndContentType =
                 new Dictionary<ValueTuple<Type, IContentType>,
                     IReadOnlyList<Lazy<ITextEditCommand, ICommandHandlerMetadata>>>();
+            _joinableTaskContext = joinableTaskContext ?? throw new ArgumentNullException(nameof(bufferResolver));
             _bufferResolver = bufferResolver ?? throw new ArgumentNullException(nameof(bufferResolver));
             _guardedOperations = guardedOperations ?? throw new ArgumentNullException(nameof(guardedOperations));
         }
@@ -53,9 +56,9 @@ namespace ModernApplicationFramework.Modules.Editor.Commanding
         public void Execute<T>(Func<ITextView, ITextBuffer, T> argsFactory, Action nextCommandHandler)
             where T : EditorCommandArgs
         {
-            //if (!this._joinableTaskContext.IsOnMainThread)
-            //    throw new InvalidOperationException(
-            //        $"{nameof(GetCommandState)} method shoudl only be called on the UI thread.");
+            if (!_joinableTaskContext.IsOnMainThread)
+                throw new InvalidOperationException(
+                    $"{nameof(GetCommandState)} method shoudl only be called on the UI thread.");
             if (IsReentrantCall())
                 nextCommandHandler?.Invoke();
             else
@@ -86,9 +89,9 @@ namespace ModernApplicationFramework.Modules.Editor.Commanding
         public CommandState GetCommandState<T>(Func<ITextView, ITextBuffer, T> argsFactory,
             Func<CommandState> nextCommandHandler) where T : EditorCommandArgs
         {
-            //if (!this._joinableTaskContext.IsOnMainThread)
-            //    throw new InvalidOperationException(
-            //        $"{nameof(GetCommandState)} method shoudl only be called on the UI thread.");
+            if (!_joinableTaskContext.IsOnMainThread)
+                throw new InvalidOperationException(
+                    $"{nameof(GetCommandState)} method shoudl only be called on the UI thread.");
             if (IsReentrantCall())
             {
                 if (nextCommandHandler == null)

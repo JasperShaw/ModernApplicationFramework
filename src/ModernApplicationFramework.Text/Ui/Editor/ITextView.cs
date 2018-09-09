@@ -97,6 +97,8 @@ namespace ModernApplicationFramework.Text.Ui.Editor
 
         double ZoomLevel { get; set; }
 
+        IViewSynchronizationManager SynchronizationManager { get; set; }
+
         void Close();
 
         void DisplayTextLineContainingBufferPosition(SnapshotPoint bufferPosition, double verticalDistance,

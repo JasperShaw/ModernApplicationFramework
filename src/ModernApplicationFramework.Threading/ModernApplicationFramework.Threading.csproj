@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AsyncAutoResetEvent.cs" />
+    <Compile Include="AsyncEventHandler.cs" />
     <Compile Include="AsyncLazy.cs" />
     <Compile Include="AsyncLocal.cs" />
     <Compile Include="AsyncManualResetEvent.cs" />

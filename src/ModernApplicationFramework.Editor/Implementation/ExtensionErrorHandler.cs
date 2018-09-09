@@ -2,7 +2,9 @@
 using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Threading;
+using ModernApplicationFramework.Basics.Threading;
 using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Threading;
 
 namespace ModernApplicationFramework.Editor.Implementation
 {
@@ -11,8 +13,20 @@ namespace ModernApplicationFramework.Editor.Implementation
     {
         private bool _exceptionsEncountered;
 
+        [Import]
+        private JoinableTaskContext JoinableTaskContext { get; set; }
+
         public void HandleError(object sender, Exception exception)
         {
+            JoinableTaskContext.Factory.StartOnIdle(async () =>
+            {
+                await JoinableTaskContext.Factory.SwitchToMainThreadAsync();
+                if (_exceptionsEncountered)
+                    return;
+                ReportExceptions();
+            });
+
+
             if (_exceptionsEncountered)
                 return;
             _exceptionsEncountered = true;

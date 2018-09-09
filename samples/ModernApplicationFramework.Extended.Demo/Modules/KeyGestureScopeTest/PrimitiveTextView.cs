@@ -84,9 +84,9 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.KeyGestureScopeTest
                     return _view;
                 var service = IoC.Get<ITextEditorFactoryService>();
                 _view = IoC.Get<IEditorAdaptersFactoryService>()
-                    .CreateTextViewAdapter(service.CreateTextViewRoleSet("INTERACTIVE", "ZOOMABLE"));
+                    .CreateTextViewAdapter(service.CreateTextViewRoleSet("INTERACTIVE", "ZOOMABLE", "EDITABLE"));
                 _view.Initialize(TextBuffer as IMafTextLines, IntPtr.Zero,
-                    TextViewInitFlags.Hscroll | TextViewInitFlags.Vscroll | TextViewInitFlags.Readonly);
+                    TextViewInitFlags.Hscroll | TextViewInitFlags.Vscroll);
                 if (_view is ITextEditorPropertyCategoryContainer view)
                 {
                     var guid = DefGuidList.GuidEditPropCategoryViewMasterSettings;
@@ -100,7 +100,8 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.KeyGestureScopeTest
                 }
 
                 var options = IoC.Get<IEditorOptionsFactoryService>().GetOptions(TextView);
-                options.SetOptionValue(DefaultTextViewOptions.WordWrapStyleId, WordWrapStyles.WordWrap);
+                options.SetOptionValue(DefaultTextViewOptions.WordWrapStyleId, WordWrapStyles.WordWrap | WordWrapStyles.AutoIndent);
+
                 return _view;
             }
         }

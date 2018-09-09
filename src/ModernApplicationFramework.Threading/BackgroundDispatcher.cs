@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
@@ -85,8 +86,18 @@ namespace ModernApplicationFramework.Threading
         {
             Dispatcher = Dispatcher.CurrentDispatcher;
             ((EventWaitHandle) arg).Set();
-            Dispatcher.Run();
-            Dispatcher = null;
+            try
+            {
+                Dispatcher.Run();
+            }
+            catch (Win32Exception)
+            {
+
+            }
+            finally
+            {
+                Dispatcher = null;
+            }    
         }
     }
 }

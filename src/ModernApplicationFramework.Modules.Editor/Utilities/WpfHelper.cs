@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using ModernApplicationFramework.Modules.Editor.NativeMethods;
+using ModernApplicationFramework.Text.Data;
 
 namespace ModernApplicationFramework.Modules.Editor.Utilities
 {
@@ -41,6 +42,46 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
             if (hwndSource == null)
                 throw new ArgumentNullException(nameof(hwndSource));
             return Imm32.ImmAssociateContext(hwndSource.Handle, imeContext);
+        }
+
+        public static bool ImmIsIME(IntPtr hkl)
+        {
+            return Imm32.ImmIsIME(hkl);
+        }
+
+        private static SnapshotSpan GetSelectionContext(SnapshotSpan selection)
+        {
+            return new SnapshotSpan(new SnapshotPoint(selection.Snapshot, Math.Max(0, selection.Start.Position - 20)), new SnapshotPoint(selection.Snapshot, Math.Min(selection.Snapshot.Length, selection.End.Position + 20)));
+        }
+
+        public static IntPtr ReconvertString(IntPtr lParam, SnapshotSpan selection)
+        {
+            var selectionContext = GetSelectionContext(selection);
+            var val = Marshal.SizeOf(typeof(NativeMethods.NativeMethods.RECONVERTSTRING));
+            if (lParam != IntPtr.Zero)
+            {
+                var structure = (NativeMethods.NativeMethods.RECONVERTSTRING)Marshal.PtrToStructure(lParam, typeof(NativeMethods.NativeMethods.RECONVERTSTRING));
+                if (selection.Length >= (structure.dwSize - val) / 2)
+                    return IntPtr.Zero;
+                Marshal.WriteInt32((IntPtr)((long)lParam + (long)Marshal.OffsetOf(typeof(NativeMethods.NativeMethods.RECONVERTSTRING), "dwStrLen")), selectionContext.Length);
+                Marshal.WriteInt32((IntPtr)((long)lParam + (long)Marshal.OffsetOf(typeof(NativeMethods.NativeMethods.RECONVERTSTRING), "dwStrOffset")), val);
+                Marshal.WriteInt32((IntPtr)((long)lParam + (long)Marshal.OffsetOf(typeof(NativeMethods.NativeMethods.RECONVERTSTRING), "dwCompStrLen")), selection.Length);
+                Marshal.WriteInt32((IntPtr)((long)lParam + (long)Marshal.OffsetOf(typeof(NativeMethods.NativeMethods.RECONVERTSTRING), "dwCompStrOffset")), (selection.Start.Position - selectionContext.Start.Position) * 2);
+                Marshal.WriteInt32((IntPtr)((long)lParam + (long)Marshal.OffsetOf(typeof(NativeMethods.NativeMethods.RECONVERTSTRING), "dwTargetStrLen")), selection.Length);
+                Marshal.WriteInt32((IntPtr)((long)lParam + (long)Marshal.OffsetOf(typeof(NativeMethods.NativeMethods.RECONVERTSTRING), "dwTargetStrOffset")), (selection.Start.Position - selectionContext.Start.Position) * 2);
+                Marshal.Copy(selection.Snapshot.GetText(selectionContext).ToCharArray(), 0, (IntPtr)((long)lParam + val), selectionContext.Length);
+                Marshal.WriteInt16((IntPtr)((long)lParam + (val + selectionContext.Length * 2)), 0);
+            }
+            return new IntPtr(val + (selectionContext.Length + 1) * 2);
+        }
+
+        public static SnapshotSpan ConfirmReconvertString(IntPtr lParam, SnapshotSpan selection)
+        {
+            if (!(lParam != IntPtr.Zero))
+                return new SnapshotSpan(selection.Snapshot, 0, 0);
+            var selectionContext = GetSelectionContext(selection);
+            var structure = (NativeMethods.NativeMethods.RECONVERTSTRING)Marshal.PtrToStructure(lParam, typeof(NativeMethods.NativeMethods.RECONVERTSTRING));
+            return new SnapshotSpan(selectionContext.Start + structure.dwCompStrOffset / 2, structure.dwCompStrLen);
         }
 
         public static bool BrushesEqual(Brush brush, Brush other)

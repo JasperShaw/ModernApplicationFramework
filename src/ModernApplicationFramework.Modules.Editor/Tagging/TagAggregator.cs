@@ -9,6 +9,7 @@ using ModernApplicationFramework.Text.Data.Projection;
 using ModernApplicationFramework.Text.Logic.Tagging;
 using ModernApplicationFramework.Text.Ui.Editor;
 using ModernApplicationFramework.Text.Ui.Tagging;
+using ModernApplicationFramework.Text.Utilities;
 
 namespace ModernApplicationFramework.Modules.Editor.Tagging
 {
@@ -19,6 +20,7 @@ namespace ModernApplicationFramework.Modules.Editor.Tagging
         internal bool Initialized;
         internal IDictionary<ITextBuffer, IList<ITagger<T>>> Taggers;
         internal ITextView TextView;
+        internal JoinableTaskHelper JoinableTaskHelper;
         private readonly TagAggregatorOptions _options;
         private List<Tuple<ITagger<T>, int>> _uniqueTaggers;
 
@@ -37,12 +39,15 @@ namespace ModernApplicationFramework.Modules.Editor.Tagging
             TextView = textView;
             BufferGraph = bufferGraph;
             _options = options;
-            //this.joinableTaskHelper = new JoinableTaskHelper(factory.JoinableTaskContext);
+            JoinableTaskHelper = new JoinableTaskHelper(factory.JoinableTaskContext);
             if (textView != null)
                 textView.Closed += OnTextView_Closed;
             Taggers = new Dictionary<ITextBuffer, IList<ITagger<T>>>();
             _uniqueTaggers = new List<Tuple<ITagger<T>, int>>();
-            Initialize();
+            if (options.HasFlag(TagAggregatorOptions.DeferTaggerCreation))
+                JoinableTaskHelper.RunOnUiThread(EnsureInitialized);
+            else
+                Initialize();
             BufferGraph.GraphBufferContentTypeChanged += BufferGraph_GraphBufferContentTypeChanged;
             BufferGraph.GraphBuffersChanged += BufferGraph_GraphBuffersChanged;
         }
@@ -382,7 +387,6 @@ namespace ModernApplicationFramework.Modules.Editor.Tagging
             if (Disposed)
                 return;
             var flag = true;
-            // ISSUE: reference to a compiler-generated field
             var batchedTagsChanged = BatchedTagsChanged;
             if (batchedTagsChanged != null)
             {
@@ -394,7 +398,7 @@ namespace ModernApplicationFramework.Modules.Editor.Tagging
                     }
                     else if (TextView.InLayout)
                     {
-                        Execute.OnUIThread(RaiseBatchedTagsChanged);
+                        JoinableTaskHelper.RunOnUiThread(RaiseBatchedTagsChanged);
                         return;
                     }
                 }
@@ -429,12 +433,10 @@ namespace ModernApplicationFramework.Modules.Editor.Tagging
 
         private void RaiseEvents(object sender, IMappingSpan span)
         {
-            // ISSUE: reference to a compiler-generated field
             var tagsChanged = TagsChanged;
             if (tagsChanged != null)
                 TagAggregatorFactoryService.GuardedOperations.RaiseEvent(sender, tagsChanged,
                     new TagsChangedEventArgs(span));
-            // ISSUE: reference to a compiler-generated field
             if (BatchedTagsChanged == null)
                 return;
             var mappingSpanLink1 = Volatile.Read(ref AcculumatedSpanLinks);
@@ -450,7 +452,7 @@ namespace ModernApplicationFramework.Modules.Editor.Tagging
 
             if (mappingSpanLink1 != null)
                 return;
-            Execute.OnUIThread(RaiseBatchedTagsChanged);
+            JoinableTaskHelper.RunOnUiThread(RaiseBatchedTagsChanged);
         }
 
         private void RegisterTagger(ITagger<T> tagger, IList<ITagger<T>> newTaggers)

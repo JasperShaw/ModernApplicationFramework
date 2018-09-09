@@ -27,13 +27,10 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
                 from type in y
                 where contentType.IsOfType(type)
                 select contentType).Any()) return -1;
-            foreach (var typeName in y)
+            if ((from typeName in y select _contentTypeRegistryService.GetContentType(typeName) 
+                into contentType where contentType != null from type in x where contentType.IsOfType(type) select contentType).Any())
             {
-                var contentType = _contentTypeRegistryService.GetContentType(typeName);
-                if (contentType != null)
-                    foreach (var type in x)
-                        if (contentType.IsOfType(type))
-                            return 1;
+                return 1;
             }
 
             return 0;

@@ -6,6 +6,7 @@ using ModernApplicationFramework.Modules.Editor.Utilities;
 using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Text.Data.Projection;
 using ModernApplicationFramework.Text.Logic;
+using ModernApplicationFramework.Text.Logic.Classification;
 using ModernApplicationFramework.Text.Logic.Editor;
 using ModernApplicationFramework.Text.Ui.Classification;
 using ModernApplicationFramework.Text.Ui.Editor;
@@ -44,6 +45,8 @@ namespace ModernApplicationFramework.Modules.Editor.Implementation
         [Import] internal IBufferGraphFactoryService BufferGraphFactoryService { get; set; }
 
         [Import] internal IClassificationFormatMapService ClassificationFormatMappingService { get; set; }
+
+        [Import] internal IClassificationTypeRegistryService ClassificationTypeRegistryService { get; set; }
 
         [Import] internal IViewClassifierAggregatorService ClassifierAggregatorService { get; set; }
 

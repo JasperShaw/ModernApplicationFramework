@@ -73,7 +73,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commanding\ActiveTextViewState.cs" />
+    <Compile Include="Commands\BeginLineCommandDefinition.cs" />
+    <Compile Include="Commands\BeginLineExtendCommandDefinition.cs" />
+    <Compile Include="Commands\DownCommandDefinition.cs" />
+    <Compile Include="Commands\DownExtendCommandDefinition.cs" />
+    <Compile Include="Commands\EndCommandDefinition.cs" />
+    <Compile Include="Commands\EndSelectionCommandDefinition.cs" />
+    <Compile Include="Commands\HomeCommandDefinition.cs" />
+    <Compile Include="Commands\HomeSelectionCommandDefinition.cs" />
+    <Compile Include="Commands\UpCommandDefinition.cs" />
+    <Compile Include="Commands\RightExtendCommandDefinition.cs" />
+    <Compile Include="Commands\LeftExtendCommandDefinition.cs" />
+    <Compile Include="Commands\DeleteCommandDefinition.cs" />
+    <Compile Include="Commands\ReturnCommandDefinition.cs" />
+    <Compile Include="Commands\BackspaceCommandDefinition.cs" />
+    <Compile Include="Commands\BackTabCommandDefinition.cs" />
+    <Compile Include="Commands\TabCommandDefinition.cs" />
     <Compile Include="Commands\RightCommandDefinition.cs" />
+    <Compile Include="Commands\UpExtensionCommandDefinition.cs" />
     <Compile Include="Implementation\CommandHandlerServiceAdapter_Execute.cs" />
     <Compile Include="Implementation\CommandHandlerServiceAdapter_Query.cs" />
     <Compile Include="KeyGestureScope\DefaultEditorKeyGestureScope.cs" />
@@ -233,8 +250,6 @@
     <Compile Include="Implementation\SimpleTextViewWindow.cs" />
     <Compile Include="Implementation\UiThreadOperationContext.cs" />
     <Compile Include="Implementation\ViewLoadedHandler.cs" />
-    <Compile Include="Implementation\PrimitiveKeyboardFilter.cs" />
-    <Compile Include="Implementation\PrimitiveKeyProcessorFactory.cs" />
     <Compile Include="Implementation\TextViewAdapter.cs" />
     <Compile Include="Implementation\UrlClickMouseHandler.cs" />
     <Compile Include="Implementation\UrlClickMouseProcessorProvider.cs" />
@@ -313,6 +328,10 @@
     <ProjectReference Include="..\ModernApplicationFramework.Text\ModernApplicationFramework.Text.csproj">
       <Project>{27e9b710-9584-4fad-93ff-ebf2a9600da7}</Project>
       <Name>ModernApplicationFramework.Text</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModernApplicationFramework.Threading\ModernApplicationFramework.Threading.csproj">
+      <Project>{F6B73506-4197-49A6-9F57-6E83827D415C}</Project>
+      <Name>ModernApplicationFramework.Threading</Name>
     </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework.Utilities\ModernApplicationFramework.Utilities.csproj">
       <Project>{2B388979-5B07-4F0A-A302-0C575AAA21C0}</Project>

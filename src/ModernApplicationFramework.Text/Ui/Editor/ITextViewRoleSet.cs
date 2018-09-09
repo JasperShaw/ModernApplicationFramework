@@ -2,7 +2,7 @@
 
 namespace ModernApplicationFramework.Text.Ui.Editor
 {
-    public interface ITextViewRoleSet
+    public interface ITextViewRoleSet : IEnumerable<string>
     {
         bool Contains(string textViewRole);
 

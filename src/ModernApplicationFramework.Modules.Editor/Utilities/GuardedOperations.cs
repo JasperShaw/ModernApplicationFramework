@@ -106,7 +106,7 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
         {
             try
             {
-                await asyncAction();
+                await asyncAction().ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -123,7 +123,11 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
         {
             try
             {
-                return await asyncCall();
+                return await asyncCall().ConfigureAwait(false);
+            }
+            catch (OperationCanceledException)
+            {
+                return valueOnThrow;
             }
             catch (Exception ex)
             {
@@ -333,6 +337,33 @@ namespace ModernApplicationFramework.Modules.Editor.Utilities
                     HandleException(errorSource, ex);
                 }
 
+            return extensionInstanceList;
+        }
+
+        public List<TExtensionInstance> InvokeMatchingFactories<TExtensionInstance, TExtensionFactory, TMetadataView>(IEnumerable<Lazy<TExtensionFactory, TMetadataView>> lazyFactories,
+            Func<TExtensionFactory, TExtensionInstance> getter, IContentType dataContentType, object errorSource) where TExtensionInstance : class where TExtensionFactory : class where TMetadataView : IContentTypeMetadata
+        {
+            var extensionInstanceList = new List<TExtensionInstance>();
+            foreach (var lazyFactory in lazyFactories)
+            {
+                if (ExtensionSelector.ContentTypeMatch(dataContentType, lazyFactory.Metadata.ContentTypes))
+                {
+                    try
+                    {
+                        var extensionFactory = lazyFactory.Value;
+                        if (extensionFactory != null)
+                        {
+                            var extensionInstance = getter(extensionFactory);
+                            if (extensionInstance != null)
+                                extensionInstanceList.Add(extensionInstance);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        HandleException(errorSource, ex);
+                    }
+                }
+            }
             return extensionInstanceList;
         }
 

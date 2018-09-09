@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
@@ -11,6 +12,19 @@ namespace ModernApplicationFramework.Modules.Editor.NativeMethods
         {
             public int X;
             public int Y;
+        }
+
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
+        public struct RECONVERTSTRING
+        {
+            public int dwSize;
+            public int dwVersion;
+            public int dwStrLen;
+            public int dwStrOffset;
+            public int dwCompStrLen;
+            public int dwCompStrOffset;
+            public int dwTargetStrLen;
+            public int dwTargetStrOffset;
         }
 
         public struct Monitorinfo

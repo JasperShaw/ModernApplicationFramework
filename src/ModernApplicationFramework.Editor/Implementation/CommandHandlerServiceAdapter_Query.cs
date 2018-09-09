@@ -1,5 +1,8 @@
 ﻿using System;
 using ModernApplicationFramework.Editor.Interop;
+using ModernApplicationFramework.Text.Data;
+using ModernApplicationFramework.Text.Ui.Editor;
+using ModernApplicationFramework.Text.Ui.Editor.Commanding;
 using ModernApplicationFramework.Text.Ui.Editor.Commanding.Commands;
 
 namespace ModernApplicationFramework.Editor.Implementation
@@ -20,6 +23,22 @@ namespace ModernApplicationFramework.Editor.Implementation
                 commandCount, prgCmds, commandText);
         }
 
+        private int QueryTabKeyStatus(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
+        {
+            return GetCommandState((view, buffer) => new TabKeyCommandArgs(view, buffer), pguidCmdGroup, commandCount, prgCmds,
+                commandText);
+        }
+
+        private int QueryBackTabKeyStatus(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
+        {
+            return GetCommandState((view, buffer) => new BackTabKeyCommandArgs(view, buffer), pguidCmdGroup, commandCount, prgCmds, commandText);
+        }
+
+        private int QueryDeleteKeyStatus(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
+        {
+            return GetCommandState((view, buffer) => new DeleteKeyCommandArgs(view, buffer), pguidCmdGroup, commandCount, prgCmds, commandText);
+        }
+
         private int QueryLeftKeyStatus(Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
         {
             return GetCommandState((view, buffer) => new LeftKeyCommandArgs(view, buffer), pguidCmdGroup,
@@ -30,6 +49,36 @@ namespace ModernApplicationFramework.Editor.Implementation
         {
             return GetCommandState((view, buffer) => new RightKeyCommandArgs(view, buffer), pguidCmdGroup,
                 commandCount, prgCmds, commandText);
+        }
+
+        private int QueryUpKeyStatus(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
+        {
+            return GetCommandState((view, buffer) => new UpKeyCommandArgs(view, buffer), pguidCmdGroup, commandCount, prgCmds, commandText);
+        }
+
+        private int QueryDownKeyStatus(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
+        {
+            return GetCommandState((view, buffer) => new DownKeyCommandArgs(view, buffer), pguidCmdGroup, commandCount, prgCmds, commandText);
+        }
+
+        private int QueryDocumentEndStatus(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
+        {
+            return GetCommandState((view, buffer) => new DocumentEndCommandArgs(view, buffer), pguidCmdGroup, commandCount, prgCmds, commandText);
+        }
+
+        private int QueryDocumentStartStatus(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
+        {
+            return GetCommandState((view, buffer) => new DocumentStartCommandArgs(view, buffer), pguidCmdGroup, commandCount, prgCmds, commandText);
+        }
+
+        private int QueryLineStartStatus(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
+        {
+            return GetCommandState((view, buffer) => new LineStartCommandArgs(view, buffer), pguidCmdGroup, commandCount, prgCmds, commandText);
+        }
+
+        private int QueryLineStartExtendStatus(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
+        {
+            return GetCommandState((view, buffer) => new LineStartExtendCommandArgs(view, buffer), pguidCmdGroup, commandCount, prgCmds, commandText);
         }
 
         private int QueryCopyStatus(Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)

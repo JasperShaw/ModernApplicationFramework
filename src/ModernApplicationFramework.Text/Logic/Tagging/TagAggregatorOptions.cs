@@ -7,6 +7,7 @@ namespace ModernApplicationFramework.Text.Logic.Tagging
     {
         None = 0,
         MapByContentType = 1,
+        DeferTaggerCreation = 2,
         NoProjection = 4
     }
 }

@@ -10,6 +10,7 @@ using ModernApplicationFramework.Text.Logic.Tagging;
 using ModernApplicationFramework.Text.Ui.Editor;
 using ModernApplicationFramework.Text.Ui.Tagging;
 using ModernApplicationFramework.TextEditor;
+using ModernApplicationFramework.Threading;
 using ModernApplicationFramework.Utilities.Core;
 
 namespace ModernApplicationFramework.Modules.Editor.Tagging
@@ -32,6 +33,9 @@ namespace ModernApplicationFramework.Modules.Editor.Tagging
 
         [ImportMany(typeof(ITaggerProvider))]
         internal List<Lazy<ITaggerProvider, INamedTaggerMetadata>> BufferTaggerProviders { get; set; }
+
+        [Import]
+        internal JoinableTaskContext JoinableTaskContext { get; set; }
 
         [Import] internal IContentTypeRegistryService ContentTypeRegistryService { get; set; }
 

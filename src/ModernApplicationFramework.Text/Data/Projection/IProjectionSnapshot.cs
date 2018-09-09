@@ -6,7 +6,10 @@ namespace ModernApplicationFramework.Text.Data.Projection
     public interface IProjectionSnapshot : ITextSnapshot
     {
         ReadOnlyCollection<ITextSnapshot> SourceSnapshots { get; }
+
         int SpanCount { get; }
+
+        new IProjectionBufferBase TextBuffer { get; }
 
         ITextSnapshot GetMatchingSnapshot(ITextBuffer textBuffer);
 

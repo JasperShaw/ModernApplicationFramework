@@ -223,6 +223,7 @@
     <Compile Include="Basics\CommandBar\Models\MenuControllerModel.cs" />
     <Compile Include="Basics\CommandBar\Models\SplitButtonModel.cs" />
     <Compile Include="Basics\CommandBar\ItemDefinitions\CommandItemDefinitionBase.cs" />
+    <Compile Include="Basics\Threading\JoinableTaskContextMefHost.cs" />
     <Compile Include="Interfaces\Threading\IMafExecutionContextTracker.cs" />
     <Compile Include="Interfaces\Threading\IMafInvokablePrivate.cs" />
     <Compile Include="Basics\Threading\MafTaskContinuationOptions.cs" />

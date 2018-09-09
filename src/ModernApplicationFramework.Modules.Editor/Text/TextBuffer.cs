@@ -134,7 +134,8 @@ namespace ModernApplicationFramework.Modules.Editor.Text
                         {
                         }
 
-                        if (!CheckForCancellation(Action)) return currentSnapshot;
+                        if (!CheckForCancellation(Action))
+                            return currentSnapshot;
                         FinalApply();
                         currentSnapshot = _textBuffer.CurrentSnapshot;
                     }

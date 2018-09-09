@@ -102,15 +102,7 @@ namespace ModernApplicationFramework.Text.Ui.Text
 
         public VirtualSnapshotPoint Start => !IsReversed ? AnchorPoint : ActivePoint;
 
-        public VirtualSnapshotPoint End
-        {
-            get
-            {
-                if (!IsReversed)
-                    return ActivePoint;
-                return AnchorPoint;
-            }
-        }
+        public VirtualSnapshotPoint End => !IsReversed ? ActivePoint : AnchorPoint;
 
         public VirtualSnapshotSpan Extent => new VirtualSnapshotSpan(Start, End);
 
@@ -124,8 +116,7 @@ namespace ModernApplicationFramework.Text.Ui.Text
             var hashCode3 = virtualSnapshotPoint.GetHashCode();
             var num2 = hashCode2 ^ hashCode3 ^ (int)num1;
             var num4 = InsertionPointAffinity != PositionAffinity.Predecessor ? 10172014 : 4122013;
-            var num5 = num4;
-            return num2 ^ num5;
+            return num2 ^ num4;
         }
 
         public override bool Equals(object obj)

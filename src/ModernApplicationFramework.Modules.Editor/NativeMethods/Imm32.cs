@@ -13,6 +13,9 @@ namespace ModernApplicationFramework.Modules.Editor.NativeMethods
         internal static extern IntPtr ImmEscapeW(IntPtr hkl, IntPtr himc, int esc, IntPtr lpBuf);
 
         [DllImport("imm32.dll", CharSet = CharSet.Unicode)]
+        internal static extern bool ImmIsIME(IntPtr hkl);
+
+        [DllImport("imm32.dll", CharSet = CharSet.Unicode)]
         [return: MarshalAs(UnmanagedType.I4)]
         internal static extern int
             ImmGetCompositionStringW(IntPtr hImc, int dwIndex, StringBuilder lpBuf, int dwBufLen);
