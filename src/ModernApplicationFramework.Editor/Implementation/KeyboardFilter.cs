@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Windows;
 using System.Windows.Input;
 using ModernApplicationFramework.Editor.Interop;
 using ModernApplicationFramework.Editor.TextManager;

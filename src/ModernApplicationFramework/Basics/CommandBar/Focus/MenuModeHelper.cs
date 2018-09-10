@@ -85,13 +85,18 @@ namespace ModernApplicationFramework.Basics.CommandBar.Focus
         public static bool TranslateAccelerator(Key key, bool isKeyUpMessage)
         {
             var modifierKeys = NativeMethods.ModifierKeys;
-
-            var isRepeat = !IsMenuKey(key) && key == _lastKeyDown;
-            _lastKeyDown = key;
-
             bool flag;
+
+            var t = Mouse.LeftButton == MouseButtonState.Pressed;
+
+            if (t)
+                CommandState.FilterMouseMessage();
+
+
             if (!isKeyUpMessage)
             {
+                var isRepeat = !IsMenuKey(key) && key == _lastKeyDown;
+                _lastKeyDown = key;
                 flag = CommandState.FilterKeyDownMessage(key, modifierKeys, isRepeat);
                 if (!flag)
                     flag = CommandBarNavigationState.FilterKeyDownMessage(key, modifierKeys, isRepeat);
@@ -176,7 +181,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Focus
 
         private static bool TryEnterMenuMode()
         {
-            return MainMenus.Any(TryEnterItemsControl<ModernApplicationFramework.Controls.Menu.MenuItem>);
+            return MainMenus.Any(TryEnterItemsControl<Controls.Menu.MenuItem>);
         }
 
         private static bool TryEnterToolBarMode()

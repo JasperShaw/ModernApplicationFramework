@@ -122,7 +122,6 @@ namespace ModernApplicationFramework.Basics.Services
                 MenuModeHelper.ResetState();
             var realKey = KeyboardUtilities.GetRealPressedKey(e);
             e.Handled = MenuModeHelper.TranslateAccelerator(realKey, false);
-            Trace.WriteLine(e.Handled + InputManager.Current.IsInMenuMode.ToString());
             PreviewKeyDown?.Invoke(this, e);
         }
     }

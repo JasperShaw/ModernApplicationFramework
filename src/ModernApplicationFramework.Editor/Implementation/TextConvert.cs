@@ -18,10 +18,10 @@ namespace ModernApplicationFramework.Editor.Implementation
             result = new SnapshotSpan();
             if (snapshot == null || startLine < 0 || (startLine >= snapshot.LineCount || endLine < 0) || endLine >= snapshot.LineCount)
                 return false;
-            ITextSnapshotLine lineFromLineNumber = snapshot.GetLineFromLineNumber(startLine);
-            ITextSnapshotLine textSnapshotLine = startLine == endLine ? lineFromLineNumber : snapshot.GetLineFromLineNumber(endLine);
-            int num1 = lineFromLineNumber.Length;
-            int num2 = textSnapshotLine.Length;
+            var lineFromLineNumber = snapshot.GetLineFromLineNumber(startLine);
+            var textSnapshotLine = startLine == endLine ? lineFromLineNumber : snapshot.GetLineFromLineNumber(endLine);
+            var num1 = lineFromLineNumber.Length;
+            var num2 = textSnapshotLine.Length;
             if (useLengthIncludingLineBreak)
             {
                 num1 = lineFromLineNumber.LengthIncludingLineBreak;
@@ -69,8 +69,8 @@ namespace ModernApplicationFramework.Editor.Implementation
         {
             if (span.iStartLine >= 0 && span.iStartLine < snapshot.LineCount && (span.iEndLine >= span.iStartLine && span.iEndLine < snapshot.LineCount))
             {
-                ITextSnapshotLine lineFromLineNumber1 = snapshot.GetLineFromLineNumber(span.iStartLine);
-                ITextSnapshotLine lineFromLineNumber2 = snapshot.GetLineFromLineNumber(span.iEndLine);
+                var lineFromLineNumber1 = snapshot.GetLineFromLineNumber(span.iStartLine);
+                var lineFromLineNumber2 = snapshot.GetLineFromLineNumber(span.iEndLine);
                 if (span.iStartIndex >= 0 && span.iStartIndex < lineFromLineNumber1.Length && (span.iEndIndex >= 0 && span.iEndIndex <= lineFromLineNumber2.Length))
                     return true;
             }
@@ -86,16 +86,16 @@ namespace ModernApplicationFramework.Editor.Implementation
             return "";
         }
 
-        public static TextSpan ToVsTextSpan(ITrackingSpan textSpan, ITextSnapshot snapshot)
+        public static TextSpan ToMafTextSpan(ITrackingSpan textSpan, ITextSnapshot snapshot)
         {
-            return ToVsTextSpan(textSpan.GetSpan(snapshot));
+            return ToMafTextSpan(textSpan.GetSpan(snapshot));
         }
 
-        public static TextSpan ToVsTextSpan(ITextSnapshot snapshot, Span span)
+        public static TextSpan ToMafTextSpan(ITextSnapshot snapshot, Span span)
         {
-            ITextSnapshotLine lineFromPosition1 = snapshot.GetLineFromPosition(span.Start);
-            ITextSnapshotLine lineFromPosition2 = snapshot.GetLineFromPosition(span.End);
-            return new TextSpan()
+            var lineFromPosition1 = snapshot.GetLineFromPosition(span.Start);
+            var lineFromPosition2 = snapshot.GetLineFromPosition(span.End);
+            return new TextSpan
             {
                 iStartLine = lineFromPosition1.LineNumber,
                 iStartIndex = span.Start - lineFromPosition1.Start,
@@ -104,38 +104,38 @@ namespace ModernApplicationFramework.Editor.Implementation
             };
         }
 
-        public static TextSpan ToVsTextSpan(VirtualSnapshotPoint start, VirtualSnapshotPoint end)
+        public static TextSpan ToMafTextSpan(VirtualSnapshotPoint start, VirtualSnapshotPoint end)
         {
-            TextSpan textSpan = new TextSpan();
-            int position = end.Position.Position;
-            ITextSnapshotLine containingLine = start.Position.GetContainingLine();
+            var textSpan = new TextSpan();
+            var position = end.Position.Position;
+            var containingLine = start.Position.GetContainingLine();
             textSpan.iStartLine = containingLine.LineNumber;
             textSpan.iStartIndex = start.Position.Position + start.VirtualSpaces - containingLine.Start;
-            ITextSnapshotLine textSnapshotLine = position >= containingLine.End.Position || position < containingLine.Start.Position ? end.Position.GetContainingLine() : containingLine;
+            var textSnapshotLine = position >= containingLine.End.Position || position < containingLine.Start.Position ? end.Position.GetContainingLine() : containingLine;
             textSpan.iEndLine = textSnapshotLine.LineNumber;
             textSpan.iEndIndex = position + end.VirtualSpaces - textSnapshotLine.Start;
             return textSpan;
         }
 
-        public static TextSpan ToVsTextSpan(VirtualSnapshotSpan virtualSpan)
+        public static TextSpan ToMafTextSpan(VirtualSnapshotSpan virtualSpan)
         {
-            return ToVsTextSpan(virtualSpan.Start, virtualSpan.End);
+            return ToMafTextSpan(virtualSpan.Start, virtualSpan.End);
         }
 
-        public static TextSpan ToVsTextSpan(SnapshotSpan span)
+        public static TextSpan ToMafTextSpan(SnapshotSpan span)
         {
-            return ToVsTextSpan(span.Snapshot, span.Span);
+            return ToMafTextSpan(span.Snapshot, span.Span);
         }
 
         public static TextLineChange ToTextLineChange(SnapshotSpan beforeSpan, SnapshotSpan afterSpan)
         {
-            TextLineChange textLineChange = new TextLineChange();
-            ITextSnapshotLine lineFromPosition1 = beforeSpan.Snapshot.GetLineFromPosition(beforeSpan.Start);
+            var textLineChange = new TextLineChange();
+            var lineFromPosition1 = beforeSpan.Snapshot.GetLineFromPosition(beforeSpan.Start);
             textLineChange.iStartLine = lineFromPosition1.LineNumber;
             textLineChange.iStartIndex = beforeSpan.Start - lineFromPosition1.Start;
             if (beforeSpan.Length > 0)
             {
-                ITextSnapshotLine lineFromPosition2 = beforeSpan.Snapshot.GetLineFromPosition(beforeSpan.End);
+                var lineFromPosition2 = beforeSpan.Snapshot.GetLineFromPosition(beforeSpan.End);
                 textLineChange.iOldEndLine = lineFromPosition2.LineNumber;
                 textLineChange.iOldEndIndex = beforeSpan.End - lineFromPosition2.Start;
             }
@@ -146,7 +146,7 @@ namespace ModernApplicationFramework.Editor.Implementation
             }
             if (afterSpan.Length > 0)
             {
-                ITextSnapshotLine lineFromPosition2 = afterSpan.Snapshot.GetLineFromPosition(afterSpan.End);
+                var lineFromPosition2 = afterSpan.Snapshot.GetLineFromPosition(afterSpan.End);
                 textLineChange.iNewEndLine = lineFromPosition2.LineNumber;
                 textLineChange.iNewEndIndex = afterSpan.End - lineFromPosition2.Start;
             }
@@ -214,7 +214,7 @@ namespace ModernApplicationFramework.Editor.Implementation
             col = -1;
             if (index < 0 || index > snapshot.Length)
                 return false;
-            ITextSnapshotLine lineFromPosition = snapshot.GetLineFromPosition(index);
+            var lineFromPosition = snapshot.GetLineFromPosition(index);
             line = lineFromPosition.LineNumber;
             col = index - lineFromPosition.Start;
             return true;

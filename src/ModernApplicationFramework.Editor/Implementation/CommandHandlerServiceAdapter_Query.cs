@@ -81,6 +81,31 @@ namespace ModernApplicationFramework.Editor.Implementation
             return GetCommandState((view, buffer) => new LineStartExtendCommandArgs(view, buffer), pguidCmdGroup, commandCount, prgCmds, commandText);
         }
 
+        private int QueryLineEndStatus(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
+        {
+            return GetCommandState((view, buffer) => new LineEndCommandArgs(view, buffer), pguidCmdGroup, commandCount, prgCmds, commandText);
+        }
+
+        private int QueryLineEndExtendStatus(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
+        {
+            return GetCommandState((view, buffer) => new LineEndExtendCommandArgs(view, buffer), pguidCmdGroup, commandCount, prgCmds, commandText);
+        }
+
+        private int QueryPageDownKeyStatus(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
+        {
+            return GetCommandState((view, buffer) => new PageDownKeyCommandArgs(view, buffer), pguidCmdGroup, commandCount, prgCmds, commandText);
+        }
+
+        private int QueryPageUpKeyStatus(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
+        {
+            return GetCommandState((view, buffer) => new PageUpKeyCommandArgs(view, buffer), pguidCmdGroup, commandCount, prgCmds, commandText);
+        }
+
+        private int QuerySelectAllStatus(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
+        {
+            return GetCommandState((view, buffer) => new SelectAllCommandArgs(view, buffer), pguidCmdGroup, commandCount, prgCmds, commandText);
+        }
+
         private int QueryCopyStatus(Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
         {
             return GetCommandState((view, buffer) => new CopyCommandArgs(view, buffer), pguidCmdGroup, commandCount,

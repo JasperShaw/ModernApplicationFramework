@@ -104,6 +104,7 @@ namespace ModernApplicationFramework.Editor.Implementation
         private IViewPrimitives _textViewPrimitivesPrivate;
         private DispatcherTimer _tipDimmingTimer;
         private FrameworkElement _zoomControl;
+        internal int MaxBraceMatchLinesToSearch;
 
         public delegate void ChangeScrollInfoEventHandler(IMafTextView pView, int iBar, int iMinUnit, int iMaxUnits,
             int iVisibleUnits, int iFirstVisibleUnit);
@@ -183,6 +184,14 @@ namespace ModernApplicationFramework.Editor.Implementation
             }
         }
 
+        internal VirtualSnapshotPoint? CaretInDataSnapshot
+        {
+            get
+            {
+                return DataPointFromViewPoint(TextView.Caret.Position.VirtualBufferPosition);
+            }
+        }
+
         internal bool RaiseGoBackEvents { get; set; }
 
         internal TextViewShimHost ShimHost { get; set; }
@@ -252,6 +261,19 @@ namespace ModernApplicationFramework.Editor.Implementation
         public bool Advise(Type eventType, object eventSink)
         {
             throw new NotImplementedException();
+        }
+
+        public int SetSelection(int iAnchorLine, int iAnchorCol, int iEndLine, int iEndCol)
+        {
+            Init_OnActivation();
+            if (!TextConvert.TryToVirtualSnapshotPoint(DataTextSnapshot, iAnchorLine, iAnchorCol, out var virtualPoint1) || !TextConvert.TryToVirtualSnapshotPoint(DataTextSnapshot, iEndLine, iEndCol, out var virtualPoint2))
+                return -2147024809;
+            var anchorPoint = ViewPointFromDataPoint(virtualPoint1);
+            var activePoint = ViewPointFromDataPoint(virtualPoint2);
+            EnsureSpanExpanded(anchorPoint.Position <= activePoint.Position ? new SnapshotSpan(anchorPoint.Position, activePoint.Position) :
+                new SnapshotSpan(activePoint.Position, anchorPoint.Position));
+            _editorOperations.SelectAndMoveCaret(anchorPoint, activePoint, TextView.Selection.Mode, EnsureSpanVisibleOptions.None);
+            return 0;
         }
 
         public int Exec(Guid commandGroup, uint commandId, uint nCmdexecopt, IntPtr input, IntPtr output)
@@ -435,11 +457,110 @@ namespace ModernApplicationFramework.Editor.Implementation
                         case MafConstants.EditorCommands.FirstCharExt:
                             _editorOperations.MoveToStartOfLineAfterWhiteSpace(true);
                             break;
+                        case MafConstants.EditorCommands.EndOfLine:
+                            _editorOperations.MoveToEndOfLine(false);
+                            break;
+                        case MafConstants.EditorCommands.EndOfLineExt:
+                            _editorOperations.MoveToEndOfLine(true);
+                            break;
+                        case MafConstants.EditorCommands.LastChar:
+                            _editorOperations.MoveToLastNonWhiteSpaceCharacter(false);
+                            break;
+                        case MafConstants.EditorCommands.LastCharExt:
+                            _editorOperations.MoveToLastNonWhiteSpaceCharacter(true);
+                            break;
                         case MafConstants.EditorCommands.Copy:
                             Copy();
                             break;
                         case MafConstants.EditorCommands.ShowContextMenu:
                             ShowContextMenu(input, ref result);
+                            break;
+                        case MafConstants.EditorCommands.PageUp:
+                            _editorOperations.PageUp(false);
+                            break;
+                        case MafConstants.EditorCommands.PageUpExt:
+                            _editorOperations.PageUp(true);
+                            break;
+                        case MafConstants.EditorCommands.PageDown:
+                            _editorOperations.PageDown(false);
+                            break;
+                        case MafConstants.EditorCommands.PageDownExt:
+                            _editorOperations.PageDown(true);
+                            break;
+                        case MafConstants.EditorCommands.TopLine:
+                            _editorOperations.MoveToTopOfView(false);
+                            break;
+                        case MafConstants.EditorCommands.TopLineExt:
+                            _editorOperations.MoveToTopOfView(true);
+                            break;
+                        case MafConstants.EditorCommands.BottomLine:
+                            _editorOperations.MoveToBottomOfView(false);
+                            break;
+                        case MafConstants.EditorCommands.BottomLineExt:
+                            _editorOperations.MoveToBottomOfView(true);
+                            break;
+                        case MafConstants.EditorCommands.ScrollUp:
+                            _editorOperations.ScrollUpAndMoveCaretIfNecessary();
+                            break;
+                        case MafConstants.EditorCommands.ScrollDown:
+                            _editorOperations.ScrollDownAndMoveCaretIfNecessary();
+                            break;
+                        case MafConstants.EditorCommands.ScrollPageUp:
+                            _editorOperations.ScrollPageUp();
+                            break;
+                        case MafConstants.EditorCommands.ScrollPageDown:
+                            _editorOperations.ScrollPageDown();
+                            break;
+                        case MafConstants.EditorCommands.ScrollLeft:
+                            _editorOperations.ScrollColumnLeft();
+                            break;
+                        case MafConstants.EditorCommands.ScrollRight:
+                            _editorOperations.ScrollColumnRight();
+                            break;
+                        case MafConstants.EditorCommands.ScrollBottom:
+                            _editorOperations.ScrollLineBottom();
+                            break;
+                        case MafConstants.EditorCommands.ScrollCenter:
+                            _editorOperations.ScrollLineCenter();
+                            break;
+                        case MafConstants.EditorCommands.ScrollTop:
+                            _editorOperations.ScrollLineTop();
+                            break;
+                        case MafConstants.EditorCommands.SelectAll:
+                            SelectAll();
+                            break;
+                        case MafConstants.EditorCommands.TabifySelection:
+                            Tabify();
+                            break;
+                        case MafConstants.EditorCommands.UntabifySelection:
+                            Untabify();
+                            break;
+                        case MafConstants.EditorCommands.MakeLowerCase:
+                            _editorOperations.MakeLowercase();
+                            break;
+                        case MafConstants.EditorCommands.MakeUpperCase:
+                            _editorOperations.MakeUppercase();
+                            break;
+                        case MafConstants.EditorCommands.ToggleCase:
+                            _editorOperations.ToggleCase();
+                            break;
+                        case MafConstants.EditorCommands.Capitalize:
+                            _editorOperations.Capitalize();
+                            break;
+                        case MafConstants.EditorCommands.SwapAnchor:
+                            _editorOperations.SwapCaretAndAnchor();
+                            break;
+                        case MafConstants.EditorCommands.GotoLine:
+                            //if (input != IntPtr.Zero)
+                            //{
+                            //    var forNativeVariant = Marshal.GetObjectForNativeVariant(input);
+                            //    if (forNativeVariant is int i)
+                            //        GoToLine(i);
+                            //}
+                            break;
+                        case MafConstants.EditorCommands.GotoBrace:
+                        case MafConstants.EditorCommands.GotoBraceExt:
+                            GotoMatchingBrace(54U == commandId);
                             break;
                         default:
                             result = -2147221248;
@@ -491,6 +612,21 @@ namespace ModernApplicationFramework.Editor.Implementation
             return _editorOptions.GetOptionValue(DefaultTextViewOptions.ViewProhibitUserInputId) ? 0 : 1;
         }
 
+        public int GetCaretPos(out int piLine, out int piColumn)
+        {
+            var caretInDataSnapshot = CaretInDataSnapshot;
+            if (!caretInDataSnapshot.HasValue)
+            {
+                InteropHelper.SetOutParameter(out piLine, 0);
+                InteropHelper.SetOutParameter(out piColumn, 0);
+                return -2147467259;
+            }
+            var containingLine = caretInDataSnapshot.Value.Position.GetContainingLine();
+            InteropHelper.SetOutParameter(out piLine, containingLine.LineNumber);
+            InteropHelper.SetOutParameter(out piColumn, caretInDataSnapshot.Value.Position - containingLine.Start + caretInDataSnapshot.Value.VirtualSpaces);
+            return 0;
+        }
+
         public bool IsSearchingCommand(Guid cmdGroup, uint cmdId)
         {
             if (!IsIncrementalSearchInProgress)
@@ -524,9 +660,17 @@ namespace ModernApplicationFramework.Editor.Implementation
         public int QueryStatus(Guid commandGroup, uint cCmds, Olecmd[] prgCmds, IntPtr pCmdText)
         {
             var hr = PreOuterQueryStatus(commandGroup, cCmds, prgCmds);
-            if (hr < 0)
-                return hr;
-            return _commandChain.QueryStatus(commandGroup, cCmds, prgCmds, pCmdText);
+            return hr < 0 ? hr : _commandChain.QueryStatus(commandGroup, cCmds, prgCmds, pCmdText);
+        }
+
+        public int SetCaretPos(int iLine, int iColumn)
+        {
+            if (!TextConvert.TryToVirtualSnapshotPoint(DataTextSnapshot, iLine, iColumn, out var virtualPoint))
+                return -2147024809;
+            VirtualSnapshotPoint virtualSnapshotPoint = ViewPointFromDataPoint(virtualPoint);
+            EnsureSpanExpanded(new SnapshotSpan(virtualSnapshotPoint.Position, virtualSnapshotPoint.Position));
+            _editorOperations.SelectAndMoveCaret(virtualSnapshotPoint, virtualSnapshotPoint, TextView.Selection.Mode, EnsureSpanVisibleOptions.MinimumScroll);
+            return 0;
         }
 
         public int RemovePropertyFromPropertyContainer(EditPropId idProp)
@@ -644,6 +788,28 @@ namespace ModernApplicationFramework.Editor.Implementation
             SetPlainTextFont();
         }
 
+        internal VirtualSnapshotPoint ViewPointFromDataPoint(VirtualSnapshotPoint dataPoint)
+        {
+            return new VirtualSnapshotPoint(ViewPointFromDataPoint(dataPoint.Position), dataPoint.VirtualSpaces);
+        }
+
+        internal SnapshotPoint ViewPointFromDataPoint(SnapshotPoint dataPoint)
+        {
+            SnapshotPoint? snapshot = TextView.BufferGraph.MapUpToSnapshot(dataPoint, PointTrackingMode.Positive,
+                PositionAffinity.Successor, TextView.TextSnapshot);
+            if (!snapshot.HasValue)
+                return new SnapshotPoint(TextView.TextSnapshot, 0);
+            return snapshot.Value;
+        }
+
+        internal void EnsureSpanExpanded(SnapshotSpan span)
+        {
+            if (TextView.TextViewModel.IsPointInVisualBuffer(span.Start, PositionAffinity.Successor) && 
+                (span.IsEmpty || TextView.TextViewModel.IsPointInVisualBuffer(span.End, PositionAffinity.Predecessor)))
+                return;
+            EnsureSpansExpanded(new NormalizedSnapshotSpanCollection(span));
+        }
+
         internal void ClearCommandContext()
         {
             if (_textViewHostPrivate == null || _textViewHostPrivate.IsClosed)
@@ -655,6 +821,14 @@ namespace ModernApplicationFramework.Editor.Implementation
         {
             return TextView.BufferGraph.MapDownToSnapshot(viewPoint, PointTrackingMode.Positive, DataTextSnapshot,
                 PositionAffinity.Successor);
+        }
+
+        internal VirtualSnapshotPoint? DataPointFromViewPoint(VirtualSnapshotPoint viewPoint)
+        {
+            var nullable = DataPointFromViewPoint(viewPoint.Position);
+            if (!nullable.HasValue)
+                return new VirtualSnapshotPoint?();
+            return new VirtualSnapshotPoint(nullable.Value, viewPoint.VirtualSpaces);
         }
 
         internal int GetPropertyFromPropertyContainer(EditPropId idProp, out object pvar)
@@ -1350,6 +1524,12 @@ namespace ModernApplicationFramework.Editor.Implementation
                     case MafConstants.EditorCommands.Tab:
                     case MafConstants.EditorCommands.BackTab:
                     case MafConstants.EditorCommands.Delete:
+                    case MafConstants.EditorCommands.TabifySelection:
+                    case MafConstants.EditorCommands.UntabifySelection:
+                    case MafConstants.EditorCommands.MakeLowerCase:
+                    case MafConstants.EditorCommands.MakeUpperCase:
+                    case MafConstants.EditorCommands.ToggleCase:
+                    case MafConstants.EditorCommands.Capitalize:
                         return true;
                     default:
                         return false;
@@ -1553,13 +1733,11 @@ namespace ModernApplicationFramework.Editor.Implementation
                 var forNativeVariant1 = Marshal.GetObjectForNativeVariant(location);
                 var forNativeVariant2 = Marshal.GetObjectForNativeVariant(new IntPtr(location.ToInt32() + 16));
 
-                var nullable1 = forNativeVariant1 as short?;
-                var nullable2 = forNativeVariant2 as short?;
-                if (nullable1.HasValue && nullable2.HasValue)
+                if (forNativeVariant1 is short nullable1 && forNativeVariant2 is short nullable2)
                 {
                     pos = new Point[1];
-                    pos[0].X = nullable1.Value;
-                    pos[0].Y = nullable2.Value;
+                    pos[0].X = nullable1;
+                    pos[0].Y = nullable2;
                 }
             }
 
@@ -1587,7 +1765,7 @@ namespace ModernApplicationFramework.Editor.Implementation
             }
         }
 
-        private void ThemeTextViewHostScrollBars(ITextViewHost textViewHost)
+        private static void ThemeTextViewHostScrollBars(ITextViewHost textViewHost)
         {
             var hostControl = textViewHost?.HostControl;
             if (hostControl == null)
@@ -1616,6 +1794,74 @@ namespace ModernApplicationFramework.Editor.Implementation
         {
             EnsureSpansExpanded(_editorOperations.TextView.Selection.SelectedSpans);
             _editorOperations.Unindent();
+        }
+
+        private void SelectAll()
+        {
+            _editorOperations.SelectAll();
+        }
+
+        private void Untabify()
+        {
+            _editorOperations.Untabify();
+        }
+
+        private void Tabify()
+        {
+            _editorOperations.Tabify();
+        }
+
+        private void GotoMatchingBrace(bool fExtendSelection)
+        {
+            var hr = 1;
+            var piLine = 0;
+            var piColumn = 0;
+            if (GetCaretPos(out piLine, out piColumn) < 0)
+                return;
+            var textSpanArray = new TextSpan[1];
+            var textSpan1 = new TextSpan();
+
+            //if (_languageTextOps != null)
+            {
+                //TODO: Language Service
+            }
+            if (hr != 0 && _textViewFilter != null)
+            {
+                //TODO: Filter stuff
+            }
+
+            if (hr != 0)
+            {
+                var lineFromLineNumber = TextDocData.DataTextBuffer.CurrentSnapshot.GetLineFromLineNumber(piLine);
+                var point = lineFromLineNumber.Start + Math.Min(piColumn, lineFromLineNumber.Length);
+                var num = point.Position - lineFromLineNumber.Start.Position;
+                if (num < lineFromLineNumber.Length &&
+                    PairMatching.FindEnclosingPair(point, MaxBraceMatchLinesToSearch, out var pairSpan) || num > 0 &&
+                    PairMatching.FindEnclosingPair(point - 1, MaxBraceMatchLinesToSearch, out pairSpan))
+                {
+                    textSpan1 = TextConvert.ToMafTextSpan(pairSpan);
+                    hr = 0;
+                }
+                if (hr < 0 || textSpan1.iStartLine == textSpan1.iEndLine && textSpan1.iStartIndex == textSpan1.iEndIndex)
+                    return;
+                if (fExtendSelection)
+                {
+                    ++textSpan1.iEndIndex;
+                    if (Math.Abs(textSpan1.iStartLine - piLine) < Math.Abs(textSpan1.iEndLine - piLine) 
+                        || textSpan1.iStartLine == textSpan1.iEndLine && piLine == textSpan1.iStartLine && 
+                        Math.Abs(textSpan1.iStartIndex - piColumn) <= Math.Abs(textSpan1.iEndIndex - piColumn))
+                        SetSelection(textSpan1.iStartLine, textSpan1.iStartIndex, textSpan1.iEndLine, textSpan1.iEndIndex);
+                    else
+                        SetSelection(textSpan1.iEndLine, textSpan1.iEndIndex, textSpan1.iStartLine, textSpan1.iStartIndex);
+                }
+                else if (Math.Abs(textSpan1.iStartLine - piLine) < Math.Abs(textSpan1.iEndLine - piLine) || 
+                         textSpan1.iStartLine == textSpan1.iEndLine && 
+                         piLine == textSpan1.iStartLine && 
+                         Math.Abs(textSpan1.iStartIndex - piColumn) <= Math.Abs(textSpan1.iEndIndex - piColumn))
+                    SetCaretPos(textSpan1.iEndLine, textSpan1.iEndIndex);
+                else
+                    SetCaretPos(textSpan1.iStartLine, textSpan1.iStartIndex);
+            }
         }
 
         [StructLayout(LayoutKind.Explicit, Size = 16)]

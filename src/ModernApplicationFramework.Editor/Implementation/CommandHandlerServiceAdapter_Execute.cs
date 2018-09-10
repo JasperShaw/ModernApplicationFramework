@@ -106,6 +106,41 @@ namespace ModernApplicationFramework.Editor.Implementation
             commandHandlerService.Execute((view, buffer) => new LineStartExtendCommandArgs(view, buffer), nextCommandHandler);
         }
 
+        private void ExecuteLineEndCommand(Action next)
+        {
+            var commandHandlerService = _commandHandlerService;
+            var nextCommandHandler = next;
+            commandHandlerService.Execute((view, buffer) => new LineEndCommandArgs(view, buffer), nextCommandHandler);
+        }
+
+        private void ExecuteLineEndExtendCommand(Action next)
+        {
+            var commandHandlerService = _commandHandlerService;
+            var nextCommandHandler = next;
+            commandHandlerService.Execute((view, buffer) => new LineEndExtendCommandArgs(view, buffer), nextCommandHandler);
+        }
+
+        private void ExecutePageDownKeyCommand(Action next)
+        {
+            var commandHandlerService = _commandHandlerService;
+            var nextCommandHandler = next;
+            commandHandlerService.Execute((view, buffer) => new PageDownKeyCommandArgs(view, buffer), nextCommandHandler);
+        }
+
+        private void ExecutePageUpKeyCommand(Action next)
+        {
+            var commandHandlerService = _commandHandlerService;
+            var nextCommandHandler = next;
+            commandHandlerService.Execute((view, buffer) => new PageUpKeyCommandArgs(view, buffer), nextCommandHandler);
+        }
+
+        private void ExecuteSelectAllCommand(Action next)
+        {
+            var commandHandlerService = _commandHandlerService;
+            var nextCommandHandler = next;
+            commandHandlerService.Execute((view, buffer) => new SelectAllCommandArgs(view, buffer), nextCommandHandler);
+        }
+
         private void ExecuteCopyCommand(Action next)
         {
             var commandHandlerService = _commandHandlerService;

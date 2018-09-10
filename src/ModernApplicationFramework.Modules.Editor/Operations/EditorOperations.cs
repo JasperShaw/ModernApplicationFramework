@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -101,8 +100,7 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
 
         public ITextView TextView { get; }
 
-        //TODO: Add Undo Stuff
-
+        
         internal EditorOperations(ITextView textView, EditorOperationsFactoryService factory)
         {
             TextView = textView ?? throw new ArgumentNullException(nameof(textView));
@@ -111,6 +109,7 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
             _multiSelectionBroker = TextView.GetMultiSelectionBroker();
             _textStructureNavigator =
                 factory.TextStructureNavigatorFactory.GetTextStructureNavigator(TextView.TextBuffer);
+            //TODO: Add Undo Stuff
             //_undoHistory = factory.UndoHistoryRegistry.RegisterHistory((object)this._textView.TextBuffer);
             //factory.TextBufferUndoManagerProvider.GetTextBufferUndoManager(this._textView.TextBuffer);
             Options = factory.EditorOptionsProvider.GetOptions(textView);
@@ -165,7 +164,8 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
 
         public bool Capitalize()
         {
-            throw new NotImplementedException();
+            //TODO: Capitalize
+            return ExecuteAction("Capitalize", () => _editorPrimitives.Selection.Capitalize());
         }
 
         public bool ConvertSpacesToTabs()
@@ -419,12 +419,12 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
 
         public bool MakeLowercase()
         {
-            throw new NotImplementedException();
+            return ChangeCase(LetterCase.Lowercase);
         }
 
         public bool MakeUppercase()
         {
-            throw new NotImplementedException();
+            return ChangeCase(LetterCase.Uppercase);
         }
 
         public void MoveCaret(ITextViewLine textLine, double horizontalOffset, bool extendSelection)
@@ -485,7 +485,10 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
 
         public void MoveToBottomOfView(bool extendSelection)
         {
-            throw new NotImplementedException();
+            var textViewLines = _editorPrimitives.View.AdvancedTextView.TextViewLines;
+            var lastVisibleLine = textViewLines.LastVisibleLine;
+            var indexOfTextLine = textViewLines.GetIndexOfTextLine(lastVisibleLine);
+            MoveCaretToTextLine(FindFullyVisibleLine(lastVisibleLine, indexOfTextLine - 1), extendSelection);
         }
 
         public void MoveToEndOfDocument(bool extendSelection)
@@ -498,7 +501,10 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
 
         public void MoveToEndOfLine(bool extendSelection)
         {
-            throw new NotImplementedException();
+            _multiSelectionBroker.PerformActionOnAllSelections(extendSelection
+                ? PredefinedSelectionTransformations.SelectToEndOfLine
+                : PredefinedSelectionTransformations.MoveToEndOfLine);
+            TextView.Caret.EnsureVisible();
         }
 
         public void MoveToHome(bool extendSelection)
@@ -511,7 +517,13 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
 
         public void MoveToLastNonWhiteSpaceCharacter(bool extendSelection)
         {
-            throw new NotImplementedException();
+            var num = _editorPrimitives.Caret.EndOfViewLine - 1;
+            while (num >= _editorPrimitives.Caret.StartOfViewLine && char.IsWhiteSpace(_editorPrimitives.View.GetTextPoint(num).GetNextCharacter()[0]))
+                --num;
+            var position = Math.Max(num, _editorPrimitives.Caret.StartOfLine);
+            if (position == _editorPrimitives.Caret.CurrentPosition)
+                return;
+            _editorPrimitives.Caret.MoveTo(position, extendSelection);
         }
 
         public void MoveToNextCharacter(bool extendSelection)
@@ -555,7 +567,10 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
 
         public void MoveToStartOfLineAfterWhiteSpace(bool extendSelection)
         {
-            throw new NotImplementedException();
+            var position = _editorPrimitives.Caret.GetFirstNonWhiteSpaceCharacterOnViewLine().CurrentPosition;
+            if (position == _editorPrimitives.Caret.EndOfViewLine)
+                position = _editorPrimitives.Caret.StartOfViewLine;
+            _editorPrimitives.Caret.MoveTo(position, extendSelection);
         }
 
         public void MoveToStartOfNextLineAfterWhiteSpace(bool extendSelection)
@@ -570,7 +585,10 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
 
         public void MoveToTopOfView(bool extendSelection)
         {
-            throw new NotImplementedException();
+            var textViewLines = _editorPrimitives.View.AdvancedTextView.TextViewLines;
+            var firstVisibleLine = textViewLines.FirstVisibleLine;
+            var indexOfTextLine = textViewLines.GetIndexOfTextLine(firstVisibleLine);
+            MoveCaretToTextLine(FindFullyVisibleLine(firstVisibleLine, indexOfTextLine + 1), extendSelection);
         }
 
         public bool NormalizeLineEndings(string replacement)
@@ -590,12 +608,16 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
 
         public void PageDown(bool extendSelection)
         {
-            throw new NotImplementedException();
+            _multiSelectionBroker.PerformActionOnAllSelections(extendSelection
+                ? PredefinedSelectionTransformations.SelectPageDown
+                : PredefinedSelectionTransformations.MovePageDown);
         }
 
         public void PageUp(bool extendSelection)
         {
-            throw new NotImplementedException();
+            _multiSelectionBroker.PerformActionOnAllSelections(extendSelection
+                ? PredefinedSelectionTransformations.SelectPageUp
+                : PredefinedSelectionTransformations.MovePageUp);
         }
 
         public bool Paste()
@@ -626,52 +648,52 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
 
         public void ScrollColumnLeft()
         {
-            throw new NotImplementedException();
+            TextView.ViewScroller.ScrollViewportHorizontallyByPixels(TextView.FormattedLineSource.ColumnWidth * -1.0);
         }
 
         public void ScrollColumnRight()
         {
-            throw new NotImplementedException();
+            TextView.ViewScroller.ScrollViewportHorizontallyByPixels(TextView.FormattedLineSource.ColumnWidth);
         }
 
         public void ScrollDownAndMoveCaretIfNecessary()
         {
-            throw new NotImplementedException();
+            ScrollByLineAndMoveCaretIfNecessary(ScrollDirection.Down);
         }
 
         public void ScrollLineBottom()
         {
-            throw new NotImplementedException();
+            _editorPrimitives.View.MoveLineToBottom(_editorPrimitives.Caret.LineNumber);
         }
 
         public void ScrollLineCenter()
         {
-            throw new NotImplementedException();
+            _editorPrimitives.View.Show(_editorPrimitives.Caret, HowToShow.Centered);
         }
 
         public void ScrollLineTop()
         {
-            throw new NotImplementedException();
+            _editorPrimitives.View.MoveLineToTop(_editorPrimitives.Caret.LineNumber);
         }
 
         public void ScrollPageDown()
         {
-            throw new NotImplementedException();
+            _editorPrimitives.View.ScrollPageDown();
         }
 
         public void ScrollPageUp()
         {
-            throw new NotImplementedException();
+            _editorPrimitives.View.ScrollPageUp();
         }
 
         public void ScrollUpAndMoveCaretIfNecessary()
         {
-            throw new NotImplementedException();
+            ScrollByLineAndMoveCaretIfNecessary(ScrollDirection.Up);
         }
 
         public void SelectAll()
         {
-            throw new NotImplementedException();
+            _editorPrimitives.Selection.SelectAll();
         }
 
         public void SelectAndMoveCaret(VirtualSnapshotPoint anchorPoint, VirtualSnapshotPoint activePoint)
@@ -688,7 +710,6 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
         public void SelectAndMoveCaret(VirtualSnapshotPoint anchorPoint, VirtualSnapshotPoint activePoint,
             TextSelectionMode selectionMode, EnsureSpanVisibleOptions? scrollOptions)
         {
-            var num = anchorPoint == activePoint ? 1 : 0;
             var selection = new Selection(anchorPoint, activePoint);
             if (selectionMode == TextSelectionMode.Box)
                 _multiSelectionBroker.SetBoxSelection(selection);
@@ -776,17 +797,21 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
 
         public void SwapCaretAndAnchor()
         {
-            throw new NotImplementedException();
+            TextView.Selection.Select(TextView.Selection.ActivePoint, TextView.Selection.AnchorPoint);
+            TextView.Caret.MoveTo(TextView.Selection.ActivePoint);
+            TextView.Caret.EnsureVisible();
         }
 
         public bool Tabify()
         {
-            throw new NotImplementedException();
+            //TODO: Localize
+            return ConvertLeadingWhitespace("Tabify", false);
         }
 
         public bool ToggleCase()
         {
-            throw new NotImplementedException();
+            //TODO: Localize
+            return ExecuteAction("Toggle Case", () => _editorPrimitives.Selection.ToggleCase());
         }
 
         public bool TransposeCharacter()
@@ -840,7 +865,7 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
 
         public bool Untabify()
         {
-            throw new NotImplementedException();
+            return ConvertLeadingWhitespace("Untabify", true);
         }
 
         public void ZoomIn()
@@ -1330,19 +1355,19 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
                 }
             }
             var allSelections = _multiSelectionBroker.AllSelections;
-            for (var index = 0; index < allSelections.Count; ++index)
+            foreach (var t in allSelections)
             {
-                var selection = allSelections[index];
+                var selection = t;
                 if (selection.Extent.SnapshotSpan.IsEmpty)
                 {
-                    selection = allSelections[index];
+                    selection = t;
                     if (selection.IsEmpty)
                     {
-                        selection = allSelections[index];
+                        selection = t;
                         virtualSnapshotPoint = selection.InsertionPoint;
                         if (!virtualSnapshotPoint.IsInVirtualSpace)
                         {
-                            selection = allSelections[index];
+                            selection = t;
                             virtualSnapshotPoint = selection.InsertionPoint;
                             if (virtualSnapshotPoint.Position.Position == 0)
                                 continue;
@@ -1463,21 +1488,20 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
             }
             else
             {
-                for (var i = 0; i < selections.Count; i++)
+                foreach (var t in selections)
                 {
-                    Selection after;
-                    _multiSelectionBroker.TryPerformActionOnSelection(selections[i], transformer =>
+                    _multiSelectionBroker.TryPerformActionOnSelection(t, transformer =>
                     {
                         VirtualSnapshotPoint virtualSnapshotPoint;
-                        if (selections[i].IsEmpty)
+                        if (t.IsEmpty)
                         {
-                            virtualSnapshotPoint = selections[i].InsertionPoint;
+                            virtualSnapshotPoint = t.InsertionPoint;
                             if (virtualSnapshotPoint.IsInVirtualSpace)
                             {
                                 var selectionTransformer = transformer;
                                 virtualSnapshotPoint = transformer.Selection.InsertionPoint;
                                 var position = virtualSnapshotPoint.Position;
-                                virtualSnapshotPoint = selections[i].InsertionPoint;
+                                virtualSnapshotPoint = t.InsertionPoint;
                                 var virtualSpaces = virtualSnapshotPoint.VirtualSpaces - 1;
                                 var point = new VirtualSnapshotPoint(position, virtualSpaces);
                                 var num1 = 0;
@@ -1489,13 +1513,11 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
                         var selectionTransformer1 = transformer;
                         virtualSnapshotPoint = transformer.Selection.InsertionPoint;
                         var position1 = virtualSnapshotPoint.Position;
-                        virtualSnapshotPoint = selections[i].Start;
+                        virtualSnapshotPoint = t.Start;
                         var virtualSpaces1 = virtualSnapshotPoint.VirtualSpaces;
                         var point1 = new VirtualSnapshotPoint(position1, virtualSpaces1);
-                        var num3 = 0;
-                        var num4 = 1;
-                        selectionTransformer1.MoveTo(point1, num3 != 0, (PositionAffinity)num4);
-                    }, out after);
+                        selectionTransformer1.MoveTo(point1, false, (PositionAffinity) 1);
+                    }, out _);
                 }
             }
             return true;
@@ -1898,6 +1920,135 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
                 edit.Apply();
                 return !edit.Canceled;
             }
+        }
+
+        private void MoveCaretToTextLine(ITextViewLine textLine, bool select)
+        {
+            var anchorPoint = TextView.Selection.AnchorPoint;
+            TextView.Caret.MoveTo(textLine);
+            if (select)
+                TextView.Selection.Select(anchorPoint.TranslateTo(TextView.TextSnapshot), TextView.Caret.Position.VirtualBufferPosition);
+            else
+                TextView.Selection.Clear();
+        }
+
+        private ITextViewLine FindFullyVisibleLine(ITextViewLine textLine, int indexOfNextLine)
+        {
+            if (textLine.VisibilityState != VisibilityState.FullyVisible && indexOfNextLine >= 0 && (_editorPrimitives.View.AdvancedTextView.TextViewLines.Count > indexOfNextLine && _editorPrimitives.View.AdvancedTextView.TextViewLines[indexOfNextLine].VisibilityState == VisibilityState.FullyVisible))
+                return _editorPrimitives.View.AdvancedTextView.TextViewLines[indexOfNextLine];
+            return textLine;
+        }
+
+        private void ScrollByLineAndMoveCaretIfNecessary(ScrollDirection direction)
+        {
+            TextView.ViewScroller.ScrollViewportVerticallyByPixels(direction == ScrollDirection.Up ? TextView.LineHeight : -TextView.LineHeight);
+            if (TextView.Caret.ContainingTextViewLine.VisibilityState == VisibilityState.FullyVisible)
+                return;
+            var textViewLines = TextView.TextViewLines;
+            var firstVisibleLine = textViewLines.FirstVisibleLine;
+            ITextViewLine textLine;
+            if (TextView.Caret.Position.BufferPosition < firstVisibleLine.EndIncludingLineBreak)
+            {
+                textLine = firstVisibleLine;
+                if (firstVisibleLine.VisibilityState != VisibilityState.FullyVisible)
+                {
+                    var containingBufferPosition = textViewLines.GetTextViewLineContainingBufferPosition(firstVisibleLine.EndIncludingLineBreak);
+                    if (containingBufferPosition != null && containingBufferPosition.VisibilityState == VisibilityState.FullyVisible)
+                        textLine = containingBufferPosition;
+                }
+            }
+            else
+            {
+                var lastVisibleLine = textViewLines.LastVisibleLine;
+                textLine = lastVisibleLine;
+                if (lastVisibleLine.VisibilityState != VisibilityState.FullyVisible && lastVisibleLine.Start > 0)
+                {
+                    var containingBufferPosition = textViewLines.GetTextViewLineContainingBufferPosition(lastVisibleLine.Start - 1);
+                    if (containingBufferPosition != null && containingBufferPosition.VisibilityState == VisibilityState.FullyVisible)
+                        textLine = containingBufferPosition;
+                }
+            }
+            TextView.Selection.Clear();
+            TextView.Caret.MoveTo(textLine);
+            TextView.Caret.EnsureVisible();
+        }
+
+        private bool ChangeCase(LetterCase letterCase)
+        {
+            SelectionUpdate preserveCaretAndSelection;
+            NormalizedSnapshotSpanCollection spans;
+            if (TextView.Selection.IsEmpty)
+            {
+                if (TextView.Caret.Position.BufferPosition == TextView.TextSnapshot.Length)
+                    return true;
+
+                var virtualBufferPosition = TextView.Caret.Position.VirtualBufferPosition;
+                var lineFromPosition = TextView.TextSnapshot.GetLineFromPosition(virtualBufferPosition.Position);
+                if (lineFromPosition.End == virtualBufferPosition.Position)
+                {
+                    TextView.Caret.MoveTo(lineFromPosition.EndIncludingLineBreak);
+                    return true;
+                }
+                spans = new NormalizedSnapshotSpanCollection(TextView.GetTextElementSpan(virtualBufferPosition.Position));
+                preserveCaretAndSelection = SelectionUpdate.Ignore;
+            }
+            else
+            {
+                spans = TextView.Selection.SelectedSpans;
+                preserveCaretAndSelection = SelectionUpdate.Preserve;
+            }
+
+            bool Func() => EditHelper(edit =>
+            {
+                foreach (var snapshotSpan in spans)
+                {
+                    var text = snapshotSpan.GetText();
+                    var replaceWith = letterCase == LetterCase.Uppercase
+                        ? text.ToUpper(CultureInfo.CurrentCulture)
+                        : text.ToLower(CultureInfo.CurrentCulture);
+                    if (!edit.Replace(snapshotSpan, replaceWith))
+                        return false;
+                }
+                return true;
+            });
+
+            //TODO: Localize
+            return ExecuteAction(letterCase == LetterCase.Uppercase ? "Make Uppercase" : "Make Lowercase", Func, preserveCaretAndSelection, true);
+        }
+
+        private bool ConvertLeadingWhitespace(string actionName, bool convertTabsToSpaces)
+        {
+            bool Action()
+            {
+                using (var edit = _editorPrimitives.Buffer.AdvancedTextBuffer.CreateEdit())
+                {
+                    var snapshot = edit.Snapshot;
+                    for (var lineNumber = _editorPrimitives.Selection.GetStartPoint().LineNumber; lineNumber <= _editorPrimitives.Selection.GetEndPoint().LineNumber; ++lineNumber)
+                    {
+                        var lineFromLineNumber = snapshot.GetLineFromLineNumber(lineNumber);
+                        var spaceCharacterOnLine = _editorPrimitives.Buffer.GetTextPoint(lineFromLineNumber.Start.Position).GetFirstNonWhiteSpaceCharacterOnLine();
+                        var column = spaceCharacterOnLine.Column;
+                        var positionAndVirtualSpace = GetWhiteSpaceForPositionAndVirtualSpace(lineFromLineNumber.Start, column, true, convertTabsToSpaces);
+                        var snapshotSpan = new SnapshotSpan(lineFromLineNumber.Start, spaceCharacterOnLine.AdvancedTextPoint);
+                        if (!string.Equals(positionAndVirtualSpace, snapshotSpan.GetText(), StringComparison.Ordinal) && !edit.Replace(snapshotSpan, positionAndVirtualSpace))
+                            return false;
+                    }
+
+                    edit.Apply();
+                    if (edit.Canceled) return false;
+                }
+
+                if (_editorPrimitives.Selection.IsEmpty) _editorPrimitives.Caret.MoveTo(_editorPrimitives.Caret.StartOfLine);
+                return true;
+            }
+
+            return ExecuteAction(actionName, Action);
+        }
+
+        private enum LetterCase
+        {
+            Uppercase,
+            Lowercase,
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Input;
 using ModernApplicationFramework.Native.NativeMethods;
 
@@ -10,6 +11,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Focus
         private ModifierKeys _lastModifierKeys;
         private bool _shouldEnterToolBarMode;
         private bool _win32MenuModeWorkAround;
+        private bool _wasMousePressed;
 
         private Func<bool> TryEnterMenuMode { get; }
 
@@ -51,6 +53,8 @@ namespace ModernApplicationFramework.Basics.CommandBar.Focus
                         {
                             LastKeyPressed = realKey;
                             _lastModifierKeys = modifierKeys;
+
+                            var t = Mouse.LeftButton;
                         }
                 }
                 else if (LastKeyPressed != realKey || _lastModifierKeys != modifierKeys)
@@ -67,10 +71,13 @@ namespace ModernApplicationFramework.Basics.CommandBar.Focus
             var flag = false;
             if (realKey == LastKeyPressed && IsMenuKey(realKey))
             {
-                if (_shouldEnterToolBarMode)
-                    flag = TryEnterToolBarMode();
-                if (!flag)
-                    flag = TryEnterMenuMode();
+                if (!_wasMousePressed)
+                {
+                    if (_shouldEnterToolBarMode)
+                        flag = TryEnterToolBarMode();
+                    if (!flag)
+                        flag = TryEnterMenuMode();
+                }
             }
             if (_win32MenuModeWorkAround)
             {
@@ -85,6 +92,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Focus
                 _win32MenuModeWorkAround = true;
             }
             ClearLastKey();
+            _wasMousePressed = false;
             return flag;
         }
 
@@ -92,6 +100,10 @@ namespace ModernApplicationFramework.Basics.CommandBar.Focus
         {
             ClearLastKey();
             _win32MenuModeWorkAround = false;
+            _wasMousePressed = true;
+
+            Trace.WriteLine($"Setted Value: _wasMousePressed");
+
             return false;
         }
 

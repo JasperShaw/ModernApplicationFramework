@@ -6,6 +6,33 @@ namespace ModernApplicationFramework.Editor.Implementation
 {
     internal static class InteropHelper
     {
+        internal static unsafe void SetOutParameter(out int param, int value)
+        {
+            fixed (int* numPtr = &param)
+            {
+                if ((IntPtr)numPtr != IntPtr.Zero)
+                    *numPtr = value;
+            }
+        }
+
+        internal static unsafe void SetOutParameter(out uint param, uint value)
+        {
+            fixed (uint* numPtr = &param)
+            {
+                if ((IntPtr)numPtr != IntPtr.Zero)
+                    *numPtr = value;
+            }
+        }
+
+        internal static unsafe void SetOutParameter(out IntPtr param, IntPtr value)
+        {
+            fixed (IntPtr* numPtr = &param)
+            {
+                if ((IntPtr)numPtr != IntPtr.Zero)
+                    *numPtr = value;
+            }
+        }
+
         internal class StringWrapper : IDisposable
         {
             private bool _disposed;

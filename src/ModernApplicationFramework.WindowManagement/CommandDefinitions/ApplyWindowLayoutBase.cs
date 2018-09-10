@@ -1,6 +1,5 @@
 using System;
 using System.Globalization;
-using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.CommandBar;
 using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 using ModernApplicationFramework.WindowManagement.Commands;

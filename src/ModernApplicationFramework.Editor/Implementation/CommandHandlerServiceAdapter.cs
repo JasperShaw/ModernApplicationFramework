@@ -9,7 +9,6 @@ using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Text.Ui.Commanding;
 using ModernApplicationFramework.Text.Ui.Editor;
 using ModernApplicationFramework.Text.Ui.Editor.Commanding;
-using ModernApplicationFramework.Text.Ui.Editor.Commanding.Commands;
 using Action = System.Action;
 
 namespace ModernApplicationFramework.Editor.Implementation
@@ -170,21 +169,21 @@ namespace ModernApplicationFramework.Editor.Implementation
                 case MafConstants.EditorCommands.BeginOfLineExt:
                     ExecuteLineStartExtendCommand(next);
                     return 0;
-                //case VSConstants.VSStd2KCmdID.EOL:
-                //    ExecuteLineEndCommand(next);
-                //    return 0;
-                //case VSConstants.VSStd2KCmdID.EOL_EXT:
-                //    ExecuteLineEndExtendCommand(next);
-                //    return 0;
-                //case VSConstants.VSStd2KCmdID.PAGEUP:
-                //    ExecutePageUpKeyCommand(next);
-                //    return 0;
-                //case VSConstants.VSStd2KCmdID.PAGEDN:
-                //    ExecutePageDownKeyCommand(next);
-                //    return 0;
-                //case VSConstants.VSStd2KCmdID.SELECTALL:
-                //    ExecuteSelectAllCommand(next);
-                //    return 0;
+                case MafConstants.EditorCommands.EndOfLine:
+                    ExecuteLineEndCommand(next);
+                    return 0;
+                case MafConstants.EditorCommands.EndOfLineExt:
+                    ExecuteLineEndExtendCommand(next);
+                    return 0;
+                case MafConstants.EditorCommands.PageUp:
+                    ExecutePageUpKeyCommand(next);
+                    return 0;
+                case MafConstants.EditorCommands.PageDown:
+                    ExecutePageDownKeyCommand(next);
+                    return 0;
+                case MafConstants.EditorCommands.SelectAll:
+                    ExecuteSelectAllCommand(next);
+                    return 0;
                 //case VSConstants.VSStd2KCmdID.CUT:
                 //    ExecuteCutCommand(next);
                 //    return 0;
@@ -361,16 +360,16 @@ namespace ModernApplicationFramework.Editor.Implementation
                     return QueryLineStartStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
                 case (uint)MafConstants.EditorCommands.BeginOfLineExt:
                     return QueryLineStartExtendStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
-                //case VSConstants.VSStd2KCmdID.EOL:
-                //    return QueryLineEndStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
-                //case VSConstants.VSStd2KCmdID.EOL_EXT:
-                //    return QueryLineEndExtendStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
-                //case VSConstants.VSStd2KCmdID.PAGEUP:
-                //    return QueryPageUpKeyStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
-                //case VSConstants.VSStd2KCmdID.PAGEDN:
-                //    return QueryPageDownKeyStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
-                //case VSConstants.VSStd2KCmdID.SELECTALL:
-                //    return QuerySelectAllStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
+                case (uint)MafConstants.EditorCommands.EndOfLine:
+                    return QueryLineEndStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
+                case (uint)MafConstants.EditorCommands.EndOfLineExt:
+                    return QueryLineEndExtendStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
+                case (uint)MafConstants.EditorCommands.PageUp:
+                    return QueryPageUpKeyStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
+                case (uint)MafConstants.EditorCommands.PageDown:
+                    return QueryPageDownKeyStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
+                case (uint)MafConstants.EditorCommands.SelectAll:
+                    return QuerySelectAllStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
                 //case VSConstants.VSStd2KCmdID.CUT:
                 //    return QueryCutStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
                 case (uint)MafConstants.EditorCommands.Copy:

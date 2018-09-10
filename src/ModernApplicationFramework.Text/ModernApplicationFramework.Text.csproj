@@ -255,8 +255,13 @@
     <Compile Include="Ui\Editor\Commanding\Commands\DocumentEndCommandArgs.cs" />
     <Compile Include="Ui\Editor\Commanding\Commands\DocumentStartCommandArgs.cs" />
     <Compile Include="Ui\Editor\Commanding\Commands\DownKeyCommandArgs.cs" />
+    <Compile Include="Ui\Editor\Commanding\Commands\LineEndCommandArgs.cs" />
+    <Compile Include="Ui\Editor\Commanding\Commands\LineEndExtendCommandArgs.cs" />
     <Compile Include="Ui\Editor\Commanding\Commands\LineStartCommandArgs.cs" />
     <Compile Include="Ui\Editor\Commanding\Commands\LineStartExtendCommandArgs.cs" />
+    <Compile Include="Ui\Editor\Commanding\Commands\PageDownKeyCommandArgs.cs" />
+    <Compile Include="Ui\Editor\Commanding\Commands\PageUpKeyCommandArgs.cs" />
+    <Compile Include="Ui\Editor\Commanding\Commands\SelectAllCommandArgs.cs" />
     <Compile Include="Ui\Editor\Commanding\Commands\TabKeyCommandArgs.cs" />
     <Compile Include="Ui\Editor\Commanding\Commands\CopyCommandArgs.cs" />
     <Compile Include="Ui\Commanding\IChainedTextEditCommand.cs" />

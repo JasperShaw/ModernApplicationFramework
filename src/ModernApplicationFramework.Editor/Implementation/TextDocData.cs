@@ -312,7 +312,7 @@ namespace ModernApplicationFramework.Editor.Implementation
             var span = new SnapshotSpan(e.Before, Span.FromBounds(e.Changes[0].OldPosition, e.Changes[e.Changes.Count - 1].OldEnd));
             var snapshotSpan = new SnapshotSpan(e.After, Span.FromBounds(e.Changes[0].NewPosition, e.Changes[e.Changes.Count - 1].NewEnd));
             var pci = new ChangeInput[1];
-            pci[0].MDelSpan = TextConvert.ToVsTextSpan(span);
+            pci[0].MDelSpan = TextConvert.ToMafTextSpan(span);
             pci[0].MDwFlags = 0;
             pci[0].MPszNewText = Marshal.StringToCoTaskMemUni(snapshotSpan.GetText());
             pci[0].MiOldLen = span.Length;

@@ -305,10 +305,10 @@ namespace ModernApplicationFramework.Basics.Services
                                 if (t.Contains(new GestureScopeMapping(currentScope, inputGesture)))
                                 {
                                     if (shortcut.Command.CanExecute(null))
+                                    {
                                         shortcut.Command.Execute(null);
-
-                                    // Prevents other commands beeing invoked
-                                    e.Handled = true;
+                                        e.Handled = true;
+                                    }
                                     return;
                                 }
                             }

@@ -63,6 +63,9 @@ namespace ModernApplicationFramework.Native.NativeMethods
             }
         }
 
+        [DllImport("user32.dll")]
+        internal static extern short GetAsyncKeyState(ushort virtualKeyCode);
+
         internal static bool IsLeftButtonPressed()
         {
             return IsKeyPressed(1);

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using ModernApplicationFramework.Modules.Editor.Utilities;
@@ -25,11 +26,6 @@ namespace ModernApplicationFramework.Modules.Editor.MultiSelection
         }
 
         private MultiSelectionMouseState MouseState => _mouseState ?? (_mouseState = MultiSelectionMouseState.GetStateForView(_wpfTextView));
-
-        private static VirtualSnapshotPoint StripVirtualSpace(VirtualSnapshotPoint point)
-        {
-            return new VirtualSnapshotPoint(point.Position);
-        }
 
         public override void PreprocessMouseLeftButtonDown(MouseButtonEventArgs e)
         {
@@ -68,11 +64,14 @@ namespace ModernApplicationFramework.Modules.Editor.MultiSelection
                 return false;
             var virtualSnapshotPoint = nullable.Value;
             CommitProvisionalSelection();
-
             if (ctrl)
             {
                 if (true & alt && !shift)
-                    return AddOrRemoveSelections(clickCount, virtualSnapshotPoint, containingLine, triggerPoint, false);
+                {
+                    if (_multiSelectionBroker.IsBoxSelection)
+                        _multiSelectionBroker.BreakBoxSelection();
+                    return AddOrRemoveSelections(clickCount, virtualSnapshotPoint, containingLine, triggerPoint, shift);
+                }
             }
             else if (alt)
             {
@@ -137,9 +136,7 @@ namespace ModernApplicationFramework.Modules.Editor.MultiSelection
                     _multiSelectionBroker.SetBoxSelection(selection1);
                     var multiSelectionBroker = _multiSelectionBroker;
                     var before = selection1;
-                    Selection selection2 = default;
-                    ref var local = ref selection2;
-                    multiSelectionBroker.TryPerformActionOnSelection(before, transformer => transformer.CapturePreferredReferencePoint(), out local);
+                    multiSelectionBroker.TryPerformActionOnSelection(before, transformer => transformer.CapturePreferredReferencePoint(), out _);
                 }
             }
         }
@@ -157,7 +154,7 @@ namespace ModernApplicationFramework.Modules.Editor.MultiSelection
             }
             if (clickCount == 2)
             {
-                _multiSelectionBroker.AddSelection(_multiSelectionBroker.TransformSelection(new Selection(point), PredefinedSelectionTransformations.SelectCurrentWord));
+                _multiSelectionBroker.AddSelection(_multiSelectionBroker.TransformSelection(new Selection(point, PositionAffinity.Successor), PredefinedSelectionTransformations.SelectCurrentWord));
                 return num != 0;
             }
             if (!_multiSelectionBroker.HasMultipleSelections)
@@ -168,10 +165,10 @@ namespace ModernApplicationFramework.Modules.Editor.MultiSelection
 
         public override void PreprocessMouseMove(MouseEventArgs e)
         {
-            e.Handled = PreprocessMouseMove(e.GetPosition(_wpfTextView.VisualElement), e.LeftButton == MouseButtonState.Pressed);
+            e.Handled = PreprocessMouseMove(Keyboard.Modifiers.HasFlag(ModifierKeys.Control), Keyboard.Modifiers.HasFlag(ModifierKeys.Alt), Keyboard.Modifiers.HasFlag(ModifierKeys.Shift), e.GetPosition(_wpfTextView.VisualElement), e.LeftButton == MouseButtonState.Pressed);
         }
 
-        public bool PreprocessMouseMove(Point triggerPoint, bool leftButtonDown = false)
+        public bool PreprocessMouseMove(bool ctrl, bool alt, bool shift, Point triggerPoint, bool leftButtonDown = false)
         {
             triggerPoint.X += _wpfTextView.ViewportLeft;
             triggerPoint.Y += _wpfTextView.ViewportTop;
@@ -186,7 +183,8 @@ namespace ModernApplicationFramework.Modules.Editor.MultiSelection
             if (!nullable.HasValue)
                 return false;
             var point = nullable.Value;
-            if (MouseState.ProvisionalSelection != Selection.Invalid)
+            var provisionalSelection = MouseState.ProvisionalSelection;
+            if ((ctrl & alt || !alt) && provisionalSelection != Selection.Invalid)
             {
                 if (!_wpfTextView.Options.IsVirtualSpaceEnabled())
                 {
@@ -194,6 +192,11 @@ namespace ModernApplicationFramework.Modules.Editor.MultiSelection
                     point = containingLine.GetInsertionBufferPositionFromXCoordinate(xCoordinate);
                 }
                 MoveProvisionalSelection(point, true);
+            }
+            else if (!ctrl & alt)
+            {
+                _multiSelectionBroker.SetBoxSelection(new Selection((!(provisionalSelection != Selection.Invalid) ? (!_multiSelectionBroker.IsBoxSelection ? _multiSelectionBroker.PrimarySelection : _multiSelectionBroker.BoxSelection) : provisionalSelection).AnchorPoint, point));
+                MouseState.ProvisionalSelection = Selection.Invalid;
             }
             else
             {
@@ -219,12 +222,12 @@ namespace ModernApplicationFramework.Modules.Editor.MultiSelection
 
         public override void PreprocessMouseLeftButtonUp(MouseButtonEventArgs e)
         {
-            e.Handled = PreprocessMouseLeftButtonUp(e.GetPosition(_wpfTextView.VisualElement));
+            e.Handled = PreprocessMouseLeftButtonUp(Keyboard.Modifiers.HasFlag(ModifierKeys.Control), Keyboard.Modifiers.HasFlag(ModifierKeys.Alt), Keyboard.Modifiers.HasFlag(ModifierKeys.Shift), e.GetPosition(_wpfTextView.VisualElement));
         }
 
-        public bool PreprocessMouseLeftButtonUp(Point triggerPoint)
+        public bool PreprocessMouseLeftButtonUp(bool ctrl, bool alt, bool shift, Point triggerPoint)
         {
-            return PreprocessMouseMove(triggerPoint);
+            return PreprocessMouseMove(ctrl, alt, shift, triggerPoint);
         }
 
         private VirtualSnapshotPoint? TranslateMousePosition(Point point, out ITextViewLine containingLine)
