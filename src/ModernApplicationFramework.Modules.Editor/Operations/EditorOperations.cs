@@ -277,7 +277,11 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
 
         public void GotoLine(int lineNumber)
         {
-            throw new NotImplementedException();
+            if (lineNumber < 0 || lineNumber > TextView.TextSnapshot.LineCount - 1)
+                throw new ArgumentOutOfRangeException(nameof(lineNumber));
+            TextView.Caret.MoveTo(TextView.TextSnapshot.GetLineFromLineNumber(lineNumber).Start);
+            TextView.Selection.Clear();
+            TextView.ViewScroller.EnsureSpanVisible(new SnapshotSpan(TextView.Caret.Position.BufferPosition, 0));
         }
 
         public bool IncreaseLineIndent()

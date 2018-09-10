@@ -86,6 +86,8 @@
     <Compile Include="Commands\EndSelectionCommandDefinition.cs" />
     <Compile Include="Commands\FirstCharCommandDefinition.cs" />
     <Compile Include="Commands\FirstCharExtendCommandDefinition.cs" />
+    <Compile Include="Commands\GotoBraceCommandDefinition.cs" />
+    <Compile Include="Commands\GotoBraceExtendCommandDefinition.cs" />
     <Compile Include="Commands\GotoLineCommandDefinition.cs" />
     <Compile Include="Commands\HomeCommandDefinition.cs" />
     <Compile Include="Commands\HomeSelectionCommandDefinition.cs" />

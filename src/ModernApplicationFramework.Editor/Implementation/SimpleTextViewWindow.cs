@@ -10,6 +10,9 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.GotoDialog;
+using ModernApplicationFramework.Basics.Services;
+using ModernApplicationFramework.Controls.Dialogs;
 using ModernApplicationFramework.Editor.Interop;
 using ModernApplicationFramework.Editor.NativeMethods;
 using ModernApplicationFramework.Editor.Outlining;
@@ -551,12 +554,8 @@ namespace ModernApplicationFramework.Editor.Implementation
                             _editorOperations.SwapCaretAndAnchor();
                             break;
                         case MafConstants.EditorCommands.GotoLine:
-                            //if (input != IntPtr.Zero)
-                            //{
-                            //    var forNativeVariant = Marshal.GetObjectForNativeVariant(input);
-                            //    if (forNativeVariant is int i)
-                            //        GoToLine(i);
-                            //}
+                            int lineNumber = GetLineNumberFromDialog();
+                            GoToLine(lineNumber);
                             break;
                         case MafConstants.EditorCommands.GotoBrace:
                         case MafConstants.EditorCommands.GotoBraceExt:
@@ -584,6 +583,21 @@ namespace ModernApplicationFramework.Editor.Implementation
             return -2147221248;
         }
 
+        private int GetLineNumberFromDialog()
+        {
+            int lineCount = TextView.TextSnapshot.LineCount;
+            int num = TextView.TextSnapshot.GetLineNumberFromPosition(TextView.Caret.Position.BufferPosition) + 1;
+            var dataSource = new GotoDialogDataSource
+            {
+                MinimumLine = 1,
+                MaximumLine = lineCount,
+                CurrentLine = num
+            };
+            if (WindowHelper.ShowModalElement(new GotoDialog(), dataSource) == 1)
+                return dataSource.CurrentLine - 1;
+            return -1;
+        }
+
         public int InnerQueryStatus(Guid commandGroup, uint cCmds, Olecmd[] prgCmds, IntPtr pCmdText)
         {
             if (IsCommandExecutionProhibited())
@@ -605,6 +619,17 @@ namespace ModernApplicationFramework.Editor.Implementation
                 }
                     
             return 0;
+        }
+
+        public void GoToLine(int lineNumber)
+        {
+            if (lineNumber < 0)
+                return;
+            var textSnapshot = _editorOperations.TextView.TextSnapshot;
+            lineNumber = Math.Min(lineNumber, textSnapshot.LineCount - 1);
+            EnsureSpanExpanded(new SnapshotSpan(textSnapshot.GetLineFromLineNumber(lineNumber).Start, 0));
+            _editorOperations.GotoLine(lineNumber);
+            _editorOperations.MoveToStartOfLineAfterWhiteSpace(false);
         }
 
         public int IsReadOnly()

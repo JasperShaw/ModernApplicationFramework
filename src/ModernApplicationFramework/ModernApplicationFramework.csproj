@@ -77,6 +77,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\Dialogs\GotoDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\Dialogs\TextInputDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -223,7 +227,19 @@
     <Compile Include="Basics\CommandBar\Models\MenuControllerModel.cs" />
     <Compile Include="Basics\CommandBar\Models\SplitButtonModel.cs" />
     <Compile Include="Basics\CommandBar\ItemDefinitions\CommandItemDefinitionBase.cs" />
+    <Compile Include="Basics\GotoDialog\GotoDialogDataSource.cs" />
     <Compile Include="Basics\Threading\JoinableTaskContextMefHost.cs" />
+    <Compile Include="Controls\Dialogs\GotoDialogResourcesResources.Designer.cs">
+      <DependentUpon>GotoDialogResourcesResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Controls\Dialogs\GotoDialog.xaml.cs">
+      <DependentUpon>GotoDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Core\Converters\General\GoToLabelConverter.cs" />
+    <Compile Include="Core\ValidationRules\BindableValidationRule.cs" />
+    <Compile Include="Core\ValidationRules\RangeValidationRule.cs" />
     <Compile Include="Interfaces\Threading\IMafExecutionContextTracker.cs" />
     <Compile Include="Interfaces\Threading\IMafInvokablePrivate.cs" />
     <Compile Include="Basics\Threading\MafTaskContinuationOptions.cs" />
@@ -816,7 +832,7 @@
     <Compile Include="Native\Screen.cs" />
     <Compile Include="Core\Utilities\VisualUtilities.cs" />
     <Compile Include="Controls\Extensions\WindowStyleHelper.cs" />
-    <Compile Include="Native\WindowHelper.cs" />
+    <Compile Include="Basics\Services\WindowHelper.cs" />
     <Compile Include="Interfaces\Utilities\IToolbarCreator.cs" />
     <Compile Include="Interfaces\Services\IKeyGestureService.cs" />
     <Compile Include="Interfaces\ViewModels\IMainWindowViewModel.cs" />
@@ -1072,6 +1088,12 @@
     <EmbeddedResource Include="Basics\Search\Search.Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Search.Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Dialogs\GotoDialogResourcesResources.de.resx" />
+    <EmbeddedResource Include="Controls\Dialogs\GotoDialogResourcesResources.en.resx" />
+    <EmbeddedResource Include="Controls\Dialogs\GotoDialogResourcesResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>GotoDialogResourcesResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Dialogs\DialogResourcesResources.de.resx">
       <LastGenOutput>DialogResourcesResources.de.Designer.cs</LastGenOutput>

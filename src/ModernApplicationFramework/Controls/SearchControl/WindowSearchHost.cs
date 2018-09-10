@@ -6,6 +6,7 @@ using System.Windows;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Search;
 using ModernApplicationFramework.Basics.Search.Internal;
+using ModernApplicationFramework.Basics.Services;
 using ModernApplicationFramework.Interfaces.Controls.Search;
 using ModernApplicationFramework.Interfaces.Search;
 using ModernApplicationFramework.Native;

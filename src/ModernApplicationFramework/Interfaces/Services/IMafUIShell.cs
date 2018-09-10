@@ -22,7 +22,7 @@ namespace ModernApplicationFramework.Interfaces.Services
         /// </summary>
         /// <param name="fEnable">1 when exiting a modal state. 0 when entering a modal state.</param>
         /// <returns>If the method succeeds, it returns 0. If it fails, it returns an error code.</returns>
-        IntPtr EnableModeless(int fEnable);
+        int EnableModeless(int fEnable);
 
         /// <summary>
         /// Centers the provided dialog box HWND on the parent HWND (if provided), or on the main window.

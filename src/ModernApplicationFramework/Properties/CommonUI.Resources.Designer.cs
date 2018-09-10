@@ -106,6 +106,15 @@ namespace ModernApplicationFramework.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Value must be an integer in the range [{0},{1}]..
+        /// </summary>
+        public static string Error_IntegerValueNotInRange {
+            get {
+                return ResourceManager.GetString("Error_IntegerValueNotInRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Illegal Character.
         /// </summary>
         public static string Error_InvalidCharacter {

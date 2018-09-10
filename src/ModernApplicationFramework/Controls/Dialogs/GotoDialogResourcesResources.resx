@@ -117,52 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Category_Edit" xml:space="preserve">
-    <value>Bearbeiten</value>
+  <data name="GotoDialogTitle" xml:space="preserve">
+    <value>Go To Line</value>
   </data>
-  <data name="Category_File" xml:space="preserve">
-    <value>Datei</value>
+  <data name="GoToLineLabel" xml:space="preserve">
+    <value>_Line number ({0} - {1}):</value>
   </data>
-  <data name="Category_Tools" xml:space="preserve">
-    <value>Extras</value>
+  <data name="ButtonOk" xml:space="preserve">
+    <value>OK</value>
   </data>
-  <data name="Category_View" xml:space="preserve">
-    <value>Ansicht</value>
-  </data>
-  <data name="Category_Window" xml:space="preserve">
-    <value>Fenster</value>
-  </data>
-  <data name="Error_InvalidCharacter" xml:space="preserve">
-    <value>Unzulässiges Zeichen</value>
-  </data>
-  <data name="Error_NoNumerEntered" xml:space="preserve">
-    <value>Sie können hier nur eine Zahl eingeben</value>
-  </data>
-  <data name="OptionsDialog_Name" xml:space="preserve">
-    <value>Optionen</value>
-  </data>
-  <data name="OtherContextMenusCategory" xml:space="preserve">
-    <value>Weitere Kontextmenüs</value>
-  </data>
-  <data name="SettingsCategory_Environment" xml:space="preserve">
-    <value>Umgebung</value>
-  </data>
-  <data name="SystemLanguage_Name" xml:space="preserve">
-    <value>Wie Microsoft Windows</value>
-  </data>
-  <data name="ThemeBlue_Name" xml:space="preserve">
-    <value>Blau</value>
-  </data>
-  <data name="KeyGestureService_EnterMutliKeyState" xml:space="preserve">
-    <value>({0}) wurde gedrückt. Es wird auf die zweiter Taste in der Kombination gewartet...</value>
-  </data>
-  <data name="KeyGestureService_MultiKeyNotFound" xml:space="preserve">
-    <value>Die Tastenkombination ({0}) ist kein Befehl.</value>
-  </data>
-  <data name="GlobalGestureScopeName" xml:space="preserve">
-    <value>Global</value>
-  </data>
-  <data name="Error_IntegerValueNotInRange" xml:space="preserve">
-    <value>Der Wert muss eine ganze Zahl im Bereich [{0},{1}] sein.</value>
+  <data name="ButtonCancel" xml:space="preserve">
+    <value>Cancel</value>
   </data>
 </root>

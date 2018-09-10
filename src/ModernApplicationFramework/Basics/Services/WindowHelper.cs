@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,18 +12,33 @@ using ModernApplicationFramework.Native.Platform.Structs;
 using ModernApplicationFramework.Utilities;
 using Point = System.Windows.Point;
 
-namespace ModernApplicationFramework.Native
+namespace ModernApplicationFramework.Basics.Services
 {
-    internal static class WindowHelper
+    public static class WindowHelper
     {
+        public static int ShowModalElement(Window window, INotifyPropertyChanged dataSource)
+        {
+
+            var dialogOwnerHandle = GetDialogOwnerHandle();
+            return ShowModalElement(window, dataSource, dialogOwnerHandle);
+        }
+
+        public static int ShowModalElement(Window window, INotifyPropertyChanged dataSource, IntPtr parent)
+        {
+            if (window == null)
+                throw new COMException("Window cannot be null");
+            window.DataContext = dataSource;
+            var service = IoC.Get<IMafUIShell>();
+            if (service == null)
+                throw new COMException("Shell not found", -2147467259);
+            return ShowModal(window, parent);
+        }
+
         internal static bool GetParentWindowHandle(this Visual element, out IntPtr hwnd)
         {
             hwnd = IntPtr.Zero;
-            var wpfHandle = PresentationSource.FromVisual(element) as HwndSource;
-
-            if (wpfHandle == null)
+            if (!(PresentationSource.FromVisual(element) is HwndSource wpfHandle))
                 return false;
-
             hwnd = User32.GetParent(wpfHandle.Handle);
             if (hwnd == IntPtr.Zero)
                 hwnd = wpfHandle.Handle;
@@ -39,7 +55,7 @@ namespace ModernApplicationFramework.Native
             else
             {
                 if (GetParentWindowHandle(element, out var parentHwnd))
-                    NativeMethods.NativeMethods.SetOwner(new WindowInteropHelper(window).EnsureHandle(), parentHwnd);
+                    NativeMethods.SetOwner(new WindowInteropHelper(window).EnsureHandle(), parentHwnd);
             }
         }
 
@@ -48,7 +64,7 @@ namespace ModernApplicationFramework.Native
             if (window.Owner != null)
                 window.Owner = null;
             else
-                NativeMethods.NativeMethods.SetOwner(new WindowInteropHelper(window).EnsureHandle(), IntPtr.Zero);
+                NativeMethods.SetOwner(new WindowInteropHelper(window).EnsureHandle(), IntPtr.Zero);
         }
 
         public static int ShowModal(Window window)
@@ -75,7 +91,8 @@ namespace ModernApplicationFramework.Native
             if (service == null)
                 throw new COMException("Cannot get IMafUIShell service.", -2147467259);
 
-            var handel = service.EnableModeless(0);
+            var handle = User32.GetActiveWindow();
+            service.EnableModeless(0);
             try
             {
                 var helper = new WindowInteropHelper(window) {Owner = parent};
@@ -102,13 +119,13 @@ namespace ModernApplicationFramework.Native
             }
             finally
             {
-                service.EnableModeless(1, handel);
+                service.EnableModeless(1, handle);
             }
         }
 
         private static RECT CenterRectOnSingleMonitor(RECT parentRect, int childWidth, int childHeight)
         {
-            NativeMethods.NativeMethods.FindMaximumSingleMonitorRectangle(parentRect, out var screenSubRect,
+            NativeMethods.FindMaximumSingleMonitorRectangle(parentRect, out var screenSubRect,
                 out var monitorRect);
             return CenterInRect(screenSubRect, childWidth, childHeight, monitorRect);
         }

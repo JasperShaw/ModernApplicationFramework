@@ -3,7 +3,6 @@ using System.Runtime.CompilerServices;
 
 namespace ModernApplicationFramework.Core
 {
-    //Based on this: http://danrigby.com/2012/04/01/inotifypropertychanged-the-net-4-5-way-revisited/
     /// <inheritdoc />
     /// <summary>
     /// The foundation of a view model implementing the <see cref="T:System.ComponentModel.INotifyPropertyChanged" /> interface

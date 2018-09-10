@@ -162,4 +162,7 @@
   <data name="GlobalGestureScopeName" xml:space="preserve">
     <value>Global</value>
   </data>
+  <data name="Error_IntegerValueNotInRange" xml:space="preserve">
+    <value>Value must be an integer in the range [{0},{1}].</value>
+  </data>
 </root>

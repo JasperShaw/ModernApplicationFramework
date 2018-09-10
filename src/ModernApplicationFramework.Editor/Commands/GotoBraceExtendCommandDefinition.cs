@@ -10,22 +10,22 @@ using ModernApplicationFramework.Input;
 namespace ModernApplicationFramework.Editor.Commands
 {
     [Export(typeof(CommandBarItemDefinition))]
-    internal class GotoLineCommandDefinition : CommandDefinition
+    internal class GotoBraceExtendCommandDefinition : CommandDefinition
     {
         [ImportingConstructor]
-        public GotoLineCommandDefinition() : base(new TextEditCommand(MafConstants.EditorCommands.GotoLine))
+        public GotoBraceExtendCommandDefinition() : base(new TextEditCommand(MafConstants.EditorCommands.GotoBraceExt))
         {
         }
 
-        public override string NameUnlocalized => "GotoLine";
+        public override string NameUnlocalized => "Goto Brace Extend";
         public override string Text => NameUnlocalized;
         public override string ToolTip => Text;
         public override CommandBarCategory Category => CommandBarCategories.EditCategory;
-        public override Guid Id => new Guid("{0D098AF4-1077-4EBD-94C5-C601C0361561}");
+        public override Guid Id => new Guid("{CFEE8D69-67E4-4263-A341-31C03D2478D2}");
 
         public override ReadOnlyCollection<GestureScopeMapping> DefaultGestureScopes => new ReadOnlyCollection<GestureScopeMapping>(new[]
         {
-            new GestureScopeMapping(TextEditorGestureScope.TextEditorScope, new MultiKeyGesture(Key.G, ModifierKeys.Control))
+            new GestureScopeMapping(TextEditorGestureScope.TextEditorScope, new MultiKeyGesture(Key.Oem6, ModifierKeys.Control | ModifierKeys.Shift))
         });
     }
 }

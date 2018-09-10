@@ -47,11 +47,11 @@ namespace ModernApplicationFramework.Basics.Services
         /// <returns>
         /// If the method succeeds, it returns 0. If it fails, it returns an error code.
         /// </returns>
-        public IntPtr EnableModeless(int fEnable)
+        public int EnableModeless(int fEnable)
         {
             var handle = GetActiveWindowHandle();
             EnableModeless(fEnable, handle);
-            return handle;
+            return 0;
         }
 
 
