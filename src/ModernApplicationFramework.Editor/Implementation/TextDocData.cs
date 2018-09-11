@@ -116,6 +116,8 @@ namespace ModernApplicationFramework.Editor.Implementation
             }
         }
 
+        public IEditorOptions EditorOptions => _editorOptions;
+
 
         public int NormalizeNewlines(uint e)
         {

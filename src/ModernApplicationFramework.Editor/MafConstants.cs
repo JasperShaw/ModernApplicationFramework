@@ -65,6 +65,8 @@ namespace ModernApplicationFramework.Editor
             GotoBrace = 53,
             GotoBraceExt = 54,
             // GoBack = 55,         OMITTED
+            // SelectMode = 56,         OMITTED
+            ToggleOverTypeMode = 57,
             Copy = 59,
             SelectCurrentWord = 90,
             ShowContextMenu = 102,

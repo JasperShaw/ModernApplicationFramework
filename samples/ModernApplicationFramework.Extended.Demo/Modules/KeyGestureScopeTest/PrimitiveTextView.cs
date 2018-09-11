@@ -86,7 +86,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.KeyGestureScopeTest
                 _view = IoC.Get<IEditorAdaptersFactoryService>()
                     .CreateTextViewAdapter(service.CreateTextViewRoleSet("INTERACTIVE", "ZOOMABLE", "EDITABLE"));
                 _view.Initialize(TextBuffer as IMafTextLines, IntPtr.Zero,
-                    TextViewInitFlags.Hscroll | TextViewInitFlags.Vscroll);
+                    TextViewInitFlags.Hscroll | TextViewInitFlags.Vscroll | TextViewInitFlags.Overtype);
                 if (_view is ITextEditorPropertyCategoryContainer view)
                 {
                     var guid = DefGuidList.GuidEditPropCategoryViewMasterSettings;
@@ -94,8 +94,9 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.KeyGestureScopeTest
                     {
                         prop.SetProperty(EditPropId.ViewGeneralFontCategory,
                             DefGuidList.TextEditorCategory);
-                        prop.SetProperty(EditPropId.ViewGeneralColorCategory,
+                        prop.SetProperty(EditPropId.ViewGeneralFontCategory,
                             DefGuidList.TextEditorCategory);
+                        prop.SetProperty(EditPropId.ViewCompositeAllCodeWindowDefaults, null);
                     }
                 }
 

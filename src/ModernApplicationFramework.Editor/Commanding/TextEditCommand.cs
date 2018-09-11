@@ -34,8 +34,16 @@ namespace ModernApplicationFramework.Editor.Commanding
                 new Olecmd{cmdID = _commandId}
             };
 
-            return commandTarget.QueryStatus(_commandGroup, (uint) prgCmds.Length, prgCmds, IntPtr.Zero) >= 0 &&
+            var result = commandTarget.QueryStatus(_commandGroup, (uint) prgCmds.Length, prgCmds, IntPtr.Zero) >= 0 &&
                    ((int) prgCmds[0].cmdf & 2) != 0;
+
+
+            if (prgCmds[0].cmdf.HasFlag(Olecmdf.Latched))
+                Checked = true;
+            else
+                Checked = false;
+
+            return result;
         }
 
         protected override void OnExecute(object parameter)

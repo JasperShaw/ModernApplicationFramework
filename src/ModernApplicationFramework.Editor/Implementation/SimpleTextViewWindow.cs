@@ -108,6 +108,27 @@ namespace ModernApplicationFramework.Editor.Implementation
         private DispatcherTimer _tipDimmingTimer;
         private FrameworkElement _zoomControl;
         internal int MaxBraceMatchLinesToSearch;
+        private bool _isCodeWindow;
+        private bool _canChangeLineNumberMarginEnabled;
+        private bool _canChangeCutOrCopyBlankLines;
+        private bool _canChangeConvertTabsToSpace;
+        private bool _canChangeTabSize;
+        private bool _canChangeIndentSize;
+        private bool _canChangeEncoding;
+        private bool _canChangeIsDefaultCodeExpandSelectionEnabled;
+        private bool _canChangeBraceCompletion;
+        private bool _canChangeOverviewWidth;
+        private bool _canChangeShowPreview;
+        private bool _canChangeUseMapMode;
+        private bool _canChangeShowCaretPosition;
+        private bool _canChangeShowChanges;
+        private bool _canChangeShowErrors;
+        private bool _canChangeShowMarks;
+        private bool _canChangeLineEnding;
+        private bool _canChangeRequireFinalNewline;
+        private bool _canChangeAllowTrailingWhitespace;
+        private bool _canChangeHighlightCurrentLineEnabled;
+        private bool _canChangeShowAnnotations;
 
         public delegate void ChangeScrollInfoEventHandler(IMafTextView pView, int iBar, int iMinUnit, int iMaxUnits,
             int iVisibleUnits, int iFirstVisibleUnit);
@@ -561,6 +582,13 @@ namespace ModernApplicationFramework.Editor.Implementation
                         case MafConstants.EditorCommands.GotoBraceExt:
                             GotoMatchingBrace(54U == commandId);
                             break;
+                        case MafConstants.EditorCommands.ToggleOverTypeMode:
+                            if (_canChangeOvertypeMode)
+                            {
+                                _editorOptions.SetOptionValue(DefaultTextViewOptions.OverwriteModeId, !_editorOptions.GetOptionValue(DefaultTextViewOptions.OverwriteModeId));
+                                UpdateToolsOptionsPreferences(DefaultTextViewOptions.OverwriteModeId.Name);
+                            }
+                            break;
                         default:
                             result = -2147221248;
                             break;
@@ -581,6 +609,11 @@ namespace ModernApplicationFramework.Editor.Implementation
             }
 
             return -2147221248;
+        }
+
+        private void UpdateToolsOptionsPreferences(string optionName)
+        {
+
         }
 
         private int GetLineNumberFromDialog()
@@ -608,7 +641,12 @@ namespace ModernApplicationFramework.Editor.Implementation
                     switch (prgCmds[i].cmdID)
                     {
                         case 57:
-                            //TODO:
+                            prgCmds[i].cmdf = Olecmdf.Supported | Olecmdf.Enabled;
+                            if (_editorOptions.GetOptionValue(DefaultTextViewOptions.OverwriteModeId))
+                            {
+                                prgCmds[i].cmdf |= Olecmdf.Latched;
+                            }
+
                             break;
                         default:
                             prgCmds[i].cmdf = prgCmds[i].cmdID <= 0 || prgCmds[i].cmdID >= 145
@@ -905,15 +943,115 @@ namespace ModernApplicationFramework.Editor.Implementation
         {
             switch (idProp)
             {
+                case EditPropId.ViewLangOptVirtualSpace:
+                    if (!(pvar is bool vflag))
+                        return -2147024809;
+                    if (vflag && (_editorOptions.GetOptionValue(DefaultTextViewOptions.WordWrapStyleId) & WordWrapStyles.WordWrap) != WordWrapStyles.None)
+                        return -2147467259;
+                    _canChangeUseVirtualSpace = false;
+                    _editorOptions.SetOptionValue(DefaultTextViewOptions.UseVirtualSpaceId, vflag);
+                    return 0;
+                case EditPropId.ViewLangOptWordWrap:
+                    if (!(pvar is bool wflag))
+                        return -2147024809;
+                    _canChangeWordWrap = false;
+                    if (wflag)
+                    {
+                        if (_editorOptions.GetOptionValue(DefaultTextViewOptions.UseVirtualSpaceId))
+                            return -2147467259;
+                        _editorOptions.SetOptionValue(DefaultTextViewOptions.WordWrapStyleId,
+                            _editorOptions.GetOptionValue(DefaultTextViewOptions.WordWrapStyleId) |
+                            WordWrapStyles.WordWrap);
+                    }
+                    else
+                        _editorOptions.SetOptionValue(DefaultTextViewOptions.WordWrapStyleId,
+                            _editorOptions.GetOptionValue(DefaultTextViewOptions.WordWrapStyleId) &
+                            ~WordWrapStyles.WordWrap);
+
+                    return 0;
+                case EditPropId.ViewGlobalOptAutoScrollCaretOnTextEntry:
+                    _editorOptions.SetOptionValue(DefaultTextViewOptions.AutoScrollId, (bool)pvar);
+                    return 0;
+                case EditPropId.ViewGlobalOptSelectionMargin:
+                    if (!(pvar is bool sflag))
+                        return -2147024809;
+                    _canChangeSelectionMarginEnabled = false;
+                    _editorOptions.SetOptionValue(DefaultTextViewHostOptions.SelectionMarginId, sflag);
+                    return 0;
+                case EditPropId.ViewGlobalOptOvertype:
+                    if (!(pvar is bool oflag))
+                        return -2147024809;
+                    _canChangeOvertypeMode = false;
+                    _editorOptions.SetOptionValue(DefaultTextViewOptions.OverwriteModeId, oflag);
+                    return 0;
                 case EditPropId.ViewGeneralFontCategory:
                     FontsAndColorsCategory = FontsAndColorsCategory.SetFontCategory(new Guid(pvar.ToString()));
                     return 0;
                 case EditPropId.ViewGeneralColorCategory:
                     FontsAndColorsCategory = FontsAndColorsCategory.SetColorCategory(new Guid(pvar.ToString()));
                     return 0;
+                case EditPropId.ViewCompositeAllCodeWindowDefaults:
+                    SetPropertiesToCodeWindowDefaults();
+                    return 0;
                 default:
                     return -2147024809;
             }
+        }
+
+        internal void SetPropertiesToCodeWindowDefaults()
+        {
+            _isCodeWindow = true;
+            FontsAndColorsCategory = new FontsAndColorsCategory(ImplGuidList.GuidDefaultFileType, DefGuidList.TextEditorCategory, DefGuidList.TextEditorCategory);
+            _canChangeUseVirtualSpace = true;
+            _canChangeOvertypeMode = true;
+            _canChangeTrackChanges = true;
+            _canChangeGlyphMarginEnabled = true;
+            _canChangeSelectionMarginEnabled = true;
+            _canChangeLineNumberMarginEnabled = true;
+            _canChangeCutOrCopyBlankLines = true;
+            _canChangeWordWrap = true;
+            _canChangeIndentStyle = true;
+            _canChangeConvertTabsToSpace = true;
+            _canChangeTabSize = true;
+            _canChangeIndentSize = true;
+            _canChangeEncoding = true;
+            _canChangeLineEnding = true;
+            _canChangeRequireFinalNewline = true;
+            _canChangeAllowTrailingWhitespace = true;
+            _canChangeVisibleWhitespace = true;
+            _canChangeHotURLs = true;
+            _canChangeHighlightCurrentLineEnabled = true;
+            _canChangeShowHorizontalScrollBar = true;
+            _canChangeShowVerticalScrollBar = true;
+            _canChangeShowAnnotations = true;
+            _canChangeShowChanges = true;
+            _canChangeShowMarks = true;
+            _canChangeShowErrors = true;
+            _canChangeShowCaretPosition = true;
+            _canChangeUseMapMode = true;
+            _canChangeShowPreview = true;
+            _canChangeOverviewWidth = true;
+            _canChangeBraceCompletion = true;
+            _canChangeIsDefaultCodeExpandSelectionEnabled = true;
+            RaiseGoBackEvents = true;
+            SupressUpdateStatusBarEvents = false;
+            IndentStyle = IndentStyle.None;
+            _editorOptions.SetOptionValue(DefaultTextViewOptions.UseVirtualSpaceId, false);
+            _editorOptions.SetOptionValue(DefaultTextViewOptions.OverwriteModeId, false);
+            _editorOptions.SetOptionValue(DefaultTextViewOptions.CutOrCopyBlankLineIfNoSelectionId, true);
+            _editorOptions.SetOptionValue(DefaultTextViewHostOptions.GlyphMarginId, true);
+            _editorOptions.SetOptionValue(DefaultTextViewHostOptions.SelectionMarginId, true);
+            //_editorOptions.SetOptionValue(DefaultTextViewHostOptions.LineNumberMarginId, false);
+            _editorOptions.SetOptionValue(DefaultTextViewHostOptions.HorizontalScrollBarId, true);
+            _editorOptions.SetOptionValue(DefaultTextViewHostOptions.VerticalScrollBarId, true);
+            _editorOptions.SetOptionValue(DefaultTextViewOptions.WordWrapStyleId, WordWrapStyles.AutoIndent);
+            _editorOptions.SetOptionValue(DefaultTextViewOptions.ViewProhibitUserInputId, false);
+            _editorOptions.SetOptionValue(DefaultTextViewOptions.UseVisibleWhitespaceId, false);
+            _editorOptions.SetOptionValue(DefaultTextViewOptions.DisplayUrlsAsHyperlinksId, true);
+            _editorOptions.SetOptionValue(DefaultViewOptions.EnableHighlightCurrentLineId, true);
+            _editorOptions.SetOptionValue(DefaultOptions.ConvertTabsToSpacesOptionId, true);
+            if (TextDocData != null && TextDocData.EditorOptions != null)
+                TextDocData.EditorOptions.SetOptionValue<bool>(DefaultOptions.ConvertTabsToSpacesOptionId, true);
         }
 
         internal void StartOutlining(bool removeAdhoc)
@@ -1279,9 +1417,6 @@ namespace ModernApplicationFramework.Editor.Implementation
             if (CurrentInitializationState != InitializationState.Sited)
                 FailInitializationAndThrow("Initialize is being called before the adapter has been sited.");
             _initFlags = flags;
-
-            var t = ((int) flags & 32768) != 0;
-
             ShimHost.Initialize(((int) flags & 32768) == 0, hwndParent);
             ShimHost.NowVisible += ShimHostNowVisible;
             Init_SetBuffer(buffer);

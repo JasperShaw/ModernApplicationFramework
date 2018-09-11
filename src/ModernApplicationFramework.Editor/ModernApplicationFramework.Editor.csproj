@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commanding\ActiveTextViewState.cs" />
+    <Compile Include="Commands\ToggleOverTypeModeCommandDefinition.cs" />
     <Compile Include="Commands\BeginLineCommandDefinition.cs" />
     <Compile Include="Commands\BeginLineExtendCommandDefinition.cs" />
     <Compile Include="Commands\BottomLineCommandDefinition.cs" />

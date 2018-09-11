@@ -303,6 +303,7 @@
     <Compile Include="Ui\Editor\DragDrop\IDropHandler.cs" />
     <Compile Include="Ui\Editor\DragDrop\IDropHandlerProvider.cs" />
     <Compile Include="Ui\Editor\EnsureSpanVisibleOptions.cs" />
+    <Compile Include="Ui\Editor\GlyphMarginEnabled.cs" />
     <Compile Include="Ui\Editor\GridCellLengthAttribute.cs" />
     <Compile Include="Ui\Editor\GridUnitTypeAttribute.cs" />
     <Compile Include="Ui\Editor\HighlightCurrentLineOption.cs" />
