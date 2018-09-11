@@ -23,6 +23,8 @@ namespace ModernApplicationFramework.Editor.Commands
         public override CommandBarCategory Category => CommandBarCategories.EditCategory;
         public override Guid Id => new Guid("{C27D02A8-F7E5-45CD-A325-D64EA98C5525}");
 
+        public override bool Checkable => true;
+
         public override ReadOnlyCollection<GestureScopeMapping> DefaultGestureScopes => new ReadOnlyCollection<GestureScopeMapping>(new[]
         {
             new GestureScopeMapping(TextEditorGestureScope.TextEditorScope, new MultiKeyGesture(Key.Insert))
