@@ -67,7 +67,9 @@ namespace ModernApplicationFramework.Editor
             // GoBack = 55,         OMITTED
             // SelectMode = 56,         OMITTED
             ToggleOverTypeMode = 57,
+            Cut = 58,
             Copy = 59,
+            Paste = 60,
             SelectCurrentWord = 90,
             ShowContextMenu = 102,
             OpenUrl = 113,

@@ -250,6 +250,7 @@
     <Compile Include="Ui\Differencing\IDifferenceViewerFactoryService.cs" />
     <Compile Include="Ui\Editor\CaretWidthOption.cs" />
     <Compile Include="Ui\Editor\CollapseHintAdornmentControl.cs" />
+    <Compile Include="Ui\Editor\Commanding\Commands\CutCommandArgs.cs" />
     <Compile Include="Ui\Editor\Commanding\Commands\DeleteKeyCommandArgs.cs" />
     <Compile Include="Ui\Editor\Commanding\Commands\BackTabKeyCommandArgs.cs" />
     <Compile Include="Ui\Editor\Commanding\Commands\DocumentEndCommandArgs.cs" />
@@ -261,6 +262,7 @@
     <Compile Include="Ui\Editor\Commanding\Commands\LineStartExtendCommandArgs.cs" />
     <Compile Include="Ui\Editor\Commanding\Commands\PageDownKeyCommandArgs.cs" />
     <Compile Include="Ui\Editor\Commanding\Commands\PageUpKeyCommandArgs.cs" />
+    <Compile Include="Ui\Editor\Commanding\Commands\PasteCommandArgs.cs" />
     <Compile Include="Ui\Editor\Commanding\Commands\SelectAllCommandArgs.cs" />
     <Compile Include="Ui\Editor\Commanding\Commands\TabKeyCommandArgs.cs" />
     <Compile Include="Ui\Editor\Commanding\Commands\CopyCommandArgs.cs" />

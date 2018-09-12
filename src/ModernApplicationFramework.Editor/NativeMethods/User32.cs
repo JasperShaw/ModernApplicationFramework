@@ -11,7 +11,8 @@ namespace ModernApplicationFramework.Editor.NativeMethods
         [DllImport("user32.dll")]
         public static extern IntPtr GetWindow(IntPtr hwnd, int nCmd);
 
-
+        [DllImport("user32.dll")]
+        public static extern int GetPriorityClipboardFormat(uint[] formatPriorityList, int formatCount);
 
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]

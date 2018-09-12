@@ -126,8 +126,11 @@
     <Compile Include="Commands\TabCommandDefinition.cs" />
     <Compile Include="Commands\RightCommandDefinition.cs" />
     <Compile Include="Commands\UpExtensionCommandDefinition.cs" />
+    <Compile Include="Implementation\CaretMoveType.cs" />
+    <Compile Include="Implementation\ClipboardDataFormats.cs" />
     <Compile Include="Implementation\CommandHandlerServiceAdapter_Execute.cs" />
     <Compile Include="Implementation\CommandHandlerServiceAdapter_Query.cs" />
+    <Compile Include="Implementation\GoBackFlags.cs" />
     <Compile Include="Implementation\PairMatching.cs" />
     <Compile Include="KeyGestureScope\DefaultEditorKeyGestureScope.cs" />
     <Compile Include="KeyGestureScope\GestureScopeCreationListener.cs" />
@@ -149,6 +152,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="NativeMethods\Ole32.cs" />
     <Compile Include="TextEditorGestureScope.cs" />
     <Compile Include="TextManager\ChangeInput.cs" />
     <Compile Include="Interop\ColorableItemInfo.cs" />

@@ -184,15 +184,15 @@ namespace ModernApplicationFramework.Editor.Implementation
                 case MafConstants.EditorCommands.SelectAll:
                     ExecuteSelectAllCommand(next);
                     return 0;
-                //case VSConstants.VSStd2KCmdID.CUT:
-                //    ExecuteCutCommand(next);
-                //    return 0;
+                case MafConstants.EditorCommands.Cut:
+                    ExecuteCutCommand(next);
+                    return 0;
                 case MafConstants.EditorCommands.Copy:
                     ExecuteCopyCommand(next);
                     return 0;
-                //case VSConstants.VSStd2KCmdID.PASTE:
-                //    ExecutePasteCommand(next);
-                //    return 0;
+                case MafConstants.EditorCommands.Paste:
+                    ExecutePasteCommand(next);
+                    return 0;
                 //case VSConstants.VSStd2KCmdID.OPENLINEABOVE:
                 //    ExecuteOpenLineAboveCommand(next);
                 //    return 0;
@@ -370,12 +370,12 @@ namespace ModernApplicationFramework.Editor.Implementation
                     return QueryPageDownKeyStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
                 case (uint)MafConstants.EditorCommands.SelectAll:
                     return QuerySelectAllStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
-                //case VSConstants.VSStd2KCmdID.CUT:
-                //    return QueryCutStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
+                case (uint)MafConstants.EditorCommands.Cut:
+                    return QueryCutStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
                 case (uint)MafConstants.EditorCommands.Copy:
                     return QueryCopyStatus(pguidCmdGroup, commandCount, prgCmds, commandText);
-                //case VSConstants.VSStd2KCmdID.PASTE:
-                //    return QueryPasteStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
+                case (uint)MafConstants.EditorCommands.Paste:
+                    return QueryPasteStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
                 //case VSConstants.VSStd2KCmdID.OPENLINEABOVE:
                 //    return QueryOpenLineAboveStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
                 //case VSConstants.VSStd2KCmdID.OPENLINEBELOW:

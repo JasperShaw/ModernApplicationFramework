@@ -147,5 +147,15 @@ namespace ModernApplicationFramework.Editor.Implementation
             var nextCommandHandler = next;
             commandHandlerService.Execute((view, buffer) => new CopyCommandArgs(view, buffer), nextCommandHandler);
         }
+
+        private void ExecuteCutCommand(Action next)
+        {
+            _commandHandlerService.Execute((view, buffer) => new CutCommandArgs(view, buffer), next);
+        }
+
+        private void ExecutePasteCommand(Action next)
+        {
+            _commandHandlerService.Execute((view, buffer) => new PasteCommandArgs(view, buffer), next);
+        }
     }
 }

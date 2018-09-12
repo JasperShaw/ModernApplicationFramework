@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
+using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,6 +23,7 @@ using ModernApplicationFramework.Editor.TextManager;
 using ModernApplicationFramework.Imaging;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Services;
+using ModernApplicationFramework.Native;
 using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Text.Logic;
 using ModernApplicationFramework.Text.Logic.Editor;
@@ -30,6 +34,7 @@ using ModernApplicationFramework.Text.Ui.Operations;
 using ModernApplicationFramework.Text.Ui.Outlining;
 using ModernApplicationFramework.Utilities;
 using ModernApplicationFramework.Utilities.Core;
+using IDataObject = System.Runtime.InteropServices.ComTypes.IDataObject;
 
 namespace ModernApplicationFramework.Editor.Implementation
 {
@@ -39,6 +44,8 @@ namespace ModernApplicationFramework.Editor.Implementation
         IReadOnlyViewNotification, ITextEditorPropertyCategoryContainer
     {
         internal static bool _disableSettingImeCompositionWindowOptions = false;
+        internal static string ClipboardLineBasedCutCopyTag = "EditorOperationsLineCutCopyClipboardTag";
+        internal static string BoxSelectionCutCopyTag = "ColumnSelect";
 
         private static int _execCount = 0;
         private static int _innerExecCount = 0;
@@ -208,13 +215,8 @@ namespace ModernApplicationFramework.Editor.Implementation
             }
         }
 
-        internal VirtualSnapshotPoint? CaretInDataSnapshot
-        {
-            get
-            {
-                return DataPointFromViewPoint(TextView.Caret.Position.VirtualBufferPosition);
-            }
-        }
+        internal VirtualSnapshotPoint? CaretInDataSnapshot =>
+            DataPointFromViewPoint(TextView.Caret.Position.VirtualBufferPosition);
 
         internal bool RaiseGoBackEvents { get; set; }
 
@@ -290,13 +292,17 @@ namespace ModernApplicationFramework.Editor.Implementation
         public int SetSelection(int iAnchorLine, int iAnchorCol, int iEndLine, int iEndCol)
         {
             Init_OnActivation();
-            if (!TextConvert.TryToVirtualSnapshotPoint(DataTextSnapshot, iAnchorLine, iAnchorCol, out var virtualPoint1) || !TextConvert.TryToVirtualSnapshotPoint(DataTextSnapshot, iEndLine, iEndCol, out var virtualPoint2))
+            if (!TextConvert.TryToVirtualSnapshotPoint(DataTextSnapshot, iAnchorLine, iAnchorCol,
+                    out var virtualPoint1) ||
+                !TextConvert.TryToVirtualSnapshotPoint(DataTextSnapshot, iEndLine, iEndCol, out var virtualPoint2))
                 return -2147024809;
             var anchorPoint = ViewPointFromDataPoint(virtualPoint1);
             var activePoint = ViewPointFromDataPoint(virtualPoint2);
-            EnsureSpanExpanded(anchorPoint.Position <= activePoint.Position ? new SnapshotSpan(anchorPoint.Position, activePoint.Position) :
-                new SnapshotSpan(activePoint.Position, anchorPoint.Position));
-            _editorOperations.SelectAndMoveCaret(anchorPoint, activePoint, TextView.Selection.Mode, EnsureSpanVisibleOptions.None);
+            EnsureSpanExpanded(anchorPoint.Position <= activePoint.Position
+                ? new SnapshotSpan(anchorPoint.Position, activePoint.Position)
+                : new SnapshotSpan(activePoint.Position, anchorPoint.Position));
+            _editorOperations.SelectAndMoveCaret(anchorPoint, activePoint, TextView.Selection.Mode,
+                EnsureSpanVisibleOptions.None);
             return 0;
         }
 
@@ -493,9 +499,6 @@ namespace ModernApplicationFramework.Editor.Implementation
                         case MafConstants.EditorCommands.LastCharExt:
                             _editorOperations.MoveToLastNonWhiteSpaceCharacter(true);
                             break;
-                        case MafConstants.EditorCommands.Copy:
-                            Copy();
-                            break;
                         case MafConstants.EditorCommands.ShowContextMenu:
                             ShowContextMenu(input, ref result);
                             break;
@@ -585,9 +588,20 @@ namespace ModernApplicationFramework.Editor.Implementation
                         case MafConstants.EditorCommands.ToggleOverTypeMode:
                             if (_canChangeOvertypeMode)
                             {
-                                _editorOptions.SetOptionValue(DefaultTextViewOptions.OverwriteModeId, !_editorOptions.GetOptionValue(DefaultTextViewOptions.OverwriteModeId));
+                                _editorOptions.SetOptionValue(DefaultTextViewOptions.OverwriteModeId,
+                                    !_editorOptions.GetOptionValue(DefaultTextViewOptions.OverwriteModeId));
                                 UpdateToolsOptionsPreferences(DefaultTextViewOptions.OverwriteModeId.Name);
                             }
+
+                            break;
+                        case MafConstants.EditorCommands.Copy:
+                            Copy();
+                            break;
+                        case MafConstants.EditorCommands.Cut:
+                            Cut();
+                            break;
+                        case MafConstants.EditorCommands.Paste:
+                            Paste();
                             break;
                         default:
                             result = -2147221248;
@@ -604,7 +618,7 @@ namespace ModernApplicationFramework.Editor.Implementation
 
                 return DefaultErrorHandler(result, ref commandGroup);
             }
-            catch
+            catch (Exception e)
             {
             }
 
@@ -648,6 +662,9 @@ namespace ModernApplicationFramework.Editor.Implementation
                             }
 
                             break;
+                        case 60:
+                            prgCmds[i].cmdf = CanPaste();
+                            break;
                         default:
                             prgCmds[i].cmdf = prgCmds[i].cmdID <= 0 || prgCmds[i].cmdID >= 145
                                 ? Olecmdf.None
@@ -655,7 +672,7 @@ namespace ModernApplicationFramework.Editor.Implementation
                             break;
                     }
                 }
-                    
+
             return 0;
         }
 
@@ -684,9 +701,11 @@ namespace ModernApplicationFramework.Editor.Implementation
                 InteropHelper.SetOutParameter(out piColumn, 0);
                 return -2147467259;
             }
+
             var containingLine = caretInDataSnapshot.Value.Position.GetContainingLine();
             InteropHelper.SetOutParameter(out piLine, containingLine.LineNumber);
-            InteropHelper.SetOutParameter(out piColumn, caretInDataSnapshot.Value.Position - containingLine.Start + caretInDataSnapshot.Value.VirtualSpaces);
+            InteropHelper.SetOutParameter(out piColumn,
+                caretInDataSnapshot.Value.Position - containingLine.Start + caretInDataSnapshot.Value.VirtualSpaces);
             return 0;
         }
 
@@ -700,7 +719,7 @@ namespace ModernApplicationFramework.Editor.Implementation
                     case MafConstants.EditorCommands.TypeChar:
                     case MafConstants.EditorCommands.Backspace:
                     case MafConstants.EditorCommands.Return:
-                    //case VSConstants.VSStd2KCmdID.CANCEL:
+                        //case VSConstants.VSStd2KCmdID.CANCEL:
                         return true;
                 }
 
@@ -732,7 +751,8 @@ namespace ModernApplicationFramework.Editor.Implementation
                 return -2147024809;
             VirtualSnapshotPoint virtualSnapshotPoint = ViewPointFromDataPoint(virtualPoint);
             EnsureSpanExpanded(new SnapshotSpan(virtualSnapshotPoint.Position, virtualSnapshotPoint.Position));
-            _editorOperations.SelectAndMoveCaret(virtualSnapshotPoint, virtualSnapshotPoint, TextView.Selection.Mode, EnsureSpanVisibleOptions.MinimumScroll);
+            _editorOperations.SelectAndMoveCaret(virtualSnapshotPoint, virtualSnapshotPoint, TextView.Selection.Mode,
+                EnsureSpanVisibleOptions.MinimumScroll);
             return 0;
         }
 
@@ -858,7 +878,7 @@ namespace ModernApplicationFramework.Editor.Implementation
 
         internal SnapshotPoint ViewPointFromDataPoint(SnapshotPoint dataPoint)
         {
-            SnapshotPoint? snapshot = TextView.BufferGraph.MapUpToSnapshot(dataPoint, PointTrackingMode.Positive,
+            var snapshot = TextView.BufferGraph.MapUpToSnapshot(dataPoint, PointTrackingMode.Positive,
                 PositionAffinity.Successor, TextView.TextSnapshot);
             if (!snapshot.HasValue)
                 return new SnapshotPoint(TextView.TextSnapshot, 0);
@@ -867,7 +887,7 @@ namespace ModernApplicationFramework.Editor.Implementation
 
         internal void EnsureSpanExpanded(SnapshotSpan span)
         {
-            if (TextView.TextViewModel.IsPointInVisualBuffer(span.Start, PositionAffinity.Successor) && 
+            if (TextView.TextViewModel.IsPointInVisualBuffer(span.Start, PositionAffinity.Successor) &&
                 (span.IsEmpty || TextView.TextViewModel.IsPointInVisualBuffer(span.End, PositionAffinity.Predecessor)))
                 return;
             EnsureSpansExpanded(new NormalizedSnapshotSpanCollection(span));
@@ -946,7 +966,8 @@ namespace ModernApplicationFramework.Editor.Implementation
                 case EditPropId.ViewLangOptVirtualSpace:
                     if (!(pvar is bool vflag))
                         return -2147024809;
-                    if (vflag && (_editorOptions.GetOptionValue(DefaultTextViewOptions.WordWrapStyleId) & WordWrapStyles.WordWrap) != WordWrapStyles.None)
+                    if (vflag && (_editorOptions.GetOptionValue(DefaultTextViewOptions.WordWrapStyleId) &
+                                  WordWrapStyles.WordWrap) != WordWrapStyles.None)
                         return -2147467259;
                     _canChangeUseVirtualSpace = false;
                     _editorOptions.SetOptionValue(DefaultTextViewOptions.UseVirtualSpaceId, vflag);
@@ -970,7 +991,7 @@ namespace ModernApplicationFramework.Editor.Implementation
 
                     return 0;
                 case EditPropId.ViewGlobalOptAutoScrollCaretOnTextEntry:
-                    _editorOptions.SetOptionValue(DefaultTextViewOptions.AutoScrollId, (bool)pvar);
+                    _editorOptions.SetOptionValue(DefaultTextViewOptions.AutoScrollId, (bool) pvar);
                     return 0;
                 case EditPropId.ViewGlobalOptSelectionMargin:
                     if (!(pvar is bool sflag))
@@ -1001,7 +1022,8 @@ namespace ModernApplicationFramework.Editor.Implementation
         internal void SetPropertiesToCodeWindowDefaults()
         {
             _isCodeWindow = true;
-            FontsAndColorsCategory = new FontsAndColorsCategory(ImplGuidList.GuidDefaultFileType, DefGuidList.TextEditorCategory, DefGuidList.TextEditorCategory);
+            FontsAndColorsCategory = new FontsAndColorsCategory(ImplGuidList.GuidDefaultFileType,
+                DefGuidList.TextEditorCategory, DefGuidList.TextEditorCategory);
             _canChangeUseVirtualSpace = true;
             _canChangeOvertypeMode = true;
             _canChangeTrackChanges = true;
@@ -1050,8 +1072,7 @@ namespace ModernApplicationFramework.Editor.Implementation
             _editorOptions.SetOptionValue(DefaultTextViewOptions.DisplayUrlsAsHyperlinksId, true);
             _editorOptions.SetOptionValue(DefaultViewOptions.EnableHighlightCurrentLineId, true);
             _editorOptions.SetOptionValue(DefaultOptions.ConvertTabsToSpacesOptionId, true);
-            if (TextDocData != null && TextDocData.EditorOptions != null)
-                TextDocData.EditorOptions.SetOptionValue<bool>(DefaultOptions.ConvertTabsToSpacesOptionId, true);
+            TextDocData?.EditorOptions?.SetOptionValue(DefaultOptions.ConvertTabsToSpacesOptionId, true);
         }
 
         internal void StartOutlining(bool removeAdhoc)
@@ -1102,6 +1123,7 @@ namespace ModernApplicationFramework.Editor.Implementation
                     singlePoint = span1.Start;
                 }
             }
+
             _outliningManager.ExpandAll(total, collapsible =>
             {
                 var span2 = collapsible.Extent.GetSpan(total.Snapshot);
@@ -1119,12 +1141,38 @@ namespace ModernApplicationFramework.Editor.Implementation
             connectionPointContainerHelper.AddEventType<IMafTextViewEvents>();
         }
 
+        protected virtual bool ClipboardContainsTextOrHtml()
+        {
+            return User32.GetPriorityClipboardFormat(new[]
+            {
+                1U,
+                13U,
+                ClipboardDataFormats.HTMLFormatId
+            }, 3) > 0;
+        }
+
         private static void CanCopy(object sender, CanExecuteRoutedEventArgs e)
+        {
+            CanExecuteApplicationCommand(MafConstants.EditorCommands.Copy, sender, e);
+        }
+
+        private static void CanCut(object sender, CanExecuteRoutedEventArgs e)
+        {
+            CanExecuteApplicationCommand(MafConstants.EditorCommands.Cut, sender, e);
+        }
+
+        private static void CanPaste(object sender, CanExecuteRoutedEventArgs e)
+        {
+            CanExecuteApplicationCommand(MafConstants.EditorCommands.Paste, sender, e);
+        }
+
+        private static void CanExecuteApplicationCommand(MafConstants.EditorCommands command, object sender,
+            CanExecuteRoutedEventArgs e)
         {
             var guid = MafConstants.EditorCommandGroup;
             var prgCmds = new[]
             {
-                new Olecmd {cmdID = (uint) MafConstants.EditorCommands.Copy}
+                new Olecmd {cmdID = (uint) command}
             };
 
             if (!(sender is IPropertyOwner textView))
@@ -1172,10 +1220,161 @@ namespace ModernApplicationFramework.Editor.Implementation
 
         private static void OnCopy(object sender, ExecutedRoutedEventArgs e)
         {
+            OnApplicationCommand(MafConstants.EditorCommands.Copy, sender, e);
+        }
+
+        private static void OnCut(object sender, ExecutedRoutedEventArgs e)
+        {
+            OnApplicationCommand(MafConstants.EditorCommands.Cut, sender, e);
+        }
+
+        private static void OnPaste(object sender, ExecutedRoutedEventArgs e)
+        {
+            OnApplicationCommand(MafConstants.EditorCommands.Paste, sender, e);
+        }
+
+        private void Paste()
+        {
+            object dataObj = null;
+            try
+            {
+                OleGetClipboard(out dataObj);
+            }
+            catch (ExternalException)
+            {
+            }
+            catch (OutOfMemoryException)
+            {
+            }
+
+            Paste((System.Runtime.InteropServices.ComTypes.IDataObject) dataObj);
+        }
+
+        private bool Paste(System.Runtime.InteropServices.ComTypes.IDataObject dataObject)
+        {
+
+            //TODO: undo stuff
+            //using (var transaction = _undoManager.TextBufferUndoHistory.CreateTransaction(Strings.Paste))
+            //{
+            _editorOperations.AddBeforeTextBufferChangePrimitive();
+            var currentSnapshot = TextDocData.DataTextBuffer.CurrentSnapshot;
+            var flag = true;
+            try
+            {
+                if (dataObject != null)
+                {
+                    if ((GetDataPresent(dataObject, ClipboardDataFormats.ClipboardLineBasedCutCopyTagId)
+                            ? 1
+                            : (GetDataPresent(dataObject, ClipboardDataFormats.BoxSelectionCutCopyTagId) ? 1 : 0)) == 0)
+                    {
+                        if (DataObjectHelper.ContainsText(dataObject, TextDocData.ActualLanguageServiceID, TextDocData))
+                        {
+                            string textToInsert = DataObjectHelper.GetText(dataObject, TextDocData.ActualLanguageServiceID, TextDocData);
+                            if (!string.IsNullOrEmpty(textToInsert))
+                            {
+                                PasteTextAndAddGoBackLocations(() => _editorOperations.InsertText(textToInsert));
+                                flag = false;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (ExternalException)
+            {
+            }
+            catch (OutOfMemoryException)
+            {
+            }
+            if (flag)
+                PasteTextAndAddGoBackLocations(() => _editorOperations.Paste());
+            if (currentSnapshot != TextDocData.DataTextBuffer.CurrentSnapshot)
+            {
+                //if (service != null)
+                //{
+                //    INormalizedTextChangeCollection changes = currentSnapshot.Version.Changes;
+                //    TextSpan[] ptsInsertedText = new TextSpan[1]
+                //    {
+                //        TextConvert.ToVsTextSpan(currentSnapshot.Version.Next.CreateTrackingSpan(Span.FromBounds(changes[0].NewSpan.Start, changes[changes.Count - 1].NewSpan.End), SpanTrackingMode.EdgeInclusive).GetSpan(this._textDocData.DataTextBuffer.CurrentSnapshot))
+                //    };
+                //    service.DataObjectRendered((IVsTextLines)this._textDocData, 4U, ptsInsertedText);
+                //}
+                _editorOperations.AddAfterTextBufferChangePrimitive();
+                //transaction.Complete();
+                return true;
+            }
+            //transaction.Cancel();
+            return false;
+            //}
+        }
+
+        private void PasteTextAndAddGoBackLocations(Func<bool> pasteAction)
+        {
+            var start = TextView.Selection.Start;
+            int lengthForVirtualSpace = GetWhitespaceLengthForVirtualSpace(start);
+            if (!pasteAction())
+                return;
+            //TODO: go back stuff
+            //SetGoBackMarker(Math.Min(start.Position.Position + lengthForVirtualSpace, TextView.TextSnapshot.Length),
+            //    CaretMoveType.DestructiveCaretMove | CaretMoveType.NonMergeable, GoBackFlags.ForceMerge);
+            //SetGoBackMarker(TextViewPrimitives.Caret.CurrentPosition,
+            //    CaretMoveType.DestructiveCaretMove | CaretMoveType.NonMergeable, GoBackFlags.ForceAdd);
+        }
+
+        private int GetWhitespaceLengthForVirtualSpace(VirtualSnapshotPoint point)
+        {
+            if (!point.IsInVirtualSpace)
+                return 0;
+            var virtualSpaces = point.VirtualSpaces;
+            if (TextView.Options.GetOptionValue(DefaultOptions.ConvertTabsToSpacesOptionId))
+                return virtualSpaces;
+            var optionValue = TextView.Options.GetOptionValue(DefaultOptions.TabSizeOptionId);
+            var displayColumn = TextViewPrimitives.View.GetTextPoint(point.Position).DisplayColumn;
+            var num1 = displayColumn + virtualSpaces;
+            var num2 = num1 % optionValue;
+            return num2 + (num1 - num2 - displayColumn + optionValue - 1) / optionValue;
+        }
+
+        private static bool GetDataPresent(IDataObject dataObject,
+            ushort dataFormat)
+        {
+            var format = new FORMATETC
+            {
+                cfFormat = (short) dataFormat, dwAspect = DVASPECT.DVASPECT_CONTENT, lindex = -1, tymed = 0
+            };
+            return dataObject.QueryGetData(ref format) == 0;
+        }
+
+        protected virtual int OleGetClipboard(out object dataObj)
+        {
+            return Ole32.OleGetClipboard(out dataObj);
+        }
+
+
+        private Olecmdf CanPaste()
+        {
+            var result = Olecmdf.Supported;
+            if (!DoesViewProhibitUserInput() &&
+                (ClipboardContainsTextOrHtml()
+                 //TODO: text manager stuff
+                 //|| DataObjectHelper.IsClipboardDataSupportedByLanguageService(_serviceProvider, _textManager, TextDocData) 
+                 || _editorOperations.CanPaste))
+                result |= Olecmdf.Enabled;
+            return result;
+        }
+
+        private bool DoesViewProhibitUserInput()
+        {
+            return _editorOperations.Options.GetOptionValue(DefaultTextViewOptions.ViewProhibitUserInputId);
+        }
+
+
+        private static void OnApplicationCommand(MafConstants.EditorCommands command, object sender,
+            ExecutedRoutedEventArgs e)
+        {
             if (!(sender is IPropertyOwner textView))
                 return;
             var target = GetTarget(textView);
-            target?.Exec(MafConstants.EditorCommandGroup, (uint) MafConstants.EditorCommands.Copy, 0, IntPtr.Zero,
+            target?.Exec(MafConstants.EditorCommandGroup, (uint) command, 0, IntPtr.Zero,
                 IntPtr.Zero);
         }
 
@@ -1337,6 +1536,11 @@ namespace ModernApplicationFramework.Editor.Implementation
             _editorOperations.CopySelection();
         }
 
+        private void Cut()
+        {
+            _editorOperations.CutSelection();
+        }
+
         private void DocData_OnChangeLineText(object sender, TextContentChangedEventArgs e)
         {
             //ClearBraceHighlighing();
@@ -1351,13 +1555,13 @@ namespace ModernApplicationFramework.Editor.Implementation
                         return Fire_KeyPressEvent(isPreEvent, GetTypeCharFromKeyPressEventArg(înput));
                     case (uint) MafConstants.EditorCommands.Backspace:
                         return Fire_KeyPressEvent(isPreEvent, '\b');
-                    case (uint)MafConstants.EditorCommands.Return:
-                    //case VSConstants.VSStd2KCmdID.OPENLINEABOVE:
+                    case (uint) MafConstants.EditorCommands.Return:
+                        //case VSConstants.VSStd2KCmdID.OPENLINEABOVE:
                         return Fire_KeyPressEvent(isPreEvent, '\r');
-                    case (uint)MafConstants.EditorCommands.Tab:
-                    case (uint)MafConstants.EditorCommands.BackTab:
+                    case (uint) MafConstants.EditorCommands.Tab:
+                    case (uint) MafConstants.EditorCommands.BackTab:
                         return Fire_KeyPressEvent(isPreEvent, '\t');
-                    case (uint)MafConstants.EditorCommands.Delete:
+                    case (uint) MafConstants.EditorCommands.Delete:
                         return Fire_KeyPressEvent(isPreEvent, '\x007F');
                 }
             return true;
@@ -1690,6 +1894,9 @@ namespace ModernApplicationFramework.Editor.Implementation
                     case MafConstants.EditorCommands.MakeUpperCase:
                     case MafConstants.EditorCommands.ToggleCase:
                     case MafConstants.EditorCommands.Capitalize:
+                    case MafConstants.EditorCommands.ToggleOverTypeMode:
+                    case MafConstants.EditorCommands.Cut:
+                    case MafConstants.EditorCommands.Paste:
                         return true;
                     default:
                         return false;
@@ -1787,6 +1994,10 @@ namespace ModernApplicationFramework.Editor.Implementation
         {
             CommandHelpers.RegisterCommandHandler(TextView.VisualElement.GetType(), ApplicationCommands.Copy, OnCopy,
                 CanCopy);
+            CommandHelpers.RegisterCommandHandler(TextView.VisualElement.GetType(), ApplicationCommands.Cut, OnCut,
+                CanCut);
+            CommandHelpers.RegisterCommandHandler(TextView.VisualElement.GetType(), ApplicationCommands.Paste, OnPaste,
+                CanPaste);
         }
 
         private void SendTextViewCreated()
@@ -2002,21 +2213,25 @@ namespace ModernApplicationFramework.Editor.Implementation
                     textSpan1 = TextConvert.ToMafTextSpan(pairSpan);
                     hr = 0;
                 }
-                if (hr < 0 || textSpan1.iStartLine == textSpan1.iEndLine && textSpan1.iStartIndex == textSpan1.iEndIndex)
+
+                if (hr < 0 || textSpan1.iStartLine == textSpan1.iEndLine &&
+                    textSpan1.iStartIndex == textSpan1.iEndIndex)
                     return;
                 if (fExtendSelection)
                 {
                     ++textSpan1.iEndIndex;
-                    if (Math.Abs(textSpan1.iStartLine - piLine) < Math.Abs(textSpan1.iEndLine - piLine) 
-                        || textSpan1.iStartLine == textSpan1.iEndLine && piLine == textSpan1.iStartLine && 
+                    if (Math.Abs(textSpan1.iStartLine - piLine) < Math.Abs(textSpan1.iEndLine - piLine)
+                        || textSpan1.iStartLine == textSpan1.iEndLine && piLine == textSpan1.iStartLine &&
                         Math.Abs(textSpan1.iStartIndex - piColumn) <= Math.Abs(textSpan1.iEndIndex - piColumn))
-                        SetSelection(textSpan1.iStartLine, textSpan1.iStartIndex, textSpan1.iEndLine, textSpan1.iEndIndex);
+                        SetSelection(textSpan1.iStartLine, textSpan1.iStartIndex, textSpan1.iEndLine,
+                            textSpan1.iEndIndex);
                     else
-                        SetSelection(textSpan1.iEndLine, textSpan1.iEndIndex, textSpan1.iStartLine, textSpan1.iStartIndex);
+                        SetSelection(textSpan1.iEndLine, textSpan1.iEndIndex, textSpan1.iStartLine,
+                            textSpan1.iStartIndex);
                 }
-                else if (Math.Abs(textSpan1.iStartLine - piLine) < Math.Abs(textSpan1.iEndLine - piLine) || 
-                         textSpan1.iStartLine == textSpan1.iEndLine && 
-                         piLine == textSpan1.iStartLine && 
+                else if (Math.Abs(textSpan1.iStartLine - piLine) < Math.Abs(textSpan1.iEndLine - piLine) ||
+                         textSpan1.iStartLine == textSpan1.iEndLine &&
+                         piLine == textSpan1.iStartLine &&
                          Math.Abs(textSpan1.iStartIndex - piColumn) <= Math.Abs(textSpan1.iEndIndex - piColumn))
                     SetCaretPos(textSpan1.iEndLine, textSpan1.iEndIndex);
                 else
@@ -2285,5 +2500,76 @@ namespace ModernApplicationFramework.Editor.Implementation
         None,
         Default,
         Smart
+    }
+
+    internal static class DataObjectHelper
+    {
+        public static bool ContainsText(IDataObject dataObject, Guid languageServiceId, IMafTextLines buffer)
+        {
+            if (dataObject == null)
+                return false;
+
+            //TODO: languageService stuff
+            int num = 0;
+
+            if (!string.IsNullOrEmpty(GetText(dataObject)))
+                num = 1;
+            return num != 0;
+        }
+
+        public static string GetText(IDataObject dataObject)
+        {
+            var data = new OleDataObject(dataObject);
+            if (data.GetDataPresent(DataFormats.Text) ||
+                data.GetDataPresent(DataFormats.UnicodeText) ||
+                data.GetDataPresent(DataFormats.CommaSeparatedValue))
+                return (string) data.GetData(DataFormats.UnicodeText, true);
+            if (data.GetDataPresent(DataFormats.Html))
+                return ExtractHTMLText(data).Trim();
+            return string.Empty;
+        }
+
+        public static string GetText(IDataObject dataObject, Guid languageServiceID, TextDocData docData)
+        {
+            //TODO: Languageservice stuff
+            return GetText(dataObject);
+        }
+
+
+        internal static string ExtractHTMLText(OleDataObject data)
+        {
+            var data1 = data.GetData(DataFormats.Html) as string;
+            string str;
+            if (data1 != null)
+            {
+                str = data1;
+            }
+            else
+            {
+                MemoryStream data2;
+                try
+                {
+                    data2 = (MemoryStream) data.GetData(DataFormats.Html);
+                }
+                catch
+                {
+                    throw new InvalidOperationException(
+                        "Can't examine data in IDataObject object, MemoryStream expected but not found");
+                }
+
+                var decoder = Encoding.UTF8.GetDecoder();
+                var array = data2.ToArray();
+                var charCount = decoder.GetCharCount(array, 0, array.Length);
+                var chars = new char[charCount];
+                decoder.Convert(array, 0, array.Length, chars, 0, charCount, true, out _, out _, out _);
+                str = new string(chars);
+            }
+
+            var num1 = str.IndexOf("<!--StartFragment-->", StringComparison.CurrentCultureIgnoreCase);
+            var num2 = str.IndexOf("<!--EndFragment-->", StringComparison.CurrentCultureIgnoreCase);
+            if (num1 != -1 && num2 != -1 && num2 > num1)
+                return str.Substring(num1 + "<!--StartFragment-->".Length, num2 - num1 - "<!--StartFragment-->".Length);
+            return string.Empty;
+        }
     }
 }

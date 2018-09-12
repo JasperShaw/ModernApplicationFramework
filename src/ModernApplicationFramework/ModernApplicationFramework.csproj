@@ -715,6 +715,8 @@
     <Compile Include="Interfaces\ViewModels\IToolBarHostViewModelInternal.cs" />
     <Compile Include="Interfaces\Views\IToolBarsPageView.cs" />
     <Compile Include="Native\NativeMethods\Imm32.cs" />
+    <Compile Include="Native\Ole2BclDataObject.cs" />
+    <Compile Include="Native\OleDataObject.cs" />
     <Compile Include="Native\Platform\Enums\BrowseInfoFlags.cs" />
     <Compile Include="Native\Platform\Enums\CbtHookAction.cs" />
     <Compile Include="Native\Platform\Enums\ShellFileType.cs" />

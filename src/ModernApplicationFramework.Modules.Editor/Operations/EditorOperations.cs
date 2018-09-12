@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -194,7 +195,38 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
 
         public bool CutSelection()
         {
-            throw new NotImplementedException();
+            if (TextView.Selection.IsEmpty && !CanCut)
+                return true;
+
+            //TODO: undo
+            //using (var transaction = _undoHistory.CreateTransaction(Strings.CutSelection))
+            //{
+            AddBeforeTextBufferChangePrimitive();
+            var flag = false;
+            if (!TextView.Selection.IsEmpty)
+                flag = PrepareClipboardSelectionCopy()() && Delete();
+            else
+            {
+                var fullLines = GetFullLines();
+                var left = TextView.Caret.Left;
+                var func = PrepareClipboardFullLineCopy(fullLines);
+                if ((fullLines).Delete() && func())
+                {
+                    flag = true;
+                    TextView.Caret.MoveTo(TextView.Caret.ContainingTextViewLine, left);
+                }
+            }
+
+            if (flag)
+            {
+                TextView.Caret.EnsureVisible();
+                AddAfterTextBufferChangePrimitive();
+                //transaction.Complete();
+            }
+            //else
+            //    transaction.Cancel();
+            return flag;
+            //}
         }
 
         public bool DecreaseLineIndent()
@@ -418,7 +450,128 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
 
         public bool InsertTextAsBox(string text, out VirtualSnapshotPoint boxStart, out VirtualSnapshotPoint boxEnd)
         {
-            throw new NotImplementedException();
+            //TODO: localize
+            return InsertTextAsBox(text, out boxStart, out boxEnd, "Insert");
+        }
+
+        public bool InsertTextAsBox(string text, out VirtualSnapshotPoint boxStart, out VirtualSnapshotPoint boxEnd,
+            string undoText)
+        {
+            if (text == null)
+                throw new ArgumentNullException(nameof(text));
+            var position = TextView.Caret.Position;
+            VirtualSnapshotPoint virtualBufferPosition;
+            var virtualSnapshotPoint1 = virtualBufferPosition = position.VirtualBufferPosition;
+            boxEnd = virtualBufferPosition;
+            var virtualSnapshotPoint2 = virtualSnapshotPoint1;
+            boxStart = virtualSnapshotPoint2;
+            VirtualSnapshotPoint newEnd;
+            var newStart = newEnd = boxStart;
+            if (text.Length == 0)
+                return InsertText(text);
+
+            bool Action()
+            {
+                if (!DeleteHelper(TextView.Selection.SelectedSpans)) return false;
+                TextView.Selection.Mode = TextSelectionMode.Box;
+                TextView.Caret.MoveTo(TextView.Selection.Start);
+                var virtualSnapshotPoint3 = TextView.Caret.Position.VirtualBufferPosition;
+                var left = TextView.Caret.Left;
+                var caretColumn = _editorPrimitives.View.GetTextPoint(virtualSnapshotPoint3.Position).DisplayColumn + virtualSnapshotPoint3.VirtualSpaces;
+                ITrackingPoint trackingPoint = null;
+                var nullable = new int?();
+                using (var edit = (_editorPrimitives).Buffer.AdvancedTextBuffer.CreateEdit())
+                {
+                    var point = virtualSnapshotPoint3;
+                    var containingBufferPosition = TextView.GetTextViewLineContainingBufferPosition(point.Position);
+                    var flag = false;
+                    using (var stringReader = new StringReader(text))
+                    {
+                        var text1 = stringReader.ReadLine();
+                        while (text1 != null)
+                        {
+                            if (text1.Length > 0)
+                            {
+                                trackingPoint = TextView.TextSnapshot.CreateTrackingPoint(point.Position, PointTrackingMode.Positive);
+                                var num = 0;
+                                if (point.IsInVirtualSpace)
+                                {
+                                    var whitespaceForVirtualSpace = GetWhitespaceForVirtualSpace(point);
+                                    text1 = whitespaceForVirtualSpace + text1;
+                                    num = whitespaceForVirtualSpace.Length;
+                                }
+
+                                if (!nullable.HasValue)
+                                {
+                                    nullable = num;
+                                    virtualSnapshotPoint3 = point;
+                                }
+
+                                if (!edit.Insert(point.Position, text1)) return false;
+                            }
+
+                            if (!flag)
+                            {
+                                if (containingBufferPosition.LineBreakLength == 0)
+                                {
+                                    var forDisplayColumn = GetWhitespaceForDisplayColumn(caretColumn);
+                                    var newLineCharacter = Options.GetNewLineCharacter();
+                                    text1 = string.Empty;
+                                    var empty = string.Empty;
+                                    string str;
+                                    while ((str = stringReader.ReadLine()) != null)
+                                    {
+                                        if (str.Length > 0)
+                                        {
+                                            text1 = text1 + empty + newLineCharacter + forDisplayColumn + str;
+                                            empty = string.Empty;
+                                        }
+                                        else
+                                            empty += newLineCharacter;
+                                    }
+
+                                    flag = true;
+                                    point = new VirtualSnapshotPoint(containingBufferPosition.EndIncludingLineBreak);
+                                }
+                                else
+                                {
+                                    text1 = stringReader.ReadLine();
+                                    if (text1 != null)
+                                    {
+                                        containingBufferPosition = TextView.GetTextViewLineContainingBufferPosition(containingBufferPosition.EndIncludingLineBreak);
+                                        point = containingBufferPosition.GetInsertionBufferPositionFromXCoordinate(left);
+                                    }
+                                }
+                            }
+                            else
+                                break;
+                        }
+                    }
+
+                    if (trackingPoint == null)
+                    {
+                        edit.Cancel();
+                        return false;
+                    }
+
+                    edit.Apply();
+                    if (edit.Canceled) return false;
+                }
+
+                TextView.Selection.Clear();
+                var num1 = nullable.HasValue ? nullable.Value : 0;
+                TextView.Caret.MoveTo(new SnapshotPoint(TextView.TextSnapshot, virtualSnapshotPoint3.Position.Position + num1));
+                newStart = TextView.Caret.Position.VirtualBufferPosition;
+                newEnd = new VirtualSnapshotPoint(trackingPoint.GetPoint(TextView.TextSnapshot));
+                return true;
+            }
+
+            var num2 = ExecuteAction(undoText, Action) ? 1 : 0;
+            if (num2 == 0)
+                return num2 != 0;
+            boxStart = newStart;
+            boxEnd = newEnd;
+            return num2 != 0;
         }
 
         public bool MakeLowercase()
@@ -626,7 +779,73 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
 
         public bool Paste()
         {
-            throw new NotImplementedException();
+            string str1;
+            bool dataPresent1;
+            bool dataPresent2;
+            try
+            {
+                IDataObject dataObject = Clipboard.GetDataObject();
+                if (dataObject == null || !dataObject.GetDataPresent(typeof(string)))
+                    return true;
+                str1 = (string)dataObject.GetData(DataFormats.UnicodeText) ?? (string)dataObject.GetData(DataFormats.Text);
+                dataPresent1 = dataObject.GetDataPresent("EditorOperationsLineCutCopyClipboardTag");
+                dataPresent2 = dataObject.GetDataPresent("ColumnSelect");
+            }
+            catch (ExternalException)
+            {
+                return false;
+            }
+            catch (OutOfMemoryException)
+            {
+                return false;
+            }
+            if (str1 == null)
+                return true;
+            if (dataPresent1 && TextView.Selection.IsEmpty)
+            {
+                //TODO: undo stuff
+                //using (ITextUndoTransaction transaction = this._undoHistory.CreateTransaction(Strings.Paste))
+                //{
+                AddBeforeTextBufferChangePrimitive();
+                SnapshotPoint start = TextView.Caret.Position.BufferPosition.GetContainingLine().Start;
+                using (ITextEdit edit = TextView.TextBuffer.CreateEdit())
+                {
+                    if (!edit.Insert(start.Position, str1))
+                        return false;
+                    edit.Apply();
+                }
+
+                AddAfterTextBufferChangePrimitive();
+                //transaction.Complete();
+                TextView.Caret.EnsureVisible();
+                return true;
+                //}
+            }
+            else
+            {
+                //TODO: localize
+                if (!dataPresent2)
+                    return InsertText(str1, true, "Paste", false);
+                if (!TextView.Selection.IsEmpty || !IsPointOnBlankViewLine(_editorPrimitives.Caret))
+                {
+                    VirtualSnapshotPoint boxStart;
+                    VirtualSnapshotPoint boxEnd;
+                    return InsertTextAsBox(str1, out boxStart, out boxEnd, "Paste");
+                }
+                string forDisplayColumn = GetWhitespaceForDisplayColumn(_editorPrimitives.Caret.Column + TextView.Caret.Position.VirtualBufferPosition.VirtualSpaces);
+                List<string> stringList = new List<string>();
+                using (StringReader stringReader = new StringReader(str1))
+                {
+                    for (string str2 = stringReader.ReadLine(); str2 != null; str2 = stringReader.ReadLine())
+                        stringList.Add(str2);
+                }
+
+                return InsertText(
+                    string.Join(Options.GetNewLineCharacter() + forDisplayColumn, stringList)
+                        .ToString(CultureInfo.CurrentCulture), true, "Paste", false);
+            }
+
+            return false;
         }
 
         public int ReplaceAllMatches(string searchText, string replaceText, bool matchCase, bool matchWholeWord,
@@ -2047,6 +2266,23 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
             }
 
             return ExecuteAction(actionName, Action);
+        }
+
+        internal string GetWhitespaceForDisplayColumn(int caretColumn)
+        {
+            string str;
+            if (!TextView.Options.IsConvertTabsToSpacesEnabled())
+            {
+                int tabSize = TextView.Options.GetTabSize();
+                int count1 = caretColumn % tabSize;
+                str = new string(' ', count1);
+                int count2 = (caretColumn - count1 + tabSize - 1) / tabSize;
+                if (count2 > 0)
+                    str = new string('\t', count2) + str;
+            }
+            else
+                str = new string(' ', caretColumn);
+            return str;
         }
 
         private enum LetterCase

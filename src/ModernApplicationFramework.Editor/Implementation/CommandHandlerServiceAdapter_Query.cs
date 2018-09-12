@@ -2,7 +2,6 @@
 using ModernApplicationFramework.Editor.Interop;
 using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Text.Ui.Editor;
-using ModernApplicationFramework.Text.Ui.Editor.Commanding;
 using ModernApplicationFramework.Text.Ui.Editor.Commanding.Commands;
 
 namespace ModernApplicationFramework.Editor.Implementation
@@ -106,9 +105,21 @@ namespace ModernApplicationFramework.Editor.Implementation
             return GetCommandState((view, buffer) => new SelectAllCommandArgs(view, buffer), pguidCmdGroup, commandCount, prgCmds, commandText);
         }
 
+        private int QueryCutStatus(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
+        {
+            return GetCommandState((view, buffer) => new CutCommandArgs(view, buffer),
+                pguidCmdGroup, commandCount, prgCmds, commandText);
+        }
+
         private int QueryCopyStatus(Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
         {
             return GetCommandState((view, buffer) => new CopyCommandArgs(view, buffer), pguidCmdGroup, commandCount,
+                prgCmds, commandText);
+        }
+
+        private int QueryPasteStatus(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
+        {
+            return GetCommandState((view, buffer) => new PasteCommandArgs(view, buffer), pguidCmdGroup, commandCount,
                 prgCmds, commandText);
         }
     }
