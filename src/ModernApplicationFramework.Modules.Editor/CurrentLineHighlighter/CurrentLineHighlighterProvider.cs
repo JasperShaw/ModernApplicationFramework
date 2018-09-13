@@ -39,7 +39,7 @@ namespace ModernApplicationFramework.Modules.Editor.CurrentLineHighlighter
         {
             public CurrentLineActiveFormat()
             {
-                //TODO: Text
+                //TODO: localize
                 DisplayName = "HighlightCurrentLine";
                 //DisplayName = CurrentLineHighlighterStrings.HiglightCurrentLineActive;
                 ForegroundColor = Color.FromRgb(234, 234, 242);

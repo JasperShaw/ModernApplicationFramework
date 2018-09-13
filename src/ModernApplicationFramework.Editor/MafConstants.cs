@@ -70,7 +70,23 @@ namespace ModernApplicationFramework.Editor
             Cut = 58,
             Copy = 59,
             Paste = 60,
+            CutLine = 61,
+            DeleteLine = 62,
+            DeleteBlankLines = 63,
+            DeleteWhiteSpace = 64,
+            DeleteToEndOfLine = 65,
+            DeleteToBeginOfLine = 66,
+            OpenLineAbove = 67,
+            OpenLineBelow = 68,
+            Indent = 69,
+            Unindent = 70,
+            // Omitted Find/Undo/Bookmark
+            TransposeChar = 87,
+            TransposeWord = 88,
+            TransposeLine = 89,
             SelectCurrentWord = 90,
+            DeleteWordRight = 91,
+            DeleteWordLeft = 92,
             ShowContextMenu = 102,
             OpenUrl = 113,
             DoubleClick = 134,
@@ -84,6 +100,8 @@ namespace ModernApplicationFramework.Editor
             MoveSelLinesDown = 12601,
             ZoomIn = 12602,
             ZoomOut = 12603
+
+
         }
     }
 }

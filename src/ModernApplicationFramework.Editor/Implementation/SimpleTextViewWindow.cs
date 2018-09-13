@@ -603,6 +603,68 @@ namespace ModernApplicationFramework.Editor.Implementation
                         case MafConstants.EditorCommands.Paste:
                             Paste();
                             break;
+                        case MafConstants.EditorCommands.CutLine:
+                            _editorOperations.CutFullLine();
+                            break;
+                        case MafConstants.EditorCommands.DeleteLine:
+                            _editorOperations.DeleteFullLine();
+                            break;
+                        case MafConstants.EditorCommands.DeleteBlankLines:
+                            DeleteBlankLines();
+                            break;
+                        case MafConstants.EditorCommands.DeleteWhiteSpace:
+                            DeleteHorizontalWhitespace();
+                            break;
+                        case MafConstants.EditorCommands.DeleteToEndOfLine:
+                            DeleteToEndOfLine();
+                            break;
+                        case MafConstants.EditorCommands.DeleteToBeginOfLine:
+                            DeleteToBeginningOfLine();
+                            break;
+                        case MafConstants.EditorCommands.OpenLineAbove:
+                            _editorOperations.OpenLineAbove();
+                            break;
+                        case MafConstants.EditorCommands.OpenLineBelow:
+                            _editorOperations.OpenLineBelow();
+                            break;
+                        case MafConstants.EditorCommands.Indent:
+                            EnsureSpansExpanded(_editorOperations.TextView.Selection.SelectedSpans);
+                            _editorOperations.IncreaseLineIndent();
+                            break;
+                        case MafConstants.EditorCommands.Unindent:
+                            EnsureSpansExpanded(_editorOperations.TextView.Selection.SelectedSpans);
+                            _editorOperations.DecreaseLineIndent();
+                            break;
+                        case MafConstants.EditorCommands.TransposeChar:
+                            _editorOperations.TransposeCharacter();
+                            break;
+                        case MafConstants.EditorCommands.TransposeWord:
+                            _editorOperations.TransposeWord();
+                            break;
+                        case MafConstants.EditorCommands.TransposeLine:
+                            _editorOperations.TransposeLine();
+                            break;
+                        case MafConstants.EditorCommands.SelectCurrentWord:
+                            try
+                            {
+                                SetCommandContext(MafConstants.EditorCommands.SelectCurrentWord);
+                                _editorOperations.SelectCurrentWord();
+                                break;
+                            }
+                            finally
+                            {
+                                ClearCommandContext();
+                            }
+                        case MafConstants.EditorCommands.DeleteWordRight:
+                            result = DeleteWordRight(MafConstants.EditorCommands.DeleteWordRight);
+                            if (result == 1)
+                                return result;
+                            break;
+                        case MafConstants.EditorCommands.DeleteWordLeft:
+                            result = DeleteWordLeft(MafConstants.EditorCommands.DeleteWordLeft);
+                            if (result == 1)
+                                return result;
+                            break;
                         default:
                             result = -2147221248;
                             break;
@@ -1247,10 +1309,10 @@ namespace ModernApplicationFramework.Editor.Implementation
             {
             }
 
-            Paste((System.Runtime.InteropServices.ComTypes.IDataObject) dataObj);
+            Paste((IDataObject) dataObj);
         }
 
-        private bool Paste(System.Runtime.InteropServices.ComTypes.IDataObject dataObject)
+        private bool Paste(IDataObject dataObject)
         {
 
             //TODO: undo stuff
@@ -1541,6 +1603,189 @@ namespace ModernApplicationFramework.Editor.Implementation
             _editorOperations.CutSelection();
         }
 
+        private int DeleteWordLeft(MafConstants.EditorCommands command)
+        {
+            try
+            {
+                if (TextView.Selection.IsEmpty && TextView.Caret.InVirtualSpace && TextView.Caret.Position.BufferPosition.GetContainingLine().Length == 0)
+                {
+                    TextView.Caret.MoveTo(TextView.Caret.Position.BufferPosition);
+                    return 0;
+                }
+                SetCommandContext(command);
+                if (GetPreviousWordLocation().CurrentPosition == TextViewPrimitives.Caret.CurrentPosition && TextViewPrimitives.Selection.IsEmpty)
+                    return 1;
+                // TODO: undo
+                //using (ITextUndoTransaction transaction = this._undoManager.TextBufferUndoHistory.CreateTransaction(Strings.DeleteWordToLeft))
+                //{
+                    _editorOperations.AddBeforeTextBufferChangePrimitive();
+                    using (ITextEdit edit = TextView.TextBuffer.CreateEdit())
+                    {
+                        bool isReversed = TextView.Selection.IsReversed;
+                        foreach (SnapshotSpan selectedSpan in TextView.Selection.SelectedSpans)
+                        {
+                            SnapshotSpan snapshotSpan = selectedSpan;
+                            if (selectedSpan.IsEmpty | isReversed)
+                                snapshotSpan = new SnapshotSpan(GetPreviousWordLocation(selectedSpan.Start).AdvancedTextPoint, selectedSpan.End);
+                            if (!edit.Delete(snapshotSpan))
+                                return 0;
+                        }
+                        edit.Apply();
+                        if (edit.Canceled)
+                            return 0;
+                    }
+                    _editorOperations.AddAfterTextBufferChangePrimitive();
+                    //transaction.Complete();
+                //}
+            }
+            finally
+            {
+                ClearCommandContext();
+            }
+            return 0;
+        }
+
+        private int DeleteWordRight(MafConstants.EditorCommands command)
+        {
+            try
+            {
+                SetCommandContext(command);
+                if (GetNextWordLocation().CurrentPosition == TextViewPrimitives.Caret.CurrentPosition && TextViewPrimitives.Selection.IsEmpty)
+                    return 1;
+                // TODO: undo
+                //using (ITextUndoTransaction transaction = this._undoManager.TextBufferUndoHistory.CreateTransaction(Strings.DeleteWordToRight))
+                //{
+                _editorOperations.AddBeforeTextBufferChangePrimitive();
+                    using (ITextEdit edit = TextView.TextBuffer.CreateEdit())
+                    {
+                        bool isReversed = TextView.Selection.IsReversed;
+                        foreach (SnapshotSpan selectedSpan in TextView.Selection.SelectedSpans)
+                        {
+                            SnapshotSpan snapshotSpan = selectedSpan;
+                            if (selectedSpan.IsEmpty || !isReversed)
+                            {
+                                TextPoint nextWordLocation = GetNextWordLocation(selectedSpan.End);
+                                snapshotSpan = new SnapshotSpan(selectedSpan.Start, nextWordLocation.AdvancedTextPoint);
+                            }
+                            if (!edit.Delete(snapshotSpan))
+                                return 0;
+                        }
+                        edit.Apply();
+                        if (edit.Canceled)
+                            return 0;
+                    }
+                    _editorOperations.AddAfterTextBufferChangePrimitive();
+                    //transaction.Complete();
+                //}
+            }
+            finally
+            {
+                ClearCommandContext();
+            }
+            return 0;
+        }
+
+        private TextPoint GetPreviousWordLocation()
+        {
+            return GetPreviousWordLocation(TextView.Caret.Position.BufferPosition);
+        }
+
+        private TextPoint GetNextWordLocation()
+        {
+            return GetNextWordLocation(TextView.Caret.Position.BufferPosition);
+        }
+
+        private TextPoint GetNextWordLocation(SnapshotPoint position)
+        {
+            position = position.TranslateTo(TextView.TextSnapshot, PointTrackingMode.Positive);
+            TextPoint textPoint = TextViewPrimitives.View.GetTextPoint(position);
+            var currentPosition = textPoint.CurrentPosition;
+            var endOfLine = textPoint.EndOfLine;
+            if (textPoint.CurrentPosition >= endOfLine)
+            {
+                var containingLine = textPoint.AdvancedTextPoint.GetContainingLine();
+                if (containingLine.LineNumber >= containingLine.Snapshot.LineCount - 1)
+                    return textPoint;
+                textPoint.MoveToBeginningOfNextLine();
+                while (textPoint.CurrentPosition < textPoint.EndOfLine && char.IsWhiteSpace(textPoint.AdvancedTextPoint.GetChar()))
+                    textPoint.MoveToNextCharacter();
+                return textPoint;
+            }
+
+            do
+            {
+                do
+                {
+                    textPoint.MoveToNextCharacter();
+                    if (textPoint.CurrentPosition < endOfLine)
+                    {
+                        while (textPoint.CurrentPosition < endOfLine &&
+                               char.IsWhiteSpace(textPoint.AdvancedTextPoint.GetChar()))
+                            textPoint.MoveToNextCharacter();
+                    }
+                    else
+                        return textPoint;
+                } while (textPoint.CurrentPosition >= endOfLine);
+
+                var currentWord = textPoint.GetCurrentWord();
+                if (currentWord.GetStartPoint().CurrentPosition < textPoint.CurrentPosition)
+                    textPoint = currentWord.GetEndPoint();
+                while (textPoint.CurrentPosition < endOfLine &&
+                       char.IsWhiteSpace(textPoint.AdvancedTextPoint.GetChar()))
+                    textPoint.MoveToNextCharacter();
+            }
+            while (textPoint.CurrentPosition == currentPosition);
+            return textPoint;
+        }
+
+        private TextPoint GetPreviousWordLocation(SnapshotPoint position)
+        {
+            position = position.TranslateTo(TextView.TextSnapshot, PointTrackingMode.Positive);
+            TextPoint textPoint1 = TextViewPrimitives.View.GetTextPoint(position);
+            ITextSnapshotLine containingLine = position.GetContainingLine();
+            int currentPosition = textPoint1.CurrentPosition;
+            SnapshotPoint advancedTextPoint;
+            if (textPoint1.CurrentPosition <= containingLine.Start)
+            {
+                if (containingLine.Start.Position == 0)
+                    return textPoint1;
+                textPoint1.MoveToBeginningOfPreviousLine();
+                TextPoint textPoint2 = textPoint1;
+                advancedTextPoint = textPoint1.AdvancedTextPoint;
+                int end = advancedTextPoint.GetContainingLine().End;
+                textPoint2.MoveTo(end);
+                advancedTextPoint = textPoint1.AdvancedTextPoint;
+                containingLine = advancedTextPoint.GetContainingLine();
+                if (textPoint1.StartOfLine == textPoint1.EndOfLine)
+                    return textPoint1;
+            }
+            do
+            {
+                textPoint1.MoveToPreviousCharacter();
+                if (textPoint1.CurrentPosition != textPoint1.StartOfLine)
+                {
+                    while (textPoint1.CurrentPosition > containingLine.Start)
+                    {
+                        advancedTextPoint = textPoint1.AdvancedTextPoint;
+                        if (char.IsWhiteSpace(advancedTextPoint.GetChar()))
+                            textPoint1.MoveToPreviousCharacter();
+                        else
+                            break;
+                    }
+                    if (textPoint1.CurrentPosition > containingLine.Start)
+                    {
+                        TextRange currentWord = textPoint1.GetCurrentWord();
+                        if (currentWord.GetEndPoint().CurrentPosition > textPoint1.CurrentPosition)
+                            textPoint1 = currentWord.GetStartPoint();
+                    }
+                }
+                else
+                    return textPoint1;
+            }
+            while (textPoint1.CurrentPosition == currentPosition);
+            return textPoint1;
+        }
+
         private void DocData_OnChangeLineText(object sender, TextContentChangedEventArgs e)
         {
             //ClearBraceHighlighing();
@@ -1556,7 +1801,7 @@ namespace ModernApplicationFramework.Editor.Implementation
                     case (uint) MafConstants.EditorCommands.Backspace:
                         return Fire_KeyPressEvent(isPreEvent, '\b');
                     case (uint) MafConstants.EditorCommands.Return:
-                        //case VSConstants.VSStd2KCmdID.OPENLINEABOVE:
+                    case (uint) MafConstants.EditorCommands.OpenLineAbove:
                         return Fire_KeyPressEvent(isPreEvent, '\r');
                     case (uint) MafConstants.EditorCommands.Tab:
                     case (uint) MafConstants.EditorCommands.BackTab:
@@ -1868,6 +2113,11 @@ namespace ModernApplicationFramework.Editor.Implementation
             _editorOperations.InsertNewLine();
         }
 
+        private void DeleteBlankLines()
+        {
+            _editorOperations.DeleteBlankLines();
+        }
+
         private bool IsCommandExecutionProhibited()
         {
             if (CurrentInitializationState == InitializationState.TextDocDataAvailable ||
@@ -1897,6 +2147,21 @@ namespace ModernApplicationFramework.Editor.Implementation
                     case MafConstants.EditorCommands.ToggleOverTypeMode:
                     case MafConstants.EditorCommands.Cut:
                     case MafConstants.EditorCommands.Paste:
+                    case MafConstants.EditorCommands.CutLine:
+                    case MafConstants.EditorCommands.DeleteLine:
+                    case MafConstants.EditorCommands.DeleteBlankLines:
+                    case MafConstants.EditorCommands.DeleteWhiteSpace:
+                    case MafConstants.EditorCommands.DeleteToEndOfLine:
+                    case MafConstants.EditorCommands.DeleteToBeginOfLine:
+                    case MafConstants.EditorCommands.OpenLineAbove:
+                    case MafConstants.EditorCommands.OpenLineBelow:
+                    case MafConstants.EditorCommands.Indent:
+                    case MafConstants.EditorCommands.Unindent:
+                    case MafConstants.EditorCommands.TransposeChar:
+                    case MafConstants.EditorCommands.TransposeWord:
+                    case MafConstants.EditorCommands.TransposeLine:
+                    case MafConstants.EditorCommands.DeleteWordRight:
+                    case MafConstants.EditorCommands.DeleteWordLeft:
                         return true;
                     default:
                         return false;
@@ -1914,6 +2179,16 @@ namespace ModernApplicationFramework.Editor.Implementation
         {
             var onSetFocus = OnSetFocus;
             onSetFocus?.Invoke(this);
+        }
+
+        private void DeleteToEndOfLine()
+        {
+            _editorOperations.DeleteToEndOfLine();
+        }
+
+        private void DeleteToBeginningOfLine()
+        {
+            _editorOperations.DeleteToBeginningOfLine();
         }
 
         private void OnEditorOrMenuLostFocus(object sender, EventArgs e)
@@ -2182,12 +2457,15 @@ namespace ModernApplicationFramework.Editor.Implementation
             _editorOperations.Tabify();
         }
 
+        private void DeleteHorizontalWhitespace()
+        {
+            _editorOperations.DeleteHorizontalWhiteSpace();
+        }
+
         private void GotoMatchingBrace(bool fExtendSelection)
         {
             var hr = 1;
-            var piLine = 0;
-            var piColumn = 0;
-            if (GetCaretPos(out piLine, out piColumn) < 0)
+            if (GetCaretPos(out var piLine, out var piColumn) < 0)
                 return;
             var textSpanArray = new TextSpan[1];
             var textSpan1 = new TextSpan();

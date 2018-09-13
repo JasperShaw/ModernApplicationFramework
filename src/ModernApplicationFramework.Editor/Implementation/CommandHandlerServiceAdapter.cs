@@ -193,18 +193,18 @@ namespace ModernApplicationFramework.Editor.Implementation
                 case MafConstants.EditorCommands.Paste:
                     ExecutePasteCommand(next);
                     return 0;
-                //case VSConstants.VSStd2KCmdID.OPENLINEABOVE:
-                //    ExecuteOpenLineAboveCommand(next);
-                //    return 0;
-                //case VSConstants.VSStd2KCmdID.OPENLINEBELOW:
-                //    ExecuteOpenLineBelowCommand(next);
-                //    return 0;
-                //case VSConstants.VSStd2KCmdID.DELETEWORDRIGHT:
-                //    ExecuteWordDeleteToEndCommand(next);
-                //    return 0;
-                //case VSConstants.VSStd2KCmdID.DELETEWORDLEFT:
-                //    ExecuteWordDeleteToStartCommand(next);
-                //    return 0;
+                case MafConstants.EditorCommands.OpenLineAbove:
+                    ExecuteOpenLineAboveCommand(next);
+                    return 0;
+                case MafConstants.EditorCommands.OpenLineBelow:
+                    ExecuteOpenLineBelowCommand(next);
+                    return 0;
+                case MafConstants.EditorCommands.DeleteWordRight:
+                    ExecuteWordDeleteToEndCommand(next);
+                    return 0;
+                case MafConstants.EditorCommands.DeleteWordLeft:
+                    ExecuteWordDeleteToStartCommand(next);
+                    return 0;
                 //case VSConstants.VSStd2KCmdID.COMMENTBLOCK:
                 //case VSConstants.VSStd2KCmdID.COMMENT_BLOCK:
                 //    ExecuteCommentSelectionCommand(next);
@@ -376,18 +376,18 @@ namespace ModernApplicationFramework.Editor.Implementation
                     return QueryCopyStatus(pguidCmdGroup, commandCount, prgCmds, commandText);
                 case (uint)MafConstants.EditorCommands.Paste:
                     return QueryPasteStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
-                //case VSConstants.VSStd2KCmdID.OPENLINEABOVE:
-                //    return QueryOpenLineAboveStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
-                //case VSConstants.VSStd2KCmdID.OPENLINEBELOW:
-                //    return QueryOpenLineBelowStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
+                case (uint)MafConstants.EditorCommands.OpenLineAbove:
+                    return QueryOpenLineAboveStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
+                case (uint)MafConstants.EditorCommands.OpenLineBelow:
+                    return QueryOpenLineBelowStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
                 //case VSConstants.VSStd2KCmdID.UNDO:
                 //    return QueryUndoStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
                 //case VSConstants.VSStd2KCmdID.REDO:
                 //    return QueryRedoStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
-                //case VSConstants.VSStd2KCmdID.DELETEWORDRIGHT:
-                //    return QueryWordDeleteToEndStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
-                //case VSConstants.VSStd2KCmdID.DELETEWORDLEFT:
-                //    return QueryWordDeleteToStartStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
+                case (uint)MafConstants.EditorCommands.DeleteWordRight:
+                    return QueryWordDeleteToEndStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
+                case (uint)MafConstants.EditorCommands.DeleteWordLeft:
+                    return QueryWordDeleteToStartStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
                 //case VSConstants.VSStd2KCmdID.COMMENTBLOCK:
                 //case VSConstants.VSStd2KCmdID.COMMENT_BLOCK:
                 //    return QueryCommentSelectionStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);

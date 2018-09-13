@@ -157,5 +157,25 @@ namespace ModernApplicationFramework.Editor.Implementation
         {
             _commandHandlerService.Execute((view, buffer) => new PasteCommandArgs(view, buffer), next);
         }
+
+        private void ExecuteOpenLineAboveCommand(Action next)
+        {
+            _commandHandlerService.Execute((view, buffer) => new OpenLineAboveCommandArgs(view, buffer), next);
+        }
+
+        private void ExecuteOpenLineBelowCommand(Action next)
+        {
+            _commandHandlerService.Execute((view, buffer) => new OpenLineBelowCommandArgs(view, buffer), next);
+        }
+
+        private void ExecuteWordDeleteToEndCommand(Action next)
+        {
+            _commandHandlerService.Execute((view, buffer) => new WordDeleteToEndCommandArgs(view, buffer), next);
+        }
+
+        private void ExecuteWordDeleteToStartCommand(Action next)
+        {
+            _commandHandlerService.Execute((view, buffer) => new WordDeleteToStartCommandArgs(view, buffer), next);
+        }
     }
 }

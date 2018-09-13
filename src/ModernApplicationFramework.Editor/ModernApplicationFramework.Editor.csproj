@@ -73,6 +73,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commanding\ActiveTextViewState.cs" />
+    <Compile Include="Commands\CutLineCommandDefinition.cs" />
+    <Compile Include="Commands\DeleteHorizontalWhiteSpaceCommandDefinition.cs" />
+    <Compile Include="Commands\DeleteLineCommandDefinition.cs" />
+    <Compile Include="Commands\DeleteToBeginOfLineCommandDefinition.cs" />
+    <Compile Include="Commands\DeleteToEndOfLineCommandDefinition.cs" />
+    <Compile Include="Commands\DeleteWordLeftCommandDefinition.cs" />
+    <Compile Include="Commands\DeleteWordRightCommandDefinition.cs" />
+    <Compile Include="Commands\IndentCommandDefinition.cs" />
+    <Compile Include="Commands\OpenLineAboveCommandDefinition.cs" />
+    <Compile Include="Commands\OpenLineBelowCommandDefinition.cs" />
+    <Compile Include="Commands\SelectCurretnWordCommandDefinition.cs" />
     <Compile Include="Commands\ToggleOverTypeModeCommandDefinition.cs" />
     <Compile Include="Commands\BeginLineCommandDefinition.cs" />
     <Compile Include="Commands\BeginLineExtendCommandDefinition.cs" />
@@ -115,6 +126,10 @@
     <Compile Include="Commands\ToggleCaseCommandDefinition.cs" />
     <Compile Include="Commands\TopLineCommandDefinition.cs" />
     <Compile Include="Commands\TopLineExtendCommandDefinition.cs" />
+    <Compile Include="Commands\TransposeCharCommandDefinition.cs" />
+    <Compile Include="Commands\TransposeLineCommandDefinition.cs" />
+    <Compile Include="Commands\TransposeWordCommandDefinition.cs" />
+    <Compile Include="Commands\UnindentCommandDefinition.cs" />
     <Compile Include="Commands\UntabifySelectionCommandDefinition.cs" />
     <Compile Include="Commands\UpCommandDefinition.cs" />
     <Compile Include="Commands\RightExtendCommandDefinition.cs" />

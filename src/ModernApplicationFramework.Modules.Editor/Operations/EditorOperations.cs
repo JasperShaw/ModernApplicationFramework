@@ -190,7 +190,17 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
 
         public bool CutFullLine()
         {
-            throw new NotImplementedException();
+            var fullSelectedLines = GetFullLines();
+            if (fullSelectedLines.TextBuffer.AdvancedTextBuffer.IsReadOnly(fullSelectedLines.AdvancedTextRange))
+                return false;
+            var putCopiedLineToClipboard = PrepareClipboardFullLineCopy(fullSelectedLines);
+            //Todo: localize
+            return ExecuteAction("CutLine", () =>
+            {
+                if (fullSelectedLines.Delete())
+                    return putCopiedLineToClipboard();
+                return false;
+            });
         }
 
         public bool CutSelection()
@@ -231,7 +241,8 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
 
         public bool DecreaseLineIndent()
         {
-            throw new NotImplementedException();
+            //TODO: Localize
+            return ExecuteAction("DecreaseLineIndent", () => PerformIndentActionOnEachBufferLine(RemoveIndentAtPoint), SelectionUpdate.Ignore, true);
         }
 
         public bool Delete()
@@ -264,27 +275,89 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
 
         public bool DeleteBlankLines()
         {
-            throw new NotImplementedException();
+            return ExecuteAction("Delete Blank Lines", () =>
+            {
+                double left = TextView.Caret.Left;
+                using (var edit = _editorPrimitives.Buffer.AdvancedTextBuffer.CreateEdit())
+                {
+                    var lineNumber1 = _editorPrimitives.Selection.GetStartPoint().LineNumber;
+                    var lineNumber2 = _editorPrimitives.Selection.GetEndPoint().LineNumber;
+                    if (_editorPrimitives.Selection.IsEmpty)
+                    {
+                        var textPoint = _editorPrimitives.Buffer.GetTextPoint(lineNumber1, 0);
+                        if (IsPointOnBlankLine(textPoint) || _editorPrimitives.Caret.CurrentPosition == _editorPrimitives.Caret.EndOfLine)
+                        {
+                            while (lineNumber2 < _editorPrimitives.Selection.AdvancedSelection.TextView.TextSnapshot
+                                       .LineCount - 1 &&
+                                   IsPointOnBlankLine(_editorPrimitives.Buffer.GetTextPoint(lineNumber2 + 1, 0)))
+                                ++lineNumber2;
+                        }
+
+                        if (lineNumber1 == lineNumber2 && !IsPointOnBlankLine(textPoint))
+                        {
+                            while (lineNumber1 > 0 && IsPointOnBlankLine(_editorPrimitives.Buffer.GetTextPoint(lineNumber1 - 1, 0)))
+                                --lineNumber1;
+                        }
+                    }
+
+                    for (int index = lineNumber1; index <= lineNumber2 ; ++index)
+                    {
+                        var textPoint1 = _editorPrimitives.Buffer.GetTextPoint(index, 0);
+                        if (IsPointOnBlankLine(textPoint1))
+                        {
+                            var textPoint2 = textPoint1.Clone();
+                            textPoint2.MoveToBeginningOfNextLine();
+                            if (!edit.Delete(Span.FromBounds(textPoint1.CurrentPosition, textPoint2.CurrentPosition)))
+                                return false;
+                        }
+                    }
+
+                    edit.Apply();
+                    if (edit.Canceled)
+                        return false;
+                    TextView.Caret.EnsureVisible();
+                    TextView.Caret.MoveTo(TextView.Caret.ContainingTextViewLine, left);
+                    return true;
+                }
+            });
         }
 
         public bool DeleteFullLine()
         {
-            throw new NotImplementedException();
+            //TODO: localize
+            return ExecuteAction("Delete Line", () => GetFullLines().Delete());
         }
 
         public bool DeleteHorizontalWhiteSpace()
         {
-            throw new NotImplementedException();
+            //Todo: localize
+            return ExecuteAction("Delete horizontal whitespace", DeleteHorizontalWhitespace);
         }
 
         public bool DeleteToBeginningOfLine()
         {
-            throw new NotImplementedException();
+            //Todo: localize
+            return ExecuteAction("DeleteToBol", () =>
+            {
+                TextRange textRange = _editorPrimitives.Selection.Clone();
+                if (_editorPrimitives.Selection.IsReversed ||
+                    _editorPrimitives.Selection.IsEmpty)
+                    textRange.SetStart(_editorPrimitives.View.GetTextPoint(_editorPrimitives.Caret.StartOfLine));
+                return textRange.Delete();
+            });
         }
 
         public bool DeleteToEndOfLine()
         {
-            throw new NotImplementedException();
+            //Todo: localize
+            return ExecuteAction("DeleteToEol", () =>
+            {
+                TextRange textRange = _editorPrimitives.Selection.Clone();
+                if (!_editorPrimitives.Selection.IsReversed ||
+                    _editorPrimitives.Selection.IsEmpty)
+                    textRange.SetEnd(_editorPrimitives.View.GetTextPoint(_editorPrimitives.Caret.EndOfViewLine));
+                return textRange.Delete();
+            });
         }
 
         public bool DeleteWordToLeft()
@@ -318,7 +391,8 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
 
         public bool IncreaseLineIndent()
         {
-            throw new NotImplementedException();
+            //TODO: Localize
+            return ExecuteAction("IncreaseLineIndent", () => PerformIndentActionOnEachBufferLine(InsertSingleIndentAtPoint), SelectionUpdate.Ignore, true);
         }
 
         public bool Indent()
@@ -755,12 +829,37 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
 
         public bool OpenLineAbove()
         {
-            throw new NotImplementedException();
+            //TODO: localize
+            return ExecuteAction("open live above", () =>
+            {
+                var displayTextPoint = _editorPrimitives.Caret.Clone();
+                bool flag;
+                if (displayTextPoint.LineNumber == 0)
+                {
+                    _editorPrimitives.Caret.MoveTo(0);
+                    flag = InsertNewLine();
+                    if (flag)
+                        _editorPrimitives.Caret.MoveTo(0);
+                }
+                else
+                {
+                    displayTextPoint.MoveToBeginningOfPreviousViewLine();
+                    displayTextPoint.MoveToEndOfViewLine();
+                    _editorPrimitives.Caret.MoveTo(displayTextPoint.CurrentPosition);
+                    flag = InsertNewLine();
+                }
+                return flag;
+            });
         }
 
         public bool OpenLineBelow()
         {
-            throw new NotImplementedException();
+            //TODO: localize
+            return ExecuteAction("open line below", () =>
+            {
+                _editorPrimitives.Caret.MoveToEndOfViewLine();
+                return InsertNewLine();
+            });
         }
 
         public void PageDown(bool extendSelection)
@@ -1039,17 +1138,44 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
 
         public bool TransposeCharacter()
         {
-            throw new NotImplementedException();
+            //TODO: Localize
+            return ExecuteAction("TransposeCharacter", () => _editorPrimitives.Caret.TransposeCharacter());
         }
 
         public bool TransposeLine()
         {
-            throw new NotImplementedException();
+            if (TextView.TextSnapshot.LineCount < 2)
+                return true;
+            //TODO: Localize
+            return ExecuteAction("TransposeLine", () => _editorPrimitives.Caret.TransposeLine());
         }
 
         public bool TransposeWord()
         {
-            throw new NotImplementedException();
+            var currentWord = _editorPrimitives.Caret.GetCurrentWord();
+            if (currentWord.IsEmpty)
+                currentWord = currentWord.GetStartPoint().GetPreviousWord();
+            if (currentWord.GetEndPoint().CurrentPosition == _editorPrimitives.Buffer.GetEndPoint().CurrentPosition)
+                return true;
+            //TODO: Localize
+            return ExecuteAction("TransposeWord", () =>
+            {
+                var nextWord = currentWord.GetEndPoint().GetNextWord();
+                bool Func(TextRange tr) => tr.GetEndPoint().CurrentPosition != _editorPrimitives.Buffer.GetEndPoint().CurrentPosition && (tr.IsEmpty || !char.IsLetterOrDigit(tr.GetText()[0]));
+                while (Func(nextWord))
+                    nextWord = nextWord.GetEndPoint().GetNextWord();
+                var currentPosition = nextWord.GetEndPoint().CurrentPosition;
+                using (var edit = _editorPrimitives.Buffer.AdvancedTextBuffer.CreateEdit())
+                {
+                    if (!edit.Replace(currentWord.AdvancedTextRange.Span, nextWord.GetText()) || !edit.Replace(nextWord.AdvancedTextRange.Span, currentWord.GetText()))
+                        return false;
+                    edit.Apply();
+                    if (edit.Canceled)
+                        return false;
+                }
+                _editorPrimitives.Caret.MoveTo(currentPosition);
+                return true;
+            });
         }
 
         public bool Unindent()
@@ -2267,6 +2393,133 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
 
             return ExecuteAction(actionName, Action);
         }
+
+        private bool DeleteHorizontalWhitespace()
+        {
+            var spanList1 = new List<Span>();
+            var spanList2 = new List<Span>();
+            var spanList3 = new List<Span>();
+            var textSnapshot = _editorPrimitives.View.AdvancedTextView.TextSnapshot;
+            var start = -1;
+            var trackingPoint = textSnapshot.CreateTrackingPoint(_editorPrimitives.Caret.CurrentPosition, PointTrackingMode.Positive);
+            using (var edit = textSnapshot.TextBuffer.CreateEdit())
+            {
+                var horizontalWhitespace1 = GetStartPointOfSpanForDeleteHorizontalWhitespace(textSnapshot);
+                var horizontalWhitespace2 = GetEndPointOfSpanForDeleteHorizontalWhitespace(textSnapshot);
+                for (var index = horizontalWhitespace1; index <= horizontalWhitespace2 && index < textSnapshot.Length; ++index)
+                {
+                    if (IsSpaceCharacter(textSnapshot[index]))
+                    {
+                        if (start == -1)
+                            start = index;
+                    }
+                    else
+                    {
+                        if (start != -1)
+                        {
+                            if (index - start == 1 && !_editorPrimitives.Selection.IsEmpty)
+                            {
+                                spanList1.Add(Span.FromBounds(start, index));
+                                if (textSnapshot[index - 1] == '\t')
+                                {
+                                    trackingPoint = textSnapshot.CreateTrackingPoint(index, PointTrackingMode.Positive);
+                                    spanList3.Add(Span.FromBounds(start, index));
+                                }
+                            }
+                            else
+                            {
+                                trackingPoint = textSnapshot.CreateTrackingPoint(index, PointTrackingMode.Positive);
+                                spanList2.Add(Span.FromBounds(start, index));
+                            }
+                        }
+                        start = -1;
+                    }
+                }
+                if (start != -1)
+                {
+                    trackingPoint = textSnapshot.CreateTrackingPoint(horizontalWhitespace2, PointTrackingMode.Positive);
+                    if (horizontalWhitespace2 - start == 1 && !_editorPrimitives.Selection.IsEmpty)
+                        spanList1.Add(Span.FromBounds(start, horizontalWhitespace2));
+                    else
+                        spanList2.Add(Span.FromBounds(start, horizontalWhitespace2));
+                }
+                if (!DeleteHorizontalWhitespace(edit, spanList2, spanList1, spanList3))
+                    return false;
+                edit.Apply();
+                if (edit.Canceled)
+                    return false;
+                if (_editorPrimitives.Selection.IsEmpty)
+                    _editorPrimitives.Caret.MoveTo(trackingPoint.GetPosition(_editorPrimitives.View.AdvancedTextView.TextSnapshot));
+            }
+            return true;
+        }
+
+        private int GetStartPointOfSpanForDeleteHorizontalWhitespace(ITextSnapshot snapshot)
+        {
+            int currentPosition = _editorPrimitives.Selection.GetStartPoint().CurrentPosition;
+            if (_editorPrimitives.Selection.IsEmpty)
+            {
+                int startOfViewLine = _editorPrimitives.Caret.StartOfViewLine;
+                while (currentPosition > startOfViewLine && IsSpaceCharacter(snapshot[currentPosition - 1]))
+                    --currentPosition;
+            }
+            return currentPosition;
+        }
+
+        private int GetEndPointOfSpanForDeleteHorizontalWhitespace(ITextSnapshot snapshot)
+        {
+            int currentPosition = _editorPrimitives.Selection.GetEndPoint().CurrentPosition;
+            if (_editorPrimitives.Selection.IsEmpty)
+            {
+                int endOfViewLine = _editorPrimitives.Caret.EndOfViewLine;
+                while (currentPosition < endOfViewLine && IsSpaceCharacter(snapshot[currentPosition]))
+                    ++currentPosition;
+            }
+            return currentPosition;
+        }
+
+        private static bool DeleteHorizontalWhitespace(ITextEdit textEdit, ICollection<Span> largeSpansToDelete, IEnumerable<Span> singleSpansToDelete, ICollection<Span> singleTabsToReplace)
+        {
+            var snapshot = textEdit.Snapshot;
+            bool Func1(int p) => snapshot.GetLineFromPosition(p).Start == p;
+            bool Func2(int p) => snapshot.GetLineFromPosition(p).End == p;
+            if (largeSpansToDelete.Count == 0)
+            {
+                foreach (var deleteSpan in singleSpansToDelete)
+                {
+                    if (!textEdit.Delete(deleteSpan))
+                        return false;
+                }
+            }
+            else
+            {
+                foreach (var span in largeSpansToDelete)
+                {
+                    if (Func1(span.Start) || Func2(span.End))
+                    {
+                        if (!textEdit.Delete(span))
+                            return false;
+                    }
+                    else if (IsSpaceCharacter(snapshot[span.Start - 1]) || IsSpaceCharacter(snapshot[span.End]))
+                    {
+                        if (!textEdit.Delete(span))
+                            return false;
+                    }
+                    else if (!textEdit.Replace(span, " "))
+                        return false;
+                }
+                if (singleTabsToReplace.Any(replaceSpan => !Func1(replaceSpan.Start) && !Func2(replaceSpan.End) && !textEdit.Replace(replaceSpan, " ")))
+                    return false;
+                return singleSpansToDelete.All(deleteSpan => !Func1(deleteSpan.Start) && !Func2(deleteSpan.End) || textEdit.Delete(deleteSpan));
+            }
+            return true;
+        }
+
+        private static bool IsPointOnBlankLine(TextPoint textPoint)
+        {
+            return textPoint.GetFirstNonWhiteSpaceCharacterOnLine().CurrentPosition == textPoint.EndOfLine;
+        }
+
 
         internal string GetWhitespaceForDisplayColumn(int caretColumn)
         {

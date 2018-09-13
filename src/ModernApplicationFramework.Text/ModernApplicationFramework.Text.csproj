@@ -260,6 +260,8 @@
     <Compile Include="Ui\Editor\Commanding\Commands\LineEndExtendCommandArgs.cs" />
     <Compile Include="Ui\Editor\Commanding\Commands\LineStartCommandArgs.cs" />
     <Compile Include="Ui\Editor\Commanding\Commands\LineStartExtendCommandArgs.cs" />
+    <Compile Include="Ui\Editor\Commanding\Commands\OpenLineAboveCommandArgs.cs" />
+    <Compile Include="Ui\Editor\Commanding\Commands\OpenLineBelowCommandArgs.cs" />
     <Compile Include="Ui\Editor\Commanding\Commands\PageDownKeyCommandArgs.cs" />
     <Compile Include="Ui\Editor\Commanding\Commands\PageUpKeyCommandArgs.cs" />
     <Compile Include="Ui\Editor\Commanding\Commands\PasteCommandArgs.cs" />
@@ -284,6 +286,8 @@
     <Compile Include="Ui\Editor\Commanding\Commands\LeftKeyCommandArgs.cs" />
     <Compile Include="Ui\Editor\Commanding\Commands\TypeCharCommandArgs.cs" />
     <Compile Include="Ui\Editor\Commanding\Commands\UpKeyCommandArgs.cs" />
+    <Compile Include="Ui\Editor\Commanding\Commands\WordDeleteToEndCommandArgs.cs" />
+    <Compile Include="Ui\Editor\Commanding\Commands\WordDeleteToStartCommandArgs.cs" />
     <Compile Include="Ui\Editor\Commanding\EditorCommandArgs.cs" />
     <Compile Include="Ui\Editor\Commanding\ICommandingTextBufferResolver.cs" />
     <Compile Include="Ui\Editor\Commanding\ICommandingTextBufferResolverProvider.cs" />

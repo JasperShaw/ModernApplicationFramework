@@ -122,5 +122,25 @@ namespace ModernApplicationFramework.Editor.Implementation
             return GetCommandState((view, buffer) => new PasteCommandArgs(view, buffer), pguidCmdGroup, commandCount,
                 prgCmds, commandText);
         }
+
+        private int QueryOpenLineAboveStatus(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
+        {
+            return GetCommandState((view, buffer) => new OpenLineAboveCommandArgs(view, buffer), pguidCmdGroup, commandCount, prgCmds, commandText);
+        }
+
+        private int QueryOpenLineBelowStatus(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
+        {
+            return GetCommandState((view, buffer) => new OpenLineBelowCommandArgs(view, buffer), pguidCmdGroup, commandCount, prgCmds, commandText);
+        }
+
+        private int QueryWordDeleteToEndStatus(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
+        {
+            return GetCommandState((view, buffer) => new WordDeleteToEndCommandArgs(view, buffer), pguidCmdGroup, commandCount, prgCmds, commandText);
+        }
+
+        private int QueryWordDeleteToStartStatus(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
+        {
+            return GetCommandState((view, buffer) => new WordDeleteToStartCommandArgs(view, buffer), pguidCmdGroup, commandCount, prgCmds, commandText);
+        }
     }
 }
