@@ -65,6 +65,7 @@ namespace ModernApplicationFramework.Editor.Implementation
 
         internal int _oldVerticalMaxUnits = -1;
         internal int _oldVerticalVisibleUnits = -1;
+        private VirtualSnapshotSpan? _lastCycledSpan;
 
         internal ITextViewFilter _textViewFilter;
         internal ITextViewHost _textViewHostPrivate;
@@ -136,6 +137,7 @@ namespace ModernApplicationFramework.Editor.Implementation
         private bool _canChangeAllowTrailingWhitespace;
         private bool _canChangeHighlightCurrentLineEnabled;
         private bool _canChangeShowAnnotations;
+        private bool _updatingUserPreferences;
 
         public delegate void ChangeScrollInfoEventHandler(IMafTextView pView, int iBar, int iMinUnit, int iMaxUnits,
             int iVisibleUnits, int iFirstVisibleUnit);
@@ -665,7 +667,43 @@ namespace ModernApplicationFramework.Editor.Implementation
                             if (result == 1)
                                 return result;
                             break;
-                        default:
+                        case MafConstants.EditorCommands.WordPrevious:
+                            result = MoveWordPrev();
+                            if (result == 1)
+                                return result;
+                            break;
+                        case MafConstants.EditorCommands.WordPreviousExtend:
+                            result = ExtendSelectionWordPrev();
+                            if (result == 1)
+                                return result;
+                            break;
+                        case MafConstants.EditorCommands.WordNext:
+                            result = MoveWordNext();
+                            if (result == 1)
+                                return result;
+                            break;
+                        case MafConstants.EditorCommands.WordNextExtend:
+                            result = ExtendSelectionWordNext();
+                            if (result == 1)
+                                return result;
+                            break;
+                        case MafConstants.EditorCommands.Cancel:
+                            if (!DismissTopTip())
+                            {
+                                if (TextView.Selection.IsEmpty)
+                                    result = 1;
+                                _editorOperations.ResetSelection();
+                                _lastCycledSpan = new VirtualSnapshotSpan?();
+                            }
+                            break;
+                        case MafConstants.EditorCommands.ToggleVisibleSpace:
+                            if (_canChangeVisibleWhitespace)
+                            {
+                                _editorOptions.SetOptionValue(DefaultTextViewOptions.UseVisibleWhitespaceId, !_editorOptions.GetOptionValue(DefaultTextViewOptions.UseVisibleWhitespaceId));
+                                UpdateToolsOptionsPreferences(DefaultTextViewOptions.UseVisibleWhitespaceId.Name);
+                            }
+                            break;
+                        default:    
                             result = -2147221248;
                             break;
                     }
@@ -689,7 +727,31 @@ namespace ModernApplicationFramework.Editor.Implementation
 
         private void UpdateToolsOptionsPreferences(string optionName)
         {
+            if (!_isCodeWindow)
+                return;
 
+            //TODO: textmanager stuff
+
+            var languageServiceId = TextDocData.ActualLanguageServiceID;
+            if (string.Equals(DefaultTextViewOptions.UseVirtualSpaceId.Name, optionName, StringComparison.Ordinal))
+            {
+
+            }
+            if (string.Equals(DefaultTextViewOptions.WordWrapStyleId.Name, optionName, StringComparison.Ordinal))
+            {
+
+            }
+            if (string.Equals(DefaultTextViewOptions.OverwriteModeId.Name, optionName, StringComparison.Ordinal))
+            {
+
+            }
+            if (string.Equals(DefaultTextViewOptions.UseVisibleWhitespaceId.Name, optionName, StringComparison.Ordinal))
+            {
+                if (!_canChangeVisibleWhitespace)
+                    return;
+            }
+            _updatingUserPreferences = true;
+            _updatingUserPreferences = false;
         }
 
         private int GetLineNumberFromDialog()
@@ -726,6 +788,11 @@ namespace ModernApplicationFramework.Editor.Implementation
                             break;
                         case 60:
                             prgCmds[i].cmdf = CanPaste();
+                            break;
+                        case 105:
+                            prgCmds[i].cmdf = _isCodeWindow ? Olecmdf.Supported | Olecmdf.Enabled : Olecmdf.None;
+                            if (_isCodeWindow && _editorOptions.GetOptionValue(DefaultTextViewOptions.UseVisibleWhitespaceId))
+                                prgCmds[i].cmdf |= Olecmdf.Latched;
                             break;
                         default:
                             prgCmds[i].cmdf = prgCmds[i].cmdID <= 0 || prgCmds[i].cmdID >= 145
@@ -1427,6 +1494,70 @@ namespace ModernApplicationFramework.Editor.Implementation
         private bool DoesViewProhibitUserInput()
         {
             return _editorOperations.Options.GetOptionValue(DefaultTextViewOptions.ViewProhibitUserInputId);
+        }
+
+        private int MoveWordPrev()
+        {
+            try
+            {
+                _editorOperations.MoveToPreviousWord(false);
+            }
+            finally
+            {
+                ClearCommandContext();
+            }
+            return 0;
+        }
+
+        private int ExtendSelectionWordPrev()
+        {
+            try
+            {
+                _editorOperations.MoveToPreviousWord(true);
+            }
+            finally
+            {
+                ClearCommandContext();
+            }
+            return 0;
+        }
+
+        private int ExtendSelectionWordNext()
+        {
+            try
+            {
+                _editorOperations.MoveToNextWord(true);
+            }
+            finally
+            {
+                ClearCommandContext();
+            }
+            return 0;
+        }
+
+        private int MoveWordNext()
+        {
+            try
+            {
+                _editorOperations.MoveToNextWord(false);
+            }
+            finally
+            {
+                ClearCommandContext();
+            }
+            return 0;
+        }
+
+        private bool DismissTopTip()
+        {
+            for (var index = _openedTips.Count - 1; index >= 0; --index)
+            {
+                var openedTip = _openedTips[index];
+                _openedTips.RemoveAt(index);
+                if (openedTip.Dismiss())
+                    return true;
+            }
+            return false;
         }
 
 

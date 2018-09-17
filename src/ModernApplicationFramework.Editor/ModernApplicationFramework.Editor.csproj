@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commanding\ActiveTextViewState.cs" />
+    <Compile Include="Commands\CancelCommandDefinition.cs" />
     <Compile Include="Commands\CutLineCommandDefinition.cs" />
     <Compile Include="Commands\DeleteHorizontalWhiteSpaceCommandDefinition.cs" />
     <Compile Include="Commands\DeleteLineCommandDefinition.cs" />
@@ -124,6 +125,7 @@
     <Compile Include="Commands\SwapAnchorCommandDefinition.cs" />
     <Compile Include="Commands\TabifySelectionCommandDefinition.cs" />
     <Compile Include="Commands\ToggleCaseCommandDefinition.cs" />
+    <Compile Include="Commands\ToggleVisibleSpaceCommandDefinition.cs" />
     <Compile Include="Commands\TopLineCommandDefinition.cs" />
     <Compile Include="Commands\TopLineExtendCommandDefinition.cs" />
     <Compile Include="Commands\TransposeCharCommandDefinition.cs" />
@@ -141,6 +143,10 @@
     <Compile Include="Commands\TabCommandDefinition.cs" />
     <Compile Include="Commands\RightCommandDefinition.cs" />
     <Compile Include="Commands\UpExtensionCommandDefinition.cs" />
+    <Compile Include="Commands\WordNextCommandDefinition.cs" />
+    <Compile Include="Commands\WordNextExtendCommandDefinition.cs" />
+    <Compile Include="Commands\WordPreviousCommandDefinition.cs" />
+    <Compile Include="Commands\WordPreviousExtendCommandDefinition.cs" />
     <Compile Include="Implementation\CaretMoveType.cs" />
     <Compile Include="Implementation\ClipboardDataFormats.cs" />
     <Compile Include="Implementation\CommandHandlerServiceAdapter_Execute.cs" />

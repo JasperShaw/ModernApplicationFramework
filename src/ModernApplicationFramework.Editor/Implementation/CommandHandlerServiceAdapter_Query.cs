@@ -142,5 +142,10 @@ namespace ModernApplicationFramework.Editor.Implementation
         {
             return GetCommandState((view, buffer) => new WordDeleteToStartCommandArgs(view, buffer), pguidCmdGroup, commandCount, prgCmds, commandText);
         }
+
+        private int QueryEscapeKeyStatus(ref Guid pguidCmdGroup, uint commandCount, Olecmd[] prgCmds, IntPtr commandText)
+        {
+            return GetCommandState((view, buffer) => new EscapeKeyCommandArgs(view, buffer), pguidCmdGroup, commandCount, prgCmds, commandText);
+        }
     }
 }

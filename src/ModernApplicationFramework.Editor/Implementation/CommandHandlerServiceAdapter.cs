@@ -213,9 +213,9 @@ namespace ModernApplicationFramework.Editor.Implementation
                 //case VSConstants.VSStd2KCmdID.UNCOMMENT_BLOCK:
                 //    ExecuteUncommentSelectionCommand(next);
                 //    return 0;
-                //case VSConstants.VSStd2KCmdID.CANCEL:
-                //    ExecuteEscapeKeyCommand(next);
-                //    return 0;
+                case MafConstants.EditorCommands.Cancel:
+                    ExecuteEscapeKeyCommand(next);
+                    return 0;
                 //case VSConstants.VSStd2KCmdID.PARAMINFO:
                 //    ExecuteInvokeSignatureHelpCommand(next);
                 //    return 0;
@@ -394,8 +394,8 @@ namespace ModernApplicationFramework.Editor.Implementation
                 //case VSConstants.VSStd2KCmdID.UNCOMMENTBLOCK:
                 //case VSConstants.VSStd2KCmdID.UNCOMMENT_BLOCK:
                 //    return QueryUncommentSelectionStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
-                //case VSConstants.VSStd2KCmdID.CANCEL:
-                //    return QueryEscapeKeyStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
+                case (uint)MafConstants.EditorCommands.Cancel:
+                    return QueryEscapeKeyStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
                 //case VSConstants.VSStd2KCmdID.PARAMINFO:
                 //    return QueryInvokeSignatureHelpStatus(ref pguidCmdGroup, commandCount, prgCmds, commandText);
                 //case VSConstants.VSStd2KCmdID.COMPLETEWORD:

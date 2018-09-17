@@ -201,6 +201,7 @@
     <Compile Include="Implementation\SelectionMouseProcessor.cs" />
     <Compile Include="Implementation\SelectionMouseProcessorProvider.cs" />
     <Compile Include="Implementation\SmartIndentationService.cs" />
+    <Compile Include="MultiSelection\MultiSelectionCommandHandler.cs" />
     <Compile Include="MultiSelection\MultiSelectionMouseHandler.cs" />
     <Compile Include="MultiSelection\MultiSelectionMouseHandlerProvider.cs" />
     <Compile Include="MultiSelection\SelectionAdornment.cs" />

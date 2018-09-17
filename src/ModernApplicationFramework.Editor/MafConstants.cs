@@ -87,7 +87,16 @@ namespace ModernApplicationFramework.Editor
             SelectCurrentWord = 90,
             DeleteWordRight = 91,
             DeleteWordLeft = 92,
+            WordPrevious = 93,
+            WordPreviousExtend = 94,
+            // #95 is omitted
+            WordNext = 96,
+            WordNextExtend = 97,
+            // Omitted Un/Comment
             ShowContextMenu = 102,
+            Cancel = 103,
+            // ParamInfo = 104,
+            ToggleVisibleSpace = 105,
             OpenUrl = 113,
             DoubleClick = 134,
             LeftClick = 150,

@@ -256,6 +256,7 @@
     <Compile Include="Ui\Editor\Commanding\Commands\DocumentEndCommandArgs.cs" />
     <Compile Include="Ui\Editor\Commanding\Commands\DocumentStartCommandArgs.cs" />
     <Compile Include="Ui\Editor\Commanding\Commands\DownKeyCommandArgs.cs" />
+    <Compile Include="Ui\Editor\Commanding\Commands\EscapeKeyCommandArgs.cs" />
     <Compile Include="Ui\Editor\Commanding\Commands\LineEndCommandArgs.cs" />
     <Compile Include="Ui\Editor\Commanding\Commands\LineEndExtendCommandArgs.cs" />
     <Compile Include="Ui\Editor\Commanding\Commands\LineStartCommandArgs.cs" />

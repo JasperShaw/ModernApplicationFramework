@@ -10,12 +10,14 @@ namespace ModernApplicationFramework.Modules.Editor.AdornmentLibrary.VisibleWhit
     [DeferCreation(OptionName = "TextView/UseVisibleWhitespace")]
     [Export(typeof(ITextViewCreationListener))]
     [ContentType("Text")]
-    [TextViewRole("DOCUMENT")]
+    [TextViewRole("INTERACTIVE")]
     [TextViewRole("ENHANCED_SCROLLBAR_PREVIEW")]
     [TextViewRole("EMBEDDED_PEEK_TEXT_VIEW")]
     internal sealed class VisibleWhitespaceFactory : ITextViewCreationListener
     {
-        [Export] [Name("VisibleWhitespace")] [Order(After = "Text", Before = "Caret")]
+        [Export]
+        [Name("VisibleWhitespace")]
+        [Order(After = "Text", Before = "Caret")]
         internal AdornmentLayerDefinition VisibleWhitespaceLayer;
 
         [Import] private IEditorFormatMapService _editorFormatMappingService;

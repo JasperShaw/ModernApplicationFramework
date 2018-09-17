@@ -177,5 +177,10 @@ namespace ModernApplicationFramework.Editor.Implementation
         {
             _commandHandlerService.Execute((view, buffer) => new WordDeleteToStartCommandArgs(view, buffer), next);
         }
+
+        private void ExecuteEscapeKeyCommand(Action next)
+        {
+            _commandHandlerService.Execute((view, buffer) => new EscapeKeyCommandArgs(view, buffer), next);
+        }
     }
 }

@@ -767,7 +767,10 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
 
         public void MoveToNextWord(bool extendSelection)
         {
-            throw new NotImplementedException();
+            _multiSelectionBroker.PerformActionOnAllSelections(extendSelection
+                ? PredefinedSelectionTransformations.SelectToNextWord
+                : PredefinedSelectionTransformations.MoveToNextWord);
+            TextView.Caret.EnsureVisible();
         }
 
         public void MoveToPreviousCharacter(bool select)
@@ -780,7 +783,10 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
 
         public void MoveToPreviousWord(bool extendSelection)
         {
-            throw new NotImplementedException();
+            _multiSelectionBroker.PerformActionOnAllSelections(extendSelection
+                ? PredefinedSelectionTransformations.SelectToPreviousWord
+                : PredefinedSelectionTransformations.MoveToPreviousWord);
+            TextView.Caret.EnsureVisible();
         }
 
         public void MoveToStartOfDocument(bool extendSelection)
