@@ -11,16 +11,15 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 using ModernApplicationFramework.Input;
-using ModernApplicationFramework.Input.Command;
-using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Properties;
-using ModernApplicationFramework.Utilities;
 using Action = System.Action;
 
 namespace ModernApplicationFramework.Basics.Services
 {
+    //TODO: try to move all the key gesture stuff into the Maf.Input assembly.
+
     /// <inheritdoc />
     /// <summary>
     ///     A service to manage key input bindings
