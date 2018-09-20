@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using Caliburn.Micro;
+using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;

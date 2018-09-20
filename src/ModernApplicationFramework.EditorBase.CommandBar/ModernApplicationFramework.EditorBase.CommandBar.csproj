@@ -97,6 +97,10 @@
       <Project>{D8B696A7-BA7D-4762-8C34-13B7F212074F}</Project>
       <Name>ModernApplicationFramework.Imaging</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ModernApplicationFramework.Input\ModernApplicationFramework.Input.csproj">
+      <Project>{57ACF623-794E-41E8-8033-1544D209A4E1}</Project>
+      <Name>ModernApplicationFramework.Input</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework.Utilities\ModernApplicationFramework.Utilities.csproj">
       <Project>{2B388979-5B07-4F0A-A302-0C575AAA21C0}</Project>
       <Name>ModernApplicationFramework.Utilities</Name>

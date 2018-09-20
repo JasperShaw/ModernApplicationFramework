@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Editor.Commanding;
 using ModernApplicationFramework.Editor.Implementation;
+using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Text.Ui.Editor;
 using ModernApplicationFramework.Utilities;
 

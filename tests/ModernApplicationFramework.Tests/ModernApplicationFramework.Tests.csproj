@@ -58,6 +58,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\ModernApplicationFramework.Input\ModernApplicationFramework.Input.csproj">
+      <Project>{57acf623-794e-41e8-8033-1544d209a4e1}</Project>
+      <Name>ModernApplicationFramework.Input</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\ModernApplicationFramework\ModernApplicationFramework.csproj">
       <Project>{74f6c6a1-64bb-47d4-9e7f-6cd5c4ca166c}</Project>
       <Name>ModernApplicationFramework</Name>

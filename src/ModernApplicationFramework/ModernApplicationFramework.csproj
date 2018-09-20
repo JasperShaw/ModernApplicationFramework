@@ -240,6 +240,7 @@
     <Compile Include="Core\Converters\General\GoToLabelConverter.cs" />
     <Compile Include="Core\ValidationRules\BindableValidationRule.cs" />
     <Compile Include="Core\ValidationRules\RangeValidationRule.cs" />
+    <Compile Include="Input\Command\GestureScopes.cs" />
     <Compile Include="Interfaces\Threading\IMafExecutionContextTracker.cs" />
     <Compile Include="Interfaces\Threading\IMafInvokablePrivate.cs" />
     <Compile Include="Basics\Threading\MafTaskContinuationOptions.cs" />
@@ -301,7 +302,6 @@
     <Compile Include="Core\Converters\General\BooleanToHiddenVisibilityConverter.cs" />
     <Compile Include="Core\Themes\ResourceKeys.cs" />
     <Compile Include="Core\Utilities\ScrollBarThemingUtilities.cs" />
-    <Compile Include="Input\GestureHelper.cs" />
     <Compile Include="Interfaces\Commands\IAutoHideAllWindowsCommand.cs" />
     <Compile Include="Interfaces\Commands\IAutoHideWindowCommand.cs" />
     <Compile Include="Interfaces\Commands\ICloseAllButThisDockedWindowCommand.cs" />
@@ -391,7 +391,6 @@
     <Compile Include="Core\Converters\SearchProgressTypeConverter.cs" />
     <Compile Include="Core\Converters\SearchStatusConverter.cs" />
     <Compile Include="Core\Themes\SearchControlColors.cs" />
-    <Compile Include="Input\Command\CommandHelpers.cs" />
     <Compile Include="Interfaces\Services\ILayoutBackupProvider.cs" />
     <Compile Include="Interfaces\Services\ILayoutSerializer.cs" />
     <Compile Include="Interfaces\Services\IMruManager.cs" />
@@ -477,19 +476,9 @@
     <Compile Include="Basics\InfoBar\Internal\InfoBarViewModel.cs" />
     <Compile Include="Controls\InfoBar\SpacingControls\SpacingStackPanel.cs" />
     <Compile Include="Controls\InfoBar\SpacingControls\SpacingWrapPanel.cs" />
-    <Compile Include="Input\Command\DelegateCommand.cs" />
-    <Compile Include="Input\GestureScopeMapping.cs" />
     <Compile Include="Input\CommandDefinitionGestureMappingStore.cs" />
-    <Compile Include="Input\GestureCollection.cs" />
     <Compile Include="Basics\Services\InternalApplicationIconService.cs" />
     <Compile Include="Basics\Services\StatusBar\BasicStatusBarService.cs" />
-    <Compile Include="Input\Command\GestureScopes.cs" />
-    <Compile Include="Input\ValidCheckMode.cs" />
-    <Compile Include="Interfaces\ICanHaveInputBindings.cs" />
-    <Compile Include="Input\KeySequence.cs" />
-    <Compile Include="Input\MultiKeyBinding.cs" />
-    <Compile Include="Input\MultiKeyGestureValueSerializer.cs" />
-    <Compile Include="Input\Command\UICommand.cs" />
     <Compile Include="Controls\TextBoxes\KeyGestureTextBox.cs" />
     <Compile Include="Core\Comparers\CategoryCommandTextComparer.cs" />
     <Compile Include="Core\Converters\General\NullToBooleanConverter.cs" />
@@ -618,11 +607,8 @@
     <Compile Include="Basics\CommandBar\Commands\ShowToolBarListCommandHandler.cs" />
     <Compile Include="Input\Command\CommandHandlerWrapper.cs" />
     <Compile Include="Basics\CommandBar\ItemDefinitions\CommandListDefintion.cs" />
-    <Compile Include="Input\Base\AbstractCommandWrapper.cs" />
     <Compile Include="Basics\CommandBar\ItemDefinitions\CommandBarItemDefinition.cs" />
     <Compile Include="Basics\CommandBar\ItemDefinitions\CommandDefinition.cs" />
-    <Compile Include="Input\MultiKeyGesture.cs" />
-    <Compile Include="Input\MultiKeyGestureConverter.cs" />
     <Compile Include="Basics\Services\CommandBar\CommandBarItemService.cs" />
     <Compile Include="Controls\Buttons\CommandDefinitionButton.cs" />
     <Compile Include="Controls\ListBoxes\CustomizeControlsListBox.cs" />
@@ -668,10 +654,6 @@
     <Compile Include="Interfaces\Services\ICommandListHandler.cs" />
     <Compile Include="Interfaces\Services\ICommandRouter.cs" />
     <Compile Include="Interfaces\Services\ICommandBarItemService.cs" />
-    <Compile Include="Input\Command\Command.cs" />
-    <Compile Include="Input\Base\CommandBase.cs" />
-    <Compile Include="Input\Base\CommandT.cs" />
-    <Compile Include="Input\Base\WeakEventHandlerManager.cs" />
     <Compile Include="Controls\Buttons\Button.cs" />
     <Compile Include="Controls\ListBoxes\CheckableListBox.cs" />
     <Compile Include="Controls\ListBoxes\CheckableListBoxItem.cs" />
@@ -1168,6 +1150,10 @@
     <ProjectReference Include="..\ModernApplicationFramework.Imaging\ModernApplicationFramework.Imaging.csproj">
       <Project>{D8B696A7-BA7D-4762-8C34-13B7F212074F}</Project>
       <Name>ModernApplicationFramework.Imaging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModernApplicationFramework.Input\ModernApplicationFramework.Input.csproj">
+      <Project>{57acf623-794e-41e8-8033-1544d209a4e1}</Project>
+      <Name>ModernApplicationFramework.Input</Name>
     </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework.Threading\ModernApplicationFramework.Threading.csproj">
       <Project>{F6B73506-4197-49A6-9F57-6E83827D415C}</Project>

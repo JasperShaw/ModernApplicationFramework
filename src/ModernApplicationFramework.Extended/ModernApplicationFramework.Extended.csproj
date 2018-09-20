@@ -238,6 +238,10 @@
       <Project>{79388073-9D36-49FE-BBEE-3126A1FA9DDE}</Project>
       <Name>ModernApplicationFramework.Docking</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ModernApplicationFramework.Input\ModernApplicationFramework.Input.csproj">
+      <Project>{57ACF623-794E-41E8-8033-1544D209A4E1}</Project>
+      <Name>ModernApplicationFramework.Input</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework.Settings\ModernApplicationFramework.Settings.csproj">
       <Project>{240cc7db-f3a0-48e7-a8eb-5785a90128be}</Project>
       <Name>ModernApplicationFramework.Settings</Name>

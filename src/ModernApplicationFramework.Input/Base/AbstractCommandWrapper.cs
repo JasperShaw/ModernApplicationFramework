@@ -14,7 +14,7 @@ namespace ModernApplicationFramework.Input.Base
     public abstract class AbstractCommandWrapper : ICommand
     {
 
-        internal AbstractCommandWrapper()
+        protected AbstractCommandWrapper()
         {
             
         }
@@ -33,7 +33,7 @@ namespace ModernApplicationFramework.Input.Base
             WrappedCommand = wrappedCommand ?? throw new ArgumentNullException(nameof(wrappedCommand));
         }
 
-        public ICommand WrappedCommand { get; internal set; }
+        public ICommand WrappedCommand { get; protected internal set; }
 
         public bool CanExecute(object parameter)
         {

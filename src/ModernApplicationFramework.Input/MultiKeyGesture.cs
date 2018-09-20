@@ -31,7 +31,8 @@ namespace ModernApplicationFramework.Input
         private bool _isInMultiState;
         private DateTime _lastKeyPress;
 
-        internal bool WasFoundDuringMulti { get; set; }
+        //todo: make internal
+        public bool WasFoundDuringMulti { get; set; }
 
         public IList<KeySequence> GestureCollection { get; } = new List<KeySequence>();
 

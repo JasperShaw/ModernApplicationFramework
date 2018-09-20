@@ -491,6 +491,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ModernApplicationFramework.Input\ModernApplicationFramework.Input.csproj">
+      <Project>{57ACF623-794E-41E8-8033-1544D209A4E1}</Project>
+      <Name>ModernApplicationFramework.Input</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework.Threading\ModernApplicationFramework.Threading.csproj">
       <Project>{F6B73506-4197-49A6-9F57-6E83827D415C}</Project>
       <Name>ModernApplicationFramework.Threading</Name>

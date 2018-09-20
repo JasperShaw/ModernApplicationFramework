@@ -5,6 +5,7 @@ using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Editor.OutputClassifier;
 using ModernApplicationFramework.Extended.Layout;
+using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Utilities;
 

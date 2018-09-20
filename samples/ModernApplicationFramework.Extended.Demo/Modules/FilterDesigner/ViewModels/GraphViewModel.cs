@@ -10,6 +10,7 @@ using ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.Design;
 using ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.Util;
 using ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.ViewModels.Elements;
 using ModernApplicationFramework.Extended.Layout;
+using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Modules.Inspector;
 using ModernApplicationFramework.Modules.Toolbox;

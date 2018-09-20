@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Utilities;
 

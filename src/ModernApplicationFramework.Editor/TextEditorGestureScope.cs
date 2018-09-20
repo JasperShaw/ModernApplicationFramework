@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.Composition;
-using ModernApplicationFramework.Utilities;
+using ModernApplicationFramework.Input;
 
 namespace ModernApplicationFramework.Editor
 {

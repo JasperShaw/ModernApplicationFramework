@@ -94,6 +94,10 @@
       <Project>{51911695-6CDB-4833-9782-06C8821D1C4E}</Project>
       <Name>ModernApplicationFramework.Extended</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\ModernApplicationFramework.Input\ModernApplicationFramework.Input.csproj">
+      <Project>{57ACF623-794E-41E8-8033-1544D209A4E1}</Project>
+      <Name>ModernApplicationFramework.Input</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\ModernApplicationFramework.Utilities\ModernApplicationFramework.Utilities.csproj">
       <Project>{2B388979-5B07-4F0A-A302-0C575AAA21C0}</Project>
       <Name>ModernApplicationFramework.Utilities</Name>

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.EditorBase.Interfaces.Editor
