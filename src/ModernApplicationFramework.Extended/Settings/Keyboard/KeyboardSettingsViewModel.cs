@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 using ModernApplicationFramework.Extended.Input.KeyBindingScheme;
 using ModernApplicationFramework.Extended.Interfaces;

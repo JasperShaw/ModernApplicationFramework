@@ -240,7 +240,7 @@
     <Compile Include="Core\Converters\General\GoToLabelConverter.cs" />
     <Compile Include="Core\ValidationRules\BindableValidationRule.cs" />
     <Compile Include="Core\ValidationRules\RangeValidationRule.cs" />
-    <Compile Include="Input\Command\GestureScopes.cs" />
+    <Compile Include="Basics\GestureScopes.cs" />
     <Compile Include="Interfaces\Threading\IMafExecutionContextTracker.cs" />
     <Compile Include="Interfaces\Threading\IMafInvokablePrivate.cs" />
     <Compile Include="Basics\Threading\MafTaskContinuationOptions.cs" />

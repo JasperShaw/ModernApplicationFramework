@@ -32,7 +32,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.ViewMo
         public IObservableCollection<ConnectionViewModel> Connections => _connections;
 
         public override IEnumerable<GestureScope> GestureScopes => new[]
-            {ModernApplicationFramework.Input.Command.GestureScopes.GlobalGestureScope};
+            {Basics.GestureScopes.GlobalGestureScope};
 
         public IEnumerable<ElementViewModel> SelectedElements
         {

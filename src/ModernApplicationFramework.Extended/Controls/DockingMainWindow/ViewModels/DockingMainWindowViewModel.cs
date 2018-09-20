@@ -272,7 +272,7 @@ namespace ModernApplicationFramework.Extended.Controls.DockingMainWindow.ViewMod
 #pragma warning restore 649
 
         public IEnumerable<GestureScope> GestureScopes => new[]
-            {ModernApplicationFramework.Input.Command.GestureScopes.GlobalGestureScope};
+            {Basics.GestureScopes.GlobalGestureScope};
 
         public UIElement BindableElement => Window;
 

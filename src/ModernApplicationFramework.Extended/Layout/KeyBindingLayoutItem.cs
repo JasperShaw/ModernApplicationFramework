@@ -13,7 +13,7 @@ namespace ModernApplicationFramework.Extended.Layout
     public abstract class KeyBindingLayoutItem : LayoutItem, ICanHaveInputBindings
     {
         public virtual IEnumerable<GestureScope> GestureScopes => new[]
-            {ModernApplicationFramework.Input.Command.GestureScopes.GlobalGestureScope};
+            {Basics.GestureScopes.GlobalGestureScope};
         public UIElement BindableElement { get; protected set; }
 
         protected override void OnViewLoaded(object view)

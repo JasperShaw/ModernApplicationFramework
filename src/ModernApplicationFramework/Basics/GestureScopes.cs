@@ -1,8 +1,8 @@
 using System.ComponentModel.Composition;
+using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Properties;
-using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Input.Command
+namespace ModernApplicationFramework.Basics
 {
     public static class GestureScopes
     {

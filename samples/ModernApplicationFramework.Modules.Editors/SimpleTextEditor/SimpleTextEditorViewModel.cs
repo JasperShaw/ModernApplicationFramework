@@ -38,7 +38,7 @@ namespace ModernApplicationFramework.Modules.Editors.SimpleTextEditor
             }
         }
 
-        public override IEnumerable<GestureScope> GestureScopes => new[] {Input.Command.GestureScopes.GlobalGestureScope};
+        public override IEnumerable<GestureScope> GestureScopes => new[] {Basics.GestureScopes.GlobalGestureScope};
 
         protected override string FallbackSaveExtension => IoC.Get<IFileDefinitionManager>()
             .GetDefinitionByFilePath(Document.FileName).FileExtension;

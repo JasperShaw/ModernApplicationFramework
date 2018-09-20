@@ -55,6 +55,7 @@
     <Compile Include="Base\WeakEventHandlerManager.cs" />
     <Compile Include="Command\Command.cs" />
     <Compile Include="Command\CommandHelpers.cs" />
+    <Compile Include="Command\CommandStatus.cs" />
     <Compile Include="Command\DelegateCommand.cs" />
     <Compile Include="Command\UICommand.cs" />
     <Compile Include="GestureCollection.cs" />

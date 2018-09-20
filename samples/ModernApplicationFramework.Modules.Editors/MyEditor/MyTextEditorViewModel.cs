@@ -41,7 +41,7 @@ namespace ModernApplicationFramework.Modules.Editors.MyEditor
         }
 
         public override IEnumerable<GestureScope> GestureScopes => new[]
-            {Input.Command.GestureScopes.GlobalGestureScope};
+            {Basics.GestureScopes.GlobalGestureScope};
 
         protected override string FallbackSaveExtension => ".xml";
 

@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
+using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.CommandBar.ItemDefinitions;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
