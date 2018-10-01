@@ -63,6 +63,22 @@
     <Compile Include="AdornmentLibrary\VisibleWhitespace\VisibleWhitespaceAdornment.cs" />
     <Compile Include="AdornmentLibrary\VisibleWhitespace\VisibleWhitespaceFactory.cs" />
     <Compile Include="AdornmentLibrary\VisibleWhitespace\VisibleWhitespaceVisualProvider.cs" />
+    <Compile Include="BraceCompletion\BraceCompletionAdornmentService.cs" />
+    <Compile Include="BraceCompletion\BraceCompletionAdornmentServiceFactory.cs" />
+    <Compile Include="BraceCompletion\BraceCompletionAggregator.cs" />
+    <Compile Include="BraceCompletion\BraceCompletionAggregatorFactory.cs" />
+    <Compile Include="BraceCompletion\BraceCompletionEnabledOption.cs" />
+    <Compile Include="BraceCompletion\BraceCompletionFormat.cs" />
+    <Compile Include="BraceCompletion\BraceCompletionManager.cs" />
+    <Compile Include="BraceCompletion\BraceCompletionManagerFactory.cs" />
+    <Compile Include="BraceCompletion\BraceCompletionStack.cs" />
+    <Compile Include="BraceCompletion\IBraceCompletionAdornmentService.cs" />
+    <Compile Include="BraceCompletion\IBraceCompletionAdornmentServiceFactory.cs" />
+    <Compile Include="BraceCompletion\IBraceCompletionAggregator.cs" />
+    <Compile Include="BraceCompletion\IBraceCompletionAggregatorFactory.cs" />
+    <Compile Include="BraceCompletion\IBraceCompletionMetadata.cs" />
+    <Compile Include="BraceCompletion\IBraceCompletionStack.cs" />
+    <Compile Include="BraceCompletion\PlainTextDefaults.cs" />
     <Compile Include="Commanding\CommandHandlerBucket.cs" />
     <Compile Include="Commanding\DefaultBufferResolver.cs" />
     <Compile Include="Commanding\DefaultBufferResolverProvider.cs" />
@@ -507,7 +523,6 @@
   <ItemGroup>
     <Folder Include="AdornmentLibrary\Squiggles\" />
     <Folder Include="AdornmentLibrary\ToolTip\" />
-    <Folder Include="BraceCompletion\" />
     <Folder Include="IncrementalSearch\" />
     <Folder Include="PatternMatching\" />
     <Folder Include="PrintingService\" />

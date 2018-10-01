@@ -336,6 +336,13 @@
     <Compile Include="Ui\Differencing\IDifferenceViewer.cs" />
     <Compile Include="Ui\Formatting\IViewSynchronizationManager.cs" />
     <Compile Include="Ui\Text\AbstractSelectionPresentationProperties.cs" />
+    <Compile Include="Ui\Text\BracePairAttribute.cs" />
+    <Compile Include="Ui\Text\IBraceCompletionContext.cs" />
+    <Compile Include="Ui\Text\IBraceCompletionContextProvider.cs" />
+    <Compile Include="Ui\Text\IBraceCompletionDefaultProvider.cs" />
+    <Compile Include="Ui\Text\IBraceCompletionManager.cs" />
+    <Compile Include="Ui\Text\IBraceCompletionSession.cs" />
+    <Compile Include="Ui\Text\IBraceCompletionSessionProvider.cs" />
     <Compile Include="Ui\Text\IMultiSelectionBroker.cs" />
     <Compile Include="Ui\Editor\InterLineAdornmentFactory.cs" />
     <Compile Include="Ui\Editor\InterLineAdornmentTag.cs" />

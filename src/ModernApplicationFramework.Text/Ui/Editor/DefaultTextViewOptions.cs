@@ -24,10 +24,10 @@ namespace ModernApplicationFramework.Text.Ui.Editor
             new EditorOptionKey<bool>(DisplayUrlsAsHyperlinksName);
         public static readonly EditorOptionKey<bool> DragDropEditingId = new EditorOptionKey<bool>(DragDropEditingName);
         //public static readonly EditorOptionKey<bool> ShowBlockStructureId = new EditorOptionKey<bool>(ShowBlockStructureName);
-        //public const string BraceCompletionEnabledOptionName = "BraceCompletion/Enabled";
         public static readonly EditorOptionKey<double> CaretWidthId = new EditorOptionKey<double>(CaretWidthOptionName);
         public static readonly EditorOptionKey<bool> ShouldCaretsBeRenderedId = new EditorOptionKey<bool>(ShouldCaretsBeRenderedName);
         public static readonly EditorOptionKey<bool> ShouldSelectionsBeRenderedId = new EditorOptionKey<bool>(ShouldSelectionsBeRenderedName);
+        public static readonly EditorOptionKey<bool> BraceCompletionEnabledOptionId = new EditorOptionKey<bool>(BraceCompletionEnabledOptionName);
 
         public const string AutoScrollName = "TextView/AutoScroll";
         //public static readonly EditorOptionKey<bool> BraceCompletionEnabledOptionId = new EditorOptionKey<bool>(BraceCompletionEnabledOptionName);
@@ -45,6 +45,7 @@ namespace ModernApplicationFramework.Text.Ui.Editor
         public const string WordWrapStyleName = "TextView/WordWrapStyle";
         public const string CaretWidthOptionName = "TextView/CaretWidth";
         public const string ShouldCaretsBeRenderedName = "TextView/ShouldCaretsBeRendered";
-        public const string ShouldSelectionsBeRenderedName = "TextView/ShouldSelectionsBeRendered";            
+        public const string ShouldSelectionsBeRenderedName = "TextView/ShouldSelectionsBeRendered";
+        public const string BraceCompletionEnabledOptionName = "BraceCompletion/Enabled";
     }
 }
