@@ -14,6 +14,7 @@ using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Properties;
+using ModernApplicationFramework.Utilities.Core;
 using Action = System.Action;
 
 namespace ModernApplicationFramework.Basics.Services
@@ -281,7 +282,13 @@ namespace ModernApplicationFramework.Basics.Services
                 var s = _elementMapping.Where(pair => pair.Value.Any(x => x == i))
                     .Select(pair => pair.Key);
 
-                var currentScopes = GestureHelper.GetScopesFromElement(i as UIElement);
+                var currentScopes = GestureHelper.GetScopesFromElement(i as UIElement, element =>
+                {
+                    if (element is IPropertyOwner property &&
+                        property.Properties.TryGetProperty(typeof(ICanHaveInputBindings), out ICanHaveInputBindings inputBinding))
+                        return inputBinding.GestureScopes;
+                    return null;
+                });
 
                 var breakflag = false;
                 foreach (var currentScope in currentScopes)
