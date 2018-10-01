@@ -35,7 +35,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.KeyGestureScopeTest
                 {
                     var factory = IoC.Get<IContentTypeRegistryService>();
                     _contentType = factory.GetContentType(ContentTypeName) ??
-                                   factory.AddContentType(ContentTypeName, new[] {"text"});
+                                   factory.AddContentType(ContentTypeName, new[] { "plaintext" });
                 }
 
                 return _contentType;

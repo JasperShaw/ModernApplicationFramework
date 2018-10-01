@@ -10,18 +10,12 @@ namespace ModernApplicationFramework.Modules.Editor.BraceCompletion
 {
     internal class BraceCompletionStack : IBraceCompletionStack
     {
-        private readonly IBraceCompletionAdornmentServiceFactory _adornmentServiceFactory;
         private readonly Stack<IBraceCompletionSession> _stack;
         private ITextView _textView;
-        private readonly IGuardedOperations _guardedOperations;
-        private IBraceCompletionAdornmentService _adornmentService;
         private ITextBuffer _currentSubjectBuffer;
-
-        public IBraceCompletionSession TopSession => _stack.Count <= 0 ? null : _stack.Peek();
-
-        public ReadOnlyObservableCollection<IBraceCompletionSession> Sessions =>
-            new ReadOnlyObservableCollection<IBraceCompletionSession>(
-                new ObservableCollection<IBraceCompletionSession>(_stack));
+        private readonly IBraceCompletionAdornmentServiceFactory _adornmentServiceFactory;
+        private IBraceCompletionAdornmentService _adornmentService;
+        private readonly IGuardedOperations _guardedOperations;
 
         public BraceCompletionStack(ITextView textView, IBraceCompletionAdornmentServiceFactory adornmentFactory, IGuardedOperations guardedOperations)
         {
@@ -32,11 +26,20 @@ namespace ModernApplicationFramework.Modules.Editor.BraceCompletion
             RegisterEvents();
         }
 
+        public IBraceCompletionSession TopSession
+        {
+            get
+            {
+                if (_stack.Count <= 0)
+                    return null;
+                return _stack.Peek();
+            }
+        }
 
         public void PushSession(IBraceCompletionSession session)
         {
-            var view = (ITextView)null;
-            var buffer = (ITextBuffer)null;
+            ITextView view = null;
+            ITextBuffer buffer = null;
             _guardedOperations.CallExtensionPoint(() =>
             {
                 view = session.TextView;
@@ -45,7 +48,7 @@ namespace ModernApplicationFramework.Modules.Editor.BraceCompletion
             if (view == null || buffer == null)
                 return;
             SetCurrentBuffer(buffer);
-            var validStart = false;
+            bool validStart = false;
             _guardedOperations.CallExtensionPoint(() =>
             {
                 session.Start();
@@ -53,15 +56,17 @@ namespace ModernApplicationFramework.Modules.Editor.BraceCompletion
             });
             if (!validStart)
                 return;
-            var closingPoint = (ITrackingPoint)null;
+            ITrackingPoint closingPoint = null;
             _guardedOperations.CallExtensionPoint(() => closingPoint = session.ClosingPoint);
             HighlightSpan(closingPoint);
             _stack.Push(session);
         }
 
+        public ReadOnlyObservableCollection<IBraceCompletionSession> Sessions => new ReadOnlyObservableCollection<IBraceCompletionSession>(new ObservableCollection<IBraceCompletionSession>(_stack));
+
         public void RemoveOutOfRangeSessions(SnapshotPoint point)
         {
-            var flag = false;
+            bool flag = false;
             while (_stack.Count > 0 && !Contains(TopSession, point))
             {
                 flag = true;
@@ -88,26 +93,74 @@ namespace ModernApplicationFramework.Modules.Editor.BraceCompletion
             _textView.Closed += TextView_Closed;
         }
 
-        private void PopSession()
-        {
-            var session = _stack.Pop();
-            var nextSubjectBuffer = (ITextBuffer)null;
-            _guardedOperations.CallExtensionPoint(() =>
-            {
-                session.Finish();
-                if (TopSession == null)
-                    return;
-                nextSubjectBuffer = TopSession.SubjectBuffer;
-            });
-            SetCurrentBuffer(nextSubjectBuffer);
-        }
-
         private void UnregisterEvents()
         {
             _textView.Caret.PositionChanged -= Caret_PositionChanged;
             _textView.Closed -= TextView_Closed;
             SetCurrentBuffer(null);
             _textView = null;
+        }
+
+        public void ConnectSubjectBuffer(ITextBuffer subjectBuffer)
+        {
+            subjectBuffer.PostChanged += SubjectBuffer_PostChanged;
+        }
+
+        public void DisconnectSubjectBuffer(ITextBuffer subjectBuffer)
+        {
+            subjectBuffer.PostChanged -= SubjectBuffer_PostChanged;
+        }
+
+        private void TextView_Closed(object sender, EventArgs e)
+        {
+            UnregisterEvents();
+        }
+
+        private void Caret_PositionChanged(object sender, CaretPositionChangedEventArgs e)
+        {
+            if (_stack.Count <= 0)
+                return;
+            if (_currentSubjectBuffer != null && e.TextView.TextBuffer != _currentSubjectBuffer)
+            {
+                SnapshotPoint? point = e.NewPosition.Point.GetPoint(_currentSubjectBuffer, PositionAffinity.Successor);
+                if (point.HasValue)
+                    RemoveOutOfRangeSessions(point.Value);
+                else
+                    _stack.Clear();
+            }
+            else
+                RemoveOutOfRangeSessions(e.NewPosition.BufferPosition);
+        }
+
+        private void SubjectBuffer_PostChanged(object sender, EventArgs e)
+        {
+            bool flag = false;
+            while (_stack.Count > 0 && !IsSessionValid(TopSession))
+            {
+                flag = true;
+                _stack.Pop().Finish();
+            }
+            if (!flag)
+                return;
+            ITrackingPoint closingPoint = null;
+            if (TopSession != null)
+                _guardedOperations.CallExtensionPoint(() => closingPoint = TopSession.ClosingPoint);
+            HighlightSpan(closingPoint);
+        }
+
+        private bool IsSessionValid(IBraceCompletionSession session)
+        {
+            bool isValid = false;
+            _guardedOperations.CallExtensionPoint(() =>
+            {
+                if (session.ClosingPoint == null || session.OpeningPoint == null || session.SubjectBuffer == null)
+                    return;
+                ITextSnapshot currentSnapshot = session.SubjectBuffer.CurrentSnapshot;
+                SnapshotPoint point1 = session.ClosingPoint.GetPoint(currentSnapshot);
+                SnapshotPoint point2 = session.OpeningPoint.GetPoint(currentSnapshot);
+                isValid = point1.Position > 1 && point2.Position <= point1.Position - 2 && point2.GetChar() == session.OpeningBrace && point1.Subtract(1).GetChar() == session.ClosingBrace;
+            });
+            return isValid;
         }
 
         private void SetCurrentBuffer(ITextBuffer buffer)
@@ -122,45 +175,18 @@ namespace ModernApplicationFramework.Modules.Editor.BraceCompletion
             ConnectSubjectBuffer(_currentSubjectBuffer);
         }
 
-        public void ConnectSubjectBuffer(ITextBuffer subjectBuffer)
+        private void PopSession()
         {
-            subjectBuffer.PostChanged += SubjectBuffer_PostChanged;
-        }
-
-        public void DisconnectSubjectBuffer(ITextBuffer subjectBuffer)
-        {
-            subjectBuffer.PostChanged -= SubjectBuffer_PostChanged;
-        }
-
-        private void SubjectBuffer_PostChanged(object sender, EventArgs e)
-        {
-            var flag = false;
-            while (_stack.Count > 0 && !IsSessionValid(TopSession))
-            {
-                flag = true;
-                _stack.Pop().Finish();
-            }
-            if (!flag)
-                return;
-            var closingPoint = (ITrackingPoint)null;
-            if (TopSession != null)
-                _guardedOperations.CallExtensionPoint(() => closingPoint = TopSession.ClosingPoint);
-            HighlightSpan(closingPoint);
-        }
-
-        private bool IsSessionValid(IBraceCompletionSession session)
-        {
-            var isValid = false;
+            IBraceCompletionSession session = _stack.Pop();
+            ITextBuffer nextSubjectBuffer = null;
             _guardedOperations.CallExtensionPoint(() =>
             {
-                if (session.ClosingPoint == null || session.OpeningPoint == null || session.SubjectBuffer == null)
+                session.Finish();
+                if (TopSession == null)
                     return;
-                var currentSnapshot = session.SubjectBuffer.CurrentSnapshot;
-                var point1 = session.ClosingPoint.GetPoint(currentSnapshot);
-                var point2 = session.OpeningPoint.GetPoint(currentSnapshot);
-                isValid = point1.Position > 1 && point2.Position <= point1.Position - 2 && point2.GetChar() == session.OpeningBrace && point1.Subtract(1).GetChar() == session.ClosingBrace;
+                nextSubjectBuffer = TopSession.SubjectBuffer;
             });
-            return isValid;
+            SetCurrentBuffer(nextSubjectBuffer);
         }
 
         private void HighlightSpan(ITrackingPoint point)
@@ -170,35 +196,14 @@ namespace ModernApplicationFramework.Modules.Editor.BraceCompletion
             _adornmentService.Point = point;
         }
 
-        private void TextView_Closed(object sender, EventArgs e)
-        {
-            UnregisterEvents();
-        }
-
-        private void Caret_PositionChanged(object sender, CaretPositionChangedEventArgs e)
-        {
-            if(_stack.Count <= 0)
-            return;
-            if (_currentSubjectBuffer != null && e.TextView.TextBuffer != _currentSubjectBuffer)
-            {
-                var point = e.NewPosition.Point.GetPoint(_currentSubjectBuffer, PositionAffinity.Successor);
-                if (point.HasValue)
-                    RemoveOutOfRangeSessions(point.Value);
-                else
-                    _stack.Clear();
-            }
-            else
-                RemoveOutOfRangeSessions(e.NewPosition.BufferPosition);
-        }
-
         private bool Contains(IBraceCompletionSession session, SnapshotPoint point)
         {
-            var contains = false;
+            bool contains = false;
             _guardedOperations.CallExtensionPoint(() =>
             {
                 if (session.OpeningPoint == null || session.ClosingPoint == null || (session.OpeningPoint.TextBuffer != session.ClosingPoint.TextBuffer || point.Snapshot.TextBuffer != session.OpeningPoint.TextBuffer))
                     return;
-                var snapshot = point.Snapshot;
+                ITextSnapshot snapshot = point.Snapshot;
                 contains = session.OpeningPoint.GetPosition(snapshot) < point.Position && session.ClosingPoint.GetPosition(snapshot) > point.Position;
             });
             return contains;

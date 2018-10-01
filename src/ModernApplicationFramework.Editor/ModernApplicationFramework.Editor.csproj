@@ -147,6 +147,7 @@
     <Compile Include="Commands\WordNextExtendCommandDefinition.cs" />
     <Compile Include="Commands\WordPreviousCommandDefinition.cs" />
     <Compile Include="Commands\WordPreviousExtendCommandDefinition.cs" />
+    <Compile Include="Implementation\BraceCompletionCommandFilter.cs" />
     <Compile Include="Implementation\CaretMoveType.cs" />
     <Compile Include="Implementation\ClipboardDataFormats.cs" />
     <Compile Include="Implementation\CommandHandlerServiceAdapter_Execute.cs" />

@@ -146,6 +146,8 @@ namespace ModernApplicationFramework.Editor.Implementation
 
         public delegate void SetFocusEventHandler(IMafTextView pView);
 
+        public delegate void SetBufferEventHandler(IMafTextView pView, IMafTextLines pBuffer);
+
         public event EventHandler Initialized;
         public event ChangeScrollInfoEventHandler OnChangeScrollInfo;
 
@@ -153,6 +155,7 @@ namespace ModernApplicationFramework.Editor.Implementation
 
         public event SetFocusEventHandler OnSetFocus;
 
+        public event SimpleTextViewWindow.SetBufferEventHandler OnSetBuffer;
 
         public InitializationState CurrentInitializationState { get; internal set; }
 
@@ -2166,6 +2169,14 @@ namespace ModernApplicationFramework.Editor.Implementation
             TextDocData.TextBufferInitialized += Init_OnTextBufferInitialized;
             TextDocData.OnLoadCompleted += Init_OnTextBufferLoaded;
 
+            var onSetBuffer = OnSetBuffer;
+            onSetBuffer?.Invoke(this, pBuffer);
+            //AddUndoCommandFilter();
+
+            ICommandTarget ppNextCmdTarg;
+            var completionCommandFilter = new BraceCompletionCommandFilter(this);
+            Marshal.ThrowExceptionForHR(AddCommandFilter(completionCommandFilter, out ppNextCmdTarg));
+            completionCommandFilter.NextCommandFilter = ppNextCmdTarg;
 
             return 0;
         }

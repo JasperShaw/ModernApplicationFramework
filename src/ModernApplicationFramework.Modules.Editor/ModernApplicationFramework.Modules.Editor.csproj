@@ -67,6 +67,7 @@
     <Compile Include="BraceCompletion\BraceCompletionAdornmentServiceFactory.cs" />
     <Compile Include="BraceCompletion\BraceCompletionAggregator.cs" />
     <Compile Include="BraceCompletion\BraceCompletionAggregatorFactory.cs" />
+    <Compile Include="BraceCompletion\BraceCompletionDefaultSession.cs" />
     <Compile Include="BraceCompletion\BraceCompletionEnabledOption.cs" />
     <Compile Include="BraceCompletion\BraceCompletionFormat.cs" />
     <Compile Include="BraceCompletion\BraceCompletionManager.cs" />

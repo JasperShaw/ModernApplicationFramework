@@ -1,4 +1,6 @@
-﻿using Caliburn.Micro;
+﻿using System;
+using System.Threading.Tasks;
+using Caliburn.Micro;
 using ModernApplicationFramework.Text.Data;
 using ModernApplicationFramework.Text.Logic.Classification;
 using ModernApplicationFramework.Text.Logic.Editor;
