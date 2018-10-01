@@ -18,8 +18,6 @@ using Action = System.Action;
 
 namespace ModernApplicationFramework.Basics.Services
 {
-    //TODO: try to move all the key gesture stuff into the Maf.Input assembly.
-
     /// <inheritdoc />
     /// <summary>
     ///     A service to manage key input bindings
