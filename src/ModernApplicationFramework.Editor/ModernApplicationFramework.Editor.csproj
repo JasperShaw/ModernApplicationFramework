@@ -81,6 +81,7 @@
     <Compile Include="Commands\DeleteToEndOfLineCommandDefinition.cs" />
     <Compile Include="Commands\DeleteWordLeftCommandDefinition.cs" />
     <Compile Include="Commands\DeleteWordRightCommandDefinition.cs" />
+    <Compile Include="Commands\FindCommandDefinition.cs" />
     <Compile Include="Commands\IndentCommandDefinition.cs" />
     <Compile Include="Commands\OpenLineAboveCommandDefinition.cs" />
     <Compile Include="Commands\OpenLineBelowCommandDefinition.cs" />
@@ -147,6 +148,12 @@
     <Compile Include="Commands\WordNextExtendCommandDefinition.cs" />
     <Compile Include="Commands\WordPreviousCommandDefinition.cs" />
     <Compile Include="Commands\WordPreviousExtendCommandDefinition.cs" />
+    <Compile Include="Find\FindAdornmentManager.cs" />
+    <Compile Include="Find\FindTarget.cs" />
+    <Compile Include="Find\FindUi.xaml.cs">
+      <DependentUpon>FindUi.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Find\ThicknessInvertorConverter.cs" />
     <Compile Include="Implementation\BraceCompletionCommandFilter.cs" />
     <Compile Include="Implementation\CaretMoveType.cs" />
     <Compile Include="Implementation\ClipboardDataFormats.cs" />
@@ -411,10 +418,19 @@
   <ItemGroup>
     <Folder Include="Controls\" />
     <Folder Include="DragDrop\" />
-    <Folder Include="Find\" />
     <Folder Include="TableControl\" />
     <Folder Include="TableManager\" />
     <Folder Include="VerticalDetail\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Find\FindUi.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\resources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

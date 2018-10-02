@@ -1,0 +1,11 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Path x:Key="ArrowPath" Data="M 0,4 L 7,4 3.5,0 Z"
+          Fill="{Binding Path=(TextElement.Foreground), RelativeSource={RelativeSource Self}}"/>
+    <Path x:Key="DownArrowPath" Width="8" Height="4" Data="F1 M 0,0 L 4,4 8,0 0,0 Z"
+          SnapsToDevicePixels="true"
+          Fill="{Binding Path=(TextElement.Foreground), RelativeSource={RelativeSource Self}}"/>
+    <Path x:Key="XShapePath" Width="10" Height="8" Stretch="Uniform"
+          Data="F1 M 0,0 L 2,0 5,3 8,0 10,0 6,4 10,8 8,8 5,5 2,8 0,8 4,4 0,0 Z"
+          Fill="{Binding Path=(TextElement.Foreground), RelativeSource={RelativeSource Self}}"/>
+</ResourceDictionary>

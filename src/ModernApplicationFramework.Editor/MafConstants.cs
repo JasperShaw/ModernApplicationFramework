@@ -80,7 +80,8 @@ namespace ModernApplicationFramework.Editor
             OpenLineBelow = 68,
             Indent = 69,
             Unindent = 70,
-            // Omitted Find/Undo/Bookmark
+            // Omitted Replace/Undo/Bookmark
+            Find = 79,
             TransposeChar = 87,
             TransposeWord = 88,
             TransposeLine = 89,

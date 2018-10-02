@@ -16,6 +16,7 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Basics.GotoDialog;
 using ModernApplicationFramework.Basics.Services;
 using ModernApplicationFramework.Controls.Dialogs;
+using ModernApplicationFramework.Editor.Find;
 using ModernApplicationFramework.Editor.Interop;
 using ModernApplicationFramework.Editor.NativeMethods;
 using ModernApplicationFramework.Editor.Outlining;
@@ -139,6 +140,8 @@ namespace ModernApplicationFramework.Editor.Implementation
         private bool _canChangeShowAnnotations;
         private bool _updatingUserPreferences;
 
+        private FindTarget _findTarget;
+
         public delegate void ChangeScrollInfoEventHandler(IMafTextView pView, int iBar, int iMinUnit, int iMaxUnits,
             int iVisibleUnits, int iFirstVisibleUnit);
 
@@ -155,7 +158,7 @@ namespace ModernApplicationFramework.Editor.Implementation
 
         public event SetFocusEventHandler OnSetFocus;
 
-        public event SimpleTextViewWindow.SetBufferEventHandler OnSetBuffer;
+        public event SetBufferEventHandler OnSetBuffer;
 
         public InitializationState CurrentInitializationState { get; internal set; }
 
@@ -247,6 +250,10 @@ namespace ModernApplicationFramework.Editor.Implementation
             }
             set => _textViewPrimitivesPrivate = value;
         }
+
+        internal FindTarget FindTarget => _findTarget ?? (_findTarget = new FindTarget(TextView, this));
+
+        private bool HasFindTarget => _findTarget != null;
 
         private int? BackgroundColorIndex
         {
