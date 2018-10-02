@@ -1026,13 +1026,13 @@ namespace ModernApplicationFramework.Modules.Editor.Operations
 
         public void SelectAndMoveCaret(VirtualSnapshotPoint anchorPoint, VirtualSnapshotPoint activePoint)
         {
-            throw new NotImplementedException();
+            SelectAndMoveCaret(anchorPoint, activePoint, TextSelectionMode.Stream, EnsureSpanVisibleOptions.MinimumScroll);
         }
 
         public void SelectAndMoveCaret(VirtualSnapshotPoint anchorPoint, VirtualSnapshotPoint activePoint,
             TextSelectionMode selectionMode)
         {
-            throw new NotImplementedException();
+            SelectAndMoveCaret(anchorPoint, activePoint, selectionMode, EnsureSpanVisibleOptions.MinimumScroll);
         }
 
         public void SelectAndMoveCaret(VirtualSnapshotPoint anchorPoint, VirtualSnapshotPoint activePoint,

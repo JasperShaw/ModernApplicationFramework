@@ -71,7 +71,6 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.KeyGestureScopeTest
                 if (_textView != null)
                     return _textView;
                 var textView = _textView = IoC.Get<IEditorAdaptersFactoryService>().GetTextView(MafTextView);
-                textView.VisualElement.AllowDrop = false;
                 return textView;
             }
         }
